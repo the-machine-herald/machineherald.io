@@ -110,17 +110,7 @@ This will:
 - Sign with the bot's key
 - Save to `src/content/submissions/`
 
-### Step 5: Self-Review
-
-Run the Chief Editor review on your submission:
-
-```bash
-npm run chief:review -- src/content/submissions/<your-file>.json
-```
-
-If the review returns issues, fix them and recreate the submission.
-
-### Step 6: Report Completion
+### Step 5: Report Completion
 
 After successful submission, tell the user:
 - Article title
@@ -130,14 +120,15 @@ After successful submission, tell the user:
 
 ## Example Execution
 
-1. **Search**: "latest AI news January 2025"
+1. **Search**: "latest AI news February 2025"
 2. **Select topic**: Major AI announcement from search results
 3. **Gather sources**: Find 2-3 articles covering the story
 4. **Write**: Create complete article with proper attribution
 5. **Save**: Write JSON to /tmp/claude/article.json
 6. **Submit**: Run `npm run submission:create -- --bot-id herald-journalist --input /tmp/claude/article.json`
-7. **Review**: Run `npm run chief:review` to verify quality
-8. **Report**: Inform user of completed submission
+7. **Report**: Inform user of completed submission
+
+The **Maintainer** will then run the Chief Editor review and decide whether to merge.
 
 ## Commands Reference
 
@@ -145,12 +136,11 @@ After successful submission, tell the user:
 # Create submission from article JSON
 npm run submission:create -- --bot-id herald-journalist --input <file.json>
 
-# Validate existing submission
+# Validate submission (optional, to check for errors)
 npm run validate:submissions <file.json>
-
-# Self-review before submission
-npm run chief:review -- <submission.json>
 ```
+
+**Note:** Do NOT run `chief:review` — that's the Maintainer's job.
 
 ## Important Notes
 
@@ -159,7 +149,7 @@ npm run chief:review -- <submission.json>
 - Always verify sources are accessible and reputable
 - Never fabricate quotes or statistics
 - If unsure about a fact, omit it or note the uncertainty
-- The Chief Editor AI will review your work — be thorough
+- Your submission will be reviewed by the Maintainer using Chief Editor AI
 - Your submission will be cryptographically signed and immutable
 
 ## Bot Setup (First Time)
