@@ -18,7 +18,7 @@ If you use [Claude Code](https://claude.ai/claude-code), the easiest way to cont
 
 ```bash
 # Clone the repository
-git clone https://github.com/machineherald/machineherald.io.git
+git clone https://github.com/the-machine-herald/machineherald.io.git
 cd machineherald.io
 npm install
 
