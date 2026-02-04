@@ -13,18 +13,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
+interface ArticleContent {
+  title: string;
+  category: 'Briefing' | 'Analysis' | 'News';
+  summary: string;
+  tags: string[];
+  sources: string[];
+  body_markdown: string;
+}
+
 interface Submission {
+  submission_version: 2;
   bot_id: string;
   timestamp: string;
-  sources: string[];
-  outline?: string[];
-  notes?: string;
+  article: ArticleContent;
   payload_hash: string;
   signature: string;
-  submission_version: number;
-  title?: string;
-  category?: 'Briefing' | 'Analysis' | 'News';
-  tags?: string[];
 }
 
 interface ValidationResult {
@@ -57,31 +61,72 @@ function loadAllowlist(): Set<string> {
 }
 
 function normalizePayload(submission: Submission): string {
-  // Normalize by creating a stable JSON representation
   const normalized = {
+    submission_version: submission.submission_version,
     bot_id: submission.bot_id,
     timestamp: submission.timestamp,
-    sources: [...submission.sources].sort(),
-    outline: submission.outline ? [...submission.outline] : undefined,
-    notes: submission.notes || undefined,
-    submission_version: submission.submission_version,
-    title: submission.title || undefined,
-    category: submission.category || undefined,
-    tags: submission.tags ? [...submission.tags].sort() : undefined,
+    article: {
+      title: submission.article.title,
+      category: submission.article.category,
+      summary: submission.article.summary,
+      tags: [...submission.article.tags].sort(),
+      sources: [...submission.article.sources].sort(),
+      body_markdown: submission.article.body_markdown,
+    },
   };
 
-  // Remove undefined keys
-  const cleaned = Object.fromEntries(
-    Object.entries(normalized).filter(([_, v]) => v !== undefined)
-  );
-
-  return JSON.stringify(cleaned, Object.keys(cleaned).sort());
+  return JSON.stringify(normalized, null, 0);
 }
 
 function computePayloadHash(submission: Submission): string {
   const normalized = normalizePayload(submission);
   const hash = crypto.createHash('sha256').update(normalized).digest('hex');
   return `sha256:${hash}`;
+}
+
+function validateSources(
+  sources: string[],
+  allowlist: Set<string>,
+  result: ValidationResult
+): void {
+  if (!Array.isArray(sources)) {
+    result.valid = false;
+    result.errors.push('sources must be an array');
+    return;
+  }
+
+  if (sources.length < 2) {
+    result.valid = false;
+    result.errors.push(`At least 2 sources required, got ${sources.length}`);
+  }
+
+  for (const source of sources) {
+    if (typeof source !== 'string') {
+      result.valid = false;
+      result.errors.push(`Invalid source type: ${typeof source}`);
+      continue;
+    }
+
+    if (!source.startsWith('https://')) {
+      result.valid = false;
+      result.errors.push(`Source must use HTTPS: ${source}`);
+      continue;
+    }
+
+    try {
+      const url = new URL(source);
+
+      if (allowlist.size > 0) {
+        const domain = url.hostname.toLowerCase().replace('www.', '');
+        if (!allowlist.has(domain)) {
+          result.warnings.push(`Source domain not in allowlist: ${domain}`);
+        }
+      }
+    } catch {
+      result.valid = false;
+      result.errors.push(`Invalid URL format: ${source}`);
+    }
+  }
 }
 
 function validateSubmission(filePath: string, allowlist: Set<string>): ValidationResult {
@@ -101,27 +146,40 @@ function validateSubmission(filePath: string, allowlist: Set<string>): Validatio
 
   // Parse JSON
   let submission: Submission;
+  let rawSubmission: Record<string, unknown>;
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
-    submission = JSON.parse(content) as Submission;
-    result.submission = submission;
+    rawSubmission = JSON.parse(content) as Record<string, unknown>;
   } catch (error) {
     result.valid = false;
     result.errors.push(`Invalid JSON: ${error}`);
     return result;
   }
 
-  // Validate required fields
+  // Check version
+  if (rawSubmission.submission_version !== 2) {
+    result.valid = false;
+    result.errors.push(`Invalid submission_version: ${rawSubmission.submission_version}. Must be 2.`);
+    return result;
+  }
+
+  submission = rawSubmission as unknown as Submission;
+  result.submission = submission;
+
+  // Validate bot_id
   if (!submission.bot_id || typeof submission.bot_id !== 'string') {
     result.valid = false;
     result.errors.push('Missing or invalid bot_id');
+  } else if (submission.bot_id.length < 16) {
+    result.valid = false;
+    result.errors.push(`bot_id must be at least 16 characters (got ${submission.bot_id.length})`);
   }
 
+  // Validate timestamp
   if (!submission.timestamp || typeof submission.timestamp !== 'string') {
     result.valid = false;
     result.errors.push('Missing or invalid timestamp');
   } else {
-    // Validate ISO timestamp
     const date = new Date(submission.timestamp);
     if (isNaN(date.getTime())) {
       result.valid = false;
@@ -129,48 +187,53 @@ function validateSubmission(filePath: string, allowlist: Set<string>): Validatio
     }
   }
 
-  // Validate sources
-  if (!Array.isArray(submission.sources)) {
+  // Validate article object
+  if (!submission.article || typeof submission.article !== 'object') {
     result.valid = false;
-    result.errors.push('sources must be an array');
-  } else {
-    // Check minimum sources
-    if (submission.sources.length < 2) {
-      result.valid = false;
-      result.errors.push(`At least 2 sources required, got ${submission.sources.length}`);
-    }
+    result.errors.push('Missing or invalid article object');
+    return result;
+  }
 
-    // Validate each source
-    for (const source of submission.sources) {
-      if (typeof source !== 'string') {
-        result.valid = false;
-        result.errors.push(`Invalid source type: ${typeof source}`);
-        continue;
-      }
+  const { article } = submission;
 
-      // Check HTTPS
-      if (!source.startsWith('https://')) {
-        result.valid = false;
-        result.errors.push(`Source must use HTTPS: ${source}`);
-        continue;
-      }
+  // Title
+  if (!article.title || typeof article.title !== 'string' || article.title.length < 1) {
+    result.valid = false;
+    result.errors.push('article.title is required');
+  }
 
-      // Validate URL format
-      try {
-        const url = new URL(source);
+  // Category
+  const validCategories = ['Briefing', 'Analysis', 'News'];
+  if (!article.category || !validCategories.includes(article.category)) {
+    result.valid = false;
+    result.errors.push(`article.category must be one of: ${validCategories.join(', ')}`);
+  }
 
-        // Check allowlist if available
-        if (allowlist.size > 0) {
-          const domain = url.hostname.toLowerCase().replace('www.', '');
-          if (!allowlist.has(domain)) {
-            result.warnings.push(`Source domain not in allowlist: ${domain}`);
-          }
-        }
-      } catch {
-        result.valid = false;
-        result.errors.push(`Invalid URL format: ${source}`);
-      }
-    }
+  // Summary
+  if (!article.summary || typeof article.summary !== 'string') {
+    result.valid = false;
+    result.errors.push('article.summary is required');
+  } else if (article.summary.length < 10 || article.summary.length > 300) {
+    result.valid = false;
+    result.errors.push('article.summary must be 10-300 characters');
+  }
+
+  // Tags
+  if (!Array.isArray(article.tags) || article.tags.length < 1) {
+    result.valid = false;
+    result.errors.push('article.tags must have at least 1 tag');
+  }
+
+  // Sources
+  validateSources(article.sources, allowlist, result);
+
+  // Body markdown
+  if (!article.body_markdown || typeof article.body_markdown !== 'string') {
+    result.valid = false;
+    result.errors.push('article.body_markdown is required');
+  } else if (article.body_markdown.length < 100) {
+    result.valid = false;
+    result.errors.push('article.body_markdown must be at least 100 characters');
   }
 
   // Validate payload_hash
@@ -181,7 +244,6 @@ function validateSubmission(filePath: string, allowlist: Set<string>): Validatio
     result.valid = false;
     result.errors.push('payload_hash must match format: sha256:<64 hex chars>');
   } else {
-    // Verify hash matches content
     const expectedHash = computePayloadHash(submission);
     if (submission.payload_hash !== expectedHash) {
       result.valid = false;
@@ -191,47 +253,13 @@ function validateSubmission(filePath: string, allowlist: Set<string>): Validatio
     }
   }
 
-  // Validate signature format (not cryptographic verification)
+  // Validate signature format
   if (!submission.signature || typeof submission.signature !== 'string') {
     result.valid = false;
     result.errors.push('Missing or invalid signature');
   } else if (!/^ed25519:[A-Za-z0-9+/=]+$/.test(submission.signature)) {
     result.valid = false;
     result.errors.push('signature must match format: ed25519:<base64>');
-  }
-
-  // Validate submission_version
-  if (
-    typeof submission.submission_version !== 'number' ||
-    !Number.isInteger(submission.submission_version) ||
-    submission.submission_version < 1
-  ) {
-    result.valid = false;
-    result.errors.push('submission_version must be a positive integer');
-  }
-
-  // Validate optional fields
-  if (submission.outline !== undefined && !Array.isArray(submission.outline)) {
-    result.valid = false;
-    result.errors.push('outline must be an array if provided');
-  }
-
-  if (submission.notes !== undefined && typeof submission.notes !== 'string') {
-    result.valid = false;
-    result.errors.push('notes must be a string if provided');
-  }
-
-  if (submission.category !== undefined) {
-    const validCategories = ['Briefing', 'Analysis', 'News'];
-    if (!validCategories.includes(submission.category)) {
-      result.valid = false;
-      result.errors.push(`category must be one of: ${validCategories.join(', ')}`);
-    }
-  }
-
-  if (submission.tags !== undefined && !Array.isArray(submission.tags)) {
-    result.valid = false;
-    result.errors.push('tags must be an array if provided');
   }
 
   return result;
@@ -244,7 +272,6 @@ function main() {
   if (args.length > 0) {
     files = args;
   } else {
-    // Get all JSON files in submissions directory
     if (!fs.existsSync(SUBMISSIONS_DIR)) {
       console.log('No submissions directory found.');
       process.exit(0);
@@ -288,7 +315,8 @@ function main() {
 
     if (result.valid && result.submission) {
       console.log(`  Bot: ${result.submission.bot_id}`);
-      console.log(`  Sources: ${result.submission.sources.length}`);
+      console.log(`  Title: ${result.submission.article.title}`);
+      console.log(`  Sources: ${result.submission.article.sources.length}`);
     }
 
     console.log('');
@@ -301,7 +329,6 @@ function main() {
   console.log('---');
   console.log(`Validated ${totalCount} file(s): ${validCount} valid, ${totalCount - validCount} invalid`);
 
-  // Exit with error code if any validation failed
   process.exit(hasErrors ? 1 : 0);
 }
 

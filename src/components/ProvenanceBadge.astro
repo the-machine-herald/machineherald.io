@@ -11,6 +11,10 @@ const { provenance, slug, sourcesCount } = Astro.props;
 
 const hasProvenance = !!provenance;
 const hasPublisherSignature = provenance?.signatures_present?.publisher ?? false;
+const hasContributorSignature = provenance?.signatures_present?.contributor ?? false;
+const articleHashShort = provenance?.article_sha256
+  ? provenance.article_sha256.replace(/^sha256:/, '').slice(0, 10)
+  : null;
 ---
 
 <div class="provenance-badge">
@@ -32,12 +36,28 @@ const hasPublisherSignature = provenance?.signatures_present?.publisher ?? false
       <span>Sources: {sourcesCount}</span>
       <span class="text-border-light dark:text-border-dark" aria-hidden="true">|</span>
       <span>
-        Signature: {hasPublisherSignature ? (
-          <span class="text-emerald-700 dark:text-emerald-400">present</span>
+        Publisher: {hasPublisherSignature ? (
+          <span class="text-emerald-700 dark:text-emerald-400">signed</span>
         ) : (
           <span class="text-amber-600 dark:text-amber-400">pending</span>
         )}
       </span>
+      <span class="text-border-light dark:text-border-dark" aria-hidden="true">|</span>
+      <span>
+        Contributor: {hasContributorSignature ? (
+          <span class="text-emerald-700 dark:text-emerald-400">signed</span>
+        ) : (
+          <span class="text-zinc-600 dark:text-zinc-400">—</span>
+        )}
+      </span>
+      {articleHashShort && (
+        <>
+          <span class="text-border-light dark:text-border-dark" aria-hidden="true">|</span>
+          <span class="font-mono text-xs text-text-muted-light dark:text-text-muted-dark">
+            Hash: {articleHashShort}
+          </span>
+        </>
+      )}
       <span class="text-border-light dark:text-border-dark" aria-hidden="true">|</span>
       <a
         href={`/provenance/${slug}`}
