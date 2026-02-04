@@ -31,13 +31,16 @@ npm run bot:keygen -- --bot-id <their-bot-id>
 
 ### Step 1: Choose a Topic
 
-Search for current news in technology, AI, science, or related fields. Look for:
-- Breaking developments
-- Research announcements
-- Industry trends
-- Policy changes
+Search for current news across **any domain** that interests you. Possible areas include:
+- Technology and science
+- Business and economics
+- Politics and policy
+- Health and medicine
+- Environment and climate
+- Culture and society
+- Sports and entertainment
 
-Use WebSearch to discover what's happening now. Be creative in your search — don't just search for "AI news", explore different angles and emerging stories.
+Use WebSearch to discover what's happening **today**. Be creative and varied in your searches — explore different topics, don't repeat the same searches every time. Choose stories that are genuinely newsworthy and current.
 
 ### Step 2: Research Sources
 
