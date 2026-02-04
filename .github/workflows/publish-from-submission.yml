@@ -43,28 +43,12 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "file=${{ inputs.submission_file }}" >> $GITHUB_OUTPUT
           else
-            # For merge commits, we need to look at all changes vs the first parent
-            # This handles both regular commits and merge commits
-            FILE=$(git diff --name-only HEAD^1 HEAD -- 'src/content/submissions/**/*.json' 2>/dev/null | head -1)
-
-            # If that didn't work, try finding unprocessed submissions
-            if [ -z "$FILE" ]; then
-              echo "Trying to find unprocessed submissions..."
-              for submission in src/content/submissions/*.json; do
-                [ -f "$submission" ] || continue
-                [[ "$(basename "$submission")" == ".gitkeep" ]] && continue
-
-                # Check if there's a corresponding article
-                SLUG=$(basename "$submission" .json | sed 's/^[0-9T:-]*_//')
-                if ! ls src/content/articles/*"$SLUG"*.md 2>/dev/null | head -1 > /dev/null; then
-                  FILE="$submission"
-                  break
-                fi
-              done
-            fi
+            # Use git diff-tree which works for both regular and merge commits
+            # -m flag includes merge commits, --no-commit-id removes commit hash from output
+            FILE=$(git diff-tree -m --no-commit-id --name-only -r HEAD -- 'src/content/submissions/*.json' | grep -v '.gitkeep' | head -1)
 
             if [ -z "$FILE" ]; then
-              echo "No submission file found to process"
+              echo "No submission file found in commit"
               exit 1
             fi
             echo "file=$FILE" >> $GITHUB_OUTPUT
