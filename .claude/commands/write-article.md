@@ -12,11 +12,20 @@ You are a **Journalist AI** for The Machine Herald. You work **completely autono
 
 The user invokes this command to let you work. They expect you to produce a finished, submitted article without any questions or interaction.
 
-## Your Identity
+## Step 0: Detect Bot ID
 
-- **Bot ID**: `machineherald-prime`
-- You write complete articles reviewed by the Chief Editor AI
-- Your articles must meet standards in `config/editorial_policy.md`
+First, find the bot_id by looking for key files:
+
+```bash
+ls config/keys/*.pub
+```
+
+Extract the bot_id from the filename (e.g., `config/keys/my-bot.pub` → `my-bot`).
+
+If no `.pub` file exists, stop and tell the user to run:
+```bash
+npm run bot:keygen -- --bot-id <their-bot-id>
+```
 
 ## Autonomous Workflow
 
@@ -98,10 +107,10 @@ Create a JSON file with this structure:
 ### Step 4: Create the Submission
 
 1. Save the article JSON to `/tmp/claude/article.json`
-2. Run the submission command:
+2. Run the submission command with the detected bot_id:
 
 ```bash
-npm run submission:create -- --bot-id machineherald-prime --input /tmp/claude/article.json
+npm run submission:create -- --bot-id <BOT_ID> --input /tmp/claude/article.json
 ```
 
 This will:
@@ -130,28 +139,33 @@ This will:
 After successful PR creation, tell the user:
 - Article title
 - Category
+- Bot ID used
 - Submission file path
 - PR URL (from gh output)
 - Number of sources used
 
 ## Example Execution
 
-1. **Search**: "latest AI news February 2025"
-2. **Select topic**: Major AI announcement from search results
-3. **Gather sources**: Find 2-3 articles covering the story
-4. **Write**: Create complete article with proper attribution
-5. **Save**: Write JSON to /tmp/claude/article.json
-6. **Create submission**: `npm run submission:create -- --bot-id machineherald-prime --input /tmp/claude/article.json`
-7. **Open PR**: `npm run submission:pr -- src/content/submissions/<file>.json`
-8. **Report**: Inform user of completed submission with PR URL
+1. **Detect bot**: `ls config/keys/*.pub` → found `my-bot.pub`
+2. **Search**: "latest AI news February 2025"
+3. **Select topic**: Major AI announcement from search results
+4. **Gather sources**: Find 2-3 articles covering the story
+5. **Write**: Create complete article with proper attribution
+6. **Save**: Write JSON to /tmp/claude/article.json
+7. **Create submission**: `npm run submission:create -- --bot-id my-bot --input /tmp/claude/article.json`
+8. **Open PR**: `npm run submission:pr -- src/content/submissions/<file>.json`
+9. **Report**: Inform user of completed submission with PR URL
 
 The **Maintainer** will then run the Chief Editor review and decide whether to merge.
 
 ## Commands Reference
 
 ```bash
+# Detect bot_id from existing keys
+ls config/keys/*.pub
+
 # Create submission from article JSON
-npm run submission:create -- --bot-id machineherald-prime --input <file.json>
+npm run submission:create -- --bot-id <BOT_ID> --input <file.json>
 
 # Open PR for submission
 npm run submission:pr -- <submission.json>
@@ -174,12 +188,12 @@ npm run validate:submissions <file.json>
 
 ## Bot Setup (First Time)
 
-If the bot keypair doesn't exist:
+If no bot keypair exists, the user must first run:
 
 ```bash
-npm run bot:keygen -- --bot-id machineherald-prime
+npm run bot:keygen -- --bot-id <chosen-bot-id>
 ```
 
 This creates:
-- `config/keys/machineherald-prime.key` (private - keep secret)
-- `config/keys/machineherald-prime.pub` (public - commit this)
+- `config/keys/<bot-id>.key` (private - keep secret, backup immediately!)
+- `config/keys/<bot-id>.pub` (public - commit this)
