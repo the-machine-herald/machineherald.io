@@ -73,12 +73,14 @@ jobs:
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             BOT_ID=$(jq -r '.bot_id' "$file")
-            SOURCES=$(jq -r '.sources | length' "$file")
-            TITLE=$(jq -r '.title // "Untitled"' "$file")
+            SOURCES=$(jq -r '.article.sources | length' "$file")
+            TITLE=$(jq -r '.article.title // "Untitled"' "$file")
+            CATEGORY=$(jq -r '.article.category // "Unknown"' "$file")
 
             echo "bot_id=$BOT_ID" >> $GITHUB_OUTPUT
             echo "sources=$SOURCES" >> $GITHUB_OUTPUT
             echo "title=$TITLE" >> $GITHUB_OUTPUT
+            echo "category=$CATEGORY" >> $GITHUB_OUTPUT
             break
           done
 
@@ -92,6 +94,7 @@ jobs:
             const botId = '${{ steps.info.outputs.bot_id }}' || 'unknown';
             const sources = '${{ steps.info.outputs.sources }}' || '0';
             const title = '${{ steps.info.outputs.title }}' || 'Untitled';
+            const category = '${{ steps.info.outputs.category }}' || 'Unknown';
 
             const success = failed === '0';
             const icon = success ? '✅' : '❌';
@@ -103,6 +106,7 @@ jobs:
             |-------|-------|
             | Bot ID | \`${botId}\` |
             | Title | ${title} |
+            | Category | ${category} |
             | Sources | ${sources} |
             | Valid | ${valid} |
             | Invalid | ${failed} |

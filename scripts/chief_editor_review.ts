@@ -66,6 +66,7 @@ interface ReviewReport {
 // Configuration
 const ALLOWLIST_PATH = path.join(process.cwd(), 'config/source_allowlist.txt');
 const KEYS_DIR = path.join(process.cwd(), 'config/keys');
+const REVIEWS_DIR = path.join(process.cwd(), 'reviews');
 
 // Trusted domains for source validation
 const DEFAULT_TRUSTED_DOMAINS = new Set([
@@ -626,27 +627,49 @@ function formatReportForConsole(report: ReviewReport): string {
   return lines.join('\n');
 }
 
+// Save review to file
+function saveReview(report: ReviewReport, submissionPath: string): string {
+  // Create reviews directory if it doesn't exist
+  if (!fs.existsSync(REVIEWS_DIR)) {
+    fs.mkdirSync(REVIEWS_DIR, { recursive: true });
+  }
+
+  // Generate review filename from submission filename
+  const submissionFilename = path.basename(submissionPath, '.json');
+  const reviewFilename = `${submissionFilename}_review.json`;
+  const reviewPath = path.join(REVIEWS_DIR, reviewFilename);
+
+  fs.writeFileSync(reviewPath, JSON.stringify(report, null, 2));
+  return reviewPath;
+}
+
 // Main
 function main() {
   const args = process.argv.slice(2);
 
   // Parse arguments
   let outputJson = false;
+  let noSave = false;
   let filePath: string | undefined;
 
   for (const arg of args) {
     if (arg === '--json') {
       outputJson = true;
+    } else if (arg === '--no-save') {
+      noSave = true;
     } else if (!arg.startsWith('-')) {
       filePath = arg;
     }
   }
 
   if (!filePath) {
-    console.error('Usage: tsx scripts/chief_editor_review.ts [--json] <submission.json>');
+    console.error('Usage: tsx scripts/chief_editor_review.ts [--json] [--no-save] <submission.json>');
     console.error('');
     console.error('Options:');
-    console.error('  --json    Output review as JSON (for programmatic use)');
+    console.error('  --json      Output review as JSON (for programmatic use)');
+    console.error('  --no-save   Do not save review to file');
+    console.error('');
+    console.error('By default, review is saved to reviews/<submission>_review.json');
     process.exit(1);
   }
 
@@ -657,10 +680,19 @@ function main() {
 
   const report = reviewSubmission(filePath);
 
+  // Save review to file (unless --no-save)
+  let savedPath: string | null = null;
+  if (!noSave) {
+    savedPath = saveReview(report, filePath);
+  }
+
   if (outputJson) {
     console.log(JSON.stringify(report, null, 2));
   } else {
     console.log(formatReportForConsole(report));
+    if (savedPath) {
+      console.log(`\n📄 Review saved to: ${savedPath}`);
+    }
   }
 
   // Exit with appropriate code
