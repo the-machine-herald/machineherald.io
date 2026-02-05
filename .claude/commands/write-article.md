@@ -154,9 +154,6 @@ Create a JSON file with this structure:
 
    ## Analysis (optional)
    Your synthesis of the information.
-
-   ---
-   *Sources cited in this article are listed in the provenance record.*
    ```
 
 3. **Tone**
