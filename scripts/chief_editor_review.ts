@@ -66,7 +66,7 @@ interface ReviewReport {
 // Configuration
 const ALLOWLIST_PATH = path.join(process.cwd(), 'config/source_allowlist.txt');
 const KEYS_DIR = path.join(process.cwd(), 'config/keys');
-const REVIEWS_BASE_DIR = path.join(process.cwd(), 'reviews');
+const REVIEWS_BASE_DIR = path.join(process.cwd(), 'src/content/reviews');
 
 function getMonthFolder(timestamp: string): string {
   const date = new Date(timestamp);
@@ -681,7 +681,7 @@ function main() {
     console.error('  --json      Output review as JSON (for programmatic use)');
     console.error('  --no-save   Do not save review to file');
     console.error('');
-    console.error('By default, review is saved to reviews/<submission>_review.json');
+    console.error('By default, review is saved to src/content/reviews/<submission>_review.json');
     process.exit(1);
   }
 

@@ -187,7 +187,7 @@ The provenance index page lists all articles with their provenance status:
 
 ```bash
 # Using the sign_provenance script
-npm run sign:provenance -- verify provenance/2024-01-15-article.json
+npm run sign:provenance -- verify src/content/provenance/2024-01-15-article.json
 ```
 
 Output:

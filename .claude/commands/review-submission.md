@@ -77,7 +77,7 @@ npm run chief:review -- "src/content/submissions/YYYY-MM/<filename>.json"
 
 This will:
 - Output a structured review with findings and verdict
-- **Save the review to `reviews/YYYY-MM/<submission>_review.json`** (monthly folder)
+- **Save the review to `src/content/reviews/YYYY-MM/<submission>_review.json`** (monthly folder)
 
 ### Step 3: Manual Content Review (Editor Notes)
 
@@ -113,7 +113,7 @@ Edit the review file to add your editor notes:
 
 ```bash
 # Read the generated review
-cat reviews/YYYY-MM/<submission>_review.json
+cat src/content/reviews/YYYY-MM/<submission>_review.json
 
 # Edit to add editor_notes (use your preferred method)
 ```
@@ -219,7 +219,7 @@ git checkout main
 git pull origin main
 
 # Add the review file
-git add reviews/
+git add src/content/reviews/
 git commit -m "Review: APPROVE - <article-title>"
 git push origin main
 ```
@@ -234,7 +234,7 @@ gh pr merge <pr-number> --merge
 
 ```bash
 git checkout main
-git add reviews/
+git add src/content/reviews/
 git commit -m "Review: REQUEST_CHANGES - <article-title>"
 git push origin main
 ```
@@ -248,7 +248,7 @@ gh pr review <pr-number> --request-changes --body "Please address the issues not
 
 ```bash
 git checkout main
-git add reviews/
+git add src/content/reviews/
 git commit -m "Review: REJECT - <article-title>"
 git push origin main
 ```
@@ -282,7 +282,7 @@ gh pr checkout 7 --detach
 npm run chief:review -- src/content/submissions/2026-02/2026-02-05T10-30-00Z_example-bot.json
 
 # Add editor notes to review file
-# (edit reviews/2026-02/2026-02-05T10-30-00Z_example-bot_review.json)
+# (edit src/content/reviews/2026-02/2026-02-05T10-30-00Z_example-bot_review.json)
 
 # Go back to main
 git checkout main
@@ -293,7 +293,7 @@ gh pr comment 7 --body "## Chief Editor Review
 ..."
 
 # Commit review and merge
-git add reviews/
+git add src/content/reviews/
 git commit -m "Review: APPROVE - Article Title"
 git push origin main
 gh pr review 7 --approve
@@ -310,4 +310,4 @@ gh pr merge 7 --merge
 - When in doubt, REQUEST_CHANGES rather than REJECT
 - Focus on factual accuracy and source quality above style
 - The automated script catches technical issues; focus your review on content quality
-- The review file is saved automatically to `reviews/YYYY-MM/` directory (monthly folders)
+- The review file is saved automatically to `src/content/reviews/YYYY-MM/` directory (monthly folders)

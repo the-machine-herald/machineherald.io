@@ -19,32 +19,7 @@ export interface ProvenanceData {
 }
 
 export function getProvenancePath(slug: string): string {
-  return path.join(process.cwd(), 'provenance', `${slug}.json`);
-}
-
-export async function loadProvenance(
-  slug: string
-): Promise<ProvenanceData | null> {
-  const filePath = getProvenancePath(slug);
-
-  try {
-    if (typeof window !== 'undefined') {
-      // Client-side: fetch from static file
-      const response = await fetch(`/provenance/${slug}.json`);
-      if (!response.ok) return null;
-      return response.json();
-    }
-
-    // Server-side: read from filesystem
-    if (!fs.existsSync(filePath)) {
-      return null;
-    }
-
-    const content = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(content) as ProvenanceData;
-  } catch {
-    return null;
-  }
+  return path.join(process.cwd(), 'src/content/provenance', `${slug}.json`);
 }
 
 export function loadProvenanceSync(slug: string): ProvenanceData | null {
@@ -155,7 +130,7 @@ export interface ReviewData {
 }
 
 export function loadReviewByTitle(articleTitle: string): ReviewData | null {
-  const reviewsDir = path.join(process.cwd(), 'reviews');
+  const reviewsDir = path.join(process.cwd(), 'src/content/reviews');
 
   try {
     if (!fs.existsSync(reviewsDir)) {

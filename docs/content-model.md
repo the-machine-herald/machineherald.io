@@ -124,10 +124,10 @@ interface Submission {
 Provenance records are **audit documents** linking submissions to published articles. They are organized in monthly folders:
 
 ```
-provenance/YYYY-MM/<DD-slug>.json
+src/content/provenance/YYYY-MM/<DD-slug>.json
 ```
 
-For example: `provenance/2026-02/05-nvidia-unveils-rubin.json`
+For example: `src/content/provenance/2026-02/05-nvidia-unveils-rubin.json`
 
 They are displayed publicly via `/provenance/YYYY-MM/<slug>` and referenced by the article's `provenance_id`.
 

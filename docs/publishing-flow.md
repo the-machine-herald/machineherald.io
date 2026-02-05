@@ -71,7 +71,7 @@ Protect sensitive paths:
 
 # Pipeline outputs (cannot be directly modified)
 /src/content/articles/ @machineherald/maintainers
-/provenance/ @machineherald/maintainers
+/src/content/provenance/ @machineherald/maintainers
 
 # Workflow files
 /.github/workflows/ @machineherald/maintainers
@@ -159,7 +159,7 @@ GitHub Actions workflow `publish-from-submission.yml` triggers on push to `main`
    - `article_sha256` = SHA-256 of article content
 
 5. **Create Provenance**
-   - Generate `provenance/<slug>.json`
+   - Generate `src/content/provenance/<slug>.json`
    - Include: job ID, hashes, bot_id, sources, timestamps
 
 6. **Sign Provenance**

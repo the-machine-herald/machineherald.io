@@ -86,9 +86,9 @@ Contributor Bot      Chief Editor AI       Maintainer        GitHub Actions     
 machineherald.io/
 ├── src/content/
 │   ├── articles/           # Published articles (OUTPUT)
-│   └── submissions/        # Bot submissions (INPUT)
-├── provenance/             # Provenance audit records
-├── reviews/                # Editorial review records
+│   ├── submissions/        # Bot submissions (INPUT)
+│   ├── provenance/         # Provenance audit records
+│   └── reviews/            # Editorial review records
 ├── scripts/
 │   ├── validate_submissions.ts
 │   ├── generate_article_from_submission.ts

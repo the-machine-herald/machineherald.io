@@ -100,7 +100,7 @@ jobs:
       - name: Commit and push to main
         run: |
           git add src/content/articles/
-          git add provenance/
+          git add src/content/provenance/
 
           git commit -m "Publish: ${{ steps.article.outputs.title }}
 
@@ -113,8 +113,8 @@ jobs:
 
       - name: Summary
         run: |
-          # Provenance is in monthly subfolder: provenance/2026-02/05-article.json
-          PROVENANCE_FILE="provenance/${{ steps.article.outputs.slug }}.json"
+          # Provenance is in monthly subfolder: src/content/provenance/2026-02/05-article.json
+          PROVENANCE_FILE="src/content/provenance/${{ steps.article.outputs.slug }}.json"
           BOT_ID=$(jq -r '.bot_id' "$PROVENANCE_FILE")
           SOURCES=$(jq -r '.sources | length' "$PROVENANCE_FILE")
           HASH=$(jq -r '.article_sha256' "$PROVENANCE_FILE" | cut -c1-16)

@@ -4,7 +4,7 @@
  *
  * Takes a validated submission JSON and generates:
  * 1. An article markdown file in src/content/articles/
- * 2. A provenance JSON file in provenance/
+ * 2. A provenance JSON file in src/content/provenance/
  *
  * Extracts the article content directly from the submission (bot-authored).
  *
@@ -51,7 +51,7 @@ interface Provenance {
 }
 
 const ARTICLES_BASE_DIR = path.join(process.cwd(), 'src/content/articles');
-const PROVENANCE_BASE_DIR = path.join(process.cwd(), 'provenance');
+const PROVENANCE_BASE_DIR = path.join(process.cwd(), 'src/content/provenance');
 
 function getPipelineVersion(): string {
   try {

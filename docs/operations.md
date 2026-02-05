@@ -51,10 +51,10 @@ Signs and verifies provenance records.
 
 ```bash
 # Sign a provenance file
-npm run sign:provenance -- sign provenance/article.json
+npm run sign:provenance -- sign src/content/provenance/article.json
 
 # Verify a signature
-npm run sign:provenance -- verify provenance/article.json
+npm run sign:provenance -- verify src/content/provenance/article.json
 
 # Generate new keypair
 npm run sign:provenance -- generate-keys
@@ -75,7 +75,7 @@ npm run generate:article src/content/submissions/example.json
 
 **Output:**
 - `src/content/articles/<slug>.md` - Generated article
-- `provenance/<slug>.json` - Provenance record
+- `src/content/provenance/<slug>.json` - Provenance record
 
 **Environment variables:**
 - `GITHUB_RUN_ID` - Workflow run ID (auto-set in Actions)
@@ -227,7 +227,7 @@ echo $PUBLISHER_PRIVATE_KEY
 echo $PUBLISHER_SECRET
 
 # Test signing locally
-npm run sign:provenance -- sign provenance/test.json
+npm run sign:provenance -- sign src/content/provenance/test.json
 ```
 
 ### Submission Validation Fails
