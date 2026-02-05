@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import ArticleCard from '@/components/ArticleCard.astro';
+import { sortByDate, filterPublished, extractDomain } from '@/lib/utils';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  const publishedArticles = filterPublished(articles);
+
+  // Get all unique source domains
+  const sourceDomains = new Map<string, { domain: string; articles: typeof publishedArticles }>();
+  
+  publishedArticles.forEach((article) => {
+    article.data.sources.forEach((sourceUrl) => {
+      const domain = extractDomain(sourceUrl);
+      if (!sourceDomains.has(domain)) {
+        sourceDomains.set(domain, { domain, articles: [] });
+      }
+      const existing = sourceDomains.get(domain)!;
+      if (!existing.articles.some(a => a.slug === article.slug)) {
+        existing.articles.push(article);
+      }
+    });
+  });
+
+  return [...sourceDomains.entries()].map(([domain, data]) => ({
+    params: { source: domain },
+    props: {
+      domain: data.domain,
+      articles: sortByDate(data.articles),
+    },
+  }));
+}
+
+interface Props {
+  domain: string;
+  articles: Awaited<ReturnType<typeof getCollection<'articles'>>>;
+}
+
+const { domain, articles } = Astro.props;
+---
+
+<Layout
+  seo={{
+    title: `Articles citing ${domain}`,
+    description: `All articles on The Machine Herald that cite ${domain} as a source.`,
+  }}
+>
+  <section class="container-wide py-12">
+    <div class="max-w-3xl mb-12">
+      <p class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-2">
+        Source
+      </p>
+      <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+        {domain}
+      </h1>
+      <p class="text-text-secondary-light dark:text-text-secondary-dark">
+        {articles.length} article{articles.length !== 1 ? 's' : ''} citing this source
+      </p>
+    </div>
+
+    {articles.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {articles.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    ) : (
+      <div class="card p-12 text-center">
+        <h2 class="font-serif text-xl font-semibold mb-2">No articles found</h2>
+        <p class="text-text-secondary-light dark:text-text-secondary-dark">
+          No articles citing this source have been published yet.
+        </p>
+      </div>
+    )}
+  </section>
+</Layout>

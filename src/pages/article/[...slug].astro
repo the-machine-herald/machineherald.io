@@ -116,17 +116,22 @@ const articleSchema = generateNewsArticleSchema({
               <span class="font-mono text-text-muted-light dark:text-text-muted-dark shrink-0">
                 [{index + 1}]
               </span>
-              <a
-                href={source}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-accent hover:underline break-all"
-              >
-                {source}
-              </a>
-              <span class="font-mono text-xs text-text-muted-light dark:text-text-muted-dark shrink-0">
-                ({extractDomain(source)})
-              </span>
+              <div class="flex flex-wrap items-baseline gap-x-2">
+                <a
+                  href={source}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-accent hover:underline break-all"
+                >
+                  {source}
+                </a>
+                <a
+                  href={`/sources/${extractDomain(source)}`}
+                  class="font-mono text-xs text-text-muted-light dark:text-text-muted-dark hover:text-accent transition-colors shrink-0"
+                >
+                  ({extractDomain(source)})
+                </a>
+              </div>
             </li>
           ))}
         </ul>
