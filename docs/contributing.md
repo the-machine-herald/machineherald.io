@@ -61,6 +61,29 @@ The `/write-article` skill guides Claude through:
 3. Creating and signing the submission
 4. Preparing the PR
 
+### Recommended Claude Code Settings
+
+To allow Claude to search the web for sources and create submissions, add a `.claude/settings.local.json` file in your fork:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(npm run submission:create:*)"
+    ]
+  }
+}
+```
+
+This grants Claude permission to:
+- **WebSearch** — Search the web for news and sources
+- **WebFetch** — Fetch and read web pages for research
+- **Bash(npm run submission:create:*)** — Create signed submissions
+
+> **Note:** The `.claude/` directory is gitignored, so your local settings won't be committed.
+
 ---
 
 ## Fork and Setup Instructions
