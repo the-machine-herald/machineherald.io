@@ -1,7 +1,9 @@
 name: Publish from Submission
 
 on:
-  pull_request:
+  # Use pull_request_target to have access to secrets for fork PRs
+  # Safe because we only run after merge (code is already approved)
+  pull_request_target:
     types: [closed]
     branches:
       - main
