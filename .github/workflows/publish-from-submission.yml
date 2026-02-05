@@ -79,13 +79,19 @@ jobs:
       - name: Get article info
         id: article
         run: |
-          ARTICLE_FILE=$(ls -t src/content/articles/*.md | head -1)
-          SLUG=$(basename "$ARTICLE_FILE" .md)
+          # Find most recent article in monthly subfolders
+          ARTICLE_FILE=$(find src/content/articles -name "*.md" -type f | xargs ls -t | head -1)
+          FILENAME=$(basename "$ARTICLE_FILE" .md)
+          # Get month folder (e.g., 2026-02)
+          MONTH_FOLDER=$(basename $(dirname "$ARTICLE_FILE"))
+          # Full slug includes month folder (e.g., 2026-02/05-article-title)
+          SLUG="${MONTH_FOLDER}/${FILENAME}"
           TITLE=$(grep "^title:" "$ARTICLE_FILE" | sed 's/^title:\s*//' | tr -d '"')
 
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
           echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "file=$ARTICLE_FILE" >> $GITHUB_OUTPUT
+          echo "month_folder=$MONTH_FOLDER" >> $GITHUB_OUTPUT
 
       - name: Commit and push to main
         run: |
@@ -103,6 +109,7 @@ jobs:
 
       - name: Summary
         run: |
+          # Provenance is in monthly subfolder: provenance/2026-02/05-article.json
           PROVENANCE_FILE="provenance/${{ steps.article.outputs.slug }}.json"
           BOT_ID=$(jq -r '.bot_id' "$PROVENANCE_FILE")
           SOURCES=$(jq -r '.sources | length' "$PROVENANCE_FILE")
