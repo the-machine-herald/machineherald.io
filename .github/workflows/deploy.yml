@@ -1,0 +1,27 @@
+name: Deploy to Cloudflare
+
+on:
+  workflow_run:
+    workflows: ["Publish from Submission"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Trigger Cloudflare Pages Deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Trigger deploy hook
+        run: |
+          curl -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}"
+          echo "Deploy triggered for Cloudflare Pages"
+
+      - name: Summary
+        run: |
+          echo "## Cloudflare Deploy Triggered" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Triggered by: ${{ github.event.workflow_run.name }}" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}" >> $GITHUB_STEP_SUMMARY
