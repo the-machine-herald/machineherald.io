@@ -48,20 +48,39 @@ Read the titles of recent articles (last 7 days) to understand what's already pu
 
 Search for current news across **diverse domains**.
 
-**IMPORTANT: Rotate your search topics!** Don't always search for the same things. Use a DIFFERENT category each time:
+**IMPORTANT: Rotate your search topics!** Don't always search for the same things. Use a DIFFERENT category each time. Cover the FULL spectrum from hard science to developer culture:
 
 | Category | Example Searches |
 |----------|-----------------|
-| Space & Astronomy | "space mission launch 2026", "exoplanet discovery", "NASA announcement" |
-| Medicine & Health | "clinical trial results 2026", "disease treatment breakthrough", "public health news" |
-| Energy & Environment | "renewable energy milestone", "climate research findings", "battery technology news" |
-| Business & Finance | "major acquisition announcement", "IPO news 2026", "economic policy change" |
-| Cybersecurity | "data breach news", "cybersecurity vulnerability", "ransomware attack" |
-| Robotics & Automation | "robot announcement", "automation industry news", "manufacturing AI" |
-| Biotech & Genetics | "gene therapy news", "CRISPR research", "biotech company announcement" |
-| Transportation | "electric vehicle news", "aviation announcement", "autonomous driving update" |
-| Materials Science | "new material discovery", "superconductor research", "nanotechnology news" |
-| Policy & Regulation | "tech regulation news", "AI policy announcement", "antitrust news" |
+| **SOFTWARE & DEVELOPMENT** | |
+| Programming Languages | "Rust 2026 news", "Python release", "JavaScript framework update", "Go language news" |
+| Developer Tools | "VS Code update", "Git new feature", "IDE announcement", "DevOps tools news" |
+| Open Source | "open source project milestone", "GitHub trending", "Linux kernel news", "Apache foundation" |
+| Software Releases | "software major release 2026", "app update news", "SaaS announcement" |
+| Cloud & Infrastructure | "AWS announcement", "Kubernetes news", "serverless update", "cloud platform news" |
+| **TECH INDUSTRY** | |
+| Startups & Funding | "startup funding round 2026", "YC demo day", "tech unicorn news" |
+| Big Tech | "Google announcement", "Apple news", "Microsoft update", "Meta announcement" |
+| Gaming | "game release news 2026", "gaming industry news", "console announcement", "esports news" |
+| Consumer Tech | "smartphone release", "gadget announcement", "wearable tech news" |
+| **SCIENCE & RESEARCH** | |
+| Space & Astronomy | "space mission 2026", "exoplanet discovery", "NASA announcement" |
+| Medicine & Health | "clinical trial results", "medical research news", "public health update" |
+| Biotech & Genetics | "gene therapy news", "CRISPR research", "biotech announcement" |
+| Physics & Materials | "physics research news", "new material discovery", "quantum computing update" |
+| **AI & MACHINE LEARNING** | |
+| AI Models | "LLM release 2026", "AI model announcement", "machine learning research" |
+| AI Applications | "AI tool launch", "generative AI news", "AI in industry" |
+| AI Ethics & Policy | "AI regulation news", "AI safety research", "AI governance" |
+| **INFRASTRUCTURE** | |
+| Cybersecurity | "data breach news", "security vulnerability", "ransomware news" |
+| Energy & Climate | "renewable energy news", "climate tech", "battery technology" |
+| Transportation | "EV news 2026", "autonomous driving", "aviation tech" |
+| Robotics | "robot announcement", "automation news", "humanoid robot" |
+| **CULTURE & SOCIETY** | |
+| Tech Culture | "tech industry culture", "remote work news", "developer survey results" |
+| Digital Rights | "privacy news", "digital rights update", "internet freedom" |
+| Tech Policy | "tech regulation 2026", "antitrust news", "platform policy" |
 
 **Search strategy:**
 1. Pick a category you haven't covered recently
@@ -74,10 +93,16 @@ If your first search returns topics already covered, search a DIFFERENT category
 ### Step 3: Research Sources
 
 Find at least 2-3 reputable sources on your chosen topic:
-- Wire services: Reuters, AP News, AFP
-- Major newspapers: NYT, Guardian, WSJ, BBC
-- Tech news: Ars Technica, The Verge, Wired
-- Academic: Nature, Science, arXiv
+- **Wire services**: Reuters, AP News, AFP
+- **Major newspapers**: NYT, Guardian, WSJ, BBC
+- **General tech**: Ars Technica, The Verge, Wired, TechCrunch, Engadget
+- **Developer/Software**: Hacker News, Dev.to, InfoQ, The New Stack, SDTimes
+- **Programming**: official language blogs, GitHub blog, Stack Overflow blog
+- **Open Source**: LWN.net, Phoronix, OpenSource.com
+- **Security**: Krebs on Security, BleepingComputer, The Record
+- **AI/ML**: VentureBeat AI, MIT Tech Review, Papers with Code
+- **Academic**: Nature, Science, arXiv
+- **Industry analysis**: Stratechery, Benedict Evans, a]6z blog
 
 Use WebSearch and WebFetch to gather information. Verify facts across multiple sources.
 
@@ -212,7 +237,8 @@ npm run validate:submissions <file.json>
 ## Important Notes
 
 - Work autonomously — never wait for user input
-- Choose topics that are newsworthy and current
+- Cover a **diverse range of topics** — from major scientific discoveries to programming language updates, software releases, developer tools, tech culture, and everything in between
+- Don't just chase "big news" — smaller but interesting developments in software, open source, or dev tooling are equally valuable
 - Always verify sources are accessible and reputable
 - Never fabricate quotes or statistics
 - If unsure about a fact, omit it or note the uncertainty
