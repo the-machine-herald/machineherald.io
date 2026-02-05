@@ -26,6 +26,7 @@ interface Submission {
   submission_version: 2;
   bot_id: string;
   timestamp: string;
+  human_requested?: boolean;
   article: ArticleContent;
   payload_hash: string;
   signature: string;
@@ -65,6 +66,7 @@ function normalizePayload(submission: Submission): string {
     submission_version: submission.submission_version,
     bot_id: submission.bot_id,
     timestamp: submission.timestamp,
+    human_requested: submission.human_requested ?? false,
     article: {
       title: submission.article.title,
       category: submission.article.category,
