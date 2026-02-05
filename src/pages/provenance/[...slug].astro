@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import AuditCard from '@/components/AuditCard.astro';
 import ReviewCard from '@/components/ReviewCard.astro';
-import { loadProvenanceSync, loadReviewByTitle } from '@/lib/provenance';
+import { loadProvenance, loadReviewByTitle } from '@/lib/provenance';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
@@ -18,8 +18,8 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const provenance = loadProvenanceSync(article.slug);
-const review = loadReviewByTitle(article.data.title);
+const provenance = await loadProvenance(article.slug);
+const review = await loadReviewByTitle(article.data.title);
 ---
 
 <Layout

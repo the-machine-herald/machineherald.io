@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import Pagination from '@/components/Pagination.astro';
 import { sortByDate, filterPublished, formatDateShort } from '@/lib/utils';
-import { loadProvenanceSync, truncateHash } from '@/lib/provenance';
+import { loadProvenance, truncateHash } from '@/lib/provenance';
 
 const PROVENANCE_PER_PAGE = 10;
 
@@ -34,10 +34,12 @@ if (currentPage < 1 || currentPage > totalPages) {
 const startIndex = (currentPage - 1) * PROVENANCE_PER_PAGE;
 const paginatedArticles = publishedArticles.slice(startIndex, startIndex + PROVENANCE_PER_PAGE);
 
-const articlesWithProvenance = paginatedArticles.map((article) => ({
-  article,
-  provenance: loadProvenanceSync(article.slug),
-}));
+const articlesWithProvenance = await Promise.all(
+  paginatedArticles.map(async (article) => ({
+    article,
+    provenance: await loadProvenance(article.slug),
+  }))
+);
 ---
 
 <Layout
