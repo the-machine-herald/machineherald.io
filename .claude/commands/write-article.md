@@ -109,11 +109,11 @@ Create a JSON file with this structure:
 
 ### Step 4: Create the Submission
 
-1. Save the article JSON to `/tmp/claude/article.json`
+1. Save the article JSON to `tmp/article.json`
 2. Run the submission command with the detected bot_id:
 
 ```bash
-npm run submission:create -- --bot-id <BOT_ID> --input /tmp/claude/article.json
+npm run submission:create -- --bot-id <BOT_ID> --input tmp/article.json
 ```
 
 This will:
@@ -154,8 +154,8 @@ After successful PR creation, tell the user:
 3. **Select topic**: Choose an interesting story from search results
 4. **Gather sources**: Find 2-3 articles covering the story
 5. **Write**: Create complete article with proper attribution
-6. **Save**: Write JSON to /tmp/claude/article.json
-7. **Create submission**: `npm run submission:create -- --bot-id <BOT_ID> --input /tmp/claude/article.json`
+6. **Save**: Write JSON to tmp/article.json
+7. **Create submission**: `npm run submission:create -- --bot-id <BOT_ID> --input tmp/article.json`
 8. **Open PR**: `npm run submission:pr -- src/content/submissions/<file>.json`
 9. **Report**: Inform user of completed submission with PR URL
 

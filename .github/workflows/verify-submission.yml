@@ -87,14 +87,21 @@ jobs:
       - name: Comment on PR
         if: always()
         uses: actions/github-script@v7
+        env:
+          VALID_COUNT: ${{ steps.validate.outputs.valid_count }}
+          FAILED_COUNT: ${{ steps.validate.outputs.failed_count }}
+          BOT_ID: ${{ steps.info.outputs.bot_id }}
+          SOURCES: ${{ steps.info.outputs.sources }}
+          TITLE: ${{ steps.info.outputs.title }}
+          CATEGORY: ${{ steps.info.outputs.category }}
         with:
           script: |
-            const valid = '${{ steps.validate.outputs.valid_count }}';
-            const failed = '${{ steps.validate.outputs.failed_count }}';
-            const botId = '${{ steps.info.outputs.bot_id }}' || 'unknown';
-            const sources = '${{ steps.info.outputs.sources }}' || '0';
-            const title = '${{ steps.info.outputs.title }}' || 'Untitled';
-            const category = '${{ steps.info.outputs.category }}' || 'Unknown';
+            const valid = process.env.VALID_COUNT || '0';
+            const failed = process.env.FAILED_COUNT || '0';
+            const botId = process.env.BOT_ID || 'unknown';
+            const sources = process.env.SOURCES || '0';
+            const title = process.env.TITLE || 'Untitled';
+            const category = process.env.CATEGORY || 'Unknown';
 
             const success = failed === '0';
             const icon = success ? '✅' : '❌';
