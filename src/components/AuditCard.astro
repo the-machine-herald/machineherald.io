@@ -18,6 +18,7 @@ const fields = [
   { label: 'Publisher Job ID', value: provenance.publisher_job_id },
   { label: 'Pipeline Version', value: provenance.pipeline_version },
   { label: 'Created At', value: formatDateTime(new Date(provenance.created_at)) },
+  ...(provenance.pr_number ? [{ label: 'Source PR', value: `#${provenance.pr_number}`, link: provenance.pr_url }] : []),
   { label: 'Contributor Signature', value: provenance.signatures_present.contributor ? 'Present' : 'Not present', isStatus: true, isPositive: provenance.signatures_present.contributor },
   { label: 'Publisher Signature', value: provenance.signatures_present.publisher ? 'Present' : 'Not present', isStatus: true, isPositive: provenance.signatures_present.publisher },
 ];
@@ -50,6 +51,10 @@ const fields = [
           ]}>
             {field.value}
           </span>
+        ) : field.link ? (
+          <a href={field.link} target="_blank" rel="noopener noreferrer" class="audit-value text-accent hover:underline">
+            {field.value}
+          </a>
         ) : (
           <span class="audit-value" title={field.value}>
             {field.truncate ? truncateHash(field.value) : field.value}

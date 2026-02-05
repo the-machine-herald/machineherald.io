@@ -46,6 +46,8 @@ interface Provenance {
     publisher: boolean;
   };
   provenance_signature?: string;
+  pr_number?: number;
+  pr_url?: string;
 }
 
 const ARTICLES_BASE_DIR = path.join(process.cwd(), 'src/content/articles');
@@ -203,6 +205,8 @@ async function main() {
       contributor: !!submission.signature,
       publisher: false,
     },
+    pr_number: process.env.GITHUB_PR_NUMBER ? parseInt(process.env.GITHUB_PR_NUMBER, 10) : undefined,
+    pr_url: process.env.GITHUB_PR_URL || undefined,
   };
 
   // Sign provenance

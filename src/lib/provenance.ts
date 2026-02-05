@@ -14,6 +14,8 @@ export interface ProvenanceData {
     publisher: boolean;
   };
   provenance_signature?: string;
+  pr_number?: number;
+  pr_url?: string;
 }
 
 export function getProvenancePath(slug: string): string {
