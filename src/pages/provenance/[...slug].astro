@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import AuditCard from '@/components/AuditCard.astro';
 import ReviewCard from '@/components/ReviewCard.astro';
-import { loadProvenance, loadReviewByTitle } from '@/lib/provenance';
+import { loadProvenance, loadReviewsByTitle } from '@/lib/provenance';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
@@ -19,7 +19,9 @@ interface Props {
 
 const { article } = Astro.props;
 const provenance = await loadProvenance(article.slug);
-const review = await loadReviewByTitle(article.data.title);
+const reviews = await loadReviewsByTitle(article.data.title);
+const latestReview = reviews[0] ?? null;
+const hasMultipleReviews = reviews.length > 1;
 ---
 
 <Layout
@@ -71,13 +73,14 @@ const review = await loadReviewByTitle(article.data.title);
           class="tab-btn"
           data-tab="review"
           aria-selected="false"
-          disabled={!review}
+          disabled={!latestReview}
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
           </svg>
           Review
-          {!review && <span class="text-xs text-text-muted-light dark:text-text-muted-dark">(N/A)</span>}
+          {reviews.length > 1 && <span class="text-xs text-text-muted-light dark:text-text-muted-dark">({reviews.length})</span>}
+          {!latestReview && <span class="text-xs text-text-muted-light dark:text-text-muted-dark">(N/A)</span>}
         </button>
       </nav>
     </div>
@@ -108,8 +111,41 @@ const review = await loadReviewByTitle(article.data.title);
 
     <!-- Review Tab -->
     <div id="tab-review" class="tab-content hidden">
-      {review ? (
-        <ReviewCard review={review} />
+      {latestReview ? (
+        <>
+          {hasMultipleReviews && (
+            <nav class="flex flex-wrap gap-2 mb-4" aria-label="Review history">
+              {reviews.map((r, i) => {
+                const reviewNum = reviews.length - i;
+                const isLatest = i === 0;
+                const verdictIcon = r.verdict === 'APPROVE' ? '✓' : r.verdict === 'REQUEST_CHANGES' ? '⚠' : '✗';
+                const verdictClass = r.verdict === 'APPROVE'
+                  ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
+                  : r.verdict === 'REQUEST_CHANGES'
+                    ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800'
+                    : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800';
+                return (
+                  <button
+                    type="button"
+                    class:list={[
+                      'review-sub-tab px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors',
+                      isLatest ? verdictClass : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 opacity-70 hover:opacity-100',
+                    ]}
+                    data-review-index={i}
+                    aria-selected={isLatest ? 'true' : 'false'}
+                  >
+                    {verdictIcon} #{reviewNum}{isLatest ? ' (Latest)' : ''}
+                  </button>
+                );
+              })}
+            </nav>
+          )}
+          {reviews.map((r, i) => (
+            <div class:list={['review-panel', i > 0 && 'hidden']} data-review-panel={i}>
+              <ReviewCard review={r} />
+            </div>
+          ))}
+        </>
       ) : (
         <div class="card p-8 text-center">
           <div class="flex items-center justify-center gap-2 mb-4 text-text-muted-light dark:text-text-muted-dark">
@@ -157,6 +193,26 @@ const review = await loadReviewByTitle(article.data.title);
   .tab-btn:disabled {
     @apply opacity-50 cursor-not-allowed hover:border-transparent;
   }
+
+  .review-sub-tab[aria-selected="true"] {
+    @apply ring-2 ring-offset-1 ring-offset-surface-light dark:ring-offset-surface-dark;
+  }
+
+  .review-sub-tab[aria-selected="true"].bg-emerald-100 {
+    @apply ring-emerald-400;
+  }
+
+  .review-sub-tab[aria-selected="true"].bg-amber-100 {
+    @apply ring-amber-400;
+  }
+
+  .review-sub-tab[aria-selected="true"].bg-red-100 {
+    @apply ring-red-400;
+  }
+
+  .review-sub-tab[aria-selected="true"].bg-zinc-100 {
+    @apply ring-zinc-400;
+  }
 </style>
 
 <script>
@@ -187,6 +243,33 @@ const review = await loadReviewByTitle(article.data.title);
     });
   }
 
+  function initReviewSubTabs() {
+    const subTabs = document.querySelectorAll('.review-sub-tab');
+    const panels = document.querySelectorAll('.review-panel');
+
+    subTabs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const index = btn.getAttribute('data-review-index');
+
+        subTabs.forEach((b) => {
+          b.setAttribute('aria-selected', 'false');
+          b.classList.add('opacity-70');
+        });
+        btn.setAttribute('aria-selected', 'true');
+        btn.classList.remove('opacity-70');
+
+        panels.forEach((panel) => {
+          panel.classList.add('hidden');
+        });
+        document.querySelector(`[data-review-panel="${index}"]`)?.classList.remove('hidden');
+      });
+    });
+  }
+
   initTabs();
-  document.addEventListener('astro:after-swap', initTabs);
+  initReviewSubTabs();
+  document.addEventListener('astro:after-swap', () => {
+    initTabs();
+    initReviewSubTabs();
+  });
 </script>

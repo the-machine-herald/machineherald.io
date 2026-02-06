@@ -22,6 +22,18 @@ export async function loadReviewByTitle(articleTitle: string): Promise<ReviewDat
   }
 }
 
+export async function loadReviewsByTitle(articleTitle: string): Promise<ReviewData[]> {
+  try {
+    const allReviews = await getCollection('reviews');
+    return allReviews
+      .filter((r) => r.data.article_title === articleTitle)
+      .map((r) => r.data)
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  } catch {
+    return [];
+  }
+}
+
 export function validateProvenance(data: unknown): data is ProvenanceData {
   if (!data || typeof data !== 'object') return false;
 
