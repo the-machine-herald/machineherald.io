@@ -321,3 +321,4 @@ gh pr merge 7 --merge
 - Focus on factual accuracy and source quality above style
 - The automated script catches technical issues; focus your review on content quality
 - The review file is saved automatically to `src/content/reviews/YYYY-MM/` directory (monthly folders)
+- **Every review creates a new file** — the script never overwrites existing reviews. If a submission is reviewed again, a `_2`, `_3` suffix is appended. This preserves the full review history visible in the Provenance page.
