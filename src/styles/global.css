@@ -140,6 +140,87 @@
   }
 }
 
+/* Pagefind UI theming – scoped to #pagefind-container so our vars
+   always beat pagefind-ui.css's :root declarations (ID specificity). */
+#pagefind-container {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: #2563EB;
+  --pagefind-ui-text: #18181B;
+  --pagefind-ui-background: #FAFAF9;
+  --pagefind-ui-border: #E4E4E7;
+  --pagefind-ui-tag: #F4F4F5;
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 0.5rem;
+  --pagefind-ui-image-border-radius: 0.5rem;
+  --pagefind-ui-image-box-ratio: 3 / 2;
+  --pagefind-ui-font: 'Inter', system-ui, sans-serif;
+}
+
+html.dark #pagefind-container {
+  --pagefind-ui-primary: #60A5FA;
+  --pagefind-ui-text: #E4E4E7;
+  --pagefind-ui-background: #18181B;
+  --pagefind-ui-border: #3F3F46;
+  --pagefind-ui-tag: #27272A;
+}
+
+/* Search input – explicit override for dark mode */
+html.dark .pagefind-ui__search-input {
+  background-color: #18181B;
+  color: #E4E4E7;
+}
+
+html.dark .pagefind-ui__search-clear {
+  color: #A1A1AA;
+}
+
+html.dark .pagefind-ui__search-clear:focus {
+  outline-color: #60A5FA;
+}
+
+/* Pagefind result title links */
+#pagefind-container .pagefind-ui__result-link {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 600;
+}
+
+html.dark #pagefind-container .pagefind-ui__result-link {
+  color: #FAFAFA;
+}
+
+/* Pagefind search highlight marks */
+#pagefind-container mark {
+  background: #DBEAFE;
+  color: #1E3A5F;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+html.dark #pagefind-container mark {
+  background: rgba(59, 130, 246, 0.3);
+  color: #BFDBFE;
+}
+
+/* Pagefind sub-result titles */
+html.dark #pagefind-container .pagefind-ui__result-nested .pagefind-ui__result-link {
+  color: #D4D4D8;
+}
+
+/* Pagefind metadata tags */
+html.dark #pagefind-container .pagefind-ui__result-tag {
+  color: #A1A1AA;
+}
+
+/* Pagefind result excerpt text */
+html.dark #pagefind-container .pagefind-ui__result-excerpt {
+  color: #A1A1AA;
+}
+
+/* Pagefind message (e.g. "5 results for nvidia") */
+html.dark #pagefind-container .pagefind-ui__message {
+  color: #71717A;
+}
+
 /* Print styles */
 @media print {
   .no-print {

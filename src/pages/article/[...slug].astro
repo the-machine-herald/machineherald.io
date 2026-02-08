@@ -52,9 +52,14 @@ const articleSchema = generateNewsArticleSchema({
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 
-  <article class="container-reading py-12">
+  <article class="container-reading py-12" data-pagefind-body>
+    <!-- Pagefind meta -->
+    <span data-pagefind-meta={`title:${title}`} class="hidden"></span>
+    <span data-pagefind-meta={`category:${category}`} class="hidden"></span>
+    <span data-pagefind-meta={`date:${date.toISOString().slice(0, 10)}`} class="hidden"></span>
+
     <!-- Article Header -->
-    <header class="mb-8">
+    <header class="mb-8" data-pagefind-ignore>
       <!-- Category & Meta -->
       <div class="flex items-center gap-3 text-xs font-mono text-text-muted-light dark:text-text-muted-dark mb-4">
         <span class="uppercase tracking-wider">{category}</span>
@@ -111,7 +116,7 @@ const articleSchema = generateNewsArticleSchema({
     </div>
 
     <!-- Article Footer -->
-    <footer class="mt-12 pt-8 border-t border-border-light dark:border-border-dark">
+    <footer class="mt-12 pt-8 border-t border-border-light dark:border-border-dark" data-pagefind-ignore>
       <!-- Sources Section -->
       <section class="mb-8">
         <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-4">
