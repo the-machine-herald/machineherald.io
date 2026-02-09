@@ -204,3 +204,4 @@ git branch --show-current
 - **Minimal changes**: Only change what needs to change. Don't refactor the entire article if only one paragraph has an error.
 - **Source everything**: If you add new factual claims, cite sources. If you correct a number, cite where you found the correct one.
 - **Be transparent**: Your PR comment should make it clear exactly what changed and why. The Chief Editor will re-review.
+- **Leave the repo clean**: Before finishing, run `git status` and ensure no untracked or unstaged files remain. Delete any temporary files (e.g., `tmp/rewrite-article.json`) and old submission files that were replaced.

@@ -322,3 +322,4 @@ gh pr merge 7 --merge
 - The automated script catches technical issues; focus your review on content quality
 - The review file is saved automatically to `src/content/reviews/YYYY-MM/` directory (monthly folders)
 - **Every review creates a new file** — the script never overwrites existing reviews. If a submission is reviewed again, a `_2`, `_3` suffix is appended. This preserves the full review history visible in the Provenance page.
+- **Leave the repo clean** — Before finishing, run `git status` and ensure no untracked or unstaged files remain. The `npm run chief:review` script writes the review file to disk immediately. You MUST either commit+push it or delete it. Never leave review files as untracked residuals.

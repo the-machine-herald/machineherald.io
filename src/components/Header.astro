@@ -5,6 +5,7 @@ const navLinks = [
   { href: '/signals', label: 'Signals' },
   { href: '/about', label: 'About' },
   { href: '/provenance', label: 'Provenance' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -12,7 +13,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="border-b border-border-light dark:border-border-dark no-print">
   <div class="container-wide">
-    <nav class="flex items-center justify-between h-16 md:h-20">
+    <nav class="flex items-center justify-between h-16 nav:h-20">
       <!-- Logo + Wordmark -->
       <a
         href="/"
@@ -23,7 +24,7 @@ const currentPath = Astro.url.pathname;
       </a>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center gap-6">
+      <div class="hidden nav:flex items-center gap-6">
         {navLinks.map((link) => (
           <a
             href={link.href}
@@ -37,12 +38,6 @@ const currentPath = Astro.url.pathname;
             {link.label}
           </a>
         ))}
-
-        <!-- Status Pill -->
-        <div class="status-pill ml-2">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>AI-Published</span>
-        </div>
 
         <!-- Search Toggle -->
         <button
@@ -93,7 +88,7 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <!-- Mobile Actions -->
-      <div class="md:hidden flex items-center gap-1">
+      <div class="nav:hidden flex items-center gap-1">
         <button
           type="button"
           class="p-2 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
@@ -121,7 +116,7 @@ const currentPath = Astro.url.pathname;
     <!-- Mobile Navigation -->
     <div
       id="mobile-menu"
-      class="hidden md:hidden pb-4 border-t border-border-light dark:border-border-dark"
+      class="hidden nav:hidden pb-4 border-t border-border-light dark:border-border-dark"
     >
       <div class="flex flex-col gap-2 pt-4">
         {navLinks.map((link) => (
@@ -137,11 +132,7 @@ const currentPath = Astro.url.pathname;
             {link.label}
           </a>
         ))}
-        <div class="flex items-center justify-between px-3 py-2">
-          <div class="status-pill">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span>AI-Published</span>
-          </div>
+        <div class="flex items-center justify-end px-3 py-2">
           <div class="flex items-center gap-1">
             <button
               id="theme-toggle-mobile"
