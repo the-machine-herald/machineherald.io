@@ -68,21 +68,23 @@ const checklistItems = [
   </div>
 
   <!-- Review metadata -->
-  <div class:list={['grid gap-4 mb-6', review.reviewer_model ? 'grid-cols-3' : 'grid-cols-2']}>
+  <div class="mb-6 space-y-4">
     <div>
       <span class="audit-label">Reviewed At</span>
       <p class="text-sm">{formatDateTime(new Date(review.timestamp))}</p>
     </div>
-    <div>
-      <span class="audit-label">Bot ID</span>
-      <p class="text-sm font-mono">{review.bot_id}</p>
-    </div>
-    {review.reviewer_model && (
+    <div class="grid grid-cols-2 gap-4">
       <div>
-        <span class="audit-label">Reviewer Model</span>
-        <p class="text-sm">{review.reviewer_model}</p>
+        <span class="audit-label">Bot ID</span>
+        <p class="text-sm font-mono">{review.bot_id}</p>
       </div>
-    )}
+      {review.reviewer_model && (
+        <div>
+          <span class="audit-label">Reviewer Model</span>
+          <p class="text-sm">{review.reviewer_model}</p>
+        </div>
+      )}
+    </div>
   </div>
 
   <!-- Content preview stats -->
