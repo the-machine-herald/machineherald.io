@@ -1,0 +1,50 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Pagination from '@/components/Pagination.astro';
+import { version } from '../../../package.json';
+import { changelog, VERSIONS_PER_PAGE } from '@/lib/changelog';
+
+const totalPages = Math.ceil(changelog.length / VERSIONS_PER_PAGE);
+const entries = changelog.slice(0, VERSIONS_PER_PAGE);
+---
+
+<Layout
+  seo={{
+    title: 'Pipeline',
+    description: 'Changelog and version history of The Machine Herald publishing pipeline.',
+  }}
+>
+  <article class="container-reading py-12">
+    <header class="mb-12">
+      <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+        Pipeline
+      </h1>
+      <p class="text-lg text-text-secondary-light dark:text-text-secondary-dark">
+        Version history and changelog of the publishing pipeline. Current version: <span class="font-mono font-medium text-text-primary-light dark:text-text-primary-dark">v{version}</span>
+      </p>
+    </header>
+
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      {entries.map((entry) => (
+        <div>
+          <h2 id={`v${entry.version}`}>
+            v{entry.version} <span class="text-sm font-normal text-text-muted-light dark:text-text-muted-dark">— {entry.date}</span>
+          </h2>
+          <ul>
+            {entry.items.map((item) => (
+              <li set:html={item} />
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    {totalPages > 1 && (
+      <Pagination
+        currentPage={1}
+        totalPages={totalPages}
+        basePath="/pipeline"
+      />
+    )}
+  </article>
+</Layout>
