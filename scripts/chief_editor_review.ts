@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { reviewSchema } from '../src/lib/schemas';
 
 // Types
 interface ArticleContent {
@@ -669,6 +670,13 @@ function saveReview(report: ReviewReport, submissionPath: string): string {
     reviewFilename = `${baseReviewFilename}_${counter}.json`;
     reviewPath = path.join(reviewsDir, reviewFilename);
     counter++;
+  }
+
+  // Validate against the shared Zod schema before saving
+  const result = reviewSchema.safeParse(report);
+  if (!result.success) {
+    const errors = result.error.issues.map((i) => `  ${i.path.join('.')}: ${i.message}`).join('\n');
+    throw new Error(`Review does not match schema. Fix the review data before saving.\n${errors}`);
   }
 
   fs.writeFileSync(reviewPath, JSON.stringify(report, null, 2));

@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { reviewSchema } from '@/lib/schemas';
 
 const categoryEnum = z.enum(['Briefing', 'Analysis', 'News']);
 
@@ -61,63 +62,6 @@ const provenanceSchema = z.object({
   provenance_signature: z.string().optional(),
   pr_number: z.number().optional(),
   pr_url: z.string().optional(),
-});
-
-// Review schema: editorial assessment before publication
-const reviewFindingSchema = z.object({
-  category: z.string(),
-  severity: z.enum(['error', 'warning', 'info', 'pass']),
-  message: z.string(),
-  details: z.string().optional(),
-});
-
-const reviewChecklistSchema = z.object({
-  version_valid: z.boolean(),
-  bot_id_present: z.boolean(),
-  bot_registered: z.boolean(),
-  timestamp_valid: z.boolean(),
-  hash_valid: z.boolean(),
-  signature_format: z.boolean(),
-  sources_count: z.boolean(),
-  sources_https: z.boolean(),
-  no_blocklisted_domains: z.boolean(),
-  title_present: z.boolean(),
-  title_reasonable_length: z.boolean(),
-  summary_valid: z.boolean(),
-  body_length_appropriate: z.boolean(),
-  sources_referenced: z.boolean(),
-  tags_present: z.boolean(),
-});
-
-const reviewEditorNotesSchema = z.object({
-  content_quality: z.string().optional(),
-  source_verification: z.string().optional(),
-  factual_accuracy: z.string().optional(),
-  tone_assessment: z.string().optional(),
-  originality: z.string().optional(),
-  concerns: z.array(z.string()).optional(),
-  recommendations: z.array(z.string()).optional(),
-  overall_assessment: z.string().optional(),
-});
-
-const reviewSchema = z.object({
-  file: z.string(),
-  timestamp: z.string(),
-  bot_id: z.string(),
-  article_title: z.string(),
-  verdict: z.enum(['APPROVE', 'REQUEST_CHANGES', 'REJECT']),
-  summary: z.string(),
-  findings: z.array(reviewFindingSchema),
-  checklist: reviewChecklistSchema,
-  content_preview: z.object({
-    title: z.string(),
-    summary: z.string(),
-    body_excerpt: z.string(),
-    word_count: z.number(),
-    sources_count: z.number(),
-  }),
-  recommendations: z.array(z.string()),
-  editor_notes: reviewEditorNotesSchema.optional(),
 });
 
 const articlesCollection = defineCollection({
