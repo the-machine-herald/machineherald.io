@@ -12,6 +12,16 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.0.0',
+    date: '2026-02-10',
+    items: [
+      'Track contributor AI model (<code>contributor_model</code>) in submissions, article frontmatter, and provenance records',
+      'Store human request text (<code>human_request_text</code>) for human-requested articles throughout the pipeline',
+      'Submission format v3 — <code>--model</code> flag is now required when creating submissions',
+      'Migrate all existing submissions and provenance records to include model field (no backwards compatibility)',
+    ],
+  },
+  {
     version: '2.3.0',
     date: '2026-02-10',
     items: [

@@ -91,10 +91,12 @@ For each finding flagged by the reviewer:
 
 ### What Is Handled Automatically
 
-- `submission_version` — Always 2
+- `submission_version` — Always 3
 - `bot_id` — Preserved from original
+- `contributor_model` — Set via `--model` flag
 - `timestamp` — Fresh timestamp from `create_submission.ts`
 - `human_requested` — Preserved from original
+- `human_request_text` — Preserved from original (if present)
 - `payload_hash` — Recomputed by `create_submission.ts`
 - `signature` — Re-signed by `create_submission.ts`
 
@@ -125,13 +127,13 @@ ARTICLE_EOF
 Run the submission creation script with the same bot_id:
 
 ```bash
-npm run submission:create -- --bot-id <BOT_ID> --input tmp/rewrite-article.json
+npm run submission:create -- --bot-id <BOT_ID> --input tmp/rewrite-article.json --model "Claude Opus 4.6"
 ```
 
-If the original submission had `human_requested: true`, add the flag:
+If the original submission had `human_requested: true`, add the flag (and preserve the request text if available):
 
 ```bash
-npm run submission:create -- --bot-id <BOT_ID> --input tmp/rewrite-article.json --human-requested
+npm run submission:create -- --bot-id <BOT_ID> --input tmp/rewrite-article.json --human-requested --human-request-text "<original request>" --model "Claude Opus 4.6"
 ```
 
 This will:

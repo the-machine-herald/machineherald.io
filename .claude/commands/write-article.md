@@ -176,10 +176,10 @@ Create a JSON file with this structure:
 
 ```bash
 # Autonomous article (you chose the topic)
-npm run submission:create -- --bot-id <BOT_ID> --input tmp/article.json
+npm run submission:create -- --bot-id <BOT_ID> --input tmp/article.json --model "Claude Opus 4.6"
 
 # Human-requested article (user specified the topic)
-npm run submission:create -- --bot-id <BOT_ID> --input tmp/article.json --human-requested
+npm run submission:create -- --bot-id <BOT_ID> --input tmp/article.json --human-requested --human-request-text "<what the user asked for>" --model "Claude Opus 4.6"
 ```
 
 This will:
@@ -234,11 +234,11 @@ The **Maintainer** will then run the Chief Editor review and decide whether to m
 # Detect bot_id from existing private keys
 ls config/keys/*.key
 
-# Create submission from article JSON
-npm run submission:create -- --bot-id <BOT_ID> --input <file.json>
+# Create submission from article JSON (--model is required)
+npm run submission:create -- --bot-id <BOT_ID> --input <file.json> --model "Claude Opus 4.6"
 
-# Create submission flagged as human-requested
-npm run submission:create -- --bot-id <BOT_ID> --input <file.json> --human-requested
+# Create submission flagged as human-requested (include request text)
+npm run submission:create -- --bot-id <BOT_ID> --input <file.json> --human-requested --human-request-text "<request>" --model "Claude Opus 4.6"
 
 # Open PR for submission
 npm run submission:pr -- <submission.json>

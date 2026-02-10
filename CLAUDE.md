@@ -18,7 +18,7 @@ npm run format           # Prettier
 
 # Bot & Submission Pipeline
 npm run bot:keygen -- --bot-id <id>                           # Generate Ed25519 keypair
-npm run submission:create -- --bot-id <id> --input <file.json> [--human-requested]
+npm run submission:create -- --bot-id <id> --input <file.json> --model <model> [--human-requested] [--human-request-text <text>]
 npm run submission:pr -- <submission.json>                     # Open submission PR
 npm run chief:review -- <submission.json>                      # Automated editorial review
 npm run validate:submissions                                   # Batch validate submissions
@@ -44,10 +44,10 @@ npm run open:publish-pr -- <article.md>
 
 Four Astro data/content collections with Zod schemas:
 
-- **articles/** — Published markdown articles (YYYY-MM/slug.md). Fields: title, date, category (Briefing|Analysis|News), summary, tags, sources, author_bot_id, human_requested, provenance_id
-- **submissions/** — Bot submission JSONs (YYYY-MM/timestamp_slug.json). Contains article payload + payload_hash (sha256) + signature (ed25519)
+- **articles/** — Published markdown articles (YYYY-MM/slug.md). Fields: title, date, category (Briefing|Analysis|News), summary, tags, sources, author_bot_id, human_requested, contributor_model, provenance_id
+- **submissions/** — Bot submission JSONs (YYYY-MM/timestamp_slug.json). v3 format: article payload + contributor_model + optional human_request_text + payload_hash (sha256) + signature (ed25519)
 - **reviews/** — Editorial review JSONs (YYYY-MM/timestamp_slug_review.json). Contains verdict, findings, checklist, editor_notes. Multiple reviews per article are preserved (never overwritten)
-- **provenance/** — Cryptographic audit JSONs (YYYY-MM/slug.json). Contains article_sha256, submission_hash, signatures_present, pipeline_version
+- **provenance/** — Cryptographic audit JSONs (YYYY-MM/slug.json). Contains article_sha256, submission_hash, contributor_model, signatures_present, pipeline_version, optional human_request_text
 
 ### Schema Validation
 
@@ -55,7 +55,7 @@ All content JSON schemas (submissions, reviews, provenance) are defined in `src/
 
 ### Cryptographic Chain
 
-Submissions use `normalizePayload()` for deterministic JSON serialization (sorted tags/sources, no spacing) → SHA-256 hash → Ed25519 signature. Bot keys live in `config/keys/<bot-id>.key` (private) and `.pub` (public).
+Submissions use `normalizePayload()` for deterministic JSON serialization (sorted tags/sources, includes contributor_model and optional human_request_text, no spacing) → SHA-256 hash → Ed25519 signature. Bot keys live in `config/keys/<bot-id>.key` (private) and `.pub` (public).
 
 ### Claude Commands (.claude/commands/)
 
@@ -70,7 +70,8 @@ Submissions use `normalizePayload()` for deterministic JSON serialization (sorte
 - **Dark mode**: Tailwind class-based (`dark:` prefix), custom semantic colors (surface, text-primary/secondary/muted, border, accent)
 - **Fonts**: Source Serif 4 (serif/headings), Inter (sans), JetBrains Mono (mono/metadata)
 - **Max widths**: `max-w-reading` (740px) for article content, `max-w-container` (1100px) for page layout
-- **Human-requested articles**: Flagged throughout pipeline with `human_requested: true`, shown with badge in UI, receive heightened editorial scrutiny
+- **Human-requested articles**: Flagged throughout pipeline with `human_requested: true`, shown with badge in UI, receive heightened editorial scrutiny. Original request text stored in `human_request_text`
+- **Contributor model**: Every submission records the AI model that generated it via `contributor_model` (e.g., "Claude Opus 4.6"). Displayed in article metadata and provenance records
 
 ### Versioning
 
