@@ -1,0 +1,55 @@
+{
+  "file": "src/content/submissions/2026-02/2026-02-10T15-00-35Z_rust-1930-updates-musl-to-125-loosens-allocator-in.json",
+  "timestamp": "2026-02-10T15:02:11.555Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Rust 1.93.0 updates musl to 1.2.5, loosens allocator internals, and adds finer-grained cfg control for asm!",
+  "reviewer_model": "Claude Opus 4.6",
+  "verdict": "APPROVE",
+  "summary": "Submission approved with 1 minor warning(s)",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "blog.rust-lang.org: https://blog.rust-lang.org/2026/01/22/Rust-1.93.0/\ndoc.rust-lang.org: https://doc.rust-lang.org/releases.html\ngithub.com: https://github.com/rust-lang/rust/releases/tag/1.93.0\nmusl.libc.org: https://musl.libc.org/releases.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Rust 1.93.0 updates musl to 1.2.5, loosens allocator internals, and adds finer-grained cfg control for asm!",
+    "summary": "Rust 1.93.0 ships musl 1.2.5, allocator and asm! improvements, and new stabilized APIs.",
+    "body_excerpt": "## Overview\n\nRust 1.93.0 is now available on the stable channel, and can be installed via `rustup update stable`, according to the [Rust Release Team](https://blog.rust-lang.org/2026/01/22/Rust-1.93.0/). The release is anchored by a toolchain refresh for static Linux builds (bundled musl 1.2.5), changes to how the standard library avoids allocator re-entrancy pitfalls, and a quality-of-life upgrade for conditional inline assembly, as detailed in the [official announcement](https://blog.rust-lang...",
+    "word_count": 672,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Consider adding blog.rust-lang.org, doc.rust-lang.org, and musl.libc.org to the source allowlist as primary official project sources"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured briefing with clear subsections covering each major change in Rust 1.93.0. Appropriate technical depth for the audience — explains the musl DNS resolver motivation, allocator re-entrancy changes, and asm! cfg improvements without over-simplifying. The 'Why This Release Matters' section adds useful editorial framing about Rust's approach to static binaries and compiler diagnostics. At 672 words, within Briefing range (300-800).",
+    "source_verification": "All 4 sources are primary official project sources verified against original content. (1) blog.rust-lang.org confirms musl 1.2.5 bundling, DNS resolver motivation, libc 0.2.146 fix, allocator thread-local changes, asm! cfg stabilization, and stabilized APIs. (2) doc.rust-lang.org/releases.html confirms allocator changes and release notes details. (3) GitHub release tag confirms new lints (const_item_interior_mutations, function_casts_as_integer), deref_nullptr deny-by-default, -Cjump-tables stabilization, and library API stabilizations. (4) musl.libc.org confirms DNS resolver improvements in 1.2.4 (TCP fallback, large DNS records) and 1.2.5 refinements, plus LFS64 legacy interface deprecation. All sources flagged as 'not in allowlist' are authoritative first-party project sources — not blocking.",
+    "factual_accuracy": "All claims verified against cited sources. Key facts confirmed: musl 1.2.5 bundled for *-linux-musl targets, DNS resolver improvements, libc compatibility fix in 0.2.146, thread_local!/thread::current() now safe in global allocators, per-line cfg in asm!/global_asm!/naked_asm!, const_item_interior_mutations and function_casts_as_integer lints, deref_nullptr deny-by-default, -Cjump-tables=bool stabilized, String::into_raw_parts and Vec::into_raw_parts stabilized, MaybeUninit slice helpers. One minor note: the article says musl 1.2.4 'removed legacy compatibility symbols' — the musl release notes describe it as deprecation/removal from _GNU_SOURCE scope, which the article's characterization reasonably captures.",
+    "tone_assessment": "Neutral and professional throughout. Technical descriptions are precise without being promotional. The 'Why This Release Matters' section provides editorial context without editorializing — frames observations as patterns rather than opinions.",
+    "originality": "No Rust release articles in recent coverage. The only Rust-adjacent articles are about WhatsApp's Rust migration (Feb 6) and Linux 6.19 Rust drivers (Feb 5) — entirely different topics. This is fresh coverage.",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Solid technical briefing accurately covering Rust 1.93.0's key changes. All claims verified against primary official sources. Ready for publication."
+  }
+}
