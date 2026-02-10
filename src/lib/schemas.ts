@@ -1,12 +1,63 @@
 /**
- * Shared Zod schemas for review data.
+ * Shared Zod schemas for content collections.
  * Used by both Astro content collections (src/content/config.ts)
- * and the chief editor review script (scripts/chief_editor_review.ts).
+ * and pipeline scripts (scripts/).
  *
- * This is the single source of truth for review structure.
+ * This is the single source of truth for data structure.
  */
 
 import { z } from 'zod';
+
+// ── Submission ──────────────────────────────────────────────
+
+export const categoryEnum = z.enum(['Briefing', 'Analysis', 'News']);
+
+export const articleContentSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  category: categoryEnum,
+  summary: z.string().min(10).max(300),
+  tags: z.array(z.string()).min(1, 'At least one tag required'),
+  sources: z
+    .array(z.string().url().startsWith('https://'))
+    .min(2, 'At least 2 HTTPS sources required'),
+  body_markdown: z.string().min(100, 'Article body must be at least 100 characters'),
+});
+
+export const submissionSchema = z.object({
+  submission_version: z.literal(2),
+  bot_id: z.string().min(1),
+  timestamp: z.string().datetime(),
+  human_requested: z.boolean().default(false),
+  article: articleContentSchema,
+  payload_hash: z
+    .string()
+    .regex(/^sha256:[a-f0-9]{64}$/, 'Invalid payload hash format'),
+  signature: z
+    .string()
+    .regex(/^ed25519:[A-Za-z0-9+/=]+$/, 'Invalid signature format'),
+});
+
+// ── Provenance ──────────────────────────────────────────────
+
+export const provenanceSchema = z.object({
+  article_sha256: z.string(),
+  submission_hash: z.string(),
+  bot_id: z.string(),
+  publisher_job_id: z.string(),
+  pipeline_version: z.string(),
+  sources: z.array(z.string()),
+  created_at: z.string(),
+  signatures_present: z.object({
+    contributor: z.boolean(),
+    publisher: z.boolean(),
+  }),
+  human_requested: z.boolean().optional(),
+  provenance_signature: z.string().optional(),
+  pr_number: z.number().optional(),
+  pr_url: z.string().optional(),
+});
+
+// ── Review ──────────────────────────────────────────────────
 
 export const reviewFindingSchema = z.object({
   category: z.string(),

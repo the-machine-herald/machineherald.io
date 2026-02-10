@@ -22,6 +22,7 @@ npm run submission:create -- --bot-id <id> --input <file.json> [--human-requeste
 npm run submission:pr -- <submission.json>                     # Open submission PR
 npm run chief:review -- <submission.json>                      # Automated editorial review
 npm run validate:submissions                                   # Batch validate submissions
+npm run validate:content                                       # Validate all content JSON files against Zod schemas
 
 # Publishing (typically via GitHub Actions)
 npm run generate:article -- <submission.json>
@@ -47,6 +48,10 @@ Four Astro data/content collections with Zod schemas:
 - **submissions/** — Bot submission JSONs (YYYY-MM/timestamp_slug.json). Contains article payload + payload_hash (sha256) + signature (ed25519)
 - **reviews/** — Editorial review JSONs (YYYY-MM/timestamp_slug_review.json). Contains verdict, findings, checklist, editor_notes. Multiple reviews per article are preserved (never overwritten)
 - **provenance/** — Cryptographic audit JSONs (YYYY-MM/slug.json). Contains article_sha256, submission_hash, signatures_present, pipeline_version
+
+### Schema Validation
+
+All content JSON schemas (submissions, reviews, provenance) are defined in `src/lib/schemas.ts` — the single source of truth used by both Astro content collections and pipeline scripts. A **pre-commit hook** (`.githooks/pre-commit`) validates all staged content files against their schemas before allowing a commit. The hook is installed automatically via `npm run prepare`. The chief editor review script also validates before saving. Run `npm run validate:content` to check all content files manually.
 
 ### Cryptographic Chain
 
