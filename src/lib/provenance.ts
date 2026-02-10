@@ -48,7 +48,9 @@ export function validateProvenance(data: unknown): data is ProvenanceData {
     Array.isArray(d.sources) &&
     typeof d.created_at === 'string' &&
     typeof d.signatures_present === 'object' &&
-    d.signatures_present !== null
+    d.signatures_present !== null &&
+    (d.contributor_model === undefined || typeof d.contributor_model === 'string') &&
+    (d.human_request_text === undefined || typeof d.human_request_text === 'string')
   );
 }
 

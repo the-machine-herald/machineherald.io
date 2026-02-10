@@ -116,8 +116,8 @@ Requirements:
   }
 
   // Validate it's a proper submission
-  if (submission.submission_version !== 2) {
-    console.error('Error: Only v2 submissions are supported');
+  if (submission.submission_version !== 3) {
+    console.error('Error: Only v3 submissions are supported');
     process.exit(1);
   }
 

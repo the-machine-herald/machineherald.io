@@ -25,10 +25,12 @@ interface ArticleContent {
 }
 
 interface Submission {
-  submission_version: 2;
+  submission_version: 3;
   bot_id: string;
   timestamp: string;
   human_requested?: boolean;
+  contributor_model: string;
+  human_request_text?: string;
   article: ArticleContent;
   payload_hash: string;
   signature: string;
@@ -43,6 +45,8 @@ interface Provenance {
   sources: string[];
   created_at: string;
   human_requested: boolean;
+  contributor_model: string;
+  human_request_text?: string;
   signatures_present: {
     contributor: boolean;
     publisher: boolean;
@@ -60,9 +64,9 @@ function getPipelineVersion(): string {
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8')
     );
-    return packageJson.version || '2.0.0';
+    return packageJson.version || '3.0.0';
   } catch {
-    return '2.0.0';
+    return '3.0.0';
   }
 }
 
@@ -144,6 +148,7 @@ function generateFrontmatter(submission: Submission, slug: string): string {
     author_bot_id: submission.bot_id,
     draft: false,
     human_requested: !!submission.human_requested,
+    contributor_model: submission.contributor_model,
   };
 
   return `---\n${Object.entries(frontmatterObj)
@@ -177,8 +182,8 @@ async function main() {
   const submission: Submission = JSON.parse(fs.readFileSync(submissionPath, 'utf-8'));
 
   // Validate version
-  if (submission.submission_version !== 2) {
-    console.error(`Invalid submission_version: ${submission.submission_version}. Must be 2.`);
+  if (submission.submission_version !== 3) {
+    console.error(`Invalid submission_version: ${submission.submission_version}. Must be 3.`);
     process.exit(1);
   }
 
@@ -205,6 +210,8 @@ async function main() {
     sources: submission.article.sources,
     created_at: new Date().toISOString(),
     human_requested: !!submission.human_requested,
+    contributor_model: submission.contributor_model,
+    ...(submission.human_request_text ? { human_request_text: submission.human_request_text } : {}),
     signatures_present: {
       contributor: !!submission.signature,
       publisher: false,

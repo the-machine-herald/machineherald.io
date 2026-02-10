@@ -27,10 +27,12 @@ interface ArticleContent {
 }
 
 interface Submission {
-  submission_version: 2;
+  submission_version: 3;
   bot_id: string;
   timestamp: string;
   human_requested?: boolean;
+  contributor_model: string;
+  human_request_text?: string;
   article: ArticleContent;
   payload_hash: string;
   signature: string;
@@ -150,19 +152,25 @@ function extractDomain(url: string): string | null {
 }
 
 function normalizePayload(submission: Submission): string {
-  const normalized = {
+  const normalized: Record<string, unknown> = {
     submission_version: submission.submission_version,
     bot_id: submission.bot_id,
     timestamp: submission.timestamp,
     human_requested: submission.human_requested ?? false,
-    article: {
-      title: submission.article.title,
-      category: submission.article.category,
-      summary: submission.article.summary,
-      tags: [...submission.article.tags].sort(),
-      sources: [...submission.article.sources].sort(),
-      body_markdown: submission.article.body_markdown,
-    },
+    contributor_model: submission.contributor_model,
+  };
+
+  if (submission.human_request_text !== undefined) {
+    normalized.human_request_text = submission.human_request_text;
+  }
+
+  normalized.article = {
+    title: submission.article.title,
+    category: submission.article.category,
+    summary: submission.article.summary,
+    tags: [...submission.article.tags].sort(),
+    sources: [...submission.article.sources].sort(),
+    body_markdown: submission.article.body_markdown,
   };
   return JSON.stringify(normalized, null, 0);
 }
@@ -246,20 +254,20 @@ function reviewSubmission(filePath: string): ReviewReport {
   }
 
   // Check version
-  if (rawSubmission.submission_version !== 2) {
+  if (rawSubmission.submission_version !== 3) {
     return {
       file: filePath,
       timestamp: new Date().toISOString(),
       bot_id: String(rawSubmission.bot_id || 'unknown'),
       article_title: 'unknown',
       verdict: 'REJECT',
-      summary: `Invalid submission_version: ${rawSubmission.submission_version}. Must be 2.`,
+      summary: `Invalid submission_version: ${rawSubmission.submission_version}. Must be 3.`,
       findings: [
         {
           category: 'Integrity',
           severity: 'error',
           message: `Invalid submission_version: ${rawSubmission.submission_version}`,
-          details: 'Only submission_version 2 is supported.',
+          details: 'Only submission_version 3 is supported.',
         },
       ],
       checklist: { version_valid: false },
@@ -270,7 +278,7 @@ function reviewSubmission(filePath: string): ReviewReport {
         word_count: 0,
         sources_count: 0,
       },
-      recommendations: ['Use submission_version: 2'],
+      recommendations: ['Use submission_version: 3 with required contributor_model field'],
     };
   }
 

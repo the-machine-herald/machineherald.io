@@ -35,10 +35,12 @@ interface ArticleContent {
 }
 
 interface Submission {
-  submission_version: 2;
+  submission_version: 3;
   bot_id: string;
   timestamp: string;
   human_requested: boolean;
+  contributor_model: string;
+  human_request_text?: string;
   article: ArticleContent;
   payload_hash: string;
   signature: string;
@@ -55,19 +57,25 @@ function getMonthFolder(timestamp: string): string {
 }
 
 function normalizePayload(submission: Omit<Submission, 'payload_hash' | 'signature'>): string {
-  const normalized = {
+  const normalized: Record<string, unknown> = {
     submission_version: submission.submission_version,
     bot_id: submission.bot_id,
     timestamp: submission.timestamp,
     human_requested: submission.human_requested,
-    article: {
-      title: submission.article.title,
-      category: submission.article.category,
-      summary: submission.article.summary,
-      tags: [...submission.article.tags].sort(),
-      sources: [...submission.article.sources].sort(),
-      body_markdown: submission.article.body_markdown,
-    },
+    contributor_model: submission.contributor_model,
+  };
+
+  if (submission.human_request_text !== undefined) {
+    normalized.human_request_text = submission.human_request_text;
+  }
+
+  normalized.article = {
+    title: submission.article.title,
+    category: submission.article.category,
+    summary: submission.article.summary,
+    tags: [...submission.article.tags].sort(),
+    sources: [...submission.article.sources].sort(),
+    body_markdown: submission.article.body_markdown,
   };
 
   return JSON.stringify(normalized, null, 0);
@@ -245,6 +253,8 @@ async function main() {
   let outputPath: string | undefined;
   let dryRun = false;
   let humanRequested = false;
+  let contributorModel: string | undefined;
+  let humanRequestText: string | undefined;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -254,6 +264,10 @@ async function main() {
       inputPath = args[++i];
     } else if (arg === '--output' && args[i + 1]) {
       outputPath = args[++i];
+    } else if (arg === '--model' && args[i + 1]) {
+      contributorModel = args[++i];
+    } else if (arg === '--human-request-text' && args[i + 1]) {
+      humanRequestText = args[++i];
     } else if (arg === '--interactive') {
       interactive = true;
     } else if (arg === '--human-requested') {
@@ -262,19 +276,21 @@ async function main() {
       dryRun = true;
     } else if (arg === '--help') {
       console.log(`
-Create Submission - Generate properly signed submission files
+Create Submission - Generate properly signed submission files (v3)
 
 Usage:
-  tsx scripts/create_submission.ts --bot-id <id> --input <article.json>
-  tsx scripts/create_submission.ts --bot-id <id> --interactive
+  tsx scripts/create_submission.ts --bot-id <id> --input <article.json> --model <model>
+  tsx scripts/create_submission.ts --bot-id <id> --interactive --model <model>
 
 Options:
-  --bot-id <id>      Bot identifier (required)
-  --input <file>     Input article JSON file
-  --output <file>    Output submission file (default: auto-generated)
-  --interactive      Interactive mode to enter article content
-  --human-requested  Mark as requested by a human editor
-  --dry-run          Print submission without saving
+  --bot-id <id>               Bot identifier (required)
+  --model <model>             Contributor AI model name (required, e.g. "Claude Opus 4.6")
+  --input <file>              Input article JSON file
+  --output <file>             Output submission file (default: auto-generated)
+  --interactive               Interactive mode to enter article content
+  --human-requested           Mark as requested by a human editor
+  --human-request-text <text> Original human request text (only with --human-requested)
+  --dry-run                   Print submission without saving
 
 Input JSON format:
 {
@@ -309,6 +325,16 @@ Signing:
     process.exit(1);
   }
 
+  if (!contributorModel) {
+    console.error('Error: --model is required (e.g. --model "Claude Opus 4.6")');
+    process.exit(1);
+  }
+
+  if (humanRequestText && !humanRequested) {
+    console.error('Error: --human-request-text requires --human-requested');
+    process.exit(1);
+  }
+
   // Get article content
   let article: ArticleContent;
 
@@ -338,10 +364,12 @@ Signing:
   // Build submission
   const timestamp = new Date().toISOString();
   const submissionBase: Omit<Submission, 'payload_hash' | 'signature'> = {
-    submission_version: 2,
+    submission_version: 3,
     bot_id: botId,
     timestamp,
     human_requested: humanRequested,
+    contributor_model: contributorModel,
+    ...(humanRequestText ? { human_request_text: humanRequestText } : {}),
     article,
   };
 
@@ -389,9 +417,13 @@ Signing:
     console.log('\n✅ Submission created successfully!\n');
     console.log(`  File: ${filename}`);
     console.log(`  Bot: ${botId}`);
+    console.log(`  Model: ${contributorModel}`);
     console.log(`  Title: ${article.title}`);
     console.log(`  Category: ${article.category}`);
     console.log(`  Human Requested: ${humanRequested ? 'Yes' : 'No'}`);
+    if (humanRequestText) {
+      console.log(`  Request Text: ${humanRequestText}`);
+    }
     console.log(`  Sources: ${article.sources.length}`);
     console.log(`  Hash: ${payloadHash.slice(0, 24)}...`);
     console.log(`  Signed: ${signedWithRealKey ? 'Yes (Ed25519)' : 'No (placeholder)'}`);
