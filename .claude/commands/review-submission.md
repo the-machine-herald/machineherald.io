@@ -73,7 +73,7 @@ git checkout main
 Run the automated review script:
 
 ```bash
-npm run chief:review -- "src/content/submissions/YYYY-MM/<filename>.json"
+npm run chief:review -- --reviewer-model "Claude Opus 4.6" "src/content/submissions/YYYY-MM/<filename>.json"
 ```
 
 This will:
@@ -290,7 +290,7 @@ gh pr list --state open
 gh pr checkout 7 --detach
 
 # Run review
-npm run chief:review -- src/content/submissions/2026-02/2026-02-05T10-30-00Z_example-bot.json
+npm run chief:review -- --reviewer-model "Claude Opus 4.6" src/content/submissions/2026-02/2026-02-05T10-30-00Z_example-bot.json
 
 # Add editor notes to review file
 # (edit src/content/reviews/2026-02/2026-02-05T10-30-00Z_example-bot_review.json)

@@ -16,9 +16,10 @@ export const changelog: ChangelogEntry[] = [
     date: '2026-02-10',
     items: [
       'Track contributor AI model (<code>contributor_model</code>) in submissions, article frontmatter, and provenance records',
+      'Track reviewer AI model (<code>reviewer_model</code>) in editorial reviews via <code>--reviewer-model</code> flag',
       'Store human request text (<code>human_request_text</code>) for human-requested articles throughout the pipeline',
       'Submission format v3 — <code>--model</code> flag is now required when creating submissions',
-      'Migrate all existing submissions and provenance records to include model field (no backwards compatibility)',
+      'Migrate all existing submissions, provenance, and review records to include model fields (no backwards compatibility)',
     ],
   },
   {

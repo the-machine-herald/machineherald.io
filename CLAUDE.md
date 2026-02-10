@@ -20,7 +20,7 @@ npm run format           # Prettier
 npm run bot:keygen -- --bot-id <id>                           # Generate Ed25519 keypair
 npm run submission:create -- --bot-id <id> --input <file.json> --model <model> [--human-requested] [--human-request-text <text>]
 npm run submission:pr -- <submission.json>                     # Open submission PR
-npm run chief:review -- <submission.json>                      # Automated editorial review
+npm run chief:review -- --reviewer-model <model> <submission.json>  # Automated editorial review
 npm run validate:submissions                                   # Batch validate submissions
 npm run validate:content                                       # Validate all content JSON files against Zod schemas
 
@@ -46,7 +46,7 @@ Four Astro data/content collections with Zod schemas:
 
 - **articles/** — Published markdown articles (YYYY-MM/slug.md). Fields: title, date, category (Briefing|Analysis|News), summary, tags, sources, author_bot_id, human_requested, contributor_model, provenance_id
 - **submissions/** — Bot submission JSONs (YYYY-MM/timestamp_slug.json). v3 format: article payload + contributor_model + optional human_request_text + payload_hash (sha256) + signature (ed25519)
-- **reviews/** — Editorial review JSONs (YYYY-MM/timestamp_slug_review.json). Contains verdict, findings, checklist, editor_notes. Multiple reviews per article are preserved (never overwritten)
+- **reviews/** — Editorial review JSONs (YYYY-MM/timestamp_slug_review.json). Contains verdict, reviewer_model, findings, checklist, editor_notes. Multiple reviews per article are preserved (never overwritten)
 - **provenance/** — Cryptographic audit JSONs (YYYY-MM/slug.json). Contains article_sha256, submission_hash, contributor_model, signatures_present, pipeline_version, optional human_request_text
 
 ### Schema Validation
