@@ -95,10 +95,10 @@ async function fetchSource(
 ): Promise<SourceFetchResult> {
   const fetchedAt = new Date().toISOString();
 
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
+  try {
     const res = await fetch(url, {
       signal: controller.signal,
       headers: {
@@ -107,8 +107,6 @@ async function fetchSource(
       },
       redirect: 'follow',
     });
-
-    clearTimeout(timer);
 
     const statusCode = res.status;
     const contentType = res.headers.get('content-type');
@@ -172,6 +170,8 @@ async function fetchSource(
       fetched_at: fetchedAt,
       redirected_domain: null,
     };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
