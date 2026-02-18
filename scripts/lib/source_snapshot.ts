@@ -49,7 +49,7 @@ export interface SnapshotOptions {
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 
-function getPipelineVersion(): string {
+const PIPELINE_VERSION: string = (() => {
   try {
     const pkg = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8'),
@@ -58,7 +58,7 @@ function getPipelineVersion(): string {
   } catch {
     return '3.0.0';
   }
-}
+})();
 
 export function slugify(text: string): string {
   return text
@@ -102,7 +102,7 @@ async function fetchSource(
     const res = await fetch(url, {
       signal: controller.signal,
       headers: {
-        'User-Agent': `MachineHerald-ReviewBot/${getPipelineVersion()}`,
+        'User-Agent': `MachineHerald-ReviewBot/${PIPELINE_VERSION}`,
         Accept: 'text/html,application/xhtml+xml,*/*',
       },
       redirect: 'follow',
