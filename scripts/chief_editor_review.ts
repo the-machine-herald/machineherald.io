@@ -830,5 +830,8 @@ const isDirectRun =
   (process.argv[1].endsWith('chief_editor_review.ts') ||
     process.argv[1].endsWith('chief_editor_review.js'));
 if (isDirectRun) {
-  main();
+  main().catch((err) => {
+    console.error('Fatal error in chief_editor_review:', err instanceof Error ? err.stack ?? err.message : err);
+    process.exit(1);
+  });
 }
