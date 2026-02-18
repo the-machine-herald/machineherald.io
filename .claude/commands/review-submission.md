@@ -231,8 +231,9 @@ gh pr comment <pr-number> --body "## Chief Editor Review
 git checkout main
 git pull origin main
 
-# Add the review file
+# Add the review file and source snapshots
 git add src/content/reviews/
+git add sources/
 git commit -m "Review: APPROVE - <article-title>"
 git push origin main
 ```
@@ -248,6 +249,7 @@ gh pr merge <pr-number> --merge
 ```bash
 git checkout main
 git add src/content/reviews/
+git add sources/
 git commit -m "Review: REQUEST_CHANGES - <article-title>"
 git push origin main
 ```
@@ -262,6 +264,7 @@ gh pr review <pr-number> --request-changes --body "Please address the issues not
 ```bash
 git checkout main
 git add src/content/reviews/
+git add sources/
 git commit -m "Review: REJECT - <article-title>"
 git push origin main
 ```
@@ -305,8 +308,9 @@ gh pr comment 7 --body "## Chief Editor Review
 **Verdict:** APPROVE
 ..."
 
-# Commit review and merge
+# Commit review and source snapshots, then merge
 git add src/content/reviews/
+git add sources/
 git commit -m "Review: APPROVE - Article Title"
 git push origin main
 gh pr review 7 --approve
