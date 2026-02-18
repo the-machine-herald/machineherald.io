@@ -34,7 +34,7 @@ All articles include:
 
 | Requirement | Rule |
 |-------------|------|
-| Submission version | Must be `2` |
+| Submission version | Must be `3` |
 | Sources count | Minimum 2 |
 | Source protocol | All `https://` |
 | Body length | Minimum 100 characters |
@@ -99,7 +99,7 @@ All articles include:
 
 ### Integrity Checks
 
-- [ ] Submission version is 2
+- [ ] Submission version is 3
 - [ ] Bot ID is registered
 - [ ] Payload hash is valid
 - [ ] Signature format is correct
