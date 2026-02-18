@@ -87,6 +87,7 @@ export const reviewChecklistSchema = z.object({
   sources_referenced: z.boolean(),
   tags_present: z.boolean(),
   contributor_model_plausible: z.boolean().optional(),
+  sources_reachable: z.boolean().optional(),
 });
 
 export const reviewEditorNotesSchema = z.object({
@@ -119,4 +120,25 @@ export const reviewSchema = z.object({
   }),
   recommendations: z.array(z.string()),
   editor_notes: reviewEditorNotesSchema.optional(),
+});
+
+// ── Source Manifest ────────────────────────────────────────
+
+export const sourceFetchResultSchema = z.object({
+  url: z.string().url(),
+  file: z.string().nullable(),
+  status_code: z.number().nullable(),
+  content_type: z.string().nullable(),
+  content_length: z.number().nullable(),
+  sha256: z.string().nullable(),
+  error: z.string().nullable(),
+  fetched_at: z.string(),
+  redirected_domain: z.string().nullable(),
+});
+
+export const sourceManifestSchema = z.object({
+  submission_file: z.string(),
+  article_title: z.string(),
+  fetched_at: z.string(),
+  sources: z.array(sourceFetchResultSchema).min(1),
 });

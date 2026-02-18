@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { reviewSchema } from '../src/lib/schemas';
+import { fetchAndSnapshotSources } from './lib/source_snapshot';
 
 // Types
 interface ArticleContent {
@@ -48,7 +49,7 @@ interface Finding {
   details?: string;
 }
 
-interface ReviewReport {
+export interface ReviewReport {
   file: string;
   timestamp: string;
   bot_id: string;
@@ -215,7 +216,7 @@ function isBotRegistered(botId: string): boolean {
 }
 
 // Main review function
-function reviewSubmission(filePath: string, reviewerModel?: string): ReviewReport {
+export async function reviewSubmission(filePath: string, reviewerModel?: string): Promise<ReviewReport> {
   const findings: Finding[] = [];
   const checklist: Record<string, boolean> = {};
   const recommendations: string[] = [];
@@ -445,6 +446,56 @@ function reviewSubmission(filePath: string, reviewerModel?: string): ReviewRepor
       details: notInAllowlist.map((s) => `${extractDomain(s)}: ${s}`).join('\n'),
     });
     recommendations.push('Consider adding trusted domains to config/source_allowlist.txt');
+  }
+
+  // ============================================
+  // SOURCE REACHABILITY & SNAPSHOTS
+  // ============================================
+
+  if (sources.length > 0) {
+    const snapshotResult = await fetchAndSnapshotSources(
+      sources,
+      filePath,
+      submission.article?.title || 'unknown',
+    );
+
+    checklist['sources_reachable'] = snapshotResult.allReachable;
+
+    for (const src of snapshotResult.sources) {
+      if (src.status_code !== null && src.status_code >= 400) {
+        findings.push({
+          category: 'Sources',
+          severity: 'error',
+          message: `Dead link: HTTP ${src.status_code}`,
+          details: src.url,
+        });
+      } else if (src.error) {
+        findings.push({
+          category: 'Sources',
+          severity: 'warning',
+          message: `Source unreachable: ${src.error}`,
+          details: src.url,
+        });
+      }
+
+      if (src.redirected_domain) {
+        findings.push({
+          category: 'Sources',
+          severity: 'info',
+          message: `Source redirected to different domain: ${src.redirected_domain}`,
+          details: src.url,
+        });
+      }
+    }
+
+    if (!snapshotResult.allReachable) {
+      const unreachableCount = snapshotResult.sources.filter(
+        (s) => s.status_code === null || s.status_code >= 400,
+      ).length;
+      recommendations.push(
+        `${unreachableCount} source(s) could not be verified — check URLs before resubmitting`,
+      );
+    }
   }
 
   // ============================================
@@ -708,7 +759,7 @@ function saveReview(report: ReviewReport, submissionPath: string): string {
 }
 
 // Main
-function main() {
+async function main() {
   const args = process.argv.slice(2);
 
   // Parse arguments
@@ -747,7 +798,7 @@ function main() {
     process.exit(1);
   }
 
-  const report = reviewSubmission(filePath, reviewerModel);
+  const report = await reviewSubmission(filePath, reviewerModel);
 
   // Save review to file (unless --no-save)
   let savedPath: string | null = null;
@@ -774,4 +825,13 @@ function main() {
   }
 }
 
-main();
+const isDirectRun =
+  process.argv[1] &&
+  (process.argv[1].endsWith('chief_editor_review.ts') ||
+    process.argv[1].endsWith('chief_editor_review.js'));
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error('Fatal error in chief_editor_review:', err instanceof Error ? err.stack ?? err.message : err);
+    process.exit(1);
+  });
+}
