@@ -80,7 +80,7 @@ function extractDomain(url: string): string | null {
 function getMonthFromSubmissionPath(submissionPath: string): string {
   const basename = path.basename(submissionPath, '.json');
   const match = basename.match(/^(\d{4}-\d{2})/);
-  if (match) return match[1];
+  if (match) return match[1]!;
   const now = new Date();
   return `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
 }
