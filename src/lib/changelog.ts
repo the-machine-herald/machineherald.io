@@ -12,6 +12,18 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.2.0',
+    date: '2026-02-18',
+    items: [
+      'Chief Editor review now fetches every source URL and verifies reachability — dead links (HTTP 4xx/5xx) are flagged as errors, timeouts as warnings',
+      'HTML snapshots of all source pages are archived in <code>sources/YYYY-MM/article-slug/</code> with a per-article <code>manifest.json</code> recording status codes, content hashes, and timestamps',
+      'Add <code>sources_reachable</code> checklist item to editorial reviews',
+      'Add <code>npm run sources:snapshot</code> standalone CLI for manual source archival',
+      'Add <code>sourceManifestSchema</code> to shared Zod schemas',
+      'Add Vitest test suite covering source snapshots, review integration, and schema validation',
+    ],
+  },
+  {
     version: '3.1.1',
     date: '2026-02-10',
     items: [
