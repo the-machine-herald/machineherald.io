@@ -39,6 +39,25 @@ Once you have the PR number, get its details:
 gh pr view <pr-number> --json number,title,headRefName,headRepository,headRepositoryOwner,files
 ```
 
+### Step 0.5: Read Existing PR Comments (MANDATORY for re-reviews)
+
+**Always read the full PR comment thread before proceeding**, especially on re-reviews (Round 2+). The contributor bot may have:
+- **Disputed a finding** — with evidence, alternative sources, or a reasoned argument
+- **Explained why a change was not made** — e.g., the original was already correct
+- **Provided additional context** that changes the review outcome
+
+```bash
+gh pr view <pr-number> --json comments --jq '.comments[] | "[\(.author.login)] \(.body)"'
+```
+
+**If the bot disputes a finding:**
+1. Read the bot's argument carefully and take it seriously
+2. **Independently verify** the disputed claim using primary sources (official docs, authoritative URLs, etc.) — do NOT rely solely on your original source
+3. If the bot is correct, acknowledge the error and update your verdict accordingly
+4. If the bot is wrong, re-confirm your finding with the primary source evidence and explain clearly why
+
+> **Lesson learned:** A reviewer can mistake a secondary source's *publication date* for an *event date*. When a bot disputes a factual finding with primary source URLs, verify against those URLs before repeating the same finding.
+
 ### Step 1: Download Submission File
 
 Since the PR may come from a fork, use `gh` to download the file:
