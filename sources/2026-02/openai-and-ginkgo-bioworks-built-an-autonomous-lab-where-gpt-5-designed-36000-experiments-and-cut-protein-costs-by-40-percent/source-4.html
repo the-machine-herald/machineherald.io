@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML">
+  <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book#" >
+    <!--[if IE]><![endif]-->
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+<link rel="dns-prefetch" href="//d33xdlntwy0kbs.cloudfront.net" />
+<link rel="dns-prefetch" href="//www.google.com" />
+<link rel="dns-prefetch" href="//scholar.google.com" />
+<link rel="dns-prefetch" href="//www.googletagmanager.com" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="shortcut icon" href="https://www.biorxiv.org/sites/default/files/images/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="alternate" type="application/pdf" title="Full Text (PDF)" href="/content/10.64898/2026.02.05.703998v1.full.pdf" />
+<link rel="alternate" type="text/plain" title="Full Text (Plain)" href="/content/10.64898/2026.02.05.703998v1.full.txt" />
+<link rel="alternate" type="application/vnd.ms-powerpoint" title="Powerpoint" href="/content/10.64898/2026.02.05.703998v1.ppt" />
+<meta name="type" content="article" />
+<meta name="category" content="article" />
+<meta name="HW.identifier" content="/biorxiv/early/2026/02/05/2026.02.05.703998.atom" />
+<meta name="HW.pisa" content="biorxiv;2026.02.05.703998v1" />
+<meta name="DC.Format" content="text/html" />
+<meta name="DC.Language" content="en" />
+<meta name="DC.Title" content="Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis" />
+<meta name="DC.Identifier" content="10.64898/2026.02.05.703998" />
+<meta name="DC.Date" content="2026-02-05" />
+<meta name="DC.Publisher" content="Cold Spring Harbor Laboratory" />
+<meta name="DC.Rights" content="© 2026, Posted by openRxiv. This pre-print is available under a Creative Commons License (Attribution 4.0 International), CC BY 4.0, as described at http://creativecommons.org/licenses/by/4.0/" />
+<meta name="DC.AccessRights" content="restricted" />
+<meta name="DC.Description" content="We used an autonomous lab, comprising a large language model (LLM) and a fully automated cloud laboratory, to optimize the cost efficiency of cell-free protein synthesis (CFPS). By conducting iterative optimization, the LLM-driven autonomous lab was able to achieve a 40% reduction in the specific cost ($/g protein) of CFPS relative to the state of the art (SOTA). This cost reduction was accompanied by a 27% increase in protein production titer (g/L). Iterative experimental design, experiment execution, data capture and analysis, data interpretation, and new hypothesis generation were all handled by the LLM-driven autonomous lab. The interface between OpenAI’s GPT-5 LLM and Ginkgo Bioworks’ cloud laboratory incorporated built-in validation checks via a Pydantic schema to ensure that AI-designed experiments were properly specified. Experimental designs were translated into programmatic specification of multi-instrument biological workflows by Ginkgo’s Catalyst software and executed on Ginkgo’s Reconfigurable Automation Cart (RAC) laboratory automation platform, with human intervention largely limited to reagent and consumables preparation, loading and unloading. By integrating LLMs with programmatic control of a cloud lab, we demonstrate that an LLM-driven autonomous lab can successfully perform a real-world scientific task, highlighting the potential of AI-driven autonomous labs for scientific advancement.
+
+### Competing Interest Statement
+
+All authors are current or former employees of Ginkgo Bioworks, Inc. and OpenAI, who funded this work." />
+<meta name="DC.Contributor" content="Alexus A. Smith" />
+<meta name="DC.Contributor" content="Edmund L. Wong" />
+<meta name="DC.Contributor" content="Ronan C. Donovan" />
+<meta name="DC.Contributor" content="Brad A. Chapman" />
+<meta name="DC.Contributor" content="Ryan Harry" />
+<meta name="DC.Contributor" content="Pooyan Tirandazi" />
+<meta name="DC.Contributor" content="Paulina Kanigowska" />
+<meta name="DC.Contributor" content="Elizabeth A. Gendreau" />
+<meta name="DC.Contributor" content="Robert H. Dahl" />
+<meta name="DC.Contributor" content="Michal Jastrzebski" />
+<meta name="DC.Contributor" content="Jose E. Cortez" />
+<meta name="DC.Contributor" content="Christopher J. Bremner" />
+<meta name="DC.Contributor" content="José C. Morales Hemuda" />
+<meta name="DC.Contributor" content="James Dooner" />
+<meta name="DC.Contributor" content="Ian Graves" />
+<meta name="DC.Contributor" content="Rahul Karandikar" />
+<meta name="DC.Contributor" content="Christopher Lionetti" />
+<meta name="DC.Contributor" content="Kevin Christopher" />
+<meta name="DC.Contributor" content="Andrew L. Consiglio" />
+<meta name="DC.Contributor" content="Alyssa Tran" />
+<meta name="DC.Contributor" content="William McCusker" />
+<meta name="DC.Contributor" content="Duy X. Nguyen" />
+<meta name="DC.Contributor" content="Isis Botelho Nunes da Silva" />
+<meta name="DC.Contributor" content="Alvaro R. Bautista-Ayala" />
+<meta name="DC.Contributor" content="Monica P. McNerney" />
+<meta name="DC.Contributor" content="Sean Atkins" />
+<meta name="DC.Contributor" content="Michael McDuffie" />
+<meta name="DC.Contributor" content="Will Serber" />
+<meta name="DC.Contributor" content="Bradley P. Barber" />
+<meta name="DC.Contributor" content="Trinh Thanongsinh" />
+<meta name="DC.Contributor" content="Andrew Nesson" />
+<meta name="DC.Contributor" content="Bibek Lama" />
+<meta name="DC.Contributor" content="Brandon Nichols" />
+<meta name="DC.Contributor" content="Cameron LaFrance" />
+<meta name="DC.Contributor" content="Tenzing Nyima" />
+<meta name="DC.Contributor" content="Alicia Byrn" />
+<meta name="DC.Contributor" content="Rashard Thornhill" />
+<meta name="DC.Contributor" content="Bryan Cai" />
+<meta name="DC.Contributor" content="Lizvette Ayala-Valdez" />
+<meta name="DC.Contributor" content="Alycia Wong" />
+<meta name="DC.Contributor" content="Austin J. Che" />
+<meta name="DC.Contributor" content="Walter Thavarajah" />
+<meta name="DC.Contributor" content="Daniel Smith" />
+<meta name="DC.Contributor" content="Thomas F. Knight" />
+<meta name="DC.Contributor" content="David W. Borhani" />
+<meta name="DC.Contributor" content="Jerry Tworek" />
+<meta name="DC.Contributor" content="Mostafa Rohaninejad" />
+<meta name="DC.Contributor" content="Ahmed El-Kishky" />
+<meta name="DC.Contributor" content="Nathan C. Tedford" />
+<meta name="DC.Contributor" content="Tejal Patwardhan" />
+<meta name="DC.Contributor" content="Yunxin Joy Jiao" />
+<meta name="DC.Contributor" content="Reshma P. Shetty" />
+<meta name="article:published_time" content="2026-02-05" />
+<meta name="article:section" content="New Results" />
+<meta name="citation_title" content="Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis" />
+<meta name="citation_abstract" lang="en" content="&lt;p&gt;We used an autonomous lab, comprising a large language model (LLM) and a fully automated cloud laboratory, to optimize the cost efficiency of cell-free protein synthesis (CFPS). By conducting iterative optimization, the LLM-driven autonomous lab was able to achieve a 40% reduction in the specific cost ($/g protein) of CFPS relative to the state of the art (SOTA). This cost reduction was accompanied by a 27% increase in protein production titer (g/L). Iterative experimental design, experiment execution, data capture and analysis, data interpretation, and new hypothesis generation were all handled by the LLM-driven autonomous lab. The interface between OpenAI9s GPT-5 LLM and Ginkgo Bioworks9 cloud laboratory incorporated built-in validation checks via a Pydantic schema to ensure that AI-designed experiments were properly specified. Experimental designs were translated into programmatic specification of multi-instrument biological workflows by Ginkgo9s Catalyst software and executed on Ginkgo9s Reconfigurable Automation Cart (RAC) laboratory automation platform, with human intervention largely limited to reagent and consumables preparation, loading and unloading. By integrating LLMs with programmatic control of a cloud lab, we demonstrate that an LLM-driven autonomous lab can successfully perform a real-world scientific task, highlighting the potential of AI-driven autonomous labs for scientific advancement.&lt;/p&gt;" />
+<meta name="citation_journal_title" content="bioRxiv" />
+<meta name="citation_publisher" content="Cold Spring Harbor Laboratory" />
+<meta name="citation_publication_date" content="2026/01/01" />
+<meta name="citation_mjid" content="biorxiv;2026.02.05.703998v1" />
+<meta name="citation_id" content="2026.02.05.703998v1" />
+<meta name="citation_public_url" content="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1" />
+<meta name="citation_abstract_html_url" content="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1.abstract" />
+<meta name="citation_full_html_url" content="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1.full" />
+<meta name="citation_pdf_url" content="https://www.biorxiv.org/content/biorxiv/early/2026/02/05/2026.02.05.703998.full.pdf" />
+<meta name="citation_issn" content="2692-8205" />
+<meta name="citation_doi" content="10.64898/2026.02.05.703998" />
+<meta name="citation_num_pages" content="25" />
+<meta name="citation_article_type" content="Article" />
+<meta name="citation_section" content="New Results" />
+<meta name="citation_firstpage" content="2026.02.05.703998" />
+<meta name="citation_author" content="Alexus A. Smith" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Edmund L. Wong" />
+<meta name="citation_author_institution" content="OpenAI" />
+<meta name="citation_author" content="Ronan C. Donovan" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Brad A. Chapman" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Ryan Harry" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Pooyan Tirandazi" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Paulina Kanigowska" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Elizabeth A. Gendreau" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Robert H. Dahl" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Michal Jastrzebski" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Jose E. Cortez" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Christopher J. Bremner" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="José C. Morales Hemuda" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="James Dooner" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Ian Graves" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Rahul Karandikar" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Christopher Lionetti" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Kevin Christopher" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Andrew L. Consiglio" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Alyssa Tran" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="William McCusker" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Duy X. Nguyen" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Isis Botelho Nunes da Silva" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Alvaro R. Bautista-Ayala" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Monica P. McNerney" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Sean Atkins" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Michael McDuffie" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Will Serber" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Bradley P. Barber" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Trinh Thanongsinh" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Andrew Nesson" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Bibek Lama" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Brandon Nichols" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Cameron LaFrance" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Tenzing Nyima" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Alicia Byrn" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Rashard Thornhill" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Bryan Cai" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Lizvette Ayala-Valdez" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Alycia Wong" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Austin J. Che" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Walter Thavarajah" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Daniel Smith" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Thomas F. Knight" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="David W. Borhani" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Jerry Tworek" />
+<meta name="citation_author_institution" content="OpenAI" />
+<meta name="citation_author" content="Mostafa Rohaninejad" />
+<meta name="citation_author_institution" content="OpenAI" />
+<meta name="citation_author" content="Ahmed El-Kishky" />
+<meta name="citation_author_institution" content="OpenAI" />
+<meta name="citation_author" content="Nathan C. Tedford" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author" content="Tejal Patwardhan" />
+<meta name="citation_author_institution" content="OpenAI" />
+<meta name="citation_author" content="Yunxin Joy Jiao" />
+<meta name="citation_author_institution" content="OpenAI" />
+<meta name="citation_author_email" content="yjiao{at}openai.com" />
+<meta name="citation_author_email" content="reshma{at}ginkgobioworks.com" />
+<meta name="citation_author" content="Reshma P. Shetty" />
+<meta name="citation_author_institution" content="Ginkgo Bioworks, Inc." />
+<meta name="citation_author_email" content="yjiao{at}openai.com" />
+<meta name="citation_author_email" content="reshma{at}ginkgobioworks.com" />
+<meta name="citation_reference" content="Boiko, D. A., MacKnight, R., Kline, B. &amp; Gomes, G. Autonomous chemical research with large language models. Nature 624, 570–578 (2023)." />
+<meta name="citation_reference" content="Chang, J. et al. Efficient Closed-loop Maximization of Carbon Nanotube Growth Rate using Bayesian Optimization. Sci. Rep. 10, 9040 (2020)." />
+<meta name="citation_reference" content="Kusne, A. G. et al. On-the-fly closed-loop materials discovery via Bayesian active learning. Nat. Commun. 11, 5966 (2020)." />
+<meta name="citation_reference" content="MacLeod, B. P. et al. Self-driving laboratory for accelerated discovery of thin-film materials. Sci. Adv. 6, eaaz8867 (2020)." />
+<meta name="citation_reference" content="Tom, G. et al. Self-Driving Laboratories for Chemistry and Materials Science. Chem. Rev. 124, 9633–9732 (2024)." />
+<meta name="citation_reference" content="Liang, H. et al. Real-time experiment-theory closed-loop interaction for autonomous materials science. Sci. Adv. 11, eadu7426 (2025)." />
+<meta name="citation_reference" content="HamediRad, M. et al. Towards a fully automated algorithm driven platform for biosystems design. Nat. Commun. 10, 5150 (2019)." />
+<meta name="citation_reference" content="Zhang, C. et al. An AI-Native Biofoundry for Autonomous Enzyme Engineering: Integrating Active Learning with Automated Experimentation. Preprint at 10.64898/2026.02.01.703093 (2026)." />
+<meta name="citation_reference" content="Kortemme, T. De novo protein design-From new structures to programmable functions. Cell 187, 526–544 (2024)." />
+<meta name="citation_reference" content="Dopp, B. J. L., Tamiev, D. D. &amp; Reuel, N. F. Cell-free supplement mixtures: Elucidating the history and biochemical utility of additives used to support in vitro protein synthesis in E. coli extract. Biotechnol. Adv. 37, 246–258 (2019)." />
+<meta name="citation_reference" content="Kathirvel, I. &amp; Gayathri Ganesan, N. Computational Strategies to Enhance Cell-Free Protein Synthesis Efficiency. BioMedInformatics 4, 2022–2042 (2024)." />
+<meta name="citation_reference" content="Khalil, M. M. et al. An AI-driven workflow for the accelerated optimization of cell-free protein synthesis. iScience 28, 113599 (2025)." />
+<meta name="citation_reference" content="Jun, J.-S., Hong, S., Park, J.-H., Shin, J. &amp; Lee, D.-H. Automated and Programmable Cell-Free Systems for Scalable Synthetic Biology with a Focus on Biofoundry Integration. J. Microbiol. Biotechnol. 35, e2507019 (2025)." />
+<meta name="citation_reference" content="Ryabova, L. A., Desplancq, D., Spirin, A. S. &amp; Plückthun, A. Functional antibody production using cell-free translation: effects of protein disulfide isomerase and chaperones. Nat. Biotechnol. 15, 79–84 (1997)." />
+<meta name="citation_reference" content="Frey, S., Haslbeck, M., Hainzl, O. &amp; Buchner, J. Synthesis and characterization of a functional intact IgG in a prokaryotic cell-free expression system. Biol. Chem. 389, 37–45 (2008)." />
+<meta name="citation_reference" content="Oh, I.-S., Lee, J.-C., Lee, M., Chung, J. &amp; Kim, D.-M. Cell-free production of functional antibody fragments. Bioprocess Biosyst. Eng. 33, 127–132 (2010)." />
+<meta name="citation_reference" content="Pandi, A. et al. Cell-free biosynthesis combined with deep learning accelerates de novo-development of antimicrobial peptides. Nat. Commun. 14, 7197 (2023)." />
+<meta name="citation_reference" content="Thornton, E. L. et al. Applications of cell free protein synthesis in protein design. Protein Sci. Publ. Protein Soc. 33, e5148 (2024)." />
+<meta name="citation_reference" content="Thornton, E. L., Boyle, J. T., Laohakunakorn, N. &amp; Regan, L. Cell-Free Protein Synthesis as a Method to Rapidly Screen Machine Learning-Generated Protease Variants. ACS Synth. Biol. 14, 1710–1718 (2025)." />
+<meta name="citation_reference" content="Matsuda, T. et al. Cell-free synthesis of functional antibody fragments to provide a structural basis for antibody–antigen interaction. PLOS ONE 13, e0193158 (2018)." />
+<meta name="citation_reference" content="Zimmerman, E. S. et al. Production of site-specific antibody-drug conjugates using optimized non-natural amino acids in a cell-free expression system. Bioconjug. Chem. 25, 351–361 (2014)." />
+<meta name="citation_reference" content="Yuan, R. et al. The Anti-FRα Antibody–Drug Conjugate Luveltamab Tazevibulin Demonstrates Efficacy in Non–Small Cell Lung Cancer Preclinical Models and Induces Immunogenic Cell Death. Mol. Cancer Ther. 24, 1428–1441 (2025)." />
+<meta name="citation_reference" content="Kim, D. &amp; Swartz, J. R. Efficient production of a bioactive, multiple disulfide-bonded protein using modified extracts of Escherichia coli. Biotechnol. Bioeng. 85, 122–129 (2004)." />
+<meta name="citation_reference" content="Goerke, A. R. &amp; Swartz, J. R. Development of cell-free protein synthesis platforms for disulfide bonded proteins. Biotechnol. Bioeng. 99, 351–367 (2008)." />
+<meta name="citation_reference" content="Kightlinger, W. et al. A cell-free biosynthesis platform for modular construction of protein glycosylation pathways. Nat. Commun. 10, 5404 (2019)." />
+<meta name="citation_reference" content="Wong, D. A. et al. Characterizing and engineering post-translational modifications with high-throughput cell-free expression. Nat. Commun. 16, 7215 (2025)." />
+<meta name="citation_reference" content="Oza, J. P. et al. Robust production of recombinant phosphoproteins using cell-free protein synthesis. Nat. Commun. 6, 8168 (2015)." />
+<meta name="citation_reference" content="Singh-Blom, A., Hughes, R. A. &amp; Ellington, A. D. An amino acid depleted cell-free protein synthesis system for the incorporation of non-canonical amino acid analogs into proteins. J. Biotechnol. 178, 12–22 (2014)." />
+<meta name="citation_reference" content="Yanagisawa, T. et al. Multiple site-specific installations of Nε-monomethyl-L-lysine into histone proteins by cell-based and cell-free protein synthesis. Chembiochem Eur. J. Chem. Biol. 15, 1830–1838 (2014)." />
+<meta name="citation_reference" content="Martin, R. W. et al. Cell-free protein synthesis from genomically recoded bacteria enables multisite incorporation of noncanonical amino acids. Nat. Commun. 9, 1203 (2018)." />
+<meta name="citation_reference" content="Seki, E., Yanagisawa, T. &amp; Yokoyama, S. Cell-Free Protein Synthesis for Multiple Site-Specific Incorporation of Noncanonical Amino Acids Using Cell Extracts from RF-1 Deletion E. coli Strains. Methods Mol. Biol. Clifton NJ 1728, 49–65 (2018)." />
+<meta name="citation_reference" content="Des Soye, B. J., Gerbasi, V. R., Thomas, P. M., Kelleher, N. L. &amp; Jewett, M. C. A Highly Productive, One-Pot Cell-Free Protein Synthesis Platform Based on Genomically Recoded Escherichia coli. Cell Chem. Biol. 26, 1743-1754.e9 (2019)." />
+<meta name="citation_reference" content="Jewett, M. C. &amp; Swartz, J. R. Mimicking the Escherichia coli cytoplasmic environment activates long-lived and efficient cell-free protein synthesis. Biotechnol. Bioeng. 86, 19–26 (2004)." />
+<meta name="citation_reference" content="Calhoun, K. A. &amp; Swartz, J. R. Energizing cell-free protein synthesis with glucose metabolism. Biotechnol. Bioeng. 90, 606–613 (2005)." />
+<meta name="citation_reference" content="Caschera, F. et al. Coping with complexity: machine learning optimization of cell-free protein synthesis. Biotechnol. Bioeng. 108, 2218–2228 (2011)." />
+<meta name="citation_reference" content="Kim, H.-C., Kim, T.-W. &amp; Kim, D.-M. Prolonged production of proteins in a cell-free protein synthesis system using polymeric carbohydrates as an energy source. Process Biochem. 46, 1366–1369 (2011)." />
+<meta name="citation_reference" content="Cai, Q. et al. A simplified and robust protocol for immunoglobulin expression in Escherichia coli cell-free protein synthesis systems. Biotechnol. Prog. 31, 823–831 (2015)." />
+<meta name="citation_reference" content="Caschera, F. et al. High-Throughput Optimization Cycle of a Cell-Free Ribosome Assembly and Protein Synthesis System. ACS Synth. Biol. 7, 2841–2853 (2018)." />
+<meta name="citation_reference" content="Borkowski, O. et al. Large scale active-learning-guided exploration for in vitro protein production optimization. Nat. Commun. 11, 1872 (2020)." />
+<meta name="citation_reference" content="Zhu, J. et al. AI-driven high-throughput droplet screening of cell-free gene expression. Nat. Commun. 16, 2720 (2025)." />
+<meta name="citation_reference" content="Singh, A. et al. OpenAI GPT-5 System Card. Preprint at 10.48550/arXiv.2601.03267 (2025)." />
+<meta name="citation_reference" content="Olsen, M. L. et al. Design-driven optimization of low-cost reagent formulations for reproducible and high-yielding cell-free gene expression. Preprint at 10.1101/2025.08.01.668204 (2025)." />
+<meta name="citation_reference" content="Voloshin, A. M. &amp; Swartz, J. R. Efficient and scalable method for scaling up cell free protein synthesis in batch mode. Biotechnol. Bioeng. 91, 516–521 (2005)." />
+<meta name="citation_reference" content="Introducing ChatGPT agent: bridging research and action. https://openai.com/index/introducing-chatgpt-agent/." />
+<meta name="citation_reference" content="NEBExpress® Cell-free E. coli Protein Synthesis System. https://www.neb.com/en-us/products/e5360-nebexpress-cell-free-ecoli-protein-synthesis-system." />
+<meta name="citation_reference" content="Dauparas, J. et al. Robust deep learning-based protein sequence design using ProteinMPNN. Science 378, 49–56 (2022)." />
+<meta name="citation_reference" content="Watson, J. L. et al. De novo design of protein structure and function with RFdiffusion. Nature 620, 1089–1100 (2023)." />
+<meta name="citation_reference" content="Zambaldi, V. et al. De novo design of high-affinity protein binders with AlphaProteo. Preprint at 10.48550/arXiv.2409.08022 (2024)." />
+<meta name="citation_reference" content="Butcher, J. et al. De novo Design of All-atom Biomolecular Interactions with RFdiffusion3. Preprint at 10.1101/2025.09.18.676967 (2025)." />
+<meta name="citation_reference" content="Stark, H. et al. BoltzGen: Toward Universal Binder Design. Preprint at 10.1101/2025.11.20.689494 (2025)." />
+<meta name="citation_reference" content="Cavanagh, P. E. et al. Computational design of conformation-biasing mutations to alter protein functions. Science eadv7953 (2026) doi:10.1126/science.adv7953." />
+<meta name="citation_reference" content="Kuhn, T. S. &amp; Hacking, I. The Structure of Scientific Revolutions. (The University of Chicago Press, Chicago ; London, 2012)." />
+<meta name="twitter:title" content="Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis" />
+<meta name="twitter:site" content="{at}biorxivpreprint" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="https://www.biorxiv.org/sites/default/files/images/biorxiv_logo_homepage7-5-small.png" />
+<meta name="twitter:description" content="We used an autonomous lab, comprising a large language model (LLM) and a fully automated cloud laboratory, to optimize the cost efficiency of cell-free protein synthesis (CFPS). By conducting iterative optimization, the LLM-driven autonomous lab was able to achieve a 40% reduction in the specific cost ($/g protein) of CFPS relative to the state of the art (SOTA). This cost reduction was accompanied by a 27% increase in protein production titer (g/L). Iterative experimental design, experiment execution, data capture and analysis, data interpretation, and new hypothesis generation were all handled by the LLM-driven autonomous lab. The interface between OpenAI’s GPT-5 LLM and Ginkgo Bioworks’ cloud laboratory incorporated built-in validation checks via a Pydantic schema to ensure that AI-designed experiments were properly specified. Experimental designs were translated into programmatic specification of multi-instrument biological workflows by Ginkgo’s Catalyst software and executed on Ginkgo’s Reconfigurable Automation Cart (RAC) laboratory automation platform, with human intervention largely limited to reagent and consumables preparation, loading and unloading. By integrating LLMs with programmatic control of a cloud lab, we demonstrate that an LLM-driven autonomous lab can successfully perform a real-world scientific task, highlighting the potential of AI-driven autonomous labs for scientific advancement.
+
+### Competing Interest Statement
+
+All authors are current or former employees of Ginkgo Bioworks, Inc. and OpenAI, who funded this work." />
+<meta name="og-title" property="og:title" content="Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis" />
+<meta name="og-url" property="og:url" content="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1" />
+<meta name="og-site-name" property="og:site_name" content="bioRxiv" />
+<meta name="og-description" property="og:description" content="We used an autonomous lab, comprising a large language model (LLM) and a fully automated cloud laboratory, to optimize the cost efficiency of cell-free protein synthesis (CFPS). By conducting iterative optimization, the LLM-driven autonomous lab was able to achieve a 40% reduction in the specific cost ($/g protein) of CFPS relative to the state of the art (SOTA). This cost reduction was accompanied by a 27% increase in protein production titer (g/L). Iterative experimental design, experiment execution, data capture and analysis, data interpretation, and new hypothesis generation were all handled by the LLM-driven autonomous lab. The interface between OpenAI’s GPT-5 LLM and Ginkgo Bioworks’ cloud laboratory incorporated built-in validation checks via a Pydantic schema to ensure that AI-designed experiments were properly specified. Experimental designs were translated into programmatic specification of multi-instrument biological workflows by Ginkgo’s Catalyst software and executed on Ginkgo’s Reconfigurable Automation Cart (RAC) laboratory automation platform, with human intervention largely limited to reagent and consumables preparation, loading and unloading. By integrating LLMs with programmatic control of a cloud lab, we demonstrate that an LLM-driven autonomous lab can successfully perform a real-world scientific task, highlighting the potential of AI-driven autonomous labs for scientific advancement.
+
+### Competing Interest Statement
+
+All authors are current or former employees of Ginkgo Bioworks, Inc. and OpenAI, who funded this work." />
+<meta name="og-type" property="og:type" content="article" />
+<meta name="og-image" property="og:image" content="https://www.biorxiv.org/sites/default/files/images/biorxiv_logo_homepage7-5-small.png" />
+<meta name="citation_date" content="2026-02-05" />
+<meta name="description" content="bioRxiv - the preprint server for biology, operated by openRxiv, a nonprofit organization dedicated to advancing scientific communication" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1" />
+<link rel="shortlink" href="https://www.biorxiv.org/node/5219652" />
+    <title>Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis | bioRxiv</title>  
+    <link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__DcKr3CumsZTU8f2X6BlpTbZkTl0a4ktIvtu7FpBmIVw__EcDdsp8eNwa9scAkRU0vjeqETS4kqcUO80lHfIXFcls__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__Sjm8qRC6pDZnJVeNrkx67-ZH1Mte_Ys5jCfEFFU1muc__r6-n363p7S972yCeOZaxDruAzBGzgr4Ie4Ci5dXnv0k__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<style type="text/css" media="all">
+/* <![CDATA[ */
+.panels-flexible-new .panels-flexible-region{padding:0}.panels-flexible-new .panels-flexible-region-inside{padding-right:.5em;padding-left:.5em}.panels-flexible-new .panels-flexible-region-inside-first{padding-left:0}.panels-flexible-new .panels-flexible-region-inside-last{padding-right:0}.panels-flexible-new .panels-flexible-column{padding:0}.panels-flexible-new .panels-flexible-column-inside{padding-right:.5em;padding-left:.5em}.panels-flexible-new .panels-flexible-column-inside-first{padding-left:0}.panels-flexible-new .panels-flexible-column-inside-last{padding-right:0}.panels-flexible-new .panels-flexible-row{padding:0 0 .5em;margin:0}.panels-flexible-new .panels-flexible-row-last{padding-bottom:0}.panels-flexible-column-new-main{float:left;width:99.0000%}.panels-flexible-new-inside{padding-right:0}.panels-flexible-new{width:auto}.panels-flexible-region-new-center{float:left;width:99.0000%}.panels-flexible-row-new-main-row-inside{padding-right:0}
+/* ]]> */
+</style>
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__PWuQ_RYRTJ4BLEKsbWQeHysPg0gOQ3571ruQa_rXvAo__YSSQV2ikPcFdZzQTgMJYRqFNRVKLBho-5sYN56e5oms__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<style type="text/css" media="all">
+/* <![CDATA[ */
+#sliding-popup.sliding-popup-bottom,#sliding-popup.sliding-popup-bottom .eu-cookie-withdraw-banner,.eu-cookie-withdraw-tab{background:gray}#sliding-popup.sliding-popup-bottom.eu-cookie-withdraw-wrapper{background:transparent}#sliding-popup .popup-content #popup-text h1,#sliding-popup .popup-content #popup-text h2,#sliding-popup .popup-content #popup-text h3,#sliding-popup .popup-content #popup-text p,.eu-cookie-compliance-secondary-button,.eu-cookie-withdraw-tab{color:#fff !important}.eu-cookie-withdraw-tab{border-color:#fff}.eu-cookie-compliance-more-button{color:#fff !important}
+/* ]]> */
+</style>
+
+<!--[if lte IE 7]>
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__ElJr3PIJEvw3qLXc1cnYiLj2G4KgDPSXFOfm6Phf8hw__JdWGm15cDWjsK6KrFlQVXQix9YgNeYysf22XZHj-Y-c__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<![endif]-->
+<link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__Wnlyen9qEpwh_Qaf9okEu4QdVGM0BDothxeqA6Nbvo8__V5ELGUNlvrQNy0DawYpgoJkHNarLIFjzheVeu7ifICQ__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__XoYtZTzyBQLWDVCs-yXY3muUN5eu3Ymut4hKt1M4pRI__igagZiGB2PktJMjUpZ2u3tnc56saoUGIrD5N0KSRmI4__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+
+<!--[if (lt IE 9)&(!IEMobile)]>
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__XH6bpcI0f2dImc-p674DLCZtWBGb-QwxJK1YexVGtno__vUceGprdo5nIhV6DH93X7fI3r8RcTJbChbas9TQXeW4__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<![endif]-->
+
+<!--[if gte IE 9]><!-->
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__2WBMox6sOrN42ss5lCnH7WWVRdFdJCxtTKnQJYRwTE4__yqNvNYLvMpjy3ffuJrjjm9uW2i-Me1c23KLYuWHaqio__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<!--<![endif]-->
+<link type="text/css" rel="stylesheet" href="https://www.biorxiv.org/sites/default/files/advagg_css/css__0HQkWfhSgkhn_2_JjAKk1dZ6C7QTXcWGzGImDBzZ13A__E0Tx0ykGwSvbSa_sKCrkD0RCA6q_OJfnjP8zcxUKd_I__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://d33xdlntwy0kbs.cloudfront.net/cshl_custom.css" media="all" />
+    <script type="text/javascript" src="https://www.biorxiv.org/sites/default/files/advagg_js/js__BKYqkKToQ7EjirB7eIdMEH5521EU3da9IpoOs8Ex2XI__aSjVoX8giBmLhN2EbCgIGQJNu89Mh5aVu1LvI_gkJ7Y__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
+<script type="text/javascript" src="https://www.biorxiv.org/sites/default/files/advagg_js/js__cTu5xPrxXhjVN5aAnPJMuPpBY19xTkrTcv2IlQCNS94___uvhlaeuTviY3FooGXNBiD20qg4xVJ3psaJdYvoNrts__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.js"></script>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en&amp;render=explicit&amp;onload=drupalRecaptchaOnload"></script>
+<script type="text/javascript" src="https://www.biorxiv.org/sites/default/files/advagg_js/js__hJ61A6FOIKrClSkK8vhMwWw-czkYqaxpHHKxgtP3PZ8__rgKQC1xoP6eMHrd3JXlWKw7yfJJBlnjbaC7S6Mjuqy0__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.js"></script>
+<script type="text/javascript" async="async" src="https://scholar.google.com/scholar_js/casa.js"></script>
+<script type="text/javascript" async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RZD586MC3Q"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+/*!
+ * yepnope1.5.4
+ * (c) WTFPL, GPLv2
+ */
+(function(a,b,c){function d(a){return"[object Function]"==o.call(a)}function e(a){return"string"==typeof a}function f(){}function g(a){return!a||"loaded"==a||"complete"==a||"uninitialized"==a}function h(){var a=p.shift();q=1,a?a.t?m(function(){("c"==a.t?B.injectCss:B.injectJs)(a.s,0,a.a,a.x,a.e,1)},0):(a(),h()):q=0}function i(a,c,d,e,f,i,j){function k(b){if(!o&&g(l.readyState)&&(u.r=o=1,!q&&h(),l.onload=l.onreadystatechange=null,b)){"img"!=a&&m(function(){t.removeChild(l)},50);for(var d in y[c])y[c].hasOwnProperty(d)&&y[c][d].onload()}}var j=j||B.errorTimeout,l=b.createElement(a),o=0,r=0,u={t:d,s:c,e:f,a:i,x:j};1===y[c]&&(r=1,y[c]=[]),"object"==a?l.data=c:(l.src=c,l.type=a),l.width=l.height="0",l.onerror=l.onload=l.onreadystatechange=function(){k.call(this,r)},p.splice(e,0,u),"img"!=a&&(r||2===y[c]?(t.insertBefore(l,s?null:n),m(k,j)):y[c].push(l))}function j(a,b,c,d,f){return q=0,b=b||"j",e(a)?i("c"==b?v:u,a,b,this.i++,c,d,f):(p.splice(this.i++,0,a),1==p.length&&h()),this}function k(){var a=B;return a.loader={load:j,i:0},a}var l=b.documentElement,m=a.setTimeout,n=b.getElementsByTagName("script")[0],o={}.toString,p=[],q=0,r="MozAppearance"in l.style,s=r&&!!b.createRange().compareNode,t=s?l:n.parentNode,l=a.opera&&"[object Opera]"==o.call(a.opera),l=!!b.attachEvent&&!l,u=r?"object":l?"script":"img",v=l?"script":u,w=Array.isArray||function(a){return"[object Array]"==o.call(a)},x=[],y={},z={timeout:function(a,b){return b.length&&(a.timeout=b[0]),a}},A,B;B=function(a){function b(a){var a=a.split("!"),b=x.length,c=a.pop(),d=a.length,c={url:c,origUrl:c,prefixes:a},e,f,g;for(f=0;f<d;f++)g=a[f].split("="),(e=z[g.shift()])&&(c=e(c,g));for(f=0;f<b;f++)c=x[f](c);return c}function g(a,e,f,g,h){var i=b(a),j=i.autoCallback;i.url.split(".").pop().split("?").shift(),i.bypass||(e&&(e=d(e)?e:e[a]||e[g]||e[a.split("/").pop().split("?")[0]]),i.instead?i.instead(a,e,f,g,h):(y[i.url]?i.noexec=!0:y[i.url]=1,f.load(i.url,i.forceCSS||!i.forceJS&&"css"==i.url.split(".").pop().split("?").shift()?"c":c,i.noexec,i.attrs,i.timeout),(d(e)||d(j))&&f.load(function(){k(),e&&e(i.origUrl,h,g),j&&j(i.origUrl,h,g),y[i.url]=2})))}function h(a,b){function c(a,c){if(a){if(e(a))c||(j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}),g(a,j,b,0,h);else if(Object(a)===a)for(n in m=function(){var b=0,c;for(c in a)a.hasOwnProperty(c)&&b++;return b}(),a)a.hasOwnProperty(n)&&(!c&&!--m&&(d(j)?j=function(){var a=[].slice.call(arguments);k.apply(this,a),l()}:j[n]=function(a){return function(){var b=[].slice.call(arguments);a&&a.apply(this,b),l()}}(k[n])),g(a[n],j,b,n,h))}else!c&&l()}var h=!!a.test,i=a.load||a.both,j=a.callback||f,k=j,l=a.complete||f,m,n;c(h?a.yep:a.nope,!!i),i&&c(i)}var i,j,l=this.yepnope.loader;if(e(a))g(a,0,l,0);else if(w(a))for(i=0;i<a.length;i++)j=a[i],e(j)?g(j,0,l,0):w(j)?B(j):Object(j)===j&&h(j,l);else Object(a)===a&&h(a,l)},B.addPrefix=function(a,b){z[a]=b},B.addFilter=function(a){x.push(a)},B.errorTimeout=1e4,null==b.readyState&&b.addEventListener&&(b.readyState="loading",b.addEventListener("DOMContentLoaded",A=function(){b.removeEventListener("DOMContentLoaded",A,0),b.readyState="complete"},0)),a.yepnope=k(),a.yepnope.executeStack=h,a.yepnope.injectJs=function(a,c,d,e,i,j){var k=b.createElement("script"),l,o,e=e||B.errorTimeout;k.src=a;for(o in d)k.setAttribute(o,d[o]);c=j?h:c||f,k.onreadystatechange=k.onload=function(){!l&&g(k.readyState)&&(l=1,c(),k.onload=k.onreadystatechange=null)},m(function(){l||(l=1,c(1))},e),i?k.onload():n.parentNode.insertBefore(k,n)},a.yepnope.injectCss=function(a,c,d,e,g,i){var e=b.createElement("link"),j,c=i?h:c||f;e.href=a,e.rel="stylesheet",e.type="text/css";for(j in d)e.setAttribute(j,d[j]);g||(n.parentNode.insertBefore(e,n),m(c,0))}})(this,document);
+
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+yepnope({
+  test: Modernizr.matchmedia,
+  nope: '/sites/all/libraries/media-match/media.match.min.js'
+});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var _prum=[['id', '612e3d94173350001100005d'], ['mark', 'firstbyte',
+      (new Date()).getTime()]]; (function() {
+      var s=document.getElementsByTagName('script')[0],
+      p=document.createElement('script');
+      p.async='async'; p.src='//rum-static.pingdom.net/prum.min.js';s.parentNode.insertBefore(p,s);})();
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+if(typeof window.MathJax === "undefined") window.MathJax = { menuSettings: { zoom: "Click" } };
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments)};gtag("js", new Date());gtag("set", "developer_id.dMDhkMT", true);gtag("config", "G-RZD586MC3Q", {"groups":"default","anonymize_ip":true});
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings,{"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"jcore_1","theme_token":"GKmNqeQIR6Wyu8Ykk9YAQukYJ_s6tIT1oEhPykFMLRA"},"colorbox":{"opacity":"0.85","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"highwire":{"nid":"5219652","apath":"\/biorxiv\/early\/2026\/02\/05\/2026.02.05.703998.atom","pisa":"biorxiv;2026.02.05.703998v1","ac":{"\/biorxiv\/early\/2026\/02\/05\/2026.02.05.703998.atom":{"access":{"full":true},"pisa_id":"","apath":"\/biorxiv\/early\/2026\/02\/05\/2026.02.05.703998.atom","jcode":"biorxiv"},"biorxiv;2026.02.05.703998v1":{"access":{"full":true},"pisa_id":"biorxiv;2026.02.05.703998v1","apath":"","jcode":"biorxiv"}},"processed":["highwire_math"],"markup":[{"requested":"abstract","variant":"abstract","view":"abstract","pisa":"biorxiv;2026.02.05.703998v1"}],"modal_window_width":"560","share_modal_width":"560","share_modal_title":"Share this Article"},"jcarousel":{"ajaxPath":"\/jcarousel\/ajax\/views"},"instances":"{\u0022highwire_abstract_tooltip\u0022:{\u0022content\u0022:{\u0022text\u0022:\u0022\u0022},\u0022style\u0022:{\u0022tip\u0022:{\u0022width\u0022:20,\u0022height\u0022:20,\u0022border\u0022:1,\u0022offset\u0022:0,\u0022corner\u0022:true},\u0022classes\u0022:\u0022qtip-custom hw-tooltip hw-abstract-tooltip qtip-shadow qtip-rounded\u0022,\u0022classes_custom\u0022:\u0022hw-tooltip hw-abstract-tooltip\u0022},\u0022position\u0022:{\u0022at\u0022:\u0022right center\u0022,\u0022my\u0022:\u0022left center\u0022,\u0022viewport\u0022:true,\u0022adjust\u0022:{\u0022method\u0022:\u0022shift\u0022}},\u0022show\u0022:{\u0022event\u0022:\u0022mouseenter click \u0022,\u0022solo\u0022:true},\u0022hide\u0022:{\u0022event\u0022:\u0022mouseleave \u0022,\u0022fixed\u0022:1,\u0022delay\u0022:\u0022100\u0022}},\u0022highwire_author_tooltip\u0022:{\u0022content\u0022:{\u0022text\u0022:\u0022\u0022},\u0022style\u0022:{\u0022tip\u0022:{\u0022width\u0022:15,\u0022height\u0022:15,\u0022border\u0022:1,\u0022offset\u0022:0,\u0022corner\u0022:true},\u0022classes\u0022:\u0022qtip-custom hw-tooltip hw-author-tooltip qtip-shadow qtip-rounded\u0022,\u0022classes_custom\u0022:\u0022hw-tooltip hw-author-tooltip\u0022},\u0022position\u0022:{\u0022at\u0022:\u0022top center\u0022,\u0022my\u0022:\u0022bottom center\u0022,\u0022viewport\u0022:true,\u0022adjust\u0022:{\u0022method\u0022:\u0022\u0022}},\u0022show\u0022:{\u0022event\u0022:\u0022mouseenter \u0022,\u0022solo\u0022:true},\u0022hide\u0022:{\u0022event\u0022:\u0022mouseleave \u0022,\u0022fixed\u0022:1,\u0022delay\u0022:\u0022100\u0022}},\u0022highwire_reflinks_tooltip\u0022:{\u0022content\u0022:{\u0022text\u0022:\u0022\u0022},\u0022style\u0022:{\u0022tip\u0022:{\u0022width\u0022:15,\u0022height\u0022:15,\u0022border\u0022:1,\u0022mimic\u0022:\u0022top center\u0022,\u0022offset\u0022:0,\u0022corner\u0022:true},\u0022classes\u0022:\u0022qtip-custom hw-tooltip hw-ref-link-tooltip qtip-shadow qtip-rounded\u0022,\u0022classes_custom\u0022:\u0022hw-tooltip hw-ref-link-tooltip\u0022},\u0022position\u0022:{\u0022at\u0022:\u0022bottom left\u0022,\u0022my\u0022:\u0022top left\u0022,\u0022viewport\u0022:true,\u0022adjust\u0022:{\u0022method\u0022:\u0022flip\u0022}},\u0022show\u0022:{\u0022event\u0022:\u0022mouseenter \u0022,\u0022solo\u0022:true},\u0022hide\u0022:{\u0022event\u0022:\u0022mouseleave \u0022,\u0022fixed\u0022:1,\u0022delay\u0022:\u0022100\u0022}}}","qtipDebug":"{\u0022leaveElement\u0022:0}","panel_ajax_tab":{"path":"sites\/all\/modules\/contrib\/panels_ajax_tab"},"disqus":{"domain":"biorxivstage","url":"https:\/\/www.biorxiv.org\/content\/10.64898\/2026.02.05.703998v1","title":"Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis","identifier":"node\/5219652"},"panels_ajax_pane":{"new-28877068-b9cb-4641-830b-b6b4638c98bb":"{\u0022encrypted\u0022:\u0022{\\\u0022encrypted\\\u0022:\\\u00223jI9CVQnJK5kqPbUJ3JTviuuL0DcfBxWnAMXcd0dtqBXIm48QumKjbJIBoN5u2O2WD206\\\\\\\/dZac5Kgsk473xWM8zH2QIgS\\\\\\\/RhnrcHdaukhANIA9J+430LXySPK1KdpoJNN40k6oGZPEzO9LDKlskP3lKvYgivitTBl+LKDA51xeYP4CKsf7Iexv2pzvLY3MOTrebRdTli\\\\\\\/vMRCVcnfcAkz4bKOnRCrtqUKfhO9HsJnE49qc6qAACM0C6LsMAZeqNs39sEGAONlV0VsJj\\\\\\\/h2dOVqD9ju8yEZdYM8KpT+HCWmCj7Bbijf248hxT73L0AlAwC5Lvx3E+4vbvY0i5qd9YFMrfREWALJu5oYM9A4f20YFEl0aRwqqSvsABektJFDSzJmsLC3m2inVKzVTy0c\\\\\\\/YKTX1DC\\\\\\\/kUChjbvf8V6XaqkuzcslfkfXu+sKHFwf4xYg6\\\\\\\/8OWJDmXFMr2kUitJUXMSZWfbSCFt0u0+uYIpEiDmuFeX0OvxohmKhMAuqHg\\\\\\\/NI85ovbgClj9Cm8qDZOisRzuhIH8afqNJU5HLGi1ENbuEgvgoFDZuXRcJ8thIxTia9IKUs9xn5u\\\\\\\/bowgQWwW4u+63T3vtsr\\\\\\\/xYYMnzjPHCoBytob8clstwUCttRxCQKPqJyMNGwwx1efXY5mbe0T6hMuJkuXUPaxwB25Fy6ubJdk7I\\\\\\\/IqIxCmhOng\\\\\\\/7o+aQc8xnYLGT5dobqu88SnedjuFglyKXQHSu8Iewg00hbb1QKr9UJVEfVEdKSsa5a0LRnhZZyQ\\\\\\\/Txmb0vgciRtjO81iLkMCtVsk9hX8uHXF1aPWDnTJ71J9Hynl59PRJnOdWCkoJ9NGRwHX6KWJqyLPYfnSFlf+BURgx8+uL8Gs95qHld0YVAal3YAFxdUR\\\\\\\/Zu+uFG40GZn3KjG2\\\\\\\/k3YGRqmp3GfvkJHW8OFCg\\\\\\\/GKXoi6+VD92PrRAyP0b3U5XMaxDQw30N8Z6\\\\\\\/13JXmyW7AatB4Wd+E2jUtz6a1iyvNnWOBlUp1TXJ1OI4A55sWgiovACpMoVag5yRdt1uG6\\\\\\\/hTqtHjtG18DFIJuNSCy6Xz2Wq\\\\\\\/t5n2z9DEDOOE7USBSMHbNT7REZAj+LpAXSuETdnFJWB3lzEdl0TJ2WeikTlKnwgx7Saekq6k6OfgeTsDbJgTsR2ZRN07wewUPvtTsH7l4afFsj6NMCasRlzlXn1tenskhwlp43spvdMBfMrLqujrE1jGg0kC3slg37y4zZAyZtSP+BcFifrkm1QzQSQCz77Zqg2TfwUgL1PhBSlpM\\\\\\\/0FuCLBXmirIagoMTQ6iSc4dAtcMNSQonUhdXdjBjkEFufWmJmx7PvdYE9xCuYAnRldTggf5kOu\\\u0022,\\\u0022iv\\\u0022:\\\u0022Pi0\\\\\\\/pFrCowOncXd45fH+kg==\\\u0022,\\\u0022salt\\\u0022:\\\u0022f9d8845712f72c9fee5db7d9ff111eab\\\u0022}\u0022,\u0022hmac\u0022:\u0022b9e1b05f2a6274959879a76fd579d769b279f91dfa231b567182d0e1c669a754\u0022}"},"urlIsAjaxTrusted":{"\/content\/10.64898\/2026.02.05.703998v1":true},"ws_fl":{"width":100,"height":21},"ws_gpo":{"size":"","annotation":"","lang":"","callback":"","width":300},"color":{"logo":"https:\/\/www.biorxiv.org\/sites\/default\/files\/biorxiv_article_logo.jpg"},"highwire_list_expand":{"is_collapsed":"1"},"highwireResponsive":{"enquire_enabled":1,"breakpoints_configured":1,"breakpoints":{"zero":"all and (min-width: 0px)","xsmall":"all and (min-width: 380px)","narrow":"all and (min-width: 768px) and (min-device-width: 768px), (max-device-width: 800px) and (min-width: 768px) and (orientation:landscape)","normal":"all and (min-width: 980px) and (min-device-width: 980px), all and (max-device-width: 1024px) and (min-width: 1024px) and (orientation:landscape)","wide":"all and (min-width: 1220px)"}},"eu_cookie_compliance":{"popup_enabled":1,"popup_agreed_enabled":0,"popup_hide_agreed":0,"popup_clicking_confirmation":1,"popup_scrolling_confirmation":false,"popup_html_info":"\u003Cdiv\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003EWe use cookies on this site to enhance your user experience. By clicking any link on this page you are giving your consent for us to set cookies.\u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 role=\u0022dialog\u0022 aria-labelledby=\u0022Continue\u0022\n        class=\u0022agree-button eu-cookie-compliance-default-button\u0022\u003EContinue\u003C\/button\u003E\n                  \u003Cbutton type=\u0022button\u0022 role=\u0022dialog\u0022 aria-labelledby=\u0022Find out more\u0022\n        class=\u0022find-more-button eu-cookie-compliance-more-button\u0022\u003EFind out more\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","use_mobile_message":false,"mobile_popup_html_info":"\u003Cdiv\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n          \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 role=\u0022dialog\u0022 aria-labelledby=\u0022Continue\u0022\n        class=\u0022agree-button eu-cookie-compliance-default-button\u0022\u003EContinue\u003C\/button\u003E\n                  \u003Cbutton type=\u0022button\u0022 role=\u0022dialog\u0022 aria-labelledby=\u0022Find out more\u0022\n        class=\u0022find-more-button eu-cookie-compliance-more-button\u0022\u003EFind out more\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","mobile_breakpoint":"768","popup_html_agreed":"\u003Cdiv\u003E\n  \u003Cdiv class=\u0022popup-content agreed\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Ch2\u003EThank you for accepting cookies\u003C\/h2\u003E\u003Cp\u003EYou can now hide this message or find out more about cookies.\u003C\/p\u003E    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022hide-popup-button eu-cookie-compliance-hide-button\u0022\u003EHide\u003C\/button\u003E\n              \u003Cbutton type=\u0022button\u0022 class=\u0022find-more-button eu-cookie-compliance-more-button-thank-you\u0022 \u003EMore info\u003C\/button\u003E\n          \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","popup_use_bare_css":false,"popup_height":"auto","popup_width":"100%","popup_delay":1000,"popup_link":"\/help\/cookie-policy","popup_link_new_window":1,"popup_position":null,"popup_language":"en","store_consent":false,"better_support_for_screen_readers":0,"reload_page":0,"domain":"","popup_eu_only_js":0,"cookie_lifetime":"365","cookie_session":false,"disagree_do_not_show_popup":0,"method":"default","whitelisted_cookies":"","withdraw_markup":"\u003Cbutton type=\u0022button\u0022 class=\u0022eu-cookie-withdraw-tab\u0022\u003EPrivacy settings\u003C\/button\u003E\n\u003Cdiv class=\u0022eu-cookie-withdraw-banner\u0022\u003E\n  \u003Cdiv class=\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003E\u0026lt;h2\u0026gt;We use cookies on this site to enhance your user experience\u0026lt;\/h2\u0026gt;\u0026lt;p\u0026gt;You have given your consent for us to set cookies.\u0026lt;\/p\u0026gt;\u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022eu-cookie-withdraw-button\u0022\u003EWithdraw consent\u003C\/button\u003E\n    \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E\n","withdraw_enabled":false},"googleanalytics":{"account":["G-RZD586MC3Q"],"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackColorbox":1},"jnl_biorxiv_styles":{"defaultJCode":"biorxiv"},"omega":{"layouts":{"primary":"normal","order":["narrow","normal","wide"],"queries":{"narrow":"all and (min-width: 768px) and (min-device-width: 768px), (max-device-width: 800px) and (min-width: 768px) and (orientation:landscape)","normal":"all and (min-width: 980px) and (min-device-width: 980px), all and (max-device-width: 1024px) and (min-width: 1024px) and (orientation:landscape)","wide":"all and (min-width: 1220px)"}}}});
+//--><!]]>
+</script>
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  </head>
+  <body class="html not-front not-logged-in page-node page-node- page-node-5219652 node-type-highwire-article context-content hw-default-jcode-biorxiv hw-article-type-article hw-article-category-new-results">
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-M677548" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script type="text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0];var j=d.createElement(s);var dl=l!='dataLayer'?'&l='+l:'';j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;j.type='text/javascript';j.async=true;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M677548');</script>
+<!-- End Google Tag Manager -->
+    <div id="skip-link">
+      <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+    </div>
+        <div class="page clearfix page-box-shadows footer-borders panels-page panels-layout-jcore_2col" id="page">
+      <header id="section-header" class="section section-header">
+    
+  <div id="zone-branding" class="zone zone-branding clearfix print-display-block container-30">
+    <div class="grid-15 prefix-1 region region-branding print-display-block" id="region-branding">
+  <div class="region-inner region-branding-inner">
+        <div class="branding-data clearfix">
+            <div class="logo-img">
+        <a href="/" rel="home" class="" data-icon-position="" data-hide-link-title="0"><img alt="bioRxiv" src="https://www.biorxiv.org/sites/default/files/biorxiv_article_logo.jpg" /></a>      </div>
+                </div>
+          </div>
+</div><div class="grid-11 suffix-1 region region-branding-second print-hidden" id="region-branding-second">
+  <div class="region-inner region-branding-second-inner">
+    <div class="block block-system block-menu block-main-menu block-system-main-menu odd block-without-title" id="block-system-main-menu">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <nav class="menubar-nav"><ul class="menu" role="menu"><li class="first leaf" role="menuitem"><a href="/" title="" class="" data-icon-position="" data-hide-link-title="0">Home</a></li>
+<li class="leaf" role="menuitem"><a href="/about-biorxiv" class="" data-icon-position="" data-hide-link-title="0">About</a></li>
+<li class="leaf" role="menuitem"><a href="/submit-a-manuscript" class="" data-icon-position="" data-hide-link-title="0">Submit</a></li>
+<li class="last leaf" role="menuitem"><a href="/alertsrss" title="" class="" data-icon-position="" data-hide-link-title="0">ALERTS / RSS</a></li>
+</ul></nav>    </div>
+  </div>
+</div><div class="block block-panels-mini block-biorxiv-search-box block-panels-mini-biorxiv-search-box even block-without-title" id="block-panels-mini-biorxiv-search-box">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <div class="panel-display panel-1col clearfix" id="mini-panel-biorxiv_search_box">
+  <div class="panel-panel panel-col">
+    <div><div class="panel-pane pane-highwire-seach-quicksearch" >
+  
+      
+  
+  <div class="pane-content">
+    <form class="highwire-quicksearch button-style-mini button-style-mini" action="/content/10.64898/2026.02.05.703998v1" method="post" id="highwire-search-quicksearch-form-0" accept-charset="UTF-8"><div><div class="form-item form-item-label-invisible form-type-textfield form-item-keywords">
+  <label class="element-invisible" for="search_rightsidebar_keywords_723141503">Search for this keyword </label>
+ <input placeholder="Search" type="text" id="search_rightsidebar_keywords_723141503" name="keywords" value="" size="60" maxlength="128" class="form-text" />
+</div>
+<div class="button-wrapper button-mini"><span class="icon-search"></span><input data-icon-only="1" data-font-icon="icon-search" data-icon-position="after" type="submit" id="search_rightsidebar_submit_832966785" name="op" value="Search" class="form-submit" /></div><input type="hidden" name="form_build_id" value="form-_4ChTj3hB8APQtmEw-Uhocw_26Kd4bUw8aZAF9JWx4M" />
+<input type="hidden" name="form_id" value="highwire_search_quicksearch_form_0" />
+</div></form>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-custom pane-2 advanced-search-link" >
+  
+      
+  
+  <div class="pane-content">
+    <a href="/search">Advanced Search</a>  </div>
+
+  
+  </div>
+</div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>  </div>
+</div>  </div>
+  
+  <div id="zone-header" class="zone zone-header clearfix container-30">
+  	      </div>
+</header>    
+      <section id="section-content" class="section section-content">
+    
+  <div id="zone-content" class="zone zone-content clearfix container-30">    
+        
+    <div class="grid-28 suffix-1 prefix-1 region region-content" id="region-content">
+  <div class="region-inner region-content-inner">
+    <a id="main-content"></a>
+                        <div class="block block-system block-main block-system-main odd block-without-title" id="block-system-main">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <div class="panel-display panels-960-layout jcore-2col-layout" >
+	  
+  <div class="panel-row-wrapper clearfix">
+		
+		<div class="main-content-wrapper grid-17 suffix-1 alpha">
+			<div class="panel-panel panel-region-content">
+			  <div class="inside"><div class="panel-pane pane-highwire-article-citation" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="highwire-article-citation highwire-citation-type-highwire-article node5219652" data-node-nid="5219652" id="node-5219652--21045790009" data-pisa="biorxiv;2026.02.05.703998v1" data-pisa-master="biorxiv;2026.02.05.703998" data-apath="/biorxiv/early/2026/02/05/2026.02.05.703998.atom" data-hw-author-tooltip-instance="highwire_author_tooltip"><div  class="highwire-cite highwire-cite-highwire-article highwire-citation-biorxiv-article-top clearfix has-author-tooltip" >
+
+      <span class="biorxiv-article-type">
+        New Results    </span>
+  
+        <h1 class="highwire-cite-title" id="page-title">Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis</h1>  
+      <div  class="highwire-cite-authors" ><span  class="highwire-citation-authors"><span class="highwire-citation-author first" data-delta="0"><span class="nlm-given-names">Alexus A.</span> <span class="nlm-surname">Smith</span></span>, <span class="highwire-citation-author" data-delta="1"><span class="nlm-given-names">Edmund L.</span> <span class="nlm-surname">Wong</span></span>, <span class="highwire-citation-author" data-delta="2"><span class="nlm-given-names">Ronan C.</span> <span class="nlm-surname">Donovan</span></span>, <span class="highwire-citation-author" data-delta="3"><span class="nlm-given-names">Brad A.</span> <span class="nlm-surname">Chapman</span></span>, <span class="highwire-citation-author" data-delta="4"><span class="nlm-given-names">Ryan</span> <span class="nlm-surname">Harry</span></span>, <span class="highwire-citation-author" data-delta="5"><span class="nlm-given-names">Pooyan</span> <span class="nlm-surname">Tirandazi</span></span>, <span class="highwire-citation-author" data-delta="6"><span class="nlm-given-names">Paulina</span> <span class="nlm-surname">Kanigowska</span></span>, <span class="highwire-citation-author" data-delta="7"><span class="nlm-given-names">Elizabeth A.</span> <span class="nlm-surname">Gendreau</span></span>, <span class="highwire-citation-author" data-delta="8"><span class="nlm-given-names">Robert H.</span> <span class="nlm-surname">Dahl</span></span>, <span class="highwire-citation-author" data-delta="9"><span class="nlm-given-names">Michal</span> <span class="nlm-surname">Jastrzebski</span></span>, <span class="highwire-citation-author" data-delta="10"><span class="nlm-given-names">Jose E.</span> <span class="nlm-surname">Cortez</span></span>, <span class="highwire-citation-author" data-delta="11"><span class="nlm-given-names">Christopher J.</span> <span class="nlm-surname">Bremner</span></span>, <span class="highwire-citation-author" data-delta="12"><span class="nlm-given-names">José C. Morales</span> <span class="nlm-surname">Hemuda</span></span>, <span class="highwire-citation-author" data-delta="13"><span class="nlm-given-names">James</span> <span class="nlm-surname">Dooner</span></span>, <span class="highwire-citation-author" data-delta="14"><span class="nlm-given-names">Ian</span> <span class="nlm-surname">Graves</span></span>, <span class="highwire-citation-author" data-delta="15"><span class="nlm-given-names">Rahul</span> <span class="nlm-surname">Karandikar</span></span>, <span class="highwire-citation-author" data-delta="16"><span class="nlm-given-names">Christopher</span> <span class="nlm-surname">Lionetti</span></span>, <span class="highwire-citation-author" data-delta="17"><span class="nlm-given-names">Kevin</span> <span class="nlm-surname">Christopher</span></span>, <span class="highwire-citation-author" data-delta="18"><span class="nlm-given-names">Andrew L.</span> <span class="nlm-surname">Consiglio</span></span>, <span class="highwire-citation-author" data-delta="19"><span class="nlm-given-names">Alyssa</span> <span class="nlm-surname">Tran</span></span>, <span class="highwire-citation-author" data-delta="20"><span class="nlm-given-names">William</span> <span class="nlm-surname">McCusker</span></span>, <span class="highwire-citation-author" data-delta="21"><span class="nlm-given-names">Duy X.</span> <span class="nlm-surname">Nguyen</span></span>, <span class="highwire-citation-author" data-delta="22"><span class="nlm-given-names">Isis Botelho</span> <span class="nlm-surname">Nunes da Silva</span></span>, <span class="highwire-citation-author" data-delta="23"><span class="nlm-given-names">Alvaro R.</span> <span class="nlm-surname">Bautista-Ayala</span></span>, <span class="highwire-citation-author" data-delta="24"><span class="nlm-given-names">Monica P.</span> <span class="nlm-surname">McNerney</span></span>, <span class="highwire-citation-author" data-delta="25"><span class="nlm-given-names">Sean</span> <span class="nlm-surname">Atkins</span></span>, <span class="highwire-citation-author" data-delta="26"><span class="nlm-given-names">Michael</span> <span class="nlm-surname">McDuffie</span></span>, <span class="highwire-citation-author" data-delta="27"><span class="nlm-given-names">Will</span> <span class="nlm-surname">Serber</span></span>, <span class="highwire-citation-author" data-delta="28"><span class="nlm-given-names">Bradley P.</span> <span class="nlm-surname">Barber</span></span>, <span class="highwire-citation-author" data-delta="29"><span class="nlm-given-names">Trinh</span> <span class="nlm-surname">Thanongsinh</span></span>, <span class="highwire-citation-author" data-delta="30"><span class="nlm-given-names">Andrew</span> <span class="nlm-surname">Nesson</span></span>, <span class="highwire-citation-author" data-delta="31"><span class="nlm-given-names">Bibek</span> <span class="nlm-surname">Lama</span></span>, <span class="highwire-citation-author" data-delta="32"><span class="nlm-given-names">Brandon</span> <span class="nlm-surname">Nichols</span></span>, <span class="highwire-citation-author" data-delta="33"><span class="nlm-given-names">Cameron</span> <span class="nlm-surname">LaFrance</span></span>, <span class="highwire-citation-author" data-delta="34"><span class="nlm-given-names">Tenzing</span> <span class="nlm-surname">Nyima</span></span>, <span class="highwire-citation-author" data-delta="35"><span class="nlm-given-names">Alicia</span> <span class="nlm-surname">Byrn</span></span>, <span class="highwire-citation-author" data-delta="36"><span class="nlm-given-names">Rashard</span> <span class="nlm-surname">Thornhill</span></span>, <span class="highwire-citation-author" data-delta="37"><span class="nlm-given-names">Bryan</span> <span class="nlm-surname">Cai</span></span>, <span class="highwire-citation-author" data-delta="38"><span class="nlm-given-names">Lizvette</span> <span class="nlm-surname">Ayala-Valdez</span></span>, <span class="highwire-citation-author" data-delta="39"><span class="nlm-given-names">Alycia</span> <span class="nlm-surname">Wong</span></span>, <span class="highwire-citation-author" data-delta="40"><span class="nlm-given-names">Austin J.</span> <span class="nlm-surname">Che</span></span>, <span class="highwire-citation-author" data-delta="41"><span class="nlm-given-names">Walter</span> <span class="nlm-surname">Thavarajah</span></span>, <span class="highwire-citation-author" data-delta="42"><span class="nlm-given-names">Daniel</span> <span class="nlm-surname">Smith</span></span>, <span class="highwire-citation-author" data-delta="43"><span class="nlm-given-names">Thomas F.</span> <span class="nlm-surname">Knight</span> <span class="nlm-suffix">Jr.</span></span>, <span class="highwire-citation-author" data-delta="44"><span class="nlm-given-names">David W.</span> <span class="nlm-surname">Borhani</span></span>, <span class="highwire-citation-author" data-delta="45"><span class="nlm-given-names">Jerry</span> <span class="nlm-surname">Tworek</span></span>, <span class="highwire-citation-author" data-delta="46"><span class="nlm-given-names">Mostafa</span> <span class="nlm-surname">Rohaninejad</span></span>, <span class="highwire-citation-author" data-delta="47"><span class="nlm-given-names">Ahmed</span> <span class="nlm-surname">El-Kishky</span></span>, <span class="highwire-citation-author" data-delta="48"><span class="nlm-given-names">Nathan C.</span> <span class="nlm-surname">Tedford</span></span>, <span class="highwire-citation-author" data-delta="49"><span class="nlm-given-names">Tejal</span> <span class="nlm-surname">Patwardhan</span></span>, <span class="highwire-citation-author" data-delta="50"><span class="nlm-given-names">Yunxin Joy</span> <span class="nlm-surname">Jiao</span></span>, <span class="highwire-citation-author" data-delta="51"><span class="nlm-given-names">Reshma P.</span> <span class="nlm-surname">Shetty</span></span></span></div>
+  
+      <div  class="highwire-cite-metadata" ><span  class="highwire-cite-metadata-doi highwire-cite-metadata"><span class="label">doi:</span> https://doi.org/10.64898/2026.02.05.703998 </span></div>
+  
+  
+  </div>
+<div id="hw-article-author-popups-node-5219652--21045790009" style="display: none;"><div class="author-tooltip-0"><div class="author-tooltip-name">Alexus A. Smith </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Alexus%2BA.%2BSmith%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Smith%20AA&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAlexus%2BA.%2BSmith%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-1"><div class="author-tooltip-name">Edmund L. Wong </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>2</span><span class='nlm-institution'>OpenAI</span>, CA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Edmund%2BL.%2BWong%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Wong%20EL&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AEdmund%2BL.%2BWong%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-2"><div class="author-tooltip-name">Ronan C. Donovan </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Ronan%2BC.%2BDonovan%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Donovan%20RC&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ARonan%2BC.%2BDonovan%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-3"><div class="author-tooltip-name">Brad A. Chapman </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Brad%2BA.%2BChapman%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Chapman%20BA&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ABrad%2BA.%2BChapman%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-4"><div class="author-tooltip-name">Ryan Harry </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Ryan%2BHarry%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Harry%20R&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ARyan%2BHarry%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-5"><div class="author-tooltip-name">Pooyan Tirandazi </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Pooyan%2BTirandazi%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Tirandazi%20P&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3APooyan%2BTirandazi%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-6"><div class="author-tooltip-name">Paulina Kanigowska </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Paulina%2BKanigowska%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Kanigowska%20P&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3APaulina%2BKanigowska%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-7"><div class="author-tooltip-name">Elizabeth A. Gendreau </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Elizabeth%2BA.%2BGendreau%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Gendreau%20EA&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AElizabeth%2BA.%2BGendreau%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-8"><div class="author-tooltip-name">Robert H. Dahl </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Robert%2BH.%2BDahl%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Dahl%20RH&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ARobert%2BH.%2BDahl%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-9"><div class="author-tooltip-name">Michal Jastrzebski </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Michal%2BJastrzebski%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Jastrzebski%20M&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AMichal%2BJastrzebski%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-10"><div class="author-tooltip-name">Jose E. Cortez </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Jose%2BE.%2BCortez%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Cortez%20JE&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AJose%2BE.%2BCortez%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-11"><div class="author-tooltip-name">Christopher J. Bremner </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Christopher%2BJ.%2BBremner%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Bremner%20CJ&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AChristopher%2BJ.%2BBremner%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-12"><div class="author-tooltip-name">José C. Morales Hemuda </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Jos%C3%A9%2BC.%2BMorales%2BHemuda%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Hemuda%20JC&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AJos%25C3%25A9%2BC.%2BMorales%2BHemuda%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-13"><div class="author-tooltip-name">James Dooner </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=James%2BDooner%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Dooner%20J&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AJames%2BDooner%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-14"><div class="author-tooltip-name">Ian Graves </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Ian%2BGraves%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Graves%20I&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AIan%2BGraves%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-15"><div class="author-tooltip-name">Rahul Karandikar </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Rahul%2BKarandikar%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Karandikar%20R&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ARahul%2BKarandikar%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-16"><div class="author-tooltip-name">Christopher Lionetti </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Christopher%2BLionetti%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Lionetti%20C&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AChristopher%2BLionetti%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-17"><div class="author-tooltip-name">Kevin Christopher </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Kevin%2BChristopher%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Christopher%20K&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AKevin%2BChristopher%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-18"><div class="author-tooltip-name">Andrew L. Consiglio </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Andrew%2BL.%2BConsiglio%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Consiglio%20AL&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAndrew%2BL.%2BConsiglio%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-19"><div class="author-tooltip-name">Alyssa Tran </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Alyssa%2BTran%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Tran%20A&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAlyssa%2BTran%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-20"><div class="author-tooltip-name">William McCusker </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=William%2BMcCusker%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=McCusker%20W&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AWilliam%2BMcCusker%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-21"><div class="author-tooltip-name">Duy X. Nguyen </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Duy%2BX.%2BNguyen%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Nguyen%20DX&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ADuy%2BX.%2BNguyen%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-22"><div class="author-tooltip-name">Isis Botelho Nunes da Silva </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Isis%2BBotelho%2BNunes%2Bda%2BSilva%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Nunes%20da%20Silva%20IB&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AIsis%2BBotelho%2BNunes%2Bda%2BSilva%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-23"><div class="author-tooltip-name">Alvaro R. Bautista-Ayala </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Alvaro%2BR.%2BBautista-Ayala%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Bautista-Ayala%20AR&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAlvaro%2BR.%2BBautista-Ayala%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-24"><div class="author-tooltip-name">Monica P. McNerney </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Monica%2BP.%2BMcNerney%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=McNerney%20MP&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AMonica%2BP.%2BMcNerney%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-25"><div class="author-tooltip-name">Sean Atkins </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Sean%2BAtkins%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Atkins%20S&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ASean%2BAtkins%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-26"><div class="author-tooltip-name">Michael McDuffie </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Michael%2BMcDuffie%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=McDuffie%20M&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AMichael%2BMcDuffie%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-27"><div class="author-tooltip-name">Will Serber </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Will%2BSerber%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Serber%20W&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AWill%2BSerber%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-28"><div class="author-tooltip-name">Bradley P. Barber </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Bradley%2BP.%2BBarber%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Barber%20BP&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ABradley%2BP.%2BBarber%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-29"><div class="author-tooltip-name">Trinh Thanongsinh </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Trinh%2BThanongsinh%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Thanongsinh%20T&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ATrinh%2BThanongsinh%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-30"><div class="author-tooltip-name">Andrew Nesson </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Andrew%2BNesson%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Nesson%20A&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAndrew%2BNesson%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-31"><div class="author-tooltip-name">Bibek Lama </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Bibek%2BLama%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Lama%20B&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ABibek%2BLama%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-32"><div class="author-tooltip-name">Brandon Nichols </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Brandon%2BNichols%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Nichols%20B&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ABrandon%2BNichols%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-33"><div class="author-tooltip-name">Cameron LaFrance </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Cameron%2BLaFrance%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=LaFrance%20C&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ACameron%2BLaFrance%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-34"><div class="author-tooltip-name">Tenzing Nyima </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Tenzing%2BNyima%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Nyima%20T&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ATenzing%2BNyima%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-35"><div class="author-tooltip-name">Alicia Byrn </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Alicia%2BByrn%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Byrn%20A&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAlicia%2BByrn%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-36"><div class="author-tooltip-name">Rashard Thornhill </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Rashard%2BThornhill%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Thornhill%20R&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ARashard%2BThornhill%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-37"><div class="author-tooltip-name">Bryan Cai </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Bryan%2BCai%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Cai%20B&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ABryan%2BCai%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-38"><div class="author-tooltip-name">Lizvette Ayala-Valdez </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Lizvette%2BAyala-Valdez%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Ayala-Valdez%20L&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ALizvette%2BAyala-Valdez%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-39"><div class="author-tooltip-name">Alycia Wong </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Alycia%2BWong%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Wong%20A&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAlycia%2BWong%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-40"><div class="author-tooltip-name">Austin J. Che </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Austin%2BJ.%2BChe%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Che%20AJ&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAustin%2BJ.%2BChe%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-41"><div class="author-tooltip-name">Walter Thavarajah </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Walter%2BThavarajah%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Thavarajah%20W&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AWalter%2BThavarajah%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-42"><div class="author-tooltip-name">Daniel Smith </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Daniel%2BSmith%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Smith%20D&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ADaniel%2BSmith%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-43"><div class="author-tooltip-name">Thomas F. Knight <span class="nlm-suffix">Jr.</span></div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Thomas%2BF.%2BKnight%2B%3Cspan%2Bclass%3D%22nlm-suffix%22%3EJr.%3C/span%3E" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Knight%20TF&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AThomas%2BF.%2BKnight%2BJr." rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-44"><div class="author-tooltip-name">David W. Borhani </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=David%2BW.%2BBorhani%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Borhani%20DW&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ADavid%2BW.%2BBorhani%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-45"><div class="author-tooltip-name">Jerry Tworek </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>2</span><span class='nlm-institution'>OpenAI</span>, CA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Jerry%2BTworek%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Tworek%20J&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AJerry%2BTworek%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-46"><div class="author-tooltip-name">Mostafa Rohaninejad </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>2</span><span class='nlm-institution'>OpenAI</span>, CA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Mostafa%2BRohaninejad%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Rohaninejad%20M&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AMostafa%2BRohaninejad%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-47"><div class="author-tooltip-name">Ahmed El-Kishky </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>2</span><span class='nlm-institution'>OpenAI</span>, CA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Ahmed%2BEl-Kishky%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=El-Kishky%20A&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3AAhmed%2BEl-Kishky%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-48"><div class="author-tooltip-name">Nathan C. Tedford </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Nathan%2BC.%2BTedford%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Tedford%20NC&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ANathan%2BC.%2BTedford%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-49"><div class="author-tooltip-name">Tejal Patwardhan </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>2</span><span class='nlm-institution'>OpenAI</span>, CA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Tejal%2BPatwardhan%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Patwardhan%20T&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link last"><a href="/search/author1%3ATejal%2BPatwardhan%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li></ul></div><div class="author-tooltip-50"><div class="author-tooltip-name">Yunxin Joy Jiao </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>2</span><span class='nlm-institution'>OpenAI</span>, CA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Yunxin%2BJoy%2BJiao%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Jiao%20YJ&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link"><a href="/search/author1%3AYunxin%2BJoy%2BJiao%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li><li class="author-corresp-email-link last"><span>For correspondence: 
+<a href="/cdn-cgi/l/email-protection#cbb2a1a2aaa4b0aabfb6a4bbaea5aaa2e5a8a4a6" class="" data-icon-position="" data-hide-link-title="0">yjiao{at}openai.com</a>
+<a href="/cdn-cgi/l/email-protection#82f0e7f1eaefe3f9e3f6ffe5ebece9e5ede0ebedf5edf0e9f1ace1edef" class="" data-icon-position="" data-hide-link-title="0">reshma{at}ginkgobioworks.com</a></span></li></ul></div><div class="author-tooltip-51"><div class="author-tooltip-name">Reshma P. Shetty </div><div class="author-tooltip-affiliation"><span class="author-tooltip-text"><div class='author-affiliation'><span class='nlm-sup'>1</span><span class='nlm-institution'>Ginkgo Bioworks, Inc.</span>, MA, <span class='nlm-country'>USA</span></div></span></div><ul class="author-tooltip-find-more"><li class="author-tooltip-gs-link first"><a href="/lookup/google-scholar?link_type=googlescholar&amp;gs_type=author&amp;author%5B0%5D=Reshma%2BP.%2BShetty%2B" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on Google Scholar</a></li><li class="author-tooltip-pubmed-link"><a href="/lookup/external-ref?access_num=Shetty%20RP&amp;link_type=AUTHORSEARCH" target="_blank" title="Open in new tab" class="" data-icon-position="" data-hide-link-title="0">Find this author on PubMed</a></li><li class="author-site-search-link"><a href="/search/author1%3AReshma%2BP.%2BShetty%2B" rel="nofollow" class="" data-icon-position="" data-hide-link-title="0">Search for this author on this site</a></li><li class="author-corresp-email-link last"><span>For correspondence: 
+<a href="/cdn-cgi/l/email-protection#b9c0d3d0d8d6c2d8cdc4d6c9dcd7d8d097dad6d4" class="" data-icon-position="" data-hide-link-title="0">yjiao{at}openai.com</a>
+<a href="/cdn-cgi/l/email-protection#d5a7b0a6bdb8b4aeb4a1a8b2bcbbbeb2bab7bcbaa2baa7bea6fbb6bab8" class="" data-icon-position="" data-hide-link-title="0">reshma{at}ginkgobioworks.com</a></span></li></ul></div></div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-highwire-panel-tabs pane-panels-ajax-tab-tabs" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="item-list"><ul class="tabs inline panels-ajax-tab"><li class="first"><a href="/content/10.64898/2026.02.05.703998v1" class="panels-ajax-tab-tab" data-panel-name="biorxiv_tab_art" data-target-id="highwire_article_tabs" data-entity-context="node:5219652" data-trigger="" data-url-enabled="1">Abstract</a><a href="/panels_ajax_tab/biorxiv_tab_art/node:5219652/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li><li><a href="/content/10.64898/2026.02.05.703998v1.full-text" class="panels-ajax-tab-tab" data-panel-name="article_tab_full_text" data-target-id="highwire_article_tabs" data-entity-context="node:5219652" data-trigger="full-text" data-url-enabled="1">Full Text</a><a href="/panels_ajax_tab/article_tab_full_text/node:5219652/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li><li><a href="/content/10.64898/2026.02.05.703998v1.article-info" class="panels-ajax-tab-tab" data-panel-name="biorxiv_tab_info" data-target-id="highwire_article_tabs" data-entity-context="node:5219652" data-trigger="article-info" data-url-enabled="1">Info/History</a><a href="/panels_ajax_tab/biorxiv_tab_info/node:5219652/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li><li><a href="/content/10.64898/2026.02.05.703998v1.article-metrics" class="panels-ajax-tab-tab" data-panel-name="article_tab_metrics" data-target-id="highwire_article_tabs" data-entity-context="node:5219652" data-trigger="article-metrics" data-url-enabled="1">Metrics</a><a href="/panels_ajax_tab/article_tab_metrics/node:5219652/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li><li><a href="/content/10.64898/2026.02.05.703998v1.supplementary-material" class="panels-ajax-tab-tab" data-panel-name="biorxiv_tab_data" data-target-id="highwire_article_tabs" data-entity-context="node:5219652" data-trigger="supplementary-material" data-url-enabled="1">Supplementary material</a><a href="/panels_ajax_tab/biorxiv_tab_data/node:5219652/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li><li class="last"><a href="/content/10.64898/2026.02.05.703998v1.full.pdf+html" class="panels-ajax-tab-tab" data-panel-name="biorxiv_tab_pdf" data-target-id="highwire_article_tabs" data-entity-context="node:5219652" data-trigger="full.pdf+html" data-url-enabled="1"><i class="icon-file-alt"></i> Preview PDF</a><a href="/panels_ajax_tab/biorxiv_tab_pdf/node:5219652/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li></ul></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-highwire-panel-tabs-container" >
+  
+      
+  
+  <div class="pane-content">
+    <div data-panels-ajax-tab-preloaded="biorxiv_tab_art" id="panels-ajax-tab-container-highwire_article_tabs" class="panels-ajax-tab-container"><div class="panels-ajax-tab-loading" style ="display:none"><img class="loading" src="https://www.biorxiv.org/sites/all/modules/contrib/panels_ajax_tab/images/loading.gif" alt="Loading" title="Loading" /></div><div class="panels-ajax-tab-wrap-biorxiv_tab_art"><div class="panel-display panel-1col clearfix" >
+  <div class="panel-panel panel-col">
+    <div><div class="panel-pane pane-highwire-markup" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="highwire-markup"><div xmlns="http://www.w3.org/1999/xhtml" data-highwire-cite-ref-tooltip-instance="highwire_reflinks_tooltip" class="content-block-markup" xmlns:xhtml="http://www.w3.org/1999/xhtml"><div class="article abstract-view "><span class="highwire-journal-article-marker-start"></span><div class="section abstract" id="abstract-1"><h2 class="">Abstract</h2><p id="p-2">We used an autonomous lab, comprising a large language model (LLM) and a fully automated cloud laboratory, to optimize the cost efficiency of cell-free protein synthesis (CFPS). By conducting iterative optimization, the LLM-driven autonomous lab was able to achieve a 40% reduction in the specific cost ($/g protein) of CFPS relative to the state of the art (SOTA). This cost reduction was accompanied by a 27% increase in protein production titer (g/L). Iterative experimental design, experiment execution, data capture and analysis, data interpretation, and new hypothesis generation were all handled by the LLM-driven autonomous lab. The interface between OpenAI’s GPT-5 LLM and Ginkgo Bioworks’ cloud laboratory incorporated built-in validation checks via a Pydantic schema to ensure that AI-designed experiments were properly specified. Experimental designs were translated into programmatic specification of multi-instrument biological workflows by Ginkgo’s Catalyst software and executed on Ginkgo’s Reconfigurable Automation Cart (RAC) laboratory automation platform, with human intervention largely limited to reagent and consumables preparation, loading and unloading. By integrating LLMs with programmatic control of a cloud lab, we demonstrate that an LLM-driven autonomous lab can successfully perform a real-world scientific task, highlighting the potential of AI-driven autonomous labs for scientific advancement.</p></div><h3>Competing Interest Statement</h3><p id="p-3">All authors are current or former employees of Ginkgo Bioworks, Inc. and OpenAI, who funded this work.</p><span class="highwire-journal-article-marker-end"></span></div><span class="related-urls"></span></div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-biorxiv-copyright" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="field field-name-field-highwire-copyright field-type-text field-label-inline clearfix"><div class="field-label">Copyright&nbsp;</div><div class="field-items"><div class="field-item even">The copyright holder for this preprint is the author/funder, who has granted bioRxiv a license to display the preprint in perpetuity.<span class="license-type"> It is made available under a <a href="http://creativecommons.org/licenses/by/4.0/" class="" data-icon-position="" data-hide-link-title="0">CC-BY 4.0 International license</a>.</span></div></div></div>  </div>
+
+  
+  </div>
+</div>
+  </div>
+</div>
+</div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-disqus-comment" >
+  
+      
+  
+  <div class="pane-content">
+    <div id="disqus_thread"><noscript><p><a href="http://biorxivstage.disqus.com/?url=https%3A%2F%2Fwww.biorxiv.org%2Fcontent%2F10.64898%2F2026.02.05.703998v1" class="" data-icon-position="" data-hide-link-title="0">View the discussion thread.</a></p></noscript></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-highwire-back-to-top" >
+  
+      
+  
+  <div class="pane-content">
+    <a href="#page" class="back-to-top" data-icon-position="" data-hide-link-title="0"><span class="icon-chevron-up"></span> Back to top</a>  </div>
+
+  
+  </div>
+</div>
+			</div>
+		</div>
+		
+		<div class="sidebar-right-wrapper grid-10 omega">
+			<div class="panel-panel panel-region-sidebar-right">
+			  <div class="inside"><div class="panel-pane pane-highwire-node-pager" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="pager highwire-pager pager-mini clearfix highwire-node-pager highwire-article-pager"><span class="pager-prev"><a href="/content/10.1101/2023.06.26.546616v5" title="The latent load and the population-optimal mutation rate" rel="prev" class="pager-link-prev link-icon"><span class="icon-circle-arrow-left"></span> <span class="title">Previous</span></a></span><span class="pager-next"><a href="/content/10.1101/2025.09.08.674939v2" title="Targeting HIF-2α in Colorectal Cancer Reveals a Cholesterol Biosynthesis–Dependent Ferroptotic Vulnerability" rel="next" class="pager-link-next link-icon-right link-icon"><span class="title">Next</span> <span class="icon-circle-arrow-right"></span></a></span></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-custom pane-1" >
+  
+      
+  
+  <div class="pane-content">
+    Posted&nbsp;February 05, 2026.  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-panels-mini pane-biorxiv-art-tools" >
+  
+      
+  
+  <div class="pane-content">
+    <div id="mini-panel-biorxiv_art_tools" class="highwire-2col-stacked panel-display">
+	  
+  <div class="panel-row-wrapper clearfix">
+		<div class="content-left-wrapper content-column">
+          <div class="panel-panel panel-region-content-left">
+            <div class="inside"><div class="panel-pane pane-highwire-variant-link" >
+  
+      
+  
+  <div class="pane-content">
+    <a href="/content/10.64898/2026.02.05.703998v1.full.pdf" target="_self" class="article-dl-pdf-link link-icon"><span class="icon-external-link-sign"></span> <span class="title">Download PDF</span></a>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-biorxiv-supplementary-fragment" >
+  
+      
+  
+  <div class="pane-content">
+    <p><a href="/content/10.64898/2026.02.05.703998v1.supplementary-material"><i class="icon-file"></i>Supplementary Material </a></p>  </div>
+
+  
+  </div>
+</div>
+          </div>
+        </div>
+        
+        <div class="content-right-wrapper content-column">
+          <div class="panel-panel panel-region-content-right">
+            <div class="inside"><div class="panel-pane pane-minipanel-dialog-link pane-biorxiv-art-email" >
+  
+      
+  
+  <div class="pane-content">
+    <div class='minipanel-dialog-wrapper'><div class='minipanel-dialog-link-link'><a href="/" oncontextmenu="javascript: return false;" class="minipanel-dialog-link-trigger" title="Email this Article" data-icon-position="" data-hide-link-title="0"><i class = 'icon-envelope'></i> Email</a></div><div class='minipanel-dialog-link-mini' style='display:none'><div class="panel-display panel-1col clearfix" id="mini-panel-biorxiv_art_email">
+  <div class="panel-panel panel-col">
+    <div><div class="panel-pane pane-block pane-forward-form pane-forward" >
+  
+      
+  
+  <div class="pane-content">
+    <form action="/content/10.64898/2026.02.05.703998v1" method="post" id="forward-form" accept-charset="UTF-8"><div><div id="edit-instructions" class="form-item form-item-label-before form-type-item">
+ <p>Thank you for your interest in spreading the word about bioRxiv.</p><p>NOTE: Your email address is requested solely to identify you as the sender of this article.</p>
+</div>
+<div class="form-item form-item-label-before form-type-textfield form-item-email">
+  <label for="edit-email">Your Email <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" id="edit-email" name="email" value="" size="58" maxlength="256" class="form-text required" />
+</div>
+<div class="form-item form-item-label-before form-type-textfield form-item-name">
+  <label for="edit-name">Your Name <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" id="edit-name" name="name" value="" size="58" maxlength="256" class="form-text required" />
+</div>
+<div class="form-item form-item-label-before form-type-textarea form-item-recipients">
+  <label for="edit-recipients">Send To <span class="form-required" title="This field is required.">*</span></label>
+ <div class="form-textarea-wrapper resizable"><textarea id="edit-recipients" name="recipients" cols="50" rows="5" class="form-textarea required"></textarea></div>
+<div class="description">Enter multiple addresses on separate lines or separate them with commas.</div>
+</div>
+<div id="edit-page" class="form-item form-item-label-before form-type-item">
+  <label for="edit-page">You are going to email the following </label>
+ <a href="/content/10.64898/2026.02.05.703998v1" class="active" data-icon-position="" data-hide-link-title="0">Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis</a>
+</div>
+<div id="edit-subject" class="form-item form-item-label-before form-type-item">
+  <label for="edit-subject">Message Subject </label>
+ (Your Name) has forwarded a page to you from bioRxiv
+</div>
+<div id="edit-body" class="form-item form-item-label-before form-type-item">
+  <label for="edit-body">Message Body </label>
+ (Your Name) thought you would like to see this page from the bioRxiv website.
+</div>
+<div class="form-item form-item-label-before form-type-textarea form-item-message">
+  <label for="edit-message--2">Your Personal Message </label>
+ <div class="form-textarea-wrapper resizable"><textarea id="edit-message--2" name="message" cols="50" rows="10" class="form-textarea"></textarea></div>
+</div>
+<input type="hidden" name="path" value="node/5219652" />
+<input type="hidden" name="path_cid" value="" />
+<input type="hidden" name="forward_footer" value=" " />
+<input type="hidden" name="form_build_id" value="form-oyMQXoPvfbf6LkyKme45f4yzAhGHLsl_OOuhemcB4Y0" />
+<input type="hidden" name="form_id" value="forward_form" />
+<fieldset class="captcha form-wrapper"><legend><span class="fieldset-legend">CAPTCHA</span></legend><div class="fieldset-wrapper"><div class="fieldset-description">This question is for testing whether or not you are a human visitor and to prevent automated spam submissions.</div><input type="hidden" name="captcha_sid" value="1090610414" />
+<input type="hidden" name="captcha_token" value="805a6a798650ae44afb828fed962b99f" />
+<input type="hidden" name="captcha_response" value="Google no captcha" />
+<div class="g-recaptcha" data-sitekey="6LfnJVIUAAAAAE-bUOMg0MJGki4lqSvDmhJp19fN" data-theme="light" data-type="image"></div></div></fieldset>
+<div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Send Message" class="form-submit" /></div></div></form>  </div>
+
+  
+  </div>
+</div>
+  </div>
+</div>
+</div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-highwire-share-link highwire_clipboard_link_ajax"  id="shareit">
+  
+      
+  
+  <div class="pane-content">
+    <a href="/" class="link-icon"><span class="icon-share-alt"></span> <span class="title">Share</span></a>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-panels-mini pane-biorxiv-share highwire_clipboard_form_ajax_shareit" >
+  
+      
+  
+  <div class="pane-content">
+    
+<div class="panel-display omega-12-onecol" id="mini-panel-biorxiv_share">
+
+		  <div class="panel-panel grid-12 panel-region-preface">
+		  <div class="inside"><div class="panel-pane pane-highwire-article-citation" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="highwire-article-citation highwire-citation-type-highwire-article node5219652" data-node-nid="5219652" id="node-5219652--21663373243" data-pisa="biorxiv;2026.02.05.703998v1" data-pisa-master="biorxiv;2026.02.05.703998" data-seqnum="5219652" data-apath="/biorxiv/early/2026/02/05/2026.02.05.703998.atom"><div  class="highwire-cite highwire-cite-highwire-article highwire-citation-biorxiv-article-pap-list clearfix" >
+
+      <div class="highwire-cite-title" >
+      <div class="highwire-cite-title">Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis</div>    </div>
+  
+      <div  class="highwire-cite-authors" ><span  class="highwire-citation-authors"><span class="highwire-citation-author first" data-delta="0"><span class="nlm-given-names">Alexus A.</span> <span class="nlm-surname">Smith</span></span>, <span class="highwire-citation-author" data-delta="1"><span class="nlm-given-names">Edmund L.</span> <span class="nlm-surname">Wong</span></span>, <span class="highwire-citation-author" data-delta="2"><span class="nlm-given-names">Ronan C.</span> <span class="nlm-surname">Donovan</span></span>, <span class="highwire-citation-author" data-delta="3"><span class="nlm-given-names">Brad A.</span> <span class="nlm-surname">Chapman</span></span>, <span class="highwire-citation-author" data-delta="4"><span class="nlm-given-names">Ryan</span> <span class="nlm-surname">Harry</span></span>, <span class="highwire-citation-author" data-delta="5"><span class="nlm-given-names">Pooyan</span> <span class="nlm-surname">Tirandazi</span></span>, <span class="highwire-citation-author" data-delta="6"><span class="nlm-given-names">Paulina</span> <span class="nlm-surname">Kanigowska</span></span>, <span class="highwire-citation-author" data-delta="7"><span class="nlm-given-names">Elizabeth A.</span> <span class="nlm-surname">Gendreau</span></span>, <span class="highwire-citation-author" data-delta="8"><span class="nlm-given-names">Robert H.</span> <span class="nlm-surname">Dahl</span></span>, <span class="highwire-citation-author" data-delta="9"><span class="nlm-given-names">Michal</span> <span class="nlm-surname">Jastrzebski</span></span>, <span class="highwire-citation-author" data-delta="10"><span class="nlm-given-names">Jose E.</span> <span class="nlm-surname">Cortez</span></span>, <span class="highwire-citation-author" data-delta="11"><span class="nlm-given-names">Christopher J.</span> <span class="nlm-surname">Bremner</span></span>, <span class="highwire-citation-author" data-delta="12"><span class="nlm-given-names">José C. Morales</span> <span class="nlm-surname">Hemuda</span></span>, <span class="highwire-citation-author" data-delta="13"><span class="nlm-given-names">James</span> <span class="nlm-surname">Dooner</span></span>, <span class="highwire-citation-author" data-delta="14"><span class="nlm-given-names">Ian</span> <span class="nlm-surname">Graves</span></span>, <span class="highwire-citation-author" data-delta="15"><span class="nlm-given-names">Rahul</span> <span class="nlm-surname">Karandikar</span></span>, <span class="highwire-citation-author" data-delta="16"><span class="nlm-given-names">Christopher</span> <span class="nlm-surname">Lionetti</span></span>, <span class="highwire-citation-author" data-delta="17"><span class="nlm-given-names">Kevin</span> <span class="nlm-surname">Christopher</span></span>, <span class="highwire-citation-author" data-delta="18"><span class="nlm-given-names">Andrew L.</span> <span class="nlm-surname">Consiglio</span></span>, <span class="highwire-citation-author" data-delta="19"><span class="nlm-given-names">Alyssa</span> <span class="nlm-surname">Tran</span></span>, <span class="highwire-citation-author" data-delta="20"><span class="nlm-given-names">William</span> <span class="nlm-surname">McCusker</span></span>, <span class="highwire-citation-author" data-delta="21"><span class="nlm-given-names">Duy X.</span> <span class="nlm-surname">Nguyen</span></span>, <span class="highwire-citation-author" data-delta="22"><span class="nlm-given-names">Isis Botelho</span> <span class="nlm-surname">Nunes da Silva</span></span>, <span class="highwire-citation-author" data-delta="23"><span class="nlm-given-names">Alvaro R.</span> <span class="nlm-surname">Bautista-Ayala</span></span>, <span class="highwire-citation-author" data-delta="24"><span class="nlm-given-names">Monica P.</span> <span class="nlm-surname">McNerney</span></span>, <span class="highwire-citation-author" data-delta="25"><span class="nlm-given-names">Sean</span> <span class="nlm-surname">Atkins</span></span>, <span class="highwire-citation-author" data-delta="26"><span class="nlm-given-names">Michael</span> <span class="nlm-surname">McDuffie</span></span>, <span class="highwire-citation-author" data-delta="27"><span class="nlm-given-names">Will</span> <span class="nlm-surname">Serber</span></span>, <span class="highwire-citation-author" data-delta="28"><span class="nlm-given-names">Bradley P.</span> <span class="nlm-surname">Barber</span></span>, <span class="highwire-citation-author" data-delta="29"><span class="nlm-given-names">Trinh</span> <span class="nlm-surname">Thanongsinh</span></span>, <span class="highwire-citation-author" data-delta="30"><span class="nlm-given-names">Andrew</span> <span class="nlm-surname">Nesson</span></span>, <span class="highwire-citation-author" data-delta="31"><span class="nlm-given-names">Bibek</span> <span class="nlm-surname">Lama</span></span>, <span class="highwire-citation-author" data-delta="32"><span class="nlm-given-names">Brandon</span> <span class="nlm-surname">Nichols</span></span>, <span class="highwire-citation-author" data-delta="33"><span class="nlm-given-names">Cameron</span> <span class="nlm-surname">LaFrance</span></span>, <span class="highwire-citation-author" data-delta="34"><span class="nlm-given-names">Tenzing</span> <span class="nlm-surname">Nyima</span></span>, <span class="highwire-citation-author" data-delta="35"><span class="nlm-given-names">Alicia</span> <span class="nlm-surname">Byrn</span></span>, <span class="highwire-citation-author" data-delta="36"><span class="nlm-given-names">Rashard</span> <span class="nlm-surname">Thornhill</span></span>, <span class="highwire-citation-author" data-delta="37"><span class="nlm-given-names">Bryan</span> <span class="nlm-surname">Cai</span></span>, <span class="highwire-citation-author" data-delta="38"><span class="nlm-given-names">Lizvette</span> <span class="nlm-surname">Ayala-Valdez</span></span>, <span class="highwire-citation-author" data-delta="39"><span class="nlm-given-names">Alycia</span> <span class="nlm-surname">Wong</span></span>, <span class="highwire-citation-author" data-delta="40"><span class="nlm-given-names">Austin J.</span> <span class="nlm-surname">Che</span></span>, <span class="highwire-citation-author" data-delta="41"><span class="nlm-given-names">Walter</span> <span class="nlm-surname">Thavarajah</span></span>, <span class="highwire-citation-author" data-delta="42"><span class="nlm-given-names">Daniel</span> <span class="nlm-surname">Smith</span></span>, <span class="highwire-citation-author" data-delta="43"><span class="nlm-given-names">Thomas F.</span> <span class="nlm-surname">Knight</span> <span class="nlm-suffix">Jr.</span></span>, <span class="highwire-citation-author" data-delta="44"><span class="nlm-given-names">David W.</span> <span class="nlm-surname">Borhani</span></span>, <span class="highwire-citation-author" data-delta="45"><span class="nlm-given-names">Jerry</span> <span class="nlm-surname">Tworek</span></span>, <span class="highwire-citation-author" data-delta="46"><span class="nlm-given-names">Mostafa</span> <span class="nlm-surname">Rohaninejad</span></span>, <span class="highwire-citation-author" data-delta="47"><span class="nlm-given-names">Ahmed</span> <span class="nlm-surname">El-Kishky</span></span>, <span class="highwire-citation-author" data-delta="48"><span class="nlm-given-names">Nathan C.</span> <span class="nlm-surname">Tedford</span></span>, <span class="highwire-citation-author" data-delta="49"><span class="nlm-given-names">Tejal</span> <span class="nlm-surname">Patwardhan</span></span>, <span class="highwire-citation-author" data-delta="50"><span class="nlm-given-names">Yunxin Joy</span> <span class="nlm-surname">Jiao</span></span>, <span class="highwire-citation-author" data-delta="51"><span class="nlm-given-names">Reshma P.</span> <span class="nlm-surname">Shetty</span></span></span></div>
+  
+      <div  class="highwire-cite-metadata" ><span  class="highwire-cite-metadata-journal highwire-cite-metadata">bioRxiv </span><span  class="highwire-cite-metadata-pages highwire-cite-metadata">2026.02.05.703998; </span><span  class="highwire-cite-metadata-doi highwire-cite-metadata"><span class="doi_label">doi:</span> https://doi.org/10.64898/2026.02.05.703998 </span></div>
+  
+  
+  </div>
+</div>  </div>
+
+  
+  </div>
+</div>
+	  </div>
+	
+  <div class="panel-panel grid-12 panel-region-content">
+  	<div class="inside"><div class="panel-pane pane-highwire-article-clipboard-copy" >
+  
+      
+  
+  <div class="pane-content">
+    <div class = "clipboard-copy">
+  <span class="label-url">
+    <label for="dynamic">Share This Article:</label>
+  </span>
+  <span class="input-text-url">
+    <input type="text" id="dynamic" value="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1" size="50"/>
+  </span>
+  <span class="copy-button button">
+    <button id="copy-dynamic" class="clipboardjs-button" data-clipboard-target="#dynamic" data-clipboard-alert-style="tooltip" data-clipboard-alert-text="Copied!">Copy</button>
+  </span>
+</div>
+  </div>
+
+  
+  </div>
+</div>
+  </div>
+	
+		  <div class="panel-panel grid-12 panel-region-postscript">
+	    <div class="inside"><div class="panel-pane pane-service-links text-center" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="service-links"><a href="http://twitter.com/share?url=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1&amp;text=Using%20a%20GPT-5-driven%20autonomous%20lab%20to%20optimize%20the%20cost%20and%20titer%20of%20cell-free%20protein%20synthesis" id="twitter" title="Share this on Twitter" class="service-links-twitter" rel="nofollow" data-icon-position="" data-hide-link-title="0"><img src="https://www.biorxiv.org/sites/all/modules/highwire/highwire/images/twitter.png" alt="Twitter logo" /></a> <a href="http://www.facebook.com/sharer.php?u=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1&amp;t=Using%20a%20GPT-5-driven%20autonomous%20lab%20to%20optimize%20the%20cost%20and%20titer%20of%20cell-free%20protein%20synthesis" id="facebook" title="Share on Facebook" class="service-links-facebook" rel="nofollow" data-icon-position="" data-hide-link-title="0"><img src="https://www.biorxiv.org/sites/all/modules/highwire/highwire/images/fb-blue.png" alt="Facebook logo" /></a> <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1&amp;title=Using%20a%20GPT-5-driven%20autonomous%20lab%20to%20optimize%20the%20cost%20and%20titer%20of%20cell-free%20protein%20synthesis&amp;summary=&amp;source=bioRxiv" id="linkedin" title="Publish this post to LinkedIn" class="service-links-linkedin" rel="nofollow" data-icon-position="" data-hide-link-title="0"><img src="https://www.biorxiv.org/sites/all/modules/highwire/highwire/images/linkedin-32px.png" alt="LinkedIn logo" /></a> <a href="http://www.mendeley.com/import/?url=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1&amp;title=Using%20a%20GPT-5-driven%20autonomous%20lab%20to%20optimize%20the%20cost%20and%20titer%20of%20cell-free%20protein%20synthesis" id="mendeley" title="Share on Mendeley" class="service-links-mendeley" rel="nofollow" data-icon-position="" data-hide-link-title="0"><img src="https://www.biorxiv.org/sites/all/modules/highwire/highwire/images/mendeley.png" alt="Mendeley logo" /></a></div>  </div>
+
+  
+  </div>
+</div>
+	  </div>
+	
+</div>
+  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-minipanel-dialog-link pane-biorxiv-cite-tool" >
+  
+      
+  
+  <div class="pane-content">
+    <div class='minipanel-dialog-wrapper'><div class='minipanel-dialog-link-link'><a href="/" oncontextmenu="javascript: return false;" class="minipanel-dialog-link-trigger link-icon" title="Citation Tools"><span class="icon-globe"></span> <span class="title">Citation Tools</span></a></div><div class='minipanel-dialog-link-mini' style='display:none'><div class="panel-display panel-1col clearfix" id="mini-panel-biorxiv_cite_tool">
+  <div class="panel-panel panel-col">
+    <div><div class="panel-pane pane-highwire-citation-export" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="highwire-citation-export">  
+  <div class="highwire-citation-info">
+      <div class="highwire-article-citation highwire-citation-type-highwire-article cite-tool-node5219652--3" data-node-nid="5219652" id="citation-node-5219652--4574157511" data-pisa="biorxiv;2026.02.05.703998v1" data-pisa-master="biorxiv;2026.02.05.703998" data-seqnum="5219652" data-apath="/biorxiv/early/2026/02/05/2026.02.05.703998.atom"><div  class="highwire-cite highwire-cite-highwire-article highwire-citation-biorxiv-article-pap-list clearfix" >
+
+      <div class="highwire-cite-title" >
+      <div class="highwire-cite-title">Using a GPT-5-driven autonomous lab to optimize the cost and titer of cell-free protein synthesis</div>    </div>
+  
+      <div  class="highwire-cite-authors" ><span  class="highwire-citation-authors"><span class="highwire-citation-author first" data-delta="0"><span class="nlm-given-names">Alexus A.</span> <span class="nlm-surname">Smith</span></span>, <span class="highwire-citation-author" data-delta="1"><span class="nlm-given-names">Edmund L.</span> <span class="nlm-surname">Wong</span></span>, <span class="highwire-citation-author" data-delta="2"><span class="nlm-given-names">Ronan C.</span> <span class="nlm-surname">Donovan</span></span>, <span class="highwire-citation-author" data-delta="3"><span class="nlm-given-names">Brad A.</span> <span class="nlm-surname">Chapman</span></span>, <span class="highwire-citation-author" data-delta="4"><span class="nlm-given-names">Ryan</span> <span class="nlm-surname">Harry</span></span>, <span class="highwire-citation-author" data-delta="5"><span class="nlm-given-names">Pooyan</span> <span class="nlm-surname">Tirandazi</span></span>, <span class="highwire-citation-author" data-delta="6"><span class="nlm-given-names">Paulina</span> <span class="nlm-surname">Kanigowska</span></span>, <span class="highwire-citation-author" data-delta="7"><span class="nlm-given-names">Elizabeth A.</span> <span class="nlm-surname">Gendreau</span></span>, <span class="highwire-citation-author" data-delta="8"><span class="nlm-given-names">Robert H.</span> <span class="nlm-surname">Dahl</span></span>, <span class="highwire-citation-author" data-delta="9"><span class="nlm-given-names">Michal</span> <span class="nlm-surname">Jastrzebski</span></span>, <span class="highwire-citation-author" data-delta="10"><span class="nlm-given-names">Jose E.</span> <span class="nlm-surname">Cortez</span></span>, <span class="highwire-citation-author" data-delta="11"><span class="nlm-given-names">Christopher J.</span> <span class="nlm-surname">Bremner</span></span>, <span class="highwire-citation-author" data-delta="12"><span class="nlm-given-names">José C. Morales</span> <span class="nlm-surname">Hemuda</span></span>, <span class="highwire-citation-author" data-delta="13"><span class="nlm-given-names">James</span> <span class="nlm-surname">Dooner</span></span>, <span class="highwire-citation-author" data-delta="14"><span class="nlm-given-names">Ian</span> <span class="nlm-surname">Graves</span></span>, <span class="highwire-citation-author" data-delta="15"><span class="nlm-given-names">Rahul</span> <span class="nlm-surname">Karandikar</span></span>, <span class="highwire-citation-author" data-delta="16"><span class="nlm-given-names">Christopher</span> <span class="nlm-surname">Lionetti</span></span>, <span class="highwire-citation-author" data-delta="17"><span class="nlm-given-names">Kevin</span> <span class="nlm-surname">Christopher</span></span>, <span class="highwire-citation-author" data-delta="18"><span class="nlm-given-names">Andrew L.</span> <span class="nlm-surname">Consiglio</span></span>, <span class="highwire-citation-author" data-delta="19"><span class="nlm-given-names">Alyssa</span> <span class="nlm-surname">Tran</span></span>, <span class="highwire-citation-author" data-delta="20"><span class="nlm-given-names">William</span> <span class="nlm-surname">McCusker</span></span>, <span class="highwire-citation-author" data-delta="21"><span class="nlm-given-names">Duy X.</span> <span class="nlm-surname">Nguyen</span></span>, <span class="highwire-citation-author" data-delta="22"><span class="nlm-given-names">Isis Botelho</span> <span class="nlm-surname">Nunes da Silva</span></span>, <span class="highwire-citation-author" data-delta="23"><span class="nlm-given-names">Alvaro R.</span> <span class="nlm-surname">Bautista-Ayala</span></span>, <span class="highwire-citation-author" data-delta="24"><span class="nlm-given-names">Monica P.</span> <span class="nlm-surname">McNerney</span></span>, <span class="highwire-citation-author" data-delta="25"><span class="nlm-given-names">Sean</span> <span class="nlm-surname">Atkins</span></span>, <span class="highwire-citation-author" data-delta="26"><span class="nlm-given-names">Michael</span> <span class="nlm-surname">McDuffie</span></span>, <span class="highwire-citation-author" data-delta="27"><span class="nlm-given-names">Will</span> <span class="nlm-surname">Serber</span></span>, <span class="highwire-citation-author" data-delta="28"><span class="nlm-given-names">Bradley P.</span> <span class="nlm-surname">Barber</span></span>, <span class="highwire-citation-author" data-delta="29"><span class="nlm-given-names">Trinh</span> <span class="nlm-surname">Thanongsinh</span></span>, <span class="highwire-citation-author" data-delta="30"><span class="nlm-given-names">Andrew</span> <span class="nlm-surname">Nesson</span></span>, <span class="highwire-citation-author" data-delta="31"><span class="nlm-given-names">Bibek</span> <span class="nlm-surname">Lama</span></span>, <span class="highwire-citation-author" data-delta="32"><span class="nlm-given-names">Brandon</span> <span class="nlm-surname">Nichols</span></span>, <span class="highwire-citation-author" data-delta="33"><span class="nlm-given-names">Cameron</span> <span class="nlm-surname">LaFrance</span></span>, <span class="highwire-citation-author" data-delta="34"><span class="nlm-given-names">Tenzing</span> <span class="nlm-surname">Nyima</span></span>, <span class="highwire-citation-author" data-delta="35"><span class="nlm-given-names">Alicia</span> <span class="nlm-surname">Byrn</span></span>, <span class="highwire-citation-author" data-delta="36"><span class="nlm-given-names">Rashard</span> <span class="nlm-surname">Thornhill</span></span>, <span class="highwire-citation-author" data-delta="37"><span class="nlm-given-names">Bryan</span> <span class="nlm-surname">Cai</span></span>, <span class="highwire-citation-author" data-delta="38"><span class="nlm-given-names">Lizvette</span> <span class="nlm-surname">Ayala-Valdez</span></span>, <span class="highwire-citation-author" data-delta="39"><span class="nlm-given-names">Alycia</span> <span class="nlm-surname">Wong</span></span>, <span class="highwire-citation-author" data-delta="40"><span class="nlm-given-names">Austin J.</span> <span class="nlm-surname">Che</span></span>, <span class="highwire-citation-author" data-delta="41"><span class="nlm-given-names">Walter</span> <span class="nlm-surname">Thavarajah</span></span>, <span class="highwire-citation-author" data-delta="42"><span class="nlm-given-names">Daniel</span> <span class="nlm-surname">Smith</span></span>, <span class="highwire-citation-author" data-delta="43"><span class="nlm-given-names">Thomas F.</span> <span class="nlm-surname">Knight</span> <span class="nlm-suffix">Jr.</span></span>, <span class="highwire-citation-author" data-delta="44"><span class="nlm-given-names">David W.</span> <span class="nlm-surname">Borhani</span></span>, <span class="highwire-citation-author" data-delta="45"><span class="nlm-given-names">Jerry</span> <span class="nlm-surname">Tworek</span></span>, <span class="highwire-citation-author" data-delta="46"><span class="nlm-given-names">Mostafa</span> <span class="nlm-surname">Rohaninejad</span></span>, <span class="highwire-citation-author" data-delta="47"><span class="nlm-given-names">Ahmed</span> <span class="nlm-surname">El-Kishky</span></span>, <span class="highwire-citation-author" data-delta="48"><span class="nlm-given-names">Nathan C.</span> <span class="nlm-surname">Tedford</span></span>, <span class="highwire-citation-author" data-delta="49"><span class="nlm-given-names">Tejal</span> <span class="nlm-surname">Patwardhan</span></span>, <span class="highwire-citation-author" data-delta="50"><span class="nlm-given-names">Yunxin Joy</span> <span class="nlm-surname">Jiao</span></span>, <span class="highwire-citation-author" data-delta="51"><span class="nlm-given-names">Reshma P.</span> <span class="nlm-surname">Shetty</span></span></span></div>
+  
+      <div  class="highwire-cite-metadata" ><span  class="highwire-cite-metadata-journal highwire-cite-metadata">bioRxiv </span><span  class="highwire-cite-metadata-pages highwire-cite-metadata">2026.02.05.703998; </span><span  class="highwire-cite-metadata-doi highwire-cite-metadata"><span class="doi_label">doi:</span> https://doi.org/10.64898/2026.02.05.703998 </span></div>
+  
+  
+  </div>
+</div>  </div>
+  <div class="highwire-citation-formats">
+  	      <h2>Citation Manager Formats</h2>
+        <div class="highwire-citation-formats-links">
+      <span class="Z3988" title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.spage&amp;rft.epage&amp;rft.atitle=Using%20a%20GPT-5-driven%20autonomous%20lab%20to%20optimize%20the%20cost%20and%20titer%20of%20cell-free%20protein%20synthesis&amp;rft.volume&amp;rft.issue&amp;rft.date=2026-01-01%2000%3A00%3A00&amp;rft.stitle&amp;rft.jtitle=bioRxiv&amp;rft.au=Smith%2C+Alexus+A.&amp;rft.au=Wong%2C+Edmund+L.&amp;rft.au=Donovan%2C+Ronan+C.&amp;rft.au=Chapman%2C+Brad+A.&amp;rft.au=Harry%2C+Ryan&amp;rft.au=Tirandazi%2C+Pooyan&amp;rft.au=Kanigowska%2C+Paulina&amp;rft.au=Gendreau%2C+Elizabeth+A.&amp;rft.au=Dahl%2C+Robert+H.&amp;rft.au=Jastrzebski%2C+Michal&amp;rft.au=Cortez%2C+Jose+E.&amp;rft.au=Bremner%2C+Christopher+J.&amp;rft.au=Hemuda%2C+Jos%C3%A9+C.+Morales&amp;rft.au=Dooner%2C+James&amp;rft.au=Graves%2C+Ian&amp;rft.au=Karandikar%2C+Rahul&amp;rft.au=Lionetti%2C+Christopher&amp;rft.au=Christopher%2C+Kevin&amp;rft.au=Consiglio%2C+Andrew+L.&amp;rft.au=Tran%2C+Alyssa&amp;rft.au=McCusker%2C+William&amp;rft.au=Nguyen%2C+Duy+X.&amp;rft.au=Nunes+da+Silva%2C+Isis+Botelho&amp;rft.au=Bautista-Ayala%2C+Alvaro+R.&amp;rft.au=McNerney%2C+Monica+P.&amp;rft.au=Atkins%2C+Sean&amp;rft.au=McDuffie%2C+Michael&amp;rft.au=Serber%2C+Will&amp;rft.au=Barber%2C+Bradley+P.&amp;rft.au=Thanongsinh%2C+Trinh&amp;rft.au=Nesson%2C+Andrew&amp;rft.au=Lama%2C+Bibek&amp;rft.au=Nichols%2C+Brandon&amp;rft.au=LaFrance%2C+Cameron&amp;rft.au=Nyima%2C+Tenzing&amp;rft.au=Byrn%2C+Alicia&amp;rft.au=Thornhill%2C+Rashard&amp;rft.au=Cai%2C+Bryan&amp;rft.au=Ayala-Valdez%2C+Lizvette&amp;rft.au=Wong%2C+Alycia&amp;rft.au=Che%2C+Austin+J.&amp;rft.au=Thavarajah%2C+Walter&amp;rft.au=Smith%2C+Daniel&amp;rft.au=Knight%2C+Thomas+F.&amp;rft.au=Borhani%2C+David+W.&amp;rft.au=Tworek%2C+Jerry&amp;rft.au=Rohaninejad%2C+Mostafa&amp;rft.au=El-Kishky%2C+Ahmed&amp;rft.au=Tedford%2C+Nathan+C.&amp;rft.au=Patwardhan%2C+Tejal&amp;rft.au=Jiao%2C+Yunxin+Joy&amp;rft.au=Shetty%2C+Reshma+P."></span><ul class="hw-citation-links inline button button-alt button-grid clearfix"><li class="bibtext first"><a href="/highwire/citation/5219652/bibtext" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">BibTeX</a></li><li class="bookends"><a href="/highwire/citation/5219652/bookends" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">Bookends</a></li><li class="easybib"><a href="/highwire/citation/5219652/easybib" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">EasyBib</a></li><li class="endnote-tagged"><a href="/highwire/citation/5219652/endnote-tagged" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">EndNote (tagged)</a></li><li class="endnote-8-xml"><a href="/highwire/citation/5219652/endnote-8-xml" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">EndNote 8 (xml)</a></li><li class="medlars"><a href="/highwire/citation/5219652/medlars" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">Medlars</a></li><li class="mendeley"><a href="/highwire/citation/5219652/mendeley" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">Mendeley</a></li><li class="papers"><a href="/highwire/citation/5219652/papers" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">Papers</a></li><li class="refworks-tagged"><a href="/highwire/citation/5219652/refworks-tagged" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">RefWorks Tagged</a></li><li class="reference-manager"><a href="/highwire/citation/5219652/reference-manager" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">Ref Manager</a></li><li class="ris"><a href="/highwire/citation/5219652/ris" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">RIS</a></li><li class="zotero last"><a href="/highwire/citation/5219652/zotero" class="hw-download-citation-link" data-icon-position="" data-hide-link-title="0">Zotero</a></li></ul>    </div>
+  </div>
+</div>
+  </div>
+
+  
+  </div>
+</div>
+  </div>
+</div>
+</div></div>  </div>
+
+  
+  </div>
+</div>
+          </div>
+        </div>
+	</div> <!-- /.panel-row-wrapper -->	
+	
+	</div>
+
+  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-service-links" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="service-links"><div class="item-list"><ul><li class="first"><a href="http://twitter.com/share?url=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1&amp;count=horizontal&amp;via=&amp;text=Using%20a%20GPT-5-driven%20autonomous%20lab%20to%20optimize%20the%20cost%20and%20titer%20of%20cell-free%20protein%20synthesis&amp;counturl=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1" class="twitter-share-button service-links-twitter-widget" id="twitter_widget" title="Tweet This" rel="nofollow" data-icon-position="" data-hide-link-title="0"><span class="element-invisible">Tweet Widget</span></a></li><li><a href="http://www.facebook.com/plugins/like.php?href=https%3A//www.biorxiv.org/content/10.64898/2026.02.05.703998v1&amp;layout=button_count&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;width=100&amp;height=21&amp;font=&amp;locale=" id="facebook_like" title="I Like it" class="service-links-facebook-like" rel="nofollow" data-icon-position="" data-hide-link-title="0"><span class="element-invisible">Facebook Like</span></a></li><li class="last"><a href="https://www.biorxiv.org/content/10.64898/2026.02.05.703998v1" id="google_plus_one" title="Plus it" class="service-links-google-plus-one" rel="nofollow" data-icon-position="" data-hide-link-title="0"><span class="element-invisible">Google Plus One</span></a></li></ul></div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-highwire-article-collections" >
+  
+        <h2 class="pane-title">Subject Area</h2>
+    
+  
+  <div class="pane-content">
+    <div class="highwire-list-wrapper highwire-article-collections"><div class="highwire-list"><ul class="highwire-article-collection-term-list"><li class="first last odd"><span class="highwire-article-collection-term"><a href="/collection/synthetic-biology" class="highlight" data-icon-position="" data-hide-link-title="0">Synthetic Biology<i class="icon-caret-right"></i>
+</a></span></li></ul></div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-panels-mini pane-biorxiv-subject-collections block-style-col2" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="panel-flexible panels-flexible-new clearfix" id="mini-panel-biorxiv_subject_collections">
+<div class="panel-flexible-inside panels-flexible-new-inside">
+<div class="panels-flexible-region panels-flexible-region-new-center panels-flexible-region-first panels-flexible-region-last">
+  <div class="inside panels-flexible-region-inside panels-flexible-region-new-center-inside panels-flexible-region-inside-first panels-flexible-region-inside-last">
+<div class="panel-pane pane-snippet" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="snippet biorxiv-subject-areas-table-title" id="biorxiv-subject-areas-table-title">
+  
+      
+  <div class="snippet-content">
+    <b>Subject Areas</b>  </div>
+
+</div>
+  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-snippet" >
+  
+      
+  
+  <div class="pane-content">
+    <div class="snippet biorxiv-subject-areas-view-papers" id="biorxiv-subject-areas-view-papers">
+  
+      
+  <div class="snippet-content">
+    <a href="/content/early/recent"><strong>All Articles</strong></a>  </div>
+
+</div>
+  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-highwire-subject-collections" >
+  
+      
+  
+  <div class="pane-content">
+    <ul id="collection" class="collection highwire-list-expand"><li class="outer collection depth-2  child first"><div class = "data-wrapper"><a href="/collection/animal-behavior-and-cognition" class="" data-icon-position="" data-hide-link-title="0">Animal Behavior and Cognition</a> <span class = "article-count">(7326)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/biochemistry" class="" data-icon-position="" data-hide-link-title="0">Biochemistry</a> <span class = "article-count">(16863)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/bioengineering" class="" data-icon-position="" data-hide-link-title="0">Bioengineering</a> <span class = "article-count">(13141)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/bioinformatics" class="" data-icon-position="" data-hide-link-title="0">Bioinformatics</a> <span class = "article-count">(39965)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/biophysics" class="" data-icon-position="" data-hide-link-title="0">Biophysics</a> <span class = "article-count">(20559)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/cancer-biology" class="" data-icon-position="" data-hide-link-title="0">Cancer Biology</a> <span class = "article-count">(17722)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/cell-biology" class="" data-icon-position="" data-hide-link-title="0">Cell Biology</a> <span class = "article-count">(24411)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/clinical-trials" class="" data-icon-position="" data-hide-link-title="0">Clinical Trials</a> <span class = "article-count">(138)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/developmental-biology" class="" data-icon-position="" data-hide-link-title="0">Developmental Biology</a> <span class = "article-count">(12886)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/ecology" class="" data-icon-position="" data-hide-link-title="0">Ecology</a> <span class = "article-count">(19122)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/epidemiology" class="" data-icon-position="" data-hide-link-title="0">Epidemiology</a> <span class = "article-count">(2067)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/evolutionary-biology" class="" data-icon-position="" data-hide-link-title="0">Evolutionary Biology</a> <span class = "article-count">(23537)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/genetics" class="" data-icon-position="" data-hide-link-title="0">Genetics</a> <span class = "article-count">(15174)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/genomics" class="" data-icon-position="" data-hide-link-title="0">Genomics</a> <span class = "article-count">(21708)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/immunology" class="" data-icon-position="" data-hide-link-title="0">Immunology</a> <span class = "article-count">(16963)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/microbiology" class="" data-icon-position="" data-hide-link-title="0">Microbiology</a> <span class = "article-count">(38725)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/molecular-biology" class="" data-icon-position="" data-hide-link-title="0">Molecular Biology</a> <span class = "article-count">(16422)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/neuroscience" class="" data-icon-position="" data-hide-link-title="0">Neuroscience</a> <span class = "article-count">(84952)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/paleontology" class="" data-icon-position="" data-hide-link-title="0">Paleontology</a> <span class = "article-count">(639)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/pathology" class="" data-icon-position="" data-hide-link-title="0">Pathology</a> <span class = "article-count">(2722)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/pharmacology-and-toxicology" class="" data-icon-position="" data-hide-link-title="0">Pharmacology and Toxicology</a> <span class = "article-count">(4599)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/physiology" class="" data-icon-position="" data-hide-link-title="0">Physiology</a> <span class = "article-count">(7317)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/plant-biology" class="" data-icon-position="" data-hide-link-title="0">Plant Biology</a> <span class = "article-count">(14507)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/scientific-communication-and-education" class="" data-icon-position="" data-hide-link-title="0">Scientific Communication and Education</a> <span class = "article-count">(1996)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/synthetic-biology" class="" data-icon-position="" data-hide-link-title="0">Synthetic Biology</a> <span class = "article-count">(4109)</span></div></li>
+<li class="outer collection depth-2  child"><div class = "data-wrapper"><a href="/collection/systems-biology" class="" data-icon-position="" data-hide-link-title="0">Systems Biology</a> <span class = "article-count">(9479)</span></div></li>
+<li class="outer collection depth-2  child last"><div class = "data-wrapper"><a href="/collection/zoology" class="" data-icon-position="" data-hide-link-title="0">Zoology</a> <span class = "article-count">(2199)</span></div></li>
+</ul>  </div>
+
+  
+  </div>
+  </div>
+</div>
+</div>
+</div>
+  </div>
+
+  
+  </div>
+</div>
+			</div>
+		</div>
+	
+	</div> <!-- /.panel-row-wrapper -->	
+	
+	</div>
+
+    </div>
+  </div>
+</div>      </div>
+</div>  </div>
+</section>    
+  
+  </div>    <div class="region region-page-bottom" id="region-page-bottom">
+  <div class="region-inner region-page-bottom-inner">
+      </div>
+</div><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript" src="https://www.biorxiv.org/sites/default/files/advagg_js/js__Vh5BcRYb6VtLoN3uam6O4DIKltYUVMjVDWtakoysPq0__Wed8jsPTirEozek7dWSCS8970Cp7a9xKKgFk6FPuSVM__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.js"></script>
+<script type="text/javascript" src="//d33xdlntwy0kbs.cloudfront.net/cshl_custom.js"></script>
+<script type="text/javascript" src="https://www.biorxiv.org/sites/default/files/advagg_js/js__BmqjBnkz3MgYCAoc25s1lDRMEjLhC3mEPVonUFIHi08__Unwv5-ZIuHBfFwytsjEx1niBVJ7n1T4lPws7VrkHXM4__yJs01DMGvU3JDmVQQ_99xurFIu-J8GmPKbEzlrVLDtY.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+function euCookieComplianceLoadScripts() {}
+//--><!]]>
+</script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+var eu_cookie_compliance_cookie_name = "";
+//--><!]]>
+</script>
+  </body>
+</html>
