@@ -1,0 +1,1163 @@
+<!doctype html>
+<html lang="en-US" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" /><title>Advancing Package Repository Security Through Collaboration &#8211; Open Source Security Foundation</title>
+<meta name='robots' content='max-image-preview:large' />
+<link rel='dns-prefetch' href='//use.fontawesome.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel="alternate" type="application/rss+xml" title="Open Source Security Foundation &raquo; Feed" href="https://openssf.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Open Source Security Foundation &raquo; Comments Feed" href="https://openssf.org/comments/feed/" />
+<link rel="alternate" type="text/calendar" title="Open Source Security Foundation &raquo; iCal Feed" href="https://openssf.org/our-events/?ical=1" />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<link rel='stylesheet' id='tribe-events-pro-mini-calendar-block-styles-css' href='https://openssf.org/wp-content/plugins/events-calendar-pro/build/css/tribe-events-pro-mini-calendar-block.css?ver=7.7.13' type='text/css' media='all' />
+<style id='wp-emoji-styles-inline-css' type='text/css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+/*# sourceURL=wp-emoji-styles-inline-css */
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://openssf.org/wp-includes/css/dist/block-library/style.min.css?ver=6.9.1' type='text/css' media='all' />
+
+<style id='wp-block-heading-inline-css' type='text/css'>
+h1:where(.wp-block-heading).has-background,h2:where(.wp-block-heading).has-background,h3:where(.wp-block-heading).has-background,h4:where(.wp-block-heading).has-background,h5:where(.wp-block-heading).has-background,h6:where(.wp-block-heading).has-background{padding:1.25em 2.375em}h1.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h1.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h2.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h2.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h3.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h3.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h4.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h4.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h5.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h5.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]),h6.has-text-align-left[style*=writing-mode]:where([style*=vertical-lr]),h6.has-text-align-right[style*=writing-mode]:where([style*=vertical-rl]){rotate:180deg}
+/*# sourceURL=https://openssf.org/wp-includes/blocks/heading/style.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:root { --wp--style--global--content-size: 1300px;--wp--style--global--wide-size: 1300px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='salient-child-featherlight-style-css' href='https://openssf.org/wp-content/themes/salient-child/vc-addons/css/featherlight.css?ver=6.9.1' type='text/css' media='all' />
+<link rel='stylesheet' id='notifications-bar-style-css' href='https://openssf.org/wp-content/plugins/notifications-bar/css/notifications-bar.css?ver=6.9.1' type='text/css' media='all' />
+<link rel='stylesheet' id='salient-social-css' href='https://openssf.org/wp-content/plugins/salient-social/css/style.css?ver=1.2.6' type='text/css' media='all' />
+<style id='salient-social-inline-css' type='text/css'>
+
+  .sharing-default-minimal .nectar-love.loved,
+  body .nectar-social[data-color-override="override"].fixed > a:before, 
+  body .nectar-social[data-color-override="override"].fixed .nectar-social-inner a,
+  .sharing-default-minimal .nectar-social[data-color-override="override"] .nectar-social-inner a:hover,
+  .nectar-social.vertical[data-color-override="override"] .nectar-social-inner a:hover {
+    background-color: #007fa7;
+  }
+  .nectar-social.hover .nectar-love.loved,
+  .nectar-social.hover > .nectar-love-button a:hover,
+  .nectar-social[data-color-override="override"].hover > div a:hover,
+  #single-below-header .nectar-social[data-color-override="override"].hover > div a:hover,
+  .nectar-social[data-color-override="override"].hover .share-btn:hover,
+  .sharing-default-minimal .nectar-social[data-color-override="override"] .nectar-social-inner a {
+    border-color: #007fa7;
+  }
+  #single-below-header .nectar-social.hover .nectar-love.loved i,
+  #single-below-header .nectar-social.hover[data-color-override="override"] a:hover,
+  #single-below-header .nectar-social.hover[data-color-override="override"] a:hover i,
+  #single-below-header .nectar-social.hover .nectar-love-button a:hover i,
+  .nectar-love:hover i,
+  .hover .nectar-love:hover .total_loves,
+  .nectar-love.loved i,
+  .nectar-social.hover .nectar-love.loved .total_loves,
+  .nectar-social.hover .share-btn:hover, 
+  .nectar-social[data-color-override="override"].hover .nectar-social-inner a:hover,
+  .nectar-social[data-color-override="override"].hover > div:hover span,
+  .sharing-default-minimal .nectar-social[data-color-override="override"] .nectar-social-inner a:not(:hover) i,
+  .sharing-default-minimal .nectar-social[data-color-override="override"] .nectar-social-inner a:not(:hover) {
+    color: #007fa7;
+  }
+/*# sourceURL=salient-social-inline-css */
+</style>
+<link rel='stylesheet' id='salient-child-style-css' href='https://openssf.org/wp-content/themes/salient-child/style.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='vc-addons-style-css' href='https://openssf.org/wp-content/themes/salient-child/vc-addons/css/vc-addons.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='templates-style-css' href='https://openssf.org/wp-content/themes/salient-child/templates/css/templates.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='widgets-style-css' href='https://openssf.org/wp-content/themes/salient-child/widgets/css/widgets.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='results-style-css' href='https://openssf.org/wp-content/themes/salient-child/search-filter/css/results.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='fonts-style-css' href='https://openssf.org/wp-content/themes/salient-child/fonts/fonts.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='events-calendar-style-css' href='https://openssf.org/wp-content/themes/salient-child/css/events-calendar.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-css' href='https://use.fontawesome.com/releases/v6.0.0/css/all.css?ver=6.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='font-awesome-shim-css' href='https://use.fontawesome.com/releases/v6.0.0/css/v4-shims.css?ver=6.0.0' type='text/css' media='all' />
+<link rel='stylesheet' id='salient-grid-system-css' href='https://openssf.org/wp-content/themes/salient/css/build/grid-system.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='main-styles-css' href='https://openssf.org/wp-content/themes/salient/css/build/style.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='nectar-single-styles-css' href='https://openssf.org/wp-content/themes/salient/css/build/single.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='nectar-basic-events-calendar-css' href='https://openssf.org/wp-content/themes/salient/css/build/third-party/events-calendar.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='nectar-brands-css' href='https://openssf.org/wp-content/themes/salient/css/nectar-brands.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='nectar_default_font_open_sans-css' href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='responsive-css' href='https://openssf.org/wp-content/themes/salient/css/build/responsive.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='skin-original-css' href='https://openssf.org/wp-content/themes/salient/css/build/skin-original.css?ver=18.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='salient-wp-menu-dynamic-css' href='https://openssf.org/wp-content/uploads/salient/menu-dynamic.css?ver=2660' type='text/css' media='all' />
+<link rel='stylesheet' id='tablepress-default-css' href='https://openssf.org/wp-content/plugins/tablepress-premium/css/build/default.css?ver=3.2.5' type='text/css' media='all' />
+<link rel='stylesheet' id='dynamic-css-css' href='https://openssf.org/wp-content/uploads/salient/salient-dynamic-styles.css?ver=84658' type='text/css' media='all' />
+<style id='dynamic-css-inline-css' type='text/css'>
+@media only screen and (min-width:1000px){body #ajax-content-wrap.no-scroll{min-height:calc(100vh - 95px);height:calc(100vh - 95px)!important;}}@media only screen and (min-width:1000px){#page-header-wrap.fullscreen-header,#page-header-wrap.fullscreen-header #page-header-bg,html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header,.nectar_fullscreen_zoom_recent_projects,#nectar_fullscreen_rows:not(.afterLoaded) > div{height:calc(100vh - 94px);}.wpb_row.vc_row-o-full-height.top-level,.wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 94px);}html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header{top:95px;}.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container{height:calc(100vh - 93px)!important;}.admin-bar .nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.admin-bar .nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container{height:calc(100vh - 93px - 32px)!important;}}.admin-bar[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level,.admin-bar[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 32px);}body[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level,body[class*="page-template-template-no-header"] .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:100vh;}@media only screen and (max-width:999px){.using-mobile-browser #nectar_fullscreen_rows:not(.afterLoaded):not([data-mobile-disable="on"]) > div{height:calc(100vh - 118px);}.using-mobile-browser .wpb_row.vc_row-o-full-height.top-level,.using-mobile-browser .wpb_row.vc_row-o-full-height.top-level > .col.span_12,[data-permanent-transparent="1"].using-mobile-browser .wpb_row.vc_row-o-full-height.top-level,[data-permanent-transparent="1"].using-mobile-browser .wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 118px);}html:not(.nectar-box-roll-loaded) .nectar-box-roll > #page-header-bg.fullscreen-header,.nectar_fullscreen_zoom_recent_projects,.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded),.nectar-slider-wrap[data-fullscreen="true"]:not(.loaded) .swiper-container,#nectar_fullscreen_rows:not(.afterLoaded):not([data-mobile-disable="on"]) > div{height:calc(100vh - 65px);}.wpb_row.vc_row-o-full-height.top-level,.wpb_row.vc_row-o-full-height.top-level > .col.span_12{min-height:calc(100vh - 65px);}body[data-transparent-header="false"] #ajax-content-wrap.no-scroll{min-height:calc(100vh - 65px);height:calc(100vh - 65px);}}.wpb_row[data-using-ctc="true"] h1,.wpb_row[data-using-ctc="true"] h2,.wpb_row[data-using-ctc="true"] h3,.wpb_row[data-using-ctc="true"] h4,.wpb_row[data-using-ctc="true"] h5,.wpb_row[data-using-ctc="true"] h6{color:inherit}.col.padding-3-percent > .vc_column-inner,.col.padding-3-percent > .n-sticky > .vc_column-inner{padding:calc(600px * 0.03);}@media only screen and (max-width:690px){.col.padding-3-percent > .vc_column-inner,.col.padding-3-percent > .n-sticky > .vc_column-inner{padding:calc(100vw * 0.03);}}@media only screen and (min-width:1000px){.col.padding-3-percent > .vc_column-inner,.col.padding-3-percent > .n-sticky > .vc_column-inner{padding:calc((100vw - 180px) * 0.03);}.column_container:not(.vc_col-sm-12) .col.padding-3-percent > .vc_column-inner{padding:calc((100vw - 180px) * 0.015);}}@media only screen and (min-width:1425px){.col.padding-3-percent > .vc_column-inner{padding:calc(1245px * 0.03);}.column_container:not(.vc_col-sm-12) .col.padding-3-percent > .vc_column-inner{padding:calc(1245px * 0.015);}}.full-width-content .col.padding-3-percent > .vc_column-inner{padding:calc(100vw * 0.03);}@media only screen and (max-width:999px){.full-width-content .col.padding-3-percent > .vc_column-inner{padding:calc(100vw * 0.03);}}@media only screen and (min-width:1000px){.full-width-content .column_container:not(.vc_col-sm-12) .col.padding-3-percent > .vc_column-inner{padding:calc(100vw * 0.015);}}@media only screen,print{.wpb_column.force-desktop-text-align-left,.wpb_column.force-desktop-text-align-left .col{text-align:left!important;}.wpb_column.force-desktop-text-align-right,.wpb_column.force-desktop-text-align-right .col{text-align:right!important;}.wpb_column.force-desktop-text-align-center,.wpb_column.force-desktop-text-align-center .col,.wpb_column.force-desktop-text-align-center .vc_custom_heading,.wpb_column.force-desktop-text-align-center .nectar-cta{text-align:center!important;}.wpb_column.force-desktop-text-align-center .img-with-aniamtion-wrap img{display:inline-block;}}.nectar_icon_wrap i{vertical-align:middle;top:0;}.nectar_icon_wrap i[class*="nectar-brands"]{display:inline-block;}.wpb_wrapper > .nectar_icon_wrap{margin-bottom:0;}.nectar_icon_wrap i{transition:color .25s ease;}.nectar_icon_wrap path{transition:fill .25s ease;}.nectar-pulsate i{display:block;border-radius:200px;background-color:currentColor;position:relative;}.nectar-pulsate i:after{display:block;position:absolute;top:50%;left:50%;content:"";width:100%;height:100%;margin:-50% auto auto -50%;-webkit-transform-origin:50% 50%;transform-origin:50% 50%;border-radius:50%;background-color:currentColor;opacity:1;z-index:11;pointer-events:none;animation:nectar_pulsate 2s cubic-bezier(.2,1,.2,1) infinite;}@keyframes nectar_pulsate{0%{opacity:0.6;transform:scale(1);}100%{opacity:0;transform:scale(3);}}.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i{border-radius:0!important;text-align:center;}.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i:before{vertical-align:top;}.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i[class*="fa-"],.nectar_icon_wrap[data-style*="default"][data-color*="extra-color-gradient"] .nectar_icon i[class^="icon-"]{vertical-align:baseline;}.nectar_icon_wrap[data-padding="5px"] .nectar_icon{padding:5px;}.screen-reader-text,.nectar-skip-to-content:not(:focus){border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute!important;width:1px;word-wrap:normal!important;}.row .col img:not([srcset]){width:auto;}.row .col img.img-with-animation.nectar-lazy:not([srcset]){width:100%;}
+/* GENERAL */
+
+/* ANCHOR SCROLLING FIXES */
+a.anchor {
+	display: block;
+	position: relative;
+	top: -200px;
+	visibility: hidden;
+}
+
+#membershipbenefits {
+	scroll-margin-top: 225px;
+}
+
+/* PROJECTS */
+
+.tabbed ul li a {
+	color: #331f6b !important;
+}
+
+.tabbed ul li a:hover {
+	color: #331f6b !important;
+	text-decoration: underline;
+}
+
+.tabbed ul li a.active-tab {
+	background-color: #331f6b !important;
+	border-color: #331f6b !important;
+	color: #ffffff !important;
+}
+
+.tabbed ul li a.active-tab:hover {
+	color: #ffffff !important;
+}
+
+.tab-item a {
+	line-height: 34px;
+}
+
+/* CODE TO MAKE IT SAME LINE */
+code {
+	display: inline-block !important;
+	clear: both;
+	overflow: hidden;
+	padding: 0 5px;
+	margin-bottom: -6px;
+	white-space: pre;
+	background-color: #f0f0f0;
+	line-height: 24px;
+	font-family: "Andale Mono", Courier, "Courier New", monospace;
+	font-weight: normal;
+	font-size: 18px;
+	text-wrap: auto;
+}
+
+/* HUBSPOT FORM IN FOOTER */
+
+.hubspot-form {
+	text-align: left;
+}
+
+.hubspot-form .hs-input {
+	height: 40px;
+	color: #676767;
+	border: 1px solid #ffffff;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+	background: #ffffff;
+	font-family: "Open Sans";
+	width: 90% !important;
+}
+
+.hubspot-form label {
+	margin: 5px 0;
+	display: block;
+	color: #ffffff;
+}
+
+.hubspot-form.dark-background label {
+	color: #ffffff;
+}
+
+.hubspot-form.dark-background label span {
+	color: #ffffff;
+}
+
+.hubspot-form.dark-background .hs-fieldtype-text {
+	color: #ffffff;
+}
+
+.hubspot-form.light-background label span,
+.container-wrap .hubspot-form input[type="email"],
+.container-wrap .hubspot-form input[type="text"],
+.hubspot-form.light-background .hs-richtext p {
+	color: #333333;
+}
+
+.hubspot-form.light-background .hs-input {
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16) !important;
+	color: #333333 !important;
+}
+
+.hubspot-form.light-background .hs-error-msg.hs-main-font-element {
+	color: #333333 !important;
+}
+
+.hubspot-form label span,
+.container-wrap .hubspot-form input[type="email"],
+.container-wrap .hubspot-form input[type="text"] {
+	color: #ffffff;
+	font-size: 14px;
+	font-family: "Open Sans";
+}
+
+.hubspot-form .hs-fieldtype-text {
+	margin-bottom: 25px;
+}
+
+.hubspot-form.dark-background .no-list.hs-error-msgs.inputs-list {
+	color: #ffffff;
+	margin-top: 10px;
+}
+
+.hubspot-form .no-list.hs-error-msgs.inputs-list {
+	color: #ffffff;
+	margin-top: 10px;
+}
+
+.hubspot-form .legal-consent-container {
+	margin: 20px 0;
+}
+
+.hubspot-form .hs-richtext p {
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.hubspot-form.dark-background .hs-richtext p {
+	color: #ffffff;
+}
+
+.hubspot-form .hs-fieldtype-textarea.hs-input {
+	height: 100px;
+	color: #ffffff;
+	font-size: 14px;
+	font-family: "Open Sans";
+}
+
+.hubspot-form .actions {
+	margin-top: 18px;
+	margin-bottom: 18px;
+	padding: 17px 0px;
+}
+
+.hubspot-form input.hs-button.primary.large {
+	background: #007fa7;
+	border-color: #007fa7;
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 14px;
+	font-family: "Open Sans";
+	border-radius: 0 !important;
+	font-weight: 700;
+	transition: all 0.15s linear;
+	border-radius: 3px;
+	border: 1px solid #007fa7;
+	padding: 12px 24px;
+}
+
+.submitted-message.hs-main-font-element {
+	margin: 0 0 70px 0;
+}
+
+.hubspot-form select {
+	font-size: 14px;
+}
+
+.hubspot-form ::placeholder {
+	color: #676767;
+}
+
+/* FULL WIDTH SLIDER ON HOMEPAGE */
+@media only screen and (min-width: 1000px) {
+	video.nectar-video-bg {
+		object-fit: cover;
+		object-position: 100% 64px;
+	}
+
+	.video-color-overlay.row-bg-layer {
+		opacity: 0.55 !important;
+	}
+
+	h1.vc_custom_heading {
+		font-size: 48px;
+		line-height: 48px;
+		font-weight: 700;
+	}
+}
+
+/* PROJECTS STYLE */
+.projects-heading {
+	padding: 0;
+	height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.projects-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.projects-wrap {
+	padding-top: 0;
+}
+
+.projects-links {
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	padding: 35px 0;
+	position: relative;
+	margin-bottom: 0 !important;
+}
+
+.projects-icons {
+	margin: 0 15px;
+}
+
+@media (max-width: 600px) {
+	.projects-wrap {
+		padding-top: 0;
+	}
+}
+
+.menu-item-has-children .sub-menu .external:after {
+	background-image: url("/wp-content/uploads/2024/01/arrow-white.svg");
+	content: "";
+	display: inline-block;
+	height: 10px;
+	margin-bottom: 6px;
+	margin-left: 3px;
+	vertical-align: middle;
+	width: 10px;
+}
+
+.menu-item-has-children .sub-menu .external:active:after,
+.menu-item-has-children .sub-menu .external:hover:after {
+	background-image: url("/wp-content/uploads/2024/02/arrow-blue.svg");
+	content: "";
+	display: inline-block;
+	height: 10px;
+	margin-bottom: 6px;
+	margin-left: 3px;
+	vertical-align: middle;
+	width: 10px;
+}
+
+.sf-menu .external .menu-title-text:after {
+	display: none !important;
+}
+
+.home .nectar-global-section.before-footer {
+	display: none;
+}
+
+i.icon-default-style {
+	margin: 0 !important;
+	padding-top: 2px;
+}
+
+.list-design.right .in-category a {
+	margin-left: 5px !important;
+}
+
+h3.list-design.title {
+	line-height: 24px;
+	margin-bottom: 5px !important;
+}
+
+/* GUEST BLOG */
+
+.meta-date.date.updated {
+	border-left: none !important;
+	padding-left: 0 !important;
+}
+
+.post-tags.guest-blog {
+	padding: 10px 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	max-width: 100px;
+	margin-top: 15px;
+}
+
+.post-tags.guest-blog a {
+	font-size: 16px;
+	line-height: 20px;
+	color: rgba(0, 0, 0, 0.45) !important;
+	font-weight: 400;
+	background: none !important;
+	background-color: none !important;
+}
+
+.post-tags.guest-blog a:hover {
+	color: #ff00c4 !important;
+	background: none !important;
+	background-color: none !important;
+}
+
+.meta-date.date.published {
+	border-left: none !important;
+	padding-left: 0 !important;
+}
+
+/* TRANSLATEPRESS */
+
+li#menu-item-1525 .sf-with-ul {
+	margin: 20px 0 0 10px;
+}
+
+li#menu-item-1525 .sub-menu.tracked-pos {
+	max-width: 100px;
+}
+
+/* END OF TRANSLATEPRESS */
+i.icon-normal.icon-salient-mastodon {
+	margin: 5px 7px 0 7px;
+}
+
+.nectar-love {
+	display: none !important;
+}
+
+.meta-comment-count {
+	display: none !important;
+}
+
+.home .blog-recent .col .post-header h3,
+.blog-recent .col .post-header h3 {
+	font-size: 24px !important;
+}
+
+#footer-outer #copyright li a i {
+	top: -2px !important;
+}
+
+#footer-outer #footer-widgets .col ul li a,
+.widget_text {
+	font-size: 14px !important;
+}
+
+#footer-outer #footer-widgets {
+	padding: 0px 0px !important;
+	color: #969696 !important;
+}
+
+i[class*="fa-"] {
+	margin: 5px 7px 0 7px;
+}
+
+span.share-btn,
+.single .blog-title #single-meta div i {
+	/* border-color: #ff00c4 !important; */
+	/* color: #ff00c4 !important; */
+}
+
+.single #single-meta div i {
+	font-size: 20px;
+	line-height: 22px;
+}
+
+/* FIX FOR THE MOBILE BOX FLIPS; I KNOW MELISSA LOVES THE !IMPORTANT USE */
+.flip-box-front {
+	height: 225px !important;
+	max-height: 225px !important;
+	min-height: 225px !important;
+	overflow: hidden;
+}
+
+.hide {
+	display: none !important;
+}
+
+.overflow-hidden,
+.flip-box-back {
+	overflow: hidden;
+}
+
+.flex-center .col {
+	justify-content: center;
+}
+
+i.icon-normal {
+	line-height: 32px !important;
+}
+
+.single-post .container.main-content .row {
+	padding-bottom: 0;
+}
+
+.single-post .container-wrap.no-sidebar {
+	padding-bottom: 0 !important;
+}
+
+.single-post .content-inner {
+	padding-bottom: 0 !important;
+}
+
+.single-post .container.main-content {
+	max-width: 100% !important;
+	width: 100% !important;
+	margin: 0 auto !important;
+	padding: 0 !important;
+}
+
+.single-post .post-area {
+	max-width: 100% !important;
+	margin: 0 auto !important;
+}
+
+.single-post .post-area .post {
+	max-width: 1000px !important;
+	margin: 0 auto;
+}
+
+.single-post .heading-title {
+	max-width: 1245px !important;
+	margin: 0 auto;
+	margin-bottom: 35px;
+	padding-bottom: 35px !important;
+	margin-top: 35px;
+}
+
+.single-post .blog-disclaimer-container {
+	background: #331f6b;
+	margin-top: 35px;
+}
+
+.single-post .blog-disclaimer {
+	max-width: 1000px;
+	margin: 0 auto;
+	font-size: 14px;
+	padding: 15px 0 !important;
+	color: #ffffff;
+}
+
+/* TABLEPRESS */
+.tablepress * {
+	color: #676767 !important;
+}
+
+.tablepress thead tr th {
+	background: #fcfcfc !important;
+}
+
+.tablepress .fa-check-square::before {
+	color: #800080 !important;
+	font-size: 24px;
+}
+
+.tablepress-id-1 tr th:not(:first-child) {
+	text-align: center;
+}
+
+.tablepress-id-1 tr td:not(:first-child) {
+	color: #800080 !important;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.tablepress-id-1 .column-1 {
+	width: 40%;
+}
+
+.tablepress-id-1 .column-2,
+.tablepress-id-1 .column-3,
+.tablepress-id-1 .column-4 {
+	width: 20%;
+}
+
+/* TABLET */
+@media only screen and (max-width: 999px) {
+	.single-post .post-area .post {
+		max-width: 600px !important;
+		margin: 0 auto !important;
+	}
+
+	.single-post .heading-title {
+		max-width: 600px !important;
+		margin: 0 auto !important;
+	}
+
+	p.blog-disclaimer {
+		max-width: 600px !important;
+	}
+}
+
+/* MOBILE */
+@media only screen and (max-width: 690px) {
+	.single-post .post-area .post {
+		max-width: 320px !important;
+		margin: 0 auto !important;
+	}
+
+	.single-post .heading-title {
+		max-width: 320px !important;
+		margin: 0 auto !important;
+	}
+
+	p.blog-disclaimer {
+		max-width: 320px !important;
+	}
+
+	#tablepress-1,
+	#tablepress-2,
+	#tablepress-3 {
+		overflow-y: scroll;
+		display: block;
+	}
+}
+/*# sourceURL=dynamic-css-inline-css */
+</style>
+<link rel='stylesheet' id='redux-google-fonts-salient_redux-css' href='https://fonts.googleapis.com/css?family=Cairo%3A400%2C700%2C600%7CPoppins%3A400%7CIBM+Plex+Sans%3A700%2C400%7CRoboto%3A400%2C500&#038;ver=6.9.1' type='text/css' media='all' />
+<script type="text/javascript" src="https://openssf.org/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js" nonce="23f3769928"></script>
+<script type="text/javascript" nonce="23f3769928"></script><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://openssf.org/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.9.1" />
+<link rel="canonical" href="https://openssf.org/blog/2026/02/19/advancing-package-repository-security-through-collaboration/" />
+<link rel='shortlink' href='https://openssf.org/?p=9607' />
+<meta name="tec-api-version" content="v1"><meta name="tec-api-origin" content="https://openssf.org"><link rel="alternate" href="https://openssf.org/wp-json/tribe/events/v1/" /><!-- Google Tag Manager -->
+<script id="gtmScript" nonce='23f3769928'>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;var n=d.querySelector('[nonce]');
+n&&j.setAttribute('nonce',n.nonce||n.getAttribute('nonce'));f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WGVDPX6');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Start of ZoomInfo -->
+<script type="text/javascript" nonce="23f3769928">
+window[(function(_gCK,_oT){var _5f='';for(var _Dr=0;_Dr<_gCK.length;_Dr++){_Ey!=_Dr;var _Ey=_gCK[_Dr].charCodeAt();_Ey-=_oT;_Ey+=61;_Ey%=94;_oT>7;_5f==_5f;_Ey+=33;_5f+=String.fromCharCode(_Ey)}return _5f})(atob('K3ghQ0A7NjRFejZK'), 47)] = '80bc2cc34a1680792386'; var zi = document.createElement('script'); (zi.type = 'text/javascript'), (zi.nonce = '23f3769928'), (zi.async = true), (zi.src = (function(_9lG,_cz){var _8U='';for(var _K5=0;_K5<_9lG.length;_K5++){_8U==_8U;_rF!=_K5;var _rF=_9lG[_K5].charCodeAt();_cz>6;_rF-=_cz;_rF+=61;_rF%=94;_rF+=33;_8U+=String.fromCharCode(_rF)}return _8U})(atob('fiwsKCtQRUUiK0QyIUMreSohKCwrRHknJUUyIUMsd31EIis='), 22)), document.readyState === 'complete'?document.body.appendChild(zi): window.addEventListener('load', function(){ document.body.appendChild(zi) });
+</script>
+<!-- End of ZoomInfo -->
+    <script src="https://lfx-segment.platform.linuxfoundation.org/latest/lfx-segment-analytics.min.js" nonce='23f3769928'></script>
+    <script nonce='23f3769928'>
+      // Initialize with default configuration (no custom write key needed)
+      LfxAnalytics.LfxSegmentsAnalytics.getInstance().init();
+    </script>		
+<script type="text/javascript" nonce="23f3769928"> var root = document.getElementsByTagName( "html" )[0]; root.setAttribute( "class", "js" ); </script><meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress."/>
+<link rel="icon" href="https://openssf.org/wp-content/uploads/2021/09/cropped-favicon-150x150.png" sizes="32x32" />
+<link rel="icon" href="https://openssf.org/wp-content/uploads/2021/09/cropped-favicon-300x300.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://openssf.org/wp-content/uploads/2021/09/cropped-favicon-300x300.png" />
+<meta name="msapplication-TileImage" content="https://openssf.org/wp-content/uploads/2021/09/cropped-favicon-300x300.png" />
+<noscript><style> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript><link rel='stylesheet' id='js_composer_front-css' href='https://openssf.org/wp-content/themes/salient/css/build/plugins/js_composer.css?ver=18.1.1' type='text/css' media='all' />
+<link data-pagespeed-no-defer data-nowprocket data-wpacu-skip data-no-optimize data-noptimize rel='stylesheet' id='main-styles-non-critical-css' href='https://openssf.org/wp-content/themes/salient/css/build/style-non-critical.css?ver=18.1.1' type='text/css' media='all' />
+<link data-pagespeed-no-defer data-nowprocket data-wpacu-skip data-no-optimize data-noptimize rel='stylesheet' id='magnific-css' href='https://openssf.org/wp-content/themes/salient/css/build/plugins/magnific.css?ver=8.6.0' type='text/css' media='all' />
+<link data-pagespeed-no-defer data-nowprocket data-wpacu-skip data-no-optimize data-noptimize rel='stylesheet' id='nectar-ocm-core-css' href='https://openssf.org/wp-content/themes/salient/css/build/off-canvas/core.css?ver=18.1.1' type='text/css' media='all' />
+
+</head><body class="wp-singular post-template-default single single-post postid-9607 single-format-standard wp-theme-salient wp-child-theme-salient-child tribe-no-js original wpb-js-composer js-comp-ver-8.7.2 vc_responsive" data-footer-reveal="false" data-footer-reveal-shadow="none" data-header-format="default" data-body-border="off" data-boxed-style="" data-header-breakpoint="1000" data-dropdown-style="minimal" data-cae="easeOutCubic" data-cad="650" data-megamenu-width="contained" data-aie="none" data-ls="magnific" data-apte="standard" data-hhun="0" data-fancy-form-rcs="default" data-form-style="default" data-form-submit="default" data-is="minimal" data-button-style="slightly_rounded_shadow" data-user-account-button="false" data-flex-cols="true" data-col-gap="default" data-header-inherit-rc="true" data-header-search="true" data-animated-anchors="true" data-ajax-transitions="false" data-full-width-header="false" data-slide-out-widget-area="true" data-slide-out-widget-area-style="slide-out-from-right" data-user-set-ocm="off" data-loading-animation="none" data-bg-header="false" data-responsive="1" data-ext-responsive="true" data-ext-padding="90" data-header-resize="1" data-header-color="custom" data-transparent-header="false" data-cart="false" data-remove-m-parallax="" data-remove-m-video-bgs="" data-m-animate="0" data-force-header-trans-color="light" data-smooth-scrolling="0" data-permanent-transparent="false" >
+	
+	<script type="text/javascript" nonce="23f3769928">
+	 (function(window, document) {
+
+		document.documentElement.classList.remove("no-js");
+
+		if(navigator.userAgent.match(/(Android|iPod|iPhone|iPad|BlackBerry|IEMobile|Opera Mini)/)) {
+			document.body.className += " using-mobile-browser mobile ";
+		}
+		if(navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2) {
+			document.body.className += " using-ios-device ";
+		}
+
+		if( !("ontouchstart" in window) ) {
+
+			var body = document.querySelector("body");
+			var winW = window.innerWidth;
+			var bodyW = body.clientWidth;
+
+			if (winW > bodyW + 4) {
+
+				var vwTestEl = document.createElement("div");
+				vwTestEl.style.position = "absolute";
+				vwTestEl.style.top = "-9999px";
+				vwTestEl.style.width = "100vw";
+				body.appendChild(vwTestEl);
+				var vwWidth = vwTestEl.offsetWidth;
+				body.removeChild(vwTestEl);
+
+				if (vwWidth > bodyW + 4) {
+					body.setAttribute("style", "--scroll-bar-w: " + (winW - bodyW - 4) + "px");
+				} else {
+					body.setAttribute("style", "--scroll-bar-w: 0px");
+				}
+
+			} else {
+				body.setAttribute("style", "--scroll-bar-w: 0px");
+			}
+		}
+
+	 })(window, document);
+   </script><nav aria-label="Skip links" class="nectar-skip-to-content-wrap" data-nosnippet><a href="#ajax-content-wrap" class="nectar-skip-to-content">Skip to main content</a></nav>	
+	<div id="header-space"  data-header-mobile-fixed='1'></div> 
+	
+		<div id="header-outer" data-has-menu="true" data-has-buttons="yes" data-header-button_style="default" data-using-pr-menu="false" data-mobile-fixed="1" data-ptnm="false" data-lhe="default" data-user-set-bg="#331f6b" data-format="default" data-permanent-transparent="false" data-megamenu-rt="0" data-remove-fixed="0" data-header-resize="1" data-cart="false" data-transparency-option="0" data-box-shadow="small" data-shrink-num="6" data-using-secondary="0" data-using-logo="1" data-logo-height="75" data-m-logo-height="42" data-padding="10" data-full-width="false" data-condense="false" >
+		<div class="notifications-bar"><div class="container"><div><p style="text-align: center"><a href="https://openssf.org/event/open-source-securitycon-2026/"><b><u>Join us at Open Source SecurityCon Europe on March 23, 2026</u></b></a></p></div></div></div><style>.notifications-bar { background-color: #007fa7; }.notifications-bar { color: #FFFFFF; }.notifications-bar a { color: #FFFFFF; }</style>
+<div id="search-outer" class="nectar" data-nosnippet>
+	<div id="search">
+		<div class="container">
+			 <div id="search-box">
+				 <div class="inner-wrap">
+					 <div class="col span_12">
+						  <form role="search" action="https://openssf.org/" method="GET">
+															<input type="text" name="s"  value="Start Typing..." aria-label="Search" data-placeholder="Start Typing..." />
+							
+						
+						<button aria-label="Search" class="search-box__button" type="submit">Search</button>						</form>
+					</div><!--/span_12-->
+				</div><!--/inner-wrap-->
+			 </div><!--/search-box-->
+			 <div id="close"><a href="#" role="button"><span class="screen-reader-text">Close Search</span>
+				<span class="icon-salient-x" aria-hidden="true"></span>				 </a></div>
+		 </div><!--/container-->
+	</div><!--/search-->
+</div><!--/search-outer-->
+
+<header id="top" role="banner" aria-label="Main Menu">
+		<div class="container">
+		<div class="row">
+			<div class="col span_3">
+								<a id="logo" href="https://openssf.org" data-supplied-ml-starting-dark="false" data-supplied-ml-starting="false" data-supplied-ml="false" >
+					<img class="stnd skip-lazy dark-version" width="1000" height="385" alt="OpenSSF Logo" src="https://openssf.org/wp-content/uploads/2023/12/Open-SSF-Logo-horizontal-colorwhite.svg"  />				</a>
+							</div><!--/span_3-->
+
+			<div class="col span_9 col_last">
+									<div class="nectar-mobile-only mobile-header"><div class="inner"></div></div>
+									<a class="mobile-search" href="#searchbox"><span class="nectar-icon icon-salient-search" aria-hidden="true"></span><span class="screen-reader-text">search</span></a>
+														<div class="slide-out-widget-area-toggle mobile-icon slide-out-from-right" data-custom-color="false" data-icon-animation="simple-transform">
+						<div> <a href="#slide-out-widget-area" role="button" aria-label="Navigation Menu" aria-expanded="false" class="closed">
+							<span class="screen-reader-text">Menu</span><span aria-hidden="true"> <i class="lines-button x2"> <i class="lines"></i> </i> </span>						</a></div>
+					</div>
+				
+									<nav aria-label="Main Menu">
+													<ul class="sf-menu">
+								<li id="menu-item-5218" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-5218"><a href="https://openssf.org/about/" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">About</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-5223" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5223"><a href="https://openssf.org/about/"><span class="menu-title-text">About Us</span></a></li>
+	<li id="menu-item-5226" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5226"><a href="https://openssf.org/about/members/"><span class="menu-title-text">Members</span></a></li>
+	<li id="menu-item-5220" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5220"><a href="https://openssf.org/about/board/"><span class="menu-title-text">Governing Board</span></a></li>
+	<li id="menu-item-5219" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5219"><a href="https://openssf.org/about/tac/"><span class="menu-title-text">Technical Advisory Council</span></a></li>
+	<li id="menu-item-5222" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5222"><a href="https://openssf.org/about/staff/"><span class="menu-title-text">Staff</span></a></li>
+	<li id="menu-item-5221" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-5221"><a href="https://www.linuxfoundation.org/legal/antitrust-policy"><span class="menu-title-text">Antitrust Policy</span></a></li>
+	<li id="menu-item-5242" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5242"><a href="https://openssf.org/about/brand-guidelines/"><span class="menu-title-text">Brand Guidelines</span></a></li>
+	<li id="menu-item-5243" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5243"><a href="https://openssf.org/about/contact/"><span class="menu-title-text">Contact Us</span></a></li>
+</ul>
+</li>
+<li id="menu-item-6389" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-6389"><a href="https://openssf.org/projects/" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">Projects</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-8457" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-8457"><a href="https://openssf.org/technical-initiatives/ai-ml-security/"><span class="menu-title-text">AI/ML Security</span></a></li>
+	<li id="menu-item-9416" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-9416"><a href="https://openssf.org/technical-initiatives/compliance/"><span class="menu-title-text">Compliance</span></a></li>
+	<li id="menu-item-7774" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7774"><a href="https://openssf.org/technical-initiatives/developer-best-practices/"><span class="menu-title-text">Developer Best Practices</span></a></li>
+	<li id="menu-item-7773" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7773"><a href="https://openssf.org/technical-initiatives/fuzzing/"><span class="menu-title-text">Fuzzing</span></a></li>
+	<li id="menu-item-7772" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7772"><a href="https://openssf.org/technical-initiatives/repository-security/"><span class="menu-title-text">Repository Security</span></a></li>
+	<li id="menu-item-7771" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7771"><a href="https://openssf.org/technical-initiatives/sbom-tools/"><span class="menu-title-text">SBOM Tools</span></a></li>
+	<li id="menu-item-7775" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7775"><a href="https://openssf.org/technical-initiatives/software-supply-chain/"><span class="menu-title-text">Software Supply Chain</span></a></li>
+	<li id="menu-item-7770" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7770"><a href="https://openssf.org/technical-initiatives/vulnerability-disclosures/"><span class="menu-title-text">Vulnerability Disclosures</span></a></li>
+	<li id="menu-item-7786" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-7786"><a href="https://openssf.org/projects/"><span class="menu-title-text">All Projects</span></a></li>
+</ul>
+</li>
+<li id="menu-item-5230" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-5230"><a href="https://openssf.org/training" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">Learning</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-7927" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-7927"><a href="https://openssf.org/training/"><span class="menu-title-text">Courses</span></a></li>
+	<li id="menu-item-5251" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5251"><a href="https://openssf.org/resources/guides/"><span class="menu-title-text">Guides</span></a></li>
+	<li id="menu-item-5256" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5256"><a href="https://openssf.org/resources/tech-talks/"><span class="menu-title-text">Tech Talks</span></a></li>
+	<li id="menu-item-8326" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-8326"><a href="https://openssf.org/resources/cybersecurity-skills-framework/"><span class="menu-title-text">Cybersecurity Skills Framework</span></a></li>
+	<li id="menu-item-7778" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-7778"><a href="https://best.openssf.org/developers"><span class="menu-title-text">Best Practices</span></a></li>
+</ul>
+</li>
+<li id="menu-item-5232" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-5232"><a href="#" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">Community</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-7785" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7785"><a href="https://openssf.org/community/openssf-working-groups/"><span class="menu-title-text">Working Groups</span></a></li>
+	<li id="menu-item-5227" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5227"><a href="https://openssf.org/getinvolved/"><span class="menu-title-text">Getting Started with OpenSSF</span></a></li>
+	<li id="menu-item-5241" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-5241"><a href="https://slack.openssf.org"><span class="menu-title-text">Slack</span></a></li>
+	<li id="menu-item-5240" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-5240"><a href="https://github.com/ossf"><span class="menu-title-text">GitHub</span></a></li>
+	<li id="menu-item-7780" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7780"><a href="https://openssf.org/devrel/"><span class="menu-title-text">Developer Relations</span></a></li>
+	<li id="menu-item-7779" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7779"><a href="https://openssf.org/membership-hub/"><span class="menu-title-text">Membership Hub</span></a></li>
+	<li id="menu-item-8029" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-8029"><a href="https://openssf.org/about/tac/technical-initiative-funding/"><span class="menu-title-text">Technical Initiative Funding</span></a></li>
+	<li id="menu-item-5237" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-5237"><a href="https://openssf.jobboard.io/"><span class="menu-title-text">Jobs Board</span></a></li>
+	<li id="menu-item-5228" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-5228"><a target="_blank" rel="noopener" href="https://openssf.myspreadshop.com/"><span class="menu-title-text">Store</span></a></li>
+	<li id="menu-item-5231" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5231"><a href="https://openssf.org/community/code-of-conduct/"><span class="menu-title-text">Code of Conduct</span></a></li>
+</ul>
+</li>
+<li id="menu-item-7781" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-7781"><a href="https://openssf.org/public-policy/" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">Public Policy</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-7784" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-7784"><a href="https://openssf.org/public-policy/"><span class="menu-title-text">OSS in Public Policy</span></a></li>
+	<li id="menu-item-7782" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-7782"><a href="https://openssf.org/public-policy/eu-cyber-resilience-act/"><span class="menu-title-text">EU Cyber Resilience Act</span></a></li>
+</ul>
+</li>
+<li id="menu-item-5258" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-5258"><a href="https://openssf.org/blog/" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">Blog &#038; News</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-5253" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5253"><a href="https://openssf.org/blog/"><span class="menu-title-text">Blog</span></a></li>
+	<li id="menu-item-5788" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5788"><a href="https://openssf.org/podcast/"><span class="menu-title-text">Podcast 🎤</span></a></li>
+	<li id="menu-item-5264" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5264"><a href="https://openssf.org/newsletter/"><span class="menu-title-text">Newsletter</span></a></li>
+	<li id="menu-item-5245" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5245"><a href="https://openssf.org/news/"><span class="menu-title-text">Press Releases</span></a></li>
+	<li id="menu-item-5250" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5250"><a href="https://openssf.org/resources/publications/"><span class="menu-title-text">Reports</span></a></li>
+	<li id="menu-item-5839" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5839"><a href="https://openssf.org/case-studies/"><span class="menu-title-text">Case Studies</span></a></li>
+</ul>
+</li>
+<li id="menu-item-5259" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children nectar-regular-menu-item sf-with-ul menu-item-5259"><a href="https://openssf.org/events/" aria-haspopup="true" aria-expanded="false"><span class="menu-title-text">Events</span><span class="sf-sub-indicator"><i class="fa fa-angle-down icon-in-menu" aria-hidden="true"></i></span></a>
+<ul class="sub-menu">
+	<li id="menu-item-5254" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5254"><a href="https://openssf.org/events/"><span class="menu-title-text">OpenSSF Events Calendar</span></a></li>
+	<li id="menu-item-7783" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-7783"><a href="https://openssf.org/getinvolved/"><span class="menu-title-text">Community Calendar</span></a></li>
+	<li id="menu-item-9557" class="menu-item menu-item-type-custom menu-item-object-custom nectar-regular-menu-item menu-item-9557"><a href="https://openssf.org/our-events/category/openssf-events/upcoming-cfps/"><span class="menu-title-text">Upcoming CFPs</span></a></li>
+	<li id="menu-item-5246" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5246"><a href="https://openssf.org/townhalls/"><span class="menu-title-text">Town Hall Meetings</span></a></li>
+	<li id="menu-item-5265" class="menu-item menu-item-type-post_type menu-item-object-page nectar-regular-menu-item menu-item-5265"><a href="https://openssf.org/community/meetup-guidelines/"><span class="menu-title-text">Guidelines for Meetups</span></a></li>
+</ul>
+</li>
+<li id="menu-item-5247" class="menu-item menu-item-type-post_type menu-item-object-page button_solid_color menu-item-5247"><a href="https://openssf.org/join/"><span class="menu-title-text">Join</span></a></li>
+							</ul>
+													<ul class="buttons sf-menu" data-user-set-ocm="off"><li id="search-btn"><div><a href="#search-box"><span class="icon-salient-search" aria-hidden="true"></span><span class="screen-reader-text">search</span></a></div> </li></ul>
+						
+					</nav>
+
+					
+				</div><!--/span_9-->
+
+				
+			</div><!--/row-->
+					</div><!--/container-->
+	</header>
+		
+	</div>
+		<div id="ajax-content-wrap">
+
+
+<div class="container-wrap no-sidebar" data-midnight="dark" data-remove-post-date="0" data-remove-post-author="1" data-remove-post-comment-number="1">
+    <div class="container main-content">
+
+        
+	  <div class="row heading-title hentry" data-header-style="default">
+		<div class="col span_12 section-title blog-title">
+										  <h1 class="entry-title">Advancing Package Repository Security Through Collaboration</h1>
+
+						<div id="single-below-header" data-hide-on-mobile="true">
+				<span class="meta-author vcard author"><span class="fn"><span class="author-leading">By</span> <a href="https://openssf.org/author/openssf/" title="Posts by OpenSSF" rel="author" itemprop="author" itemscope="itemscope" itemtype="https://schema.org/Person">OpenSSF</a></span></span><span class="meta-date date updated">February 19, 2026</span><span class="meta-category"><a class="blog" href="https://openssf.org/category/blog/">Blog</a></span>			</div><!--/single-below-header-->
+					<div id="single-meta">
+
+				<div class="meta-comment-count">
+				  <a href="https://openssf.org/blog/2026/02/19/advancing-package-repository-security-through-collaboration/#respond"><i class="icon-default-style steadysets-icon-chat-3"></i> No Comments</a>
+				</div>
+
+					<div class="nectar-social hover" data-position="right" data-rm-love="" data-color-override="only_when_needed"><span class="share-btn"> <i class="icon-default-style steadysets-icon-share"></i> Share</span><div class="nectar-social-inner"><a class='facebook-share nectar-sharing' href='#' title='Share this'> <i class='fa fa-facebook'></i> <span class='social-text'>Share</span> </a><a class='twitter-share nectar-sharing' href='#' title='Share this'> <i class='fa icon-salient-x-twitter'></i> <span class='social-text'>Share</span> </a><a class='linkedin-share nectar-sharing' href='#' title='Share this'> <i class='fa fa-linkedin'></i> <span class='social-text'>Share</span> </a></div><div class="nectar-love-button"><a href="#" class="nectar-love" id="nectar-love-9607" title="Love this"> <i class="icon-salient-heart-2"></i><span class="love-text">Love</span><span class="total_loves"><span class="nectar-love-count">0</span></span></a></div></div>
+			</div><!--/single-meta-->
+
+					</div><!--/section-title-->
+	  </div><!--/row-->
+
+	
+        <div class="row">
+
+            
+            <div class="post-area col standard-minimal span_12 col_last" role="main">
+
+            
+<article id="post-9607" class="post-9607 post type-post status-publish format-standard has-post-thumbnail category-blog tag-openssf tag-osssecurity tag-package-manager-security-forum tag-package-repository-security">
+  
+  <div class="inner-wrap">
+
+		<div class="post-content" data-hide-featured-media="0">
+      
+        <span class="post-featured-img"><img width="2200" height="1100" src="https://openssf.org/wp-content/uploads/2026/02/OpenSSF-Blog-Graphics-86.png" class="attachment-full size-full wp-post-image" alt="" title="" decoding="async" fetchpriority="high" srcset="https://openssf.org/wp-content/uploads/2026/02/OpenSSF-Blog-Graphics-86.png 2200w, https://openssf.org/wp-content/uploads/2026/02/OpenSSF-Blog-Graphics-86-300x150.png 300w, https://openssf.org/wp-content/uploads/2026/02/OpenSSF-Blog-Graphics-86-1024x512.png 1024w" sizes="(max-width: 2200px) 100vw, 2200px" /></span><div class="content-inner"><p><span style="font-weight: 400;">By Kris Borchers</span></p>
+<p><span style="font-weight: 400;">On February 2nd, the Open Source Security Foundation (OpenSSF) convened the </span><b>OpenSSF Package Manager Security Forum</b><span style="font-weight: 400;">, a cross-ecosystem working session focused on one of the most critical and complex challenges facing open source today: package repository security.</span></p>
+<p><span style="font-weight: 400;">The forum brought together participants from across a wide range of package manager ecosystems, including JavaScript and Node.js via npm, the Python ecosystem via PyPI and conda-forge, Rust via crates.io, Ruby via RubyGems, PHP via Packagist and the Composer ecosystem, Erlang via Hex, the Java ecosystem via Maven Central, Perl via CPAN, the Swift ecosystem, as well as Go module ecosystems that operate without a traditional centralized registry.</span></p>
+<p><span style="font-weight: 400;">While these ecosystems differ significantly in their technical designs, governance models, and historical paths, the discussion surfaced a strong set of shared challenges that cut across language, tooling, and community boundaries.</span></p>
+<p><span style="font-weight: 400;">By design, the conversation was held under Chatham House Rule, enabling candid and experience-driven dialogue while ensuring that insights could be shared publicly without attribution.</span></p>
+<h3><b>Key outcomes from the discussion</b></h3>
+<p><span style="font-weight: 400;">While the details of individual contributions remain private, several cross-cutting themes emerged that resonated across ecosystems:</span></p>
+<ul>
+<li style="font-weight: 400;" aria-level="1"><b>Identity and account security remain foundational challenges.</b><span style="font-weight: 400;"> Ecosystems that rely on external identity providers, as well as those operating their own authentication systems, face common difficulties in ensuring strong and durable maintainer identity over time, particularly as projects grow, change hands, or scale beyond their original communities.</span><span style="font-weight: 400;"><br />
+</span></li>
+<li style="font-weight: 400;" aria-level="1"><b>Security expectations vary widely across packages and users.</b><span style="font-weight: 400;"> Participants highlighted the need for more nuanced ways to signal security posture, recognizing that package consumers range from individual developers to large enterprises and governments, and that not all projects can or should meet the same requirements at the same time.</span><span style="font-weight: 400;"><br />
+</span></li>
+<li style="font-weight: 400;" aria-level="1"><b>Governance and abuse handling are under increasing strain.</b><span style="font-weight: 400;"> As package volume, automation, and dependency reuse continue to scale, registries are being asked to make harder decisions around malware handling, namespace and ownership disputes, account recovery, and policy enforcement, often with limited resources and volunteer capacity.</span><span style="font-weight: 400;"><br />
+</span></li>
+<li style="font-weight: 400;" aria-level="1"><b>Transparency and auditability are gaining importance, but remain complex.</b><span style="font-weight: 400;"> Across ecosystems, there is growing interest in publishing security- and governance-relevant events in a structured way, alongside careful consideration of privacy, legal, and operational implications.</span><span style="font-weight: 400;"><br />
+</span></li>
+<li style="font-weight: 400;" aria-level="1"><b>Sustainability is inseparable from security.</b><span style="font-weight: 400;"> Whether ecosystems are volunteer-driven, foundation-supported, or commercially backed, participants consistently acknowledged that long-term security improvements require clearer funding models, better cost visibility, and realistic expectations around support and service levels.</span><span style="font-weight: 400;"><br />
+</span></li>
+</ul>
+<h3><b>Why this matters</b></h3>
+<p><span style="font-weight: 400;">Package managers are deeply interconnected. A security failure, policy decision, or design choice in one ecosystem can quickly ripple into many others through shared tooling, transitive dependencies, and downstream consumption. The challenges discussed at the OpenSSF Package Manager Security Forum are therefore not isolated problems, but shared ecosystem concerns.</span></p>
+<p><span style="font-weight: 400;">This discussion reinforced a clear conclusion: progress depends on coordination, not duplication. While no single solution fits every ecosystem, shared frameworks, common language, and mutual learning can significantly reduce friction and improve outcomes for everyone involved.</span></p>
+<h3><b>OpenSSF’s role</b></h3>
+<p><span style="font-weight: 400;">OpenSSF organized and facilitated the OpenSSF Package Manager Security Forum as part of its ongoing commitment to strengthening the security and sustainability of the open source ecosystem. By providing a neutral and trusted forum, OpenSSF enables maintainers, registry operators, and security practitioners from across ecosystems to exchange insights, surface common needs, and explore collaborative paths forward without prescribing outcomes or privileging any single approach.</span></p>
+<h3><b>Looking ahead</b></h3>
+<p><span style="font-weight: 400;">The OpenSSF Package Manager Security Forum represents an important step in an ongoing conversation, not a one-time event. As package manager ecosystems continue to evolve in response to new security threats, regulatory pressures, and user expectations, OpenSSF intends to continue convening space for dialogue, learning, and coordination across communities. Future work will focus on identifying where shared guidance, tooling, or frameworks can reduce duplication of effort, support ecosystem autonomy, and help package managers advance security in ways that are practical, scalable, and sustainable.</span></p>
+<p><span style="font-weight: 400;">We look forward to building on the momentum created through these cross-ecosystem conversations. If you would like to join the conversations and help secure these package repositories, and especially if you work on or contribute to a package repository, come join the </span><a href="https://github.com/ossf/wg-securing-software-repos"><span style="font-weight: 400;">OpenSSF Securing Software Repositories Working Group</span></a><span style="font-weight: 400;"> via our </span><a href="https://slack.openssf.org/"><span style="font-weight: 400;">Slack</span></a><span style="font-weight: 400;"> in the </span><a href="https://openssf.slack.com/archives/C034CBLMQ9G"><span style="font-weight: 400;">#wg_securing_software_repos channel</span></a><span style="font-weight: 400;"> and our </span><a href="https://calendar.google.com/calendar?cid=czYzdm9lZmhwNWk5cGZsdGI1cTY3bmdwZXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ"><span style="font-weight: 400;">community meetings</span></a><span style="font-weight: 400;">.</span></p>
+<h3>Author Bio</h3>
+<p><img decoding="async" class="alignleft wp-image-9611 size-thumbnail" src="https://openssf.org/wp-content/uploads/2026/02/kris-150x150.avif" alt="" width="150" height="150" srcset="https://openssf.org/wp-content/uploads/2026/02/kris-150x150.avif 150w, https://openssf.org/wp-content/uploads/2026/02/kris-300x300.avif 300w, https://openssf.org/wp-content/uploads/2026/02/kris.avif 400w" sizes="(max-width: 150px) 100vw, 150px" />Kris Borchers is a Senior Technical Program Manager for the OpenSSF who helps drive key open source security initiatives that strengthen software supply chains, advance public-sector engagement, and empower global communities. His work spans vulnerability data, secure-by-design practices, policy collaboration, and academic accreditation, connecting industry, government, and academia.</p>
+</div>        
+      </div><!--/post-content-->
+      
+    </div><!--/inner-wrap-->
+    
+</article>
+        </div><!--/post-area-->
+
+            
+        </div><!--/row-->
+
+        <div class="row">
+
+            
+            <div class="comments-section" data-author-bio="false">
+                
+<div class="comment-wrap " data-midnight="dark" data-comments-open="false">
+
+
+			<!-- If comments are closed. -->
+		<!--<p class="nocomments">Comments are closed.</p>-->
+
+	
+
+
+</div>            </div>
+
+        </div><!--/row-->
+
+    </div><!--/container main-content-->
+    <div class="nectar-global-section before-footer" role="contentinfo"><div class="container normal-container row">
+		<div id="fws_69a1b14b8ad1d"  data-column-margin="default" data-midnight="dark"  class="wpb_row vc_row-fluid vc_row full-width-section has-row-bg-color" data-using-ctc="true" style="padding-top: 35px; padding-bottom: 35px; color: var(--nectar-page-text-color,#ffffff); --row-bg-color: #6076d4;"><div class="row-bg-wrap" data-bg-animation="none" data-bg-animation-delay="" data-bg-overlay="true"><div class="inner-wrap row-bg-layer using-image" ><div class="row-bg viewport-desktop using-image using-bg-color"  style="background-image: url(https://openssf.org/wp-content/uploads/2023/12/background-1.png); background-position: left top; background-repeat: no-repeat; background-color: #6076d4; "></div></div><div class="row-bg-overlay row-bg-layer" style="background: #6076d4; background: linear-gradient(90deg,#6076d4 0%,#2e4cd3 100%);  opacity: 0.8; "></div></div><div class="row_col_wrap_12 col span_12 custom left">
+	<div  class="vc_col-sm-12 wpb_column column_container vc_column_container col centered-text padding-3-percent force-desktop-text-align-center inherit_tablet inherit_phone "  data-padding-pos="all" data-has-bg-color="false" data-bg-color="" data-bg-opacity="1" data-animation="" data-delay="0" >
+		<div class="vc_column-inner" >
+			<div class="wpb_wrapper">
+				<div class="nectar_icon_wrap " data-style="default" data-padding="5px" data-color="extra-color-2" style="" >
+		<div class="nectar_icon" ><i style="font-size: 48px; line-height: 48px; height: 48px; width: 48px;" class="fa fa-shield"></i></div>
+	</div>
+<div class="wpb_text_column wpb_content_element " >
+	<h3>We envision a future where OSS is universally trusted, secure, and reliable. Join us in making open source more secure.</h3>
+</div>
+
+
+
+<div class="divider-wrap" data-alignment="default"><div style="height: 15px;" class="divider"></div></div><a class="nectar-button large regular accent-color  regular-button"  role="button" style=""  href="/getinvolved/" data-color-override="false" data-hover-color-override="false" data-hover-text-color-override="#fff"><span>Get Involved</span></a>
+			</div> 
+		</div>
+	</div> 
+</div></div>
+</div></div></div><!--/container-wrap-->
+
+
+<div id="footer-outer" data-midnight="light" data-cols="1" data-custom-color="false" data-disable-copyright="false" data-matching-section-color="false" data-copyright-line="false" data-using-bg-img="false" data-bg-img-overlay="0.8" data-full-width="false" data-using-widget-area="true" data-link-hover="default"role="contentinfo">
+	
+		
+	<div id="footer-widgets" data-has-widgets="true" data-cols="1">
+		
+		<div class="container">
+			
+						
+			<div class="row">
+				
+								
+				<div class="col span_12">
+					<div id="block-7" class="widget widget_block">
+<h3 class="wp-block-heading" id="newsletter">Subscribe to the OpenSSF Newsletter!</h3>
+</div><div id="block-8" class="widget widget_block">
+<h4 class="wp-block-heading">Get the latest announcements, event info, and the community news in your inbox</h4>
+</div><div id="block-13" class="widget widget_block"><script src="https://js.hsforms.net/forms/embed/v2.js" crossorigin="anonymous"></script>
+<script type="text/javascript" nonce="23f3769928">
+  hbspt.forms.create({
+    region: "na1",
+    portalId: "8112310",
+    formId: "4f141d19-478d-4e86-b027-5f0383f91242",
+    css: "",
+    cssClass: "hubspot-form",
+  });
+</script></div>					</div>
+					
+											
+						
+													
+															
+							</div>
+													</div><!--/container-->
+					</div><!--/footer-widgets-->
+					
+					
+  <div class="row" id="copyright" data-layout="default">
+
+	<div class="container">
+
+		
+	  <div class="col span_7 col_last">
+      <ul class="social">
+        <li><a target="_blank" rel="noopener" href="https://twitter.com/openssf"><span class="screen-reader-text">twitter</span><i class="fa fa-twitter" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://bsky.app/profile/openssf.org"><span class="screen-reader-text">bluesky</span><i class="nectar-brands-bluesky" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://www.facebook.com/openssf"><span class="screen-reader-text">facebook</span><i class="fa fa-facebook" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://www.linkedin.com/company/openssf/"><span class="screen-reader-text">linkedin</span><i class="fa fa-linkedin" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://www.youtube.com/c/OpenSSF/"><span class="screen-reader-text">youtube</span><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://github.com/ossf"><span class="screen-reader-text">github</span><i class="fa fa-github-alt" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://slack.openssf.org"><span class="screen-reader-text">slack</span><i class="fa fa-slack" aria-hidden="true"></i></a></li><li><a target="_blank" rel="noopener" href="https://social.lfx.dev/@openssf"><span class="screen-reader-text">mastodon</span><i class="icon-salient-mastodon" aria-hidden="true"></i></a></li>      </ul>
+	  </div><!--/span_7-->
+
+	  		<div class="col span_5">
+						<div class="widget"></div>
+		<p>Copyright © 2026 The Linux Foundation® . All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our <a href="https://www.linuxfoundation.org/trademark-usage">Trademark Usage</a> page. Linux is a registered trademark of Linus Torvalds.  <a href="https://www.linuxfoundation.org/privacy">Privacy Policy</a> and <a href="https://www.linuxfoundation.org/terms">Terms of Use</a>.</p>		</div><!--/span_5-->
+		
+	</div><!--/container-->
+  </div><!--/row-->
+		
+</div><!--/footer-outer-->
+
+
+	<div id="slide-out-widget-area-bg" class="slide-out-from-right dark">
+				</div>
+
+		<div id="slide-out-widget-area" role="dialog" aria-modal="true" aria-label="Off Canvas Menu" class="slide-out-from-right" data-dropdown-func="separate-dropdown-parent-link" data-back-txt="Back">
+
+			<div class="inner-wrap">
+			<div class="inner" data-prepend-menu-mobile="false">
+
+				<a class="slide_out_area_close" href="#"><span class="screen-reader-text">Close Menu</span>
+					<span class="icon-salient-x icon-default-style"></span>				</a>
+
+
+									<div class="off-canvas-menu-container mobile-only" role="navigation">
+
+						
+						<ul class="menu">
+							<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5218"><a href="https://openssf.org/about/" aria-haspopup="true" aria-expanded="false">About</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5223"><a href="https://openssf.org/about/">About Us</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5226"><a href="https://openssf.org/about/members/">Members</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5220"><a href="https://openssf.org/about/board/">Governing Board</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5219"><a href="https://openssf.org/about/tac/">Technical Advisory Council</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5222"><a href="https://openssf.org/about/staff/">Staff</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5221"><a href="https://www.linuxfoundation.org/legal/antitrust-policy">Antitrust Policy</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5242"><a href="https://openssf.org/about/brand-guidelines/">Brand Guidelines</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5243"><a href="https://openssf.org/about/contact/">Contact Us</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-6389"><a href="https://openssf.org/projects/" aria-haspopup="true" aria-expanded="false">Projects</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8457"><a href="https://openssf.org/technical-initiatives/ai-ml-security/">AI/ML Security</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9416"><a href="https://openssf.org/technical-initiatives/compliance/">Compliance</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7774"><a href="https://openssf.org/technical-initiatives/developer-best-practices/">Developer Best Practices</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7773"><a href="https://openssf.org/technical-initiatives/fuzzing/">Fuzzing</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7772"><a href="https://openssf.org/technical-initiatives/repository-security/">Repository Security</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7771"><a href="https://openssf.org/technical-initiatives/sbom-tools/">SBOM Tools</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7775"><a href="https://openssf.org/technical-initiatives/software-supply-chain/">Software Supply Chain</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7770"><a href="https://openssf.org/technical-initiatives/vulnerability-disclosures/">Vulnerability Disclosures</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7786"><a href="https://openssf.org/projects/">All Projects</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5230"><a href="https://openssf.org/training" aria-haspopup="true" aria-expanded="false">Learning</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7927"><a href="https://openssf.org/training/">Courses</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5251"><a href="https://openssf.org/resources/guides/">Guides</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5256"><a href="https://openssf.org/resources/tech-talks/">Tech Talks</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8326"><a href="https://openssf.org/resources/cybersecurity-skills-framework/">Cybersecurity Skills Framework</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7778"><a href="https://best.openssf.org/developers">Best Practices</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5232"><a href="#" aria-haspopup="true" aria-expanded="false">Community</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7785"><a href="https://openssf.org/community/openssf-working-groups/">Working Groups</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5227"><a href="https://openssf.org/getinvolved/">Getting Started with OpenSSF</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5241"><a href="https://slack.openssf.org">Slack</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5240"><a href="https://github.com/ossf">GitHub</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7780"><a href="https://openssf.org/devrel/">Developer Relations</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7779"><a href="https://openssf.org/membership-hub/">Membership Hub</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8029"><a href="https://openssf.org/about/tac/technical-initiative-funding/">Technical Initiative Funding</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5237"><a href="https://openssf.jobboard.io/">Jobs Board</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5228"><a target="_blank" href="https://openssf.myspreadshop.com/">Store</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5231"><a href="https://openssf.org/community/code-of-conduct/">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-7781"><a href="https://openssf.org/public-policy/" aria-haspopup="true" aria-expanded="false">Public Policy</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7784"><a href="https://openssf.org/public-policy/">OSS in Public Policy</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7782"><a href="https://openssf.org/public-policy/eu-cyber-resilience-act/">EU Cyber Resilience Act</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5258"><a href="https://openssf.org/blog/" aria-haspopup="true" aria-expanded="false">Blog &#038; News</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5253"><a href="https://openssf.org/blog/">Blog</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5788"><a href="https://openssf.org/podcast/">Podcast 🎤</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5264"><a href="https://openssf.org/newsletter/">Newsletter</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5245"><a href="https://openssf.org/news/">Press Releases</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5250"><a href="https://openssf.org/resources/publications/">Reports</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5839"><a href="https://openssf.org/case-studies/">Case Studies</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5259"><a href="https://openssf.org/events/" aria-haspopup="true" aria-expanded="false">Events</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5254"><a href="https://openssf.org/events/">OpenSSF Events Calendar</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7783"><a href="https://openssf.org/getinvolved/">Community Calendar</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9557"><a href="https://openssf.org/our-events/category/openssf-events/upcoming-cfps/">Upcoming CFPs</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5246"><a href="https://openssf.org/townhalls/">Town Hall Meetings</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5265"><a href="https://openssf.org/community/meetup-guidelines/">Guidelines for Meetups</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5247"><a href="https://openssf.org/join/">Join</a></li>
+
+						</ul>
+
+						<ul class="menu secondary-header-items">
+													</ul>
+					</div>
+					
+				</div>
+
+				<div class="bottom-meta-wrap"></div><!--/bottom-meta-wrap--></div> <!--/inner-wrap-->
+				</div>
+		
+</div> <!--/ajax-content-wrap-->
+
+	<a id="to-top" aria-label="Back to top" role="button" href="#" class="mobile-disabled"><i role="presentation" class="fa fa-angle-up"></i></a>
+	<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/salient-child/*","/wp-content/themes/salient/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<script type="text/javascript" nonce="23f3769928"> /* <![CDATA[ */var tribe_l10n_datatables = {"aria":{"sort_ascending":": activate to sort column ascending","sort_descending":": activate to sort column descending"},"length_menu":"Show _MENU_ entries","empty_table":"No data available in table","info":"Showing _START_ to _END_ of _TOTAL_ entries","info_empty":"Showing 0 to 0 of 0 entries","info_filtered":"(filtered from _MAX_ total entries)","zero_records":"No matching records found","search":"Search:","all_selected_text":"All items on this page were selected. ","select_all_link":"Select all pages","clear_selection":"Clear Selection.","pagination":{"all":"All","next":"Next","previous":"Previous"},"select":{"rows":{"0":"","_":": Selected %d rows","1":": Selected 1 row"}},"datepicker":{"dayNames":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"dayNamesShort":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"dayNamesMin":["S","M","T","W","T","F","S"],"monthNames":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesShort":["January","February","March","April","May","June","July","August","September","October","November","December"],"monthNamesMin":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"nextText":"Next","prevText":"Prev","currentText":"Today","closeText":"Done","today":"Today","clear":"Clear"}};/* ]]> */ </script><script id="wpb-modifications"> window.wpbCustomElement = 1; </script><script type="text/javascript" src="https://openssf.org/wp-content/plugins/the-events-calendar/common/build/js/user-agent.js?ver=da75d0bdea6dde3898df" id="tec-user-agent-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient-child/vc-addons/js/featherlight.js?ver=3.6.1" id="salient-child-featherlight-script-js" nonce="23f3769928"></script>
+<script type="text/javascript" id="salient-social-js-extra" nonce="23f3769928">
+/* <![CDATA[ */
+var nectarLove = {"ajaxurl":"https://openssf.org/wp-admin/admin-ajax.php","postID":"9607","rooturl":"https://openssf.org","loveNonce":"2abc91a757"};
+//# sourceURL=salient-social-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://openssf.org/wp-content/plugins/salient-social/js/salient-social.js?ver=1.2.6" id="salient-social-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient-child/javascript.js?ver=3.6.1" id="salient-child-javascript-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/jquery.easing.min.js?ver=1.3" id="jquery-easing-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/priority.js?ver=18.1.1" id="nectar_priority-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/transit.min.js?ver=0.9.9" id="nectar-transit-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/waypoints.js?ver=4.0.2" id="nectar-waypoints-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/imagesLoaded.min.js?ver=4.1.4" id="imagesLoaded-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/hoverintent.min.js?ver=1.9" id="hoverintent-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/magnific.js?ver=7.0.1" id="magnific-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/anime.min.js?ver=4.5.1" id="anime-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/third-party/superfish.js?ver=1.5.8" id="superfish-js" nonce="23f3769928"></script>
+<script type="text/javascript" id="nectar-frontend-js-extra" nonce="23f3769928">
+/* <![CDATA[ */
+var nectarLove = {"ajaxurl":"https://openssf.org/wp-admin/admin-ajax.php","postID":"9607","rooturl":"https://openssf.org","disqusComments":"false","loveNonce":"2abc91a757","mapApiKey":""};
+var nectarOptions = {"delay_js":"false","smooth_scroll":"false","smooth_scroll_strength":"50","quick_search":"false","react_compat":"disabled","header_entrance":"false","body_border_func":"default","disable_box_roll_mobile":"false","body_border_mobile":"0","dropdown_hover_intent":"default","simplify_ocm_mobile":"0","mobile_header_format":"default","ocm_btn_position":"default","left_header_dropdown_func":"default","ajax_add_to_cart":"0","ocm_remove_ext_menu_items":"remove_images","woo_product_filter_toggle":"0","woo_sidebar_toggles":"true","woo_sticky_sidebar":"0","woo_minimal_product_hover":"default","woo_minimal_product_effect":"default","woo_related_upsell_carousel":"false","woo_product_variable_select":"default","woo_using_cart_addons":"false","view_transitions_effect":""};
+var nectar_front_i18n = {"menu":"Menu","next":"Next","previous":"Previous","close":"Close"};
+//# sourceURL=nectar-frontend-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://openssf.org/wp-content/themes/salient/js/build/init.js?ver=18.1.1" id="nectar-frontend-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/plugins/salient-core/js/third-party/touchswipe.min.js?ver=3.1.4" id="touchswipe-js" nonce="23f3769928"></script>
+<script type="text/javascript" src="https://openssf.org/wp-content/plugins/js_composer_salient/assets/js/dist/js_composer_front.min.js?ver=8.7.2" id="wpb_composer_front_js-js" nonce="23f3769928"></script>
+<script id="wp-emoji-settings" type="application/json">
+{"baseUrl":"https://s.w.org/images/core/emoji/17.0.2/72x72/","ext":".png","svgUrl":"https://s.w.org/images/core/emoji/17.0.2/svg/","svgExt":".svg","source":{"concatemoji":"https://openssf.org/wp-includes/js/wp-emoji-release.min.js?ver=6.9.1"}}
+</script>
+<script type="module">
+/* <![CDATA[ */
+/*! This file is auto-generated */
+const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(window._wpemojiSettings=a,"wpEmojiSettingsSupports"),s=["flag","emoji"];function i(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function c(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0);const a=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data);return t.every((e,t)=>e===a[t])}function p(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var n=e.getImageData(16,16,1,1);for(let e=0;e<n.data.length;e++)if(0!==n.data[e])return!1;return!0}function u(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\u1fac8")}return!1}function f(e,t,n,a){let r;const o=(r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):document.createElement("canvas")).getContext("2d",{willReadFrequently:!0}),s=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(e=>{s[e]=t(o,e,n,a)}),s}function r(e){var t=document.createElement("script");t.src=e,t.defer=!0,document.head.appendChild(t)}a.supports={everything:!0,everythingExceptFlag:!0},new Promise(t=>{let n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),c.toString(),p.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"});const r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=e=>{i(n=e.data),r.terminate(),t(n)})}catch(e){}i(n=f(s,u,c,p))}t(n)}).then(e=>{for(const n in e)a.supports[n]=e[n],a.supports.everything=a.supports.everything&&a.supports[n],"flag"!==n&&(a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&a.supports[n]);var t;a.supports.everythingExceptFlag=a.supports.everythingExceptFlag&&!a.supports.flag,a.supports.everything||((t=a.source||{}).concatemoji?r(t.concatemoji):t.wpemoji&&t.twemoji&&(r(t.twemoji),r(t.wpemoji)))});
+//# sourceURL=https://openssf.org/wp-includes/js/wp-emoji-loader.min.js
+/* ]]> */
+</script>
+<script type="text/javascript" nonce="23f3769928"></script></body>
+</html>
+<!-- plugin=object-cache-pro client=phpredis metric#hits=26955 metric#misses=88 metric#hit-ratio=99.7 metric#bytes=2459320 metric#prefetches=1122 metric#store-reads=95 metric#store-writes=18 metric#store-hits=1137 metric#store-misses=69 metric#sql-queries=78 metric#ms-total=491.76 metric#ms-cache=56.06 metric#ms-cache-avg=0.5005 metric#ms-cache-ratio=11.4 -->
