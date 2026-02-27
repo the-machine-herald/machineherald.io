@@ -1,0 +1,5958 @@
+<!DOCTYPE html>
+<html class='v2 no-js' dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+<link href='https://www.blogger.com/static/v1/widgets/335934321-css_bundle_v2.css' rel='stylesheet' type='text/css'/>
+<base rel='noopener noreferrer' target='_blank'/>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5CNC9X8');</script>
+<!-- End Google Tag Manager -->
+<meta charset='utf-8'/>
+<meta content='IE=Edge' http-equiv='X-UA-Compatible'/>
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, height=device-height' name='viewport'/>
+<link href='https://opensource.google.com/assets/static/images/favicon.png' rel='shortcut icon'/>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<meta content='blogger' name='generator'/>
+<link href='https://opensource.googleblog.com/favicon.ico' rel='icon' type='image/x-icon'/>
+<link href='https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html' rel='canonical'/>
+<link rel="alternate" type="application/atom+xml" title="Google Open Source Blog - Atom" href="https://opensource.googleblog.com/feeds/posts/default" />
+<link rel="alternate" type="application/rss+xml" title="Google Open Source Blog - RSS" href="https://opensource.googleblog.com/feeds/posts/default?alt=rss" />
+<link rel="service.post" type="application/atom+xml" title="Google Open Source Blog - Atom" href="https://www.blogger.com/feeds/8698702854482141883/posts/default" />
+
+<link rel="alternate" type="application/atom+xml" title="Google Open Source Blog - Atom" href="https://opensource.googleblog.com/feeds/4191970675388406760/comments/default" />
+<!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
+<link href='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png' rel='image_src'/>
+<meta content='The Kubernetes community recently announced that Ingress NGINX is officially entering retirement. Maintenance will cease in March 2026.' name='description'/>
+<meta content='https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html' property='og:url'/>
+<meta content='The End of an Era: Transitioning Away from Ingress NGINX' property='og:title'/>
+<meta content='The Kubernetes community recently announced that Ingress NGINX is officially entering retirement. Maintenance will cease in March 2026.' property='og:description'/>
+<meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/w1200-h630-p-k-no-nu/BlogHeroImageIngressNGINX.png' property='og:image'/>
+1
+   	  <title>The End of an Era: Transitioning Away from Ingress NGINX | Google Open Source Blog</title>
+<meta content='article' property='og:type'/>
+<meta content='The End of an Era: Transitioning Away from Ingress NGINX' property='twitter:title'/>
+<meta content='https://opensource.google/images/os-anim-main.gif' property='og:image'/>
+<meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s72-c/BlogHeroImageIngressNGINX.png' property='twitter:image'/>
+<meta content='The Kubernetes community recently announced that Ingress NGINX is officially entering retirement. Maintenance will cease in March 2026.' property='og:description'/>
+<meta content='The Kubernetes community recently announced that Ingress NGINX is officially entering retirement. Maintenance will cease in March 2026.' property='twitter:description'/>
+<meta content='en_US' property='og:locale'/>
+<meta content='Google Open Source Blog' property='og:site_name'/>
+<meta content='summary' name='twitter:card'/>
+<meta content='@GoogleOSS' name='twitter:creator'/>
+<meta content='@GoogleOSS' name='twitter:site'/>
+<style id='page-skin-1' type='text/css'><!--
+
+--></style>
+<style id='template-skin-1' type='text/css'><!--
+body {
+min-width: 860px;
+}
+.content-outer, .content-fauxcolumn-outer, .region-inner {
+min-width: 860px;
+max-width: 860px;
+_width: 860px;
+}
+.main-inner .columns {
+padding-left: 0px;
+padding-right: 260px;
+}
+.main-inner .fauxcolumn-center-outer {
+left: 0px;
+right: 260px;
+/* IE6 does not respect left and right together */
+_width: expression(this.parentNode.offsetWidth -
+parseInt("0px") -
+parseInt("260px") + 'px');
+}
+.main-inner .fauxcolumn-left-outer {
+width: 0px;
+}
+.main-inner .fauxcolumn-right-outer {
+width: 260px;
+}
+.main-inner .column-left-outer {
+width: 0px;
+right: 100%;
+margin-left: -0px;
+}
+.main-inner .column-right-outer {
+width: 260px;
+margin-right: -260px;
+}
+#layout {
+min-width: 0;
+}
+#layout .content-outer {
+min-width: 0;
+width: 800px;
+}
+#layout .region-inner {
+min-width: 0;
+width: auto;
+}
+body#layout div.add_widget {
+padding: 8px;
+}
+body#layout div.add_widget a {
+margin-left: 32px;
+}
+--></style>
+<script type='text/javascript'>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-53341410-4', 'auto', 'blogger');
+        ga('blogger.send', 'pageview');
+      </script>
+<link href='https://fonts.googleapis.com/css?family=Google+Sans|Roboto+Slab:300,500,900|Roboto:400italic,400,500,500italic,700,700italic' rel='stylesheet'/>
+<link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>
+<!-- OGC styles with data uri -->
+<style type='text/css'>
+        .footer-main .google a {
+          background: url("data:image/svg+xml,%3C%3Fxml%20version%3D%271.0%27%20encoding%3D%27utf-8%27%3F%3E%0A%3Csvg%20version%3D%271.1%27%20id%3D%27content%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20xmlns%3Axlink%3D%27http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%27%20x%3D%270px%27%20y%3D%270px%27%0A%09%20viewBox%3D%270%200%20416%20139.5%27%20style%3D%27enable-background%3Anew%200%200%20416%20139.5%3B%27%20xml%3Aspace%3D%27preserve%27%3E%0A%3Cstyle%20type%3D%27text%2Fcss%27%3E%0A%09.st0%7Bfill%3A%23FFFFFF%3B%7D%0A%3C%2Fstyle%3E%0A%3Csymbol%20%20id%3D%27logo_x5F_dark%27%20viewBox%3D%270.7%20-135.4%20414.8%20135.3%27%3E%0A%09%3Cpath%20class%3D%27st0%27%20d%3D%27M0.7-52.6C0.7-23.6%2C25-0.1%2C54-0.1c16%2C0%2C27.4-6.3%2C36-14.5L79.8-24.7C73.7-18.9%2C65.4-14.4%2C54-14.4%0A%09%09c-21.1%2C0-37.6-17-37.6-38.1c0-21.1%2C16.5-38.1%2C37.6-38.1c13.7%2C0%2C21.5%2C5.5%2C26.5%2C10.5c4.1%2C4.1%2C6.8%2C10%2C7.8%2C18H54v14.3h48.3%0A%09%09c0.5-2.6%2C0.8-5.6%2C0.8-9c0-10.8-2.9-24.1-12.4-33.5C81.4-99.9%2C69.6-105%2C54-105C25-105%2C0.7-81.5%2C0.7-52.6z%27%2F%3E%0A%09%3Cpath%20class%3D%27st0%27%20d%3D%27M142-37.5c-18.7%2C0-33.9-14.2-33.9-33.8c0-19.5%2C15.2-33.8%2C33.9-33.8c18.7%2C0%2C33.9%2C14.3%2C33.9%2C33.8%0A%09%09C175.9-51.7%2C160.7-37.5%2C142-37.5z%20M142-91.7c-10.2%2C0-19.1%2C8.4-19.1%2C20.5c0%2C12.2%2C8.8%2C20.5%2C19.1%2C20.5c10.2%2C0%2C19.1-8.3%2C19.1-20.5%0A%09%09C161.1-83.3%2C152.2-91.7%2C142-91.7z%27%2F%3E%0A%09%3Cpath%20class%3D%27st0%27%20d%3D%27M216-37.5c-18.7%2C0-33.9-14.2-33.9-33.8c0-19.5%2C15.2-33.8%2C33.9-33.8c18.7%2C0%2C33.9%2C14.3%2C33.9%2C33.8%0A%09%09C249.9-51.7%2C234.7-37.5%2C216-37.5z%20M216-91.7c-10.2%2C0-19.1%2C8.4-19.1%2C20.5c0%2C12.2%2C8.8%2C20.5%2C19.1%2C20.5s19.1-8.3%2C19.1-20.5%0A%09%09C235.1-83.3%2C226.2-91.7%2C216-91.7z%27%2F%3E%0A%09%3Cpath%20class%3D%27st0%27%20d%3D%27M306.8-39.5V-45h-0.5c-3.3%2C4-9.7%2C7.6-17.8%2C7.6c-16.9%2C0-32.4-14.8-32.4-33.9c0-18.9%2C15.5-33.7%2C32.4-33.7%0A%09%09c8.1%2C0%2C14.5%2C3.6%2C17.8%2C7.7h0.5v-4.9c0-12.9-6.9-19.8-18-19.8c-9.1%2C0-14.7%2C6.5-17%2C12l-12.9-5.4c3.7-9%2C13.6-20%2C30-20%0A%09%09c17.4%2C0%2C32.1%2C10.2%2C32.1%2C35.2v60.7H306.8z%20M289.8-91.7c-10.2%2C0-18.8%2C8.6-18.8%2C20.4c0%2C11.9%2C8.6%2C20.6%2C18.8%2C20.6c10.1%2C0%2C18-8.7%2C18-20.6%0A%09%09C307.9-83.2%2C299.9-91.7%2C289.8-91.7z%27%2F%3E%0A%09%3Crect%20x%3D%27331.2%27%20y%3D%27-103%27%20class%3D%27st0%27%20width%3D%2714.8%27%20height%3D%2799.3%27%2F%3E%0A%09%3Cpath%20class%3D%27st0%27%20d%3D%27M386.7-91.7c-7.6%2C0-12.9%2C3.5-16.4%2C10.2l45.2%2C18.7L414-59c-2.8%2C7.6-11.4%2C21.5-28.9%2C21.5%0A%09%09c-17.4%2C0-31.9-13.7-31.9-33.8c0-18.9%2C14.3-33.8%2C33.5-33.8c15.5%2C0%2C24.4%2C9.5%2C28.2%2C15l-11.5%2C7.7C399.5-88%2C394.3-91.7%2C386.7-91.7z%0A%09%09%20M385.6-50.5c5.9%2C0%2C10.9-2.9%2C12.5-7.2l-30.2-12.5C367.5-57.2%2C378-50.5%2C385.6-50.5z%27%2F%3E%0A%3C%2Fsymbol%3E%0A%3Cuse%20xlink%3Ahref%3D%27%23logo_x5F_dark%27%20%20width%3D%27414.8%27%20height%3D%27135.3%27%20id%3D%27XMLID_1_%27%20x%3D%270.7%27%20y%3D%27-135.4%27%20transform%3D%27matrix(1%200%200%20-1%200%201)%27%20style%3D%27overflow%3Avisible%3B%27%2F%3E%0A%3C%2Fsvg%3E%0A") 0 0 no-repeat;
+      }
+    </style>
+<!-- OGC styles -->
+<style type='text/css'>
+      #ogc-shim {
+        display: none;
+        visibility: hidden;
+      }
+
+      body {
+        background-color: white;
+        color: #444;
+        font-family: "Roboto", sans-serif;
+        min-width: 300px;
+        line-height: 18px;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body .container {
+        overflow-x: hidden;
+      }
+
+      body a {
+        color: #4285f4;
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      body div,
+      body p,
+      body ol {
+        color: #444;
+        font-size: 16px;
+        line-height: 22px;
+        margin: 0 0 33px 0;
+      }
+
+      body div {
+        margin: 0;
+      }
+
+      body h1 {
+        color: #444;
+        font-family: "Roboto",sans-serif;
+        font-size: 34px;
+        font-weight: 300;
+        line-height: 44px;
+        margin: 0 0 33px 0;
+        padding: 0;
+      }
+
+      body h1,
+      body h2,
+      body h3,
+      body h4,
+      body h5,
+      body h6 {
+        color: #444;
+        font-family: "Google Sans",sans-serif;
+        letter-spacing: -.01em;
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 44px;
+        margin: 0 0 33px 0;
+        padding: 0;
+      }
+
+      body ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      body #whatbrowser {
+        background: white;
+        height: 100%;
+        padding: 50px 15px;
+        position: fixed;
+        width: 100%;
+        z-index: 300;
+      }
+
+      .header-main {
+        background-color: #ffffff;
+        height: 75px;
+        line-height: 75px;
+        position: relative;
+      }
+
+      .header-main a {
+        color: #4c4c4c;
+        text-decoration: none;
+      }
+
+      .header-main h1 {
+        margin: 21px -250px 0 0;
+        position: absolute;
+        right: 100%;
+        text-indent: -9999px;
+        transition: all 0.3s ease-out;
+      }
+
+      .header-main h1 a {
+        /* background: url(https://opensource.google.com/assets/static/images/logo_dark.svg) 0 0 no-repeat;      */
+       	background: url(https://www.gstatic.com/devrel-devsite/stage/v93a6dcf50ad5e38e51034415df5b4a8345b5c8613f785e48818ae468dabf73c8/opensource/images/lockup.svg) 0 0 no-repeat;
+        background-size: 240px auto;  
+      	display: block;
+        height: 32px;
+        line-height: 75px;
+        width: 240px;
+      }
+
+      .nav-active {
+        overflow: hidden;
+        position: fixed;
+      }
+
+      .nav-active .main-nav {
+        transform: translate(0, 0);
+      }
+
+      .nav-active #ShadowBox {
+        display: block;
+      }
+
+      #ShadowBox {
+        background: rgba(51,51,51,0.8);
+        content: '[]';
+        display: none;
+        height: 100vh;
+        left: 0;
+        position: absolute;
+        text-indent: -9999px;
+        top: 0;
+        width: 100vw;
+        z-index: 98;
+      }
+
+      .main-nav {
+        background: #ffffff;
+        height: 100vh;
+        list-style: none;
+        margin: 0;
+        overflow: scroll;
+        padding: 0;
+        position: fixed;
+        right: 0;
+        top: 75px;
+        transform: translate(277px, 0);
+        transition: transform 0.2s ease-in;
+        width: 277px;
+        z-index: 300;
+      }
+
+      .main-nav ul {
+        border-top: solid 4px #f2f2f2;
+        min-height: 360px;
+        padding-top: 10px;
+      }
+
+      .main-nav ul li {
+        line-height: 55px;
+      }
+
+      .main-nav ul li a {
+        background: white;
+        display: block;
+        font-size: 14px;
+        padding: 0 30px;
+      }
+
+      .main-nav ul li a:hover,
+      .main-nav ul li a:focus {
+        color: #4285f4;
+      }
+
+      #NavTrigger {
+        height: 48px;
+        padding-top: 27px;
+        position: absolute;
+        right: 0;
+        text-align: left;
+        top: 0;
+        width: 40px;
+      }
+
+      #NavTrigger:before,
+      #NavTrigger:after,
+      #NavTrigger span {
+        background: #4c4c4c;
+        border-radius: 50%;
+        content: '.';
+        height: 4px;
+        line-height: 4px;
+        margin: 2px auto;
+        width: 4px;
+        display: block;
+        overflow: hidden;
+        text-indent: -9999px;
+      }
+
+      .main {
+        background-color: #ffffff;
+        box-shadow: 0 1px 1.5px rgba(0,0,0,0.12), 0 1px 1px rgba(0,0,0,0.24);
+        box-sizing: border-box;
+        margin: 0 auto;
+        min-height: 100vh;
+      }
+
+      .col-wrap {
+        margin: 0 auto;
+        max-width: 988px;
+        width: 100%;
+      }
+
+      .col-wrap:after {
+        clear: both;
+        content: "";
+        display: table;
+      }
+
+      .google-open-source {
+        text-align: center;
+      }
+
+      .google-open-source .content {
+        text-align: left;
+      }
+
+      .google-open-source .cols-wrapper {
+        text-align: left;
+      }
+
+      .google-open-source section {
+        padding: 35px 15px 15px 15px;
+      }
+
+      div.section#header {
+        margin: inherit;
+
+      }
+      div.widget#Header1 {
+        margin: inherit;
+        line-height: inherit;
+      }
+
+      section.hero {
+        background-color: #F8F9FA;
+        box-sizing: border-box;
+        color: #202124;
+        display: flex;
+        flex-direction: column;
+        height: 338px;
+        min-height: 338px;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 15px;
+        position: relative;
+        text-align: left;
+        -ms-flex-align: center;
+      }
+
+      .hero:after {
+        background: url("https://opensource.google.com/assets/static/images/home/hero-tall-mobile.png") 0 0 no-repeat;
+        background-size: 257px 393px;
+        content: '.';
+        font-size: 0;
+        height: 393px;
+        left: -15px;
+        position: absolute;
+        top: 0;
+        width: 257px;
+      }
+
+      .short + .hero {
+        height: 100%;
+        min-height: 300px;
+      }
+
+      .short + .hero:after {
+        display: none;
+      }
+
+      .short + .hero .col {
+        display: -ms-flexbox;
+        display: flex;
+        flex-direction: column;
+        height: 300px;
+        justify-content: center;
+        -ms-flex-align: center;
+      }
+
+      .short + .hero h2,
+      .short + .hero h2 a {
+        text-align: left !important;
+        font-size: 56px !important;
+        line-height: 48px !important;
+        margin-bottom: 40px !important;
+        color: #202124 !important;
+        font-family: "Google Sans", sans-serif;
+        text-decoration: none;
+      }
+
+      .short + .hero p {
+        color: #202124;
+        font-family: "Google Sans", sans-serif;
+        font-size: 16px;
+        line-height: 21px;
+        margin-bottom: 0;
+        max-width: 700px;
+        z-index: 1;
+    	position: relative;
+      }
+
+      .hero h2 {
+        color: #202124;
+        margin: 0 0 8px 0;
+      }
+
+      .google-open-source section.hero h2 {
+        font-size: 34px;
+        line-height: 40px;
+        margin-bottom: 20px;
+      }
+
+      .google-open-source section.hero h2.logo {
+        background-size: 290px 36px;
+        display: block;
+        font-size: 0;
+        height: 36px;
+        text-indent: -9999px;
+        width: 290px;
+      }
+
+      .hero p {
+        color: #202124;
+        font-family: "Roboto",sans-serif;
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      .hero .col-wrap {
+        display: block !important;
+      	max-width: 1200px;
+      }
+
+      .google-open-source section p {
+        font-size: 16px;
+        margin: 0 auto 30px auto;
+      }
+
+      h2.archive-header {
+        font-size: 32px;
+        line-height: 40px;
+        margin-bottom: 16px;
+      }
+
+      .google-open-source .main-inner .column-center-inner {
+        padding: 0 15px 0 0;
+      }
+
+      .google-open-source .main-inner .column-center-inner .section {
+        margin: 0 15px 0 0;
+      }
+
+      /*.google-open-source section.hero p {
+        font-size: 18px;
+        line-height: 24px;
+        margin: 0;
+        max-width: 240px;
+      }*/
+
+      .post-footer .share {
+        text-align: right;
+        margin-bottom: 1em;
+      }
+
+      .post-footer .share img {
+        margin-left: 12px;
+      }
+
+      .fb-custom img,
+      .twitter-custom img,
+      .gplus-share img {
+        opacity: 0.54;
+        cursor: pointer;
+      }
+
+      .fb-custom:hover img,
+      .fb-custom:focus img,
+      .twitter-custom:hover img,
+      .twitter-custom:focus img,
+      .gplus-share:hover img,
+      .gplus-share:focus img {
+        opacity: 1;
+      }
+
+      .footer-main {
+        background-color: #474747;
+        box-sizing: border-box;
+        color: #ffffff;
+        padding: 24px 15px;
+        position: relative;
+        z-index: 98;
+      }
+
+      .footer-main .col-wrap {
+        max-width: none;
+      }
+
+      .footer-main nav li {
+        display: inline-block;
+        line-height: 25px;
+        margin: 0 15px 0 0;
+      }
+
+      .footer-main a {
+        color: #ccc;
+        font-size: 14px;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .footer-main a:hover,
+      .footer-main a:focus {
+        color: white;
+      }
+
+      .footer-main .google {
+        display: block;
+        margin-bottom: 15px;
+      }
+
+      .footer-main .google a {
+        display: inline-block;
+        height: 26px;
+        opacity: 0.54;
+        text-indent: -9999px;
+        width: 80px;
+      }
+
+      .pull-left {
+        float: left;
+      }
+
+      @media (min-width: 720px) {
+        body h1,
+        body h2 {
+          font-size: 44px;
+          line-height: 54px;
+        }
+
+        .main-nav {
+          float: right;
+          height: 48px;
+          overflow: hidden;
+          position: inherit;
+          top: -14px;
+          transform: translate(0, 0);
+          width: auto;
+          right: unset;
+          left: 350px;
+        }
+
+        .main-nav ul {
+          border: none;
+          padding: 0;
+        }
+
+        .main-nav ul li {
+          display: inline-block;
+          line-height: 48px;
+          margin: 0 15px 0 0;
+        }
+
+        .main-nav ul li a {
+          display: inline-block;
+          padding: 0;
+        }
+
+        #NavTrigger {
+          display: none;
+        }
+
+        .google-open-source section.hero {
+          text-align: left;
+        }
+
+        body .hero:before {
+          background: url(https://opensource.google/images/featured-blogs-icon.svg) 0px 0 no-repeat;
+          background-size: 575px 85px;
+          background-position-y: center;
+          content: '.';
+          display: block;
+          height: 100%;
+          position: absolute;
+          right: -10px;
+          text-indent: -99999px;
+          top: 0;
+          width: 635px;
+        }
+
+        .short + .hero {
+          height: 300px;
+        }
+
+        .google-open-source section.hero h2 {
+          font-size: 46px;
+          line-height: 52px;
+        }
+
+        .google-open-source section.hero h2.logo {
+          background-size: 582px 72px;
+          float: right;
+          font-size: 0;
+          height: 72px;
+          width: 582px;
+        }
+
+        .google-open-source section p {
+          max-width: 642px;
+        }
+
+        .google-open-source section.hero p {
+          margin: 0 0 0px 0;
+        }
+
+        .footer-main nav .google {
+          display: inline-block;
+          margin-bottom: 0;
+        }
+      
+        .header-main {
+            height: 48px;
+        }
+
+        .header-main h1 {
+            margin: 8px -265px 0 0;
+        }
+      
+        .main.google-open-source {
+            margin-top: 48px !important;
+        }
+      }
+
+      @media (min-width: 940px) {
+        body h1,
+        body h2 {
+          font-size: 52px;
+        }
+
+        .main-nav ul li {
+          margin: 0 36px 0 0;
+        }
+
+        section.hero {
+          opacity: 1;
+          height: 600px;
+          transition: opacity 0.4s ease-in;
+        }
+
+        /*body.item .hero:before, */
+        body.archive .hero:before {
+          background-position: 0 0;
+        }
+
+        .hero h2 {
+          opacity: 1;
+          transition: opacity 0.4s ease-in 0.4s;
+        }
+
+        .google-open-source section.hero h2 {
+          font-size: 52px;
+          line-height: 58px;
+        }
+
+        .google-open-source .hero h2,
+        .google-open-source .hero p {
+          position: relative;
+        }
+
+        .google-open-source .hero h2:before,
+        .google-open-source .hero p:before,
+        .google-open-source .hero p:after {
+          background: #474747;
+          /*content: '|';*/ /* XXX not sure why this borks here, but works on OGC. or why it's necessary on OGC */
+          position: absolute;
+          width: 100%;
+          height: 100px;
+          right: 0;
+          text-indent: 99999px;
+          transition: width 0.5s ease-in;
+        }
+
+        .google-open-source .hero h2:before {
+          transition-delay: 0.5s;
+          width: 87%;
+        }
+
+        .google-open-source .hero p:before,
+        .google-open-source .hero p:after {
+          height: 31px;
+          transition-duration: 0.5s;
+          transition-delay: 1s;
+        }
+
+        .google-open-source .hero p:after {
+          transition-delay: 1.4s;
+        }
+
+        .google-open-source .hero:after {
+          display: none;
+        }
+
+        .line-graphic {
+          height: 600px;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100%;
+        }
+
+        .line-graphic .segment {
+          width: 0;
+          position: absolute;
+          transition: width 0.25s ease-in;
+          transition-delay: 1s;
+        }
+
+        .line-graphic .hotspot {
+          height: 0;
+          opacity: 0;
+          transform: scale(1);
+          transition: all 0.5s ease-in;
+          transition-delay: 1 + 0.15s * 12;
+          width: 0;
+        }
+
+        .line-graphic .hotspot:after {
+          pointer-events: none;
+        }
+
+        .js .hero,
+        .js .hero h2 {
+          opacity: 1;
+        }
+
+        .js .hero h2:before,
+        .js .hero p:before,
+        .js .hero p:after {
+          width: 0;
+        }
+
+        .js .line-graphic .blue-one {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/blue-1.png") 0 0 no-repeat;
+          background-size: 381px 33px;
+          width: 381px;
+          height: 33px;
+          top: 111px;
+          left: -15px;
+          transition-delay: 1 + 0.15s * 6;
+          transition-duration: 0.25s * 2;
+        }
+
+        .js .line-graphic .grey-one {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-1.png") 0 0 no-repeat;
+          background-size: 232px 38px;
+          width: 232px;
+          height: 38px;
+          top: 79px;
+          left: 111px;
+          transition-delay: 1 + 0.15s * 7;
+          transition-duration: 0.25s * 1.5;
+        }
+
+        .js .line-graphic .grey-two {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-2.png") 0 0 no-repeat;
+          background-size: 100px 18px;
+          width: 100px;
+          height: 18px;
+          top: 224px;
+          left: -15px;
+          transition-delay: 1 + 0.15s * 2;
+        }
+
+        .js .line-graphic .yellow-one {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/yellow-1.png") 0 0 no-repeat;
+          background-size: 253px 21px;
+          width: 253px;
+          height: 21px;
+          top: 322px;
+          left: -15px;
+          transition-delay: 1 + 0.15s * 3;
+        }
+
+        .js .line-graphic .grey-three {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-3.png") 0 0 no-repeat;
+          background-size: 100px 101px;
+          width: 100px;
+          height: 101px;
+          top: 222px;
+          left: 78px;
+          transition-delay: 1 + 0.15s * 4;
+        }
+
+        .js .line-graphic .red-one {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/red-1.png") 0 0 no-repeat;
+          background-size: 358px 49px;
+          width: 358px;
+          height: 49px;
+          top: 139px;
+          left: -15px;
+          transition-delay: 1 + 0.15s * 6;
+          transition-duration: 0.25s * 2;
+        }
+
+        .js .line-graphic .grey-four {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-4.png") 0 0 no-repeat;
+          background-size: 143px 49px;
+          width: 143px;
+          height: 49px;
+          top: 340px;
+          left: 78px;
+          transition-delay: 1 + 0.15s * 6;
+        }
+
+        .js .line-graphic .green-one {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/green-1.png") 0 0 no-repeat;
+          background-size: 251px 86px;
+          width: 251px;
+          height: 86px;
+          top: 387px;
+          left: 202px;
+          transition-delay: 1 + 0.15s * 7;
+        }
+
+        .js .line-graphic .blue-two {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/blue-2.png") 0 0 no-repeat;
+          background-size: 323px 25px;
+          width: 323px;
+          height: 25px;
+          position: absolute;
+          top: 115px;
+          left: 371px;
+          transition-delay: 1 + 0.15s * 10;
+        }
+
+        .js .line-graphic .grey-five {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-5.png") 0 0 no-repeat;
+          background-size: 141px 53px;
+          width: 141px;
+          height: 53px;
+          top: 466px;
+          left: 282px;
+          transition-delay: 1 + 0.15s * 9;
+        }
+
+        .js .line-graphic .grey-six {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-6.png") 0 0 no-repeat;
+          background-size: 178px 118px;
+          width: 178px;
+          height: 118px;
+          top: 0;
+          left: 497px;
+          transition-delay: 1 + 0.15s * 11;
+        }
+
+        .js .line-graphic .green-two {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/green-2.png") 0 0 no-repeat;
+          background-size: 276px 142px;
+          width: 276px;
+          height: 142px;
+          top: 515px;
+          left: 394px;
+          transition-delay: 1 + 0.15s * 11;
+        }
+
+        .js .line-graphic .grey-seven {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-7.png") 0 0 no-repeat;
+          background-size: 174px 93px;
+          width: 174px;
+          height: 93px;
+          margin-left: -174px;
+          top: 0;
+          left: 100%;
+          transition-delay: 1 + 0.15s * 12;
+        }
+
+        .js .line-graphic .grey-eight {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/grey-8-interactive.png") 0 0 no-repeat;
+          background-size: 184px 17px;
+          width: 184px;
+          height: 17px;
+          top: 23px;
+          left: 681px;
+          transition-delay: 0s;
+        }
+
+        .js .line-graphic .yellow-two {
+          background: url("https://opensource.google.com/assets/static/images/home/hero/yellow-2-interactive.png") 0 0 no-repeat;
+          background-size: 140px 25px;
+          width: 140px;
+          height: 25px;
+          top: 319px;
+          left: 244px;
+          transition-delay: 0s;
+        }
+
+        .js .line-graphic .hidden {
+          width: 0;
+        }
+
+        .js .line-graphic .hotspot {
+          height: 40px;
+          position: absolute;
+          top: 12px;
+          left: 645px;
+          opacity: 1;
+          transform: scale(1);
+          width: 40px;
+        }
+
+        .js .line-graphic .hotspot::after {
+          content: 'o';
+          display: block;
+          background: $color-grey;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          opacity: 0.4;
+          text-indent: 9999px;
+          animation: pulse 3.5s infinite;
+          animation-delay: 0.5s;
+        }
+
+        .js .line-graphic .hotspot.yellow {
+          top: 312px;
+          left: 210px;
+        }
+
+        .js .line-graphic .hotspot.yellow::after {
+          background: #fabb05;
+          animation-delay: 0s;
+        }
+
+        @keyframes pulse {
+          0% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          20% {
+            opacity: 0.1;
+            transform: scale(0.3);
+          }
+          80% {
+            opacity: 0.1;
+            transform: scale(0.3);
+          }
+          100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+        }
+
+        .footer-main {
+          padding: 24px;
+        }
+      }
+    </style>
+<!-- OGC sticky header -->
+<style type='text/css'>
+      .header-main {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+        z-index: 200;
+      }
+
+      .main.google-open-source {
+        margin-top: 75px;
+        z-index: 100;
+      }
+    </style>
+<!-- OGC blog content and sidebar styles -->
+<style type='text/css'>
+      body .sidebar .widget div {
+        font-size: 16px;
+      }
+
+      .sidebar .searchBox input {
+        border: 1px solid #eee;
+        color: #212121;
+        color: rgba(0,0,0,.87);
+        font-size: 16px;
+        padding: 8px 8px 8px 40px;
+        width: 150px;
+        font-family: Roboto, sans-serif;
+        background: url(https://www.gstatic.com/images/icons/material/system/1x/search_grey600_24dp.png) 8px center no-repeat;
+      }
+
+      .sidebar .subscribe h2 {
+        margin-bottom: 0 !important;
+      }
+
+      .sidebar .popular-posts ul {
+        padding: 0;
+      }
+
+      .sidebar .popular-posts ul li {
+        padding: 0 0 1em 0 !important;
+      }
+
+      .sidebar-icon {
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+        vertical-align: middle;
+        margin-right: 12px;
+        margin-top: -1px;
+      }
+
+      .sidebar .subscribe img {
+        opacity: 0.54;
+      }
+
+      .sidebar .share img {
+        margin-right: 12px;
+        opacity: 0.54;
+      }
+
+      .sidebar .share a:hover img,
+      .sidebar .share a:focus img,
+      .sidebar .subscribe:hover img,
+      .sidebar .subscribe:focus img {
+        opacity: 1;
+      }
+
+      .sidebar .widget {
+        margin: 0;
+        padding: 15px 0;
+        min-height: 20px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .sidebar.section:first-child .widget:first-child {
+        border-bottom: 0;
+      }
+
+      .sidebar.section:last-child .widget:last-child {
+        border-bottom: 0;
+      }
+
+      .sidebar .widget a {
+        font-weight: 100;
+        color: #444;
+      }
+
+      .sidebar .widget a:focus,
+      .sidebar .widget a:hover {
+        color: #4285f4;
+      }
+
+      .sidebar .widget h2 {
+        color: #444;
+        font-family: "Google Sans", sans-serif;
+        padding-bottom: 3px;
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 16px;
+        font-weight: 500;
+        display: inline-block;
+        text-decoration: none;
+      }
+
+      .widget.PopularPosts h2:before {
+          content: url(https://www.gstatic.com/images/icons/material/system/1x/star_grey600_24dp.png);
+          position: relative;
+          top: 5px;
+          padding: 0 10px 0 0;
+      }
+
+      .sidebar .student_programs {
+        text-align: center;
+        font-size: 14px !important;
+      }
+
+      .widget.PopularPosts ul li:last-child {
+        padding-bottom: 5px !important;
+      }
+
+      .widget.BlogArchive {
+        padding-bottom: 0px !important;
+      }
+
+      .widget.BlogArchive .widget-content {
+        display: none;
+      }
+
+      .widget.BlogArchive h2 {
+        display: block !important;
+        cursor: pointer;
+      }
+
+      .widget.BlogArchive h2:before {
+          content: url(https://www.gstatic.com/images/icons/material/system/1x/folder_grey600_24dp.png);
+          position: relative;
+          top: 5px;
+          padding: 0 10px 0 0;
+      }
+
+      .widget.BlogArchive h2:after {
+        content: url(https://www.gstatic.com/images/icons/material/system/1x/keyboard_arrow_down_grey600_24dp.png);
+        position: absolute;
+        right: 0;
+        top: 7px;
+      }
+
+      .widget.BlogArchive.active h2:after {
+        content: url(https://www.gstatic.com/images/icons/material/system/1x/keyboard_arrow_up_grey600_24dp.png);
+      }
+
+      #ArchiveList .toggle {
+        float: right;
+        color: rgba(0,0,0, 0.54) !important;
+      }
+
+      .BlogArchive #ArchiveList ul li {
+        padding-left: 0px !important;
+        text-indent: 0px !important;
+      }
+
+      .BlogArchive .post-count {
+        color: #444;
+      }
+
+      .BlogArchive .post-count-link:hover {
+        color: #444 !important;
+      }
+
+      .BlogArchive .intervalToggle {
+        cursor: pointer;
+      }
+      .BlogArchive .expanded .intervalToggle .new-toggle {
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+      .BlogArchive .new-toggle {
+        float: right;
+        padding-top: 3px;
+        opacity: 0.87;
+      }
+      #ArchiveList .expanded > ul:last-child {
+        margin-bottom: 16px;
+      }
+      #ArchiveList .archivedate {
+        width: 100%;
+      }
+      .content-outer,
+      .region-inner {
+        /* min-width is 860, should be 300 to accommodate mobile */
+        position: relative;
+        max-width: 988px;
+        margin: 0 auto;
+      }
+
+      .date-outer + .date-outer,
+      .post-footer + .post-outer {
+        margin-top: 33px;
+        padding-top: 33px;
+      }
+
+      pre.prettyprint {
+        white-space: pre-wrap;
+      }
+
+      h4.date-header {
+        color: #474747;
+        font-size: 16px;
+        line-height: 16px;
+        font-weight: 100;
+        font-family: "Google Sans", sans-serif;
+        margin: 0 0 5px 0;
+      }
+
+      h3.post-title {
+        font-family: "Google Sans", sans-serif;
+        font-size: 28px;
+        line-height: 40px;
+        margin-bottom: 5px;
+        font-weight: 400;
+      }
+
+      body h3.post-title a {
+        font-weight: 400;
+      }
+
+      .post .post-body {
+        font-size: 16px;
+        line-height: 1.5em;
+      }
+
+      .post-body img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      div.separator a {
+        max-width: 50%;
+      }
+
+      .post .post-body h2,
+      .post .post-body h3,
+      .post .post-body h4 {
+        margin: 1em 0;
+      }
+
+      .post .post-body h2 {
+        font-size: 24px;
+        line-height: 24px;
+      }
+
+      .post .post-body h3 {
+        font-size: 20px;
+        line-height: 20px;
+      }
+
+      .post .post-body h4 {
+        font-size: 16px;
+        line-height: 16px;
+      }
+
+      .post .post-body p {
+        max-width: inherit;
+        margin: 1em 0;
+        line-height: 1.5em;
+      }
+
+      .post .post-body ol,
+      .post .post-body ul {
+        margin: 1em 0;
+      }
+
+      .post .post-body ul {
+        list-style-type: disc;
+      }
+
+      .post .post-body blockquote {
+        font-style: italic;
+      }
+
+      .post .post-body pre,
+      .post .post-body code {
+        line-height: 1.25em;
+        display: block;
+        margin: 1em 0;
+      }
+
+      .post .post-body .intrinsic-container {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+      }
+ 
+      /* 16x9 Aspect Ratio */
+      .post .post-body .intrinsic-container-16x9 {
+        padding-bottom: 56.25%;
+      }
+ 
+      /* 4x3 Aspect Ratio */
+      .post .post-body .intrinsic-container-4x3 {
+        padding-bottom: 75%;
+      }
+ 
+      .post .post-body .intrinsic-container iframe {
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .post .post-body table.tr-caption-container[style*="float: right"],
+      .post .post-body table.tr-caption-container[style*="float:right"],
+      .post .post-body table.tr-caption-container[style*="float: left"],
+      .post .post-body table.tr-caption-container[style*="float:left"] {
+        width: auto;
+        display: inline-block;
+      }
+
+      .post .post-body table {
+        margin: 1em 0;
+		width: 100%;
+      }
+
+      .post .post-body table thead {
+        vertical-align: top;
+        font-weight: 900;
+      }
+
+      .post .post-body table tbody {
+        vertical-align: top;
+        font-size: 14px;
+      }
+
+      .post .post-body table .tr-caption {
+        text-align: center;
+        font-style: italic;
+        font-size: 14px;
+      }
+
+      div.post-footer {
+        margin-top: 33px;
+      }
+
+      /* Home, forward, and backward pagination. */
+      .blog-pager {
+        border-top : 1px #e0e0e0 solid;
+        padding-top: 10px;
+        margin-top: 15px;
+        text-align: right !important;
+      }
+      #blog-pager {
+        margin-botom: 0;
+        margin-top: -14px;
+        padding: 16px 0 0 0;
+      }
+      #blog-pager a {
+        display: inline-block;
+      }
+      .blog-pager i.disabled {
+        opacity: 0.2 !important;
+      }
+      .blog-pager i {
+        color: black;
+        margin-left: 16px;
+        opacity: 0.54;
+      }
+      .blog-pager i:hover, .blog-pager i:active {
+        opacity: 0.87;
+      }
+      #blog-pager-older-link, #blog-pager-newer-link {
+        float: none;
+      }
+
+
+        #blog-pager {
+          margin: 0;
+          padding: 16px 0;
+        }
+
+        
+        .list-page #blog-pager {
+          padding-top: 0;
+          border: 0;
+          margin-top: -8px;
+        }
+
+      .labels-caption {
+        font-weight: 500;
+      }
+
+      .labels a {
+        font-weight: 100;
+      }
+
+      .label-footer {
+        margin-bottom: 12px;
+        margin-top: 12px;
+      }
+
+
+      @media (max-width: 720px) {
+        .column-right-outer {
+          display: none;
+        }
+
+        .content-outer,
+        .region-inner {
+          min-width: 300px;
+        }
+
+        .main-inner .columns {
+          padding-right: inherit;
+        }
+      }
+    </style>
+<style type='text/css'>
+.gci_winner_table,
+.table1 {
+  border-collapse: collapse;
+  border: none;
+  text-align: left;
+}
+
+.gci_winner_table td,
+.gci_winner_table th,
+.table1 td,
+.table1 th {
+  border: 1px solid #999999;
+}
+
+.gci_winner_table thead td,
+.gci_winner_table thead th,
+.table1 thead td,
+.table1 thead th {
+  background-color: #d0e0e3;
+  font-weight: 900;
+  padding: 7px 7px 7px 3px;
+}
+
+.gci_winner_table tbody td,
+.table1 tbody td {
+  padding: 3px;
+}
+
+.gci_winner_table td.column_separator,
+.table1 td.column_separator {
+  background-color: transparent !important;
+  border: 0px !important;
+}
+</style>
+<!-- Added September 10, 2025 -->
+<!-- Highlight JS and core CSS -->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/stackoverflow-light.min.css' rel='stylesheet'/>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/powershell.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/shell.min.js'></script>
+<script>
+  //<![CDATA[
+  /*! `curl` grammar compiled for Highlight.js 11.10.0 */
+(()=>{var e=(()=>{"use strict";function e(e){
+return e&&e.__esModule&&Object.prototype.hasOwnProperty.call(e,"default")?e.default:e
+}return e((e=>{const n={className:"string",begin:/"/,end:/"/,
+contains:[e.BACKSLASH_ESCAPE,{className:"variable",begin:/\$\(/,end:/\)/,
+contains:[e.BACKSLASH_ESCAPE]}],relevance:0},a={className:"number",variants:[{
+begin:e.C_NUMBER_RE}],relevance:0};return{name:"curl",aliases:["curl"],
+keywords:"curl",case_insensitive:!0,contains:[{className:"literal",
+begin:/(--request|-X)\s/,contains:[{className:"symbol",
+begin:/(get|post|delete|options|head|put|patch|trace|connect)/,end:/\s/,
+returnEnd:!0}],returnEnd:!0,relevance:10},{className:"literal",begin:/--/,
+end:/[\s"]/,returnEnd:!0,relevance:0},{className:"literal",begin:/-\w/,
+end:/[\s"]/,returnEnd:!0,relevance:0},e.APOS_STRING_MODE,e.QUOTE_STRING_MODE,n,{
+className:"string",begin:/\\"/,relevance:0},{className:"string",begin:/\\'/,
+relevance:0},{className:"string",begin:/'/,end:/'/,relevance:0},a,{
+match:/(\/[a-z._-]+)+/}]}}))})();hljs.registerLanguage("curl",e)})();
+
+  hljs.configure({cssSelector:"code"});
+  hljs.addPlugin( {
+  "after:highlightElement": ({el, result}) => {
+    // move the language from the result into the dataset
+    if(el.classList.contains("show-language")){
+	    el.dataset.language = result.language };
+    }
+  });
+  hljs.addPlugin({
+    "before:highlightElement": ({el, language}) => {
+    	if(!language){ // requires language to be set to use highlighting
+          el.classList.add("nohighlight");
+        }
+    },
+    "after:highlightElement": ({el,result,text}) => {
+      if(el.classList.contains("nohighlight")){
+        el.innerHTML = text;
+        el.classList.remove("hljs");
+        // remove any classes that start with "language-"; (not required)
+      }
+    }
+  });
+  hljs.highlightAll();
+  //]]>
+</script>
+<style>
+  table {
+    border-collapse:collapse;
+    border:1px solid #ccc;
+  }
+  table.style0 th {
+  	border:1px solid #ccc;
+    font-size: 14px;
+    padding: 4px;
+  }
+  tbody, tr, td {
+    border:inherit;
+    border-collapse:inherit;
+  }
+  td {
+    padding:5px;
+  }
+
+  .post .post-body code {
+    display:revert;
+    line-height:revert;
+    margin:revert;
+  }
+
+  img.metadata {
+    display:none;
+  }
+
+  a.header-image,
+  figure,
+  div.separator a {
+    margin: 0 auto;
+  }
+
+  a.header-image,
+  figure.wide,
+  div.separator a.wide {
+    width: 100%;
+  }
+  
+  figure.wide-80 {
+    width: 80%;
+  }
+
+  figure.borderless,
+  figure.borderless figcaption,
+  figure iframe {
+    border: none;
+  }
+
+  figure {
+    border:1px solid #ccc;
+    width:50%;
+  }
+
+  figure img,
+  figure iframe {
+    width:calc(100% - 18px);
+    padding:8px 8px 1px
+  }
+
+  figure figcaption {
+    text-align: center;
+    border:inherit;
+    border-style: solid hidden hidden hidden;
+    font-style:italic;
+    font:italic 14px "Roboto", san-serif;
+    padding:8px 0;
+  }
+
+  .post .post-body code {
+    background:#f6f6f6;
+    position:relative;
+  }
+
+  .post .post-body code.codebox.hljs[data-language]::before {
+    background-color: rgba(0,0,0,.3);
+    color:rgb(255,255,255);
+    content:attr(data-language);
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: 1rem;
+    padding: .25rem .5rem;
+    position:absolute;
+    right:0;
+    text-transform:uppercase;
+    top:0;
+  }
+
+  code.inline,
+  code.inline.hljs {
+    display:inline;
+  }
+
+  code.codebox,
+  code.codebox.hljs {
+    padding:10px;
+    display: block;
+  }
+
+  .post .post-body h2.article-title,
+  .post .post-body p.article-subtitle {
+    margin-bottom:0;
+  }
+  
+  .post .post-body p.byline,
+  .post .post-body p.article-subtitle {
+  	margin-top:0;
+  }
+  
+  .post .post-body p.byline {
+    font-style:italic;
+  }
+  
+    blockquote {
+    width:80%;
+	line-height: 1.4;
+	position: relative;
+	margin: 0 auto;
+	padding: .5rem;
+  }
+
+  blockquote:before {
+	position: absolute;
+	color: #f1efe6;
+	font-size: 8rem;
+	width: 4rem;
+	height: 4rem;
+  }
+
+  blockquote:before {
+	content: '"';
+	left: -5rem;
+	top: -2rem;
+  }
+
+  cite {
+  	display:inline-block;
+  	width: 80%;
+	line-height: 3;
+	text-align: right;
+  }
+  
+  /* Image aspect ratios */
+  
+  a img.ratio-21-9,
+  .post-body img.ratio-21-9,
+  img.ratio-21-9 {
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+  }
+  
+  a img.ratio-16-9,
+  .post-body img.ratio-16-9,
+  img.ratio-16-9 {
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  
+  a img.ratio-4-3,
+  .post-body img.ratio-4-3,
+  img.ratio-4-3 {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  
+  div.blogger-clickTrap {
+  	display: none;
+  }
+  
+</style>
+<link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=8698702854482141883&amp;zx=c6dc49cf-9d3c-4fdb-9056-9d13396bdc3b' media='none' onload='if(media!=&#39;all&#39;)media=&#39;all&#39;' rel='stylesheet'/><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=8698702854482141883&amp;zx=c6dc49cf-9d3c-4fdb-9056-9d13396bdc3b' rel='stylesheet'/></noscript>
+<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
+<meta name='google-adsense-platform-domain' content='blogspot.com'/>
+
+<script type="text/javascript" language="javascript">
+  // Supply ads personalization default for EEA readers
+  // See https://www.blogger.com/go/adspersonalization
+  adsbygoogle = window.adsbygoogle || [];
+  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+    adsbygoogle.requestNonPersonalizedAds = 1;
+  }
+</script>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Roboto&family=Courier&family=Roboto+Mono&family=Consolas"></head>
+<body class='item'>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe height='0' src='https://www.googletagmanager.com/ns.html?id=GTM-5CNC9X8' style='display:none;visibility:hidden' width='0'></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a name='top'></a>
+<div class='container'>
+<!--[if lte IE 11]> <p id="whatbrowser" class="whatbrowser"> You are using an <strong>outdated</strong> browser. Please <a href="http://whatbrowser.com/" target="_blank"> upgrade your browser </a> to improve your experience. </p> <![endif]-->
+<header class='header-main'>
+<h1>
+<a href='https://opensource.google.com/' title='Google Open Source'>
+            opensource.google.com
+          </a>
+</h1>
+<a href='/#Navigation' id='NavTrigger' title='Nav Toggle Open'>
+<span>Menu</span>
+</a>
+<nav class='main-nav' id='Navigation'>
+<ul>
+<li class='events'>
+<a class='internal' href='https://opensource.google.com/events/' title='Events'>
+                Events
+              </a>
+</li>
+<li class='projects'>
+<a class='internal' href='https://opensource.google.com/projects/' title='Projects'>
+                Projects
+              </a>
+</li>
+<li class='programs-and-services'>
+<a class='internal' href='https://opensource.google/programs-and-services' title='Programs and services'>
+                Programs and services
+              </a>
+</li>
+<li class='docs'>
+<a class='internal' href='https://opensource.google/documentation/reference' title='Documentation'>
+                Documentation
+              </a>
+</li>
+<li class='about'>
+<a class='internal' href='https://opensource.google/about' title='About'>
+                About
+              </a>
+</li>
+<li class='blog'>
+<a class='internal' href='/' title='Blog'>
+                Blog
+              </a>
+</li>
+</ul>
+</nav>
+</header>
+<div class='main google-open-source'>
+<div class='section' id='header'><div class='widget Header' data-version='1' id='Header1'>
+<div class='short'></div>
+<section class='hero'>
+<div class='col-wrap'>
+<h2><a href='/' title='Google Open Source Blog'>Google Open Source Blog</a></h2>
+<p>The latest news from Google on open source releases, major projects, events, and outreach programs for early career developers.</p>
+</div>
+</section>
+</div></div>
+<section class='content'>
+<div class='content-outer'>
+<div class='region-inner main-inner'>
+<div class='columns'>
+<div class='columns-inner'>
+<div class='column-center-outer'>
+<div class='column-center-inner'>
+<div class='section' id='main' name='Main'><div class='widget Blog' data-version='1' id='Blog1'>
+<div class='blog-posts hfeed'>
+
+                                    <div class="date-outer">
+                                  
+
+                                    <div class="date-posts">
+                                  
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png' itemprop='image_url'/>
+<meta content='8698702854482141883' itemprop='blogId'/>
+<meta content='4191970675388406760' itemprop='postId'/>
+<a name='4191970675388406760'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+The End of an Era: Transitioning Away from Ingress NGINX
+</h3>
+<div class='post-header'>
+<h4 class='date-header'><span>Thursday, February 12, 2026</span></h4>
+</div>
+<div class='post-body entry-content' id='post-body-4191970675388406760' itemprop='articleBody'>
+<p class="byline">by <author>Kaslin Fields</author>, Cloud DevRel &amp; <author>Rob Scott</author>, GCP Networking</p>
+
+<meta name="twitter:image" content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png">
+<img class="metadata" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png">
+
+<a class="header-image" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png" target="_blank"><img alt="An AI generated image that depicts an old crumbling building labeled Ingress NGINX displays a banner saying Retiring March 2026. An equally crumbling road leads away from the building to a glowing, nice, new archway with the Kubernetes Logo at the top, with Gateway API across the top arch. Within the arch at the center of the light is another Kubernetes-inspired logo with the words Gateway API below it. Several light paths of varying colors, with labels like HTTP Route and TCP Route lead away from the archway, some of them off the side of the frame, and some of them to a set of servers. Some of the servers have clouds with up or down arrows above them, indicating cloud traffic moving in or out." border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png"/></a>
+
+<p>For many of us, the first time we successfully routed traffic into a Kubernetes cluster, we did it using <strong>Ingress NGINX</strong>. It was the project that turned a complex networking API into something we could actually use.</p>
+
+<p>However, the <a href="http://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/" target="_blank">Kubernetes community recently announced</a> that Ingress NGINX is officially entering retirement. Maintenance will cease in <strong>March 2026</strong>.</p>
+
+<p>Here is what you need to know about why this is happening, what comes next, and why this "forced" migration is actually a great opportunity for your infrastructure.</p>
+
+<h2>Clarifying Terminology</h2>
+
+<p>First, there are some confusing, overlapping terms here. Let's clarify.</p>
+
+<ol>
+<li><strong><a href="https://kubernetes.io/docs/concepts/services-networking/ingress/" target="_blank">Ingress API</strong> </a>- Kubernetes introduced the Ingress API as a Generally Available (GA) feature in 2020 with the release of Kubernetes version 1.19. This API is still available in Kubernetes with no immediate plans for deprecation or removal. However, it is "feature-frozen" meaning it is no longer being actively worked on or updated. The community has instead moved to Gateway API, which we'll talk more about later in this post.</li>
+<li><strong><a href="https://github.com/kubernetes/ingress-nginx/" target="_blank">Ingress NGINX</a> </strong>- "Ingress" is an API object available by default in Kubernetes, as described above. You can define your Ingress needs as an Ingress resource. But that resource won't actually do anything without a controller. Ingress NGINX is a very popular controller that uses NGINX as a reverse proxy and load balancer. This will no longer be maintained as of March 2026.</li>
+<blockquote>As it says in the <a href="https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/" target="_blank"><em>What You Need To Know</em> blog from the Kubernetes project</a>, "Existing deployments of Ingress NGINX will continue to function and installation artifacts will remain available." However "there will be no further releases, no bugfixes, and no updates to resolve any security vulnerabilities that may be discovered."</blockquote>
+<li><strong><a href="https://docs.nginx.com/nginx-ingress-controller/" target="_blank">NGINX Ingress Controller</strong></a> - to make things more confusing, there is another controller called "NGINX Ingress." This controller to implement ingress for your Kubernetes resources via NGINX and NGINX Plus, owned and maintained by F5 / NGINX Inc. This will continue to be maintained and available in both its Open Source and Commercial forms.</li>
+</ol>
+
+<p>In this blog post,we are going to talk about "Ingress NGINX," the controller being deprecated. We will also talk about "Ingress" or the "Ingress API", which is still around, but feature-frozen.</p>
+
+<h2>What Problem Did Ingress NGINX Solve?</h2>
+
+<p>In the early days of Kubernetes, getting external traffic to your pods was a nightmare. You either had to use expensive, cloud-specific LoadBalancers for every single service or manage complex NodePorts.</p>
+
+<p>While the Kubernetes Ingress API was introduced as a standard specification for Layer 7 routing (HTTP/HTTPS), it was inherently limited, designed for a simpler time in Kubernetes' history, and offered minimal features. Features like advanced routing, traffic splitting, and non-HTTP protocols were not natively supported by the API</p>
+
+<p>Ingress NGINX solved this problem by serving as a robust Ingress controller that executed the API's rules. Leveraging the widely adopted NGINX reverse proxy, the controller provided a powerful, provider-agnostic entry point for cluster traffic. It was able to:</p>
+<ul>
+<li>Consolidate multiple services under a single IP address.</li>
+<li>Provide robust Layer 7 capabilities, including SSL/TLS termination and basic load balancing.</li>
+<li>Use familiar NGINX configuration logic inside a cloud-native environment.</li>
+<li>Extend the basic Ingress API to support advanced features, such as rate limiting, custom headers, and sophisticated traffic management, by allowing users to inject familiar, raw NGINX configuration logic using custom <code>nginx.ingress.kubernetes.io</code> annotations (often called "snippets").</li>
+</ul>
+<p>This flexibility, achieved by translating standard Ingress objects into feature-rich NGINX configurations, made Ingress NGINX the de-facto controller and the "Swiss Army Knife" of Kubernetes networking.</p>
+
+<h2>Why is it Retiring?</h2>
+
+<p>If it's so popular, why kill it? The very flexibility that made it so popular also (at least partially) led to its demise. <a href="https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/" target="_blank">The announcement</a> points to two primary "silent killers":</p>
+
+<ul>
+<li><strong>The "Snippet" Security Debt</strong>: Ingress NGINX gained popularity through its flexibility, specifically "snippets" that let users inject raw NGINX config via annotations. Today, these are viewed as major security risks, as they can allow for configuration injection attacks. Fixing this architectural "feature" has become an insurmountable task.</li>
+<li><strong>The Maintainership Gap</strong>: Despite having millions of users, the project was sustained by only one or two people working in their spare time. In an industry where security vulnerabilities move fast, "best-effort" maintenance isn't enough to protect the global ecosystem.</li>
+</ul>
+
+<h2>Time for Gateway API</h2>
+
+<p>The removal of the popular NGINX ingress implementation opens up an opportunity to transition to the <strong><a href="https://gateway-api.sigs.k8s.io/" target="_blank">Gateway API</strong></a>. While the Ingress API in Kubernetes is not going anywhere (just the NGINX variant of it), development on it is frozen, and there are reasons for that.</p>
+
+<p>Think of Gateway API as "Ingress 2.0." While the Ingress API is a single, limited resource, Gateway API is role-oriented. It separates the concerns of the <strong>Infrastructure Provider</strong> (who sets up the LB), the <strong>Cluster Operator </strong>(who defines policies), and the <strong>Application Developer</strong> (who routes the traffic).</p>
+
+<p>For the <a href="https://kubernetespodcast.com/" target="_blank">Kubernetes Podcast from Google</a>, we've interviewed Kubernetes maintainers working on Gateway API (Like in <a href="https://kubernetespodcast.com/episode/248-gateway-updates/" target="_blank">this episode featuring Lior Lieberman</a>), and they tell a great story about why it was developed. In the early days of Kubernetes, the maintainers & contributors weren't sure exactly what users would need with regard to ingress management for workloads running on Kubernetes. The early Kubernetes Ingress object was an attempt to address the problems the maintainers thought users would need to solve, and they didn't get it all right. The annotations Ingress-NGINX supported on top of the Ingress API helped cover the many gaps in the Kubernetes API, but the annotations tied you to Ingress-NGINX. Those gaps have now been largely closed by Gateway API, and the API is supported by many conformant implementations, so you can have confidence in the portability of the API.</p>
+
+<p>An important feature of Gateway API's design is that it is an API standard defined by the community, but implemented by <strong>your</strong> infrastructure or networking solution provider. Networking ultimately boils down to cables transmitting electrical signals between machines. What kind of machines and how they're connected has a big impact on the types of ingress capabilities available to you- or at least in how they're actually implemented. Gateway API provides a standard set of capabilities that you can access in a standardized way, while allowing for the reality of different networking implementations across providers. It's meant to help you get the most out of your infrastructure- regardless of what that infrastructure actually is.</p>
+
+<p><strong>How Gateway API solves the old problems with Ingress NGINX:</strong></p>
+<ul>
+<li><strong>Security by Design: </strong>No more "configuration snippets." Features are built into the API natively, reducing the risk of accidental misconfiguration.</li>
+<li><strong>Standardization: </strong>Unlike the old Ingress API, which required custom annotations for almost everything (like traffic splitting), Gateway API builds these features into the spec, offering greater portability.</li>
+<li><strong>Extensibility:</strong> It is designed to handle more than just HTTP&#8212;it brings the same power to TCP, UDP, and gRPC.</li>
+</ul>
+
+<h2>The Challenges of Transitioning</h2>
+
+<p>Migration is rarely "click and play." Users moving away from Ingress NGINX should prepare for:</p>
+
+<ul>
+  <li><strong>Annotation Mapping</strong>: Most of your <code>nginx.ingress.kubernetes.io</code> annotations won't work on new controllers. You'll need to map these to the new Gateway API "HTTPRoute" logic.</li>
+<li><strong>Learning Curve</strong>: Gateway API has more "objects" to manage (Gateways, GatewayClasses, Routes). It takes a moment to wrap your head around the hierarchy, but it was implemented that way based on experience - these objects should help you manage your workloads' ingress needs more efficiently.</li>
+<li><strong>Feature Parity</strong>: If you rely on very specific, obscure NGINX modules, you'll need to verify that your new controller (be it Envoy-based like Emissary or Cilium, or a different NGINX-based provider) supports them.</li>
+</ul>
+
+<h2>Why It's Worth It</h2>
+
+<p>The retirement of Ingress NGINX is not just a chore; it is a forcing function for adopting more sustainable architecture. By migrating to Gateway API, you gain:</p>
+
+<ul>
+<li><strong>Stability and Active Development</strong>: Gateway API is a General Availability (GA) networking standard that has maintained a "standard channel" without a single breaking change or API version deprecation for over two years. Unlike many Ingress controllers where development has largely paused, most Gateway controllers are far more actively maintained and continue to add new features like CORS and timeouts.</li>
+<li><strong>Portability</strong>: Choosing a different Ingress controller might seem easier, but if you rely on Ingress-NGINX annotations, you will likely have to migrate to another set of implementation-specific annotations. Gateway API provides more portable features directly in the core API and ensures a consistent experience across different implementations. When you select an implementation that is conformant with the latest v1.4 release, you can be confident that the behavior of these features will be consistent.</li>
+<li><strong>Future-Proof Extensibility</strong>: While Gateway API supports many more features than the core Ingress API, if you find a needed feature missing, an implementation is likely to provide a similar or equivalent feature as an implementation-specific extension. For example, GKE Gateway and Envoy Gateway extend the API with their own custom policies.</li>
+</ul>
+
+<h2>Next Steps</h2>
+
+<p>Start your migration planning today to capitalize on the opportunity and meet the deadline.</p>
+
+<ol>
+<li><strong>Audit Your Usage</strong>: Run <code>kubectl get pods --all-namespaces -l app.kubernetes.io/name=ingress-nginx</code> to see where you are still using the legacy controller.</li>
+<li><strong>Utilize Automation</strong>: Check out the <a href="https://github.com/kubernetes-sigs/ingress2gateway" target="_blank">ingress2gateway</a> project. A lot of work is going into this tool to make the migration experience better, including adding support for the most widely used Ingress-NGINX annotations.</li>
+<li><strong>Experiment and Provide Feedback</strong>: Give Gateway API a try! Start a PoC with a conformant Gateway API implementation (like <a href="https://docs.cloud.google.com/kubernetes-engine/docs/concepts/gateway-api" target="_blank">GKE Gateway</a>, Cilium, or Envoy Gateway). The community welcomes help and feedback on ingress2gateway and encourages users to share feedback on what Gateway API is getting right and wrong.</li>
+<li><strong>Adhere to the Timeline</strong>: You have until March 2026 before the security updates stop. Start your migration planning sooner rather than later!</li>
+</ol>
+
+<p>For more details on migrating from Ingress to Gateway API refer to <a href="https://docs.cloud.google.com/kubernetes-engine/docs/how-to/migrate-ingress-gateway" target="_blank">our documentation</a>.</p>
+<div style='clear: both;'></div>
+</div>
+</div>
+</div>
+<div class='post-footer'>
+<div class='share'>
+<span class='twitter-custom social-wrapper' data-href='http://twitter.com/share?text=Google Open Source Blog: The End of an Era: Transitioning Away from Ingress NGINX&url=https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html'>
+<img alt='Share on Twitter' height='24' src='https://www.gstatic.com/images/icons/material/system/2x/post_twitter_black_24dp.png' width='24'/>
+</span>
+<span class='fb-custom social-wrapper' data-href='https://www.facebook.com/sharer.php?u=https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html'>
+<img alt='Share on Facebook' height='24' src='https://www.gstatic.com/images/icons/material/system/2x/post_facebook_black_24dp.png' width='24'/>
+</span>
+</div>
+<div class='label-footer'>
+<span class='labels-caption'>
+Labels:
+</span>
+<span class='labels'>
+<a class='label' href='https://opensource.googleblog.com/search/label/Gateway%20API' rel='tag'>
+Gateway API
+</a>
+
+                                ,
+                              
+<a class='label' href='https://opensource.googleblog.com/search/label/Ingress' rel='tag'>
+Ingress
+</a>
+
+                                ,
+                              
+<a class='label' href='https://opensource.googleblog.com/search/label/Kubernetes' rel='tag'>
+Kubernetes
+</a>
+
+                                ,
+                              
+<a class='label' href='https://opensource.googleblog.com/search/label/networking' rel='tag'>
+networking
+</a>
+
+                                ,
+                              
+<a class='label' href='https://opensource.googleblog.com/search/label/NGINX' rel='tag'>
+NGINX
+</a>
+</span>
+</div>
+</div>
+
+                                  </div></div>
+                                
+</div>
+<div class='blog-pager' id='blog-pager'>
+<a class='home-link' href='https://opensource.googleblog.com/'>
+<i class='material-icons'>
+                      &#59530;
+                    </i>
+</a>
+<span id='blog-pager-newer-link'>
+<a class='blog-pager-newer-link' href='https://opensource.googleblog.com/2026/02/introducing-the-185-organizations-for-gsoc-2026.html' id='Blog1_blog-pager-newer-link' title='Newer Post'>
+<i class='material-icons'>
+                          &#58820;
+                        </i>
+</a>
+</span>
+<span id='blog-pager-older-link'>
+<a class='blog-pager-older-link' href='https://opensource.googleblog.com/2026/02/this-week-in-open-source-14.html' id='Blog1_blog-pager-older-link' title='Older Post'>
+<i class='material-icons'>
+                          &#58824;
+                        </i>
+</a>
+</span>
+</div>
+<div class='clear'></div>
+<div class='clear'></div>
+</div></div>
+</div>
+</div>
+<div class='column-right-outer'>
+<div class='column-right-inner'>
+<aside>
+<div class='sidebar section' id='sidebar-right-1'><div class='widget HTML' data-version='1' id='HTML4'>
+<div class='widget-content'>
+<div class='searchBox'><input type='text' title='Search This Blog' placeholder='Search blog...' /></div>
+</div>
+<div class='clear'></div>
+</div><div class='widget PopularPosts' data-version='1' id='PopularPosts1'>
+<h2>Popular Posts</h2>
+<div class='widget-content popular-posts'>
+<ul>
+<li>
+<a href='https://opensource.googleblog.com/2025/12/shape-future-with-google-summer-of-code.html'>Shape the future with Google Summer of Code 2026!</a>
+</li>
+<li>
+<a href='https://opensource.googleblog.com/2026/02/introducing-the-185-organizations-for-gsoc-2026.html'>Introducing the 185 Organizations for GSoC 2026</a>
+</li>
+<li>
+<a href='https://opensource.googleblog.com/2026/02/zetasql-is-being-renamed-to-googlesql.html'>ZetaSQL is being renamed to GoogleSQL</a>
+</li>
+<li>
+<a href='https://opensource.googleblog.com/2026/01/mentor-org-applications-for-google-summer-of-code-2026-open-through-feb-3.html'>Mentor Org Applications for Google Summer of Code 2026 open through Feb 3</a>
+</li>
+<li>
+<a href='https://opensource.googleblog.com/2026/01/a-json-schema-package-for-go.html'>A JSON schema package for Go</a>
+</li>
+</ul>
+<div class='clear'></div>
+</div>
+</div><div class='widget BlogArchive' data-version='1' id='BlogArchive1'>
+<div class='tab'>
+<h2>
+Archive
+</h2>
+</div>
+<div class='widget-content'>
+<div id='ArchiveList'>
+<div id='BlogArchive1_ArchiveList'>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>
+
+        &#9660;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2026/'>
+2026
+</a>
+<span class='post-count'>(10)</span>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>
+
+        &#9660;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2026/02/'>
+February
+</a>
+<span class='post-count'>(5)</span>
+<ul class='posts'>
+<li><a href='https://opensource.googleblog.com/2026/02/this-week-in-open-source-15.html'>This Week in Open Source #15</a></li>
+<li><a href='https://opensource.googleblog.com/2026/02/introducing-the-185-organizations-for-gsoc-2026.html'>Introducing the 185 Organizations for GSoC 2026</a></li>
+<li><a href='https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html'>The End of an Era: Transitioning Away from Ingress...</a></li>
+<li><a href='https://opensource.googleblog.com/2026/02/this-week-in-open-source-14.html'>This Week in Open Source #14</a></li>
+<li><a href='https://opensource.googleblog.com/2026/02/zetasql-is-being-renamed-to-googlesql.html'>ZetaSQL is being renamed to GoogleSQL</a></li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2026/01/'>
+January
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/'>
+2025
+</a>
+<span class='post-count'>(47)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/12/'>
+December
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/11/'>
+November
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/10/'>
+October
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/09/'>
+September
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/08/'>
+August
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/07/'>
+July
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/06/'>
+June
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/04/'>
+April
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/03/'>
+March
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/02/'>
+February
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2025/01/'>
+January
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/'>
+2024
+</a>
+<span class='post-count'>(39)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/12/'>
+December
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/11/'>
+November
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/10/'>
+October
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/09/'>
+September
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/08/'>
+August
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/07/'>
+July
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/06/'>
+June
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/04/'>
+April
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/03/'>
+March
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/02/'>
+February
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2024/01/'>
+January
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/'>
+2023
+</a>
+<span class='post-count'>(44)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/12/'>
+December
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/11/'>
+November
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/10/'>
+October
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/09/'>
+September
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/08/'>
+August
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/07/'>
+July
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/06/'>
+June
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/04/'>
+April
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/03/'>
+March
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/02/'>
+February
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2023/01/'>
+January
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/'>
+2022
+</a>
+<span class='post-count'>(44)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/12/'>
+December
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/11/'>
+November
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/10/'>
+October
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/09/'>
+September
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/08/'>
+August
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/07/'>
+July
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/06/'>
+June
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/05/'>
+May
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/04/'>
+April
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/03/'>
+March
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/02/'>
+February
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2022/01/'>
+January
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/'>
+2021
+</a>
+<span class='post-count'>(55)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/12/'>
+December
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/11/'>
+November
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/10/'>
+October
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/09/'>
+September
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/08/'>
+August
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/06/'>
+June
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/05/'>
+May
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/04/'>
+April
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/03/'>
+March
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/02/'>
+February
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2021/01/'>
+January
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/'>
+2020
+</a>
+<span class='post-count'>(83)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/12/'>
+December
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/11/'>
+November
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/10/'>
+October
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/09/'>
+September
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/08/'>
+August
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/07/'>
+July
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/06/'>
+June
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/05/'>
+May
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/04/'>
+April
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/03/'>
+March
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/02/'>
+February
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2020/01/'>
+January
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/'>
+2019
+</a>
+<span class='post-count'>(65)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/12/'>
+December
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/11/'>
+November
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/10/'>
+October
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/09/'>
+September
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/08/'>
+August
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/07/'>
+July
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/06/'>
+June
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/05/'>
+May
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/04/'>
+April
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/03/'>
+March
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/02/'>
+February
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2019/01/'>
+January
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/'>
+2018
+</a>
+<span class='post-count'>(59)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/12/'>
+December
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/11/'>
+November
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/10/'>
+October
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/09/'>
+September
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/08/'>
+August
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/07/'>
+July
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/06/'>
+June
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/04/'>
+April
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/03/'>
+March
+</a>
+<span class='post-count'>(16)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/02/'>
+February
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2018/01/'>
+January
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/'>
+2017
+</a>
+<span class='post-count'>(73)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/12/'>
+December
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/11/'>
+November
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/10/'>
+October
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/09/'>
+September
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/08/'>
+August
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/07/'>
+July
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/06/'>
+June
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/04/'>
+April
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/03/'>
+March
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/02/'>
+February
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2017/01/'>
+January
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/'>
+2016
+</a>
+<span class='post-count'>(85)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/12/'>
+December
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/11/'>
+November
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/10/'>
+October
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/09/'>
+September
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/08/'>
+August
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/07/'>
+July
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/06/'>
+June
+</a>
+<span class='post-count'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/04/'>
+April
+</a>
+<span class='post-count'>(3)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/03/'>
+March
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/02/'>
+February
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2016/01/'>
+January
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/'>
+2015
+</a>
+<span class='post-count'>(80)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/12/'>
+December
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/11/'>
+November
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/10/'>
+October
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/09/'>
+September
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/08/'>
+August
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/07/'>
+July
+</a>
+<span class='post-count'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/06/'>
+June
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/05/'>
+May
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/04/'>
+April
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/03/'>
+March
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/02/'>
+February
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2015/01/'>
+January
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/'>
+2014
+</a>
+<span class='post-count'>(104)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/12/'>
+December
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/11/'>
+November
+</a>
+<span class='post-count'>(12)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/10/'>
+October
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/09/'>
+September
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/08/'>
+August
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/07/'>
+July
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/06/'>
+June
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/05/'>
+May
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/04/'>
+April
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/03/'>
+March
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/02/'>
+February
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2014/01/'>
+January
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/'>
+2013
+</a>
+<span class='post-count'>(100)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/12/'>
+December
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/11/'>
+November
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/10/'>
+October
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/09/'>
+September
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/08/'>
+August
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/07/'>
+July
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/06/'>
+June
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/05/'>
+May
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/04/'>
+April
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/03/'>
+March
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/02/'>
+February
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2013/01/'>
+January
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/'>
+2012
+</a>
+<span class='post-count'>(93)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/12/'>
+December
+</a>
+<span class='post-count'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/11/'>
+November
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/10/'>
+October
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/09/'>
+September
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/08/'>
+August
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/07/'>
+July
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/06/'>
+June
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/05/'>
+May
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/04/'>
+April
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/03/'>
+March
+</a>
+<span class='post-count'>(15)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/02/'>
+February
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2012/01/'>
+January
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/'>
+2011
+</a>
+<span class='post-count'>(117)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/12/'>
+December
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/11/'>
+November
+</a>
+<span class='post-count'>(14)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/10/'>
+October
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/09/'>
+September
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/08/'>
+August
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/07/'>
+July
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/06/'>
+June
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/05/'>
+May
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/04/'>
+April
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/03/'>
+March
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/02/'>
+February
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2011/01/'>
+January
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/'>
+2010
+</a>
+<span class='post-count'>(123)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/12/'>
+December
+</a>
+<span class='post-count'>(9)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/11/'>
+November
+</a>
+<span class='post-count'>(12)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/10/'>
+October
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/09/'>
+September
+</a>
+<span class='post-count'>(14)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/08/'>
+August
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/07/'>
+July
+</a>
+<span class='post-count'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/06/'>
+June
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/05/'>
+May
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/04/'>
+April
+</a>
+<span class='post-count'>(14)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/03/'>
+March
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/02/'>
+February
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2010/01/'>
+January
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/'>
+2009
+</a>
+<span class='post-count'>(124)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/12/'>
+December
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/11/'>
+November
+</a>
+<span class='post-count'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/10/'>
+October
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/09/'>
+September
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/08/'>
+August
+</a>
+<span class='post-count'>(8)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/07/'>
+July
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/06/'>
+June
+</a>
+<span class='post-count'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/05/'>
+May
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/04/'>
+April
+</a>
+<span class='post-count'>(16)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/03/'>
+March
+</a>
+<span class='post-count'>(17)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/02/'>
+February
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2009/01/'>
+January
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/'>
+2008
+</a>
+<span class='post-count'>(167)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/12/'>
+December
+</a>
+<span class='post-count'>(10)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/11/'>
+November
+</a>
+<span class='post-count'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/10/'>
+October
+</a>
+<span class='post-count'>(13)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/09/'>
+September
+</a>
+<span class='post-count'>(16)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/08/'>
+August
+</a>
+<span class='post-count'>(12)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/07/'>
+July
+</a>
+<span class='post-count'>(20)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/06/'>
+June
+</a>
+<span class='post-count'>(14)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/05/'>
+May
+</a>
+<span class='post-count'>(21)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/04/'>
+April
+</a>
+<span class='post-count'>(16)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/03/'>
+March
+</a>
+<span class='post-count'>(17)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+        &#9658;&#160;
+      
+</span>
+</a>
+<a class='post-count-link' href='https://opensource.googleblog.com/2008/02/'>
+February
+</a>
+<span class='post-count'>(17)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class='clear'></div>
+</div>
+</div><div class='widget HTML' data-version='1' id='HTML3'>
+<div class='widget-content'>
+<div class="share">
+
+<a href="https://bsky.app/profile/opensource.google"><img alt="Bluesky" height="24" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi0c1rOBcgOjzocIecUGh2w71lX_kvE2M3LpSfOpi_WqwNl6xY0VRcVeikfbdP8VheBqWqlKDXBotesabPl1dFhPNuxLpWKUIb94F8ZhgKx1LPTMQQaBUDf9VsoBO7AR4mwqpIJlpzquGlx1-CfGy6XrJmIAE7XJOYX3k_1tLScyD7YRd8ohQepf3W-8h0/s1600/bluesky.png" width="24" /></a>
+
+<a href="https://twitter.com/GoogleOSS"><img alt="Twitter" height="24" src="https://www.gstatic.com/images/icons/material/system/2x/post_twitter_black_24dp.png" width="24" /></a>
+
+</div>
+</div>
+<div class='clear'></div>
+</div></div>
+</aside>
+</div>
+</div>
+</div>
+<div style='clear: both'></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<footer class='footer-main' id='FooterMain'>
+<div class='col-wrap'>
+<nav class='footer-nav pull-left'>
+<ul>
+<li class='google'>
+<a href="//google.com" title="Google">
+                  Google
+                </a>
+</li>
+<li>
+<a href='https://www.google.com/policies/privacy/' title='Privacy'>
+                  Privacy
+                </a>
+</li>
+<li>
+<a href='https://www.google.com/policies/terms/' title='Terms'>
+                  Terms
+                </a>
+</li>
+</ul>
+</nav>
+</div>
+</footer>
+</div>
+<div id='ogc-shim'>
+<a href='#' id='SendFeedback'>.</a>
+</div>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script async='async' src='https://support.google.com/inapp/api.js' type='text/javascript'></script>
+<script type='text/javascript'>
+    //<![CDATA[
+      $(document).ready(function(){
+		var DocEl = document.documentElement;
+		DocEl.className = DocEl.className.replace('no-js', 'js');
+
+		var NavTriggerEl = document.getElementById("NavTrigger");
+		var BodyEl = document.body;
+		var ShadowBoxEl = document.createElement("div");
+		ShadowBoxEl.id = "ShadowBox";
+		
+		BodyEl.appendChild(ShadowBoxEl);
+        NavTriggerEl.addEventListener("click", function(e){
+			e.preventDefault();
+			toggleActiveClass();
+        });
+
+        ShadowBoxEl.addEventListener("click", function(){
+			toggleActiveClass();
+        });
+
+$('a:not(.internal):not([href^="https://opensource.googleblog.com"]):not([href^="http://opensource.googleblog.com"]):not([href^="https://opensource.google.com"]):not([href^="http://opensource.google.com"]):not([href^="#"]):not([href^="/"]):not([href^="javascript"]):not([href^="mailto"])').addClass('external');
+
+		$('a.external').attr("target", "_blank");
+
+        });
+
+      // Social sharing popups.
+      var postEl = document.getElementsByClassName('social-wrapper');
+      var postCount = postEl.length;
+      for(i=0; i<postCount;i++){
+        postEl[i].addEventListener("click", function(event){
+          var postUrl = this.getAttribute("data-href");
+          window.open(
+            postUrl,'popUpWindow','height=500,width=500,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+        });}
+      var postEl = document.getElementsByClassName('social-wrapper2');
+      var postCount = postEl.length;
+      for(i=0; i<postCount;i++){
+        postEl[i].addEventListener("click", function(event){
+          var postUrl = this.getAttribute("data-href");
+          window.open(
+            postUrl,'popUpWindow2','height=500,width=400,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes');
+        });}
+
+      function toggleActiveClass() {
+		var stringIndex = document.body.className.indexOf("nav-active");
+
+		if (stringIndex < 0) {
+			document.body.className += " nav-active";
+        } else {
+			document.body.className = document.body.className.replace(" nav-active", "");
+        }
+      }
+//]]>
+</script>
+<script type='text/javascript'>
+      //<![CDATA[
+      var BreakpointHandler = function() {
+        this.initted = false;
+        this.isHomePage = false;
+        this.isMobile = false;
+      };
+      BreakpointHandler.prototype.finalizeSummary = function(summaryHtml, lastNode) {
+        // Use $.trim for IE8 compatibility
+        summaryHtml = $.trim(summaryHtml).replace(/(<br>|\s)+$/,'');
+        if (lastNode.nodeType == 3) {
+          var lastChar = summaryHtml.slice(-1);
+          if (!lastChar.match(/[.”"?]/)) {
+            if (!lastChar.match(/[A-Za-z]/)) {
+              summaryHtml = summaryHtml.slice(0, -1);
+            }
+            summaryHtml += ' ...';
+          }
+        } else if (lastNode.nodeType == 1 && (lastNode.nodeName == 'I' || lastNode.nodeName == 'A')) {
+          summaryHtml += ' ...';
+        }
+        return summaryHtml;
+      };
+      BreakpointHandler.prototype.generateSummaryFromContent = function(content, numWords) {
+        var seenWords = 0;
+        var summaryHtml = '';
+        for (var i=0; i < content.childNodes.length; i++) {
+          var node = content.childNodes[i];
+          var nodeText;
+          if (node.nodeType == 1) {
+            if (node.hasAttribute('data-about-pullquote')) {
+              continue;
+            }
+            nodeText = node.textContent;
+            if (nodeText === undefined) {
+              // innerText for IE8
+              nodeText = node.innerText;
+            }
+            if (node.nodeName == 'DIV' || node.nodeName == 'B') {
+              // Don't end early if we haven't seen enough words.
+              if (seenWords < 10) {
+                continue;
+              }
+              if (i > 0) {
+                summaryHtml = this.finalizeSummary(summaryHtml, content.childNodes[i-1]);
+              }
+              break;
+            }
+            summaryHtml += node.outerHTML;
+          } else if (node.nodeType == 3) {
+            nodeText = node.nodeValue;
+            summaryHtml += nodeText + ' ';
+          }
+          var words = nodeText.match(/\S+\s*/g);
+          if (!words) {
+            continue;
+          }
+          var remain = numWords - seenWords;
+          if (words.length >= remain) {
+            summaryHtml = this.finalizeSummary(summaryHtml, node);
+            break;
+          }
+          seenWords += words.length;
+        }
+        return summaryHtml;
+      };
+      BreakpointHandler.prototype.detect = function() {
+        var match,
+            pl     = /\+/g,
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+        var urlParams = {};
+        while (match = search.exec(query))
+          urlParams[decode(match[1])] = decode(match[2]);
+        this.isListPage = $('html').hasClass('list-page');
+        this.isMobile = urlParams['m'] === '1';
+        this.isHomePage = window.location.pathname == '/';
+      };
+      BreakpointHandler.prototype.initContent = function() {
+        var self = this;
+        $('.post').each(function(index) {
+          var body = $(this).children('.post-body')[0];
+          /*var content = $(body).children('.post-content')[0];*/ // XXX does not exist
+          var content = body;
+          $(content).addClass('post-original');
+          var data = $(content).children('script').html();
+          // XXX added this if block because data never seems to exist
+          if (data) {
+            data = self.rewriteForSSL(data);
+            // If exists, extract specified editor's preview.
+            var match = data.match(/([\s\S]+?)<div data-is-preview.+?>([\s\S]+)<\/div>/m);
+            if (match) {
+              data = match[1];
+            }
+            // Prevent big images from loading when they aren't needed.
+            // This must be done as a pre-injection step, since image loading can't be
+            // canceled once embedded into the DOM.
+            if (self.isListPage && self.isMobile) {
+              data = data.replace(/<(img|iframe) .+?>/g, '');
+            }
+            // Insert template to be rendered as nodes.
+            content.innerHTML = data;
+          }
+          if (self.isListPage) {
+            var summary = document.createElement('div');
+            $(summary).addClass('post-content');
+            $(summary).addClass('post-summary');
+            body.insertBefore(summary, content);
+            if (match) {
+              // Use provided summary.
+              summary.innerHTML = match[2];
+            } else {
+              // Generate a summary.
+              // Summary generation relies on DOM, so it must occur after content is
+              // inserted into the page.
+              summary.innerHTML = self.generateSummaryFromContent(content, 30);
+            }
+            // Add read more link to summary.
+            var titleAnchor = $(this).find('.title a')[0];
+            var link = titleAnchor.cloneNode(true);
+            link.innerHTML = 'Read More';
+            $(link).addClass('read-more');
+            summary.appendChild(link);
+          }
+        });
+        // Firefox does not allow for proper styling of BR.
+        if (navigator.userAgent.indexOf('Firefox') > -1) {
+          $('.post-content br').replaceWith('<span class="space"></span>');
+        }
+      };
+      BreakpointHandler.prototype.process = function() {
+        if (!this.initted) {
+          var makeInsecureImageRegex = function(hosts) {
+            var whitelist = hosts.join('|').replace(/\./g,'\\.');
+            // Normal image tags, plus input images (yes, this is possible!)
+            return new RegExp('(<(img|input)[^>]+?src=("|\'))http:\/\/(' + whitelist +')', 'g');
+          };
+          this.sslImageRegex = makeInsecureImageRegex(BreakpointHandler.KNOWN_HTTPS_HOSTS);
+          this.sslImageCurrentDomainRegex = makeInsecureImageRegex([window.location.hostname]);
+          this.detect();
+          this.initContent();
+          this.initted = true;
+        }
+      };
+      BreakpointHandler.KNOWN_HTTPS_HOSTS = [
+        "opensource.google.com",
+        "www.google.org",
+        "www.google.com",
+        "services.google.com",
+        "blogger.com",
+        "draft.blogger.com",
+        "www.blogger.com",
+        "photos1.blogger.com",
+        "photos2.blogger.com",
+        "photos3.blogger.com",
+        "blogblog.com",
+        "img1.blogblog.com",
+        "img2.blogblog.com",
+        "www.blogblog.com",
+        "www1.blogblog.com",
+        "www2.blogblog.com",
+        "0.bp.blogspot.com",
+        "1.bp.blogspot.com",
+        "2.bp.blogspot.com",
+        "3.bp.blogspot.com",
+        "4.bp.blogspot.com",
+        "lh3.googleusercontent.com",
+        "lh4.googleusercontent.com",
+        "lh5.googleusercontent.com",
+        "lh6.googleusercontent.com",
+        "themes.googleusercontent.com",
+      ];
+        BreakpointHandler.prototype.rewriteForSSL = function(html) {
+        // Handle HTTP -> HTTPS source replacement of images, movies, and other embedded content.
+        return html.replace(this.sslImageRegex, '$1https://$4')
+        .replace(this.sslImageCurrentDomainRegex, '$1//$4')
+        .replace(/(<(embed|iframe)[^>]+?src=("|'))http:\/\/([^"']*?(youtube|picasaweb\.google)\.com)/g, '$1https://$4')
+        // Slideshow SWF takes a image host, so we need to rewrite that parameter.
+        .replace(/(<embed[^>]+?feed=http(?=[^s]))/g, '$1s');
+        };
+        $(document).ready(function() {
+        var handler = new BreakpointHandler();
+        handler.process();
+        // Top-level navigation.
+        $(".BlogArchive .tab").click(function(ev) {
+        ev.preventDefault();
+        $(this).parent().toggleClass('active');
+        if ($(this).parent().hasClass('active')) {
+          $(this).siblings().css('display', 'block');
+        } else {
+          $(this).siblings().css('display', 'none');
+        }
+        });
+        $(".Label .tab").click(function(ev) {
+        ev.preventDefault();
+        $(this).parent().toggleClass('active');
+        if ($(this).parent().hasClass('active')) {
+          $(this).siblings().css('display', 'block');
+        } else {
+          $(this).siblings().css('display', 'none');
+        }
+        });
+        // Blog archive year expansion.
+        $('.BlogArchive .intervalToggle').click(function(ev) {
+        ev.preventDefault();
+        if ($(this).parent().hasClass('collapsed')) {
+        $(this).parent().removeClass('collapsed');
+        $(this).parent().addClass('expanded');
+        } else {
+        $(this).parent().removeClass('expanded');
+        $(this).parent().addClass('collapsed');
+        }
+        });
+        // Reverse order of months.
+        $('.BlogArchive .intervalToggle + div').each(function(_, items) {
+        var year = $(this);
+        year.children().each(function(_, month) {
+        year.prepend(month);
+        });
+        });
+        // Process search requests.
+        $('.searchBox input').on("keypress", function(ev) {
+        if (ev.which == 13) {
+        window.location.href = 'https://www.google.com/search?q=site%3A' + window.location.hostname + '%20' + encodeURIComponent ($(this).val());
+        }
+        });
+
+        });
+        //]]>
+    </script>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css' rel='stylesheet' type='text/css'/>
+<script language='javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js' type='text/javascript'></script>
+<script language='javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/lang-css.min.js' type='text/javascript'></script>
+<script type='text/javascript'>
+    document.addEventListener('DOMContentLoaded',function() {
+        prettyPrint();
+    });
+</script>
+<script type='text/javascript'>
+      //<![CDATA[
+
+(function(){var f,aa="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){if(c.get||c.set)throw new TypeError("ES3 does not support getters and setters.");a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)},k="undefined"!=typeof window&&window===this?this:"undefined"!=typeof global&&null!=global?global:this;function ba(){ba=function(){};k.Symbol||(k.Symbol=ca)}var da=0;function ca(a){return"jscomp_symbol_"+(a||"")+da++}
+function l(){ba();var a=k.Symbol.iterator;a||(a=k.Symbol.iterator=k.Symbol("iterator"));"function"!=typeof Array.prototype[a]&&aa(Array.prototype,a,{configurable:!0,writable:!0,value:function(){return ea(this)}});l=function(){}}function ea(a){var b=0;return fa(function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}})}function fa(a){l();a={next:a};a[k.Symbol.iterator]=function(){return this};return a}
+function m(a){if(!(a instanceof Array)){l();var b=a[Symbol.iterator];a=b?b.call(a):ea(a);for(var c=[];!(b=a.next()).done;)c.push(b.value);a=c}return a}function ha(a,b){function c(){}c.prototype=b.prototype;a.ha=b.prototype;a.prototype=new c;a.prototype.constructor=a;for(var d in b)if(Object.defineProperties){var e=Object.getOwnPropertyDescriptor(b,d);e&&Object.defineProperty(a,d,e)}else a[d]=b[d]}
+var n=window.Element.prototype,ia=n.matches||n.matchesSelector||n.webkitMatchesSelector||n.mozMatchesSelector||n.msMatchesSelector||n.oMatchesSelector;function ja(a,b){if(a&&1==a.nodeType&&b){if("string"==typeof b||1==b.nodeType)return a==b||ka(a,b);if("length"in b)for(var c=0,d;d=b[c];c++)if(a==d||ka(a,d))return!0}return!1}function ka(a,b){if("string"!=typeof b)return!1;if(ia)return ia.call(a,b);b=a.parentNode.querySelectorAll(b);for(var c=0,d;d=b[c];c++)if(d==a)return!0;return!1}
+function la(a){for(var b=[];a&&a.parentNode&&1==a.parentNode.nodeType;)a=a.parentNode,b.push(a);return b}
+function p(a,b,c){function d(a){var d;if(h.composed&&"function"==typeof a.composedPath)for(var e=a.composedPath(),g=0,E;E=e[g];g++)1==E.nodeType&&ja(E,b)&&(d=E);else a:{if((d=a.target)&&1==d.nodeType&&b)for(d=[d].concat(la(d)),e=0;g=d[e];e++)if(ja(g,b)){d=g;break a}d=void 0}d&&c.call(d,a,d)}var e=document,h={composed:!0,S:!0},h=void 0===h?{}:h;e.addEventListener(a,d,h.S);return{j:function(){e.removeEventListener(a,d,h.S)}}}
+function ma(a){var b={};if(!a||1!=a.nodeType)return b;a=a.attributes;if(!a.length)return{};for(var c=0,d;d=a[c];c++)b[d.name]=d.value;return b}var na=/:(80|443)$/,q=document.createElement("a"),r={};
+function t(a){a=a&&"."!=a?a:location.href;if(r[a])return r[a];q.href=a;if("."==a.charAt(0)||"/"==a.charAt(0))return t(q.href);var b="80"==q.port||"443"==q.port?"":q.port,b="0"==b?"":b,c=q.host.replace(na,"");return r[a]={hash:q.hash,host:c,hostname:q.hostname,href:q.href,origin:q.origin?q.origin:q.protocol+"//"+c,pathname:"/"==q.pathname.charAt(0)?q.pathname:"/"+q.pathname,port:b,protocol:q.protocol,search:q.search}}var u=[];
+function oa(a,b){var c=this;this.context=a;this.P=b;this.f=(this.c=/Task$/.test(b))?a.get(b):a[b];this.b=[];this.a=[];this.g=function(a){for(var b=[],d=0;d<arguments.length;++d)b[d-0]=arguments[d];return c.a[c.a.length-1].apply(null,[].concat(m(b)))};this.c?a.set(b,this.g):a[b]=this.g}function v(a,b,c){a=pa(a,b);a.b.push(c);qa(a)}function w(a,b,c){a=pa(a,b);c=a.b.indexOf(c);-1<c&&(a.b.splice(c,1),0<a.b.length?qa(a):a.j())}
+function qa(a){a.a=[];for(var b,c=0;b=a.b[c];c++){var d=a.a[c-1]||a.f.bind(a.context);a.a.push(b(d))}}oa.prototype.j=function(){var a=u.indexOf(this);-1<a&&(u.splice(a,1),this.c?this.context.set(this.P,this.f):this.context[this.P]=this.f)};function pa(a,b){var c=u.filter(function(c){return c.context==a&&c.P==b})[0];c||(c=new oa(a,b),u.push(c));return c}
+function x(a,b,c,d,e,h){if("function"==typeof d){var g=c.get("buildHitTask");return{buildHitTask:function(c){c.set(a,null,!0);c.set(b,null,!0);d(c,e,h);g(c)}}}return y({},a,b)}function z(a,b){var c=ma(a),d={};Object.keys(c).forEach(function(a){if(!a.indexOf(b)&&a!=b+"on"){var e=c[a];"true"==e&&(e=!0);"false"==e&&(e=!1);a=ra(a.slice(b.length));d[a]=e}});return d}
+function sa(a){"loading"==document.readyState?document.addEventListener("DOMContentLoaded",function c(){document.removeEventListener("DOMContentLoaded",c);a()}):a()}function ta(a,b){var c;return function(d){for(var e=[],h=0;h<arguments.length;++h)e[h-0]=arguments[h];clearTimeout(c);c=setTimeout(function(){return a.apply(null,[].concat(m(e)))},b)}}function ua(a){function b(){c||(c=!0,a())}var c=!1;setTimeout(b,2E3);return b}var A={};
+function va(a,b){function c(){clearTimeout(e.timeout);e.send&&w(a,"send",e.send);delete A[d];e.R.forEach(function(a){return a()})}var d=a.get("trackingId"),e=A[d]=A[d]||{};clearTimeout(e.timeout);e.timeout=setTimeout(c,0);e.R=e.R||[];e.R.push(b);e.send||(e.send=function(a){return function(b){for(var d=[],e=0;e<arguments.length;++e)d[e-0]=arguments[e];c();a.apply(null,[].concat(m(d)))}},v(a,"send",e.send))}
+var y=Object.assign||function(a,b){for(var c=[],d=1;d<arguments.length;++d)c[d-1]=arguments[d];for(var d=0,e=c.length;d<e;d++){var h=Object(c[d]),g;for(g in h)Object.prototype.hasOwnProperty.call(h,g)&&(a[g]=h[g])}return a};function ra(a){return a.replace(/[\-\_]+(\w?)/g,function(a,c){return c.toUpperCase()})}function B(a){return"object"==typeof a&&null!==a}var C=function wa(b){return b?(b^16*Math.random()>>b/4).toString(16):"10000000-1000-4000-8000-100000000000".replace(/[018]/g,wa)};
+function F(a,b){var c=window.GoogleAnalyticsObject||"ga";window[c]=window[c]||function(a){for(var b=[],d=0;d<arguments.length;++d)b[d-0]=arguments[d];(window[c].q=window[c].q||[]).push(b)};window.gaDevIds=window.gaDevIds||[];0>window.gaDevIds.indexOf("i5iSjo")&&window.gaDevIds.push("i5iSjo");window[c]("provide",a,b);window.gaplugins=window.gaplugins||{};window.gaplugins[a.charAt(0).toUpperCase()+a.slice(1)]=b}var G={T:1,U:2,V:3,X:4,Y:5,Z:6,$:7,aa:8,ba:9,W:10},H=Object.keys(G).length;
+function I(a,b){a.set("\x26_av","2.3.3");var c=a.get("\x26_au"),c=parseInt(c||"0",16).toString(2);if(c.length<H)for(var d=H-c.length;d;)c="0"+c,d--;b=H-b;c=c.substr(0,b)+1+c.substr(b+1);a.set("\x26_au",parseInt(c||"0",2).toString(16))}function J(a,b){I(a,G.T);this.a=y({},b);this.g=a;this.b=this.a.stripQuery&&this.a.queryDimensionIndex?"dimension"+this.a.queryDimensionIndex:null;this.f=this.f.bind(this);this.c=this.c.bind(this);v(a,"get",this.f);v(a,"buildHitTask",this.c)}
+J.prototype.f=function(a){var b=this;return function(c){if("page"==c||c==b.b){var d={location:a("location"),page:a("page")};return xa(b,d)[c]}return a(c)}};J.prototype.c=function(a){var b=this;return function(c){var d=xa(b,{location:c.get("location"),page:c.get("page")});c.set(d,null,!0);a(c)}};
+function xa(a,b){var c=t(b.page||b.location),d=c.pathname;if(a.a.indexFilename){var e=d.split("/");a.a.indexFilename==e[e.length-1]&&(e[e.length-1]="",d=e.join("/"))}"remove"==a.a.trailingSlash?d=d.replace(/\/+$/,""):"add"==a.a.trailingSlash&&(/\.\w+$/.test(d)||"/"==d.substr(-1)||(d+="/"));d={page:d+(a.a.stripQuery?"":c.search)};b.location&&(d.location=b.location);a.b&&(d[a.b]=c.search.slice(1)||"(not set)");return"function"==typeof a.a.urlFieldsFilter?(b=a.a.urlFieldsFilter(d,t),c={},c.page=b.page,
+c.location=b.location,c[a.b]=b[a.b],c):d}J.prototype.remove=function(){w(this.g,"get",this.f);w(this.g,"buildHitTask",this.c)};F("cleanUrlTracker",J);function K(a,b){var c=this;I(a,G.U);if(window.addEventListener){this.a=y({events:["click"],fieldsObj:{},attributePrefix:"ga-"},b);this.f=a;this.c=this.c.bind(this);var d="["+this.a.attributePrefix+"on]";this.b={};this.a.events.forEach(function(a){c.b[a]=p(a,d,c.c)})}}
+K.prototype.c=function(a,b){var c=this.a.attributePrefix;if(!(0>b.getAttribute(c+"on").split(/\s*,\s*/).indexOf(a.type))){var c=z(b,c),d=y({},this.a.fieldsObj,c);this.f.send(c.hitType||"event",x({transport:"beacon"},d,this.f,this.a.hitFilter,b,a))}};K.prototype.remove=function(){var a=this;Object.keys(this.b).forEach(function(b){a.b[b].j()})};F("eventTracker",K);
+function ya(a,b){var c=this;I(a,G.V);window.IntersectionObserver&&window.MutationObserver&&(this.a=y({rootMargin:"0px",fieldsObj:{},attributePrefix:"ga-"},b),this.c=a,this.M=this.M.bind(this),this.O=this.O.bind(this),this.K=this.K.bind(this),this.L=this.L.bind(this),this.b=null,this.items=[],this.i={},this.h={},sa(function(){c.a.elements&&c.observeElements(c.a.elements)}))}f=ya.prototype;
+f.observeElements=function(a){var b=this;a=L(this,a);this.items=this.items.concat(a.items);this.i=y({},a.i,this.i);this.h=y({},a.h,this.h);a.items.forEach(function(a){var c=b.h[a.threshold]=b.h[a.threshold]||new IntersectionObserver(b.O,{rootMargin:b.a.rootMargin,threshold:[+a.threshold]});(a=b.i[a.id]||(b.i[a.id]=document.getElementById(a.id)))&&c.observe(a)});this.b||(this.b=new MutationObserver(this.M),this.b.observe(document.body,{childList:!0,subtree:!0}));requestAnimationFrame(function(){})};
+f.unobserveElements=function(a){var b=[],c=[];this.items.forEach(function(d){a.some(function(a){a=za(a);return a.id===d.id&&a.threshold===d.threshold&&a.trackFirstImpressionOnly===d.trackFirstImpressionOnly})?c.push(d):b.push(d)});if(b.length){var d=L(this,b),e=L(this,c);this.items=d.items;this.i=d.i;this.h=d.h;c.forEach(function(a){if(!d.i[a.id]){var b=e.h[a.threshold],c=e.i[a.id];c&&b.unobserve(c);d.h[a.threshold]||e.h[a.threshold].disconnect()}})}else this.unobserveAllElements()};
+f.unobserveAllElements=function(){var a=this;Object.keys(this.h).forEach(function(b){a.h[b].disconnect()});this.b.disconnect();this.b=null;this.items=[];this.i={};this.h={}};function L(a,b){var c=[],d={},e={};b.length&&b.forEach(function(b){b=za(b);c.push(b);e[b.id]=a.i[b.id]||null;d[b.threshold]=a.h[b.threshold]||null});return{items:c,i:e,h:d}}f.M=function(a){for(var b=0,c;c=a[b];b++){for(var d=0,e;e=c.removedNodes[d];d++)M(this,e,this.L);for(d=0;e=c.addedNodes[d];d++)M(this,e,this.K)}};
+function M(a,b,c){1==b.nodeType&&b.id in a.i&&c(b.id);for(var d=0,e;e=b.childNodes[d];d++)M(a,e,c)}
+f.O=function(a){for(var b=[],c=0,d;d=a[c];c++)for(var e=0,h;h=this.items[e];e++){var g;if(g=d.target.id===h.id)(g=h.threshold)?g=d.intersectionRatio>=g:(g=d.intersectionRect,g=0<g.top||0<g.bottom||0<g.left||0<g.right);if(g){var D=h.id;g=document.getElementById(D);var D={transport:"beacon",eventCategory:"Viewport",eventAction:"impression",eventLabel:D,nonInteraction:!0},Ma=y({},this.a.fieldsObj,z(g,this.a.attributePrefix));this.c.send("event",x(D,Ma,this.c,this.a.hitFilter,g));h.trackFirstImpressionOnly&&
+b.push(h)}}b.length&&this.unobserveElements(b)};f.K=function(a){var b=this,c=this.i[a]=document.getElementById(a);this.items.forEach(function(d){a==d.id&&b.h[d.threshold].observe(c)})};f.L=function(a){var b=this,c=this.i[a];this.items.forEach(function(d){a==d.id&&b.h[d.threshold].unobserve(c)});this.i[a]=null};f.remove=function(){this.unobserveAllElements()};F("impressionTracker",ya);function za(a){"string"==typeof a&&(a={id:a});return y({threshold:0,trackFirstImpressionOnly:!0},a)}
+function Aa(){this.a={}}function Ba(a,b){(a.a.externalSet=a.a.externalSet||[]).push(b)}Aa.prototype.ca=function(a,b){for(var c=[],d=1;d<arguments.length;++d)c[d-1]=arguments[d];(this.a[a]=this.a[a]||[]).forEach(function(a){return a.apply(null,[].concat(m(c)))})};var N={},O=!1,P;function Q(a,b){b=void 0===b?{}:b;this.a={};this.b=a;this.w=b;this.l=null}ha(Q,Aa);function R(a,b,c){a=["autotrack",a,b].join(":");N[a]||(N[a]=new Q(a,c),O||(window.addEventListener("storage",Ca),O=!0));return N[a]}
+function S(){if(null!=P)return P;try{window.localStorage.setItem("autotrack","autotrack"),window.localStorage.removeItem("autotrack"),P=!0}catch(a){P=!1}return P}Q.prototype.get=function(){if(this.l)return this.l;if(S())try{this.l=Da(window.localStorage.getItem(this.b))}catch(a){}return this.l=y({},this.w,this.l)};Q.prototype.set=function(a){this.l=y({},this.w,this.l,a);if(S())try{var b=JSON.stringify(this.l);window.localStorage.setItem(this.b,b)}catch(c){}};
+function Ea(a){a.l={};if(S())try{window.localStorage.removeItem(a.b)}catch(b){}}Q.prototype.j=function(){delete N[this.b];Object.keys(N).length||(window.removeEventListener("storage",Ca),O=!1)};function Ca(a){var b=N[a.key];if(b){var c=y({},b.w,Da(a.oldValue));a=y({},b.w,Da(a.newValue));b.l=a;b.ca("externalSet",a,c)}}function Da(a){var b={};if(a)try{b=JSON.parse(a)}catch(c){}return b}var T={};
+function U(a,b,c){this.f=a;this.timeout=b||Fa;this.timeZone=c;this.b=this.b.bind(this);v(a,"sendHitTask",this.b);try{this.c=new Intl.DateTimeFormat("en-US",{timeZone:this.timeZone})}catch(d){}this.a=R(a.get("trackingId"),"session",{hitTime:0,isExpired:!1});this.a.get().id||this.a.set({id:C()})}function Ga(a,b,c){var d=a.get("trackingId");return T[d]?T[d]:T[d]=new U(a,b,c)}function V(a){return a.a.get().id}
+U.prototype.isExpired=function(a){a=void 0===a?V(this):a;if(a!=V(this))return!0;a=this.a.get();if(a.isExpired)return!0;var b=a.hitTime;return b&&(a=new Date,b=new Date(b),a-b>6E4*this.timeout||this.c&&this.c.format(a)!=this.c.format(b))?!0:!1};U.prototype.b=function(a){var b=this;return function(c){a(c);var d=c.get("sessionControl");c="start"==d||b.isExpired();var d="end"==d,e=b.a.get();e.hitTime=+new Date;c&&(e.isExpired=!1,e.id=C());d&&(e.isExpired=!0);b.a.set(e)}};
+U.prototype.j=function(){w(this.f,"sendHitTask",this.b);this.a.j();delete T[this.f.get("trackingId")]};var Fa=30;function W(a,b){I(a,G.W);window.addEventListener&&(this.b=y({increaseThreshold:20,sessionTimeout:Fa,fieldsObj:{}},b),this.f=a,this.c=Ha(this),this.g=ta(this.g.bind(this),500),this.o=this.o.bind(this),this.a=R(a.get("trackingId"),"plugins/max-scroll-tracker"),this.m=Ga(a,this.b.sessionTimeout,this.b.timeZone),v(a,"set",this.o),Ia(this))}
+function Ia(a){100>(a.a.get()[a.c]||0)&&window.addEventListener("scroll",a.g)}
+W.prototype.g=function(){var a=document.documentElement,b=document.body,a=Math.min(100,Math.max(0,Math.round(window.pageYOffset/(Math.max(a.offsetHeight,a.scrollHeight,b.offsetHeight,b.scrollHeight)-window.innerHeight)*100))),b=V(this.m);b!=this.a.get().sessionId&&(Ea(this.a),this.a.set({sessionId:b}));if(this.m.isExpired(this.a.get().sessionId))Ea(this.a);else if(b=this.a.get()[this.c]||0,a>b&&(100!=a&&100!=b||window.removeEventListener("scroll",this.g),b=a-b,100==a||b>=this.b.increaseThreshold)){var c=
+{};this.a.set((c[this.c]=a,c.sessionId=V(this.m),c));a={transport:"beacon",eventCategory:"Max Scroll",eventAction:"increase",eventValue:b,eventLabel:String(a),nonInteraction:!0};this.b.maxScrollMetricIndex&&(a["metric"+this.b.maxScrollMetricIndex]=b);this.f.send("event",x(a,this.b.fieldsObj,this.f,this.b.hitFilter))}};W.prototype.o=function(a){var b=this;return function(c,d){a(c,d);var e={};(B(c)?c:(e[c]=d,e)).page&&(c=b.c,b.c=Ha(b),b.c!=c&&Ia(b))}};
+function Ha(a){a=t(a.f.get("page")||a.f.get("location"));return a.pathname+a.search}W.prototype.remove=function(){this.m.j();window.removeEventListener("scroll",this.g);w(this.f,"set",this.o)};F("maxScrollTracker",W);var Ja={};function Ka(a,b){I(a,G.X);window.matchMedia&&(this.a=y({changeTemplate:this.changeTemplate,changeTimeout:1E3,fieldsObj:{}},b),B(this.a.definitions)&&(b=this.a.definitions,this.a.definitions=Array.isArray(b)?b:[b],this.b=a,this.c=[],La(this)))}
+function La(a){a.a.definitions.forEach(function(b){if(b.name&&b.dimensionIndex){var c=Na(b);a.b.set("dimension"+b.dimensionIndex,c);Oa(a,b)}})}function Na(a){var b;a.items.forEach(function(a){Pa(a.media).matches&&(b=a)});return b?b.name:"(not set)"}
+function Oa(a,b){b.items.forEach(function(c){c=Pa(c.media);var d=ta(function(){var c=Na(b),d=a.b.get("dimension"+b.dimensionIndex);c!==d&&(a.b.set("dimension"+b.dimensionIndex,c),c={transport:"beacon",eventCategory:b.name,eventAction:"change",eventLabel:a.a.changeTemplate(d,c),nonInteraction:!0},a.b.send("event",x(c,a.a.fieldsObj,a.b,a.a.hitFilter)))},a.a.changeTimeout);c.addListener(d);a.c.push({fa:c,da:d})})}Ka.prototype.remove=function(){for(var a=0,b;b=this.c[a];a++)b.fa.removeListener(b.da)};
+Ka.prototype.changeTemplate=function(a,b){return a+" \x3d\x3e "+b};F("mediaQueryTracker",Ka);function Pa(a){return Ja[a]||(Ja[a]=window.matchMedia(a))}function X(a,b){I(a,G.Y);window.addEventListener&&(this.a=y({formSelector:"form",shouldTrackOutboundForm:this.shouldTrackOutboundForm,fieldsObj:{},attributePrefix:"ga-"},b),this.b=a,this.c=p("submit",this.a.formSelector,this.f.bind(this)))}
+X.prototype.f=function(a,b){var c={transport:"beacon",eventCategory:"Outbound Form",eventAction:"submit",eventLabel:t(b.action).href};if(this.a.shouldTrackOutboundForm(b,t)){navigator.sendBeacon||(a.preventDefault(),c.hitCallback=ua(function(){b.submit()}));var d=y({},this.a.fieldsObj,z(b,this.a.attributePrefix));this.b.send("event",x(c,d,this.b,this.a.hitFilter,b,a))}};
+X.prototype.shouldTrackOutboundForm=function(a,b){a=b(a.action);return a.hostname!=location.hostname&&"http"==a.protocol.slice(0,4)};X.prototype.remove=function(){this.c.j()};F("outboundFormTracker",X);
+function Y(a,b){var c=this;I(a,G.Z);window.addEventListener&&(this.a=y({events:["click"],linkSelector:"a, area",shouldTrackOutboundLink:this.shouldTrackOutboundLink,fieldsObj:{},attributePrefix:"ga-"},b),this.f=a,this.c=this.c.bind(this),this.b={},this.a.events.forEach(function(a){c.b[a]=p(a,c.a.linkSelector,c.c)}))}
+Y.prototype.c=function(a,b){if(this.a.shouldTrackOutboundLink(b,t)){var c=b.getAttribute("href")||b.getAttribute("xlink:href"),d=t(c),e={transport:"beacon",eventCategory:"Outbound Link",eventAction:a.type,eventLabel:d.href};navigator.sendBeacon||"click"!=a.type||"_blank"==b.target||a.metaKey||a.ctrlKey||a.shiftKey||a.altKey||1<a.which||window.addEventListener("click",function(a){a.defaultPrevented||(a.preventDefault(),e.hitCallback=ua(function(){location.href=c}))});d=y({},this.a.fieldsObj,z(b,this.a.attributePrefix));
+this.f.send("event",x(e,d,this.f,this.a.hitFilter,b,a))}};Y.prototype.shouldTrackOutboundLink=function(a,b){a=a.getAttribute("href")||a.getAttribute("xlink:href");b=b(a);return b.hostname!=location.hostname&&"http"==b.protocol.slice(0,4)};Y.prototype.remove=function(){var a=this;Object.keys(this.b).forEach(function(b){a.b[b].j()})};F("outboundLinkTracker",Y);var Z=C();
+function Qa(a,b){var c=this;I(a,G.$);document.visibilityState&&(this.a=y({sessionTimeout:Fa,visibleThreshold:5E3,sendInitialPageview:!1,fieldsObj:{}},b),this.b=a,this.g=document.visibilityState,this.m=null,this.o=!1,this.v=this.v.bind(this),this.s=this.s.bind(this),this.G=this.G.bind(this),this.N=this.N.bind(this),this.c=R(a.get("trackingId"),"plugins/page-visibility-tracker"),Ba(this.c,this.N),this.f=Ga(a,this.a.sessionTimeout,this.a.timeZone),v(a,"set",this.v),window.addEventListener("unload",this.G),
+document.addEventListener("visibilitychange",this.s),va(this.b,function(){if("visible"==document.visibilityState)c.a.sendInitialPageview&&(Ra(c,{ea:!0}),c.o=!0),c.c.set({time:+new Date,state:"visible",pageId:Z,sessionId:V(c.f)});else if(c.a.sendInitialPageview&&c.a.pageLoadsMetricIndex){var a={},a=(a.transport="beacon",a.eventCategory="Page Visibility",a.eventAction="page load",a.eventLabel="(not set)",a["metric"+c.a.pageLoadsMetricIndex]=1,a.nonInteraction=!0,a);c.b.send("event",x(a,c.a.fieldsObj,
+c.b,c.a.hitFilter))}}))}f=Qa.prototype;
+f.s=function(){var a=this;if("visible"==document.visibilityState||"hidden"==document.visibilityState){var b=Sa(this),c={time:+new Date,state:document.visibilityState,pageId:Z,sessionId:V(this.f)};"visible"==document.visibilityState&&this.a.sendInitialPageview&&!this.o&&(Ra(this),this.o=!0);"hidden"==document.visibilityState&&this.m&&clearTimeout(this.m);this.f.isExpired(b.sessionId)?(Ea(this.c),"hidden"==this.g&&"visible"==document.visibilityState&&(clearTimeout(this.m),this.m=setTimeout(function(){a.c.set(c);
+Ra(a,{hitTime:c.time})},this.a.visibleThreshold))):(b.pageId==Z&&"visible"==b.state&&Ta(this,b),this.c.set(c));this.g=document.visibilityState}};function Sa(a){var b=a.c.get();"visible"==a.g&&"hidden"==b.state&&b.pageId!=Z&&(b.state="visible",b.pageId=Z,a.c.set(b));return b}
+function Ta(a,b,c){c=(c?c:{}).hitTime;var d={hitTime:c},d=(d?d:{}).hitTime;(b=b.time?(d||+new Date)-b.time:0)&&b>=a.a.visibleThreshold&&(b=Math.round(b/1E3),d={transport:"beacon",nonInteraction:!0,eventCategory:"Page Visibility",eventAction:"track",eventValue:b,eventLabel:"(not set)"},c&&(d.queueTime=+new Date-c),a.a.visibleMetricIndex&&(d["metric"+a.a.visibleMetricIndex]=b),a.b.send("event",x(d,a.a.fieldsObj,a.b,a.a.hitFilter)))}
+function Ra(a,b){var c=b?b:{};b=c.hitTime;var c=c.ea,d={transport:"beacon"};b&&(d.queueTime=+new Date-b);c&&a.a.pageLoadsMetricIndex&&(d["metric"+a.a.pageLoadsMetricIndex]=1);a.b.send("pageview",x(d,a.a.fieldsObj,a.b,a.a.hitFilter))}f.v=function(a){var b=this;return function(c,d){var e={},e=B(c)?c:(e[c]=d,e);e.page&&e.page!==b.b.get("page")&&"visible"==b.g&&b.s();a(c,d)}};f.N=function(a,b){a.time!=b.time&&(b.pageId!=Z||"visible"!=b.state||this.f.isExpired(b.sessionId)||Ta(this,b,{hitTime:a.time}))};
+f.G=function(){"hidden"!=this.g&&this.s()};f.remove=function(){this.c.j();this.f.j();w(this.b,"set",this.v);window.removeEventListener("unload",this.G);document.removeEventListener("visibilitychange",this.s)};F("pageVisibilityTracker",Qa);
+function Ua(a,b){I(a,G.aa);window.addEventListener&&(this.a=y({fieldsObj:{},hitFilter:null},b),this.b=a,this.u=this.u.bind(this),this.J=this.J.bind(this),this.D=this.D.bind(this),this.A=this.A.bind(this),this.B=this.B.bind(this),this.F=this.F.bind(this),"complete"!=document.readyState?window.addEventListener("load",this.u):this.u())}f=Ua.prototype;
+f.u=function(){if(window.FB)try{window.FB.Event.subscribe("edge.create",this.B),window.FB.Event.subscribe("edge.remove",this.F)}catch(a){}window.twttr&&this.J()};f.J=function(){var a=this;try{window.twttr.ready(function(){window.twttr.events.bind("tweet",a.D);window.twttr.events.bind("follow",a.A)})}catch(b){}};function Va(a){try{window.twttr.ready(function(){window.twttr.events.unbind("tweet",a.D);window.twttr.events.unbind("follow",a.A)})}catch(b){}}
+f.D=function(a){if("tweet"==a.region){var b={transport:"beacon",socialNetwork:"Twitter",socialAction:"tweet",socialTarget:a.data.url||a.target.getAttribute("data-url")||location.href};this.b.send("social",x(b,this.a.fieldsObj,this.b,this.a.hitFilter,a.target,a))}};
+f.A=function(a){if("follow"==a.region){var b={transport:"beacon",socialNetwork:"Twitter",socialAction:"follow",socialTarget:a.data.screen_name||a.target.getAttribute("data-screen-name")};this.b.send("social",x(b,this.a.fieldsObj,this.b,this.a.hitFilter,a.target,a))}};f.B=function(a){this.b.send("social",x({transport:"beacon",socialNetwork:"Facebook",socialAction:"like",socialTarget:a},this.a.fieldsObj,this.b,this.a.hitFilter))};
+f.F=function(a){this.b.send("social",x({transport:"beacon",socialNetwork:"Facebook",socialAction:"unlike",socialTarget:a},this.a.fieldsObj,this.b,this.a.hitFilter))};f.remove=function(){window.removeEventListener("load",this.u);try{window.FB.Event.unsubscribe("edge.create",this.B),window.FB.Event.unsubscribe("edge.remove",this.F)}catch(a){}Va(this)};F("socialWidgetTracker",Ua);
+function Wa(a,b){I(a,G.ba);history.pushState&&window.addEventListener&&(this.a=y({shouldTrackUrlChange:this.shouldTrackUrlChange,trackReplaceState:!1,fieldsObj:{},hitFilter:null},b),this.b=a,this.c=location.pathname+location.search,this.H=this.H.bind(this),this.I=this.I.bind(this),this.C=this.C.bind(this),v(history,"pushState",this.H),v(history,"replaceState",this.I),window.addEventListener("popstate",this.C))}f=Wa.prototype;
+f.H=function(a){var b=this;return function(c){for(var d=[],e=0;e<arguments.length;++e)d[e-0]=arguments[e];a.apply(null,[].concat(m(d)));Xa(b,!0)}};f.I=function(a){var b=this;return function(c){for(var d=[],e=0;e<arguments.length;++e)d[e-0]=arguments[e];a.apply(null,[].concat(m(d)));Xa(b,!1)}};f.C=function(){Xa(this,!0)};
+function Xa(a,b){setTimeout(function(){var c=a.c,d=location.pathname+location.search;c!=d&&a.a.shouldTrackUrlChange.call(a,d,c)&&(a.c=d,a.b.set({page:d,title:document.title}),(b||a.a.trackReplaceState)&&a.b.send("pageview",x({transport:"beacon"},a.a.fieldsObj,a.b,a.a.hitFilter)))},0)}f.shouldTrackUrlChange=function(a,b){return!(!a||!b)};f.remove=function(){w(history,"pushState",this.H);w(history,"replaceState",this.I);window.removeEventListener("popstate",this.C)};F("urlChangeTracker",Wa);})();
+//# sourceMappingURL=autotrack.js.map
+
+	ga('blogger.require', 'outboundLinkTracker');
+        //]]>
+</script>
+<!--\xc8 tua responsabilit\xe0 avvisare i visitatori dei cookie utilizzati e dei dati raccolti sul tuo blog. In Blogger \xe8 disponibile una notifica standard che puoi utilizzare sul tuo blog. Puoi personalizzarla o sostituirla con una notifica preparata da te. Per maggiori dettagli, visita http://www.blogger.com/go/cookiechoices.-->
+<script defer='' src='/js/cookienotice.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'Questo sito utilizza cookie di Google per erogare i propri servizi e per analizzare il traffico. Il tuo indirizzo IP e il tuo user agent sono condivisi con Google, unitamente alle metriche sulle prestazioni e sulla sicurezza, per garantire la qualit\xe0 del servizio, generare statistiche di utilizzo e rilevare e contrastare eventuali abusi.',
+          (window.cookieOptions && cookieOptions.close) || 'OK',
+          (window.cookieOptions && cookieOptions.learn) || 'Ulteriori informazioni',
+          (window.cookieOptions && cookieOptions.link) || 'https://www.blogger.com/go/blogspot-cookies');
+    });
+  </script>
+
+<script type="text/javascript" src="https://www.blogger.com/static/v1/widgets/432983155-widgets.js"></script>
+<script type='text/javascript'>
+window['__wavt'] = 'AOuZoY5PRQJoFJPJX4F1r3ZZOV-L0xci1A:1772215746848';_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d8698702854482141883','//opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html','8698702854482141883');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '8698702854482141883', 'title': 'Google Open Source Blog', 'url': 'https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html', 'canonicalUrl': 'https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html', 'homepageUrl': 'https://opensource.googleblog.com/', 'searchUrl': 'https://opensource.googleblog.com/search', 'canonicalHomepageUrl': 'https://opensource.googleblog.com/', 'blogspotFaviconUrl': 'https://opensource.googleblog.com/favicon.ico', 'bloggerUrl': 'https://www.blogger.com', 'hasCustomDomain': true, 'httpsEnabled': true, 'enabledCommentProfileImages': false, 'gPlusViewType': 'FILTERED_POSTMOD', 'adultContent': false, 'analyticsAccountNumber': 'UA-53341410-4', 'encoding': 'UTF-8', 'locale': 'en', 'localeUnderscoreDelimited': 'en', 'languageDirection': 'ltr', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'isDynamicViewsAvailable': true, 'feedLinks': '\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Google Open Source Blog - Atom\x22 href\x3d\x22https://opensource.googleblog.com/feeds/posts/default\x22 /\x3e\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/rss+xml\x22 title\x3d\x22Google Open Source Blog - RSS\x22 href\x3d\x22https://opensource.googleblog.com/feeds/posts/default?alt\x3drss\x22 /\x3e\n\x3clink rel\x3d\x22service.post\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Google Open Source Blog - Atom\x22 href\x3d\x22https://www.blogger.com/feeds/8698702854482141883/posts/default\x22 /\x3e\n\n\x3clink rel\x3d\x22alternate\x22 type\x3d\x22application/atom+xml\x22 title\x3d\x22Google Open Source Blog - Atom\x22 href\x3d\x22https://opensource.googleblog.com/feeds/4191970675388406760/comments/default\x22 /\x3e\n', 'meTag': '', 'adsenseHostId': 'ca-host-pub-1556223355139109', 'adsenseHasAds': false, 'adsenseAutoAds': false, 'boqCommentIframeForm': true, 'loginRedirectParam': '', 'isGoogleEverywhereLinkTooltipEnabled': true, 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/d5b8d00000327303', 'plusOneApiSrc': 'https://apis.google.com/js/platform.js', 'disableGComments': true, 'interstitialAccepted': false, 'sharing': {'platforms': [{'name': 'Get link', 'key': 'link', 'shareMessage': 'Get link', 'target': ''}, {'name': 'Facebook', 'key': 'facebook', 'shareMessage': 'Share to Facebook', 'target': 'facebook'}, {'name': 'BlogThis!', 'key': 'blogThis', 'shareMessage': 'BlogThis!', 'target': 'blog'}, {'name': 'X', 'key': 'twitter', 'shareMessage': 'Share to X', 'target': 'twitter'}, {'name': 'Pinterest', 'key': 'pinterest', 'shareMessage': 'Share to Pinterest', 'target': 'pinterest'}, {'name': 'Email', 'key': 'email', 'shareMessage': 'Email', 'target': 'email'}], 'disableGooglePlus': true, 'googlePlusShareButtonWidth': 0, 'googlePlusBootstrap': '\x3cscript type\x3d\x22text/javascript\x22\x3ewindow.___gcfg \x3d {\x27lang\x27: \x27en\x27};\x3c/script\x3e'}, 'hasCustomJumpLinkMessage': false, 'jumpLinkMessage': 'Read more', 'pageType': 'item', 'postId': '4191970675388406760', 'postImageThumbnailUrl': 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s72-c/BlogHeroImageIngressNGINX.png', 'postImageUrl': 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png', 'pageName': 'The End of an Era: Transitioning Away from Ingress NGINX', 'pageTitle': 'Google Open Source Blog: The End of an Era: Transitioning Away from Ingress NGINX', 'metaDescription': 'The Kubernetes community recently announced that Ingress NGINX is officially entering retirement. Maintenance will cease in March 2026.'}}, {'name': 'features', 'data': {}}, {'name': 'messages', 'data': {'edit': 'Edit', 'linkCopiedToClipboard': 'Link copied to clipboard!', 'ok': 'Ok', 'postLink': 'Post Link'}}, {'name': 'template', 'data': {'name': 'custom', 'localizedName': 'Custom', 'isResponsive': false, 'isAlternateRendering': false, 'isCustom': true}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\x3dclassic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\x3dflipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\x3dmagazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\x3dmosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\x3dsidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\x3dsnapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\x3dtimeslide'}, 'isMobile': false, 'title': 'The End of an Era: Transitioning Away from Ingress NGINX', 'description': 'The Kubernetes community recently announced that Ingress NGINX is officially entering retirement. Maintenance will cease in March 2026.', 'featuredImage': 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizpQgX40H9SS7xp8k0ezxjdzXE7z7VNetnVAY8OYHU3Mwreh5n6Datm-yHHNkgAdzR2iv2Kdq_4aHJDp1DNA2EVWG2QViYte0hu7yMsXKHaxXvbI0jD2OFRS3G3QPf_PUcoonske0CdJ0dOnFO1dEvtj_XZCotfLtId1gtlGD3eD92-hMmS9HI-D5YkAY/s1600/BlogHeroImageIngressNGINX.png', 'url': 'https://opensource.googleblog.com/2026/02/the-end-of-an-era-transitioning-away-from-ingress-nginx.html', 'type': 'item', 'isSingleItem': true, 'isMultipleItems': false, 'isError': false, 'isPage': false, 'isPost': true, 'isHomepage': false, 'isArchive': false, 'isLabelSearch': false, 'postId': 4191970675388406760}}]);
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', document.getElementById('Blog1'), {'cmtInteractionsEnabled': false}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML4', 'sidebar-right-1', document.getElementById('HTML4'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_PopularPostsView', new _WidgetInfo('PopularPosts1', 'sidebar-right-1', document.getElementById('PopularPosts1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar-right-1', document.getElementById('BlogArchive1'), {'languageDirection': 'ltr', 'loadingMessage': 'Loading\x26hellip;'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML3', 'sidebar-right-1', document.getElementById('HTML3'), {}, 'displayModeFull'));
+</script>
+</body>
+</html>
