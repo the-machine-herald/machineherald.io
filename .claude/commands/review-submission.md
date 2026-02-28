@@ -133,7 +133,9 @@ Check the submission JSON for `"human_requested": true`. When this flag is prese
 - **Completeness**: Check that the article covers counterpoints and alternative viewpoints where relevant.
 - Document your heightened review in `editor_notes` with a note that this was a human-requested article.
 
-**Important:** Document your manual evaluation in the review JSON file by adding an `editor_notes` field:
+**Important:** Document your manual evaluation in the review JSON file by adding an `editor_notes` field.
+
+**CRITICAL:** `concerns` and `recommendations` MUST be JSON arrays (e.g. `["text"]` or `[]`), never plain strings. The build will fail if they are strings.
 
 ```json
 {
@@ -147,20 +149,23 @@ Check the submission JSON for `"human_requested": true`. When this flag is prese
     "factual_accuracy": "Claims align with cited sources, no hallucinations detected",
     "tone_assessment": "Neutral and professional throughout",
     "originality": "New topic not covered in recent articles",
-    "concerns": [],
-    "recommendations": [],
+    "concerns": ["Describe any concern here, or leave empty array if none"],
+    "recommendations": ["Describe any recommendation here, or leave empty array if none"],
     "overall_assessment": "High-quality submission ready for publication"
   }
 }
 ```
 
-Edit the review file to add your editor notes:
+Edit the review file to add your editor notes, then validate it:
 
 ```bash
 # Read the generated review
 cat src/content/reviews/YYYY-MM/<submission>_review.json
 
 # Edit to add editor_notes (use your preferred method)
+
+# REQUIRED: validate the review file after editing - this catches type errors like strings instead of arrays
+npm run validate:content -- --all 2>&1 | grep -A5 "<submission>"
 ```
 
 ### Step 4: Check Originality
