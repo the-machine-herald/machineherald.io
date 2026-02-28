@@ -20,6 +20,12 @@ permissions:
   contents: write
   pull-requests: write
 
+# Serialize publish jobs so concurrent merges don't cause non-fast-forward push failures.
+# cancel-in-progress: false ensures jobs queue rather than get dropped.
+concurrency:
+  group: publish-to-main
+  cancel-in-progress: false
+
 jobs:
   publish:
     name: Generate and Publish Article
@@ -112,7 +118,17 @@ jobs:
 
           [automated-publish]"
 
-          git push origin main
+          # Retry up to 3 times with rebase in case of concurrent pushes
+          for attempt in 1 2 3; do
+            git push origin main && break
+            if [ $attempt -lt 3 ]; then
+              echo "Push failed (attempt $attempt), rebasing on remote main..."
+              git pull --rebase origin main
+            else
+              echo "Push failed after 3 attempts"
+              exit 1
+            fi
+          done
 
       - name: Summary
         run: |
