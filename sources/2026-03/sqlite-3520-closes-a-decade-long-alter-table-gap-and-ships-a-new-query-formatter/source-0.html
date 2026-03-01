@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
+<title>SQLite Release 3.52.0 On 2026-03-11</title>
+<!-- path=../ -->
+</head>
+<body>
+<div class=nosearch>
+<a href="../index.html">
+<img class="logo" src="../images/sqlite370_banner.svg" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+<font size="6" color="red">*** DRAFT ***</font>
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
+<script>
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
+</script>
+<h2>SQLite Release 3.52.0 On 2026-03-11</h2><p><ol class='lessindent'>
+<li> Enhance <a href="../lang_altertable.html">ALTER TABLE</a> to permit adding and removing NOT NULL
+     and CHECK constraints.
+<li> Add the <a href="https://sqlite.org/src/file/ext/qrf">Query Result Formatter (QRF)</a>
+     library for formatting the results of SQL queries for human readability
+     on a fixed-pitch font screen.
+     <ol type="a">
+     <li> Add the <a href="../tclsqlite.html#format">format method</a> to the <a href="../tclsqlite.html">TCL Interface</a> so that QRF is
+          accessible from TCL.
+     <li> QRF is used for result formatting in the <a href="../cli.html">CLI</a>, resulting in improved
+          display capabilities.
+     </ol>
+<li> New built-in SQL functions: <a href="../json1.html#jarrayins">json_array_insert()</a>, and <a href="../json1.html#jarrayins">jsonb_array_insert()</a>.
+<li> Renovations to the <a href="../cli.html">CLI</a>:
+     <ol type="a">
+     <li> Major enhancements to the <a href="../climode.html">.mode command</a>.
+     <li> Improved result formatting, due to the addition of the 
+          <a href="https://sqlite.org/src/file/ext/qrf">QRF extension</a>.
+          For example, numeric values are now right-justified by default
+          in <a href="../climode.html#clmnr">tabular output modes</a>.
+     <li> The default output mode for interactive CLI sessions now uses
+          QRF to display query results in boxes formed using Unicode
+          box-drawing characters, for improved legibility.  Batch CLI
+          sessions use the legacy output format for compatibility.
+     <li> Bare (unquoted) semicolons at the end of <a href="../cli.html#dotcmd">dot-commands</a> are
+          silently ignored. &emsp;&larr;&nbsp;Potential incompatibility!
+     <li> Fix the .testcase and .check commands so that they actually
+          work, and use those commands in scripts that part of
+          the standard SQLite test suite included with the source tree.
+     <li> Command-line arguments that match *.sql or *.txt and are
+          the names of non-empty files are read and interpreted as scripts
+          of SQL statements and/or <a href="../cli.html#dotcmd">dot-commands</a>.
+     <li> The argument to the ".timer" command can now be "once", to run
+          the timer on only the next SQL statement.
+     <li> The new "--timeout S" option to the ".progress" dot-command
+          causes SQL statements to interrupt after S seconds.
+     </ol>
+<li> New C-language interfaces:
+     <ol type="a">
+     <li> <a href="../c3ref/str_append.html">sqlite3_str_truncate()</a>
+     <li> <a href="../c3ref/str_finish.html">sqlite3_str_free()</a>
+     <li> <a href="../c3ref/carray_bind.html">sqlite3_carray_bind_v2()</a>
+     <li> Add the <a href="../c3ref/c_prepare_dont_log.html#sqlitepreparefromddl">SQLITE_PREPARE_FROM_DDL</a> option to <a href="../c3ref/prepare.html">sqlite3_prepare_v3()</a> which
+          permits <a href="../vtab.html">virtual table</a> implementations to safely prepare SQL statements
+          that are derived from the database schema.
+     <li> Added the <a href="../c3ref/c_any.html#sqliteutf8zt">SQLITE_UTF8_ZT</a> constant which can be used as the encoding parameter to
+          <a href="../c3ref/result_blob.html">sqlite3_result_text64()</a> or <a href="../c3ref/bind_blob.html">sqlite3_bind_text64()</a> to indicate that the value
+          is UTF-8 encoded and zero terminated.
+     <li> The <a href="../c3ref/c_limit_attached.html#sqlitelimitparserdepth">SQLITE_LIMIT_PARSER_DEPTH</a> option is added to <a href="../c3ref/limit.html">sqlite3_limit()</a>.
+     <li> The <a href="../c3ref/c_dbconfig_defensive.html#sqlitedbconfigfpdigits">SQLITE_DBCONFIG_FP_DIGITS</a> option is added to <a href="../c3ref/db_config.html">sqlite3_db_config()</a>.
+          See also item 7b below.
+     </ol>
+<li> Query planner improvements:
+     <ol type="a">
+     <li> Always use a sort-and-merge algorithm for EXCEPT, INTERSECT, and
+          UNION, since this is almost always faster than using a hash table.
+     <li> Improvements to join order selection in large multi-way joins on
+          a star schema.
+     <li> Enhance the EXISTS-to-JOIN optimization so that the inserted JOIN
+          terms are not required to be on the inner-most loops, as long as
+          all dependencies for the EXISTS-to-JOIN loops are in outer loops.
+     <li> Enhance the omit-noop-join optimization so that it is able to omit
+          a chain of joins that do not affect the output.
+     <li> Allow queries that use "GROUP BY e1 ORDER BY e2" where e1 and e2
+          are identical apart from ASC/DESC sort-orders to be optimized using
+          a single index. 
+     <li> Allow virtual tables to optimize DISTINCT in cases where the
+          result-set of a query does not exactly match the ORDER BY clause.
+     </ol>
+<li> Improvements to floating-point &harr; text conversions.
+     <ol type="a">
+     <li> Reimplemented to improve performance.
+     <li> Rounding is now done by <a href="../floatingpoint.html#*fpdigits">default to 17 significant digits</a>,
+          instead of 15, as was the case for all prior versions.
+          The <a href="../c3ref/db_config.html">sqlite3_db_config</a>(<a href="../c3ref/c_dbconfig_defensive.html#sqlitedbconfigfpdigits">SQLITE_DBCONFIG_FP_DIGITS</a>) API (item 5g above)
+          can change this, if desired.
+     </ol>
+<li> The body of <a href="../lang_createtrigger.html#temptrig">TEMP triggers</a> may now modify and/or query tables in the main schema.
+<li> Enhance <a href="../lang_vacuum.html#vacuuminto">VACUUM INTO</a> so that if a <a href="../uri.html">URI filename</a> is used as the target and
+     that filename has a reserve=N query parameter with N between 0 and 255,
+     then the <a href="../fileformat2.html#resbyte">reserve amount</a> for the generated database copy
+     is set to N.
+<li> Add the "-p|--port" option to <a href="../rsync.html">sqlite3_rsync</a>.
+<li> Discontinue support for <a href="https://en.wikipedia.org/wiki/Windows_RT">Windows RT</a>.
+<p><b>Hashes:</b>
+<li>SQLITE_SOURCE_ID: <i>pending</i>
+<li>SHA3-256 for sqlite3.c: <i>pending</i>
+
+</ol></p>
+
+      <p>A <a href="../changes.html">complete list of SQLite releases</a>
+      in a single page and a <a href="../chronology.html">chronology</a> are both also available.
+      A detailed history of every
+      check-in is available at
+      <a href="https://sqlite.org/src/timeline">
+      SQLite version control site</a>.</p>
+    
+<p align="center"><font size="6" color="red">*** DRAFT ***</font></p>
