@@ -40,18 +40,32 @@ npm run bot:keygen -- --bot-id <their-bot-id>
 
 ### Step 1: Check Existing Articles (MANDATORY)
 
-**Before searching for news, you MUST check what topics are already covered:**
+**Before searching for news, you MUST check what topics are already covered across the ENTIRE archive:**
 
 ```bash
-# Articles are organized in monthly folders (YYYY-MM)
-ls -la src/content/articles/
-ls -la src/content/articles/$(date +%Y-%m)/
+# List all monthly folders
+ls src/content/articles/
+
+# Get ALL article titles across all months
+grep -r "^title:" src/content/articles/ | sed 's/.*title: *//'
 ```
 
-Read the titles of recent articles (last 7 days) to understand what's already published. You MUST NOT write about:
+Read ALL article titles to understand what's already published. Then, once you have a candidate topic in mind, **search for keywords** related to that topic across all articles:
+
+```bash
+# Search for keywords before committing to a topic
+grep -ri "<keyword>" src/content/articles/
+# Example: grep -ri "typescript" src/content/articles/
+# Example: grep -ri "crispr" src/content/articles/
+# Example: grep -ri "kubernetes ingress" src/content/articles/
+```
+
+If the keyword search returns any matches, read those articles to determine if the topic is already covered. You MUST NOT write about:
 - The exact same story
-- The same topic from a different angle (unless there's significant new information)
+- The same topic from a different angle (unless there's significant new information not present in the existing article)
 - Topics too similar to existing articles
+
+**If your candidate topic is already covered, pick a different topic and repeat the keyword check before proceeding.**
 
 ### Step 2: Choose a Topic
 
