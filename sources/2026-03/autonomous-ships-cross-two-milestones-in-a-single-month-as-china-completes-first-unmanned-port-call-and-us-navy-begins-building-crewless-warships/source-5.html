@@ -1,0 +1,4126 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema#  fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#" xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+
+    <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'personalization_storage': 'denied',
+    'functionality_storage': 'denied',
+    'security_storage': 'granted'
+  });
+</script>    <!-- OneTrust Cookies Consent Notice start for military.com -->
+
+ <script src="https://cdn.cookielaw.org/scripttemplates/gpp.stub.js" type="text/javascript"></script>
+ <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" id="oneTrustScript" type="text/javascript" charset="UTF-8" data-domain-script="01938cdc-feef-7a10-8910-2b15514d958f" ></script>
+
+ <script type="text/javascript">
+
+  function OptanonWrapper() {
+    //                                               _________________________________
+    // _____________________________________________/ Monkey Patch Cookie Interceptor \__________
+    // Wait for Optanon object to be available, then monkey patch the document.cookie setter
+    (function () {
+
+    
+        // console.log('OneTrust is ready, initiating document.cookie patching...  ');
+
+        const originalCookieDescriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie');  // save the original document.cookie function
+
+        
+        // OneTrust variables bundled up for convenience
+        const deepCookieList = JSON.parse(JSON.stringify(OneTrust.GetDomainData().Groups));
+        const deepUsersGroups = JSON.parse(JSON.stringify(OnetrustActiveGroups.split(',').filter(n => n.length > 0)));
+        const deepCurrentBlacklist = JSON.parse(JSON.stringify(currentBlackList(deepCookieList, deepUsersGroups)));
+
+        // Get the user's active groups from OneTrust
+        function currentBlackList(deepCookieList, deepUsersGroups) {
+          let shortList = [];
+          deepCookieList.forEach(group => {
+            if (!deepUsersGroups.includes(group.CustomGroupId)) {
+              shortList = shortList.concat(group.Cookies)
+            }
+          });
+          return shortList;
+        }
+
+        const oneTrustVariables = {
+          cookieList: deepCookieList,
+          usersGroups: deepUsersGroups,
+          currentBlackList: deepCurrentBlacklist,
+        };
+
+        // console.log('oneTrustVariables:', oneTrustVariables);
+
+
+        // loop over all current cookies and delete if on black list
+        deleteAllBlacklistedCookies(oneTrustVariables);
+
+
+        // Patch the document.cookie property to intercept cookie creation
+        Object.defineProperty(document, 'cookie', {
+          get: function (value) { return originalCookieDescriptor.get.call(this); },
+          set: function (value) {
+            if (blackListed(oneTrustVariables, value) == true) {
+              
+              // note: this is not optimal, to set it the delete it, however it is necessary
+              // some cookies when set are in a try catch, and they will loop infinitely,
+              // until the cookie is set. -mb
+              //originalCookieDescriptor.set.call(this, value); // set it
+              //deleteCookie(value.split('=')[0].trim()); // then delete it
+              // console.log('A cookie was Intercepted | creation was Blocked:', value.split('=')[0].trim());
+            } 
+            else{
+              // console.log('A cookie was Intercepted | creation was Allowed:', value.split('=')[0].trim());
+              originalCookieDescriptor.set.call(this, value);
+            }
+          },
+          configurable: true,
+        });
+
+
+
+      // Function to check if a cookie is blacklisted
+      function blackListed(oneTrustVariables, value){
+        let found = false;
+        let cookie = value.split('=')[0].trim();
+        oneTrustVariables.currentBlackList.forEach(cookieToCheck => { 
+          if((cookieToCheck.Name===cookie) === true ){ found = true } 
+        });
+        return found;
+      }
+
+      
+      // Function to delete all blacklisted cookies
+      function deleteAllBlacklistedCookies(oneTrustVariables) {
+        let cookieNames = document.cookie.split(';').map(cookie => cookie.split('=')[0].trim()).filter(cookie => cookie.length > 0);
+        // console.log('Cookie Interceptor: checking ' , cookieNames.length , ' initial cookies...');
+        cookieNames.forEach(cookie => {
+          let blackListed = false;
+          oneTrustVariables.currentBlackList.forEach(cookieToCheck => { 
+            if(cookie === cookieToCheck.Name ){ blackListed = true; } 
+          });
+          if (blackListed){ deleteCookie(cookie); } // else{ console.log('  --> cookie passed:', cookie); }
+        }); 
+      } 
+
+      // Function to delete a specific cookie 
+      function deleteCookie(cookieName) {
+        const domainName = "military.com";
+
+        document.cookie = cookieName +' =; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domainName;
+        document.cookie = cookieName +' =; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=' + domainName;
+        document.cookie = cookieName +' =; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        deletePartitionedCookie(cookieName)
+
+        // Path catch all "/*" Loop through path hierarchy and delete potential cookies at each path.
+        const pathArray = JSON.parse(JSON.stringify(window.location.pathname.split('/')));
+        for (var i=0; i < pathArray.length; i++){
+          if (pathArray[i]){
+            //Build the path string from the Path Array e.g /site/login
+            var currentPath = pathArray.slice(0,i+1).join('/');
+            document.cookie = cookieName+'=; Max-Age=-99999999;';
+            document.cookie = cookieName+'=; Max-Age=-99999999; Path=' + currentPath + ';Domain='+ domainName;
+            document.cookie = cookieName+'=; Max-Age=-99999999; Path=' + currentPath + ';';
+            //Maybe path has a trailing slash!
+            document.cookie = cookieName+'=; Max-Age=-99999999; Path=' + currentPath + '/;Domain='+ domainName;
+            document.cookie = cookieName+'=; Max-Age=-99999999; Path=' + currentPath + '/;';
+          }
+        }
+        // console.log('  --> Deleted cookie:', cookieName);
+      }
+
+      async function deletePartitionedCookie(cookieName) {
+        try {
+          await cookieStore.delete({ name: cookieName, partitioned: true, path: '/', secure: true });
+        } catch (error) {
+          // console.error('Error deleting partitioned cookie:', error);
+        }
+      }
+    
+    })();
+  }
+
+
+   //Reload page after user changes consent using OneTrust
+  function reloadOnConsentChange() {
+    // Prevent infinite reload loop
+    if (!sessionStorage.getItem('hasReloadedAfterConsent')) {
+      sessionStorage.setItem('hasReloadedAfterConsent', 'true');
+      location.reload();
+    }
+  }
+
+  // Ensure OneTrust is ready before attaching event
+  function setupOneTrustConsentReload(retryCount = 0) {
+    if (typeof OneTrust !== 'undefined' && typeof OneTrust.OnConsentChanged === 'function') {
+      OneTrust.OnConsentChanged(reloadOnConsentChange);
+    } else if (retryCount < 30) {
+      // Retry for 3 seconds
+      setTimeout(() => setupOneTrustConsentReload(retryCount + 1), 100);
+    }
+  }
+  setupOneTrustConsentReload();
+  
+
+</script>
+<!-- OneTrust Cookies Consent Notice end for military.com -->
+    <script>
+(function(){
+    let url = 'https://cdn.adsninja.ca';
+    if(['militarydev.prod.acquia-sites.com'].includes(window.location.hostname)){
+        url = 'https://ads.adsninja.ca/cached';
+    }
+
+    let version       = Math.floor(Date.now() / 3e5);
+    let newScript1    = document.createElement("script");
+    newScript1.async  = true;
+    newScript1.src    = url + '/ads_initiator.js?v=' + version;
+    newScript1.fetchPriority = "high";
+
+    newScript1.id     = "an-injector";
+    newScript1.onload = function() {
+        window.adsNinjaInitiator.brandName = "Military";
+        window.adsNinjaInitiator.shortBrandName = "MLT";
+        window.adsNinjaInitiator.init();
+    };
+
+    let newScript2 = document.createElement("script");
+    newScript2.src = 'https://cdn.adsninja.ca/an_sn.js';
+    newScript2.fetchPriority = "high";
+
+    document.head.appendChild(newScript1);
+    document.head.appendChild(newScript2);
+})();
+</script>
+
+
+<script>
+// MILT-2263 SentinelSetup logic for Ironcorp
+// this script uses DOM objects to set up the sentinelSetup variables.
+// it the initializes sentinel pageView tracking by dynamically loading 
+// sp.js after setting up the variables.
+// - M.Boston
+//
+// todo: set up a way to add event listeners for Sentinel as per MILT-2264 
+
+window.addEventListener('DOMContentLoaded', function () {
+  //                      ______________________
+  // ____________________/ Logic for Dimensions \____________________
+  // use the logic from DL to set the dimension variables for Sentinel 
+
+  let DL = getDL()
+  window.sentinelSetup = {
+    accountName: 'ironcorp',
+    propertyId: 'F8DEC6',
+    dimensions: {
+      
+      'intent': (() => {
+        if (!DL.isArticle) { return "Non-Article" }
+        if (DL.isArticleSyndicated) { return "Syndicated" }
+        if (DL.isPathEvergreen) { return "Evergreen" }
+        if (DL.isPathNews) { return "Short-Term" }
+        if (DL.isPathMilitaryLife) { return "Short-Term" }
+        return "Short-Term"})(),
+      
+      'adsTemplate': (() => {
+        if (DL.isHomepage) { return "home" }
+        if (DL.isArticle) { return "content-all" }
+        return "listing";})(),
+      
+      'contentType': (() => {
+        if (!DL.isArticle) { return "Non-Article" }
+        if (DL.isArticleSyndicated) { return "Feature" }
+        if (DL.isPathEvergreen) { return "Resource" }
+        if (DL.isPathNews) { return "News" }
+        if (DL.isPathMilitaryLife) { return "Feature" }
+        return "News";})(),
+
+      'articleType': (() => {
+        if (DL.isArticle) { return "article" } 
+        return ""})(),
+
+      'primaryTag': (() => {
+        if (DL.isArticle) { return DL.isFirstRelatedTopic ? DL.isFirstRelatedTopic : "" } 
+        return ""})(),
+
+      'primaryCategory': (() => {
+        if (DL.isArticle) { return DL.isPrimaryTag ? DL.isPrimaryTag : "" }
+        return ""})(),
+
+      'networkCategory': DL.isArticleNetworkCategory,
+
+      'segment': '',
+
+      'initiative': (() => {
+        if (!DL.isArticle) { return "Non-Article" }
+        if (DL.isPathEvergreen) { return "Technical" }
+        return "Editorial"})(),
+
+      'publishDate': (() => {
+        if (DL.isArticleDate) { return DL.isArticleDate }
+        return ""})(),
+
+      'system': (() => {
+        if (DL.isArticle) { return "Premium" } 
+        return ""})(),
+
+    },
+    userDimensions: { // filled in later, but before initialization
+      plan: "",
+      userRef: "",
+      loggedIn: false 
+    }
+  };
+
+  //                      __________________________
+  // ____________________/ load the sentinel script \____________________
+  // we do not have server variables, and the sp.js script need the IDs on load
+  // so we have to load it after we set the above variables.
+
+  var s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.async = true;
+  s.src = 'https://cdn.sentinelpro.com/ironcorp/sp.js'; // <-- this initializes with the ID as soon as it loads
+  s.onload = initSentinel() // <-- this then set up the pageView tracking after loading
+  document.head.appendChild(s);
+
+  async function initSentinel(){    
+    let user = document.cookie.split('LoginInfo');
+    if (user.length !== 2){  
+      // no email found, initialize sentinel without userRef
+      initializeSentinel();
+    } 
+    else {
+      // found email in cookie, now hash it with salt to create userRef
+      let email = user.pop().split(';').shift().split('|')[11].replace(/%40/g, '@');
+      let salt = '82b3b5b234554db1e8223d9c9717e168';
+      let text = salt + email.toLowerCase().trim();
+      // SHA256 the email + salt to create userRef (async to not block main thread)
+      await digestMessage(text).then((digestHex) => {
+          // init the sentinelSetup variables with the email hash
+          window.sentinelSetup.userDimensions.loggedIn = (digestHex.length > 0? true : false);
+          window.sentinelSetup.userDimensions.userRef = digestHex;
+          window.sentinelSetup.userDimensions.plan = '';
+          initializeSentinel();
+      })
+    }
+  }
+
+// initialize sentinel tracking
+function initializeSentinel() {
+  window.sentinelData = window.sentinelData || [];
+  function sentinelTrack() { window.sentinelData.push(arguments) };
+  sentinelTrack('config', window.sentinelSetup);
+  sentinelTrack('footerTimestamp', Date.now());
+}
+
+// this is a library function, it takes a message and returns the sha256 hash
+async function digestMessage(message) {
+  const msgUint8 = new TextEncoder().encode(message);
+  const hashBuffer = await window.crypto.subtle.digest("SHA-256", msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  return hashHex;
+}
+
+//                      ___________________________
+// ____________________/ raw DOM (DL) logic engine \____________________ //
+function getDL() {
+  let DL = {
+    isArticle: false,
+    isArticleSyndicated: false,
+    isPathEvergreen: false,
+    isPathNews: false,
+    isPathMilitaryLife: false,
+    isHomepage: false,
+    isFirstRelatedTopic: null,
+    isPrimaryTag: null,
+    isArticleDate: null,
+    isArticleNetworkCategory: null
+  }
+  
+  // get the path info
+  let p = window.location.pathname.toLowerCase().split('/')[1]; 
+  let p2 = window.location.pathname.toLowerCase().split('/')[2]; 
+
+  // is Article
+  DL.isArticle = document.getElementsByClassName('page-node-type-article')?.length > 0 ? true : false;
+
+  // is Article Syndicated
+  DL.isArticleSyndicatedDOM = document.getElementsByClassName('source')[0]
+  if (document.getElementsByClassName('source')[0]) {
+    DL.isArticleSyndicated = document.getElementsByClassName('source')[0]?.innerText.includes('Military.com') ? false : true;
+  }
+
+  // is evergreen path
+  if ( (p == "benefits") || (p == "veteran-jobs") || (p == "join-the-military") ) { DL.isPathEvergreen = true }
+
+  // isPathNews
+  if (p == "daily-news") { DL.isPathNews = true }
+
+  // isPathMilitaryLife
+  if ( (p == "military-life") || (p == "money") || (p == "off-duty") || (p == "trivia") || (p == "spouse") || (p == "deployment") || (p == "history") ) {
+    DL.isPathMilitaryLife = true;
+  }
+
+  // isHomepage
+  if (p === "") { DL.isHomepage = true };
+
+  // isFirstRelatedTopic
+  let isArticleRelatedTopicDOM = document.getElementsByClassName('field field--keywords field--label-inline')[0];
+  if (isArticleRelatedTopicDOM) {
+    let isArticleRelatedTopicATag = isArticleRelatedTopicDOM.getElementsByTagName('a')[0];
+    if (isArticleRelatedTopicATag) {
+      DL.isFirstRelatedTopic = isArticleRelatedTopicATag.innerText;
+    }
+  }
+
+  // primaryTag
+  DL.isPrimaryTag = document.getElementsByClassName("breadcrumb")[0]?.getElementsByTagName("a")[1]?.innerHTML || null;
+
+  // is article date
+  DL.isArticleDateDOM = document.getElementsByTagName('time');
+  if (DL.isArticleDateDOM && DL.isArticleDateDOM[0] && DL.isArticleDateDOM[0]?.outerHTML) {
+    DL.isArticleDate = DL.isArticleDateDOM[0].outerHTML.split('"')[1].split('T')[0];
+  }
+
+  // is article network category
+  DL.isArticleNetworkCategory = (
+    () => {
+      if (DL.isArticle) {
+        if ((p == "off-duty") && (p2 == "movies")) { return "movies" };
+        if ((p == "off-duty") && (p2 == "games")) { return "gaming" };
+        if ((p == "off-duty") && (p2 == "autos")) { return "auto_mass_market" };
+        if ((p == "off-duty") && (p2 == "music")) { return "Music" };
+        if ((p == "off-duty") && (p2 == "television")) { return "television" };
+        if ((p == "off-duty") && (p2 == "books")) { return "Books" };
+        if (p == "off-duty") { return "lifestyle" };
+        return "Military"
+      }
+      return "Non-Article"
+    }
+  )();
+
+  return DL;
+}
+
+}); // end : addEventListener : DOMContentLoaded
+</script >
+
+<style>.path--veteran-employers .page__top {height: auto !important};</style>
+
+<link rel="preload" href="themes/military/assets/fonts/icons.woff?pvpx2a" as="font" type="font/woff" crossorigin />
+<link rel="preload" href="themes/military/assets/fonts/icons.ttf?pvpx2a" as="font" type="font/ttf" crossorigin />
+<link rel="preload" href="themes/military/assets/fonts/icons.eot?pvpx2a" as="font" type="font/eot" crossorigin />
+<link rel="preload" href="themes/military/assets/fonts/icons.eot?pvpx2a#iefix" as="font" type="font/eot" crossorigin />
+<link rel="preload" href="themes/military/assets/fonts/icons.svg?pvpx2a#icons" as="font" type="font/svg" crossorigin />
+<link rel="preload" href="https://use.typekit.net/af/d57b89/00000000000000007735bd54/31/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3" as="font" type="font" crossorigin />
+<link rel="preload" href="https://use.typekit.net/af/5a75b7/00000000000000007735bd42/31/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3" as="font" type="font" crossorigin />
+
+          <meta charset="utf-8" />
+<meta name="description" content="The new vessel, starting building in March 2026, will focus on autonomous use and a 10,000 nautical range." />
+<link rel="canonical" href="https://www.military.com/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html" />
+<link rel="image_src" href="https://images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg" />
+<meta property="og:site_name" content="Military.com" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.military.com/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html" />
+<meta property="og:title" content="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026" />
+<meta property="og:description" content="The new vessel, starting building in March 2026, will focus on autonomous use and a 10,000 nautical range." />
+<meta property="og:image" content="https://images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg" />
+<meta property="og:image:secure_url" content="https://images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="627" />
+<meta property="og:updated_time" content="2026-02-12T11:46:25-08:00" />
+<meta property="article:publisher" content="https://www.facebook.com/Militarydotcom" />
+<meta property="article:section" content="Daily News,Navy" />
+<meta property="article:published_time" content="2026-02-12T11:46:25-08:00" />
+<meta property="article:modified_time" content="2026-02-12T11:46:25-08:00" />
+<meta property="fb:app_id" content="140586622674265" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026" />
+<meta name="twitter:site" content="@militarydotcom" />
+<meta name="twitter:description" content="The new vessel, starting building in March 2026, will focus on autonomous use and a 10,000 nautical range." />
+<meta name="twitter:site:id" content="14692385" />
+<meta name="twitter:creator" content="@militarydotcom" />
+<meta name="twitter:creator:id" content="14692385" />
+<meta name="twitter:image" content="https://images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg" />
+<meta name="twitter:image:alt" content="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta property="article:tag" content="US Navy Topics, Ships, Gunships, Amphibious Ships" />
+<meta name="robots" content="max-image-preview:large" />
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "NewsArticle",
+            "headline": "New 190-Foot Navy Autonomous Warship \u0027Liberty\u0027 to Hit Water in 2026",
+            "image": {
+                "@type": "ImageObject",
+                "url": "https://images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg"
+            },
+            "datePublished": "February 12, 2026",
+            "dateModified": "February 12, 2026",
+            "author": {
+                "@type": "Person",
+                "name": "Nick Mordowanec",
+                "url": "https://www.military.com/author/nick-mordowanec"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Military.com",
+                "url": "https://www.military.com/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://images.military.com/themes/military/logo.png"
+                }
+            },
+            "mainEntityOfPage": "https://www.military.com/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html"
+        },
+        {
+            "@type": "WebPage",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Navy",
+                        "item": "https://www.military.com/navy"
+                    }
+                ]
+            }
+        },
+        {
+            "@type": "WebSite",
+            "name": "Military.com",
+            "url": "https://www.military.com/"
+        }
+    ]
+}</script>
+<meta name="author" content="Nick Mordowanec" />
+<script>
+  window._sf_async_config = window._sf_async_config || {};
+  _sf_async_config.uid = 65633;
+  _sf_async_config.domain = 'military.com';
+  _sf_async_config.flickerControl = false;
+  _sf_async_config.useCanonical = true;
+  _sf_async_config.useCanonicalDomain = true;
+
+  function configureChartbeat() {
+    const hasConsent = userHasGivenConsentToChartbeat();
+
+    if (!hasConsent) {
+  _sf_async_config.noCookies = true;
+    }
+  }
+
+  function userHasGivenConsentToChartbeat() {
+    var groups = (window.OptanonActiveGroups || '').split(',');
+    return groups.includes('3');
+  }
+
+  // Wait for OneTrust to finish
+  if (window.OptanonActiveGroups) {
+    configureChartbeat();
+  } else {
+    window.addEventListener('OneTrustGroupsUpdated', configureChartbeat);
+  }
+</script>
+<script src="//static.chartbeat.com/js/chartbeat_mab.js" async="true"></script>
+<script src="//applets.ebxcdn.com/ebx.js" id="ebx" async="true"></script>
+<link rel="alternate" type="application/rss+xml" href="https://zapier.com/engine/rss/17550710/news-aggregators" />
+<link rel="icon" href="/themes/military/favicon.ico" type="image/vnd.microsoft.icon" />
+<script>window.a2a_config=window.a2a_config||{};a2a_config.callbacks=[];a2a_config.overlays=[];a2a_config.templates={};a2a_config.thanks = {
+    postShare: false
+};
+
+a2a_config.prioritize = [ 'facebook', 'linkedin', 'email', 'x', 'mastodon', 'whatsapp', 'pinterest', 'sms' ];
+a2a_config.num_services = 8;
+a2a_config.onclick = false;   </script>
+
+      <title>New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026 | Military.com</title>
+      <link rel="stylesheet" media="all" href="//images05.military.com/sites/default/files/css/css_gzCO2ON79a_OK-iWO_GU99VG-GRAu-a9TDqq_g311tc.css?delta=0&amp;language=en&amp;theme=military&amp;include=eJyFVNl24zAI_SETf5IPloitFgkfLWk9Xz84ntTyks6TBBexXBBobRYMc4v_Lrd7lJCbnvHP3LKgdWFojERqbSwT8g0_8LuhkF2eO_I92dbglJ2ExjvusOSxXS4lUew8hXL7SBUyq04fxTS66YX0mGiLb0rK4jfAjBjzIrqMcW57FvN5EAGMTHN0w3g0BPA0YMDHhf6VxhlyDGjhOtKEAwFo9UwnLM0pk4c-YlhoO3mIhNbE4vtat2Rt5EHdw1mSjte33RKnMis5SwBwZuV5r01uCFDqQmZ2oXp-Qc9KM0VIZZqkZvjZVEsW1iZvwN0R24MI0Ivd2QwlVpHvIpniJg8sPfImj-j7EgfNY5kVWCuqYGWsfu78jhZ2KcPD0ReABNIp4N8wcH7SM2Q0OV0a5jHSezc_qKbJTPk_RonM61u8sboTZmUr6Tgx2TeGOi4BHSetgudrmy95n_OKnTJ-sg1ojJRwUnt04ahLYlzdOP1TkEW4IjKIpb2kEWJ2hvVy1wROoK4EiUdsP_kTRhwiTuOmSoTRjDp43yddlmGoP6b2QILVG-x2wA-rAIyxDndE4EFLBXXllYkn64r_3WbftgpIHvn6yTIOG7A0ci_dvO5j0C_-2fzQk177edPcSphKr8Mw6nCtu6ldVmqz-EhPT0ld2cL0F7hGUQA" />
+<link rel="stylesheet" media="all" href="//images03.military.com/sites/default/files/css/css_mYDm0_9yhbB6g_pNppfFrJxOtuAc7DRoWRGGCaru-kc.css?delta=1&amp;language=en&amp;theme=military&amp;include=eJyFVNl24zAI_SETf5IPloitFgkfLWk9Xz84ntTyks6TBBexXBBobRYMc4v_Lrd7lJCbnvHP3LKgdWFojERqbSwT8g0_8LuhkF2eO_I92dbglJ2ExjvusOSxXS4lUew8hXL7SBUyq04fxTS66YX0mGiLb0rK4jfAjBjzIrqMcW57FvN5EAGMTHN0w3g0BPA0YMDHhf6VxhlyDGjhOtKEAwFo9UwnLM0pk4c-YlhoO3mIhNbE4vtat2Rt5EHdw1mSjte33RKnMis5SwBwZuV5r01uCFDqQmZ2oXp-Qc9KM0VIZZqkZvjZVEsW1iZvwN0R24MI0Ivd2QwlVpHvIpniJg8sPfImj-j7EgfNY5kVWCuqYGWsfu78jhZ2KcPD0ReABNIp4N8wcH7SM2Q0OV0a5jHSezc_qKbJTPk_RonM61u8sboTZmUr6Tgx2TeGOi4BHSetgudrmy95n_OKnTJ-sg1ojJRwUnt04ahLYlzdOP1TkEW4IjKIpb2kEWJ2hvVy1wROoK4EiUdsP_kTRhwiTuOmSoTRjDp43yddlmGoP6b2QILVG-x2wA-rAIyxDndE4EFLBXXllYkn64r_3WbftgpIHvn6yTIOG7A0ci_dvO5j0C_-2fzQk177edPcSphKr8Mw6nCtu6ldVmqz-EhPT0ld2cL0F7hGUQA" />
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,300i,400,500,500i,700,700i|Roboto+Slab:500&amp;display=swap" />
+<link rel="stylesheet" media="all" href="https://use.typekit.net/ebo0djl.css" />
+<link rel="stylesheet" media="all" href="//images02.military.com/sites/default/files/css/css_3bqnB_MHrjAC0rF7BdWS_a83DVmzEh9gBqeYA-rxltc.css?delta=4&amp;language=en&amp;theme=military&amp;include=eJyFVNl24zAI_SETf5IPloitFgkfLWk9Xz84ntTyks6TBBexXBBobRYMc4v_Lrd7lJCbnvHP3LKgdWFojERqbSwT8g0_8LuhkF2eO_I92dbglJ2ExjvusOSxXS4lUew8hXL7SBUyq04fxTS66YX0mGiLb0rK4jfAjBjzIrqMcW57FvN5EAGMTHN0w3g0BPA0YMDHhf6VxhlyDGjhOtKEAwFo9UwnLM0pk4c-YlhoO3mIhNbE4vtat2Rt5EHdw1mSjte33RKnMis5SwBwZuV5r01uCFDqQmZ2oXp-Qc9KM0VIZZqkZvjZVEsW1iZvwN0R24MI0Ivd2QwlVpHvIpniJg8sPfImj-j7EgfNY5kVWCuqYGWsfu78jhZ2KcPD0ReABNIp4N8wcH7SM2Q0OV0a5jHSezc_qKbJTPk_RonM61u8sboTZmUr6Tgx2TeGOi4BHSetgudrmy95n_OKnTJ-sg1ojJRwUnt04ahLYlzdOP1TkEW4IjKIpb2kEWJ2hvVy1wROoK4EiUdsP_kTRhwiTuOmSoTRjDp43yddlmGoP6b2QILVG-x2wA-rAIyxDndE4EFLBXXllYkn64r_3WbftgpIHvn6yTIOG7A0ci_dvO5j0C_-2fzQk177edPcSphKr8Mw6nCtu6ldVmqz-EhPT0ld2cL0F7hGUQA" />
+
+      <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/493691","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en","currentQuery":{"_wrapper_format":"html"}},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"gtag":{"tagId":"","consentMode":false,"otherIds":[],"events":[],"additionalConfigInfo":[]},"ajaxPageState":{"libraries":"eJyNVVmW4yAMvFCUHClPBhnTAeTHko7n9CMvaS84M_3jh6rEoqKQUevMGIYbLoNrGznkS-Pwz3CbvstYOUzJ2fTmHKNehj27obXOvcPI3iZaoojtMvqmpr9QyDYPd_IN6ZvCPlsOF8NsHN0zmpuRzzG-4he-9qC_eOvuWHJ3GwclUZRI23yCewrl-pVOmD7aJ6phwwySLUeLqbP9e06DiVZ9VEmZ_UqoDmNeQ4PrmAPlKOkjYjPGUVBWj0MIUAHvzVA_a67vA71KqomYrXIEyWpqMH7iE0Akh5l0ldFEQq1i8U1FKe6HaE13rAWgQ9-UaCjCqDM0JWe50WOWJ4MB62pWtWvKOhECziXzwz9mykaQmV2tUY-GAMSBjioukeKgBYCzg6YhZfIiEQZtg_lwrCVrVmKCsOGS4Z33mwnlBS1zFkGdDY-6hnqKR1srfpK2ZIDY8pvjb06fWFl0m8Qzh0y-UPyk-1Osx3c3S3Qfxd6kTcYAsGpnjwVN1gQo26scpPrN9BMDzi9RdEql7zlumKm7aNIwd5uVaC05fQi3728Bxl7AsYIPd_5GWR93GN9LyLJ5jZc4Pj2YGumRtH6n2II-aJDb0qkiUvF-56kFP9i7tabEbTyZa42N42Z7x_950J04YDv9cOixMHha-h41cI7U1ODPaPHgmCIbSFo-TXnS2LPQQe7EcuCo3eRNp4NjjEpxCVXa_onM2NHcJ20jsKZ99NNHP8AArdTzkZwKCSitzWE09SKT8Y5r7B9SjxFNxL47gSqPbpgfXVc2EUbViYNfFZbZmG2RH7rjWs_pde-3my_1_R_6hC81wMBFrm0AdInl8A_aT7h6jjS1yMtPkemmY-nRXVfkWkJfGqm9kx_e3OBu48_5Mq6RppWSLKWLo7-_kndi","theme":"military","theme_token":null},"ajaxTrustedUrl":[],"gtm":{"tagId":null,"settings":{"data_layer":"dataLayer","include_environment":false},"tagIds":["GTM-TJK2CRM"]},"mil_ads":{"opts":{"member":3525,"keywords":{"section":["Daily News"],"subsection":["Navy"],"articletag":["US Navy Topics","Ships","Gunships","Amphibious Ships","New","190Foot","Navy","Autonomous","Warship","\u0027Liberty\u0027","to","Hit","Water","in","2026"],"url":"\/daily-news\/2026\/02\/12\/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html"},"consentManagement":{"timeout":2000}},"tags":{"adblock-65ba8f78575f2-MobileBottom":{"sizeMapping":[{"minWidth":"320","sizes":[["320","50"],["300","250"],["320","52"]]},{"minWidth":"768","sizes":[[""]]}],"position":"MobileBottom","tag_id":9134729749,"targetId":"adblock-65ba8f78575f2"},"adblock-623c0c7756f6e-AnchorAd":{"sizeMapping":[{"minWidth":"320","sizes":[["325","42"],[" 320","50"],[" 325","41"]]},{"minWidth":"768","sizes":[[""]]}],"position":"AnchorAd","tag_id":9134729729,"targetId":"adblock-623c0c7756f6e"},"adblock-5ef128a5ca947-Bottom":{"sizeMapping":[{"minWidth":"768","sizes":[["728","90"],["728","91"]]},{"minWidth":"320","sizes":[[""]]}],"position":"Bottom","tag_id":9134729499,"targetId":"adblock-5ef128a5ca947"},"adblock-5fda9fa12ffb7-Military-Mobile-Interstitial":{"sizeMapping":[{"minWidth":"320","sizes":[["1","1"]]},{"minWidth":"768","sizes":[[""]]}],"position":"Military_Mobile_Interstitial","tag_id":9201435279,"targetId":"adblock-5fda9fa12ffb7"},"adblock-5fda9fa12ff22-Military-Desktop-Interstitial":{"sizeMapping":[{"minWidth":"768","sizes":[["1","1"]]},{"minWidth":"320","sizes":[[""]]}],"position":"Military_Desktop_Interstitial","tag_id":9195365669,"targetId":"adblock-5fda9fa12ff22"},"adblock-5bbf9a77e8b92-FP2":{"sizeMapping":[{"minWidth":"768","sizes":[["300","100"],["300","101"],["300","130"]]},{"minWidth":"320","sizes":[[""]]}],"position":"FP2","tag_id":9134729549,"targetId":"adblock-5bbf9a77e8b92"},"adblock-5bbf9aa577c3b-RightBottom":{"sizeMapping":[{"minWidth":"768","sizes":[["300","250"],["300","600"],["300","251"]]},{"minWidth":"320","sizes":[[""]]}],"position":"RightBottom","tag_id":9134729659,"targetId":"adblock-5bbf9aa577c3b"},"adblock-5bbf9aa577b6b-FP1":{"sizeMapping":[{"minWidth":"768","sizes":[["300","100"],["300","130"]]},{"minWidth":"320","sizes":[[""]]}],"position":"FP1","tag_id":9134729539,"targetId":"adblock-5bbf9aa577b6b"},"adblock-5fee363f88ca1-RightTop":{"sizeMapping":[{"minWidth":"768","sizes":[["300","250"],["300","600"],["300","1050"]]},{"minWidth":"320","sizes":[[""]]}],"position":"RightTop","tag_id":9134729669,"targetId":"adblock-5fee363f88ca1"},"content-adblock-69a955ec66d06":{"sizeMapping":[{"minWidth":"768","sizes":[["300","250"],["1","1"],["300","251"]]},{"minWidth":"320","sizes":[[""]]}],"position":"FPArticle2","tag_id":9185194159,"targetId":"content-adblock-69a955ec66d06"},"content-adblock-69a955ec66d09":{"sizeMapping":[{"minWidth":"320","sizes":[["1","1"],["300","250"]]},{"minWidth":"768","sizes":[[""]]}],"position":"Military_Mobile_FPArticle 2","tag_id":9203831479,"targetId":"content-adblock-69a955ec66d09"},"content-adblock-69a955ec664ca":{"sizeMapping":[{"minWidth":"768","sizes":[["1","1"],["628","100"]]},{"minWidth":"320","sizes":[[""]]}],"position":"FPArticle","tag_id":9134729579,"targetId":"content-adblock-69a955ec664ca"},"content-adblock-69a955ec664cd":{"sizeMapping":[{"minWidth":"320","sizes":[["1","1"],["300","100"]]},{"minWidth":"768","sizes":[[""]]}],"position":"Military_Mobile_FPArticle","tag_id":9184337469,"targetId":"content-adblock-69a955ec664cd"},"adblock-5ef126226826a-MobileTop":{"sizeMapping":[{"minWidth":"320","sizes":[["320","50"],["1","1"]]},{"minWidth":"768","sizes":[[""]]}],"position":"MobileTop","tag_id":9134729769,"targetId":"adblock-5ef126226826a"},"adblock-5ef126022a816-Top":{"sizeMapping":[{"minWidth":"768","sizes":[["728","90"],["970","90"],["970","250"],["970","91"]]},{"minWidth":"320","sizes":[[""]]}],"position":"Top","tag_id":9134729709,"targetId":"adblock-5ef126022a816"},"adblock-5ef12a90ee46b-BrandscapeRight":{"sizeMapping":[{"minWidth":"768","sizes":[["160","1500"]]},{"minWidth":"320","sizes":[[""]]}],"position":"BrandscapeRight","tag_id":9134729519,"targetId":"adblock-5ef12a90ee46b"},"adblock-5ef12a76b3c33-BrandscapeLeft":{"sizeMapping":[{"minWidth":"768","sizes":[["160","1501"]]},{"minWidth":"320","sizes":[[""]]}],"position":"BrandscapeLeft","tag_id":9134729509,"targetId":"adblock-5ef12a76b3c33"}}},"blazy":{"loadInvisible":false,"offset":100,"saveViewportOffsetDelay":50,"validateDelay":null,"container":"","loader":true,"unblazy":false,"visibleClass":false},"blazyIo":{"disconnect":false,"rootMargin":"0px","threshold":[0,0.25,0.5,0.75,1]},"user":{"uid":0,"permissionsHash":"67ab38ffea198e2c490ed5097ca58acae9b27cd172f67d6478abb53f36feb97d"}}</script>
+<script src="//images04.military.com/core/assets/vendor/modernizr/modernizr.min.js?v=3.11.7"></script>
+<script src="//images04.military.com/sites/default/files/js/js_eSoj_d_BJ6BYuP4Z70k96oliBucia9yG4I85XVDpgxg.js?scope=header&amp;delta=1&amp;language=en&amp;theme=military&amp;include=eJxtkOFuwyAMhF8obh6pcsAh3gAjY9qlTz8ypUra9Y91952ROKP3JpjXEXdxmVWyDVPExzr-zV27iLVGrs8sCvpdFonrzDE-rUriSrtTnHd1p6kMTpTGJJ4080OHIBIiXQ3DGPp49xf8wp9XmIbE8YrNlnETrZJ259k-8ES5Xb7qh6Qo39Ctp2Tt22kirQuX55sJK40BN82Guh1E3DdAooAZbyfezCQDsJP8n1YOGVo5AteqSSKF2koRtSNZCPtpDr8dHG5MdwBblAhmQmtKFYwj-WNxqwqAzknL9o4Tcj4zIyUPAY1zOHjBQK_u9JFKvZrvCnrxX50d2sg"></script>
+<script src="//images05.military.com/modules/contrib/google_tag/js/gtag.js?tbc6cr"></script>
+<script src="//images02.military.com/modules/contrib/google_tag/js/gtm.js?tbc6cr"></script>
+<script src="//images01.military.com/sites/default/files/js/js_cbPBYwIpGo4OPUiJ2h8-Z1oPXMShJjlj4PwKnOLx694.js?scope=header&amp;delta=4&amp;language=en&amp;theme=military&amp;include=eJxtkOFuwyAMhF8obh6pcsAh3gAjY9qlTz8ypUra9Y91952ROKP3JpjXEXdxmVWyDVPExzr-zV27iLVGrs8sCvpdFonrzDE-rUriSrtTnHd1p6kMTpTGJJ4080OHIBIiXQ3DGPp49xf8wp9XmIbE8YrNlnETrZJ259k-8ES5Xb7qh6Qo39Ctp2Tt22kirQuX55sJK40BN82Guh1E3DdAooAZbyfezCQDsJP8n1YOGVo5AteqSSKF2koRtSNZCPtpDr8dHG5MdwBblAhmQmtKFYwj-WNxqwqAzknL9o4Tcj4zIyUPAY1zOHjBQK_u9JFKvZrvCnrxX50d2sg"></script>
+
+      </head>
+  <body class="path--node path--daily-news path--daily-news20260212new-190-foot-navy-autonomous-warship-liberty-hit-water-2026html page-node-type-article variant--desktop">
+        <div id="pagewrapper">
+      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJK2CRM"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+        <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    
+
+
+<div class="page">
+      
+
+  <header id="header">
+    <div class="container-fluid">
+                
+
+
+
+
+
+
+      <div class="block block--hamburger-menu-button">
+    
+    
+
+      
+
+
+
+<a href=# class="button button--icon button--icon--bars" aria-label="bars" data-target="">
+  
+<i class="icon icon-bars"></i>
+</a>
+    
+        </div>
+  
+
+
+
+
+
+
+      <div class="block block--system-branding-block">
+    
+    
+
+        <a href="/" title="Home" rel="home">
+            <img src="//images.military.com/themes/military/logo.svg" class="logo" alt="Military.com Logo" onerror="this.onerror=null; this.src='/themes/military/logo.png'"/>
+    </a>
+      
+      </div>
+  
+
+
+
+      <nav class="nav--global block block--system-menu-block-main">
+    
+    
+
+      
+
+
+
+
+        <ul class="menu menu--main">
+              <li class="menu--account__authenticated--mobile">
+        <a href="http://www.military.com/profile/member-profile.html">Profile</a>
+        <ul>
+  <li><a href="https://www.military.com/profile/member-profile.html">Profile</a></li>
+    <li><a href="https://www.military.com/profile/member-profile-newsletter-settings.html">Subscriptions</a></li>
+  <li><a class="user-menu-logout-link" href="https://www.military.com/member-reg/logout.html">Log out</a></li>
+</ul>
+      </li>
+
+                        <li class="menu__item--active">
+                  <a href="/daily-news" target="_self" rel="" data-drupal-link-system-path="node/1251">News</a>
+                                <ul>
+                    <li>
+                  <a href="/daily-news" target="_self" rel="" data-drupal-link-system-path="node/1251">News Home</a>
+                        </li>
+                <li>
+                  <a href="/army" data-drupal-link-system-path="node/3241">Army</a>
+                        </li>
+                <li>
+                  <a href="/navy" data-drupal-link-system-path="node/3271">Navy</a>
+                        </li>
+                <li>
+                  <a href="/air-force" target="_self" rel="" data-drupal-link-system-path="node/3231">Air Force</a>
+                        </li>
+                <li>
+                  <a href="/marine-corps" target="_self" rel="" data-drupal-link-system-path="node/3256">Marine Corps</a>
+                        </li>
+                <li>
+                  <a href="/coast-guard" target="_self" rel="" data-drupal-link-system-path="node/3251">Coast Guard</a>
+                        </li>
+                <li>
+                  <a href="/space-force" target="_self" rel="" data-drupal-link-system-path="node/221226">Space Force</a>
+                        </li>
+                <li>
+                  <a href="/podcasts" target="_self" data-drupal-link-system-path="node/308881">Military Podcasts</a>
+                        </li>
+                <li>
+                  <a href="/daily-news/opinion" target="_self" rel="" data-drupal-link-system-path="node/99241">Opinion</a>
+                        </li>
+                <li>
+                  <a href="https://www.military.com/video" target="_self" rel="">Videos</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/benefits" target="_self" rel="" data-drupal-link-system-path="node/206">Benefits</a>
+                                <ul>
+                    <li>
+                  <a href="/benefits" target="_self" rel="" data-drupal-link-system-path="node/206">Benefits Home</a>
+                        </li>
+                <li>
+                  <a href="/benefits/military-pay" target="_self" data-drupal-link-system-path="node/3671">Military Pay and Money</a>
+                        </li>
+                <li>
+                  <a href="/education/gi-bill" target="_self" rel="" data-drupal-link-system-path="node/1206">GI Bill</a>
+                        </li>
+                <li>
+                  <a href="/benefits/veterans-health-care" target="_self" rel="" data-drupal-link-system-path="node/3816">Veteran Health Care</a>
+                        </li>
+                <li>
+                  <a href="/benefits/tricare" target="_self" rel="" data-drupal-link-system-path="node/3736">Tricare</a>
+                        </li>
+                <li>
+                  <a href="/money/va-loans" target="_self" rel="" data-drupal-link-system-path="node/1941">VA Loans</a>
+                        </li>
+                <li>
+                  <a href="/money/insurance" target="_self" rel="" data-drupal-link-system-path="node/2466">Insurance</a>
+                        </li>
+                <li>
+                  <a href="/money/retirement" target="_self" rel="" data-drupal-link-system-path="node/2511">Retirement</a>
+                        </li>
+                <li>
+                  <a href="/benefits/veteran-benefits/the-ebenefits-program.html" target="_self" rel="" data-drupal-link-system-path="node/42065">VA eBenefits</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/veteran-jobs" target="_self" rel="" data-drupal-link-system-path="node/1746">Veteran Jobs</a>
+                                <ul>
+                    <li>
+                  <a href="/veteran-jobs" target="_self" data-drupal-link-system-path="node/1746">Veteran Job Search</a>
+                        </li>
+                <li>
+                  <a href="/veteran-employment-project" target="_self" data-drupal-link-system-path="node/339886">Veteran Employment Project</a>
+                        </li>
+                <li>
+                  <a href="/veteran-employers" target="_self" rel="" data-drupal-link-system-path="node/1016">Vet Friendly Employers</a>
+                        </li>
+                <li>
+                  <a href="/veteran-jobs/career-advice" target="_self" rel="" data-drupal-link-system-path="node/2201">Career Advice</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/military-life" target="_self" rel="" data-drupal-link-system-path="node/1791">Military Life</a>
+                                <ul>
+                    <li>
+                  <a href="/military-life" target="_self" rel="" data-drupal-link-system-path="node/1791">Military Life Home</a>
+                        </li>
+                <li>
+                  <a href="/money" target="_self" rel="" data-drupal-link-system-path="node/2401">Money</a>
+                        </li>
+                <li>
+                  <a href="/off-duty" target="_self" rel="" data-drupal-link-system-path="node/2241">Off Duty</a>
+                        </li>
+                <li>
+                  <a href="/military-fitness" target="_self" rel="" data-drupal-link-system-path="node/1991">Fitness</a>
+                        </li>
+                <li>
+                  <a href="/trivia" target="_self" rel="" data-drupal-link-system-path="node/4251">Military Trivia Game</a>
+                        </li>
+                <li>
+                  <a href="/veterans-day" target="_self" rel="" data-drupal-link-system-path="node/5206">Veterans Day</a>
+                        </li>
+                <li>
+                  <a href="/spouse" target="_self" rel="" data-drupal-link-system-path="node/3621">Spouse &amp; Family</a>
+                        </li>
+                <li>
+                  <a href="/deployment" target="_self" rel="" data-drupal-link-system-path="node/4226">Deployment</a>
+                        </li>
+                <li>
+                  <a href="/history" data-drupal-link-system-path="node/4231">Military History</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/discounts" target="" rel="" data-drupal-link-system-path="node/1086">Discounts</a>
+                                <ul>
+                    <li>
+                  <a href="/discounts" target="" rel="" data-drupal-link-system-path="node/1086">Discounts Home</a>
+                        </li>
+                <li>
+                  <a href="/discounts/hot-deals" target="_self" data-drupal-link-system-path="taxonomy/term/1551">Featured Discounts</a>
+                        </li>
+                <li>
+                  <a href="/veterans-day/restaurants-veterans-day-military-discounts.html" target="_self" rel="" data-drupal-link-system-path="node/49210">Veterans Day Restaurant Discounts</a>
+                        </li>
+                <li>
+                  <a href="/discounts/dining" data-drupal-link-system-path="taxonomy/term/1486">Dining</a>
+                        </li>
+                <li>
+                  <a href="/discounts/travel" target="_self" rel="" data-drupal-link-system-path="taxonomy/term/1626">Travel</a>
+                        </li>
+                <li>
+                  <a href="/discounts/apparel-and-accessories" target="_self" data-drupal-link-system-path="taxonomy/term/1411">Retail</a>
+                        </li>
+                <li>
+                  <a href="/money/insurance" data-drupal-link-system-path="node/2466">Insurance</a>
+                        </li>
+                <li>
+                  <a href="/discounts/professional-services" data-drupal-link-system-path="taxonomy/term/1586">Services</a>
+                        </li>
+                <li>
+                  <a href="/discounts/auto" data-drupal-link-system-path="taxonomy/term/1471">Auto</a>
+                        </li>
+                <li>
+                  <a href="/discounts/electronics" data-drupal-link-system-path="taxonomy/term/1496">Electronics</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/join-armed-forces" data-drupal-link-system-path="node/2291">Join the Military</a>
+                                <ul>
+                    <li>
+                  <a href="/join-armed-forces" data-drupal-link-system-path="node/2291">Join the Military Home</a>
+                        </li>
+                <li>
+                  <a href="/join-armed-forces/asvab" data-drupal-link-system-path="node/2301">ASVAB</a>
+                        </li>
+                <li>
+                  <a href="https://www.military.com/find-info/contact-recruiter?ESRC=mil_cta.os">Contact a Recruiter</a>
+                        </li>
+                <li>
+                  <a href="/military-fitness" data-drupal-link-system-path="node/1991">Military Fitness</a>
+                        </li>
+                <li>
+                  <a href="/benefits" data-drupal-link-system-path="node/206">Benefits</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+    
+</ul>
+    
+
+
+        </nav>
+  
+
+
+<div class="nav-tools">
+  <div class="nav-tools--search-toggle">
+    
+
+
+
+
+
+
+    
+    
+
+      
+
+
+
+<a href=# class="button button--icon button--icon--search" aria-label="search" data-target="">
+  
+<i class="icon icon-search"></i>
+</a>
+    
+      </div>
+  <div class="nav-tools--user-menu">
+    
+
+<nav class="menu menu--account menu--account__anonymous" id="login_btn">
+  <a id="user-menu-login-link" href="https://www.military.com/member-reg/login.html?vlv_redir=">Login</a>
+  <a id="user-menu-sign-up" href="https://www.military.com/member-reg/login.html?vlv_redir=">Sign up</a>
+</nav>
+
+<nav class="menu menu--account menu--account__authenticated" id="profile_btn">
+
+  <a class="icon--profile button button--icon button--icon--user"></a>
+  <div class="menu--account__dropdown">
+    <ul>
+  <li><a href="https://www.military.com/profile/member-profile.html">Profile</a></li>
+    <li><a href="https://www.military.com/profile/member-profile-newsletter-settings.html">Subscriptions</a></li>
+  <li><a class="user-menu-logout-link" href="https://www.military.com/member-reg/logout.html">Log out</a></li>
+</ul>
+  </div>
+</nav>
+
+<script>
+    if(document.cookie.indexOf('LoginInfo')>=0){
+
+        document.getElementById('profile_btn').style.display="block";
+    }
+    else{
+        document.getElementById('login_btn').style.display="block";
+
+    }
+</script>
+  </div>
+  <div class="nav-tools--sign-up">
+    
+
+<a id="login-app" class="button--sign-up button--sign-up--sm" href="/newmembers/member-reg?vlv_redir=&reg=true">
+  Sign up
+</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div  class="meganav--header meganav">
+  <div class="meganav--container">
+  
+
+
+
+<div class="search-box">
+
+  <form name="gs" method="GET" action="//www.military.com/search">
+
+    <div class="search-wrapper">
+      <input type="search" name="keyword" value="" class="searchInput" placeholder="Search Military.com" aria-label="Search Military.com">
+      <button class="button--form-input"><span>GO</span><img class="search-arrow" src="/themes/military/assets/images/search-arrow.svg" alt="search arrow" /></button>
+    </div>
+
+  </form>
+</div>
+  <div class="meganav--sign-up">
+    
+
+<a id="login-app" class="button--sign-up button--sign-up--lg" href="/newmembers/member-reg?vlv_redir=&reg=true">
+  Sign up
+</a>
+  </div>
+      
+
+
+
+
+        <ul class="menu menu--main">
+              <li class="menu--account__authenticated--mobile">
+        <a href="http://www.military.com/profile/member-profile.html">Profile</a>
+        <ul>
+  <li><a href="https://www.military.com/profile/member-profile.html">Profile</a></li>
+    <li><a href="https://www.military.com/profile/member-profile-newsletter-settings.html">Subscriptions</a></li>
+  <li><a class="user-menu-logout-link" href="https://www.military.com/member-reg/logout.html">Log out</a></li>
+</ul>
+      </li>
+
+                        <li>
+                  <a href="/daily-news" target="_self" rel="" data-drupal-link-system-path="node/1251">News</a>
+                                <ul>
+                    <li>
+                  <a href="/daily-news" target="_self" rel="" data-drupal-link-system-path="node/1251">News Home</a>
+                        </li>
+                <li>
+                  <a href="/army" data-drupal-link-system-path="node/3241">Army</a>
+                        </li>
+                <li>
+                  <a href="/navy" data-drupal-link-system-path="node/3271">Navy</a>
+                        </li>
+                <li>
+                  <a href="/air-force" target="_self" rel="" data-drupal-link-system-path="node/3231">Air Force</a>
+                        </li>
+                <li>
+                  <a href="/marine-corps" target="_self" rel="" data-drupal-link-system-path="node/3256">Marine Corps</a>
+                        </li>
+                <li>
+                  <a href="/coast-guard" target="_self" rel="" data-drupal-link-system-path="node/3251">Coast Guard</a>
+                        </li>
+                <li>
+                  <a href="/space-force" target="_self" rel="" data-drupal-link-system-path="node/221226">Space Force</a>
+                        </li>
+                <li>
+                  <a href="/podcasts" target="_self" data-drupal-link-system-path="node/308881">Military Podcasts</a>
+                        </li>
+                <li>
+                  <a href="/daily-news/opinion" target="_self" rel="" data-drupal-link-system-path="node/99241">Opinion</a>
+                        </li>
+                <li>
+                  <a href="https://www.military.com/video" target="_self" rel="">Videos</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/benefits" target="_self" rel="" data-drupal-link-system-path="node/206">Benefits</a>
+                                <ul>
+                    <li>
+                  <a href="/benefits" target="_self" rel="" data-drupal-link-system-path="node/206">Benefits Home</a>
+                        </li>
+                <li>
+                  <a href="/benefits/military-pay" target="_self" data-drupal-link-system-path="node/3671">Military Pay and Money</a>
+                        </li>
+                <li>
+                  <a href="/education/gi-bill" target="_self" rel="" data-drupal-link-system-path="node/1206">GI Bill</a>
+                        </li>
+                <li>
+                  <a href="/benefits/veterans-health-care" target="_self" rel="" data-drupal-link-system-path="node/3816">Veteran Health Care</a>
+                        </li>
+                <li>
+                  <a href="/benefits/tricare" target="_self" rel="" data-drupal-link-system-path="node/3736">Tricare</a>
+                        </li>
+                <li>
+                  <a href="/money/va-loans" target="_self" rel="" data-drupal-link-system-path="node/1941">VA Loans</a>
+                        </li>
+                <li>
+                  <a href="/money/insurance" target="_self" rel="" data-drupal-link-system-path="node/2466">Insurance</a>
+                        </li>
+                <li>
+                  <a href="/money/retirement" target="_self" rel="" data-drupal-link-system-path="node/2511">Retirement</a>
+                        </li>
+                <li>
+                  <a href="/benefits/veteran-benefits/the-ebenefits-program.html" target="_self" rel="" data-drupal-link-system-path="node/42065">VA eBenefits</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/veteran-jobs" target="_self" rel="" data-drupal-link-system-path="node/1746">Veteran Jobs</a>
+                                <ul>
+                    <li>
+                  <a href="/veteran-jobs" target="_self" data-drupal-link-system-path="node/1746">Veteran Job Search</a>
+                        </li>
+                <li>
+                  <a href="/veteran-employment-project" target="_self" data-drupal-link-system-path="node/339886">Veteran Employment Project</a>
+                        </li>
+                <li>
+                  <a href="/veteran-employers" target="_self" rel="" data-drupal-link-system-path="node/1016">Vet Friendly Employers</a>
+                        </li>
+                <li>
+                  <a href="/veteran-jobs/career-advice" target="_self" rel="" data-drupal-link-system-path="node/2201">Career Advice</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/military-life" target="_self" rel="" data-drupal-link-system-path="node/1791">Military Life</a>
+                                <ul>
+                    <li>
+                  <a href="/military-life" target="_self" rel="" data-drupal-link-system-path="node/1791">Military Life Home</a>
+                        </li>
+                <li>
+                  <a href="/money" target="_self" rel="" data-drupal-link-system-path="node/2401">Money</a>
+                        </li>
+                <li>
+                  <a href="/off-duty" target="_self" rel="" data-drupal-link-system-path="node/2241">Off Duty</a>
+                        </li>
+                <li>
+                  <a href="/military-fitness" target="_self" rel="" data-drupal-link-system-path="node/1991">Fitness</a>
+                        </li>
+                <li>
+                  <a href="/trivia" target="_self" rel="" data-drupal-link-system-path="node/4251">Military Trivia Game</a>
+                        </li>
+                <li>
+                  <a href="/veterans-day" target="_self" rel="" data-drupal-link-system-path="node/5206">Veterans Day</a>
+                        </li>
+                <li>
+                  <a href="/spouse" target="_self" rel="" data-drupal-link-system-path="node/3621">Spouse &amp; Family</a>
+                        </li>
+                <li>
+                  <a href="/deployment" target="_self" rel="" data-drupal-link-system-path="node/4226">Deployment</a>
+                        </li>
+                <li>
+                  <a href="/history" data-drupal-link-system-path="node/4231">Military History</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/discounts" target="" rel="" data-drupal-link-system-path="node/1086">Discounts</a>
+                                <ul>
+                    <li>
+                  <a href="/discounts" target="" rel="" data-drupal-link-system-path="node/1086">Discounts Home</a>
+                        </li>
+                <li>
+                  <a href="/discounts/hot-deals" target="_self" data-drupal-link-system-path="taxonomy/term/1551">Featured Discounts</a>
+                        </li>
+                <li>
+                  <a href="/veterans-day/restaurants-veterans-day-military-discounts.html" target="_self" rel="" data-drupal-link-system-path="node/49210">Veterans Day Restaurant Discounts</a>
+                        </li>
+                <li>
+                  <a href="/discounts/dining" data-drupal-link-system-path="taxonomy/term/1486">Dining</a>
+                        </li>
+                <li>
+                  <a href="/discounts/travel" target="_self" rel="" data-drupal-link-system-path="taxonomy/term/1626">Travel</a>
+                        </li>
+                <li>
+                  <a href="/discounts/apparel-and-accessories" target="_self" data-drupal-link-system-path="taxonomy/term/1411">Retail</a>
+                        </li>
+                <li>
+                  <a href="/money/insurance" data-drupal-link-system-path="node/2466">Insurance</a>
+                        </li>
+                <li>
+                  <a href="/discounts/professional-services" data-drupal-link-system-path="taxonomy/term/1586">Services</a>
+                        </li>
+                <li>
+                  <a href="/discounts/auto" data-drupal-link-system-path="taxonomy/term/1471">Auto</a>
+                        </li>
+                <li>
+                  <a href="/discounts/electronics" data-drupal-link-system-path="taxonomy/term/1496">Electronics</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/join-armed-forces" data-drupal-link-system-path="node/2291">Join the Military</a>
+                                <ul>
+                    <li>
+                  <a href="/join-armed-forces" data-drupal-link-system-path="node/2291">Join the Military Home</a>
+                        </li>
+                <li>
+                  <a href="/join-armed-forces/asvab" data-drupal-link-system-path="node/2301">ASVAB</a>
+                        </li>
+                <li>
+                  <a href="https://www.military.com/find-info/contact-recruiter?ESRC=mil_cta.os">Contact a Recruiter</a>
+                        </li>
+                <li>
+                  <a href="/military-fitness" data-drupal-link-system-path="node/1991">Military Fitness</a>
+                        </li>
+                <li>
+                  <a href="/benefits" data-drupal-link-system-path="node/206">Benefits</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+    
+</ul>
+    
+
+
+    </div>
+</div>
+
+
+
+          </div>
+  </header>
+  <div class="entry-overlay">
+    <div class="entry-overlay--container">
+      <div id="entry-app"></div>
+    </div>
+  </div>
+
+
+
+    
+  <section class="page__top">
+    <div class="page__promo-wrapper container">
+              <div class="page__promo page__promo--left" data-position="left">
+            
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-5ef12a76b3c33-BrandscapeLeft"></div>
+        </div>
+  
+
+
+        </div>
+      
+              <div class="page__promo page__promo--right" data-position="right">
+            
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-5ef12a90ee46b-BrandscapeRight"></div>
+        </div>
+  
+
+
+        </div>
+          </div>
+
+      
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-5ef126022a816-Top"></div>
+        </div>
+  
+
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-5ef126226826a-MobileTop"></div>
+        </div>
+  
+
+
+    
+  </section>
+
+  <main class="content">
+    <div class="content__wrapper container">
+        
+  
+
+
+
+      <div class="block block--secondary-nav">
+    
+    
+
+      
+
+  <!-- Start Secondary Nav-->
+  <div class="secondary-nav--wrapper">
+
+    <nav class="secondary-nav">
+      <!-- Links Generated by Drupal -->
+      <ul class="secondary-nav--main">
+                  <li>
+                          <a href="/daily-news">News</a>
+                      </li>
+                  <li>
+                          <a href="/army">Army</a>
+                      </li>
+                  <li>
+                          <a href="/navy">Navy</a>
+                      </li>
+                  <li>
+                          <a href="/air-force">Air Force</a>
+                      </li>
+                  <li>
+                          <a href="/marine-corps">Marine Corps</a>
+                      </li>
+                  <li>
+                          <a href="/coast-guard">Coast Guard</a>
+                      </li>
+                  <li>
+                          <a href="/space-force">Space Force</a>
+                      </li>
+                  <li>
+                          <a href="/podcasts">Military Podcasts</a>
+                      </li>
+                  <li>
+                          <a href="/daily-news/opinion">Opinion</a>
+                      </li>
+                  <li>
+                          <a href="/video">Videos</a>
+                      </li>
+              </ul>
+      <!-- End Links Generated by Drupal -->
+      <div class="secondary-nav--more-btn">More</div>
+      <div class="secondary-nav--vert">
+          <!-- Dynamically Populated via JS -->
+      </div>
+    </nav>
+  </div>
+  <!-- End Secondary Nav-->
+
+
+        </div>
+  
+<div data-drupal-messages-fallback class="hidden"></div>
+
+
+
+                        <div class="row">
+            <div id="bodyContent" class="page__content col-md-8">
+                
+    
+  
+
+
+
+      <div class="block block--breadcrumb">
+    
+    
+
+        
+
+<nav class="breadcrumb">
+  <ol>
+    <li><a href="/" aria-label="Home"><i class="icon icon-home3"></i></a></li>
+          <li>
+                  <a href="/navy">Navy</a>
+              </li>
+      </ol>
+</nav>
+
+        </div>
+  
+
+
+
+
+      <div class="block block--page--title">
+    
+    
+
+      
+  <h1><span property="schema:name">New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026</span>
+</h1>
+
+
+      </div>
+  
+  
+
+
+
+      <div class="block block--addtoanyadv">
+    
+    
+
+      <span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.military.com/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html" data-a2a-title="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026"><a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.military.com%2Fdaily-news%2F2026%2F02%2F12%2Fnew-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html&amp;title=New%20190-Foot%20Navy%20Autonomous%20Warship%20%27Liberty%27%20to%20Hit%20Water%20in%202026"><img src="/themes/military/assets/images/icons/social-icons_share-with-text.svg" alt="Share"></a></span>
+        </div>
+  
+
+
+
+
+
+<article about="/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html" typeof="schema:Article" class="node node--article node--article--full">
+  
+    <span property="schema:name" content="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026" class="hidden"></span>
+
+
+          
+
+
+
+
+
+
+    <div class="field field--image field--label-hidden">                        
+
+<figure>  
+
+
+
+
+
+
+    <div class="field field--image field--label-hidden">                         
+          <picture>
+                  <source srcset="//images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg?itok=P1zIf3gU 1x" media="(min-width: 1200px)" type="image/jpeg" width="621" height="324"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg?itok=P1zIf3gU 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="621" height="324"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg?itok=P1zIf3gU 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="621" height="324"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg?itok=P1zIf3gU 1x" media="(max-width: 767px)" type="image/jpeg" width="621" height="324"/>
+                  <img fetchpriority="high" loading="eager" width="621" height="324" src="//images05.military.com/sites/default/files/styles/full/public/2026-02/liberty_class_hero_image.jpg?itok=P1zIf3gU" alt="" typeof="foaf:Image" />
+
+  </picture>
+  
+  
+
+              </div>
+
+      <figcaption>The Boston-based technology and shipbuilding company Blue Water Autonomy unveiled its newest vessel, the Liberty Class, on Feb. 11. (Blue Water Autonomy)</figcaption>
+  </figure>
+
+              </div>
+
+
+  
+        
+  
+  
+  
+  
+
+<div class="byline">
+      <div class="source">
+          <span>Military.com</span>
+    
+          <span>|</span>
+    
+          <span>By                 
+          
+                        <a href="/author/nick-mordowanec" >Nick Mordowanec</a>
+          
+                        </span>
+        </div>
+  
+      <div class="date">
+      
+      
+              <span>Published <time datetime= "2026-02-12">February 12, 2026 at 2:46pm ET</time></span>
+          </div>
+  
+</div>
+
+      <div class="article__byline-add2any">
+      <span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.military.com/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html" data-a2a-title="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026"><a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.military.com%2Fdaily-news%2F2026%2F02%2F12%2Fnew-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html&amp;title=New%20190-Foot%20Navy%20Autonomous%20Warship%20%27Liberty%27%20to%20Hit%20Water%20in%202026"><img src="/themes/military/assets/images/icons/social-icons_share-with-text.svg" alt="Share"></a></span>
+    </div>
+  
+  
+
+  
+
+
+  <div class="article__body">
+    
+
+
+
+
+
+
+                            <p dir="ltr">A private company has unveiled a new autonomous warship for the U.S. Navy that is slated to be completed before year’s end.</p><p dir="ltr">The Boston-based technology and shipbuilding company Blue Water Autonomy announced on Wednesday that construction on its first vessel, the&nbsp;Liberty Class, will commence this March at Conrad Shipyard in Louisiana. The vessel is designed in partnership with Damen,&nbsp;a Dutch shipbuilding company that for nearly a century has produced a variety of vessels including defense ships and mega-yachts.&nbsp;</p><div id="content-adblock-69a955ec664ca"></div><div id="content-adblock-69a955ec664cd"></div><p dir="ltr"><em>Liberty </em>is described as a 190-foot steel autonomous ship with a range exceeding 10,000 nautical miles. It has more than 150 metric tons of payload capacity.</p><figure role="group">
+
+<article data-embed-button="image" data-entity-embed-display="view_mode:media.full" data-entity-embed-display-settings="[]" data-entity-type="media" data-entity-uuid="6238f6f4-63d6-47f9-876f-4e682d97698e" data-langcode="en" class="embedded-entity">
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="field field--image field--label-hidden">                         
+    
+            <picture>
+                  <source srcset="//images03.military.com/sites/default/files/styles/full/public/2026-02/9489722.jpg?itok=yDMlh7R5 1x" media="(min-width: 1200px)" type="image/jpeg" width="621" height="414">
+              <source srcset="//images03.military.com/sites/default/files/styles/full/public/2026-02/9489722.jpg?itok=yDMlh7R5 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="621" height="414">
+              <source srcset="//images03.military.com/sites/default/files/styles/full/public/2026-02/9489722.jpg?itok=yDMlh7R5 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="621" height="414">
+              <source srcset="//images03.military.com/sites/default/files/styles/full/public/2026-02/9489722.jpg?itok=yDMlh7R5 1x" media="(max-width: 767px)" type="image/jpeg" width="621" height="414">
+                  <img loading="eager" width="621" height="414" src="//images03.military.com/sites/default/files/styles/full/public/2026-02/9489722.jpg?itok=yDMlh7R5" alt typeof="foaf:Image">
+
+  </picture>
+
+    
+  
+
+              </div>
+
+  </figure>
+</article>
+
+<figcaption>The Honorable Brendan P. Rogers, Assistant Secretary of the Navy for Energy, Installations, and Environment visited Norfolk Naval Shipyard (NNSY) and Naval Support Activity Portsmouth (NSAP) on Jan. 22, 2026. (Daniel DeAngelis)</figcaption>
+</figure>
+<p dir="ltr">“The Liberty class reflects our focus on building autonomous ships that are designed from the start for long-duration operations and repeat production,” Rylan Hamilton, CEO of Blue Water Autonomy, said in a press release. “By adapting a proven hull and re-engineering it for unmanned operations, we’re delivering a vessel that can operate for extended periods without crew while being produced at a pace the Navy urgently needs."</p><blockquote><p dir="ltr">This is a modern take on an old idea: building capable ships quickly and at scale.</p></blockquote><p dir="ltr">These efforts are intended to conform to the Navy’s intentions to expand its fleet capacity and to do so by accelerating ship builds such as these.</p><h2>Details and Specs</h2><p dir="ltr">The <em>Liberty </em>vessel will be built on Damen’s Stan Patrol 6009 hull design, selected due to its Axe Bow—described as “a distinctive, vertical bow that slices cleanly through the waves, minimizing slamming and allowing more gradual wave re-entry.”</p><p dir="ltr">More than 300 Axe Bow vessels currently operate across the world. The Stan Patrol 6009 hull design has also been deployed across multiple commercial and government programs.</p><p dir="ltr">“The Axe Bow hull was designed for demanding operational requirements, from speed and range to seakeeping,” Mark Honders, design and license manager at Damen, said in a statement. “Seeing the Stan Patrol 6009 adapted for autonomous operation underscores the flexibility of the design and demonstrates how proven commercial designs can serve new and emerging maritime missions.”</p><div id="content-adblock-69a955ec66d06"></div><div id="content-adblock-69a955ec66d09"></div><p dir="ltr">Officials with Blue Water and Damen said the hull shape offers proven performance that reduces technical risk, providing more time and capability on the engineering end of the project design affiliated with autonomous operation.</p><figure role="group">
+
+<article data-embed-button="image" data-entity-embed-display="view_mode:media.full" data-entity-embed-display-settings="[]" data-entity-type="media" data-entity-uuid="58725af3-860f-48f9-a544-8033d83fd1da" data-langcode="en" class="embedded-entity">
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="field field--image field--label-hidden">                         
+    
+            <picture>
+                  <source srcset="//images04.military.com/sites/default/files/styles/full/public/2026-02/9464694.jpg?itok=puQ6_Ye6 1x" media="(min-width: 1200px)" type="image/jpeg" width="621" height="414">
+              <source srcset="//images04.military.com/sites/default/files/styles/full/public/2026-02/9464694.jpg?itok=puQ6_Ye6 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="621" height="414">
+              <source srcset="//images04.military.com/sites/default/files/styles/full/public/2026-02/9464694.jpg?itok=puQ6_Ye6 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="621" height="414">
+              <source srcset="//images04.military.com/sites/default/files/styles/full/public/2026-02/9464694.jpg?itok=puQ6_Ye6 1x" media="(max-width: 767px)" type="image/jpeg" width="621" height="414">
+                  <img loading="eager" width="621" height="414" src="//images04.military.com/sites/default/files/styles/full/public/2026-02/9464694.jpg?itok=puQ6_Ye6" alt typeof="foaf:Image">
+
+  </picture>
+
+    
+  
+
+              </div>
+
+  </figure>
+</article>
+
+<figcaption>Machinery Repairman Fireman Avery Conrad machines pipe aboard the Nimitz-class aircraft carrier USS Dwight D. Eisenhower (CVN 69), Dec. 1, 2025. (U.S. Navy photo by Mass Communication Specialist Seaman Jalon Lipford)</figcaption>
+</figure>
+<p dir="ltr">The hull’s performance, payload capacity and seakeeping characteristics will be retained and support months-long deployment and serial production.</p><p dir="ltr">The vessel was reportedly redesigned from the inside out. It all started with the engine room and work continued through the ship’s mechanical and electrical systems, and later autonomous configuration of fault-tolerant propulsion systems.</p><p dir="ltr">The 10,000-nautical-mile figure emanates from the automated control and fault management system that involves “limited human intervention on months-long deployments.”</p><p dir="ltr">Blue Water, which has worked with over 100 world class suppliers, said it has developed <em>Liberty </em>entirely with private capital. The Conrad Shipyard boasts five yards and roughly 1,100 employees who produce 30-plus ships per year.</p><p dir="ltr">“Conrad has a long history of building complex vessels for both commercial and government customers,” Cecil Hernandez, president and CEO of Conrad Shipyard, said in a statement. “We have the infrastructure, workforce and production readiness to begin construction and support serial builds, helping translate advanced vessel designs into operational capacity.”</p>
+              
+
+  </div>
+
+      <div class="article__body-add2any">
+      <span class="a2a_kit a2a_kit_size_32 addtoany_list" data-a2a-url="https://www.military.com/daily-news/2026/02/12/new-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html" data-a2a-title="New 190-Foot Navy Autonomous Warship &#039;Liberty&#039; to Hit Water in 2026"><a class="a2a_dd addtoany_share" href="https://www.addtoany.com/share#url=https%3A%2F%2Fwww.military.com%2Fdaily-news%2F2026%2F02%2F12%2Fnew-190-foot-navy-autonomous-warship-liberty-hit-water-2026.html&amp;title=New%20190-Foot%20Navy%20Autonomous%20Warship%20%27Liberty%27%20to%20Hit%20Water%20in%202026"><img src="/themes/military/assets/images/icons/social-icons_share-with-text.svg" alt="Share"></a></span>
+    </div>
+  
+  
+
+
+
+
+
+
+    <div class="field field--keywords field--label-inline">      <label>Related Topics:</label>                  <a href="/topics/navy" hreflang="en">US Navy Topics</a>
+                        <a href="/topics/ships" hreflang="en">Ships</a>
+                        <a href="/topics/gunships" hreflang="en">Gunships</a>
+                        <a href="/topics/amphibious-ships" hreflang="en">Amphibious Ships</a>
+              </div>
+
+  <div class="author-byline">
+    
+
+
+
+
+
+
+    <div class="field field--author field--label-hidden">                          <article class="node node--author node--author--author-bio">
+    <div class="author-image">
+            <span  class="image--author">
+
+
+
+
+
+
+
+                            
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-small-square field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-be82d356b64" class="media media--blazy media--image is-b-loading"><img alt="" decoding="async" class="media__element b-lazy" loading="lazy" data-src="//images02.military.com/sites/default/files/styles/thumbnail/public/2025-09/Nick%20Mordowanec_military.JPG.jpg?itok=Vikvc1Qj" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" width="100" height="100" typeof="foaf:Image" />
+<noscript><img alt="" decoding="async" class="media__element" loading="lazy" data-b-noscript src="//images02.military.com/sites/default/files/styles/thumbnail/public/2025-09/Nick%20Mordowanec_military.JPG.jpg?itok=Vikvc1Qj" width="100" height="100" typeof="foaf:Image" />
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+              
+</span>
+
+    </div>
+    <div class="author__body author__body--hasimage">
+            <div class="author-label">
+        <h3>
+          <span>By</span>
+          <a href=/author/nick-mordowanec>Nick Mordowanec</a>
+        </h3>
+      </div>
+      <div class="author-bio">
+        <p>Nick Mordowanec is a deputy editor for Military.com, reporting on general news and features across the U.S. Armed Forces in addition to investigative stories.
+      </div>
+    </div>
+    <div class="read-bio-cta">
+      <a class="button button--author--bio" href=/author/nick-mordowanec>Read Full Bio</a>
+    </div>
+  </article>
+
+
+              </div>
+
+  </div>
+  
+
+
+
+
+
+  
+<div class="copyright">
+    &copy; Copyright 2026 Military.com. All rights reserved. This article may not be republished, rebroadcast, rewritten or otherwise distributed without written permission. To reprint or license this article or any content from Military.com, please submit your request <a href="https://www.parsintl.com/publications/military-com" target="_blank">here</a>.
+</div>
+
+  
+      <div class="sponsor-ads">
+      <!-- see theme preprocess for this ad -->
+      <div class="oas-ad-block x88"><div id="adblock-sponsor-ads"></div></div>
+      <div class="oas-ad-block x63"><div id="adblock-sponsor-ads2"></div></div>
+    </div>
+  
+  
+
+  
+
+        <div class="below-body-ads">
+      <!-- see theme preprocess for this ad -->
+      <div class="oas-ad-block position2"><div id="adblock-below-body-ads"></div></div>
+    </div>
+  
+</article>
+
+
+
+    
+  
+
+
+
+      <div class="views-element-container block block--articles--related">
+    
+      <h2 class="block__title">You May Also Like</h2>
+    
+
+      
+
+
+
+
+<div class="view view--articles view--articles--block-you-may-also-like view-id-articles view-display-id-block_you_may_also_like js-view-dom-id-9be564cf444c9a9de36089cc469c00fe035179f1a1b061ebcac3f2a990783d47">
+  
+    
+      
+      <div class="view__content">
+      <div class="list-view">
+      
+
+
+
+
+<article about="/daily-news/2026/03/04/us-human-rights-group-wants-emergency-un-meeting-end-illegal-iran-war.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="US Human Rights Group Wants Emergency UN Meeting to End ’Illegal’ Iran War" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/us-human-rights-group-wants-emergency-un-meeting-end-illegal-iran-war.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-d9e47dfc3ed" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ap26063511287643.jpg?itok=KFa_sT8l 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ap26063511287643.jpg?itok=KFa_sT8l 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-03/ap26063511287643.jpg?itok=05dQOAai 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-03/ap26063511287643.jpg?itok=nnXEHY8i 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ap26063511287643.jpg?itok=KFa_sT8l" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="A shepherd boy walks away from an unexploded Iranian projectile that landed in an open field in the outskirts of Qamishli, eastern Syria, Wednesday, March 4, 2026.(AP Photo/Baderkhan Ahmad)" title="A shepherd boy walks away from an unexploded Iranian projectile that landed in an open field in the outskirts of Qamishli, eastern Syria, Wednesday, March 4, 2026.(AP Photo/Baderkhan Ahmad)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ap26063511287643.jpg?itok=KFa_sT8l 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ap26063511287643.jpg?itok=KFa_sT8l 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-03/ap26063511287643.jpg?itok=05dQOAai 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-03/ap26063511287643.jpg?itok=nnXEHY8i 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ap26063511287643.jpg?itok=KFa_sT8l" alt="A shepherd boy walks away from an unexploded Iranian projectile that landed in an open field in the outskirts of Qamishli, eastern Syria, Wednesday, March 4, 2026.(AP Photo/Baderkhan Ahmad)" title="A shepherd boy walks away from an unexploded Iranian projectile that landed in an open field in the outskirts of Qamishli, eastern Syria, Wednesday, March 4, 2026.(AP Photo/Baderkhan Ahmad)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">US Human Rights Group Wants Emergency UN Meeting to End ’Illegal’ Iran War</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>A human rights organization official told Military.com that it&#039;s “a war of aggression in violation of the UN Charter.&quot;</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+      
+
+
+
+
+<article about="/daily-news/2026/03/04/kurdish-dissident-groups-say-they-are-preparing-join-fight-against-iran-us-support.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Kurdish Dissident Groups Say They Are Preparing to Join the Fight Against Iran With US Support" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/kurdish-dissident-groups-say-they-are-preparing-join-fight-against-iran-us-support.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-36241e7dd50" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=Egz9I9GP 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=5LQeiLGl 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="Iran Iraq Pahlavi Kurds" title="Member of the Democratic Party of Iranian Kurdistan PDKI stands at a checkpoint leading to their base in Koya district of Irbil, Iraq, Friday, Feb. 27, 2026. (AP Photo/Rashid Yahya)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=Egz9I9GP 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=5LQeiLGl 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP" alt="Iran Iraq Pahlavi Kurds" title="Member of the Democratic Party of Iranian Kurdistan PDKI stands at a checkpoint leading to their base in Koya district of Irbil, Iraq, Friday, Feb. 27, 2026. (AP Photo/Rashid Yahya)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Kurdish Dissident Groups Say They Are Preparing to Join the Fight Against Iran With US Support</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Kurdish Iranian dissident groups based in northern Iraq are preparing for a potential cross-border military operation in Iran...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+      
+
+
+
+
+<article about="/daily-news/2026/03/04/congress-taking-its-first-votes-iran-war-debate-rages-about-us-goals.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Congress Is Taking Its First Votes on the Iran War as Debate Rages About US Goals" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/congress-taking-its-first-votes-iran-war-debate-rages-about-us-goals.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-ea091a11d57" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=1_PARI-i 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=vSf3qr-6 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="Congress US Iran" title="Senate Minority Leader Chuck Schumer, D-N.Y., arrives to speak with reporters at the Capitol in Washington, Tuesday, March 3, 2026. (AP Photo/J. Scott Applewhite)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=1_PARI-i 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=vSf3qr-6 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_" alt="Congress US Iran" title="Senate Minority Leader Chuck Schumer, D-N.Y., arrives to speak with reporters at the Capitol in Washington, Tuesday, March 3, 2026. (AP Photo/J. Scott Applewhite)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Congress Is Taking Its First Votes on the Iran War as Debate Rages About US Goals</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>The U.S. Senate is headed toward a vote on President Donald Trump’s decision to embark on a war against Iran.</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+      
+
+
+
+
+<article about="/daily-news/2026/03/04/gofundme-fallen-us-soldier-raises-over-50k-less-24-hours.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="GoFundMe For Fallen US Soldier Raises Over $50k in Less Than 24 Hours" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/gofundme-fallen-us-soldier-raises-over-50k-less-24-hours.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-01e0f27f74b" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images03.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=7RvWACsl 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images03.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=7RvWACsl 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images03.military.com/sites/default/files/styles/max_325x325/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=w-5IfH6m 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images03.military.com/sites/default/files/styles/max_650x650/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=6eMVpcBh 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images03.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=7RvWACsl" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="A picture of Declan Coady,  20, of West Des Moines, Iowa, who along with three other U.S. military personnel were killed as part of the Iran War. (GoFundMe)" title="A picture of Declan Coady,  20, of West Des Moines, Iowa, who along with three other U.S. military personnel were killed as part of the Iran War. (GoFundMe)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images03.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=7RvWACsl 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images03.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=7RvWACsl 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images03.military.com/sites/default/files/styles/max_325x325/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=w-5IfH6m 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images03.military.com/sites/default/files/styles/max_650x650/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=6eMVpcBh 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images03.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/100707871_1772569842882230_r.png.jpeg.jpg?itok=7RvWACsl" alt="A picture of Declan Coady,  20, of West Des Moines, Iowa, who along with three other U.S. military personnel were killed as part of the Iran War. (GoFundMe)" title="A picture of Declan Coady,  20, of West Des Moines, Iowa, who along with three other U.S. military personnel were killed as part of the Iran War. (GoFundMe)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">GoFundMe For Fallen US Soldier Raises Over $50k in Less Than 24 Hours</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Declan Coady had been recommended for a promotion from specialist to sergeant. He was killed before he received the...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+  </div>
+
+    </div>
+  
+        </div>
+
+
+        </div>
+  
+
+
+
+            </div>
+            <div id="bodySidebar" class="page__sidebar col-md-4">
+                
+  
+
+
+
+      <div class="block block--article-sidebar">
+    
+    
+
+      
+
+
+
+
+
+
+
+                            
+
+
+
+
+
+<div id="paragraph-19616" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Military News
+              </h2>
+
+
+
+
+
+
+
+                              
+    
+
+
+
+
+<div class="list-view list-view--two-col-bullet">
+         <div class="items">
+    <ul>
+                        <li class="text--title"><a href="/daily-news/military-investigations" hreflang="en">Investigations and Features</a></li>
+                  <li class="text--title"><a href="/army" hreflang="en">Army</a></li>
+                  <li class="text--title"><a href="/navy" hreflang="en">Navy</a></li>
+                  <li class="text--title"><a href="/air-force" hreflang="en">Air Force</a></li>
+                                <li class="text--title"><a href="/marine-corps" hreflang="en">Marine Corps</a></li>
+                  <li class="text--title"><a href="/coast-guard" hreflang="en">Coast Guard</a></li>
+                  <li class="text--title"><a href="https://www.military.com/space-force" hreflang="en">Space Force</a></li>
+                  <li class="text--title"><a href="/daily-news/opinion" hreflang="en">Military Opinion</a></li>
+                  </ul>
+  </div>
+  </div>
+
+              
+
+      </div>
+
+                        
+  
+
+
+
+
+<div id="paragraph-4561" class="paragraph paragraph--block paragraph--default paragraph--mil-ad-block">
+            
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--appnexus">
+    
+    
+
+      <div id="adblock-5fee363f88ca1-RightTop"></div>
+        </div>
+  
+
+              </div>
+
+      </div>
+
+                        
+  
+    
+
+
+
+<div id="paragraph-1061" class="paragraph paragraph--block paragraph--default paragraph--mil-auth-my-membership">
+      
+<div class="my-membership-block-wrapper hide-title">
+  <div id="selectServiceWrapper">
+    <div class="component">
+      <h2 id="selectServiceTitle" class="field--title">Select Service</h2>
+            
+
+
+
+    
+    
+
+      
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--mymembership">
+    
+    
+
+      
+
+<div class="myService" id="noServiceSelected">
+  <ul id="serviceList">
+    <li class="service army"><a href="https://www.military.com/newmembers/army" title="Army login link"><span>Army</span></a></li>
+    <li class="service marine"><a href="https://www.military.com/newmembers/marines" title="Marines login link"><span>Marines</span></a></li>
+    <li class="service navy"><a href="https://www.military.com/newmembers/navy" title="Navy login link"><span>Navy</span></a></li>
+    <li class="service airfrc"><a href="https://www.military.com/newmembers/airforce" title="Air Force login link"><span>Air Force</span></a></li>
+    <li class="service ngres"><a href="https://www.military.com/newmembers/guard" title="National Guard login link"><span>National Guard</span></a></li>
+    <li class="service coastg"><a href="https://www.military.com/newmembers/coastguard" title="Coast Guard login link"><span>Coast Guard</span></a></li>
+    <li class="service spacefrc"><a href="https://www.military.com/newmembers/space-force" title="Space Force login link"><span>Space Force</span></a></li>
+    <li class="service spouse"><a href="https://www.military.com/newmembers/spouse" title="Spouse login link"><span>Spouse</span></a></li>
+  </ul>
+  <div class="login">
+    <a href="https://www.military.com/member-reg/login.html" title="Login link"><span>Login</span></a>
+  </div>
+</div>
+<div class="myService" id="armyServiceSelected">
+  <a class="logo army" href="https://www.military.com/army" title="Army page link"><span>Army</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/army">Army Home Page</a>
+  </div>
+</div>
+<div class="myService" id="navyServiceSelected">
+  <a class="logo navy" href="https://www.military.com/navy" title="Navy page link"><span>Navy</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/navy">Navy Home Page</a>
+  </div>
+</div>
+<div class="myService" id="airfrcServiceSelected">
+  <a class="logo airforce" href="https://www.military.com/air-force" title="Air Force page link"><span>Air Force</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/air-force">Air Force Home Page</a>
+  </div>
+</div>
+<div class="myService" id="marineServiceSelected">
+  <a class="logo marines" href="https://www.military.com/marine-corps" title="Marines page link"><span>Marines</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/marine-corps">Marines Home Page</a>
+  </div>
+</div>
+<div class="myService" id="coastgServiceSelected">
+  <a class="logo coastguard" href="https://www.military.com/coast-guard" title="Coast Guard page link"><span>Coast Guard</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/coast-guard">Coast Guard Home Page</a>
+  </div>
+</div>
+<div class="myService" id="spcfrcServiceSelected">
+  <a class="logo spaceforce" href="https://www.military.com/space-force" title="Space Force page link"><span>Space Force</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/space-force">Space Force Home Page</a>
+  </div>
+</div>
+<div class="myService" id="ngServiceSelected">
+  <a class="logo nationalguard" href="https://www.military.com/national-guard" title="National Guard page link"><span>National Guard</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/national-guard">National Guard Home Page</a>
+  </div>
+</div>
+<div class="myService" id="spouseServiceSelected">
+  <a class="logo spouse" href="https://www.military.com/spouse" title="Spouse page link"><span>Spouse</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/spouse">Spouse Home Page</a>
+  </div>
+</div>
+<div class="myService" id="otherServiceSelected">
+  <a class="logo military" href="https://www.military.com/daily-news" title="Military News page link"><span>&nbsp;</span></a>
+  <div class="links">
+    <a href="https://www.military.com/profile/member-profile.html">My Profile</a>
+    <a href="https://www.military.com/daily-news">News Home Page</a>
+  </div>
+</div>
+
+
+
+        </div>
+  
+
+              </div>
+
+        </div>
+  </div>
+</div>
+  </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-1081" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Most Popular Military News
+              </h2>
+
+
+
+
+
+
+
+                            
+
+
+
+  <div class="list-view list-view--vertical-thumb-left list--view--thumbnail-large">
+          
+
+
+
+
+<article about="/feature/2026/02/25/two-heroes-two-medals-of-honor-inside-trumps-state-of-union-tribute.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Two Heroes, Two Medals of Honor: Inside Trump’s State of the Union Tribute" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/feature/2026/02/25/two-heroes-two-medals-of-honor-inside-trumps-state-of-union-tribute.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-746c1c81da5" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GZ-59il7 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GZ-59il7 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/max_325x325/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GYB0w0S- 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/max_650x650/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=46PlP-9q 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GZ-59il7" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="" title="U.S. Army Chief Warrant Officer Eric Slover receives a Medal of Honor during the State of the Union Address, Feb. 24, 2026 (AP Photo/Alex Brandon)." typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GZ-59il7 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GZ-59il7 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images04.military.com/sites/default/files/styles/max_325x325/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GYB0w0S- 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images04.military.com/sites/default/files/styles/max_650x650/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=46PlP-9q 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/apnewsroom_state_of_the_union_01064.jpeg.jpg?itok=GZ-59il7" alt="" title="U.S. Army Chief Warrant Officer Eric Slover receives a Medal of Honor during the State of the Union Address, Feb. 24, 2026 (AP Photo/Alex Brandon)." typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Two Heroes, Two Medals of Honor: Inside Trump’s State of the Union Tribute</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Trump awarded two Medals of Honor during his State of the Union — one to a wounded helicopter pilot, another to a 100-year...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+
+
+
+
+<article about="/benefits/spouse-and-family-benefits/amid-biggest-military-buildup-2003-what-service-members-and-families-need-do-right-now.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Amid Biggest US Military Buildup Since 2003, What Service Members and Families Need to Do Right Now" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/benefits/spouse-and-family-benefits/amid-biggest-military-buildup-2003-what-service-members-and-families-need-do-right-now.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-c41bf0b8bd0" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=04vn48Pl 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=04vn48Pl 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=LZ8d17sT 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=NUCmEJTc 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=04vn48Pl" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="An F/A-18E Super Hornet streaks across an aircraft carrier flight deck." title="A U.S. sailor signals the launch of an F/A-18E Super Hornet aircraft, assigned to Strike Fighter Squadron 37, from the flight deck of the world’s largest aircraft carrier, Ford-class aircraft carrier USS Gerald R. Ford (CVN 78), while underway in the Caribbean Sea, Feb. 2, 2026. (Navy)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=04vn48Pl 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=04vn48Pl 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=LZ8d17sT 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=NUCmEJTc 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/military%20Ford%20flight%20deck%201800.jpg?itok=04vn48Pl" alt="An F/A-18E Super Hornet streaks across an aircraft carrier flight deck." title="A U.S. sailor signals the launch of an F/A-18E Super Hornet aircraft, assigned to Strike Fighter Squadron 37, from the flight deck of the world’s largest aircraft carrier, Ford-class aircraft carrier USS Gerald R. Ford (CVN 78), while underway in the Caribbean Sea, Feb. 2, 2026. (Navy)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Amid Biggest US Military Buildup Since 2003, What Service Members and Families Need to Do Right Now</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Nobody knows yet whether the current buildup will result in a strike, a deal or a prolonged standoff. What you can control is...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+
+
+
+
+<article about="/daily-news/investigations-and-features/2026/02/23/us-spent-years-trying-capture-mig-15-then-north-korean-defector-delivered-one.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="The US Failed to Capture a MiG-15. Then a North Korean Defector Delivered One" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/investigations-and-features/2026/02/23/us-spent-years-trying-capture-mig-15-then-north-korean-defector-delivered-one.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-1136165a7e5" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=1lJqtlsT 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=1lJqtlsT 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/max_325x325/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=Re-SKmFl 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/max_650x650/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=kuHIxlQB 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=1lJqtlsT" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="" title="Repainted in USAF markings and insignia, the MiG-15b is under guard and awaiting flight-testing at Okinawa. (Wikimedia Commons)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=1lJqtlsT 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=1lJqtlsT 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/max_325x325/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=Re-SKmFl 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/max_650x650/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=kuHIxlQB 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/mig-15bis_kimpo_sep_1953_0.jpeg.jpg?itok=1lJqtlsT" alt="" title="Repainted in USAF markings and insignia, the MiG-15b is under guard and awaiting flight-testing at Okinawa. (Wikimedia Commons)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">The US Failed to Capture a MiG-15. Then a North Korean Defector Delivered One</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>A secret US operation spent months trying to obtain a Soviet MiG-15 during the Korean War. A North Korean defector who never...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+
+
+
+
+<article about="/feature/2026/02/21/25-years-after-9-11-former-centcom-commanders-strategic-warning-what-america-still-gets-wrong.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="25 Years After 9/11: Former CENTCOM Commander’s Strategic Warning on What America Still Gets Wrong" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/feature/2026/02/21/25-years-after-9-11-former-centcom-commanders-strategic-warning-what-america-still-gets-wrong.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-80a0ba67555" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=gNWrkvCv 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=gNWrkvCv 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=smkKGWtq 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=EKNoE45p 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=gNWrkvCv" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="" title="Admiral William J. Fallon attending Combined Joint Task Force - Horn of Africa Change of Command ceremony at Camp Lemonnier, Djibouti 8 Feb., 2008 (U.S. Navy Photo)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=gNWrkvCv 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=gNWrkvCv 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=smkKGWtq 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=EKNoE45p 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-02/fallon_cjtf_hoa_change_of_command_djibouti_8_feb_2008.jpg?itok=gNWrkvCv" alt="" title="Admiral William J. Fallon attending Combined Joint Task Force - Horn of Africa Change of Command ceremony at Camp Lemonnier, Djibouti 8 Feb., 2008 (U.S. Navy Photo)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">25 Years After 9/11: Former CENTCOM Commander’s Strategic Warning on What America Still Gets Wrong</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>The only U.S. officer to lead PACOM and CENTCOM warns in his memoir that America chases short-term wins over strategy—risking...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+
+
+
+
+<article about="/veteran-jobs/career-advice/military-transition/2026/02/13/why-you-didnt-get-job-understanding-how-companies-hire.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Why You Didn’t Get the Job: Understanding How Companies Hire" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/veteran-jobs/career-advice/military-transition/2026/02/13/why-you-didnt-get-job-understanding-how-companies-hire.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-bee2d511491" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/shutterstock_2501477449_0.jpg?itok=jgvQd8n_ 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/shutterstock_2501477449_0.jpg?itok=jgvQd8n_ 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/max_325x325/public/2026-03/shutterstock_2501477449_0.jpg?itok=fRzurhlS 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images04.military.com/sites/default/files/styles/max_650x650/public/2026-03/shutterstock_2501477449_0.jpg?itok=0YmBKsWe 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/shutterstock_2501477449_0.jpg?itok=jgvQd8n_" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="" title="Human resources manager is rejecting a female applicant after a job interview (Shutterstock)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/shutterstock_2501477449_0.jpg?itok=jgvQd8n_ 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/shutterstock_2501477449_0.jpg?itok=jgvQd8n_ 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images04.military.com/sites/default/files/styles/max_325x325/public/2026-03/shutterstock_2501477449_0.jpg?itok=fRzurhlS 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images04.military.com/sites/default/files/styles/max_650x650/public/2026-03/shutterstock_2501477449_0.jpg?itok=0YmBKsWe 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images04.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/shutterstock_2501477449_0.jpg?itok=jgvQd8n_" alt="" title="Human resources manager is rejecting a female applicant after a job interview (Shutterstock)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Why You Didn’t Get the Job: Understanding How Companies Hire</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>In today’s turbulent, unpredictable and frustrating hiring market, job-seekers are seemingly doing everything right and...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+  </div>
+
+              
+
+      </div>
+
+                        
+  
+
+
+
+
+<div id="paragraph-9616" class="paragraph paragraph--block paragraph--default paragraph--mil-ad-block">
+            
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--appnexus">
+    
+    
+
+      <div id="adblock-5bbf9aa577b6b-FP1"></div>
+        </div>
+  
+
+              </div>
+
+      </div>
+
+                        
+  
+
+
+
+
+<div id="paragraph-21581" class="paragraph paragraph--block paragraph--default paragraph--mil-ad-block">
+            
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--appnexus">
+    
+    
+
+      <div id="adblock-5bbf9aa577c3b-RightBottom"></div>
+        </div>
+  
+
+              </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-46266" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Latest Benefits Info
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/benefits/veteran-benefits/the-medal-of-honor.html">The Medal of Honor</a></li>
+          <li class="text--title"><a href="/militaryadvantage/2014/04/what-do-medal-of-honor-awardees-get">What Do Medal of Honor Recipients Get?</a></li>
+          <li class="text--title"><a href="/military-transition/transitional-and-veteran-health-care-options/continued-health-care-benefit.html">Continued Health Care Benefit Program Overview</a></li>
+          <li class="text--title"><a href="/benefits/veteran-benefits/the-benefits-for-medal-of-honor-recipeints">Medal of Honor Means Benefits for Life</a></li>
+          <li class="text--title"><a href="/benefits/veterans-health-care/2026/02/20/va-wont-enforce-new-rule-disability-ratings-secretary-says-congress-members-want-it-rescinded.html">VA Won’t Enforce New Rule on Disability Ratings, Secretary Says. Congress Members Want It Rescinded</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/benefits" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-19621" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        More Military Headlines
+              </h2>
+
+
+
+
+  <div class="list-view list-view--vertical-thumb-left list--view--thumbnail-large">
+                    
+
+
+
+
+<article about="/daily-news/2026/03/04/kurdish-dissident-groups-say-they-are-preparing-join-fight-against-iran-us-support.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Kurdish Dissident Groups Say They Are Preparing to Join the Fight Against Iran With US Support" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/kurdish-dissident-groups-say-they-are-preparing-join-fight-against-iran-us-support.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-36241e7dd50" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=Egz9I9GP 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=5LQeiLGl 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="Iran Iraq Pahlavi Kurds" title="Member of the Democratic Party of Iranian Kurdistan PDKI stands at a checkpoint leading to their base in Koya district of Irbil, Iraq, Friday, Feb. 27, 2026. (AP Photo/Rashid Yahya)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=Egz9I9GP 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=5LQeiLGl 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Iran_Iraq_Pahlavi_Kurds_19003.jpg?itok=LkGBmfaP" alt="Iran Iraq Pahlavi Kurds" title="Member of the Democratic Party of Iranian Kurdistan PDKI stands at a checkpoint leading to their base in Koya district of Irbil, Iraq, Friday, Feb. 27, 2026. (AP Photo/Rashid Yahya)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Kurdish Dissident Groups Say They Are Preparing to Join the Fight Against Iran With US Support</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Kurdish Iranian dissident groups based in northern Iraq are preparing for a potential cross-border military operation in Iran...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+                
+
+
+
+
+<article about="/daily-news/2026/03/04/congress-taking-its-first-votes-iran-war-debate-rages-about-us-goals.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Congress Is Taking Its First Votes on the Iran War as Debate Rages About US Goals" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/congress-taking-its-first-votes-iran-war-debate-rages-about-us-goals.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-ea091a11d57" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=1_PARI-i 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=vSf3qr-6 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="Congress US Iran" title="Senate Minority Leader Chuck Schumer, D-N.Y., arrives to speak with reporters at the Capitol in Washington, Tuesday, March 3, 2026. (AP Photo/J. Scott Applewhite)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_ 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=1_PARI-i 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images02.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=vSf3qr-6 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images02.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_Congress_US_Iran_40008.jpg?itok=hR4RlR3_" alt="Congress US Iran" title="Senate Minority Leader Chuck Schumer, D-N.Y., arrives to speak with reporters at the Capitol in Washington, Tuesday, March 3, 2026. (AP Photo/J. Scott Applewhite)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Congress Is Taking Its First Votes on the Iran War as Debate Rages About US Goals</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>The U.S. Senate is headed toward a vote on President Donald Trump’s decision to embark on a war against Iran.</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+                
+
+
+
+
+<article about="/deployment/honor-fallen-of-operation-epic-fury.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Honor the Fallen Service Members of Operation Epic Fury" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/deployment/honor-fallen-of-operation-epic-fury.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-a14960126ec" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=SKqM9rCe 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=SKqM9rCe 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/max_325x325/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=7SA_hvSH 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images01.military.com/sites/default/files/styles/max_650x650/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=8nXDIo44 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=SKqM9rCe" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="A uniformed airman wearing white gloves hands a folded flag to a seated person." title="Air Force Col. Jason J. Glynn, 99th Air Base Wing commander, receives a flag from Sr. Airman Drew Miller, a Nellis Air Force Base, Nevada, Honor Guard Class 25-D graduate, during a funeral honors demonstration, Aug. 8, 2025. (Airman 1st Class Jennifer Nesbitt/Air Force)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=SKqM9rCe 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=SKqM9rCe 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/max_325x325/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=7SA_hvSH 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images01.military.com/sites/default/files/styles/max_650x650/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=8nXDIo44 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images01.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/military%20funeral%20flag%20training%201800.jpg?itok=SKqM9rCe" alt="A uniformed airman wearing white gloves hands a folded flag to a seated person." title="Air Force Col. Jason J. Glynn, 99th Air Base Wing commander, receives a flag from Sr. Airman Drew Miller, a Nellis Air Force Base, Nevada, Honor Guard Class 25-D graduate, during a funeral honors demonstration, Aug. 8, 2025. (Airman 1st Class Jennifer Nesbitt/Air Force)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Honor the Fallen Service Members of Operation Epic Fury</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Here is a chronological list of the confirmed deaths of U.S. military service members killed in Operation Epic Fury.</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+                
+
+
+
+
+<article about="/daily-news/2026/03/04/hegseth-says-us-cant-stop-everything-iran-fires-even-he-asserts-air-dominance.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="Hegseth Says US ‘Can’t Stop Everything’ That Iran Fires Even as He Asserts Air Dominance" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/hegseth-says-us-cant-stop-everything-iran-fires-even-he-asserts-air-dominance.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-bb363d5b8f8" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=NAlKwSBe 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=NAlKwSBe 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=OdCY9Dcx 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=vJ2cpWUf 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=NAlKwSBe" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="APTOPIX Pentagon US Iran" title="Defense Secretary Pete Hegseth listens to Chairman of the Joint Chiefs of Staff Gen. Dan Caine, during a press briefing at the Pentagon, Monday, March 2, 2026, in Washington. (AP Photo/Mark Schiefelbein)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=NAlKwSBe 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=NAlKwSBe 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/max_325x325/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=OdCY9Dcx 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/max_650x650/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=vJ2cpWUf 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2026-03/ApNewsroom_APTOPIX_Pentagon_US_Iran_80361.jpg?itok=NAlKwSBe" alt="APTOPIX Pentagon US Iran" title="Defense Secretary Pete Hegseth listens to Chairman of the Joint Chiefs of Staff Gen. Dan Caine, during a press briefing at the Pentagon, Monday, March 2, 2026, in Washington. (AP Photo/Mark Schiefelbein)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">Hegseth Says US ‘Can’t Stop Everything’ That Iran Fires Even as He Asserts Air Dominance</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>Defense Secretary Pete Hegseth says the U.S. is quickly gaining air superiority over Iran but the U.S. can&#039;t stop all air...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+                
+
+
+
+
+<article about="/daily-news/2026/03/04/us-and-ecuador-launch-military-operation-against-organized-crime-groups.html" typeof="schema:Article" class="node node--article node--article--thumbnail-large">
+  
+    <span property="schema:name" content="US and Ecuador Launch Military Operation Against Organized Crime Groups" class="hidden"></span>
+
+
+  
+          
+  
+
+
+<div class="thumbnail--large">
+  <a href="/daily-news/2026/03/04/us-and-ecuador-launch-military-operation-against-organized-crime-groups.html">
+    <div class="thumbnail--large__image">
+      
+<div class="image">
+  
+<i class="icon icon-photo_size_select_actual"></i>
+  
+
+
+
+
+<figure>  
+
+
+
+
+
+
+    <div class="blazy blazy--field blazy--field-image blazy--field-image--thumbnail-large field field--image field--label-hidden" data-blazy="">                            <div data-b-token="b-4b55efcc260" class="media media--blazy media--image media--responsive is-b-loading">  <picture>
+                  <source srcset="about:blank" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2025-11/ap25328638544187.jpg?itok=LUTyf3Yu 1x"/>
+              <source srcset="about:blank" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2025-11/ap25328638544187.jpg?itok=LUTyf3Yu 1x"/>
+              <source srcset="about:blank" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/max_325x325/public/2025-11/ap25328638544187.jpg?itok=nXbsuRU6 1x"/>
+              <source srcset="about:blank" media="(max-width: 767px)" type="image/jpeg" width="200" height="133" data-srcset="//images05.military.com/sites/default/files/styles/max_650x650/public/2025-11/ap25328638544187.jpg?itok=oeRwTcLI 1x"/>
+                  <img decoding="async" class="media__element b-lazy b-responsive" loading="lazy" data-src="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2025-11/ap25328638544187.jpg?itok=LUTyf3Yu" width="200" height="133" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D&#039;http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg&#039;%20viewBox%3D&#039;0%200%201%201&#039;%2F%3E" alt="" title="The Pentagon is seen on Sunday, Aug. 27, 2023, in Washington. (AP Photo/Carolyn Kaster, File)" typeof="foaf:Image" />
+
+  </picture>
+<noscript>  <picture>
+                  <source srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2025-11/ap25328638544187.jpg?itok=LUTyf3Yu 1x" media="(min-width: 1200px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2025-11/ap25328638544187.jpg?itok=LUTyf3Yu 1x" media="(min-width: 992px) and (max-width: 1199px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/max_325x325/public/2025-11/ap25328638544187.jpg?itok=nXbsuRU6 1x" media="(min-width: 768px) and (max-width: 991px)" type="image/jpeg" width="200" height="133"/>
+              <source srcset="//images05.military.com/sites/default/files/styles/max_650x650/public/2025-11/ap25328638544187.jpg?itok=oeRwTcLI 1x" media="(max-width: 767px)" type="image/jpeg" width="200" height="133"/>
+                  <img decoding="async" class="media__element" loading="lazy" width="200" height="133" src="//images05.military.com/sites/default/files/styles/thumbnail_large/public/2025-11/ap25328638544187.jpg?itok=LUTyf3Yu" alt="" title="The Pentagon is seen on Sunday, Aug. 27, 2023, in Washington. (AP Photo/Carolyn Kaster, File)" typeof="foaf:Image" />
+
+  </picture>
+</noscript>        </div>
+  
+              </div>
+
+  </figure>
+
+</div>
+    </div>
+
+    <div class="thumbnail--large__content">
+      <span class="text--title"><span property="schema:name">US and Ecuador Launch Military Operation Against Organized Crime Groups</span>
+</span>
+              <div class="text--small thumbnail--large__blurb">
+          
+
+
+
+
+
+
+    <div class="field field--summary field--label-hidden">                          <p>The Pentagon says that the United States and Ecuador have launched a joint military operation against organized crime groups...</p>
+
+
+
+              </div>
+
+        </div>
+          </div>
+  </a>
+</div>
+</article>
+
+      
+      
+
+
+
+          
+  <a href="/topics/headlines" class="view__more-link">View more</a>
+
+  
+</div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-19646" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Army
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/feature/2026/03/05/exclusive-netflixs-war-machine-blends-army-ranger-training-80s-sci-fi-energy.html">EXCLUSIVE: Netflix’s ‘War Machine’ Blends Army Ranger Training, ’80s Sci-Fi</a></li>
+          <li class="text--title"><a href="/daily-news/2026/03/04/gofundme-fallen-us-soldier-raises-over-50k-less-24-hours.html">GoFundMe For Fallen US Soldier Raises Over $50k in Less Than 24 Hours</a></li>
+          <li class="text--title"><a href="/daily-news/investigations-and-features/2026/03/02/operation-varsity-last-great-airborne-operation-of-wwii.html">Operation Varsity: The Last Great Airborne Operation of WWII</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/army" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+  
+
+
+
+
+<div id="paragraph-9651" class="paragraph paragraph--block paragraph--default paragraph--mil-ad-block">
+            
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--appnexus">
+    
+    
+
+      <div id="adblock-5bbf9a77e8b92-FP2"></div>
+        </div>
+  
+
+              </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-1091" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Air Force
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/feature/2026/02/27/new-masters-of-air-deluxe-edition-reveals-rare-wwii-photos-b-17-cutaway.html">New ‘Masters of the Air’ Deluxe Edition Reveals Rare WWII Photos &amp; B-17 Cutaway</a></li>
+          <li class="text--title"><a href="/daily-news/2026/02/26/ex-us-air-force-pilot-arrested-claimed-have-provided-training-china.html">Ex-US Air Force Pilot Arrested, Claimed to Have Provided Training to China</a></li>
+          <li class="text--title"><a href="/daily-news/2026/02/25/natos-secret-aircraft-acquisition-process-after-boeing-e-7-wedgetail-fallout.html">NATO&#039;s Secret Aircraft Acquisition Process After Boeing E-7 Wedgetail Fallout</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/air-force" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-20536" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Navy
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/daily-news/investigations-and-features/2026/03/04/quiet-death-us-submarine-sinks-iranian-frigate-first-torpedo-kill-wwii.html">&#039;Quiet Death&#039;: US Sub Sinks Iranian Frigate, First Torpedo Kill Since WWII</a></li>
+          <li class="text--title"><a href="/daily-news/2026/03/04/how-strait-of-hormuz-acts-backdrop-chinese-support-of-iran.html">How Strait of Hormuz Acts as Backdrop for Chinese Support of Iran</a></li>
+          <li class="text--title"><a href="/feature/2026/03/04/exclusive-ncis-returns-midseason-premiere-new-podcast-ahead-of-500th-episode.html">EXCLUSIVE: &#039;NCIS&#039; Star on Midseason Premiere, New Podcast Before Episode 500</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/navy" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-29506" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Military Benefits Updates
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/benefits/veterans-health-care/2026/02/20/va-wont-enforce-new-rule-disability-ratings-secretary-says-congress-members-want-it-rescinded.html">VA Won’t Enforce New Rule on Disability Ratings, Secretary Says. Congress Members Want It Rescinded</a></li>
+          <li class="text--title"><a href="/benefits/active-duty-benefits/armys-first-campus-style-dining-venue-ushers-freedom-dollars.html">Army’s First Campus-Style Dining Venue Ushers in ‘Freedom Dollars’</a></li>
+          <li class="text--title"><a href="/money/personal-finance/taxes/2026-taxes-what-military-landlords-need-know.html">2026 Taxes: This Is What Military Landlords Need to Know</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/benefits" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-19651" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Marine Corps
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/daily-news/2026/03/01/9-killed-protesters-try-storm-us-consulate-pakistan-over-killing-of-irans-supreme-leader.html">9 Killed as Protesters Try to Storm US Consulate in Pakistan Over Killing of Iran&#039;s Supreme Leader</a></li>
+          <li class="text--title"><a href="/daily-news/investigations-and-features/2026/02/27/veterans-help-solve-22-year-old-cold-case-florida.html">Veterans Help Solve 22-Year-Old Cold Case in Florida </a></li>
+          <li class="text--title"><a href="/daily-news/investigations-and-features/2026/02/27/marine-corps-veteran-aiming-third-gold-paralympic-winter-games.html">Marine Corps Veteran Aiming for Third Gold in Paralympic Winter Games  </a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/marine-corps" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-22016" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Coast Guard
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/daily-news/headlines/2026/02/26/coast-guard-pushes-back-flight-data-sparks-scrutiny.html">Coast Guard Pushes Back As Flight Data Sparks Scrutiny</a></li>
+          <li class="text--title"><a href="/daily-news/2026/02/25/coast-guard-intercepts-6-vessels-apprehends-82-suspected-migrants.html">Coast Guard Intercepts 6 Vessels, Apprehends 82 Suspected Migrants</a></li>
+          <li class="text--title"><a href="/daily-news/2026/02/15/what-know-about-homeland-security-shutdown.html">What to Know About the Homeland Security Shutdown</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/coast-guard" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+
+
+
+
+
+<div id="paragraph-22021" class="paragraph paragraph--list-view paragraph--default">
+            
+
+
+
+
+
+
+    <h2 class="field field--title field--label-hidden paragraph__title">                        Entertainment
+              </h2>
+
+
+
+
+<div class="list-view list-view--one-col">
+         <ul>
+          <li class="text--title"><a href="/feature/2026/03/05/exclusive-netflixs-war-machine-blends-army-ranger-training-80s-sci-fi-energy.html">EXCLUSIVE: Netflix’s ‘War Machine’ Blends Army Ranger Training, ’80s Sci-Fi</a></li>
+          <li class="text--title"><a href="/feature/2026/03/04/exclusive-ncis-returns-midseason-premiere-new-podcast-ahead-of-500th-episode.html">EXCLUSIVE: &#039;NCIS&#039; Star on Midseason Premiere, New Podcast Before Episode 500</a></li>
+          <li class="text--title"><a href="/feature/2026/02/28/first-look-amazons-live-action-god-of-war-what-we-know-so-far.html">First Look at Amazon’s Live-Action ‘God of War&#039;: What We Know So Far</a></li>
+      </ul>
+      
+
+
+
+          
+  <a href="/topics/undertheradar" class="view__more-link">View more</a>
+  </div>
+
+      </div>
+
+                        
+  
+
+
+
+
+<div id="paragraph-52796" class="paragraph paragraph--block paragraph--default paragraph--mil-ad-block">
+            
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--appnexus">
+    
+    
+
+      <div id="adblock-5fda9fa12ff22-Military-Desktop-Interstitial"></div>
+        </div>
+  
+
+              </div>
+
+      </div>
+
+                        
+  
+
+
+
+
+<div id="paragraph-52801" class="paragraph paragraph--block paragraph--default paragraph--mil-ad-block">
+            
+
+
+
+
+
+
+    <div class="field field--block field--label-hidden">                        
+  
+
+
+
+      <div class="block block--appnexus">
+    
+    
+
+      <div id="adblock-5fda9fa12ffb7-Military-Mobile-Interstitial"></div>
+        </div>
+  
+
+              </div>
+
+      </div>
+
+              
+
+
+        </div>
+  
+
+
+            </div>
+          </div>
+              
+      
+    </div>
+  </main>
+
+      
+<footer>
+  <div class="container">
+              
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-5ef128a5ca947-Bottom"></div>
+        </div>
+  
+
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-623c0c7756f6e-AnchorAd"></div>
+        </div>
+  
+
+  
+
+
+
+      <div class="block block--mil-ad-block">
+    
+    
+
+      <div id="adblock-65ba8f78575f2-MobileBottom"></div>
+        </div>
+  
+
+
+
+
+<div  class="meganav--footer meganav">
+  <div class="meganav--container">
+  
+
+
+
+<div class="search-box">
+
+  <form name="gs" method="GET" action="//www.military.com/search">
+
+    <div class="search-wrapper">
+      <input type="search" name="keyword" value="" class="searchInput" placeholder="Search Military.com" aria-label="Search Military.com">
+      <button class="button--form-input"><span>GO</span><img class="search-arrow" src="/themes/military/assets/images/search-arrow.svg" alt="search arrow" /></button>
+    </div>
+
+  </form>
+</div>
+  <div class="meganav--sign-up">
+    
+
+<a id="login-app" class="button--sign-up button--sign-up--lg" href="/newmembers/member-reg?vlv_redir=&reg=true">
+  Sign up
+</a>
+  </div>
+      
+
+
+
+
+        <ul class="menu menu--main">
+              <li class="menu--account__authenticated--mobile">
+        <a href="http://www.military.com/profile/member-profile.html">Profile</a>
+        <ul>
+  <li><a href="https://www.military.com/profile/member-profile.html">Profile</a></li>
+    <li><a href="https://www.military.com/profile/member-profile-newsletter-settings.html">Subscriptions</a></li>
+  <li><a class="user-menu-logout-link" href="https://www.military.com/member-reg/logout.html">Log out</a></li>
+</ul>
+      </li>
+
+                        <li>
+                  <a href="/daily-news" target="_self" rel="" data-drupal-link-system-path="node/1251">News</a>
+                                <ul>
+                    <li>
+                  <a href="/daily-news" target="_self" rel="" data-drupal-link-system-path="node/1251">News Home</a>
+                        </li>
+                <li>
+                  <a href="/army" data-drupal-link-system-path="node/3241">Army</a>
+                        </li>
+                <li>
+                  <a href="/navy" data-drupal-link-system-path="node/3271">Navy</a>
+                        </li>
+                <li>
+                  <a href="/air-force" target="_self" rel="" data-drupal-link-system-path="node/3231">Air Force</a>
+                        </li>
+                <li>
+                  <a href="/marine-corps" target="_self" rel="" data-drupal-link-system-path="node/3256">Marine Corps</a>
+                        </li>
+                <li>
+                  <a href="/coast-guard" target="_self" rel="" data-drupal-link-system-path="node/3251">Coast Guard</a>
+                        </li>
+                <li>
+                  <a href="/space-force" target="_self" rel="" data-drupal-link-system-path="node/221226">Space Force</a>
+                        </li>
+                <li>
+                  <a href="/podcasts" target="_self" data-drupal-link-system-path="node/308881">Military Podcasts</a>
+                        </li>
+                <li>
+                  <a href="/daily-news/opinion" target="_self" rel="" data-drupal-link-system-path="node/99241">Opinion</a>
+                        </li>
+                <li>
+                  <a href="https://www.military.com/video" target="_self" rel="">Videos</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/benefits" target="_self" rel="" data-drupal-link-system-path="node/206">Benefits</a>
+                                <ul>
+                    <li>
+                  <a href="/benefits" target="_self" rel="" data-drupal-link-system-path="node/206">Benefits Home</a>
+                        </li>
+                <li>
+                  <a href="/benefits/military-pay" target="_self" data-drupal-link-system-path="node/3671">Military Pay and Money</a>
+                        </li>
+                <li>
+                  <a href="/education/gi-bill" target="_self" rel="" data-drupal-link-system-path="node/1206">GI Bill</a>
+                        </li>
+                <li>
+                  <a href="/benefits/veterans-health-care" target="_self" rel="" data-drupal-link-system-path="node/3816">Veteran Health Care</a>
+                        </li>
+                <li>
+                  <a href="/benefits/tricare" target="_self" rel="" data-drupal-link-system-path="node/3736">Tricare</a>
+                        </li>
+                <li>
+                  <a href="/money/va-loans" target="_self" rel="" data-drupal-link-system-path="node/1941">VA Loans</a>
+                        </li>
+                <li>
+                  <a href="/money/insurance" target="_self" rel="" data-drupal-link-system-path="node/2466">Insurance</a>
+                        </li>
+                <li>
+                  <a href="/money/retirement" target="_self" rel="" data-drupal-link-system-path="node/2511">Retirement</a>
+                        </li>
+                <li>
+                  <a href="/benefits/veteran-benefits/the-ebenefits-program.html" target="_self" rel="" data-drupal-link-system-path="node/42065">VA eBenefits</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/veteran-jobs" target="_self" rel="" data-drupal-link-system-path="node/1746">Veteran Jobs</a>
+                                <ul>
+                    <li>
+                  <a href="/veteran-jobs" target="_self" data-drupal-link-system-path="node/1746">Veteran Job Search</a>
+                        </li>
+                <li>
+                  <a href="/veteran-employment-project" target="_self" data-drupal-link-system-path="node/339886">Veteran Employment Project</a>
+                        </li>
+                <li>
+                  <a href="/veteran-employers" target="_self" rel="" data-drupal-link-system-path="node/1016">Vet Friendly Employers</a>
+                        </li>
+                <li>
+                  <a href="/veteran-jobs/career-advice" target="_self" rel="" data-drupal-link-system-path="node/2201">Career Advice</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/military-life" target="_self" rel="" data-drupal-link-system-path="node/1791">Military Life</a>
+                                <ul>
+                    <li>
+                  <a href="/military-life" target="_self" rel="" data-drupal-link-system-path="node/1791">Military Life Home</a>
+                        </li>
+                <li>
+                  <a href="/money" target="_self" rel="" data-drupal-link-system-path="node/2401">Money</a>
+                        </li>
+                <li>
+                  <a href="/off-duty" target="_self" rel="" data-drupal-link-system-path="node/2241">Off Duty</a>
+                        </li>
+                <li>
+                  <a href="/military-fitness" target="_self" rel="" data-drupal-link-system-path="node/1991">Fitness</a>
+                        </li>
+                <li>
+                  <a href="/trivia" target="_self" rel="" data-drupal-link-system-path="node/4251">Military Trivia Game</a>
+                        </li>
+                <li>
+                  <a href="/veterans-day" target="_self" rel="" data-drupal-link-system-path="node/5206">Veterans Day</a>
+                        </li>
+                <li>
+                  <a href="/spouse" target="_self" rel="" data-drupal-link-system-path="node/3621">Spouse &amp; Family</a>
+                        </li>
+                <li>
+                  <a href="/deployment" target="_self" rel="" data-drupal-link-system-path="node/4226">Deployment</a>
+                        </li>
+                <li>
+                  <a href="/history" data-drupal-link-system-path="node/4231">Military History</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/discounts" target="" rel="" data-drupal-link-system-path="node/1086">Discounts</a>
+                                <ul>
+                    <li>
+                  <a href="/discounts" target="" rel="" data-drupal-link-system-path="node/1086">Discounts Home</a>
+                        </li>
+                <li>
+                  <a href="/discounts/hot-deals" target="_self" data-drupal-link-system-path="taxonomy/term/1551">Featured Discounts</a>
+                        </li>
+                <li>
+                  <a href="/veterans-day/restaurants-veterans-day-military-discounts.html" target="_self" rel="" data-drupal-link-system-path="node/49210">Veterans Day Restaurant Discounts</a>
+                        </li>
+                <li>
+                  <a href="/discounts/dining" data-drupal-link-system-path="taxonomy/term/1486">Dining</a>
+                        </li>
+                <li>
+                  <a href="/discounts/travel" target="_self" rel="" data-drupal-link-system-path="taxonomy/term/1626">Travel</a>
+                        </li>
+                <li>
+                  <a href="/discounts/apparel-and-accessories" target="_self" data-drupal-link-system-path="taxonomy/term/1411">Retail</a>
+                        </li>
+                <li>
+                  <a href="/money/insurance" data-drupal-link-system-path="node/2466">Insurance</a>
+                        </li>
+                <li>
+                  <a href="/discounts/professional-services" data-drupal-link-system-path="taxonomy/term/1586">Services</a>
+                        </li>
+                <li>
+                  <a href="/discounts/auto" data-drupal-link-system-path="taxonomy/term/1471">Auto</a>
+                        </li>
+                <li>
+                  <a href="/discounts/electronics" data-drupal-link-system-path="taxonomy/term/1496">Electronics</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+                <li>
+                  <a href="/join-armed-forces" data-drupal-link-system-path="node/2291">Join the Military</a>
+                                <ul>
+                    <li>
+                  <a href="/join-armed-forces" data-drupal-link-system-path="node/2291">Join the Military Home</a>
+                        </li>
+                <li>
+                  <a href="/join-armed-forces/asvab" data-drupal-link-system-path="node/2301">ASVAB</a>
+                        </li>
+                <li>
+                  <a href="https://www.military.com/find-info/contact-recruiter?ESRC=mil_cta.os">Contact a Recruiter</a>
+                        </li>
+                <li>
+                  <a href="/military-fitness" data-drupal-link-system-path="node/1991">Military Fitness</a>
+                        </li>
+                <li>
+                  <a href="/benefits" data-drupal-link-system-path="node/206">Benefits</a>
+                        </li>
+    
+</ul>
+    
+                        </li>
+    
+</ul>
+    
+
+
+    </div>
+</div>
+
+  <div class="container-m-logo">
+    <div class="footer-m-logo">
+      <img src="//images.military.com/themes/military/assets/images/m-logo-circle-ts200.png" width=60 height=60 class="m-logo-dtm" alt="Military.com icon">
+      
+
+
+
+      <nav class="block block--system-menu-block-military-network">
+    
+      <h2 class="block__title">Military.com Network</h2>
+    
+
+      
+
+
+
+
+        <ul class="menu">
+                            <li>
+                  <a href="/air-force" target="_self" rel="" data-drupal-link-system-path="node/3231">Air Force</a>
+                        </li>
+                <li>
+                  <a href="/army" target="_self" rel="" data-drupal-link-system-path="node/3241">Army</a>
+                        </li>
+                <li>
+                  <a href="/coast-guard" target="_self" rel="" data-drupal-link-system-path="node/3251">Coast Guard</a>
+                        </li>
+                <li>
+                  <a href="/marine-corps" target="_self" rel="" data-drupal-link-system-path="node/3256">Marine Corps</a>
+                        </li>
+                <li>
+                  <a href="/national-guard" target="_self" rel="" data-drupal-link-system-path="node/3266">National Guard</a>
+                        </li>
+                <li>
+                  <a href="/navy" target="_self" rel="" data-drupal-link-system-path="node/3271">Navy</a>
+                        </li>
+                <li>
+                  <a href="/space-force" target="_self" rel="" data-drupal-link-system-path="node/221226">Space Force</a>
+                        </li>
+    
+</ul>
+    
+
+
+        </nav>
+      </div>
+  </div>
+
+
+
+
+
+      <nav class="block block--system-menu-block-social">
+    
+    
+
+      
+
+
+
+
+        <ul class="menu menu--social">
+                            <li>
+                  <a href="https://www.facebook.com/militarydotcom" class="link--facebook" aria-label="facebook">
+            
+<i class="icon icon-facebook"></i>
+          </a>
+              </li>
+                <li>
+                  <a href="https://instagram.com/militarydotcom" class="link--instagram" aria-label="instagram">
+            
+<i class="icon icon-instagram"></i>
+          </a>
+              </li>
+                <li>
+                  <a href="https://pinterest.com/Militarydotcom/" class="link--pinterest" aria-label="pinterest">
+            
+<i class="icon icon-pinterest"></i>
+          </a>
+              </li>
+                <li>
+                  <a href="https://www.twitter.com/militarydotcom" class="link--twitter" aria-label="twitter">
+            
+<i class="icon icon-twitter"></i>
+          </a>
+              </li>
+                <li>
+                  <a href="https://www.youtube.com/user/MilcomVids" class="link--youtube" aria-label="youtube">
+            
+<i class="icon icon-youtube"></i>
+          </a>
+              </li>
+    
+</ul>
+    
+
+
+        </nav>
+  
+
+
+
+      <nav class="block block--system-menu-block-about-military">
+    
+      <h2 class="block__title">About Military.com</h2>
+    
+
+      
+
+
+
+
+        <ul class="menu">
+                            <li>
+                  <a href="/about-us" target="_self" rel="" data-drupal-link-system-path="node/4771">About Us &amp; Press Room</a>
+                        </li>
+                <li>
+                  <a href="/daily-news/military-rss-feeds.html" target="_self" rel="" data-drupal-link-system-path="node/46207">RSS</a>
+                        </li>
+                <li>
+                  <a href="/about-us/advertising-and-sales" target="_self" rel="" data-drupal-link-system-path="node/4786">Advertise with Us</a>
+                        </li>
+                <li>
+                  <a href="https://www.parsintl.com/publications/military-com" target="_blank">Reprints &amp; Permissions</a>
+                        </li>
+    
+</ul>
+    
+
+
+        </nav>
+  
+
+
+
+      <nav class="block block--system-menu-block-aux-footer-links">
+    
+    
+
+      
+
+
+
+
+        <ul class="menu">
+                            <li>
+                  <a href="/profile/member-profile-newsletter-settings.html" target="_self" rel="">Subscriptions</a>
+                        </li>
+                <li>
+                  <a href="/about-us/user-agreement" target="_self" rel="" data-drupal-link-system-path="node/4796">User Agreement</a>
+                        </li>
+                <li>
+                  <a href="/about-us/privacy-policy" target="_self" rel="" data-drupal-link-system-path="node/4801">Privacy Policy</a>
+                        </li>
+                <li>
+                  <a href="/your-privacy-choices" class="footer--privacy-choices" data-drupal-link-system-path="node/394921">Your Privacy Choices</a>
+                        </li>
+                <li>
+                  <a href="/sitemap" target="_self" rel="" data-drupal-link-system-path="node/3891">Site Map</a>
+                        </li>
+    
+</ul>
+    
+
+
+        </nav>
+  
+
+
+  
+
+
+
+<div class="customer-support footer--block  ">
+
+  <div class="journalism-fund--text" style="margin-bottom: 24px">
+    <a href="/military-veteran-journalism-fund">
+      <h2 class="block__title">Military &amp; Veteran Journalism Fund</h2>
+    </a>
+  </div>
+
+  <div class="customer-support--text">
+    <h2 class="block__title">Need customer support?</h2>
+    <p>Visit our Customer Support center for solutions or to contact us.</p>
+  </div>
+  <div class="customer-support--button">
+    <a href="https://militarycom.freshdesk.com/support/tickets/new" class="button button--custom button--customer-support">Customer Support</a>
+  </div>
+
+  <script>
+    window.fwSettings={
+      'widget_id':8000000394
+    };
+    !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}()
+    FreshworksWidget('hide', 'launcher');
+
+  </script>
+  <script type='text/javascript' src='https://widget.freshworks.com/widgets/8000000394.js' async defer></script>
+
+</div>
+
+
+
+
+
+
+      <div class="block block--copyright">
+    
+    
+
+      <div class="footer--meta text--small">
+	<div class="copyright">
+		<span th:utext="${'&amp;copy; 2026 Military.com'}">© 2026 Military.com</span>
+	</div>
+	<div class="adchoices">
+		<span><a href="//preferences-mgr.truste.com/?pid=monster01&amp;aid=military_PublisherSolution&amp;type=military" target="_blank" title="AdChoices" class="adchoices">AdChoices <span class="adchoices-icon"><img src="https://images.military.com/sites/default/files/media/shared/css-global/2012/05/adchoices-icon.png" alt="AdChoices icon"></span></a></span>
+	</div>
+</div>
+        </div>
+  
+
+        </div>
+</footer>
+  </div>
+
+<!-- Segment Pixel - Military ROS Visitor - DO NOT MODIFY -->
+<script>
+  function injectAdnxsScript(consentValue, consentString, useConsentParamOnly = false) {
+    const params = new URLSearchParams({
+      add: '17273707',
+      t: '1'
+    });
+
+    if (useConsentParamOnly && consentValue !== null) {
+      params.set('consent', consentValue);
+    } else if (!useConsentParamOnly) {
+      params.set('gdpr', '1');
+      params.set('gdpr_consent', consentString || '');
+    }
+
+    const script = document.createElement('script');
+    script.src = `https://secure.adnxs.com/seg?${params.toString()}`;
+    script.type = 'text/javascript';
+    document.body.appendChild(script);
+  }
+
+  if (typeof window.__tcfapi === 'function') {
+    window.__tcfapi('getTCData', 2, function (tcData, success) {
+      if (success && tcData) {
+        const hasConsent = tcData.purpose.consents['1'] === true;
+        const consentValue = hasConsent ? 1 : 0;
+        const consentString = tcData.tcString || '';
+        injectAdnxsScript(consentValue, consentString);
+      } else {
+        // TCF API available but fails
+        injectAdnxsScript(0, '', true);
+      }
+    });
+  } else if (typeof window.__gpp === 'function') {
+    window.__gpp("addEventListener", (data, success) => {
+      if (success && data.pingData.signalStatus === "ready") {
+        // remove the listener for one time data access
+        window.__gpp('removeEventListener', () => {
+          if (typeof OptanonActiveGroups !== 'undefined') {
+            let groups = OptanonActiveGroups.split(',');
+            // if targeting cookies not allowed
+            if (groups.includes('4') === false) {
+              //reject
+              injectAdnxsScript(0, '', true);
+            } else {
+              //accept
+              injectAdnxsScript(1, '', true);
+            }
+          }
+        }, data.listenerId);
+      }
+    });
+  } else {
+    // No TCF or NO GPP API available — don't send consent param
+    injectAdnxsScript(0, '', true);
+  }
+
+
+</script>
+<!-- End of Segment Pixel -->
+
+
+  </div>
+
+      
+      <div id="mil-overlay"></div>
+      <script src="//images02.military.com/sites/default/files/js/js_llttbHhZzv8JXGl2lzi0oPa7mKKE6rP4bAVY2EKsbh4.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=military&amp;include=eJxtkOFuwyAMhF8obh6pcsAh3gAjY9qlTz8ypUra9Y91952ROKP3JpjXEXdxmVWyDVPExzr-zV27iLVGrs8sCvpdFonrzDE-rUriSrtTnHd1p6kMTpTGJJ4080OHIBIiXQ3DGPp49xf8wp9XmIbE8YrNlnETrZJ259k-8ES5Xb7qh6Qo39Ctp2Tt22kirQuX55sJK40BN82Guh1E3DdAooAZbyfezCQDsJP8n1YOGVo5AteqSSKF2koRtSNZCPtpDr8dHG5MdwBblAhmQmtKFYwj-WNxqwqAzknL9o4Tcj4zIyUPAY1zOHjBQK_u9JFKvZrvCnrxX50d2sg"></script>
+<script src="https://static.addtoany.com/menu/page.js" async></script>
+<script src="//images02.military.com/sites/default/files/js/js_oIrs3lOfifuPAb40aHvBRWpu9FFrPbtdjHoWOsjGRWg.js?scope=footer&amp;delta=2&amp;language=en&amp;theme=military&amp;include=eJxtkOFuwyAMhF8obh6pcsAh3gAjY9qlTz8ypUra9Y91952ROKP3JpjXEXdxmVWyDVPExzr-zV27iLVGrs8sCvpdFonrzDE-rUriSrtTnHd1p6kMTpTGJJ4080OHIBIiXQ3DGPp49xf8wp9XmIbE8YrNlnETrZJ259k-8ES5Xb7qh6Qo39Ctp2Tt22kirQuX55sJK40BN82Guh1E3DdAooAZbyfezCQDsJP8n1YOGVo5AteqSSKF2koRtSNZCPtpDr8dHG5MdwBblAhmQmtKFYwj-WNxqwqAzknL9o4Tcj4zIyUPAY1zOHjBQK_u9JFKvZrvCnrxX50d2sg"></script>
+<script src="//images03.military.com/modules/custom/mil_base/js/ga4.js?tbc6cr" type="text/plain" class="optanon-category-2"></script>
+<script src="//images01.military.com/sites/default/files/js/js_8ByoK7g9Bxf3lIcqSXjn3MvvE9q-yC1qnmZTXwyrtNw.js?scope=footer&amp;delta=4&amp;language=en&amp;theme=military&amp;include=eJxtkOFuwyAMhF8obh6pcsAh3gAjY9qlTz8ypUra9Y91952ROKP3JpjXEXdxmVWyDVPExzr-zV27iLVGrs8sCvpdFonrzDE-rUriSrtTnHd1p6kMTpTGJJ4080OHIBIiXQ3DGPp49xf8wp9XmIbE8YrNlnETrZJ259k-8ES5Xb7qh6Qo39Ctp2Tt22kirQuX55sJK40BN82Guh1E3DdAooAZbyfezCQDsJP8n1YOGVo5AteqSSKF2koRtSNZCPtpDr8dHG5MdwBblAhmQmtKFYwj-WNxqwqAzknL9o4Tcj4zIyUPAY1zOHjBQK_u9JFKvZrvCnrxX50d2sg"></script>
+<script src="https://assets.freshdesk.com/widget/freshwidget.js"></script>
+<script src="//images02.military.com/sites/default/files/js/js_AjXKPANTrYo96lI8v20sF0jeKDlPzctcIAsGNCIE7ZY.js?scope=footer&amp;delta=6&amp;language=en&amp;theme=military&amp;include=eJxtkOFuwyAMhF8obh6pcsAh3gAjY9qlTz8ypUra9Y91952ROKP3JpjXEXdxmVWyDVPExzr-zV27iLVGrs8sCvpdFonrzDE-rUriSrtTnHd1p6kMTpTGJJ4080OHIBIiXQ3DGPp49xf8wp9XmIbE8YrNlnETrZJ259k-8ES5Xb7qh6Qo39Ctp2Tt22kirQuX55sJK40BN82Guh1E3DdAooAZbyfezCQDsJP8n1YOGVo5AteqSSKF2koRtSNZCPtpDr8dHG5MdwBblAhmQmtKFYwj-WNxqwqAzknL9o4Tcj4zIyUPAY1zOHjBQK_u9JFKvZrvCnrxX50d2sg"></script>
+
+              <!-- Extract Meta -->
+
+      
+                  <div id="addtoany_custom_responsive" class="addtoany_custom_responsive_class">
+        
+          <!-- AddToAny Float -->
+          <div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style" style="bottom:0px; right:0px;">
+              <a class="a2a_button_facebook" aria-label="Facebook"></a>
+              <a class="a2a_button_x" aria-label="X"></a>
+              <a class="a2a_button_pinterest" aria-label="Pinterest"></a>
+              <a class="a2a_button_email" aria-label="Email"></a>
+              <a class="a2a_dd" href="https://www.addtoany.com/share" aria-label="Share"></a>
+          </div>
+          <!-- End AddToAny -->
+
+              
+          </div>
+
+  </body>
+</html>
