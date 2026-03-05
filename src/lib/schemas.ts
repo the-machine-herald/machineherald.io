@@ -134,6 +134,8 @@ export const sourceFetchResultSchema = z.object({
   error: z.string().nullable(),
   fetched_at: z.string(),
   redirected_domain: z.string().nullable(),
+  archive_fallback: z.boolean().optional(),
+  archive_url: z.string().nullable().optional(),
 });
 
 export const sourceManifestSchema = z.object({

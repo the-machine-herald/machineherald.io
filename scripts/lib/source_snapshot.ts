@@ -22,6 +22,8 @@ export interface SourceFetchResult {
   error: string | null;
   fetched_at: string;
   redirected_domain: string | null;
+  archive_fallback?: boolean;
+  archive_url?: string | null;
 }
 
 export interface SourceManifest {
@@ -43,22 +45,38 @@ export interface SnapshotOptions {
   baseDir?: string;
   /** Per-request timeout in ms (default: 15 000). */
   timeoutMs?: number;
+  /** Delay between retry attempts in ms (default: 3 000). Set to 0 in tests. */
+  retryDelayMs?: number;
 }
 
 // ── Helpers ─────────────────────────────────────────────────
 
 const DEFAULT_TIMEOUT_MS = 15_000;
+const RETRY_DELAY_MS = 3_000;
 
-const PIPELINE_VERSION: string = (() => {
-  try {
-    const pkg = JSON.parse(
-      fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8'),
-    );
-    return pkg.version || '3.0.0';
-  } catch {
-    return '3.0.0';
-  }
-})();
+// Status codes that warrant a retry (transient failures)
+const RETRYABLE_STATUS_CODES = new Set([403, 429, 500, 502, 503, 504]);
+
+// Status codes that indicate bot-blocking (worth trying archive.org)
+const BOT_BLOCKED_STATUS_CODES = new Set([403, 401]);
+
+// Browser-like request headers to reduce bot detection
+const BROWSER_HEADERS = {
+  'User-Agent':
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  Accept:
+    'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'Cache-Control': 'no-cache',
+  'Sec-Fetch-Dest': 'document',
+  'Sec-Fetch-Mode': 'navigate',
+  'Sec-Fetch-Site': 'none',
+};
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export function slugify(text: string): string {
   return text
@@ -85,71 +103,59 @@ function getMonthFromSubmissionPath(submissionPath: string): string {
   return `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
 }
 
-// ── Single-source fetch ─────────────────────────────────────
+// ── Single-URL fetch attempt ─────────────────────────────────
 
-async function fetchSource(
+interface FetchAttemptResult {
+  status_code: number | null;
+  content_type: string | null;
+  redirected_domain: string | null;
+  body: string | null;
+  error: string | null;
+}
+
+async function attemptFetch(
   url: string,
-  index: number,
-  outDir: string,
+  originalUrl: string,
   timeoutMs: number,
-): Promise<SourceFetchResult> {
-  const fetchedAt = new Date().toISOString();
-
+): Promise<FetchAttemptResult> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: {
-        'User-Agent': `MachineHerald-ReviewBot/${PIPELINE_VERSION}`,
-        Accept: 'text/html,application/xhtml+xml,*/*',
-      },
+      headers: BROWSER_HEADERS,
       redirect: 'follow',
     });
 
     const statusCode = res.status;
     const contentType = res.headers.get('content-type');
 
-    // Detect cross-domain redirects
+    // Detect cross-domain redirects relative to the original (not archive) URL
     let redirectedDomain: string | null = null;
     const finalDomain = extractDomain(res.url);
-    const originalDomain = extractDomain(url);
-    if (finalDomain && originalDomain && finalDomain !== originalDomain) {
+    const sourceDomain = extractDomain(originalUrl);
+    if (finalDomain && sourceDomain && finalDomain !== sourceDomain) {
       redirectedDomain = finalDomain;
     }
 
     if (statusCode >= 400) {
       return {
-        url,
-        file: null,
         status_code: statusCode,
         content_type: contentType,
-        content_length: null,
-        sha256: null,
-        error: res.statusText || `HTTP ${statusCode}`,
-        fetched_at: fetchedAt,
         redirected_domain: redirectedDomain,
+        body: null,
+        error: res.statusText || `HTTP ${statusCode}`,
       };
     }
 
     const body = await res.text();
-    const filename = `source-${index}.html`;
-    const filePath = path.join(outDir, filename);
-    fs.writeFileSync(filePath, body, 'utf-8');
-
-    const hash = crypto.createHash('sha256').update(body).digest('hex');
-
     return {
-      url,
-      file: filename,
       status_code: statusCode,
       content_type: contentType,
-      content_length: Buffer.byteLength(body, 'utf-8'),
-      sha256: hash,
-      error: null,
-      fetched_at: fetchedAt,
       redirected_domain: redirectedDomain,
+      body,
+      error: null,
     };
   } catch (err: unknown) {
     const message =
@@ -158,21 +164,99 @@ async function fetchSource(
           ? `Timeout after ${timeoutMs}ms`
           : err.message
         : String(err);
-
     return {
-      url,
-      file: null,
       status_code: null,
       content_type: null,
-      content_length: null,
-      sha256: null,
-      error: message,
-      fetched_at: fetchedAt,
       redirected_domain: null,
+      body: null,
+      error: message,
     };
   } finally {
     clearTimeout(timer);
   }
+}
+
+// ── Single-source fetch (with retry + archive fallback) ─────
+
+async function fetchSource(
+  url: string,
+  index: number,
+  outDir: string,
+  timeoutMs: number,
+  retryDelayMs: number,
+): Promise<SourceFetchResult> {
+  const fetchedAt = new Date().toISOString();
+
+  // First attempt
+  let attempt = await attemptFetch(url, url, timeoutMs);
+
+  // Retry once for transient errors (403, 429, 5xx)
+  if (attempt.status_code !== null && RETRYABLE_STATUS_CODES.has(attempt.status_code)) {
+    await sleep(retryDelayMs);
+    attempt = await attemptFetch(url, url, timeoutMs);
+  }
+
+  // Archive.org fallback for persistent bot-blocked responses
+  if (attempt.status_code !== null && BOT_BLOCKED_STATUS_CODES.has(attempt.status_code)) {
+    const archiveUrl = `https://web.archive.org/web/${url}`;
+    const archiveAttempt = await attemptFetch(archiveUrl, url, timeoutMs);
+
+    if (archiveAttempt.status_code !== null && archiveAttempt.status_code < 400 && archiveAttempt.body !== null) {
+      const filename = `source-${index}.html`;
+      const filePath = path.join(outDir, filename);
+      fs.writeFileSync(filePath, archiveAttempt.body, 'utf-8');
+
+      const hash = crypto.createHash('sha256').update(archiveAttempt.body).digest('hex');
+
+      return {
+        url,
+        file: filename,
+        status_code: archiveAttempt.status_code,
+        content_type: archiveAttempt.content_type,
+        content_length: Buffer.byteLength(archiveAttempt.body, 'utf-8'),
+        sha256: hash,
+        error: null,
+        fetched_at: fetchedAt,
+        redirected_domain: null,
+        archive_fallback: true,
+        archive_url: archiveUrl,
+      };
+    }
+  }
+
+  // Save snapshot if we have content
+  if (attempt.body !== null) {
+    const filename = `source-${index}.html`;
+    const filePath = path.join(outDir, filename);
+    fs.writeFileSync(filePath, attempt.body, 'utf-8');
+
+    const hash = crypto.createHash('sha256').update(attempt.body).digest('hex');
+
+    return {
+      url,
+      file: filename,
+      status_code: attempt.status_code,
+      content_type: attempt.content_type,
+      content_length: Buffer.byteLength(attempt.body, 'utf-8'),
+      sha256: hash,
+      error: null,
+      fetched_at: fetchedAt,
+      redirected_domain: attempt.redirected_domain,
+    };
+  }
+
+  // No content — return error result
+  return {
+    url,
+    file: null,
+    status_code: attempt.status_code,
+    content_type: attempt.content_type,
+    content_length: null,
+    sha256: null,
+    error: attempt.error,
+    fetched_at: fetchedAt,
+    redirected_domain: attempt.redirected_domain,
+  };
 }
 
 // ── Main entry point ────────────────────────────────────────
@@ -185,6 +269,7 @@ export async function fetchAndSnapshotSources(
 ): Promise<SnapshotResult> {
   const baseDir = options?.baseDir ?? path.join(process.cwd(), 'sources');
   const timeoutMs = options?.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  const retryDelayMs = options?.retryDelayMs ?? RETRY_DELAY_MS;
 
   const monthFolder = getMonthFromSubmissionPath(submissionPath);
   const articleSlug = slugify(articleTitle);
@@ -193,7 +278,7 @@ export async function fetchAndSnapshotSources(
   fs.mkdirSync(snapshotDir, { recursive: true });
 
   const results = await Promise.allSettled(
-    sources.map((url, i) => fetchSource(url, i, snapshotDir, timeoutMs)),
+    sources.map((url, i) => fetchSource(url, i, snapshotDir, timeoutMs, retryDelayMs)),
   );
 
   const sourceResults: SourceFetchResult[] = results.map((r, i) =>
@@ -227,7 +312,9 @@ export async function fetchAndSnapshotSources(
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
   const allReachable = sourceResults.every(
-    (s) => s.status_code !== null && s.status_code >= 200 && s.status_code < 400,
+    (s) =>
+      (s.status_code !== null && s.status_code >= 200 && s.status_code < 400) ||
+      s.archive_fallback === true,
   );
 
   return { manifestPath, snapshotDir, sources: sourceResults, allReachable };

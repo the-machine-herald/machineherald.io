@@ -116,7 +116,7 @@ describe('fetchAndSnapshotSources', () => {
       ['https://reuters.com/gone'],
       submissionPath,
       articleTitle,
-      { baseDir: tmpDir },
+      { baseDir: tmpDir, retryDelayMs: 0 },
     );
 
     expect(result.allReachable).toBe(false);
@@ -234,11 +234,10 @@ describe('fetchAndSnapshotSources', () => {
   });
 
   it('marks allReachable false when any source fails', async () => {
-    let callIndex = 0;
+    // Use url-based mock (not counter-based) so retry doesn't change behavior
     mockFetch((url) => {
-      callIndex++;
-      if (callIndex === 2) {
-        return makeResponse('Server Error', { status: 500, statusText: 'Internal Server Error', url });
+      if (url.includes('bad.com')) {
+        return makeResponse('Not Found', { status: 404, statusText: 'Not Found', url });
       }
       return makeResponse('<html></html>', { status: 200, url });
     });
@@ -247,11 +246,87 @@ describe('fetchAndSnapshotSources', () => {
       ['https://good.com/a', 'https://bad.com/b'],
       submissionPath,
       articleTitle,
-      { baseDir: tmpDir },
+      { baseDir: tmpDir, retryDelayMs: 0 },
     );
 
     expect(result.allReachable).toBe(false);
     expect(result.sources[0]!.status_code).toBe(200);
-    expect(result.sources[1]!.status_code).toBe(500);
+    expect(result.sources[1]!.status_code).toBe(404);
+  });
+
+  it('retries once on 403 and succeeds on second attempt', async () => {
+    let callCount = 0;
+    mockFetch((url) => {
+      callCount++;
+      // First call returns 403, second (retry) returns 200
+      if (callCount === 1) {
+        return makeResponse('Forbidden', { status: 403, statusText: 'Forbidden', url });
+      }
+      return makeResponse('<html>content</html>', {
+        status: 200,
+        headers: { 'Content-Type': 'text/html' },
+        url,
+      });
+    });
+
+    const result = await fetchAndSnapshotSources(
+      ['https://example.com/article'],
+      submissionPath,
+      articleTitle,
+      { baseDir: tmpDir, retryDelayMs: 0 },
+    );
+
+    expect(callCount).toBe(2);
+    expect(result.allReachable).toBe(true);
+    expect(result.sources[0]!.status_code).toBe(200);
+    expect(result.sources[0]!.file).toBe('source-0.html');
+  });
+
+  it('falls back to archive.org on persistent 403 and succeeds', async () => {
+    mockFetch((url) => {
+      if (url.startsWith('https://web.archive.org/')) {
+        return makeResponse('<html>archived</html>', {
+          status: 200,
+          headers: { 'Content-Type': 'text/html' },
+          url,
+        });
+      }
+      return makeResponse('Forbidden', { status: 403, statusText: 'Forbidden', url });
+    });
+
+    const result = await fetchAndSnapshotSources(
+      ['https://paywalled.com/article'],
+      submissionPath,
+      articleTitle,
+      { baseDir: tmpDir, retryDelayMs: 0 },
+    );
+
+    expect(result.allReachable).toBe(true);
+    expect(result.sources[0]!.archive_fallback).toBe(true);
+    expect(result.sources[0]!.archive_url).toContain('web.archive.org');
+    expect(result.sources[0]!.file).toBe('source-0.html');
+
+    const savedHtml = fs.readFileSync(
+      path.join(result.snapshotDir, 'source-0.html'),
+      'utf-8',
+    );
+    expect(savedHtml).toBe('<html>archived</html>');
+  });
+
+  it('marks allReachable false when 403 persists and archive.org also fails', async () => {
+    mockFetch((url) =>
+      makeResponse('Forbidden', { status: 403, statusText: 'Forbidden', url }),
+    );
+
+    const result = await fetchAndSnapshotSources(
+      ['https://blocked.com/article'],
+      submissionPath,
+      articleTitle,
+      { baseDir: tmpDir, retryDelayMs: 0 },
+    );
+
+    expect(result.allReachable).toBe(false);
+    expect(result.sources[0]!.status_code).toBe(403);
+    expect(result.sources[0]!.archive_fallback).toBeUndefined();
   });
 });

@@ -462,14 +462,53 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
     checklist['sources_reachable'] = snapshotResult.allReachable;
 
     for (const src of snapshotResult.sources) {
-      if (src.status_code !== null && src.status_code >= 400) {
+      if (src.archive_fallback) {
         findings.push({
           category: 'Sources',
-          severity: 'error',
-          message: `Dead link: HTTP ${src.status_code}`,
+          severity: 'info',
+          message: `Source fetched via Archive.org fallback (original returned ${src.status_code})`,
           details: src.url,
         });
+      } else if (src.status_code !== null && src.status_code >= 400) {
+        // Differentiate bot-blocking (403/401/429) from true dead links (404/410)
+        if (src.status_code === 404 || src.status_code === 410) {
+          findings.push({
+            category: 'Sources',
+            severity: 'error',
+            message: `Dead link: HTTP ${src.status_code}`,
+            details: src.url,
+          });
+        } else if (src.status_code === 403 || src.status_code === 401) {
+          findings.push({
+            category: 'Sources',
+            severity: 'warning',
+            message: `Source access restricted (bot blocked): HTTP ${src.status_code}`,
+            details: src.url,
+          });
+        } else if (src.status_code === 429) {
+          findings.push({
+            category: 'Sources',
+            severity: 'warning',
+            message: `Source rate-limited: HTTP ${src.status_code}`,
+            details: src.url,
+          });
+        } else if (src.status_code >= 500) {
+          findings.push({
+            category: 'Sources',
+            severity: 'warning',
+            message: `Source server error (may be transient): HTTP ${src.status_code}`,
+            details: src.url,
+          });
+        } else {
+          findings.push({
+            category: 'Sources',
+            severity: 'error',
+            message: `Dead link: HTTP ${src.status_code}`,
+            details: src.url,
+          });
+        }
       } else if (src.error) {
+        // Network/timeout errors may be transient
         findings.push({
           category: 'Sources',
           severity: 'warning',
@@ -489,12 +528,22 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
     }
 
     if (!snapshotResult.allReachable) {
-      const unreachableCount = snapshotResult.sources.filter(
-        (s) => s.status_code === null || s.status_code >= 400,
+      const deadCount = snapshotResult.sources.filter(
+        (s) => !s.archive_fallback && (s.status_code === null || s.status_code === 404 || s.status_code === 410),
       ).length;
-      recommendations.push(
-        `${unreachableCount} source(s) could not be verified — check URLs before resubmitting`,
-      );
+      const blockedCount = snapshotResult.sources.filter(
+        (s) => !s.archive_fallback && s.status_code !== null && (s.status_code === 403 || s.status_code === 401 || s.status_code === 429 || s.status_code >= 500),
+      ).length;
+      if (deadCount > 0) {
+        recommendations.push(
+          `${deadCount} source(s) returned dead link errors — verify URLs before resubmitting`,
+        );
+      }
+      if (blockedCount > 0) {
+        recommendations.push(
+          `${blockedCount} source(s) blocked bot access — sources likely valid but not archivable automatically`,
+        );
+      }
     }
   }
 

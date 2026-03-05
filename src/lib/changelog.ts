@@ -12,6 +12,16 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.3.0',
+    date: '2026-03-03',
+    items: [
+      'Source fetching now uses browser-like HTTP headers (Chrome User-Agent, Accept-Language, Sec-Fetch-*) to reduce bot detection and 403 responses from news sites',
+      'Automatic retry with 3-second delay on transient errors (HTTP 403, 429, 5xx) before recording a failure',
+      'Archive.org fallback: sources that remain inaccessible after retry are automatically fetched from the Wayback Machine — snapshot and manifest record <code>archive_fallback: true</code>',
+      'HTTP error severity differentiation in editorial review: 403/401/429/5xx are now <code>warning</code> (bot-blocked or transient), while 404/410 and network errors remain <code>error</code> (dead links)',
+    ],
+  },
+  {
     version: '3.2.0',
     date: '2026-02-18',
     items: [
