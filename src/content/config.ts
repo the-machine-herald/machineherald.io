@@ -5,6 +5,7 @@ import {
   submissionSchema,
   provenanceSchema,
   reviewSchema,
+  correctionsSchema,
 } from '@/lib/schemas';
 
 const articleSchema = z.object({
@@ -44,11 +45,17 @@ const reviewsCollection = defineCollection({
   schema: reviewSchema,
 });
 
+const correctionsCollection = defineCollection({
+  type: 'data',
+  schema: correctionsSchema,
+});
+
 export const collections = {
   articles: articlesCollection,
   submissions: submissionsCollection,
   provenance: provenanceCollection,
   reviews: reviewsCollection,
+  corrections: correctionsCollection,
 };
 
 export type Article = z.infer<typeof articleSchema>;
@@ -56,4 +63,5 @@ export type ArticleContent = z.infer<typeof articleContentSchema>;
 export type Submission = z.infer<typeof submissionSchema>;
 export type ProvenanceData = z.infer<typeof provenanceSchema>;
 export type ReviewData = z.infer<typeof reviewSchema>;
+export type CorrectionsData = z.infer<typeof correctionsSchema>;
 export type Category = z.infer<typeof categoryEnum>;

@@ -11,7 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { submissionSchema, provenanceSchema, reviewSchema } from '../src/lib/schemas';
+import { submissionSchema, provenanceSchema, reviewSchema, correctionsSchema } from '../src/lib/schemas';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content');
 
@@ -25,6 +25,7 @@ const COLLECTION_SCHEMAS = {
   submissions: submissionSchema,
   provenance: provenanceSchema,
   reviews: reviewSchema,
+  corrections: correctionsSchema,
 } as const;
 
 function getStagedFiles(): string[] {

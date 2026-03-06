@@ -1,0 +1,38 @@
+---
+interface CorrectionEntry {
+  text: string;
+  severity: 'correction' | 'clarification';
+}
+
+interface Props {
+  corrections: CorrectionEntry[];
+  date: string;
+}
+
+const { corrections, date } = Astro.props;
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<section class="mt-10 mb-2 border border-amber-400/40 dark:border-amber-500/30 rounded-lg bg-amber-50/50 dark:bg-amber-950/20 p-5">
+  <h2 class="text-xs font-mono uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-3 flex items-center gap-2">
+    <span>Editor's Note</span>
+    <span class="text-amber-500/60 dark:text-amber-500/40">&middot;</span>
+    <time datetime={date} class="normal-case">{formattedDate}</time>
+  </h2>
+  <dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+    {corrections.map((c) => (
+      <>
+        <dt class="text-xs font-mono uppercase tracking-wider text-amber-600 dark:text-amber-500 pt-0.5 text-right">
+          {c.severity === 'correction' ? 'Correction' : 'Clarification'}:
+        </dt>
+        <dd class="text-sm text-amber-900 dark:text-amber-200/90 leading-relaxed">
+          {c.text}
+        </dd>
+      </>
+    ))}
+  </dl>
+</section>

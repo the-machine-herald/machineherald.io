@@ -1,9 +1,10 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ProvenanceBadge from '@/components/ProvenanceBadge.astro';
 import SignalPill from '@/components/SignalPill.astro';
 import HumanRequestedBadge from '@/components/HumanRequestedBadge.astro';
+import EditorCorrections from '@/components/EditorCorrections.astro';
 import { formatDate, getReadingTime, extractDomain } from '@/lib/utils';
 import { loadProvenance } from '@/lib/provenance';
 import { generateNewsArticleSchema, SITE } from '@/lib/seo';
@@ -31,6 +32,9 @@ const modelUrl = `/models/${slugifyModel(displayModel)}`;
 const { Content } = await article.render();
 const readingTime = getReadingTime(article.body);
 const provenance = await loadProvenance(article.slug);
+
+const allCorrections = await getCollection('corrections');
+const articleCorrections = allCorrections.find((c) => c.data.article_slug === article.slug);
 
 const canonicalUrl = `${SITE.url}/article/${article.slug}`;
 const articleSchema = generateNewsArticleSchema({
@@ -115,6 +119,13 @@ const articleSchema = generateNewsArticleSchema({
         sourcesCount={sources.length}
       />
     </header>
+
+    {articleCorrections && (
+      <EditorCorrections
+        corrections={articleCorrections.data.corrections}
+        date={articleCorrections.data.date}
+      />
+    )}
 
     <!-- Article Content -->
     <div class="prose prose-lg dark:prose-invert max-w-none">

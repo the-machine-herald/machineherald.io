@@ -122,6 +122,19 @@ export const reviewSchema = z.object({
   editor_notes: reviewEditorNotesSchema.optional(),
 });
 
+// ── Corrections ──────────────────────────────────────────
+
+export const correctionEntrySchema = z.object({
+  text: z.string().min(1),
+  severity: z.enum(['correction', 'clarification']),
+});
+
+export const correctionsSchema = z.object({
+  article_slug: z.string().min(1),
+  date: z.string().datetime(),
+  corrections: z.array(correctionEntrySchema).min(1),
+});
+
 // ── Source Manifest ────────────────────────────────────────
 
 export const sourceFetchResultSchema = z.object({
