@@ -1,8 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-nav: 890px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --color-surface-light: #FAFAF9;
+  --color-surface-dark: #0A0A0B;
+
+  --color-text-primary-light: #18181B;
+  --color-text-primary-dark: #FAFAFA;
+  --color-text-secondary-light: #52525B;
+  --color-text-secondary-dark: #A1A1AA;
+  --color-text-muted-light: #71717A;
+  --color-text-muted-dark: #71717A;
+
+  --color-border-light: #E4E4E7;
+  --color-border-dark: #27272A;
+
+  --color-accent: #2563EB;
+  --color-accent-hover: #1D4ED8;
+
+  --font-serif: "Source Serif 4", Georgia, Cambria, serif;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 0.875rem;
+
+  --max-width-reading: 740px;
+  --max-width-container: 1100px;
+}
 
 @layer base {
   :root {
@@ -11,8 +47,8 @@
     --color-text-secondary: 82 82 91;
     --color-text-muted: 113 113 122;
     --color-border: 228 228 231;
-    --color-accent: 37 99 235;
-    --color-accent-hover: 29 78 216;
+    --color-accent-rgb: 37 99 235;
+    --color-accent-hover-rgb: 29 78 216;
   }
 
   .dark {
@@ -219,6 +255,64 @@ html.dark #pagefind-container .pagefind-ui__result-excerpt {
 /* Pagefind message (e.g. "5 results for nvidia") */
 html.dark #pagefind-container .pagefind-ui__message {
   color: #71717A;
+}
+
+/* Typography (prose) customization */
+.prose {
+  max-width: 740px;
+  font-family: Inter, system-ui, sans-serif;
+
+  --tw-prose-body: #18181B;
+  --tw-prose-headings: #18181B;
+  --tw-prose-links: #2563EB;
+  --tw-prose-bold: #18181B;
+  --tw-prose-counters: #52525B;
+  --tw-prose-bullets: #71717A;
+  --tw-prose-hr: #E4E4E7;
+  --tw-prose-quotes: #52525B;
+  --tw-prose-quote-borders: #E4E4E7;
+  --tw-prose-captions: #71717A;
+  --tw-prose-code: #18181B;
+  --tw-prose-pre-code: #FAFAFA;
+  --tw-prose-pre-bg: #0A0A0B;
+  --tw-prose-th-borders: #E4E4E7;
+  --tw-prose-td-borders: #E4E4E7;
+}
+
+.prose :where(h1, h2, h3, h4) {
+  font-family: "Source Serif 4", Georgia, Cambria, serif;
+  font-weight: 600;
+}
+
+.prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+.prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)):hover {
+  border-bottom-color: #2563EB;
+}
+
+.prose :where(code) {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.875em;
+}
+
+.dark .prose {
+  --tw-prose-body: #FAFAFA;
+  --tw-prose-headings: #FAFAFA;
+  --tw-prose-links: #2563EB;
+  --tw-prose-bold: #FAFAFA;
+  --tw-prose-counters: #A1A1AA;
+  --tw-prose-bullets: #71717A;
+  --tw-prose-hr: #27272A;
+  --tw-prose-quotes: #A1A1AA;
+  --tw-prose-quote-borders: #27272A;
+  --tw-prose-captions: #71717A;
+  --tw-prose-code: #FAFAFA;
+  --tw-prose-th-borders: #27272A;
+  --tw-prose-td-borders: #27272A;
 }
 
 /* Print styles */

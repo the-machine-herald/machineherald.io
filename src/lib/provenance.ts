@@ -1,7 +1,9 @@
 import { getEntry, getCollection } from 'astro:content';
-import type { ProvenanceData, ReviewData } from '@/content/config';
+import type { z } from 'zod';
+import type { provenanceSchema, reviewSchema } from '@/lib/schemas';
 
-export type { ProvenanceData, ReviewData } from '@/content/config';
+export type ProvenanceData = z.infer<typeof provenanceSchema>;
+export type ReviewData = z.infer<typeof reviewSchema>;
 
 export async function loadProvenance(slug: string): Promise<ProvenanceData | null> {
   try {

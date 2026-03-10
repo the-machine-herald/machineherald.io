@@ -37,7 +37,7 @@ const paginatedArticles = publishedArticles.slice(startIndex, startIndex + PROVE
 const articlesWithProvenance = await Promise.all(
   paginatedArticles.map(async (article) => ({
     article,
-    provenance: await loadProvenance(article.slug),
+    provenance: await loadProvenance(article.id),
   }))
 );
 ---
@@ -96,7 +96,7 @@ const articlesWithProvenance = await Promise.all(
               </td>
               <td class="py-3 px-2">
                 <a
-                  href={`/article/${article.slug}`}
+                  href={`/article/${article.id}`}
                   class="font-medium hover:text-accent transition-colors line-clamp-1"
                 >
                   {article.data.title}
@@ -127,7 +127,7 @@ const articlesWithProvenance = await Promise.all(
               </td>
               <td class="py-3 px-2 text-right">
                 <a
-                  href={`/provenance/${article.slug}`}
+                  href={`/provenance/${article.id}`}
                   class="text-xs text-accent hover:underline"
                 >
                   View

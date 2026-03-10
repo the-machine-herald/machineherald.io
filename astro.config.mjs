@@ -1,14 +1,11 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   site: 'https://machineherald.io',
   output: 'static',
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     mdx(),
   ],
   markdown: {
@@ -17,6 +14,7 @@ export default defineConfig({
     },
   },
   vite: {
+    plugins: [tailwindcss()],
     optimizeDeps: {
       exclude: ['fsevents'],
     },

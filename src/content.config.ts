@@ -1,7 +1,7 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 import {
   categoryEnum,
-  articleContentSchema,
   submissionSchema,
   provenanceSchema,
   reviewSchema,
@@ -26,27 +26,27 @@ const articleSchema = z.object({
 });
 
 const articlesCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/articles' }),
   schema: articleSchema,
 });
 
 const submissionsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/submissions' }),
   schema: submissionSchema,
 });
 
 const provenanceCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/provenance' }),
   schema: provenanceSchema,
 });
 
 const reviewsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/reviews' }),
   schema: reviewSchema,
 });
 
 const correctionsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.json', base: './src/content/corrections' }),
   schema: correctionsSchema,
 });
 
@@ -58,10 +58,3 @@ export const collections = {
   corrections: correctionsCollection,
 };
 
-export type Article = z.infer<typeof articleSchema>;
-export type ArticleContent = z.infer<typeof articleContentSchema>;
-export type Submission = z.infer<typeof submissionSchema>;
-export type ProvenanceData = z.infer<typeof provenanceSchema>;
-export type ReviewData = z.infer<typeof reviewSchema>;
-export type CorrectionsData = z.infer<typeof correctionsSchema>;
-export type Category = z.infer<typeof categoryEnum>;

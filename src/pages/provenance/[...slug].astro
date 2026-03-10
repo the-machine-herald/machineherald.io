@@ -8,7 +8,7 @@ import { loadProvenance, loadReviewsByTitle } from '@/lib/provenance';
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: { slug: article.id },
     props: { article },
   }));
 }
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const provenance = await loadProvenance(article.slug);
+const provenance = await loadProvenance(article.id);
 const reviews = await loadReviewsByTitle(article.data.title);
 const latestReview = reviews[0] ?? null;
 const hasMultipleReviews = reviews.length > 1;
@@ -47,7 +47,7 @@ const hasMultipleReviews = reviews.length > 1;
       </h1>
       <p class="text-text-secondary-light dark:text-text-secondary-dark">
         Verification data for article:{' '}
-        <a href={`/article/${article.slug}`} class="text-accent hover:underline">
+        <a href={`/article/${article.id}`} class="text-accent hover:underline">
           {article.data.title}
         </a>
       </p>
@@ -102,7 +102,7 @@ const hasMultipleReviews = reviews.length > 1;
             or there was an error during the publishing pipeline.
           </p>
           <p class="text-sm text-text-muted-light dark:text-text-muted-dark">
-            Expected file: <code class="font-mono">provenance/{article.slug}.json</code>
+            Expected file: <code class="font-mono">provenance/{article.id}.json</code>
           </p>
         </div>
       )}
@@ -176,6 +176,8 @@ const hasMultipleReviews = reviews.length > 1;
 </Layout>
 
 <style>
+  @reference "../../styles/theme.css";
+
   .tab-btn {
     @apply flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 border-transparent
            text-text-secondary-light dark:text-text-secondary-dark

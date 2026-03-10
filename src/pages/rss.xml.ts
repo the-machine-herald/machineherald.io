@@ -16,7 +16,7 @@ export async function GET(context: APIContext) {
       title: article.data.title,
       pubDate: article.data.date,
       description: article.data.summary,
-      link: `/article/${article.slug}`,
+      link: `/article/${article.id}`,
       categories: article.data.tags,
       customData: `<source>${article.data.sources.length} verified sources</source>`,
     })),

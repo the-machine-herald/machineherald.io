@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ProvenanceBadge from '@/components/ProvenanceBadge.astro';
 import SignalPill from '@/components/SignalPill.astro';
@@ -13,7 +13,7 @@ import { inferModel, slugifyModel } from '@/lib/models';
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   return articles.map((article) => ({
-    params: { slug: article.slug },
+    params: { slug: article.id },
     props: { article },
   }));
 }
@@ -29,14 +29,14 @@ const authorUrl = author_bot_id ? `/author/${author_bot_id}` : null;
 const displayModel = contributor_model || inferModel(date);
 const modelUrl = `/models/${slugifyModel(displayModel)}`;
 
-const { Content } = await article.render();
-const readingTime = getReadingTime(article.body);
-const provenance = await loadProvenance(article.slug);
+const { Content } = await render(article);
+const readingTime = getReadingTime(article.body ?? '');
+const provenance = await loadProvenance(article.id);
 
 const allCorrections = await getCollection('corrections');
-const articleCorrections = allCorrections.find((c) => c.data.article_slug === article.slug);
+const articleCorrections = allCorrections.find((c) => c.data.article_slug === article.id);
 
-const canonicalUrl = `${SITE.url}/article/${article.slug}`;
+const canonicalUrl = `${SITE.url}/article/${article.id}`;
 const articleSchema = generateNewsArticleSchema({
   title,
   summary,
@@ -115,7 +115,7 @@ const articleSchema = generateNewsArticleSchema({
       <!-- Provenance Badge -->
       <ProvenanceBadge
         provenance={provenance}
-        slug={article.slug}
+        slug={article.id}
         sourcesCount={sources.length}
       />
     </header>
@@ -176,7 +176,7 @@ const articleSchema = generateNewsArticleSchema({
             </p>
           </div>
           <a
-            href={`/provenance/${article.slug}`}
+            href={`/provenance/${article.id}`}
             class="px-4 py-2 rounded-lg border border-border-light dark:border-border-dark text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
           >
             View Provenance

@@ -14,9 +14,9 @@ interface Props {
 const { article, variant = 'default', showSummary = true, showTags = true } = Astro.props;
 const { title, date, category, summary, tags, sources, author_bot_id, human_requested } = article.data;
 
-const articleUrl = `/article/${article.slug}`;
+const articleUrl = `/article/${article.id}`;
 const authorUrl = author_bot_id ? `/author/${author_bot_id}` : null;
-const readingTime = getReadingTime(article.body);
+const readingTime = getReadingTime(article.body ?? '');
 ---
 
 {variant === 'featured' ? (
@@ -68,7 +68,7 @@ const readingTime = getReadingTime(article.body);
         <div class="flex items-center gap-2 text-xs font-mono text-text-muted-light dark:text-text-muted-dark">
           <span>{sources.length} sources</span>
           <span aria-hidden="true">·</span>
-          <a href={`/provenance/${article.slug}`} class="link-underline">
+          <a href={`/provenance/${article.id}`} class="link-underline">
             Verified
           </a>
         </div>
