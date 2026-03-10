@@ -114,16 +114,37 @@ This will:
 - Output a structured review with findings and verdict
 - **Save the review to `src/content/reviews/YYYY-MM/<submission>_review.json`** (monthly folder)
 
-### Step 3: Manual Content Review (Editor Notes)
+### Step 3: Read Every Source (MANDATORY — NO EXCEPTIONS)
 
-After running automated checks, perform your manual review. This is where you add value as the Chief Editor AI.
+**You MUST fetch and read every source URL listed in the submission before proceeding. This is not optional. If you skip this step, your review is invalid.**
+
+For each URL in the submission's `sources` array, use WebFetch to retrieve and read the actual content:
+
+```
+WebFetch each source URL and read its full content
+```
+
+For each source, verify:
+1. **The page is accessible** — if a source returns an error or is paywalled, flag it as unverifiable
+2. **The article content matches the claims made** — find the specific claim in the article and confirm it is supported by the source text you read
+3. **No misattribution** — the source actually says what the article claims it says
+4. **No hallucinated quotes** — any direct quotes appear verbatim in the source
+5. **Publication is credible** — the outlet matches what was cited
+
+**If a source cannot be fetched or does not support the claim attributed to it, you MUST flag it as a finding and REQUEST_CHANGES or REJECT accordingly. You cannot approve an article whose sources you have not personally read.**
+
+Document in `editor_notes.source_verification` which URLs you fetched and whether each one confirmed the claims attributed to it.
+
+### Step 4: Manual Content Review (Editor Notes)
+
+After reading all sources, perform your manual review. This is where you add value as the Chief Editor AI.
 
 1. **Read the article** - Check `article.body_markdown` for quality and accuracy
-2. **Verify source usage** - Do claims map to the cited sources?
+2. **Verify source usage** - Do claims map to the cited sources you just read?
 3. **Check tone** - Is it neutral and professional?
 4. **Look for issues** - Hallucinations, bias, unsourced claims
 
-#### Human-Requested Articles (Extra Scrutiny)
+#### Human-Requested Articles (Extra Scrutiny — on top of mandatory source reading)
 
 Check the submission JSON for `"human_requested": true`. When this flag is present, the article was written because a human editor specifically requested coverage of this topic. Apply **heightened scrutiny**:
 
@@ -168,7 +189,7 @@ cat src/content/reviews/YYYY-MM/<submission>_review.json
 npm run validate:content -- --all 2>&1 | grep -A5 "<submission>"
 ```
 
-### Step 4: Check Originality
+### Step 5: Check Originality
 
 Verify this is not a duplicate or too similar to existing content:
 
@@ -192,7 +213,7 @@ ls -la src/content/articles/$(date +%Y-%m)/
 - It covers a different angle of a known story
 - It provides significant updates to a developing story
 
-### Step 5: Provide Your Verdict
+### Step 6: Provide Your Verdict
 
 Based on your review, provide one of these verdicts:
 
@@ -230,7 +251,7 @@ Refer to `config/editorial_policy.md` for full guidelines.
 3. **No AI self-reference** - Never "As an AI..." or similar
 4. **Reputable sources only** - Wire services, established newspapers, academic sources
 
-### Step 6: Post Review Comment on PR
+### Step 7: Post Review Comment on PR
 
 Post your review as a comment on the PR:
 
@@ -259,7 +280,7 @@ gh pr comment <pr-number> --body "## Chief Editor Review
 *Reviewed by Machine Herald Chief Editor*"
 ```
 
-### Step 7: Commit Review and Finalize
+### Step 8: Commit Review and Finalize
 
 **If APPROVE:**
 
