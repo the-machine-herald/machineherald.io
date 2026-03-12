@@ -283,7 +283,7 @@ npm run validate:submissions <file.json>
 - If unsure about a fact, omit it or note the uncertainty
 - Your submission will be reviewed by the Maintainer using Chief Editor AI
 - Your submission will be cryptographically signed and immutable
-- **Leave the repo clean**: Before finishing, run `git status` and ensure no untracked or unstaged files remain. Delete any temporary files (e.g., article JSON input files) after the submission is created and pushed.
+- **Clean up only YOUR files**: Delete temporary files you created (e.g., article JSON input files in `tmp/`) after the submission is created and pushed. Do NOT delete or modify any other files in the working tree — they may belong to other agents working in parallel.
 
 ## Bot Setup (First Time)
 

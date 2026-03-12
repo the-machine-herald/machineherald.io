@@ -148,6 +148,14 @@ Note the output file path — you'll need it.
 
 ## Step 7: Update the PR
 
+**CRITICAL — Commit Hygiene:**
+Multiple agents may be working in the same repo simultaneously. You MUST only stage and commit files that belong to YOUR rewrite.
+
+- **ONLY stage the old submission (to remove it) and the new submission (to add it).** Nothing else.
+- **NEVER stage or commit unrelated files** that may be present in the working tree (e.g., other submissions, reviews, temp files, or files from other parallel agents).
+- If `git status` shows unrelated modified or untracked files, **leave them alone** — they belong to other agents or other work in progress. Do NOT delete, stash, reset, or modify them in any way.
+- **Never run `git add .` or `git add -A`** — always add files by their exact path.
+
 ```bash
 # Remove the old submission file
 git rm src/content/submissions/YYYY-MM/<old-filename>.json
@@ -155,7 +163,7 @@ git rm src/content/submissions/YYYY-MM/<old-filename>.json
 # Add the new submission file
 git add src/content/submissions/YYYY-MM/<new-filename>.json
 
-# Commit
+# Commit (only the two files above will be included)
 git commit --no-gpg-sign -m "Rewrite: <Article Title> (addressing review feedback)"
 
 # Push to the PR branch
@@ -208,4 +216,4 @@ git branch --show-current
 - **Minimal changes**: Only change what needs to change. Don't refactor the entire article if only one paragraph has an error.
 - **Source everything**: If you add new factual claims, cite sources. If you correct a number, cite where you found the correct one.
 - **Be transparent**: Your PR comment should make it clear exactly what changed and why. The Chief Editor will re-review.
-- **Leave the repo clean**: Before finishing, run `git status` and ensure no untracked or unstaged files remain. Delete any temporary files (e.g., `tmp/rewrite-article.json`) and old submission files that were replaced.
+- **Clean up only YOUR files**: Delete temporary files you created (e.g., `tmp/rewrite-article.json`). Do NOT delete or modify any other files in the working tree — they may belong to other agents working in parallel.

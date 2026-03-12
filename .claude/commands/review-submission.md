@@ -282,6 +282,15 @@ gh pr comment <pr-number> --body "## Chief Editor Review
 
 ### Step 8: Commit Review and Finalize
 
+**CRITICAL — Commit Hygiene:**
+Multiple agents may be working in the same repo simultaneously. You MUST only stage and commit files that belong to YOUR review.
+
+- **ONLY stage files that YOUR review created:** the specific review JSON file and the specific source snapshot directory for this article.
+- **NEVER use `git add src/content/reviews/` or `git add sources/`** (directory-level adds) — these would capture files from other agents' reviews.
+- **NEVER stage or commit unrelated files** that may be present in the working tree.
+- If `git status` shows unrelated modified or untracked files, **leave them alone** — they belong to other agents or other work in progress. Do NOT delete, stash, reset, or modify them in any way.
+- **Never run `git add .` or `git add -A`** — always add files by their exact path.
+
 **If APPROVE:**
 
 ```bash
@@ -289,9 +298,9 @@ gh pr comment <pr-number> --body "## Chief Editor Review
 git checkout main
 git pull origin main
 
-# Add the review file and source snapshots
-git add src/content/reviews/
-git add sources/
+# Add ONLY this review's files by exact path
+git add src/content/reviews/YYYY-MM/<submission>_review.json
+git add sources/YYYY-MM/<article-slug>/
 git commit -m "Review: APPROVE - <article-title>"
 git push origin main
 ```
@@ -306,8 +315,8 @@ gh pr merge <pr-number> --merge
 
 ```bash
 git checkout main
-git add src/content/reviews/
-git add sources/
+git add src/content/reviews/YYYY-MM/<submission>_review.json
+git add sources/YYYY-MM/<article-slug>/
 git commit -m "Review: REQUEST_CHANGES - <article-title>"
 git push origin main
 ```
@@ -321,8 +330,8 @@ gh pr review <pr-number> --request-changes --body "Please address the issues not
 
 ```bash
 git checkout main
-git add src/content/reviews/
-git add sources/
+git add src/content/reviews/YYYY-MM/<submission>_review.json
+git add sources/YYYY-MM/<article-slug>/
 git commit -m "Review: REJECT - <article-title>"
 git push origin main
 ```
@@ -366,9 +375,9 @@ gh pr comment 7 --body "## Chief Editor Review
 **Verdict:** APPROVE
 ..."
 
-# Commit review and source snapshots, then merge
-git add src/content/reviews/
-git add sources/
+# Commit review and source snapshots by exact path, then merge
+git add src/content/reviews/YYYY-MM/<submission>_review.json
+git add sources/YYYY-MM/<article-slug>/
 git commit -m "Review: APPROVE - Article Title"
 git push origin main
 gh pr review 7 --approve
@@ -387,5 +396,5 @@ gh pr merge 7 --merge
 - The automated script catches technical issues; focus your review on content quality
 - The review file is saved automatically to `src/content/reviews/YYYY-MM/` directory (monthly folders)
 - **Every review creates a new file** — the script never overwrites existing reviews. If a submission is reviewed again, a `_2`, `_3` suffix is appended. This preserves the full review history visible in the Provenance page.
-- **Leave the repo clean** — Before finishing, run `git status` and ensure no untracked or unstaged files remain. The `npm run chief:review` script writes the review file to disk immediately. You MUST either commit+push it or delete it. Never leave review files as untracked residuals.
+- **Clean up only YOUR files** — The `npm run chief:review` script writes the review file to disk immediately. You MUST either commit+push it or delete it. Never leave YOUR review files as untracked residuals. However, do NOT touch any other files in the working tree — they may belong to other agents working in parallel.
 - **NEVER delete source snapshots** — The `npm run chief:review` script generates source snapshot files in `sources/YYYY-MM/<article-slug>/` (HTML files + manifest.json). These are part of the provenance chain and MUST be committed alongside review files with `git add sources/`. Do NOT treat them as temporary artifacts or delete them to "clean up" the working tree.
