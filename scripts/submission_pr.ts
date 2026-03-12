@@ -154,16 +154,22 @@ Requirements:
     process.exit(0);
   }
 
-  // Check for clean working tree (except the submission file)
+  // Warn about other changes in the working tree but do not block.
+  // Multiple agents may work in parallel, so unrelated files are expected.
   const status = execCapture('git status --porcelain');
   const otherChanges = status
     .split('\n')
     .filter(line => line.trim() && !line.includes(path.basename(submissionPath!)));
 
   if (otherChanges.length > 0) {
-    console.error('\nError: Working tree has uncommitted changes');
-    console.error('Please commit or stash other changes first');
-    process.exit(1);
+    console.warn('\n⚠️  Working tree has other uncommitted changes (will be ignored):');
+    for (const line of otherChanges.slice(0, 5)) {
+      console.warn(`    ${line.trim()}`);
+    }
+    if (otherChanges.length > 5) {
+      console.warn(`    ... and ${otherChanges.length - 5} more`);
+    }
+    console.warn('  Only the submission file will be committed.\n');
   }
 
   // Check gh is available

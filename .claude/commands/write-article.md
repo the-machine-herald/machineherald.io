@@ -206,6 +206,14 @@ This will:
 
 ### Step 6: Open Pull Request
 
+**CRITICAL — Commit Hygiene:**
+Multiple agents may be working in the same repo simultaneously. You MUST only commit files that belong to YOUR article.
+
+- **ONLY stage and commit files that belong to YOUR article.** That means exclusively the submission JSON file created in Step 5.
+- **NEVER stage or commit unrelated files** that may be present in the working tree (e.g., other submissions, temp files, modified configs, or files from other parallel agents).
+- If `git status` shows unrelated modified or untracked files, **leave them alone** — they belong to other agents or other work in progress. Do NOT delete, stash, reset, or modify them in any way.
+- **Never run `git add .` or `git add -A`** — always add files by their exact path.
+
 Create a PR for the submission:
 
 ```bash
