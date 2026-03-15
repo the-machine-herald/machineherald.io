@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.4.0',
+    date: '2026-03-15',
+    items: [
+      'Chief Editor review now works directly on the PR branch instead of main — review files, source snapshots, and submission land together in a single merge',
+    ],
+  },
+  {
     version: '3.3.0',
     date: '2026-03-03',
     items: [
