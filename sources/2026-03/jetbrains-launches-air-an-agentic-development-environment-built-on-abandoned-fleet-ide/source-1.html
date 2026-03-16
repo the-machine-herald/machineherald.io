@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en_US">
+<head>
+    <title>Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+        <link rel="preload" href="https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-SemiBold.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/wp-content/themes/jetbrains/assets/fonts/JetBrainsMono-Regular.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/wp-content/themes/jetbrains/assets/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <style type="text/css">
+        /*
+ * Core styles for PriorityNav.js
+ * These styles are not optional and should always be included
+ *
+ * Free to use under the MIT License.
+ * http://twitter.com/GijsRoge
+ */
+.priority-nav {
+  white-space: nowrap;
+  /*
+    * Makes sure the menu's are inline-block so they don't take up
+    * the entire width of its parent. This will break the plugin.
+    */
+}
+
+.priority-nav > ul {
+  display: inline-block;
+}
+
+.priority-nav > ul > li {
+  display: inline-block;
+}
+
+.priority-nav-has-dropdown .priority-nav__dropdown-toggle {
+  position: relative;
+}
+
+.priority-nav__wrapper {
+  position: relative;
+}
+
+.priority-nav__dropdown {
+  position: absolute;
+  visibility: hidden;
+}
+
+.priority-nav__dropdown.show {
+  visibility: visible;
+}
+
+.priority-nav__dropdown-toggle {
+  visibility: hidden;
+  position: absolute;
+}
+
+.priority-nav-is-visible {
+  visibility: visible;
+}
+
+.priority-nav-is-hidden {
+  visibility: hidden;
+}
+/* light weight */
+@font-face {
+    font-family: "JetBrains Sans";
+    src: url("https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Light.woff2")
+            format("woff2"),
+        url("https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Light.woff")
+            format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Regular weight */
+@font-face {
+    font-family: "JetBrains Sans";
+    src: url("https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Regular.woff2")
+            format("woff2"),
+        url("https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-Regular.woff")
+            format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+/* SemiBold weight */
+@font-face {
+    font-family: "JetBrains Sans";
+    src: url("https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-SemiBold.woff2")
+            format("woff2"),
+        url("https://resources.jetbrains.com/storage/jetbrains-sans/JetBrainsSans-SemiBold.woff")
+            format("woff");
+    font-weight: 530;
+    font-style: normal;
+    font-display: swap;
+}
+.custom-select-container {
+  position: relative;
+  box-sizing: border-box;;
+}
+.custom-select-container * {
+  box-sizing: border-box;
+}
+.custom-select-container.is-disabled {
+  opacity: .333;
+}
+.custom-select-opener {
+  background-color: #ccc;
+  padding: 0.5em;
+  display: block;
+  cursor: pointer;
+  width: 100%;
+}
+.custom-select-container select {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.custom-select-panel {
+  max-height: 0;
+  transition: max-height .5s ease-out, overflow-y 0.1s 0.5s;
+  overflow: hidden;
+  background-color: #e9e9e9;
+  position: absolute;
+  top: 100%;
+  z-index: 1;
+  width: 100%;
+}
+.custom-select-container.is-open .custom-select-panel {
+  max-height: 10.7em;
+  overflow-y: auto
+}
+.custom-select-option {
+  padding: 0.5em;
+}
+.custom-select-option.has-focus {
+  background-color: LightBlue;
+}
+.custom-select-option.is-selected::before {
+  content: "✔";
+  padding-right: 0.5em;
+}
+.custom-select-optgroup > .custom-select-option {
+  padding-left: 2em;
+}
+.custom-select-optgroup::before {
+  content: attr(data-label);
+  display: block;
+  padding: 0.5em;
+  color: #888;
+}
+#quiz .quiz-result .quiz-result-block ul,.menu-list,.dropdown-language,.navbar ul.row,.navbar ul.row>li ul,.sub-menu,main .article-section .content ol:not([class]):not([id]),main ul:not([class]):not([id]),.menu__nav>ul,.priority-nav__dropdown,.social{margin:0;padding:0;list-style:none}.clearfix:after{content:'';display:block;clear:both}.ellipsis{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.alert-notification{padding:16px 0 0}@media (min-width: 1024px){.alert-notification{padding:32px 0 0}}.alert-notification__box{padding:16px;background:rgba(250,92,74,0.2)}@media (min-width: 1024px){.alert-notification__box{padding:24px}}.alert-notification p{margin:0}.alert-notification p strong{font-weight:600}.space-notification{padding:16px 0 0;width:100vw}@media (min-width: 1024px){.space-notification{padding:24px 0 0;margin-bottom:-34px}}.space-notification__box{padding:16px;background-color:#6B57FF;max-width:100%}@media (min-width: 1024px){.space-notification__box{padding:14px}}.space-notification p{margin:0;color:#ffffff;text-align:center}.space-notification p a{color:#ffffff;border:unset;display:inline-block}html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}*{max-height:1000000px}body{color:#19191C;background:#fff;font:16px/1.2 "Arial","Helvetica Neue","Helvetica",sans-serif;min-width:320px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}img{max-width:100%;height:auto;vertical-align:top}.gm-style img{max-width:none}h1,.h1,h2,.h2,h3,.h3,h4,.h4,h5,.h5,h6,.h6,.h{font-family:"Arial","Helvetica Neue","Helvetica",sans-serif;font-weight:530;margin:0 0 0.5em;color:#19191C}h1,.h1{font-size:35px}h2,.h2{font-size:28px}h3,.h3{font-size:20px}h4,.h4{font-size:17px}h5,.h5{font-size:14px}h6,.h6{font-size:16px}p{margin:0 0 1em}a{color:#19191C}a:hover,a:focus{text-decoration:none}form,fieldset{margin:0;padding:0;border-style:none}input[type='text'],input[type='tel'],input[type='email'],input[type='search'],input[type='password'],textarea{-webkit-appearance:none;-webkit-border-radius:0;box-sizing:border-box;outline:none;border:1px solid rgba(39,40,44,0.15);padding:0.4em 0.7em}input[type='text']::-webkit-input-placeholder,input[type='tel']::-webkit-input-placeholder,input[type='email']::-webkit-input-placeholder,input[type='search']::-webkit-input-placeholder,input[type='password']::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#19191C}input[type='text']::-moz-placeholder,input[type='tel']::-moz-placeholder,input[type='email']::-moz-placeholder,input[type='search']::-moz-placeholder,input[type='password']::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#19191C}input[type='text']:-moz-placeholder,input[type='tel']:-moz-placeholder,input[type='email']:-moz-placeholder,input[type='search']:-moz-placeholder,input[type='password']:-moz-placeholder,textarea:-moz-placeholder{color:#19191C}input[type='text']:-ms-input-placeholder,input[type='tel']:-ms-input-placeholder,input[type='email']:-ms-input-placeholder,input[type='search']:-ms-input-placeholder,input[type='password']:-ms-input-placeholder,textarea:-ms-input-placeholder{color:#19191C}input[type='text'].placeholder,input[type='tel'].placeholder,input[type='email'].placeholder,input[type='search'].placeholder,input[type='password'].placeholder,textarea.placeholder{color:#19191C}select{-webkit-border-radius:0}textarea{resize:vertical;vertical-align:top}button,input[type='button'],input[type='reset'],input[type='file'],input[type='submit']{-webkit-appearance:none;-webkit-border-radius:0;cursor:pointer}/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}mark{background:#ff00;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}[class^="icon-"],[class*=" icon-"]{font-family:"icomoon" !important;speak:never;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.icon-heart:before{content:"\e928"}.icon-thumbs-up:before{content:"\e927"}.icon-merchandise:before{content:"\e926"}.icon-arrow-up:before{content:"\e925"}.icon-twitter:before{content:"\e902"}.icon-date:before{content:"\e923"}.icon-link:before{content:"\e922"}.icon-tiktok:before{content:"\e921"}.icon-warning:before{content:"\e91f"}.icon-alert:before{content:"\e920"}.icon-dots:before{content:"\e91e"}.icon-vk:before{content:"\e915"}.icon-notification:before{content:"\e91d"}.icon-facebook:before{content:"\e904"}.icon-instagram:before{content:"\e907"}.icon-linkedin:before{content:"\e914"}.icon-rss-feed:before{content:"\e918"}.icon-language:before{content:"\e919"}.icon-union:before{content:"\e91a"}.icon-pocket:before{content:"\e906"}.icon-reddit:before{content:"\e908"}.icon-search:before{content:"\e909"}.icon-share:before{content:"\e911"}.icon-slack:before{content:"\e912"}.icon-stackoverflow:before{content:"\e913"}.icon-weibo:before{content:"\e916"}.icon-email:before{content:"\e917"}.icon-cart:before{content:"\e900"}.icon-comments:before{content:"\e901"}.icon-globus:before{content:"\e903"}.icon-like:before{content:"\e905"}.icon-user:before{content:"\e90a"}.icon-wechat:before{content:"\e90b"}.icon-youtube:before{content:"\e90c"}.icon-arrow-left:before{content:"\e90d"}.icon-arrow-right:before{content:"\e90e"}.icon-bag:before{content:"\e90f"}.icon-down:before{content:"\e910"}.icon-django:before{content:"\e924"}.icon-close:before{content:"\e91c"}.icon-menu:before{content:"\e91b"}.icon-play:before{content:"\ea1c"}.icon-stop:before{content:"\ea1e"}.icon-bluesky:before{content:"\e929"}#quiz{background:#F4F4F4;padding:16px;border-radius:10px;margin:46px -15px}@media (min-width: 640px){#quiz{max-width:640px;margin:46px auto}}#quiz .quiz-container{position:relative;padding:16px 20px 24px;background:#fff;border-radius:10px;color:#19191C;overflow:hidden}@media (min-width: 640px){#quiz .quiz-container{padding:16px 32px 32px}}#quiz .quiz-container .hidden{display:none !important}#quiz .quiz-progress{font-size:16px;font-weight:700;text-align:right;margin:0 0 8px}#quiz .quiz-progress .quiz-progress-bar{width:100%;height:4px;background:#F4F4F4;border-radius:4px;overflow:hidden;margin-bottom:0.5rem;position:relative}#quiz .quiz-progress .quiz-progress-bar .quiz-progress-fill{display:block;height:100%;width:0;background:linear-gradient(90deg, #fff, #6B57FF);transition:width 0.4s ease;border-radius:4px}#quiz .quiz-progress .quiz-progress-text{font-size:1rem;color:#bbb}#quiz .quiz-intro{font-size:16px;padding:0 0 16px;margin:0 0 24px;border-bottom:1px solid #F4F4F4}#quiz .quiz-intro h2{font-size:24px;margin:0 0 8px}#quiz .quiz-intro p{margin:0}#quiz .quiz-questions{animation:fadeIn 0.5s ease forwards}#quiz .quiz-questions .quiz-question-block h3{font-size:18px;margin:0 0 12px}#quiz .quiz-questions .quiz-question-block .quiz-options{display:flex;flex-direction:column;gap:10px}#quiz .quiz-questions .quiz-question-block .quiz-options button{display:flex;font-size:16px;font-weight:500;gap:8px;background:#fff;border:1px solid rgba(25,25,28,0.3);color:#19191C;text-align:left;padding:10px 12px;border-radius:4px;transition:all 0.2s ease;box-shadow:0 1px 2px rgba(0,0,0,0.03)}#quiz .quiz-questions .quiz-question-block .quiz-options button:hover{border-color:#6B57FF;box-shadow:0 0 4px 4px rgba(107,87,255,0.2)}#quiz .quiz-questions .quiz-question-block .quiz-options button.selected{background:#6B57FF;color:white;font-weight:500;pointer-events:none}#quiz .quiz-questions .quiz-question-block .quiz-options button i{font-style:normal}#quiz .quiz-questions .quiz-question-block .quiz-insight{font-size:14px;font-style:italic;background:#F4F4F4;border-left:4px solid #6B57FF;padding:12px 8px;color:#19191C;margin:12px 0 0;border-radius:4px;display:none}#quiz .quiz-questions .quiz-question-block .quiz-insight.show{display:block;animation:fadeIn 0.4s ease}#quiz .quiz-questions .quiz-question-block .quiz-insight p{display:flex;margin:0}#quiz .quiz-questions .quiz-question-block .quiz-insight p i{font-style:normal}#quiz .quiz-result{font-size:16px;padding:16px 0 0;animation:fadeIn 0.5s ease forwards}#quiz .quiz-result h2{font-size:24px;margin:0 0 16px}#quiz .quiz-result .quiz-result-block{padding:0}#quiz .quiz-result .quiz-result-block.show{display:block;animation:fadeIn 0.5s ease}#quiz .quiz-result .quiz-result-block h3{font-size:18px;display:flex;align-items:center;gap:8px;margin:0 0 12px}#quiz .quiz-result .quiz-result-block h3 strong{color:#6B57FF}#quiz .quiz-result .quiz-result-block ul{margin:0 0 12px}#quiz .quiz-result .quiz-result-block ul li{padding:0}#quiz .quiz-result .quiz-result-block ul li:before{display:none}#quiz .quiz-result .quiz-result-block img{display:block;width:100%;object-fit:cover;margin:16px 0;border-radius:4px;overflow:hidden;cursor:auto}#quiz .form-subscribe{padding:12px 0 0;max-width:100%;background:transparent}#quiz .form-subscribe__group-input{margin:0 0 16px}#quiz .form-subscribe button{margin:0}#quiz .share{display:flex;flex-wrap:wrap;justify-content:center;padding:24px 0 0}#quiz .share strong{display:block;margin:0 0 12px}#quiz .social{width:100%;margin:0;justify-content:center}#quiz .quiz-global-next-btn{display:flex;margin:16px 0 0 auto}#quiz .quiz-global-next-btn.hidden{display:none}.header{position:relative;flex-shrink:0;background:#27282c;z-index:999;padding:10px 0}@media (min-width: 769px){.header{padding:14px 0}}.header>.container{display:flex;flex-wrap:wrap;align-items:center}.logo{display:block;width:172px}@media (min-width: 769px){.logo{width:221px}}.logo a{display:flex;flex-wrap:wrap;align-items:center;color:#fff;font-size:16px;line-height:1.5;border:none}@media (min-width: 769px){.logo a{font-size:20px;line-height:1.4}}.logo img{display:block;width:100%;max-height:26px;max-width:max-content}.logo p{margin:0}.menu-list{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;width:calc(100% - 172px);padding:0 40px 0 0}@media (min-width: 641px){.menu-list{padding:0 24px 0 0}}@media (min-width: 769px){.menu-list{width:calc(100% - 221px);padding:0 6px 0 30px}}.menu-list>li{margin-left:18px}@media (min-width: 768px){.menu-list>li{margin-left:26px}}.menu-list>li:first-child{margin-left:0}@media (min-width: 769px){.menu-list>li:first-child{margin-left:26px}}@media (min-width: 1024px){.menu-list>li:first-child{margin-right:14px}}.menu-list a{display:inline-block;vertical-align:middle;line-height:1;color:rgba(255,255,255,0.7);border:none;box-shadow:none}.menu-list a .mobile-hidden{display:none}@media (min-width: 769px){.menu-list a .mobile-hidden{display:block}}.menu-list a:hover{color:#fff;text-decoration:none;box-shadow:none}.menu-list a:hover i:not(.burger-icon){color:#fff}.menu-list a:hover i:not(.burger-icon):after{background:rgba(255,255,255,0.1)}.menu-list i:not(.burger-icon){transition:color .15s ease-in-out;position:relative;font-size:16px;color:rgba(255,255,255,0.7)}.menu-list i:not(.burger-icon).icon-search{font-size:22px}.menu-list i:not(.burger-icon):after{transition:background .15s ease-in-out;content:"";position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:35px;height:35px;border-radius:50%}@media (min-width: 769px){.menu-list i:not(.burger-icon):after{width:40px;height:40px}}.dropdown-language{transition:opacity .15s ease-in-out,visibility .15s ease-in-out;font-size:14px;position:absolute;top:100%;right:-15px;transform:none;background:#27282c;margin:8px 0 0;border:1px solid #5e5e60;opacity:0;visibility:hidden;width:180px}@media (min-width: 481px){.dropdown-language{margin:22px 0 0}}@media (min-width: 1024px){.dropdown-language{font-size:16px;right:0;width:auto;display:inline-grid;grid-auto-flow:column;grid-template-rows:auto auto auto auto;grid-template-columns:auto auto auto auto}}@media (min-width: 769px){.dropdown-language li{display:flex;min-width:120px}}.dropdown-language a{transition:background .15s ease-in-out,color .15s ease-in-out;display:block;padding:8px 16px;color:rgba(255,255,255,0.7);border:none;box-shadow:none}@media (min-width: 769px){.dropdown-language a{padding:12px 16px;flex-grow:1}}.dropdown-language a.active{background:rgba(22,125,255,0.2);color:#fff;text-decoration:none}.dropdown-language a:hover{background:rgba(255,255,255,0.1);color:#fff;text-decoration:none}.navbar{transition:opacity .15s ease-in-out,visibility .15s ease-in-out;position:absolute;top:100%;left:0;right:0;z-index:99;background:#fff;padding:24px 0 32px;opacity:0;visibility:hidden}@media (min-width: 481px){.navbar{padding-bottom:0}}@media (min-width: 768px){.navbar{padding-top:32px}}.navbar ul.row{display:flex;flex-wrap:wrap;font-size:13px;line-height:1.5}@media (min-width: 1280px){.navbar ul.row{justify-content:space-between}}@media (min-width: 1540px){.navbar ul.row{flex-wrap:nowrap;font-size:16px}}.navbar ul.row>li{padding:0 24px 16px 0;width:100%}@media (min-width: 481px){.navbar ul.row>li{width:50%}}@media (min-width: 768px){.navbar ul.row>li{width:33.332%}}@media (min-width: 1024px){.navbar ul.row>li{width:25%;padding-right:30px}}@media (min-width: 1280px){.navbar ul.row>li{width:auto}}@media (min-width: 1540px){.navbar ul.row>li{padding-right:38px}}.navbar ul.row>li:last-child{padding-right:0}.navbar ul.row>li ul{letter-spacing:0.0015em;font-feature-settings:"tnum" on, "lnum" on}@media (min-width: 640px){.navbar ul.row>li ul{width:57%}}@media (min-width: 1024px){.navbar ul.row>li ul{width:auto}}.navbar ul.row>li ul.column-count{display:grid;grid-template-columns:1fr 1fr;column-gap:46px}@media (min-width: 481px){.navbar ul.row>li ul.column-count{grid-template-columns:repeat(2, auto);column-gap:24px}}.navbar ul.row>li ul li{padding:0 0 16px}.navbar ul.row>li ul a{border:none;white-space:nowrap;color:rgba(25,25,28,0.7)}.navbar ul.row>li ul a:hover{color:#19191C}.navbar h4{font-size:13px !important;line-height:1.5;margin:0 0 16px;white-space:nowrap}@media (min-width: 1540px){.navbar h4{font-size:16px !important}}.sub-menu{display:flex;flex-wrap:wrap;margin-bottom:16px}.sub-menu li{margin:0 0 10px;width:50%;padding:6px 0 0}@media (min-width: 641px){.sub-menu li{width:25%}}@media (min-width: 769px){.sub-menu li{width:100%}}@media (min-width: 1025px){.sub-menu li.columns .sub-menu{display:block;column-count:2}}@media (min-width: 1025px){.sub-menu li.columns .sub-menu li{width:auto}}.sub-menu a{position:relative;color:rgba(25,25,28,0.7);border:none;box-shadow:none}.sub-menu a:hover{color:#19191C;text-decoration:none}@media (min-width: 769px){.sub-menu a:hover img{opacity:1;visibility:visible}}.sub-menu a img{transition:opacity .15s ease-in-out,visibility .15s ease-in-out;position:absolute;width:32px;height:32px;left:-40px;top:-6px;opacity:0;visibility:hidden}.burger-icon{position:absolute;top:50%;transform:translateY(-50%);right:16px;width:16px;height:18px;text-indent:-9999px;overflow:hidden;text-decoration:none;z-index:999}@media (min-width: 769px){.burger-icon{display:none}}.burger-icon:before,.burger-icon:after,.burger-icon span{background:rgba(255,255,255,0.7);position:absolute;top:10px;left:0;right:0;height:2px;margin-top:-2px;transition:all 0.2s linear}.burger-icon:before,.burger-icon:after{content:"";top:4px}.burger-icon:after{top:16px}.nav-active .burger-icon:before,.nav-active .burger-icon:after{transform:rotate(45deg);top:10px}.nav-active .burger-icon span{opacity:0}.nav-active .burger-icon:after{transform:rotate(-45deg)}.resize-active *{transition:none !important}html body{font-family:"JetBrains Sans","Arial","Helvetica Neue","Helvetica",sans-serif}html body h1,html body .h1,html body h2,html body .h2,html body h3,html body .h3,html body h4,html body .h4,html body h5,html body .h5,html body h6,html body .h6,html body .h{font-family:inherit}body.admin-bar #wp-admin-bar-customize,body.admin-bar #wp-admin-bar-comments,body.admin-bar #wp-admin-bar-all-in-one-seo-pack{display:none}body.admin-bar #wp-admin-bar-new-content>.ab-item{pointer-events:none}body.admin-bar #wp-admin-bar-new-content #wp-admin-bar-new-post{display:none}body{font-size:16px;line-height:1.5}body.nav-active .navbar{opacity:1;visibility:visible}body.nav-active .overlay{opacity:1;visibility:visible}body.lang-active .header .dropdown-language{opacity:1;visibility:visible}body.toc-active{overflow:hidden}body.hide-menu .menu,body.hideScrollUp .menu{opacity:0;visibility:hidden;transition:none}@media (min-width: 1025px){body.post-type-archive .promo__img{width:calc(50% - 13px)}}body.page-template-template-easter-egg main{background:#000}body.footer-lang-active .footer .dropdown-language{opacity:1;visibility:visible}body .tag{transition:border-color .15s ease-in-out,background .15s ease-in-out;font-size:13px;line-height:1.54;padding:1px 15px;display:inline-block;border:1px solid rgba(25,25,28,0.3);border-radius:4px;margin:0 8px 8px 0;white-space:nowrap;cursor:pointer}body .tag:hover{background:rgba(25,25,28,0.1);border-color:rgba(25,25,28,0.4);text-decoration:none;box-shadow:none}@media (max-width: 767px){body.search .top-page{padding-bottom:35px}}@media (max-width: 767px){body.search .menu{display:none}}#wrapper{min-height:100vh;width:100%;display:flex;flex-direction:column;overflow:hidden;position:relative}a{transition:color .15s ease-in-out,box-shadow .15s ease-in-out,border-color .15s ease-in-out;text-decoration:none;border-bottom:1px solid rgba(25,25,28,0.4)}a:hover{border-color:#19191C}h1{line-height:1.22}@media (min-width: 641px){h1{font-size:43px;line-height:1.14}}h2{line-height:1.143}@media (min-width: 641px){h2{font-size:35px;line-height:1.2}}h3{line-height:1.4;margin:0 0 16px}h4{font-size:17px;line-height:1.412;margin:0 0 16px}h5{font-size:14px;line-height:1.43;margin:0 0 8px}.btn,.jb-download-button{transition:background .15s ease-in-out,color .15s ease-in-out;font-size:16px;line-height:1.5;display:inline-block;vertical-align:middle;text-align:center;border-radius:2em;color:#fff;background:#6B57FF;padding:8px 24px;border:none}.btn:hover,.jb-download-button:hover{text-decoration:none;box-shadow:none;background:rgba(107,87,255,0.8)}pre,code{font-family:"JetBrainsMono","Times","Baskerville","Georgia",serif;font-style:normal;font-weight:400;font-size:15px;line-height:23px;background:#f4f4f4;border-radius:4px;padding:12px 16px}pre code{padding:0}code{padding:4px 6px}input[type="search"]{-webkit-appearance:none}.container{max-width:1534px;margin:0 auto;padding:0 15px}@media (min-width: 641px){.container{padding:0 32px}}main{flex-grow:1}main .article-section .content ul a:hover{box-shadow:inset 0 -1px 0 #19191c}main .article-section .content ol:not([class]):not([id]){list-style:none;counter-reset:counter;margin-top:16px}@media (min-width: 769px){main .article-section .content ol:not([class]):not([id]){margin-top:32px}}main .article-section .content ol:not([class]):not([id])>li{position:relative;counter-increment:counter;padding:0 0 16px 24px}@media (min-width: 769px){main .article-section .content ol:not([class]):not([id])>li{padding-bottom:24px}}main .article-section .content ol:not([class]):not([id])>li:before{content:counter(counter) ". ";position:absolute;top:0;left:2px}main .article-section .content ol:not([class]):not([id])>li:last-child{padding-bottom:0}main .article-section .content ol:not([class]):not([id])>li a:hover{box-shadow:inset 0 -1px 0 #19191c}main .article-section .content ol:not([class]):not([id])>li ol:not([class]):not([id]){margin-top:16px;margin-bottom:0}@media (min-width: 769px){main .article-section .content ol:not([class]):not([id])>li ol:not([class]):not([id]){margin-top:24px}}main .article-section .content ol:not([class]):not([id])>li ol:not([class]):not([id]) li{padding:0 0 16px 25px}main .article-section .content ol:not([class]):not([id])>li ol:not([class]):not([id]) li:last-child{padding-bottom:0}main .article-section .content ol:not([class]):not([id]) img{margin:22px 0 24px}main .article-section .content ul:not([class]):not([id]){margin-bottom:24px}main .article-section .content ul:not([class]):not([id]) li:last-child{padding-bottom:0}main .article-section .content ul:not([class]):not([id]) li ul:not([class]):not([id]){margin-top:16px;margin-bottom:0}@media (min-width: 769px){main .article-section .content ul:not([class]):not([id]) li ul:not([class]):not([id]){margin-top:24px}}main .article-section .content ul:not([class]):not([id]) li ul:not([class]):not([id]) li{padding-bottom:16px}main .article-section .content ul:not([class]):not([id]) li ul:not([class]):not([id]) li:last-child{padding-bottom:0}main .article-section .content ul:not([class]):not([id]) img{margin:22px 0 24px}main .article-section .content ul:not([class]):not([id])+h2{margin-top:32px}main .article-section table{margin-bottom:16px;min-width:600px}main .article-section table+figcaption{font-style:italic;font-size:16px}main .article-section table,main .article-section th,main .article-section td{border-bottom:1px solid rgba(25,25,28,0.2);border-collapse:collapse;padding:8px 8px 8px 0;border-right:none;border-left:none;border-top:none;vertical-align:baseline;font-size:16px;line-height:24px}main .article-section figure.wp-block-table{overflow-x:scroll}main .article-section figure.wp-block-table::-webkit-scrollbar{width:0;height:0}main .article-section figure.wp-block-table table{margin-bottom:16px;min-width:600px;width:100%}main .article-section figure.wp-block-table table+figcaption{font-style:italic;font-size:16px}main .article-section figure.wp-block-table table,main .article-section figure.wp-block-table th,main .article-section figure.wp-block-table td{border-bottom:1px solid rgba(25,25,28,0.2);border-collapse:collapse;padding:8px 8px 8px 0;border-right:none;border-left:none;border-top:none;vertical-align:baseline;font-size:16px;line-height:24px}main .article-section .has-text-align-center:not(td){display:flex;flex-wrap:wrap;align-items:center;justify-content:center;margin:0 0 16px}main ul:not([class]):not([id]) li{position:relative;padding:0 0 16px 25px}@media (min-width: 769px){main ul:not([class]):not([id]) li{padding-bottom:24px}}main ul:not([class]):not([id]) li:before{content:"";position:absolute;top:8px;left:2px;width:5px;height:5px;background:#19191C;border-radius:50%}@media (min-width: 769px){main ul:not([class]):not([id]) li:before{top:10px}}main ul:not([class]):not([id]) li ul:not([class]):not([id]){margin-top:24px}main ul:not([class]):not([id]) li ul:not([class]):not([id]) li{padding-left:32px}main ul:not([class]):not([id]) li ul:not([class]):not([id]) li:before{left:8px;background:transparent;border:1px solid #19191C}button{background:transparent;border:none;outline:none}.form-group{position:relative}.found-wrap{padding:0 16px}@media (min-width: 769px){.row{display:flex;flex-wrap:wrap;margin:0 -16px}}@media (min-width: 769px){.row.card_container .col:nth-child(4n+4){display:flex}}@media (min-width: 769px){.col{display:flex;width:50%;padding:0 16px}}@media (min-width: 1025px){.col{width:33.332%}}@media (min-width: 1281px){.col{width:25%}}@media (min-width: 1025px){.col:nth-child(4n+4){display:none}}@media (min-width: 1281px){.col:nth-child(4n+4){display:flex}}@media (max-width: 767px){.col:last-child .card{margin:0}}.col--double{display:block;width:100%}@media (min-width: 1281px){.col--double{width:66.664%}}.col--double img{border-radius:10px}@media (min-width: 1025px){.row.last-col-home .col:nth-child(4n+4){display:flex}}@media (min-width: 1025px){.row.last-col-home .col:nth-child(4n+7),.row.last-col-home .col:nth-child(4n+8){display:none}}@media (min-width: 1281px){.row.last-col-home .col:nth-child(4n+7),.row.last-col-home .col:nth-child(4n+8){display:flex}}@media (min-width: 1025px){.row.last-col-home.show_all .col:nth-child(4n+7),.row.last-col-home.show_all .col:nth-child(4n+8){display:flex}}@media (min-width: 1281px){.row.last-col-home.show_all .col:nth-child(4n+7),.row.last-col-home.show_all .col:nth-child(4n+8){display:flex}}@media (min-width: 1025px){.row.latest_posts .col:nth-child(4n+6){display:none}}@media (min-width: 1281px){.row.latest_posts .col:nth-child(4n+6){display:flex}}@media (min-width: 1025px){.row.latest_posts .col:nth-child(4n+5){display:none}}@media (min-width: 1281px){.row.latest_posts .col:nth-child(4n+5){display:flex}}@media (min-width: 1025px){.row.latest_posts .col:nth-child(4n+4){display:flex}}.row.latest_posts .col--double{display:block;width:100%}@media (min-width: 1025px){.row.latest_posts .col--double{width:66.66%}}@media (min-width: 1281px){.row.latest_posts .col--double{width:50%}}.dark-theme{background:#19191C;color:white}.light-gray-bg{background:#F4F4F4}.light-gray-bg .card{background:#fff}.top-page{position:relative;padding:35px 0 66px}@media (min-width: 768px){.top-page{min-height:199px}}@media (min-width: 1024px){.top-page{padding:30px 0 90px}}.top-page .social-opener{display:block;position:relative;padding:7px 24px 6px 32px;border-radius:3em;border:1px solid rgba(25,25,28,0.3);text-align:center}.top-page .social-opener:hover{box-shadow:none}.top-page .social-opener:after{content:"\e910";font-size:24px;line-height:1;font-family:"icomoon";cursor:pointer;pointer-events:none;display:inline-block;vertical-align:middle;margin:0 0 0 8px}.top-page h1{font-size:28px;line-height:1.143;color:#000;margin:0}@media (min-width: 641px){.top-page h1{font-size:35px;line-height:1.2}}.top-page h1+p{margin-top:10px}.top-page__row{display:flex;flex-wrap:wrap;align-items:flex-start}.top-page__head{position:relative;z-index:15}@media (min-width: 1024px){.top-page__head{width:50%}}.top-page__wrap a{display:flex;align-items:center;border:none;margin:0 0 8px}@media (min-width: 1025px){.top-page__wrap a{margin:0 0 16px}}.top-page__wrap a:hover{box-shadow:none}.top-page__wrap p{width:100%;margin:0}.top-page__wrap img{width:48px;height:48px;margin:0 16px 0 0}.top-page__hold{color:rgba(25,25,28,0.7)}@media (min-width: 1025px){.top-page__hold{color:#19191C}}.top-page__hold a{display:inline-block;vertical-align:top;text-decoration:none;border:none;margin:0 0 8px}@media (min-width: 1025px){.top-page__hold a{margin:0 0 16px}}.top-page__hold a img{max-width:79%}@media (min-width: 1025px){.top-page__hold a img{max-width:100%}}.top-page .hidden-heading{position:absolute;left:-9999px}.top-page__social-wrap{position:relative;order:2}@media (min-width: 461px){.top-page__social-wrap{margin:0 0 0 16px}}@media (min-width: 1200px){.top-page__social-wrap{order:1;margin:0}}.top-page__right{display:flex;flex-direction:column;width:100%;margin:16px 0}@media (min-width: 461px){.top-page__right{flex-direction:row;align-items:center}}@media (min-width: 1024px){.top-page__right{justify-content:flex-end;width:50%;margin:0}}@media (max-width: 1199px){.top-page__right.social-active .social{opacity:1;visibility:visible}}@media (max-width: 1199px){.top-page__right .social{position:absolute;top:calc(100% + 8px);left:0;right:0;background:#fff;display:flex;flex-direction:column;border:1px solid #d1d1d2;z-index:10;align-items:flex-start;margin:0;opacity:0;visibility:hidden}}@media (min-width: 1024px){.top-page__right .social{margin:0 -6px}}@media (max-width: 1199px){.top-page__right .social li{padding:0;width:100%}}.top-page__right .social li:first-child{display:none}@media (min-width: 1200px){.top-page__right .social li:first-child{display:block;padding-right:20px}}@media (max-width: 1199px){.top-page__right .social li a{align-items:center;padding:8px 11px}}.top-page__right .social li a:hover{box-shadow:none}@media (max-width: 1023px){.top-page__right .social li a:hover{background:rgba(25,25,28,0.1)}}@media (max-width: 1023px){.top-page__right .social li a:hover i:after{background:transparent}}@media (max-width: 1199px){.top-page__right .social li a i{margin:-3px 10px 0 0}}@media (min-width: 1200px){.top-page__right .social li a span{display:none}}.top-page__right .btn{order:1;margin:0 0 16px}@media (min-width: 461px){.top-page__right .btn{margin:0}}@media (min-width: 1200px){.top-page__right .btn{margin:0 0 0 38px;order:2}}@media (min-width: 768px){.top-page__right .social-opener{text-align:left}}@media (min-width: 1200px){.top-page__right .social-opener{display:none}}.menu{transition:transform .15s ease-in-out;display:flex;justify-content:space-between;padding:17px 0 0;position:absolute;bottom:0;left:15px;right:15px;background:#fff;z-index:9;max-width:1470px;margin:0 auto;transform:translateY(0)}@media (min-width: 641px){.menu{left:32px;right:32px}}@media (min-width: 768px){.menu{align-items:flex-end;padding:24px 0 0}}@media (min-width: 1501px){.menu{width:100%;left:auto;right:auto}}@media (min-width: 1024px){.menu:before{content:"";position:absolute;top:0;left:0;bottom:0;background:#fff;padding:0 0 0 9999px;margin:0 0 0 -9999px}}.menu:after{content:"";position:absolute;top:0;right:-16px;bottom:2px;background:-webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, #fff 100%);width:115px;pointer-events:none}@media (min-width: 768px){.menu:after{right:-32px}}@media (min-width: 1024px){.menu:after{top:0;right:0;bottom:0;padding:0 9999px 0 0;margin:0 -9999px 0 0;background:#fff;width:auto}}.menu__border{position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(39,40,44,0.15)}.menu__border:before{content:"";position:absolute;bottom:0;right:0;padding:0 9999px 0 0;margin:0 -9999px 0 0;height:1px;background:rgba(39,40,44,0.15);z-index:99}.menu__border:after{content:"";position:absolute;bottom:0;left:0;padding:0 0 0 9999px;margin:0 0 0 -9999px;height:1px;background:rgba(39,40,44,0.15);z-index:99}.menu.fixed{position:fixed;top:0;bottom:auto;z-index:991;padding-top:13px}.menu__wrapper{display:flex;justify-content:space-between;width:100%}.menu__nav{overflow-x:auto;white-space:nowrap;flex:1 0 0}@media (min-width: 1024px){.menu__nav{padding:0 40px 0 0}}@media (min-width: 1201px){.menu__nav{padding:0}}.menu__nav>ul{display:inline-block;margin:0 -10px;white-space:nowrap}@media (min-width: 1024px){.menu__nav>ul{margin:0 -14px}}.menu__nav>ul li{display:inline-block;padding:0 10px}@media (min-width: 1024px){.menu__nav>ul li{padding:0 14px}}.menu__nav>ul a{position:relative;display:block;color:rgba(25,25,28,0.7);border:none;box-shadow:none;padding:0 0 8px;font-feature-settings:"ss19" on}.menu__nav>ul a:hover{color:#19191C;text-decoration:none}.menu__nav>ul a:hover:after{background:#19191C}.menu__nav>ul a:after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:transparent}.menu__nav>ul a.curent_tax{color:#6B57FF;text-decoration:none}.menu__nav>ul a.curent_tax:after{background:#6B57FF;height:2px}.menu__nav .priority-nav__wrapper{font-size:16px;line-height:1.5;padding:0 0 0 16px}.menu__nav .nav__dropdown-toggle{transition:color .15s ease-in-out;color:rgba(25,25,28,0.7)}.menu__nav .nav__dropdown-toggle:hover{color:#19191C}.menu__nav .nav__dropdown-toggle:hover:after{color:#19191C}.menu__nav .nav__dropdown-toggle:after{transition:color .15s ease-in-out;content:"\e910";font-size:24px;font-family:"icomoon";display:inline-block;vertical-align:middle;color:rgba(25,25,28,0.7)}.menu__right{display:none}@media (min-width: 1024px){.menu__right{position:relative;display:flex;justify-content:flex-end;width:20%;align-items:center;padding:0 0 13px}}.menu__right *{position:relative;z-index:10}@media (min-width: 1024px){.menu__right:after{content:"";position:absolute;top:0;left:-36px;right:0;bottom:2px;background:linear-gradient(270deg, #fff 90.63%, rgba(255,255,255,0) 99.17%)}}@media (max-width: 767px){.menu__right .btn{font-size:13px}}.menu__cta{display:none}@media (min-width: 1025px){.menu__cta{display:flex;align-items:center;position:relative;z-index:99;justify-content:flex-end;text-decoration:none;border:none;white-space:nowrap;margin:0 0 6px}}@media (min-width: 1200px){.menu__cta{padding-left:62px}}@media (min-width: 1025px){.menu__cta:after{content:"";position:absolute;top:-2px;left:-40px;right:0;bottom:-2px;background:linear-gradient(270deg, #fff 90.63%, rgba(255,255,255,0) 99.17%)}}.menu__cta-mobile{font-size:18px;position:fixed;display:flex;align-items:center;justify-content:center;bottom:72px;right:16px;width:40px;height:40px;border-radius:50%;border:1px solid rgba(25,25,28,0.3);background:#fff;z-index:99}@media (min-width: 1025px){.menu__cta-mobile{display:none}}.menu__cta-mobile:before{content:"";position:absolute;top:-1px;right:4px;width:8px;height:8px;border-radius:50%;background:#6B57FF}.menu__cta-mobile i{margin:0 0 0 -2px}.menu__cta:hover i{color:#19191C}.menu__cta:hover .menu__cta-text{color:#19191C}.menu__cta i{transition:color .15s ease-in-out}@media (min-width: 1025px){.menu__cta i{position:relative;z-index:10;font-size:18px;color:rgba(25,25,28,0.7)}}.menu__cta-text{transition:color .15s ease-in-out}@media (min-width: 1025px){.menu__cta-text{position:relative;z-index:10;margin:0 4px 0 10px;color:rgba(25,25,28,0.7)}}@media (min-width: 1025px){.menu__cta .label{position:relative;z-index:10;font-size:13px;line-height:1.54;display:inline-block;vertical-align:middle;background:#6B57FF;color:#fff;padding:2px 8px;border-radius:3px}}.priority-nav__dropdown{top:100%;left:16px;border:1px solid #d1d1d2;background-color:white;margin:35px 0 0;z-index:99;width:320px}@media (min-width: 768px){.priority-nav__dropdown{margin-top:28px}}@media (min-width: 1024px){.priority-nav__dropdown{margin-top:35px}}.priority-nav__dropdown li:last-child{margin:0}.priority-nav__dropdown a{display:block;color:#19191c;border:none;padding:8px 16px}.priority-nav__dropdown a.curent_tax{background:#19191C;color:#fff}.priority-nav__dropdown a.curent_tax:hover{background:#19191C;color:#fff}.priority-nav__dropdown a:hover{color:#19191C;text-decoration:none;box-shadow:none;background:rgba(25,25,28,0.1)}.social{display:flex;flex-wrap:wrap;align-items:center;margin:0 -11px}.social li{padding:0 11px}.social a{display:flex;color:#19191C;border:none;box-shadow:none}.social a:hover i:after{background:rgba(25,25,28,0.1)}.social a i{position:relative;font-size:17px}.social a i.icon-twitter{font-size:15px}.social a i.icon-youtube{font-size:13px}.social a i.icon-link{font-size:11px}.social a i:after{transition:background .15s ease-in-out;content:"";position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:35px;height:35px;border-radius:50%}@media (min-width: 769px){.social a i:after{width:40px;height:40px}}.social a:hover{text-decoration:none}.intro{padding:72px 0 56px;background:#F4F4F4}.intro h1{margin:0 0 24px}.intro h2{max-width:720px}.promo{padding:32px 0 0}.promo .tag{margin:0 8px 16px 0}.promo__row{display:flex;flex-wrap:wrap;flex-direction:column;position:relative;overflow:hidden}@media (min-width: 1024px){.promo__row{align-items:center;flex-direction:row}}.promo__img{width:100%;overflow:hidden;border-radius:8px;border:none}@media (min-width: 1025px){.promo__img{width:calc(50% - 16px)}}.promo__img:hover{border:none;box-shadow:none}.promo__img:only-child{width:100%}.promo__img img{width:100%}.promo__text{font-size:16px;line-height:1.5;padding:16px 0}@media (min-width: 641px){.promo__text{padding:32px 0}}@media (min-width: 1025px){.promo__text{width:51%;padding:0 0 0 32px}}@media (min-width: 1201px){.promo__text{font-size:20px;line-height:1.4;width:42%}}.promo__text:only-child{width:100%;padding:0}@media (min-width: 1280px){.promo__text:only-child{width:74.5%}}.promo__text h1,.promo__text h2,.promo__text .h1{font-size:28px;line-height:1.143;letter-spacing:0;margin-top:0;margin-bottom:16px}@media (min-width: 1201px){.promo__text h1,.promo__text h2,.promo__text .h1{font-size:35px;line-height:1.2;margin-bottom:32px}}.promo__text h1 a,.promo__text h2 a,.promo__text .h1 a{display:inline-block;color:inherit;-webkit-line-clamp:3;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;border:none;box-shadow:none}@media (min-width: 769px){.promo__text h1 a,.promo__text h2 a,.promo__text .h1 a{-webkit-line-clamp:2}}@media (min-width: 1201px){.promo__text h1 a,.promo__text h2 a,.promo__text .h1 a{-webkit-line-clamp:4}}.promo__text h1 a:hover,.promo__text h2 a:hover,.promo__text .h1 a:hover{text-decoration:none}.promo__text p{margin:0 0 16px;opacity:0.7}@media (min-width: 1200px){.promo__text p{margin:0 0 32px}}.promo__text .tag{display:none}.promo__link a{border:none;box-shadow:none}.promo__link a:hover{text-decoration:underline}.promo__link a i{display:inline-block;vertical-align:middle;font-size:15px;margin:0 0 0 4px}.promo__link .btn{padding:10px 30px;margin:0 22px 0 0}@media (min-width: 769px){.promo+.section{padding:32px 0 96px}}.overlay{transition:opacity .15s ease-in-out,visibility .15s ease-in-out;position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,0.8);z-index:11;opacity:0;visibility:hidden}.tag-list{display:flex;flex-wrap:wrap;align-items:baseline}.subscribe{font-size:20px;line-height:1.6;background-color:#F4F4F4;background-image:url(./edfb9b9971efea6f04ad75dc85db7c3a.svg);background-repeat:no-repeat;background-position-x:390%;background-position-y:25%;background-size:93%;width:100%;padding:32px}.subscribe h2{margin:0}.subscribe p{margin:0 0 15px}.subscribe form input[type="email"]{font-size:16px;line-height:1.5;max-width:328px;width:100%;height:42px;padding:6px 15px;margin:0 0 9px}.subscribe form .checkbox{padding:0 4px 28px}.subscribe form label{font-size:13px;line-height:1.54}.subscribe form button,.subscribe form input[type="submit"],.subscribe form .btn{transition:opacity .15s ease-in-out;font-size:16px;line-height:1.5;border-radius:2em;outline:none;background:#19191C;color:#fff;border:none;padding:8px 24px}.subscribe form button:hover,.subscribe form input[type="submit"]:hover,.subscribe form .btn:hover{opacity:0.8}.form-subscribe{width:100%}@media (min-width: 769px){.form-subscribe{max-width:472px;background:#f4f4f4;padding:16px 16px 22px}}.form-subscribe__group-input{position:relative;margin:0 0 16px}@media (min-width: 768px){.form-subscribe__group-input{margin:0 0 24px}}.form-subscribe__group-input button{transition:color .15s ease-in-out;position:absolute;top:50%;transform:translateY(-50%);right:10px;padding:0;font-size:22px;line-height:1;color:rgba(25,25,28,0.7)}.form-subscribe__group-input button:hover{color:#19191C}.form-subscribe__group-input button:focus{outline:2px solid #19191C}.form-subscribe__group-checkbox{position:relative}.form-subscribe input[type="text"],.form-subscribe input[type="tel"],.form-subscribe input[type="email"],.form-subscribe input[type="search"],.form-subscribe input[type="password"],.form-subscribe input[type="url"],.form-subscribe input[type="date"],.form-subscribe textarea{font-size:16px;line-height:1.5;width:100%;color:#19191C;border:1px solid rgba(25,25,28,0.2);height:40px;padding:7px 46px 7px 7px}.form-subscribe input[type="text"]::-webkit-input-placeholder,.form-subscribe input[type="tel"]::-webkit-input-placeholder,.form-subscribe input[type="email"]::-webkit-input-placeholder,.form-subscribe input[type="search"]::-webkit-input-placeholder,.form-subscribe input[type="password"]::-webkit-input-placeholder,.form-subscribe input[type="url"]::-webkit-input-placeholder,.form-subscribe input[type="date"]::-webkit-input-placeholder,.form-subscribe textarea::-webkit-input-placeholder{color:rgba(25,25,28,0.5)}.form-subscribe input[type="text"]::-moz-placeholder,.form-subscribe input[type="tel"]::-moz-placeholder,.form-subscribe input[type="email"]::-moz-placeholder,.form-subscribe input[type="search"]::-moz-placeholder,.form-subscribe input[type="password"]::-moz-placeholder,.form-subscribe input[type="url"]::-moz-placeholder,.form-subscribe input[type="date"]::-moz-placeholder,.form-subscribe textarea::-moz-placeholder{opacity:1;color:rgba(25,25,28,0.5)}.form-subscribe input[type="text"]:-moz-placeholder,.form-subscribe input[type="tel"]:-moz-placeholder,.form-subscribe input[type="email"]:-moz-placeholder,.form-subscribe input[type="search"]:-moz-placeholder,.form-subscribe input[type="password"]:-moz-placeholder,.form-subscribe input[type="url"]:-moz-placeholder,.form-subscribe input[type="date"]:-moz-placeholder,.form-subscribe textarea:-moz-placeholder{color:rgba(25,25,28,0.5)}.form-subscribe input[type="text"]:-ms-input-placeholder,.form-subscribe input[type="tel"]:-ms-input-placeholder,.form-subscribe input[type="email"]:-ms-input-placeholder,.form-subscribe input[type="search"]:-ms-input-placeholder,.form-subscribe input[type="password"]:-ms-input-placeholder,.form-subscribe input[type="url"]:-ms-input-placeholder,.form-subscribe input[type="date"]:-ms-input-placeholder,.form-subscribe textarea:-ms-input-placeholder{color:rgba(25,25,28,0.5)}.form-subscribe input[type="text"].placeholder,.form-subscribe input[type="tel"].placeholder,.form-subscribe input[type="email"].placeholder,.form-subscribe input[type="search"].placeholder,.form-subscribe input[type="password"].placeholder,.form-subscribe input[type="url"].placeholder,.form-subscribe input[type="date"].placeholder,.form-subscribe textarea.placeholder{color:rgba(25,25,28,0.5)}.form-subscribe input[type="text"]:focus,.form-subscribe input[type="tel"]:focus,.form-subscribe input[type="email"]:focus,.form-subscribe input[type="search"]:focus,.form-subscribe input[type="password"]:focus,.form-subscribe input[type="url"]:focus,.form-subscribe input[type="date"]:focus,.form-subscribe textarea:focus{border-color:#19191C;outline:1px solid #19191C}.form-subscribe .checkbox_field{display:flex;align-items:flex-start;gap:6px;margin-bottom:12px}.form-subscribe .checkbox_field input[type="checkbox"]{margin-top:3px}.form-subscribe label{display:block;font-size:13px;line-height:1.54;position:relative}.form-subscribe label a{position:relative;display:inline-block;vertical-align:middle}.form-subscribe label a:hover{box-shadow:inset 0 -1px 0 #19191c}.form-subscribe label a i{font-size:12px;position:absolute;top:4px;right:-18px}.form-subscribe .tooltip{font-size:13px;line-height:1.54;letter-spacing:0.0045em;position:absolute;top:100%;left:28px;right:0;border:1px solid rgba(255,255,255,0.1);background:#303033;box-shadow:0px 6px 12px rgba(0,0,0,0.1);border-radius:4px;color:#fff;z-index:99;padding:8px 6px 6px 8px;margin-top:5px;display:none}@media (min-width: 768px){.form-subscribe .tooltip{right:auto;max-width:380px;width:100%}}.form-subscribe .tooltip p{margin:0}.form-subscribe .tooltip p a{color:#fff;border-bottom:1px solid #fff}.form-subscribe .tooltip p a:hover{border-color:#fff;box-shadow:inset 0 -1px 0 #fff}.follow h4{font-size:16px;line-height:1.5;margin:0 0 8px}.select-row{margin:0 0 32px}@media (min-width: 481px){.select-row{display:flex;flex-wrap:wrap}}@media (max-width: 767px){.select-row .select{width:100%;margin:0 0 16px}}@media (min-width: 481px){.select-row .select{width:calc(50% - 8px)}}@media (min-width: 769px){.select-row .select{width:calc(50% - 16px)}}@media (min-width: 1025px){.select-row .select{width:calc(33.332% - 21px)}}@media (min-width: 1281px){.select-row .select{width:calc(25% - 24px)}}@media (min-width: 481px){.select-row .select+.select{margin:0 0 0 16px}}@media (min-width: 769px){.select-row .select+.select{margin:0 0 0 32px}}@media (max-width: 767px){.select-row .select:only-child{width:100%}}select{-webkit-appearance:none;-moz-appearance:none;-ms-appearance:none;appearance:none;outline:0;box-shadow:none;border:1px solid rgba(39,40,44,0.15);background-image:none}select:focus{border-color:#19191C}select::-ms-expand{display:none}select{flex:1;padding:8px 48px 8px 17px;cursor:pointer}.select{position:relative;display:flex}.custom-select-container{width:100%}.custom-select-container:after{content:"\e910";font-family:"icomoon";position:absolute;top:3px;right:8px;font-size:24px;cursor:pointer;pointer-events:none}.custom-select-container.is-open .custom-select-opener{border-color:#19191C}.custom-select-container.is-open .custom-select-panel{border:1px solid #d1d1d2;max-height:202px}.custom-select-opener{transition:border-color .15s ease-in-out;background:#fff;padding:7px;border:1px solid rgba(25,25,28,0.3)}.custom-select-opener:hover{border-color:rgba(25,25,28,0.5)}.custom-select-panel{transition:none;top:calc(100% + 8px);background:#fff}.custom-select-option{cursor:pointer}.custom-select-option.is-selected{background:#19191C;color:#fff}.custom-select-option.is-selected:before{display:none}.custom-select-option.is-selected.has-focus{background:#19191C}.custom-select-option.has-focus{background:rgba(25,25,28,0.1)}.scrollUp .menu{transform:translate3d(0, -100%, 0)}.page-not-found{padding:60px 0}.page-not-found .container{max-width:800px}.page-not-found form{position:relative;display:flex;flex-wrap:wrap;justify-content:space-between}.page-not-found input[type="text"]{width:100%;height:40px;padding:5px 15px;margin:0 0 16px}@media (min-width: 769px){.page-not-found input[type="text"]{width:calc(100% - 118px);margin:0}}.page-not-found input[type="submit"]{border:none;outline:none;border-radius:2em;color:#fff;background:#167dff;padding:8px 24px}.disabled{pointer-events:none}.buttons__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;margin:0 0 16px}@media (min-width: 769px){.buttons__row{margin:0 0 24px}}.buttons .btn{margin:0 25px 0 0}.buttons .btn:only-child{margin:0}.buttons .btn--transparent{border:1px solid rgba(25,25,28,0.3);background:transparent;color:#19191c}.buttons .btn--transparent:hover{background:rgba(25,25,28,0.1);border-color:rgba(25,25,28,0.4)}.fake-hash{position:absolute;top:-9999px;left:-9999px;opacity:0;visibility:hidden}.sr-only{border:0;clip:rect(0, 0, 0, 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.skip-content{font-size:16px;line-height:1.5;left:-10000px;opacity:0;position:absolute;top:auto;background-color:rgba(107,87,255,0.9);border:2px solid #fff;border-radius:2em;color:#fff;display:inline-block;padding:8px 24px;text-align:center;transition:opacity 0.2s ease}.skip-content:focus{left:50%;margin:0 0 0 -100px;opacity:1;top:80px}.blockquote{position:relative;padding:16px 0 32px}@media (min-width: 768px){.blockquote{padding:24px 0 48px 120px}}.blockquote blockquote{color:rgba(25,25,28,0.7);margin:0 0 24px;padding:0;border:none}@media (min-width: 769px){.blockquote blockquote{font-size:20px;line-height:1.4;margin:0 0 16px}}.blockquote blockquote p{margin:0 0 16px}.blockquote__author{font-size:16px;line-height:1.5;display:flex;flex-wrap:wrap;align-items:center}.blockquote__author-img{display:block;border-radius:50%;width:64px}@media (min-width: 768px){.blockquote__author-img{position:absolute;top:24px;left:0;width:96px}}.blockquote__author-info{flex:1;padding:0 0 0 8px}@media (min-width: 768px){.blockquote__author-info{padding:0}}.blockquote__author-title{display:block;font-weight:600}.twitter-timeline.twitter-timeline-rendered{border:1px solid rgba(25,25,28,0.2);overflow:hidden;border-radius:10px}.rider-code-highlight{position:relative}.rider-code-highlight:hover .rider-code-highlight-btn-copy{display:block}.rider-code-highlight .rider-code-highlight-btn-copy{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTE1Ljc3IDEyMi44OCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTE1Ljc3IDEyMi44OCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4uc3Qwe2ZpbGwtcnVsZTpldmVub2RkO2NsaXAtcnVsZTpldmVub2RkO308L3N0eWxlPjxnPjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik04OS42MiwxMy45NnY3LjczaDEyLjE5aDAuMDF2MC4wMmMzLjg1LDAuMDEsNy4zNCwxLjU3LDkuODYsNC4xYzIuNSwyLjUxLDQuMDYsNS45OCw0LjA3LDkuODJoMC4wMnYwLjAyIHY3My4yN3YwLjAxaC0wLjAyYy0wLjAxLDMuODQtMS41Nyw3LjMzLTQuMSw5Ljg2Yy0yLjUxLDIuNS01Ljk4LDQuMDYtOS44Miw0LjA3djAuMDJoLTAuMDJoLTYxLjdINDAuMXYtMC4wMiBjLTMuODQtMC4wMS03LjM0LTEuNTctOS44Ni00LjFjLTIuNS0yLjUxLTQuMDYtNS45OC00LjA3LTkuODJoLTAuMDJ2LTAuMDJWOTIuNTFIMTMuOTZoLTAuMDF2LTAuMDJjLTMuODQtMC4wMS03LjM0LTEuNTctOS44Ni00LjEgYy0yLjUtMi41MS00LjA2LTUuOTgtNC4wNy05LjgySDB2LTAuMDJWMTMuOTZ2LTAuMDFoMC4wMmMwLjAxLTMuODUsMS41OC03LjM0LDQuMS05Ljg2YzIuNTEtMi41LDUuOTgtNC4wNiw5LjgyLTQuMDdWMGgwLjAyaDYxLjcgaDAuMDF2MC4wMmMzLjg1LDAuMDEsNy4zNCwxLjU3LDkuODYsNC4xYzIuNSwyLjUxLDQuMDYsNS45OCw0LjA3LDkuODJoMC4wMlYxMy45Nkw4OS42MiwxMy45NnogTTc5LjA0LDIxLjY5di03Ljczdi0wLjAyaDAuMDIgYzAtMC45MS0wLjM5LTEuNzUtMS4wMS0yLjM3Yy0wLjYxLTAuNjEtMS40Ni0xLTIuMzctMXYwLjAyaC0wLjAxaC02MS43aC0wLjAydi0wLjAyYy0wLjkxLDAtMS43NSwwLjM5LTIuMzcsMS4wMSBjLTAuNjEsMC42MS0xLDEuNDYtMSwyLjM3aDAuMDJ2MC4wMXY2NC41OXYwLjAyaC0wLjAyYzAsMC45MSwwLjM5LDEuNzUsMS4wMSwyLjM3YzAuNjEsMC42MSwxLjQ2LDEsMi4zNywxdi0wLjAyaDAuMDFoMTIuMTlWMzUuNjUgdi0wLjAxaDAuMDJjMC4wMS0zLjg1LDEuNTgtNy4zNCw0LjEtOS44NmMyLjUxLTIuNSw1Ljk4LTQuMDYsOS44Mi00LjA3di0wLjAyaDAuMDJINzkuMDRMNzkuMDQsMjEuNjl6IE0xMDUuMTgsMTA4LjkyVjM1LjY1di0wLjAyIGgwLjAyYzAtMC45MS0wLjM5LTEuNzUtMS4wMS0yLjM3Yy0wLjYxLTAuNjEtMS40Ni0xLTIuMzctMXYwLjAyaC0wLjAxaC02MS43aC0wLjAydi0wLjAyYy0wLjkxLDAtMS43NSwwLjM5LTIuMzcsMS4wMSBjLTAuNjEsMC42MS0xLDEuNDYtMSwyLjM3aDAuMDJ2MC4wMXY3My4yN3YwLjAyaC0wLjAyYzAsMC45MSwwLjM5LDEuNzUsMS4wMSwyLjM3YzAuNjEsMC42MSwxLjQ2LDEsMi4zNywxdi0wLjAyaDAuMDFoNjEuN2gwLjAyIHYwLjAyYzAuOTEsMCwxLjc1LTAuMzksMi4zNy0xLjAxYzAuNjEtMC42MSwxLTEuNDYsMS0yLjM3aC0wLjAyVjEwOC45MkwxMDUuMTgsMTA4LjkyeiIvPjwvZz48L3N2Zz4=);background-repeat:no-repeat;display:none;position:absolute;right:10px;top:10px;z-index:10;color:#717171;font-size:1em;padding:0;margin:0 0 0 8px;text-decoration:none;width:23px;height:23px;cursor:pointer;background-size:18px;background-position:center;border-radius:3px}.rider-code-highlight .rider-code-highlight-btn-copy:hover .rider-code-highlight-tooltip{visibility:visible}.rider-code-highlight .rider-code-highlight-btn-copy .rider-code-highlight-tooltip{font-size:15px;font-family:inherit;visibility:hidden;width:140px;background-color:#000;color:#fff;text-align:center;padding:8px 0;border-radius:5px;position:absolute;z-index:10;bottom:30px;transform:translateX(-42%)}.rider-code-highlight__dark .transparent{opacity:0.5}.rider-code-highlight__dark pre{background-color:#262626;color:#d0d0d0;padding:24px;font-family:JetBrains Mono;font-size:medium;border:1px solid rgba(25,25,28,0.5);border-radius:6px}.rider-code-highlight__dark pre code{background-color:inherit}.rider-code-highlight__dark .keyword{color:#6c95eb}.rider-code-highlight__dark .keyword-control{color:#6c95eb}.rider-code-highlight__dark .preprocessor-keyword{color:#6c95eb}.rider-code-highlight__dark .namespace-name{color:#c191ff}.rider-code-highlight__dark .class-name{color:#c191ff}.rider-code-highlight__dark .struct-name{color:#e1bfff}.rider-code-highlight__dark .record-class-name{color:#c191ff}.rider-code-highlight__dark .record-struct-name{color:#e1bfff}.rider-code-highlight__dark .interface-name{color:#c191ff}.rider-code-highlight__dark .type-parameter-name{color:#c191ff}.rider-code-highlight__dark .delegate-name{color:#e1bfff}.rider-code-highlight__dark .enum-name{color:#e1bfff}.rider-code-highlight__dark .event-name{color:#ed94c0}.rider-code-highlight__dark .field-name{color:#66c3cc}.rider-code-highlight__dark .property-name{color:#66c3cc}.rider-code-highlight__dark .enum-member-name{color:#e1bfff}.rider-code-highlight__dark .constant-name{color:#66c3cc;font-weight:bold}.rider-code-highlight__dark .parameter-name{color:#bdbdbd}.rider-code-highlight__dark .local-name{color:#bdbdbd}.rider-code-highlight__dark .reassigned-variable{color:#bdbdbd;border-color:#787878;text-decoration:underline}.rider-code-highlight__dark .method-name{color:#39cc8f}.rider-code-highlight__dark .extension-method-name{color:#39cc8f}.rider-code-highlight__dark .number{color:#ed94c0}.rider-code-highlight__dark .string{color:#c9a26d}.rider-code-highlight__dark .string-verbatim{color:#c9a26d}.rider-code-highlight__dark .string-escape-character{color:#d688d4}.rider-code-highlight__dark .string-escape-character1{color:#d688d4}.rider-code-highlight__dark .string-escape-character2{color:#66c3cc}.rider-code-highlight__dark .comment{color:#85c46c;font-style:italic}.rider-code-highlight__dark .xml-doc-comment-text{color:#85c46c;font-style:italic}.rider-code-highlight__dark .xml-doc-comment-delimiter{color:#85c46c;font-style:italic}.rider-code-highlight__dark .xml-doc-comment-name{color:#487d34}.rider-code-highlight__dark .xml-doc-comment-attribute-name{color:#487d34}.rider-code-highlight__dark .xml-doc-comment-attribute-quotes{color:#c9a26d}.rider-code-highlight__dark .xml-doc-comment-attribute-value{color:#c9a26d}.rider-code-highlight__dark .rider-code-highlight-btn-copy{background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMTE1Ljc3IDEyMi44OCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTE1Ljc3IDEyMi44OCIgZmlsbD0iI2ZmZiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+ICAgIDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+LnN0MHtmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDt9PC9zdHlsZT48Zz48cGF0aCBjbGFzcz0ic3QwIiBkPSJNODkuNjIsMTMuOTZ2Ny43M2gxMi4xOWgwLjAxdjAuMDJjMy44NSwwLjAxLDcuMzQsMS41Nyw5Ljg2LDQuMWMyLjUsMi41MSw0LjA2LDUuOTgsNC4wNyw5LjgyaDAuMDJ2MC4wMiB2NzMuMjd2MC4wMWgtMC4wMmMtMC4wMSwzLjg0LTEuNTcsNy4zMy00LjEsOS44NmMtMi41MSwyLjUtNS45OCw0LjA2LTkuODIsNC4wN3YwLjAyaC0wLjAyaC02MS43SDQwLjF2LTAuMDIgYy0zLjg0LTAuMDEtNy4zNC0xLjU3LTkuODYtNC4xYy0yLjUtMi41MS00LjA2LTUuOTgtNC4wNy05LjgyaC0wLjAydi0wLjAyVjkyLjUxSDEzLjk2aC0wLjAxdi0wLjAyYy0zLjg0LTAuMDEtNy4zNC0xLjU3LTkuODYtNC4xIGMtMi41LTIuNTEtNC4wNi01Ljk4LTQuMDctOS44Mkgwdi0wLjAyVjEzLjk2di0wLjAxaDAuMDJjMC4wMS0zLjg1LDEuNTgtNy4zNCw0LjEtOS44NmMyLjUxLTIuNSw1Ljk4LTQuMDYsOS44Mi00LjA3VjBoMC4wMmg2MS43IGgwLjAxdjAuMDJjMy44NSwwLjAxLDcuMzQsMS41Nyw5Ljg2LDQuMWMyLjUsMi41MSw0LjA2LDUuOTgsNC4wNyw5LjgyaDAuMDJWMTMuOTZMODkuNjIsMTMuOTZ6IE03OS4wNCwyMS42OXYtNy43M3YtMC4wMmgwLjAyIGMwLTAuOTEtMC4zOS0xLjc1LTEuMDEtMi4zN2MtMC42MS0wLjYxLTEuNDYtMS0yLjM3LTF2MC4wMmgtMC4wMWgtNjEuN2gtMC4wMnYtMC4wMmMtMC45MSwwLTEuNzUsMC4zOS0yLjM3LDEuMDEgYy0wLjYxLDAuNjEtMSwxLjQ2LTEsMi4zN2gwLjAydjAuMDF2NjQuNTl2MC4wMmgtMC4wMmMwLDAuOTEsMC4zOSwxLjc1LDEuMDEsMi4zN2MwLjYxLDAuNjEsMS40NiwxLDIuMzcsMXYtMC4wMmgwLjAxaDEyLjE5VjM1LjY1IHYtMC4wMWgwLjAyYzAuMDEtMy44NSwxLjU4LTcuMzQsNC4xLTkuODZjMi41MS0yLjUsNS45OC00LjA2LDkuODItNC4wN3YtMC4wMmgwLjAySDc5LjA0TDc5LjA0LDIxLjY5eiBNMTA1LjE4LDEwOC45MlYzNS42NXYtMC4wMiBoMC4wMmMwLTAuOTEtMC4zOS0xLjc1LTEuMDEtMi4zN2MtMC42MS0wLjYxLTEuNDYtMS0yLjM3LTF2MC4wMmgtMC4wMWgtNjEuN2gtMC4wMnYtMC4wMmMtMC45MSwwLTEuNzUsMC4zOS0yLjM3LDEuMDEgYy0wLjYxLDAuNjEtMSwxLjQ2LTEsMi4zN2gwLjAydjAuMDF2NzMuMjd2MC4wMmgtMC4wMmMwLDAuOTEsMC4zOSwxLjc1LDEuMDEsMi4zN2MwLjYxLDAuNjEsMS40NiwxLDIuMzcsMXYtMC4wMmgwLjAxaDYxLjdoMC4wMiB2MC4wMmMwLjkxLDAsMS43NS0wLjM5LDIuMzctMS4wMWMwLjYxLTAuNjEsMS0xLjQ2LDEtMi4zN2gtMC4wMlYxMDguOTJMMTA1LjE4LDEwOC45MnoiLz48L2c+PC9zdmc+Cg==)}.rider-code-highlight__light .transparent{opacity:0.5}.rider-code-highlight__light pre{background-color:#ffffff;color:#202020;padding:24px;font-family:JetBrains Mono;font-size:medium;border:1px solid rgba(25,25,28,0.5);border-radius:6px}.rider-code-highlight__light pre code{background-color:inherit}.rider-code-highlight__light .keyword{color:#0f54d6}.rider-code-highlight__light .keyword-control{color:#0f54d6}.rider-code-highlight__light .preprocessor-keyword{color:#0f54d6}.rider-code-highlight__light .namespace-name{color:#6b2fba}.rider-code-highlight__light .class-name{color:#6b2fba}.rider-code-highlight__light .struct-name{color:#300073}.rider-code-highlight__light .record-class-name{color:#6b2fba}.rider-code-highlight__light .record-struct-name{color:#300073}.rider-code-highlight__light .interface-name{color:#6b2fba}.rider-code-highlight__light .type-parameter-name{color:#6b2fba}.rider-code-highlight__light .delegate-name{color:#300073}.rider-code-highlight__light .enum-name{color:#300073}.rider-code-highlight__light .event-name{color:#ab2f6b}.rider-code-highlight__light .field-name{color:#0093a1}.rider-code-highlight__light .property-name{color:#0093a1}.rider-code-highlight__light .enum-member-name{color:#300073}.rider-code-highlight__light .constant-name{color:#0093a1;font-weight:bold}.rider-code-highlight__light .parameter-name{color:#383838}.rider-code-highlight__light .local-name{color:#383838}.rider-code-highlight__light .reassigned-variable{color:#383838;border-color:#949494;text-decoration:underline}.rider-code-highlight__light .method-name{color:#00855f}.rider-code-highlight__light .extension-method-name{color:#00855f}.rider-code-highlight__light .number{color:#ab2f6b}.rider-code-highlight__light .string{color:#8c6c41}.rider-code-highlight__light .string-verbatim{color:#8c6c41}.rider-code-highlight__light .string-escape-character{color:#941290}.rider-code-highlight__light .string-escape-character1{color:#941290}.rider-code-highlight__light .string-escape-character2{color:#0093a1}.rider-code-highlight__light .comment{color:#248700;font-style:italic}.rider-code-highlight__light .xml-doc-comment-text{color:#248700;font-style:italic}.rider-code-highlight__light .xml-doc-comment-delimiter{color:#248700;font-style:italic}.rider-code-highlight__light .xml-doc-comment-name{color:#8bc775}.rider-code-highlight__light .xml-doc-comment-attribute-name{color:#8bc775}.rider-code-highlight__light .xml-doc-comment-attribute-quotes{color:#8c6c41}.rider-code-highlight__light .xml-doc-comment-attribute-value{color:#8c6c41}
+
+/*# sourceMappingURL=app.min.css.map*/    </style>
+    <script>
+        var ALGOLIA_INSIGHTS_SRC = "https://cdn.jsdelivr.net/npm/search-insights@2.0.2";
+
+        !function(e,a,t,n,s,i,c){e.AlgoliaAnalyticsObject=s,e[s]=e[s]||function(){
+        (e[s].queue=e[s].queue||[]).push(arguments)},i=a.createElement(t),c=a.getElementsByTagName(t)[0],
+        i.async=1,i.src=n,c.parentNode.insertBefore(i,c)
+        }(window,document,"script",ALGOLIA_INSIGHTS_SRC,"aa");
+    </script>
+    <link rel="icon" href="https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/img/favicons/favicon.ico" sizes="any"><!-- 32×32 -->
+    <link rel="icon" href="https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/img/favicons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/img/favicons/apple-touch-icon.png"><!-- 180×180 -->
+    <link rel="manifest" href="https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/img/favicons/site.webmanifest">
+
+    <meta name="apple-mobile-web-app-title" content="JetBrains Blog">
+    <meta name="application-name" content="JetBrains Blog">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="theme-color" content="#000000">
+    <link rel="alternate" hreflang="en" href="https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/" />
+<link rel="alternate" hreflang="de" href="https://blog.jetbrains.com/de/air/2026/03/air-startet-als-oeffentliche-preview-eine-neue-generation-von-entwicklertools-basierend-auf-26-jahren-erfahrung/" />
+<link rel="alternate" hreflang="es" href="https://blog.jetbrains.com/es/air/2026/03/lanzamos-la-version-preliminar-publica-de-air-una-nueva-generacion-de-herramientas-de-desarrollo-basadas-en-26-anos-de-experiencia/" />
+<link rel="alternate" hreflang="fr" href="https://blog.jetbrains.com/fr/air/2026/03/lancement-de-air-en-preversion-publique-une-nouvelle-generation-d-outils-de-developpement-basee-sur-26-ans-d-experience/" />
+<link rel="alternate" hreflang="ja" href="https://blog.jetbrains.com/ja/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/" />
+<link rel="alternate" hreflang="ko" href="https://blog.jetbrains.com/ko/air/2026/03/air-launches-as-public-preview/" />
+<link rel="alternate" hreflang="pt-br" href="https://blog.jetbrains.com/pt-br/air/2026/03/lancamento-do-air-em-previa-publica-uma-nova-geracao-de-ferramentas-para-desenvolvimento-criadas-sobre-26-anos-de-experiencia/" />
+<link rel="alternate" hreflang="x-default" href="https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/" />
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']], 
+    processEscapes: true
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|editor-rich-text'
+  }
+};
+
+</script>
+<meta name="twitter:image:src" content="https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Social-Share-image-1280x720-1-1.png">
+
+<!-- Search Engine Optimization by Rank Math PRO - https://rankmath.com/ -->
+<meta name="description" content="Download Air – free for macOS. Windows and Linux versions coming soon. We hold a principled optimism for agentic software development – and a pragmatic one. After 26 years of building developer too"/>
+<meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+<link rel="canonical" href="https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog" />
+<meta property="og:description" content="Download Air – free for macOS. Windows and Linux versions coming soon. We hold a principled optimism for agentic software development – and a pragmatic one. After 26 years of building developer too" />
+<meta property="og:url" content="https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/" />
+<meta property="og:site_name" content="The JetBrains Blog" />
+<meta property="article:publisher" content="https://www.facebook.com/JetBrains" />
+<meta property="article:tag" content="AI" />
+<meta property="article:tag" content="ai agents" />
+<meta property="article:section" content="News" />
+<meta property="og:updated_time" content="2026-03-13T13:38:21+01:00" />
+<meta property="og:image" content="https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Social-Share-image-1280x720-1-1.png" />
+<meta property="og:image:secure_url" content="https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Social-Share-image-1280x720-1-1.png" />
+<meta property="og:image:alt" content="Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience" />
+<meta property="og:video" content="https://blog.jetbrains.com/wp-content/uploads/2026/03/main-screen-h265-10bit-crf18.mp4" />
+<meta property="og:video" content="https://blog.jetbrains.com/wp-content/uploads/2026/03/main-screen-h265-10bit-crf18-2.mp4" />
+<meta property="og:video" content="https://blog.jetbrains.com/wp-content/uploads/2026/03/AIRSUB-v3_38mb11.mp4" />
+<meta property="ya:ovs:upload_date" content="2026-03-09GMT+010014:02:18+01:00" />
+<meta property="ya:ovs:allow_embed" content="false" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog" />
+<meta name="twitter:description" content="Download Air – free for macOS. Windows and Linux versions coming soon. We hold a principled optimism for agentic software development – and a pragmatic one. After 26 years of building developer too" />
+<meta name="twitter:site" content="@jetbrains" />
+<meta name="twitter:creator" content="@thats_the_nik" />
+<meta name="twitter:image" content="https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Social-Share-image-1280x720-1-1.png" />
+<script type="application/ld+json" class="rank-math-schema-pro">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://blog.jetbrains.com/#organization","name":"JetBrains","sameAs":["https://www.facebook.com/JetBrains","https://twitter.com/jetbrains","https://www.instagram.com/jetbrains/","https://www.youtube.com/user/JetBrainsTV","https://www.linkedin.com/company/jetbrains"],"logo":{"@type":"ImageObject","@id":"https://blog.jetbrains.com/#logo","url":"https://blog.jetbrains.com/wp-content/uploads/2020/09/jetbrains_logo.png","contentUrl":"https://blog.jetbrains.com/wp-content/uploads/2020/09/jetbrains_logo.png","caption":"The JetBrains Blog","inLanguage":"en-US","width":"400","height":"400"}},{"@type":"WebSite","@id":"https://blog.jetbrains.com/#website","url":"https://blog.jetbrains.com","name":"The JetBrains Blog","publisher":{"@id":"https://blog.jetbrains.com/#organization"},"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Featured-1280x720-1-1.png","url":"https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Featured-1280x720-1-1.png","width":"1280","height":"720","inLanguage":"en-US"},{"@type":"WebPage","@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#webpage","url":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/","name":"Air Launches as Public Preview \u2013 A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog","datePublished":"2026-03-09T14:02:18+01:00","dateModified":"2026-03-13T13:38:21+01:00","isPartOf":{"@id":"https://blog.jetbrains.com/#website"},"primaryImageOfPage":{"@id":"https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Featured-1280x720-1-1.png"},"inLanguage":"en-US"},{"@type":"VideoObject","name":"Air Launches as Public Preview \u2013 A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog","description":"Download Air \u2013 free for macOS. Windows and Linux versions coming soon. We hold a principled optimism for agentic software development \u2013 and a pragmatic one. After 26 years of building developer too","uploadDate":"2026-03-09T14:02:18+01:00","thumbnailUrl":"https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Featured-1280x720-1-1.png","contentUrl":"https://blog.jetbrains.com/wp-content/uploads/2026/03/main-screen-h265-10bit-crf18.mp4","width":"2560","height":"1280","isFamilyFriendly":"True","@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#schema-3514794","isPartOf":{"@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#webpage"},"publisher":{"@id":"https://blog.jetbrains.com/#organization"},"inLanguage":"en-US","mainEntityOfPage":{"@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#webpage"}},{"@type":"VideoObject","name":"Air Launches as Public Preview \u2013 A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog","description":"Download Air \u2013 free for macOS. Windows and Linux versions coming soon. We hold a principled optimism for agentic software development \u2013 and a pragmatic one. After 26 years of building developer too","uploadDate":"2026-03-09T14:02:18+01:00","thumbnailUrl":"https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Featured-1280x720-1-1.png","contentUrl":"https://blog.jetbrains.com/wp-content/uploads/2026/03/main-screen-h265-10bit-crf18-2.mp4","width":"2560","height":"1280","isFamilyFriendly":"True","@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#schema-3519448","isPartOf":{"@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#webpage"},"publisher":{"@id":"https://blog.jetbrains.com/#organization"},"inLanguage":"en-US"},{"@type":"VideoObject","name":"Air Launches as Public Preview \u2013 A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog","description":"Download Air \u2013 free for macOS. Windows and Linux versions coming soon. We hold a principled optimism for agentic software development \u2013 and a pragmatic one. After 26 years of building developer too","uploadDate":"2026-03-09T14:02:18+01:00","thumbnailUrl":"https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Featured-1280x720-1-1.png","contentUrl":"https://blog.jetbrains.com/wp-content/uploads/2026/03/AIRSUB-v3_38mb11.mp4","width":"3840","height":"2160","isFamilyFriendly":"True","@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#schema-3519684","isPartOf":{"@id":"https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/#webpage"},"publisher":{"@id":"https://blog.jetbrains.com/#organization"},"inLanguage":"en-US"}]}</script>
+<!-- /Rank Math WordPress SEO plugin -->
+
+<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
+<link rel='dns-prefetch' href='//maxcdn.bootstrapcdn.com' />
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='wpml-blocks-css' href='https://blog.jetbrains.com/wp-content/plugins/sitepress-multilingual-cms/dist/css/blocks/styles.css?ver=4.6.3' type='text/css' media='all' />
+<link rel='stylesheet' id='pb-accordion-blocks-style-css' href='https://blog.jetbrains.com/wp-content/plugins/accordion-blocks/build/index.css?ver=1.5.0' type='text/css' media='all' />
+<link rel='stylesheet' id='ppress-frontend-css' href='https://blog.jetbrains.com/wp-content/plugins/wp-user-avatar/assets/css/frontend.min.css?ver=4.15.22' type='text/css' media='all' />
+<link rel='stylesheet' id='ppress-flatpickr-css' href='https://blog.jetbrains.com/wp-content/plugins/wp-user-avatar/assets/flatpickr/flatpickr.min.css?ver=4.15.22' type='text/css' media='all' />
+<link rel='stylesheet' id='ppress-select2-css' href='https://blog.jetbrains.com/wp-content/plugins/wp-user-avatar/assets/select2/select2.min.css?ver=821f574ee7885085e15a9ad4db47b961' type='text/css' media='all' />
+<link rel='stylesheet' id='cms-navigation-style-base-css' href='https://blog.jetbrains.com/wp-content/plugins/wpml-cms-nav/res/css/cms-navigation-base.css?ver=1.5.5' type='text/css' media='screen' />
+<link rel='stylesheet' id='cms-navigation-style-css' href='https://blog.jetbrains.com/wp-content/plugins/wpml-cms-nav/res/css/cms-navigation.css?ver=1.5.5' type='text/css' media='screen' />
+<link rel='stylesheet' id='font-awesome-css' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?ver=4.7.0' type='text/css' media='all' />
+<link rel='stylesheet' id='enlighterjs-css' href='https://blog.jetbrains.com/wp-content/plugins/enlighter/cache/enlighterjs.min.css?ver=ZGyDHRSQPMewFUQ' type='text/css' media='all' />
+<link rel='stylesheet' id='icomoon_font-css' href='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/dist/icomoon_font.min.css?ver=2271' type='text/css' media='all' />
+<link rel='stylesheet' id='font-jetbrains-mono-css' href='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/dist/fontjetbrainsmono.min.css?ver=2271' type='text/css' media='all' />
+<link rel='stylesheet' id='single-post-css' href='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/dist/singlepost.min.css?ver=2271' type='text/css' media='all' />
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/jquery/jquery.min.js' id='jquery-js'></script>
+<script type='text/javascript' id='wpml-cookie-js-extra'>
+/* <![CDATA[ */
+var wpml_cookies = {"wp-wpml_current_language":{"value":"en","expires":1,"path":"\/"}};
+var wpml_cookies = {"wp-wpml_current_language":{"value":"en","expires":1,"path":"\/"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/sitepress-multilingual-cms/res/js/cookies/language-cookie.js?ver=4.6.3' id='wpml-cookie-js'></script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/wp-user-avatar/assets/flatpickr/flatpickr.min.js?ver=4.15.22' id='ppress-flatpickr-js'></script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/wp-user-avatar/assets/select2/select2.min.js?ver=4.15.22' id='ppress-select2-js'></script>
+<link rel="https://api.w.org/" href="https://blog.jetbrains.com/wp-json/" /><link rel="alternate" type="application/json" href="https://blog.jetbrains.com/wp-json/wp/v2/air/684277" /><link rel='shortlink' href='https://blog.jetbrains.com/?p=684277/' />
+<link rel="alternate" type="application/json+oembed" href="https://blog.jetbrains.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblog.jetbrains.com%2Fair%2F2026%2F03%2Fair-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://blog.jetbrains.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblog.jetbrains.com%2Fair%2F2026%2F03%2Fair-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience%2F&#038;format=xml" />
+<meta name="generator" content="WPML ver:4.6.3 stt:60,9,1,4,3,28,29,43,46,2,54;" />
+                <!-- Google+ / Schema.org -->
+                    <meta itemprop="name" content="Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog"/>
+                            <meta itemprop="headline" content="Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience | The JetBrains Blog"/>
+                            <meta itemprop="image" content="https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Social-Share-image-1280x720-1-1.png"/>
+                            <meta name="image" content="https://blog.jetbrains.com/wp-content/uploads/2026/02/Blog-Social-Share-image-1280x720-1-1.png"/>
+        
+    <link rel="icon" href="https://blog.jetbrains.com/wp-content/uploads/2024/01/cropped-mstile-310x310-1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://blog.jetbrains.com/wp-content/uploads/2024/01/cropped-mstile-310x310-1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://blog.jetbrains.com/wp-content/uploads/2024/01/cropped-mstile-310x310-1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://blog.jetbrains.com/wp-content/uploads/2024/01/cropped-mstile-310x310-1-270x270.png" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P98');</script>
+<!-- End Google Tag Manager -->
+
+		<style type="text/css" id="wp-custom-css">
+			/* blog.jetbrains.com-theme/blob/master/custom.css */
+
+#extendify-templates-inserter {
+	display: none !important; 
+}
+
+.enlighter-k3{
+	background-color: transparent !important;
+}
+
+.enlighter-t-enlighter div.enlighter>div.enlighter-special, .enlighter-t-wpcustom div.enlighter>div.enlighter-special{
+	background-color: #FFEBCC;
+}
+
+a[href*="/tag/newsletter"],
+a[href*="/tag/newsletter"],
+a[href*="/tag/how2pro"],
+a[href*="/tag/sendtoall"],
+a[href*="/tag/newsletter-resharper"],
+a[href*="/tag/newsletter-rider"],
+a[href*="/tag/newsletter-cpp"],
+a[href*="/tag/newsletter-rust"],
+a[href*="/webstorm/tag/digest"],
+a[href*="/category/uncategorized"],
+a[href*="/category/newsletter"],a[href*="/category/java-annotated"],a[href*="/tag/news-company/"],a[href*="/tag/major-news/"],
+a[href*="/category/newsletter"],
+a[href*="/category/how2pro"],
+a[href*="/category/sendtoall"],
+a[href*="/category/newsletter-resharper"],
+a[href*="/category/newsletter-rider"],
+a[href*="/category/newsletter-cpp"],
+a[href*="/category/newsletter-rust"] {
+	display: none !important;
+}
+
+#wrapper > main > section.promo div.promo__text > a.tag {
+	display: none !important;
+}
+
+table, th, td {
+  border: 1px solid rgba(50,50,93,.1);
+  border-collapse: collapse;
+  padding: 8px;
+}
+
+.wp-block-image figcaption {
+    font-size: .7em;
+    margin-top: .5em;
+    margin-bottom: 1em;
+    text-align: center;
+    font-style: italic;
+}
+
+div.content>p[data-nosnippet] {
+    font-size: 80%;
+}
+
+blockquote,
+blockquote.wp-block-quote {
+	font-size: 100%;
+	line-height: 1.5;
+	margin: 32px 0px;
+	padding: 0px 18px;
+	border-left: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+figure.wp-block-embed.is-type-video .wp-block-embed__wrapper, figure.wp-block-embed.is-type-video .wp-block-embed__wrapper {
+position: relative;
+width: 100%;
+height: 0;
+padding-bottom: 56.25%;
+}
+
+
+.navbar h3 {
+	font-size:20px !important;
+}
+
+h2, h3, h4, h5 {
+	margin-top: 20px;
+}
+
+h4, h5 {
+	font-size: 20px !important;
+}
+
+figure.wp-block-embed.is-type-video iframe {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
+
+div.content > ul > li > img {
+	margin: 0.5em 0;
+}
+
+.alignright {
+   float: right;
+}
+.single-space .content__form {
+    display: none;
+}
+.post-type-archive-space .form-subscribe {
+    display: none;
+}
+.single .top-page h2.h1 + p {
+    margin-top: 10px;
+}
+.single .top-page h2.h1 {
+    margin-bottom: 0;
+}
+@media (min-width: 1281px) {
+			.post-type-archive-space .product-blog .product-blog__content .col {
+			width: 25%;
+	}
+	.post-type-archive-space .product-blog__content {
+    width: 100%;
+}
+}
+main .article-section .content>ol:not([class]):not([id])[start] {
+    counter-reset: start;
+}
+
+.wp-block-video {
+    margin: 0 0 1em !important;
+}
+
+video {
+	max-width: 100%;
+}
+
+.copy-heading {
+    margin-top: 20px;
+}
+.border+div .slick-list {
+    border: solid 1px #aeaeaf;
+}
+.wp-block-image.aligncenter__image>figure.aligncenter {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+main .article-section .content ol:not([class]):not([id]) {
+    margin-bottom: 24px;
+}
+.js-toc {
+    overflow-y: hidden; 
+    scrollbar-width: none;
+}
+
+.js-toc::-webkit-scrollbar {
+    display: none; 
+}
+section.article-section .content .copy-heading h4.font-size-18 {
+	font-size:18px!important;
+}
+.copy-heading:has(h3.hidden-h3) {
+    margin: 0 !important;
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    position: absolute;
+}
+.footer span.copyright a:hover {
+    color: #fff;
+    box-shadow: none;
+    border-color: #fff;
+}
+.footer span.copyright a {
+    color: #fff;
+}
+.postid-557043 .slick-list.draggable {
+    border: 1px #e6e7e8 solid;
+    border-radius: 5px;
+}
+.postid-560983 .btn {
+    background: #00874d;
+}
+
+figure.alignleft.is-resized {
+    padding-right: 26px;
+    margin: 10px 0 !important;
+}
+figure.alignright.is-resized {
+		padding-left: 26px;
+    margin: 10px 0 !important;
+}
+@media (max-width: 700px) {
+	figure.alignleft.is-resized, figure.alignright.is-resized{
+		float: none;
+		width:100%;
+		padding: 0;
+	}
+	figure.alignleft.is-resized img, figure.alignright.is-resized img{
+		width:100%!important;
+	}
+}
+.article-section .content figure figure {
+	margin: 0!important;
+}
+.postid-582904 .article-section .content figure img {
+    border-radius: 4px;
+}
+mjx-container[display] {
+	display: inline!important;}
+.top_alignment.is-layout-flex {
+    align-items: baseline;
+}		</style>
+		    <link rel="alternate" type="application/rss+xml" title="Air : An agentic development environment | The JetBrains Blog" href="https://blog.jetbrains.com/air/feed/">
+</head>
+
+<body class="air-template-default single single-air postid-684277 wp-embed-responsive"><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P98"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+<div id="wrapper">
+    <header class="header">
+        <div class="container">
+            <strong class="logo">
+                <a href="https://blog.jetbrains.com/">
+                                            <img src="https://blog.jetbrains.com/wp-content/uploads/2024/06/JETBRAINS-Blog.svg" alt="">
+                                                        </a>
+            </strong>
+            <a href="#main" class="skip-content">Skip to content</a>
+            <ul class="menu-list">
+                <li>
+                    <a href="#" class="nav-opener">
+                        <span class="mobile-hidden">Topics</span>
+                    </a>
+                </li>
+                                                        <li><a href="https://blog.jetbrains.com/search/"><i class="icon-search"><span class="sr-only">Search</span></i></a></li>
+                                                    <li>
+                        <a href="#" class="lang-opener"><i class="icon-language"><span class="sr-only">Language</span></i></a>
+                        <ul class="dropdown-language"><li><a class="active" href="https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/">English</a></li><li><a  href="https://blog.jetbrains.com/de/air/2026/03/air-startet-als-oeffentliche-preview-eine-neue-generation-von-entwicklertools-basierend-auf-26-jahren-erfahrung/">Deutsch</a></li><li><a  href="https://blog.jetbrains.com/es/air/2026/03/lanzamos-la-version-preliminar-publica-de-air-una-nueva-generacion-de-herramientas-de-desarrollo-basadas-en-26-anos-de-experiencia/">Español</a></li><li><a  href="https://blog.jetbrains.com/fr/air/2026/03/lancement-de-air-en-preversion-publique-une-nouvelle-generation-d-outils-de-developpement-basee-sur-26-ans-d-experience/">Français</a></li><li><a  href="https://blog.jetbrains.com/ja/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/">日本語</a></li><li><a  href="https://blog.jetbrains.com/ko/air/2026/03/air-launches-as-public-preview/">한국어</a></li><li><a  href="https://blog.jetbrains.com/pt-br/air/2026/03/lancamento-do-air-em-previa-publica-uma-nova-geracao-de-ferramentas-para-desenvolvimento-criadas-sobre-26-anos-de-experiencia/">Português do Brasil</a></li></ul>                    </li>
+                            </ul>
+            <a href="#" class="burger-icon"><span class="sr-only">Burger menu icon</span><span></span></a>
+            <nav class="navbar">
+                <div class="container">
+
+                    <ul class="row"><li id="menu-item-284" class="columns menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-284"><h4>IDEs</h4>
+<ul class="sub-menu">
+	<li id="menu-item-286" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-286"><a title="CLion Blog" href="/clion/">CLion</a></li>
+	<li id="menu-item-287" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-287"><a title="DataGrip Blog" href="/datagrip/">DataGrip</a></li>
+	<li id="menu-item-231265" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-231265"><a href="/dataspell/">DataSpell</a></li>
+	<li id="menu-item-217910" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-217910"><a href="/fleet/">Fleet</a></li>
+	<li id="menu-item-288" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-288"><a title="GoLand Blog" href="/go/">GoLand</a></li>
+	<li id="menu-item-289" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-289"><a title="IntelliJ IDEA Blog" href="/idea/">IntelliJ IDEA</a></li>
+	<li id="menu-item-291" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-291"><a title="PhpStorm Blog" href="/phpstorm/">PhpStorm</a></li>
+	<li id="menu-item-292" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-292"><a title="PyCharm Blog" href="/pycharm/">PyCharm</a></li>
+	<li id="menu-item-155027" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-155027"><a href="/rust/">RustRover</a></li>
+	<li id="menu-item-293" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-293"><a title="Rider Blog" href="/dotnet/tag/rider/">Rider</a></li>
+	<li id="menu-item-294" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-294"><a title="RubyMine Blog" href="/ruby/">RubyMine</a></li>
+	<li id="menu-item-296" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-296"><a title="WebStorm Blog" href="/webstorm/">WebStorm</a></li>
+</ul>
+</li>
+<li id="menu-item-155084" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-155084"><h4>Plugins &#038; Services</h4>
+<ul class="sub-menu">
+	<li id="menu-item-126770" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-126770"><a href="/big-data-tools/">Big Data Tools</a></li>
+	<li id="menu-item-136584" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-136584"><a href="https://blog.jetbrains.com/blog/tag/codewithme/">Code With Me</a></li>
+	<li id="menu-item-310" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-310"><a title="JetBrains Platform Blog" href="/platform/">JetBrains Platform</a></li>
+	<li id="menu-item-123129" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-123129"><a href="/scala/">Scala</a></li>
+	<li id="menu-item-295" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-295"><a title="Toolbox App Blog" href="/toolbox-app/">Toolbox App</a></li>
+	<li id="menu-item-268151" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-268151"><a href="/writerside/">Writerside</a></li>
+	<li id="menu-item-434711" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-434711"><a href="/ai/">JetBrains AI</a></li>
+	<li id="menu-item-472822" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-472822"><a href="/grazie/">Grazie</a></li>
+	<li id="menu-item-540490" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-540490"><a href="/junie/">Junie</a></li>
+	<li id="menu-item-586082" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-586082"><a href="/jetbrains-for-data/">JetBrains for Data</a></li>
+	<li id="menu-item-589907" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-589907"><a href="/kineto/">Kineto</a></li>
+	<li id="menu-item-686078" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-686078"><a href="/air/">Air</a></li>
+</ul>
+</li>
+<li id="menu-item-305" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-305"><h4>Team Tools</h4>
+<ul class="sub-menu">
+	<li id="menu-item-65109" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-65109"><a href="/datalore/">Datalore</a></li>
+	<li id="menu-item-753" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-753"><a title="JetBrains Space Blog" href="/space/">Space</a></li>
+	<li id="menu-item-306" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-306"><a title="TeamCity Blog" href="/teamcity/">TeamCity</a></li>
+	<li id="menu-item-307" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-307"><a title="Upsource Blog" href="/upsource/">Upsource</a></li>
+	<li id="menu-item-308" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-308"><a title="YouTrack Blog" href="/youtrack/">YouTrack</a></li>
+	<li id="menu-item-309" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-309"><a title="Hub Blog" href="/hub/">Hub</a></li>
+	<li id="menu-item-165129" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-165129"><a href="/qodana/">Qodana</a></li>
+	<li id="menu-item-522426" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-522426"><a href="/codecanvas/">CodeCanvas</a></li>
+	<li id="menu-item-652044" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-652044"><a href="/matter/">Matter</a></li>
+	<li id="menu-item-677867" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-677867"><a href="/databao/">Databao</a></li>
+</ul>
+</li>
+<li id="menu-item-297" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-297"><h4>.NET &#038; Visual Studio</h4>
+<ul class="sub-menu">
+	<li id="menu-item-304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-304"><a title=".NET Tools" href="/dotnet/">.NET Tools</a></li>
+	<li id="menu-item-300" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-300"><a title="ReSharper C++ Blog" href="/rscpp/">ReSharper C++</a></li>
+</ul>
+</li>
+<li id="menu-item-63316" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-63316"><h4>Languages &#038; Frameworks</h4>
+<ul class="sub-menu">
+	<li id="menu-item-311" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-311"><a title="Kotlin Blog" href="/kotlin/">Kotlin</a></li>
+	<li id="menu-item-63315" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-63315"><a href="/ktor/">Ktor</a></li>
+	<li id="menu-item-290" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-290"><a title="MPS Blog" href="/mps/">MPS</a></li>
+	<li id="menu-item-422188" class="menu-item menu-item-type-post_type_archive menu-item-object-amper menu-item-422188"><a href="https://blog.jetbrains.com/amper/">Amper</a></li>
+</ul>
+</li>
+<li id="menu-item-63314" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-63314"><h4>Education &#038; Research</h4>
+<ul class="sub-menu">
+	<li id="menu-item-118360" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-118360"><a href="/education/">JetBrains Academy</a></li>
+	<li id="menu-item-285585" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-285585"><a href="/research/">Research</a></li>
+</ul>
+</li>
+<li id="menu-item-312" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-312"><h4>Company</h4>
+<ul class="sub-menu">
+	<li id="menu-item-313" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-313"><a title="JetBrains Company Blog" href="/blog/">Company Blog</a></li>
+	<li id="menu-item-227873" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-227873"><a href="/security/">Security</a></li>
+	<li id="menu-item-677865" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-677865"><a href="/community-programs/">Community Programs</a></li>
+</ul>
+</li>
+</ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+<main id="main">
+    <div class="top-page">
+    <div class="container">
+        <div class="top-page__row">
+            <div class="top-page__head">
+                                    <div class="top-page__wrap">
+                        <a href="https://blog.jetbrains.com/air/">
+                                                            <img src="https://blog.jetbrains.com/wp-content/uploads/2026/02/logo.svg" alt="Air logo">
+                                                                                                                            <h2 class="h1">Air</h2>
+                                                                                    </a>
+                                                    <div class="text-container">
+                                <p>An agentic development environment</p>
+                            </div>
+                                            </div>
+                            </div>
+            <div class="top-page__right">
+                                    <div class="top-page__social-wrap">
+                        <a href="#" class="social-opener">Follow</a>
+                        <ul class="social">
+                            <li><span>Follow:</span></li>
+                                                                                                                                    <li><a href="https://x.com/getsome_air" target="_blank" aria-label="X"><i class="icon-twitter"><span class="sr-only">X</span></i> <span>X</span></a></li>
+                                                                                    </ul>
+                    </div>
+                                                    <a href="https://air.dev/" class="btn">Get Some Air</a>
+                            </div>
+        </div>
+                <div class="menu">
+            <span class="menu__border"></span>
+            <div class="menu__wrapper">
+                                    <nav class="menu__nav">
+                        <ul class="menu__nav-list">
+                                                            <li>
+                                    <a href="/air/"  >All</a>
+                                </li>
+                                                                                <li><a href="/air/category/news/" attr-class="curent_tax">News</a></li>
+                                                                                                                                                                                                                                                                                                                                </ul>
+                    </nav>
+                                                                                </div>
+        </div>
+                                </div>
+</div>
+                            <section class="article-section" data-clarity-region="article">
+                <div class="content js-toc-content">
+                    				<a href="/air/category/news/" class="tag">News</a>
+	                    <h1 id="major-updates">Air Launches as Public Preview – A New Wave of Dev Tooling Built on 26 Years of Experience</h1>                    <div class="author-post">
+                                                <div class="author-post__info">
+                            <div class="author-post__info-avatars ">
+                                                                                                                                                    <img src="https://blog.jetbrains.com/wp-content/uploads/2026/02/IMG_2602-e1772205972634-200x200.jpg" width="200" height="200" alt="Nik Tkachev" loading="lazy"  class="avatar">
+                                                                                                </div>
+                            <div class="author-post__text">
+                                <div class="author-post__text-title">
+                                                                            <a href="https://blog.jetbrains.com/author/nikita-tkachev">Nik Tkachev</a>
+                                                                    </div>
+                                                                    <time class="publish-date" data-year="2026" data-month="03" data-day="09" data-hours="14" data-minutes="02" datetime="2026-03-09"></time>
+                                                            </div>
+                        </div>
+                        <div class="author-post__language"><p data-nosnippet>Read this post in other languages:</p><ul class="author-post__language-list"><li><a href="https://blog.jetbrains.com/de/air/2026/03/air-startet-als-oeffentliche-preview-eine-neue-generation-von-entwicklertools-basierend-auf-26-jahren-erfahrung/">Deutsch</a></li>, <li><a href="https://blog.jetbrains.com/es/air/2026/03/lanzamos-la-version-preliminar-publica-de-air-una-nueva-generacion-de-herramientas-de-desarrollo-basadas-en-26-anos-de-experiencia/">Español</a></li>, <li><a href="https://blog.jetbrains.com/fr/air/2026/03/lancement-de-air-en-preversion-publique-une-nouvelle-generation-d-outils-de-developpement-basee-sur-26-ans-d-experience/">Français</a></li>, <li><a href="https://blog.jetbrains.com/ja/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/">日本語</a></li>, <li><a href="https://blog.jetbrains.com/ko/air/2026/03/air-launches-as-public-preview/">한국어</a></li>, <li><a href="https://blog.jetbrains.com/pt-br/air/2026/03/lancamento-do-air-em-previa-publica-uma-nova-geracao-de-ferramentas-para-desenvolvimento-criadas-sobre-26-anos-de-experiencia/">Português do Brasil</a></li></ul></div>                    </div>
+                    
+<p><a href="https://air.dev" target="_blank" rel="noopener"><strong>Download Air</strong></a> – free for macOS. Windows and Linux versions coming soon.</p>
+
+
+
+<p>We hold a principled optimism for agentic software development – and a pragmatic one. After 26 years of building developer tools, we have a clear view of what needs to be built and a strong conviction that agents will fundamentally change how software gets made. But new concepts are emerging faster than anyone can validate them, so we&#8217;d rather ship what works than hype what might.</p>
+
+
+
+<p>The current state of working with coding agents is fragmented: Each agent runs in a separate tool, with a different setup, different context, and no structural understanding of your code. Air is an important piece in solving that puzzle, and today marks the launch of its Public Preview. It’s available to developers with a JetBrains AI subscription or those with existing subscriptions to agent providers (except Anthropic) and API keys.</p>
+
+
+
+<h3 class="wp-block-heading">A real agentic development environment, not a chat window</h3>
+
+
+
+<p>JetBrains Air is an agentic development environment for delegating coding tasks to multiple AI agents and running them concurrently. Like IntelliJ IDEA, an IDE, Air is built on the idea of integrating the essential tools into a single coherent experience. But there’s a key difference: IDEs add tools to the code editor, while Air builds tools around the agent. The new development experience is optimized for you to guide the agent and fine-tune its output.</p>
+
+
+
+<figure class="wp-block-video"><video controls src="https://blog.jetbrains.com/wp-content/uploads/2026/03/AIRSUB-v3_38mb11.mp4"></video></figure>
+
+
+
+<p>Air helps you navigate your codebase. You can mention a specific line, commit, class, method, or other symbol when defining a task. As a result, the agent gets precise context instead of a blob of pasted text. And when the task is done, your review doesn&#8217;t stop at the code diff – Air lets you see the changes in the context of your entire codebase, and you’ll have essential tools like a terminal, Git client, and built-in preview right in front of you.&nbsp;</p>
+
+
+
+<p>Let&#8217;s be honest: Complex codebases aren&#8217;t yet ready for pure agentic coding. This is where our 26 years of experience building IDEs come into play. Air focuses on agent orchestration without replacing existing development workflows. Air handles the agent-powered development; your IDE handles the rest.</p>
+
+
+
+<h3 class="wp-block-heading">Switch agents freely, run tasks concurrently</h3>
+
+
+
+<p>Air supports Codex, Claude Agent, Gemini CLI, and Junie out of the box. AI vendors are leapfrogging each other – Air makes switching agents across projects a natural part of the workflow, not a migration. Air supports the <a href="https://blog.jetbrains.com/ai/2025/10/jetbrains-zed-open-interoperability-for-ai-coding-agents-in-your-ide/">Agent Client Protocol (ACP)</a> and will soon add support for other agents available via ACP through the <a href="https://blog.jetbrains.com/ai/2026/01/acp-agent-registry/#h.335t1ta6wcrk">ACP Agent Registry</a>.</p>
+
+
+
+<p>Run agents locally by default, or isolate them in Docker containers and Git worktrees for sandboxing and concurrent work.</p>
+
+
+
+<p>Air helps you to avoid the mess of having multiple windows and terminal tabs open for each task. You see one task (meaning one agent session) at a time. You’ll get a notification when another task needs your attention, so you can quickly switch to it while the agent keeps working. Air then helps bring your changes from a container or worktree to your main copy.</p>
+
+
+
+<figure class="wp-block-image size-full"><img decoding="async" fetchpriority="high" width="872" height="624" src="https://blog.jetbrains.com/wp-content/uploads/2026/03/Agent-Selector-2.png" alt="" class="wp-image-686194"/></figure>
+
+
+
+<h3 class="wp-block-heading">Getting started</h3>
+
+
+
+<p>If you have a subscription to JetBrains AI Pro (<a href="https://sales.jetbrains.com/hc/en-gb/articles/16544922728466-Is-JetBrains-AI-subscription-included-in-All-Products-Pack-or-dotUltimate" target="_blank" rel="noopener">which is included in the All Products Pack and dotUltimate</a>) or AI Ultimate, all agents are included – just sign in with your JetBrains Account. Prefer to use your own API keys from Anthropic, OpenAI, or Google? You can bring them along! You can also use personal-use subscriptions from Google and OpenAI. If you take the BYOK (Bring Your Own Key) approach, your own keys will always be used first, and any usage not covered by those keys will default back to your JetBrains subscription. A dedicated offering for enterprises is coming soon.</p>
+
+
+
+<p>Cloud execution (i.e. remote agent runs in isolated sandboxes) is in tech preview and will be available soon for Air users.&nbsp;</p>
+
+
+
+<h3 class="wp-block-heading">Next step: Team collaboration</h3>
+
+
+
+<p>This release focuses on individual developer productivity. At the same time, we see this as a step toward a future where humans and agents collaborate more closely.</p>
+
+
+
+<p>One insight we’ve gained from working with agents is that collaboration doesn’t start when reviewing agent output. It starts earlier, when defining the task itself. Teams benefit from refining and aligning on the task together before any agents get involved at all. We’ll share more on this soon.</p>
+
+
+
+<p><a href="https://air.dev" target="_blank" rel="noopener"><strong>Download Air</strong></a>, sign in, and start your first task. We listen to your feedback and are constantly using it to improve – join us on <a href="https://x.com/getsome_air" target="_blank">X</a> or get in touch <a href="https://air-support.jetbrains.com/hc/en-us/requests/new" target="_blank" rel="noopener">directly</a>.</p>
+                                                                <div class="content__row">
+                            	<div class="tag-list">
+                                    <a href="/air/tag/ai/" class="tag">AI</a>
+                    <a href="/air/tag/ai-agents/" class="tag">ai agents</a>
+            </div>
+                            <ul class="social">
+    <li><span>Share</span></li>
+    <li><a target="_blank" href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fblog.jetbrains.com%2Fair%2F2026%2F03%2Fair-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience%2F?facebook_en_US" rel="noopener noreferrer"><i class="icon-facebook"><span class="sr-only">Facebook</span></i></a></li>
+    <li><a target="_blank" href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fblog.jetbrains.com%2Fair%2F2026%2F03%2Fair-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience%2F&text=https%3A%2F%2Fblog.jetbrains.com%2Fair%2F2026%2F03%2Fair-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience%2F?twitter_en_US" rel="noopener noreferrer"><span class="sr-only">Twitter</span><i class="icon-twitter"></i></a></li>
+    <li><a target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fblog.jetbrains.com%2Fair%2F2026%2F03%2Fair-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience%2F?linkedin_en_US" rel="noopener noreferrer"><i class="icon-linkedin"><span class="sr-only">Linkedin</span></i></a></li>
+    </ul>
+                        </div>
+                        <div class="content__pagination"><a class="content__pagination-prev" href="https://blog.jetbrains.com/ai/2026/03/cursor-joined-the-acp-registry-and-is-now-live-in-your-jetbrains-ide/"><i class="icon-arrow-left"><span class="sr-only">Prev post</span></i> Cursor Joined the ACP Registry and Is Now Live in Your JetBrains IDE</a><a class="content__pagination-next" href="https://blog.jetbrains.com/ai/2026/03/experimental-ai-features-for-jetbrains-ides-recap-and-insights/">Experimental AI Features for JetBrains IDEs: Recap and Insights <i class="icon-arrow-right"><span class="sr-only">Next post</span></i></a></div>                                                                                                                                                                                                                                    <div class="content__form">
+                                    <div class="form-subscribe">
+                                                                                    <h4>Subscribe to Air blog updates</h4>
+                                                                                                                        <form action="#" class="form-subscribe__form js-form-subscribe__form">
+                                            <input type="hidden" name="formid" value="consent/9411">
+                                            <input type="hidden" class="fieldName1" name="airBlog" value=true>
+                                            <input type="hidden" name="locale" value="en_US">
+                                                                                            <input type="hidden" name="originURL" value="https://blog.jetbrains.com">
+                                                                                                                                        <input type="hidden" name="PyCharm_Used_Frameworks" value="Referrer">
+                                                                                                                                        <input type="hidden" name="uTMparameter" value="true">
+                                                                                        <input type="hidden" name="privacyConsentType[]" value="mkt.general.jb-intention">
+                                                                                                                                    <input type="hidden" name="subscriptionTopicWelcomeEmail" value="Air blog">
+
+                                            <div class="form-subscribe__group-input">
+                                                <label for="email" class="sr-only">Subscribe form</label>
+                                                <input  id="email" type="email" placeholder="Your email" name="email">
+                                            </div>
+                                                                                                                                                <input type="hidden" id="checkbox" name="privacyConsent" value="true">
+                                                                                                                                        <div class="form-subscribe__group-checkbox">
+                                                <label for="checkbox">By submitting this form, I agree to the JetBrains <a href="https://www.jetbrains.com/company/privacy.html" class="tooltip-opener">Privacy Policy <i class="icon-notification"><span class="sr-only">Notification icon</span></i></a></label>
+                                                <div class="tooltip">
+                                                    <p>By submitting this form, I agree that JetBrains s.r.o. ("JetBrains") may use my name, email address, and location data to send me newsletters, including commercial communications, and to process my personal data for this purpose. I agree that JetBrains may process said data using <a href="https://www.jetbrains.com/legal/privacy/third-parties.html">third-party</a> services for this purpose in accordance with the <a href="https://www.jetbrains.com/company/privacy.html" target="_blank">JetBrains Privacy Policy</a>. I understand that I can revoke this consent at any time in <a href="https://account.jetbrains.com/profile-details/privacy" target="_blank">my profile</a>. In addition, an unsubscribe link is included in each email.</p>
+                                                </div>
+                                            </div>
+                                            <button type="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                    <div class="form_massage" style="display: none"><p>Thanks, we've got you!</p></div>
+                                    <div class="content__form-img">
+                                                                                    <img src="https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/img/img-form.svg" alt="image description">
+                                                                            </div>
+                                </div>
+                                                                                        </div>
+                <a href="#" class="toc-opener"></a>
+                <div class="js-toc"></div>
+                <div class="container comments-container">
+                    
+<div class="content">
+    <div id="remark42"></div>
+</div>
+                </div>
+                            </section>
+                        </main>
+<footer class="footer" id="footer">
+    <div class="container">
+        <div class="footer__top">
+            <ul class="footer__nav"><li id="menu-item-118361" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-118361"><a href="https://www.jetbrains.com/privacy-security/">Privacy &#038; Security</a></li>
+<li id="menu-item-118362" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-118362"><a href="https://www.jetbrains.com/company/useterms.html">Terms of Use</a></li>
+<li id="menu-item-118363" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-118363"><a href="https://www.jetbrains.com/legal/">Legal</a></li>
+<li id="menu-item-118364" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-118364"><a href="https://www.jetbrains.com/genuine-tools/">Genuine tools</a></li>
+</ul>                            <div class="footer__dropdown">
+                    <a href="#" class="lang-opener"><i class="icon-language"><span class="sr-only">Language</span></i></a>
+                    <ul class="dropdown-language"><li><a class="active" href="https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/">English</a></li><li><a  href="https://blog.jetbrains.com/de/air/2026/03/air-startet-als-oeffentliche-preview-eine-neue-generation-von-entwicklertools-basierend-auf-26-jahren-erfahrung/">Deutsch</a></li><li><a  href="https://blog.jetbrains.com/es/air/2026/03/lanzamos-la-version-preliminar-publica-de-air-una-nueva-generacion-de-herramientas-de-desarrollo-basadas-en-26-anos-de-experiencia/">Español</a></li><li><a  href="https://blog.jetbrains.com/fr/air/2026/03/lancement-de-air-en-preversion-publique-une-nouvelle-generation-d-outils-de-developpement-basee-sur-26-ans-d-experience/">Français</a></li><li><a  href="https://blog.jetbrains.com/ja/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/">日本語</a></li><li><a  href="https://blog.jetbrains.com/ko/air/2026/03/air-launches-as-public-preview/">한국어</a></li><li><a  href="https://blog.jetbrains.com/pt-br/air/2026/03/lancamento-do-air-em-previa-publica-uma-nova-geracao-de-ferramentas-para-desenvolvimento-criadas-sobre-26-anos-de-experiencia/">Português do Brasil</a></li></ul>                </div>
+                    </div>
+        <div class="footer__row">
+                                        <ul class="social">
+                                                                                                    <li>
+                                <a href="https://twitter.com/jetbrains"><i class="icon-twitter"><span class="sr-only">Twitter</span></i></a>
+                            </li>
+                                                                                                                            <li>
+                                <a href="https://www.facebook.com/JetBrains"><i class="icon-facebook"><span class="sr-only">Facebook</span></i></a>
+                            </li>
+                                                                                                                            <li>
+                                <a href="https://www.linkedin.com/company/jetbrains"><i class="icon-linkedin"><span class="sr-only">Linkedin</span></i></a>
+                            </li>
+                                                                                                                            <li>
+                                <a href="https://www.instagram.com/jetbrains/"><i class="icon-instagram"><span class="sr-only">Instagram</span></i></a>
+                            </li>
+                                                                                                                            <li>
+                                <a href="https://www.youtube.com/user/JetBrainsTV"><i class="icon-youtube"><span class="sr-only">Youtube</span></i></a>
+                            </li>
+                                                                                                                            <li>
+                                <a href="https://blog.jetbrains.com/feed/"><i class="icon-rss-feed"><span class="sr-only">RSS</span></i></a>
+                            </li>
+                                                                                                                            <li>
+                                <a href="https://www.tiktok.com/@jetbrains?lang=en"><i class="icon-tiktok"><span class="sr-only">Tiktok</span></i></a>
+                            </li>
+                                                            </ul>
+                                        <a href="https://jb.gg/jetbrainsgearblog" class="footer__merch-link" ><i class="icon-merchandise"><span class="sr-only">Merchandise store icon</span></i>Merchandise store</a>
+                    </div>
+                    <span class="copyright">Copyright © 2000 <a href="https://www.jetbrains.com/" target="”_blank”">JetBrains</a> s.r.o.</span>
+            </div>
+</footer>
+<span class="overlay"></span>
+</div>
+
+
+<script>
+                var remark_config = {
+                    host: "https://comments.blog.jetbrains.com",
+                    site_id: "remark",
+                    components: ["counter","embed"],
+                    max_shown_comments: 150,
+                    locale: "en"
+                    };
+                                            </script><script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script><script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/accordion-blocks/js/accordion-blocks.min.js?ver=1.5.0' id='pb-accordion-blocks-frontend-script-js'></script>
+<script type='module' src='https://blog.jetbrains.com/wp-content/plugins/instant-page/instantpage.js?ver=5.6.1' id='instantpage-js'></script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/map-shortcode//map.js?ver=821f574ee7885085e15a9ad4db47b961' id='gmaps-js'></script>
+<script type='text/javascript' src='//cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js?ver=821f574ee7885085e15a9ad4db47b961' id='mathjax-js'></script>
+<script type='text/javascript' id='ppress-frontend-script-js-extra'>
+/* <![CDATA[ */
+var pp_ajax_form = {"ajaxurl":"\/ajax-admin\/admin-ajax.php","confirm_delete":"Are you sure?","deleting_text":"Deleting...","deleting_error":"An error occurred. Please try again.","nonce":"c6f6c03fce","disable_ajax_form":"false","is_checkout":"0","is_checkout_tax_enabled":"0","is_checkout_autoscroll_enabled":"true"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/wp-user-avatar/assets/js/frontend.min.js?ver=4.15.22' id='ppress-frontend-script-js'></script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/plugins/enlighter/cache/enlighterjs.min.js?ver=ZGyDHRSQPMewFUQ' id='enlighterjs-js'></script>
+<script id="enlighterjs-js-after" type="text/javascript">
+!function(e,n){if("undefined"!=typeof EnlighterJS){var o={"selectors":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"options":{"indent":4,"ampersandCleanup":true,"linehover":true,"rawcodeDbclick":false,"textOverflow":"scroll","linenumbers":false,"theme":"wpcustom","language":"generic","retainCssClasses":false,"collapse":false,"toolbarOuter":"","toolbarTop":"{BTN_RAW}{BTN_COPY}{BTN_WINDOW}{BTN_WEBSITE}","toolbarBottom":""}};(e.EnlighterJSINIT=function(){EnlighterJS.init(o.selectors.block,o.selectors.inline,o.options)})()}else{(n&&(n.error||n.log)||function(){})("Error: EnlighterJS resources not loaded yet!")}}(window,console);
+</script>
+<script type='text/javascript' id='app-js-extra'>
+/* <![CDATA[ */
+var loadmore_params = {"ajaxurl":"\/ajax-admin\/admin-ajax.php?wpml_lang=en","post_data":{"post_type":"air"},"current_page":"1","max_page":"0","nonce":"657d0b18d7","form_nonce":"81f81600e0","email_error_message":"Invalid email format"};
+var current_lang = "en-us";
+var nonce = "c35e88d068";
+var jetbrains_texts = {"loadmore":{"load_more":"Load more","loading":"Loading..."}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/dist/app.min.js?ver=2271' id='app-js'></script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/dist/singlepost.min.js?ver=2271' id='single-post-js'></script>
+<script type='text/javascript' id='jb-blog-forms-js-extra'>
+/* <![CDATA[ */
+var jbFormsCfg = {"locale":"en_US","captchaErrorMessage":"Captcha verification failed. Please try again.","captchaLoadErrorMessage":"Captcha could not be loaded. Please disable adblock or try another browser."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://blog.jetbrains.com/wp-content/themes/jetbrains/assets/js/blog-forms.js?ver=2271' id='jb-blog-forms-js'></script>
+<script>
+    if(jQuery('.subscribe-form').length>0){
+        ui.subscribeForm('.subscribe-form');
+    }
+    // if(jQuery('img[data-gif-src]').length>0){
+    //     ui.gifPlayer('img[data-gif-src]');
+    // }
+</script>
+<!-- Build #2271 -->
+</body>
+</html>
