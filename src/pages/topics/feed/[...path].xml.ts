@@ -5,7 +5,6 @@ import {
   getArticlesByTopic,
   getTopicHierarchy,
   topicSlug,
-  topicFromSlug,
   subcategorySlug,
   type TopicCategory,
 } from '@/lib/article-meta';

@@ -66,7 +66,8 @@ export async function getStaticPaths() {
 
 const ARTICLES_PER_PAGE = 12;
 
-const { topic, subcategory } = Astro.props;
+const { topic: topicRaw, subcategory } = Astro.props;
+const topic = topicRaw as TopicCategory;
 const pathParam = Astro.params.path!;
 
 // Determine current page from path
