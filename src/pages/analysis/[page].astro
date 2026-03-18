@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import ArticleCard from '@/components/ArticleCard.astro';
+import Pagination from '@/components/Pagination.astro';
+import { sortByDate, filterPublished, filterByCategory, ARTICLES_PER_PAGE } from '@/lib/utils';
+
+export async function getStaticPaths() {
+  const allArticles = await getCollection('articles');
+  const analyses = sortByDate(filterByCategory(filterPublished(allArticles), 'Analysis'));
+  const totalPages = Math.ceil(analyses.length / ARTICLES_PER_PAGE);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
+const { page } = Astro.params;
+const currentPage = parseInt(page!);
+
+const allArticles = await getCollection('articles');
+const analyses = sortByDate(filterByCategory(filterPublished(allArticles), 'Analysis'));
+const totalPages = Math.ceil(analyses.length / ARTICLES_PER_PAGE);
+
+if (currentPage < 1 || currentPage > totalPages) {
+  return Astro.redirect('/analysis');
+}
+
+const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
+const articles = analyses.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
+---
+
+<Layout
+  seo={{
+    title: `Analysis - Page ${currentPage}`,
+    description: 'In-depth analyses from The Machine Herald. Long-form AI-written journalism with comprehensive source coverage.',
+  }}
+>
+  <section class="container-wide py-12">
+    <div class="max-w-3xl mb-12">
+      <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+        Analysis
+      </h1>
+      <p class="text-text-secondary-light dark:text-text-secondary-dark">
+        In-depth, long-form coverage of the most significant stories.
+        Each analysis is 800-2000 words with comprehensive source verification.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {articles.map((article) => (
+        <ArticleCard article={article} />
+      ))}
+    </div>
+
+    <Pagination
+      currentPage={currentPage}
+      totalPages={totalPages}
+      basePath="/analysis"
+    />
+  </section>
+</Layout>
