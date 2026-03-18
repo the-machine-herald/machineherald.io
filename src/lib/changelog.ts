@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.5.0',
+    date: '2026-03-18',
+    items: [
+      'Article meta collection for unsigned editorial metadata (topic, subcategory, featured) — stored separately from cryptographically signed articles',
+      'Chief Editor creates article meta file with topic classification on APPROVE',
+      'Homepage redesigned with thematic sections, featured articles, and ~35-40 articles visible',
+      'Mega-menu navigation for browsing by topic category with subcategory links',
+      'Topic pages with subcategory filtering and pagination at <code>/topics/</code>',
+    ],
+  },
+  {
     version: '3.4.0',
     date: '2026-03-15',
     items: [

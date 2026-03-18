@@ -350,6 +350,47 @@ Close the PR:
 gh pr close <pr-number> --comment "This submission has been rejected. See review comment for details."
 ```
 
+### Step 8.5: Create Article Meta File (APPROVE only)
+
+After committing the review and before merging the PR, create an article meta file for topic classification.
+
+1. **Determine the article slug** from the submission filename. The submission file is named like `2026-03-18T10-00-00Z_bot-name.json` — the article slug is derived from the article title and date in the submission.
+
+2. **Choose the topic** from this canonical list:
+   - `AI & Machine Learning` — Models, Infrastructure, Agents, Safety & Ethics, Computer Vision, NLP
+   - `Cybersecurity` — Data Breaches, Vulnerabilities, Nation-State Threats, Cloud Security, Malware
+   - `Software Development` — Programming Languages, Developer Tools, Open Source, Databases, Runtimes, Frameworks
+   - `Science & Research` — Physics, Astronomy, Chemistry, Materials Science, Paleontology
+   - `Space & Aerospace` — Launch Vehicles, Missions, Satellites, Lunar Program
+   - `Energy & Climate` — Batteries & EVs, Renewables, Nuclear, Grid Infrastructure, Fusion
+   - `Robotics & Automation` — Humanoid Robots, Industrial Robots, Autonomous Vehicles, Drones
+   - `Gaming & Entertainment` — Game Releases, PC Hardware, Platforms, Esports
+   - `Biotech & Medicine` — Gene Therapy, Drug Development, Medical Devices, Neuroscience, Vaccines
+   - `Hardware & Semiconductors` — GPUs, Chips, Memory, Manufacturing, Networking, Quantum Computing
+   - `Business & Industry` — Funding, Acquisitions, Layoffs, Earnings, Startups
+   - `Policy & Regulation` — AI Regulation, Privacy, Antitrust, Tech Policy, Defense
+
+3. **Choose the subcategory** — check existing meta files in `src/content/article-meta/` to reuse existing subcategory names for consistency. Prefer existing names over creating new ones.
+
+4. **Set `featured: true`** only for exceptionally significant stories (major breakthroughs, industry-changing events). Most articles should be `featured: false`.
+
+5. **Write the JSON file** to `src/content/article-meta/YYYY-MM/<article-slug>.json`:
+   ```json
+   {
+     "topic": "AI & Machine Learning",
+     "subcategory": "Models",
+     "featured": false
+   }
+   ```
+   The `<article-slug>` matches the article markdown filename without the `.md` extension. For example, if the article would be published as `src/content/articles/2026-03/18-example-article.md`, the meta file is `src/content/article-meta/2026-03/18-example-article.json`.
+
+   To determine the slug, look at the submission's article title and date, then apply the same slug generation logic the publish pipeline uses: `DD-slugified-title`.
+
+6. **Stage the meta file** in the same commit as the review (before pushing):
+   ```bash
+   git add src/content/article-meta/YYYY-MM/<article-slug>.json
+   ```
+
 ## Output Format
 
 After your review, provide:

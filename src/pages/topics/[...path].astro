@@ -1,0 +1,184 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ArticleCard from '@/components/ArticleCard.astro';
+import Pagination from '@/components/Pagination.astro';
+import {
+  getArticlesWithMeta,
+  getArticlesByTopic,
+  getTopicHierarchy,
+  topicSlug,
+  subcategorySlug,
+  type TopicCategory,
+} from '@/lib/article-meta';
+
+export async function getStaticPaths() {
+  const { getArticlesWithMeta, getArticlesByTopic, getTopicHierarchy, topicSlug, subcategorySlug } = await import('@/lib/article-meta');
+  const PAGE_SIZE = 12;
+
+  const allWithMeta = await getArticlesWithMeta();
+  const published = allWithMeta.filter((a: any) => !a.article.data.draft);
+  const hierarchy = getTopicHierarchy(published);
+
+  const paths: {
+    params: { path: string };
+    props: { topic: string; subcategory?: string };
+  }[] = [];
+
+  for (const [topic, subcategories] of hierarchy) {
+    const slug = topicSlug(topic);
+
+    paths.push({
+      params: { path: slug },
+      props: { topic },
+    });
+
+    const topicArticles = getArticlesByTopic(published, topic);
+    const totalPages = Math.ceil(topicArticles.length / PAGE_SIZE);
+    for (let page = 2; page <= totalPages; page++) {
+      paths.push({
+        params: { path: `${slug}/${page}` },
+        props: { topic },
+      });
+    }
+
+    for (const sub of subcategories) {
+      const subSlug = subcategorySlug(sub);
+      paths.push({
+        params: { path: `${slug}/${subSlug}` },
+        props: { topic, subcategory: sub },
+      });
+
+      const subArticles = topicArticles.filter(
+        (a: any) => a.meta?.data.subcategory === sub,
+      );
+      const subTotalPages = Math.ceil(subArticles.length / PAGE_SIZE);
+      for (let page = 2; page <= subTotalPages; page++) {
+        paths.push({
+          params: { path: `${slug}/${subSlug}/${page}` },
+          props: { topic, subcategory: sub },
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+const ARTICLES_PER_PAGE = 12;
+
+const { topic, subcategory } = Astro.props;
+const pathParam = Astro.params.path!;
+
+// Determine current page from path
+const pathParts = pathParam.split('/');
+const lastPart = pathParts[pathParts.length - 1]!;
+const currentPage = /^\d+$/.test(lastPart) ? parseInt(lastPart, 10) : 1;
+
+// Get articles
+const allWithMeta = await getArticlesWithMeta();
+const published = allWithMeta.filter((a) => !a.article.data.draft);
+const topicArticles = getArticlesByTopic(published, topic)
+  .sort((a, b) => b.article.data.date.getTime() - a.article.data.date.getTime());
+
+// Filter by subcategory if present
+const filteredArticles = subcategory
+  ? topicArticles.filter((a) => a.meta?.data.subcategory === subcategory)
+  : topicArticles;
+
+const totalPages = Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE);
+const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
+const pageArticles = filteredArticles.slice(startIndex, startIndex + ARTICLES_PER_PAGE);
+
+// Get all subcategories for this topic
+const hierarchy = getTopicHierarchy(published);
+const subcategories = hierarchy.get(topic);
+
+// Base path for pagination
+const tSlug = topicSlug(topic);
+const basePath = subcategory
+  ? `/topics/${tSlug}/${subcategorySlug(subcategory)}`
+  : `/topics/${tSlug}`;
+
+const pageTitle = subcategory ? `${subcategory} — ${topic}` : topic;
+const feedPath = subcategory
+  ? `/topics/feed/${tSlug}/${subcategorySlug(subcategory)}.xml`
+  : `/topics/feed/${tSlug}.xml`;
+---
+
+<Layout
+  seo={{
+    title: pageTitle,
+    description: `${topic} articles on The Machine Herald${subcategory ? ` — ${subcategory}` : ''}.`,
+  }}
+>
+  <article class="container-wide py-12">
+    <header class="mb-8">
+      <div class="flex items-center gap-2 text-xs font-mono text-text-muted-light dark:text-text-muted-dark mb-2">
+        <a href="/topics" class="hover:text-accent transition-colors">Topics</a>
+        <span>/</span>
+        {subcategory ? (
+          <>
+            <a href={`/topics/${tSlug}`} class="hover:text-accent transition-colors">{topic}</a>
+            <span>/</span>
+            <span>{subcategory}</span>
+          </>
+        ) : (
+          <span>{topic}</span>
+        )}
+      </div>
+      <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-3">
+        {subcategory || topic}
+      </h1>
+      <p class="text-text-secondary-light dark:text-text-secondary-dark">
+        {filteredArticles.length} article{filteredArticles.length !== 1 ? 's' : ''}
+        <span class="mx-1" aria-hidden="true">&middot;</span>
+        <a
+          href={feedPath}
+          class="inline-inline items-center gap-1 text-xs font-mono text-accent hover:underline"
+          title={`RSS feed for ${pageTitle}`}
+        >
+          <svg class="w-3 h-3 inline -mt-px" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+          </svg>
+          RSS
+        </a>
+      </p>
+    </header>
+
+    <!-- Subcategory chips -->
+    {!subcategory && subcategories && subcategories.size > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        {[...subcategories].map((sub) => (
+          <a
+            href={`/topics/${tSlug}/${subcategorySlug(sub)}`}
+            class="signal-pill hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+          >
+            {sub}
+          </a>
+        ))}
+      </div>
+    )}
+
+    {pageArticles.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {pageArticles.map(({ article }) => (
+          <ArticleCard article={article} showTags={false} />
+        ))}
+      </div>
+    ) : (
+      <div class="card p-8 text-center">
+        <p class="text-text-secondary-light dark:text-text-secondary-dark">
+          No articles in this category yet.
+        </p>
+      </div>
+    )}
+
+    {totalPages > 1 && (
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        basePath={basePath}
+      />
+    )}
+  </article>
+</Layout>

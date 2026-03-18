@@ -1,8 +1,19 @@
 ---
+import MegaMenu from './MegaMenu.astro';
+
 const navLinks = [
   { href: '/', label: 'Home' },
+  { href: '/topics', label: 'Topics', hasMegaMenu: true },
+  { href: '/analysis', label: 'Analysis' },
   { href: '/articles', label: 'Articles' },
-  { href: '/signals', label: 'Signals' },
+  { href: '/about', label: 'About' },
+  { href: '/provenance', label: 'Provenance' },
+];
+
+const mobileLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/analysis', label: 'Analysis' },
+  { href: '/articles', label: 'Articles' },
   { href: '/about', label: 'About' },
   { href: '/provenance', label: 'Provenance' },
   { href: '/contact', label: 'Contact' },
@@ -11,7 +22,7 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="border-b border-border-light dark:border-border-dark no-print">
+<header class="border-b border-border-light dark:border-border-dark no-print relative">
   <div class="container-wide">
     <nav class="flex items-center justify-between h-16 nav:h-20">
       <!-- Logo + Wordmark -->
@@ -26,17 +37,37 @@ const currentPath = Astro.url.pathname;
       <!-- Desktop Navigation -->
       <div class="hidden nav:flex items-center gap-6">
         {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              'text-sm font-medium transition-colors',
-              currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href))
-                ? 'text-text-primary-light dark:text-text-primary-dark'
-                : 'text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark',
-            ]}
-          >
-            {link.label}
-          </a>
+          link.hasMegaMenu ? (
+            <button
+              type="button"
+              id="topics-trigger"
+              class:list={[
+                'text-sm font-medium transition-colors inline-flex items-center gap-1',
+                currentPath.startsWith('/topics')
+                  ? 'text-text-primary-light dark:text-text-primary-dark'
+                  : 'text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark',
+              ]}
+              aria-expanded="false"
+              aria-controls="mega-menu"
+            >
+              {link.label}
+              <svg class="w-3.5 h-3.5 transition-transform" id="topics-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          ) : (
+            <a
+              href={link.href}
+              class:list={[
+                'text-sm font-medium transition-colors',
+                currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href))
+                  ? 'text-text-primary-light dark:text-text-primary-dark'
+                  : 'text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark',
+              ]}
+            >
+              {link.label}
+            </a>
+          )
         ))}
 
         <!-- Search Toggle -->
@@ -118,8 +149,8 @@ const currentPath = Astro.url.pathname;
       id="mobile-menu"
       class="hidden nav:hidden pb-4 border-t border-border-light dark:border-border-dark"
     >
-      <div class="flex flex-col gap-2 pt-4">
-        {navLinks.map((link) => (
+      <div class="flex flex-col gap-1 pt-4">
+        {mobileLinks.map((link) => (
           <a
             href={link.href}
             class:list={[
@@ -132,6 +163,25 @@ const currentPath = Astro.url.pathname;
             {link.label}
           </a>
         ))}
+
+        <!-- Topics accordion -->
+        <button
+          type="button"
+          id="mobile-topics-toggle"
+          class:list={[
+            'flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors w-full text-left',
+            currentPath.startsWith('/topics')
+              ? 'bg-zinc-100 dark:bg-zinc-800 text-text-primary-light dark:text-text-primary-dark'
+              : 'text-text-secondary-light dark:text-text-secondary-dark',
+          ]}
+        >
+          <span>Topics</span>
+          <svg class="w-4 h-4 transition-transform" id="mobile-topics-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="mobile-topics-panel" class="hidden"></div>
+
         <div class="flex items-center justify-end px-3 py-2">
           <div class="flex items-center gap-1">
             <button
@@ -172,6 +222,9 @@ const currentPath = Astro.url.pathname;
       </div>
     </div>
   </div>
+
+  <!-- Mega Menu (positioned relative to header) -->
+  <MegaMenu />
 </header>
 
 <script>
@@ -194,6 +247,62 @@ const currentPath = Astro.url.pathname;
       mobileMenuToggle.setAttribute('aria-expanded', String(!isExpanded));
       mobileMenu?.classList.toggle('hidden');
     });
+
+    // Desktop mega-menu
+    const topicsTrigger = document.getElementById('topics-trigger');
+    const megaMenu = document.getElementById('mega-menu');
+    const topicsChevron = document.getElementById('topics-chevron');
+
+    if (topicsTrigger && megaMenu) {
+      topicsTrigger.addEventListener('click', () => {
+        const isOpen = topicsTrigger.getAttribute('aria-expanded') === 'true';
+        topicsTrigger.setAttribute('aria-expanded', String(!isOpen));
+        megaMenu.classList.toggle('hidden');
+        topicsChevron?.classList.toggle('rotate-180');
+      });
+
+      // Close on click outside
+      document.addEventListener('click', (e) => {
+        if (
+          topicsTrigger.getAttribute('aria-expanded') === 'true' &&
+          !megaMenu.contains(e.target as Node) &&
+          !topicsTrigger.contains(e.target as Node)
+        ) {
+          topicsTrigger.setAttribute('aria-expanded', 'false');
+          megaMenu.classList.add('hidden');
+          topicsChevron?.classList.remove('rotate-180');
+        }
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && topicsTrigger.getAttribute('aria-expanded') === 'true') {
+          topicsTrigger.setAttribute('aria-expanded', 'false');
+          megaMenu.classList.add('hidden');
+          topicsChevron?.classList.remove('rotate-180');
+          topicsTrigger.focus();
+        }
+      });
+    }
+
+    // Mobile topics accordion
+    const mobileTopicsToggle = document.getElementById('mobile-topics-toggle');
+    const mobileTopicsPanel = document.getElementById('mobile-topics-panel');
+    const mobileTopicsChevron = document.getElementById('mobile-topics-chevron');
+    const topicsTemplate = document.getElementById('mobile-topics-template') as HTMLTemplateElement | null;
+
+    if (mobileTopicsToggle && mobileTopicsPanel && topicsTemplate) {
+      // Populate panel from template on first open
+      let populated = false;
+      mobileTopicsToggle.addEventListener('click', () => {
+        if (!populated) {
+          mobileTopicsPanel.appendChild(topicsTemplate.content.cloneNode(true));
+          populated = true;
+        }
+        mobileTopicsPanel.classList.toggle('hidden');
+        mobileTopicsChevron?.classList.toggle('rotate-180');
+      });
+    }
   }
 
   // Run on initial load

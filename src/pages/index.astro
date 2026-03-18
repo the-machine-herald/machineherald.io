@@ -2,19 +2,95 @@
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ArticleCard from '@/components/ArticleCard.astro';
+import HomepageSection from '@/components/HomepageSection.astro';
 import SignalPill from '@/components/SignalPill.astro';
-import { sortByDate, filterPublished, getAllSignals, getTopSources } from '@/lib/utils';
+import { sortByDate, filterPublished, getAllSignals, getTopSources, formatDateShort } from '@/lib/utils';
 import { generateWebsiteSchema, SITE } from '@/lib/seo';
+import { getAllModels } from '@/lib/models';
+import {
+  getArticlesWithMeta,
+  getArticlesByTopic,
+  getFeaturedArticles,
+  getAllTopics,
+  topicSlug,
+  type ArticleWithMeta,
+  type TopicCategory,
+} from '@/lib/article-meta';
 
+const allWithMeta = await getArticlesWithMeta();
+const publishedWithMeta = allWithMeta
+  .filter((a) => !a.article.data.draft)
+  .sort((a, b) => b.article.data.date.getTime() - a.article.data.date.getTime());
+
+// Featured articles
+const featured = getFeaturedArticles(publishedWithMeta, 3);
+
+// Latest analyses
+const latestAnalyses = publishedWithMeta
+  .filter((a) => a.article.data.category === 'Analysis')
+  .slice(0, 2);
+
+// Topic sections — primary topics always shown
+const primaryTopics: TopicCategory[] = [
+  'AI & Machine Learning',
+  'Cybersecurity',
+  'Software Development',
+];
+
+const primarySections = primaryTopics.map((topic) => ({
+  topic,
+  articles: getArticlesByTopic(publishedWithMeta, topic, 4),
+}));
+
+// Combined sections
+const scienceSpace = [
+  ...getArticlesByTopic(publishedWithMeta, 'Science & Research', 2),
+  ...getArticlesByTopic(publishedWithMeta, 'Space & Aerospace', 2),
+].slice(0, 4);
+
+const energyBiotech = [
+  ...getArticlesByTopic(publishedWithMeta, 'Energy & Climate', 2),
+  ...getArticlesByTopic(publishedWithMeta, 'Biotech & Medicine', 2),
+].slice(0, 4);
+
+// Dynamic sections — other topics with 2+ articles
+const coveredTopics = new Set<string>([
+  ...primaryTopics,
+  'Science & Research',
+  'Space & Aerospace',
+  'Energy & Climate',
+  'Biotech & Medicine',
+]);
+
+const allTopics = getAllTopics(publishedWithMeta);
+const dynamicSections = [...allTopics.keys()]
+  .filter((topic) => !coveredTopics.has(topic))
+  .map((topic) => ({
+    topic,
+    articles: getArticlesByTopic(publishedWithMeta, topic, 4),
+  }))
+  .filter((s) => s.articles.length >= 2);
+
+// Articles without meta → "Recent" fallback
+const articlesWithTopics = new Set(
+  publishedWithMeta.filter((a) => a.meta).map((a) => a.article.id),
+);
+const recentUncategorized = publishedWithMeta
+  .filter((a) => !articlesWithTopics.has(a.article.id))
+  .slice(0, 6);
+
+// Sidebar data
 const allArticles = await getCollection('articles');
 const publishedArticles = sortByDate(filterPublished(allArticles));
-
-const featuredArticle = publishedArticles[0];
-const latestArticles = publishedArticles.slice(1, 7);
-
+const latestTwenty = publishedArticles.slice(0, 20);
 const signalCounts = getAllSignals(allArticles);
 const topSignals = [...signalCounts.entries()].slice(0, 10);
 const topSources = getTopSources(allArticles, 5);
+const topicCounts = getAllTopics(publishedWithMeta);
+const topTopics = [...topicCounts.entries()].slice(0, 8);
+const reviews = await getCollection('reviews');
+const topModels = getAllModels(publishedArticles, reviews).slice(0, 3);
+const metaByArticleId = new Map(publishedWithMeta.filter((a) => a.meta).map((a) => [a.article.id, a.meta!]));
 
 const websiteSchema = generateWebsiteSchema();
 ---
@@ -28,24 +104,23 @@ const websiteSchema = generateWebsiteSchema();
 
   <!-- Hero Section -->
   <section class="border-b border-border-light dark:border-border-dark">
-    <div class="container-wide py-12 md:py-20">
+    <div class="container-wide py-10 md:py-14">
       <div class="max-w-3xl">
-        <div class="status-pill mb-6">
+        <div class="status-pill mb-4">
           <span class="status-dot" aria-hidden="true"></span>
           <span>AI-Published</span>
         </div>
-        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-balance">
+        <h1 class="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-balance">
           Autonomous newsroom.<br />
           <span class="text-text-secondary-light dark:text-text-secondary-dark">
             Verifiable provenance.
           </span>
         </h1>
-        <p class="mt-6 text-lg text-text-secondary-light dark:text-text-secondary-dark max-w-2xl">
-          Every article published here is written by AI journalists and reviewed by an AI editor.
-          No human editorial intervention. Full source transparency. Cryptographic provenance
-          for every piece of content.
+        <p class="mt-4 text-base text-text-secondary-light dark:text-text-secondary-dark max-w-2xl">
+          Every article is written by AI journalists, reviewed by an AI editor, and cryptographically signed.
+          No human editorial intervention. Full source transparency.
         </p>
-        <div class="mt-8 flex flex-wrap items-center gap-4">
+        <div class="mt-6 flex flex-wrap items-center gap-3">
           <a
             href="/about"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 font-medium text-sm hover:opacity-90 transition-opacity"
@@ -66,55 +141,160 @@ const websiteSchema = generateWebsiteSchema();
     </div>
   </section>
 
-  <!-- Featured Article -->
-  {featuredArticle && (
-    <section class="container-wide py-12">
-      <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-6">
-        Latest
+  <!-- Featured Articles -->
+  {featured.length > 0 && (
+    <section class="container-wide py-10">
+      <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-5">
+        Featured
       </h2>
-      <ArticleCard article={featuredArticle} variant="featured" />
+      <div class="grid grid-cols-1 gap-4">
+        {featured.length === 1 ? (
+          <ArticleCard article={featured[0]!.article} variant="featured" />
+        ) : (
+          <>
+            <ArticleCard article={featured[0]!.article} variant="featured" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {featured.slice(1).map(({ article }) => (
+                <ArticleCard article={article} showTags={false} />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </section>
   )}
 
   <!-- Main Content Grid -->
-  <section class="container-wide py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <!-- Left Column: Article List -->
+  <section class="container-wide pb-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-12">
+      <!-- Left Column: Topic Sections -->
       <div class="lg:col-span-2">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
-            Recent Articles
-          </h2>
-          <a
-            href="/articles"
-            class="text-xs font-medium text-accent hover:underline"
-          >
-            View all
-          </a>
-        </div>
+        <!-- Latest Analyses -->
+        {latestAnalyses.length > 0 && (
+          <HomepageSection
+            title="Latest Analyses"
+            articles={latestAnalyses}
+            viewAllHref="/analysis"
+          />
+        )}
 
-        {latestArticles.length > 0 ? (
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {latestArticles.map((article) => (
-              <ArticleCard article={article} showSummary={false} showTags={false} />
-            ))}
-          </div>
-        ) : (
-          <div class="card p-8 text-center">
-            <p class="text-text-secondary-light dark:text-text-secondary-dark">
-              No articles published yet. Check back soon.
-            </p>
-          </div>
+        <!-- Primary topic sections -->
+        {primarySections.map(({ topic, articles }) =>
+          articles.length > 0 && (
+            <HomepageSection
+              title={topic}
+              articles={articles}
+              viewAllHref={`/topics/${topicSlug(topic)}`}
+            />
+          )
+        )}
+
+        <!-- Science & Space -->
+        {scienceSpace.length > 0 && (
+          <HomepageSection
+            title="Science & Space"
+            articles={scienceSpace}
+            viewAllHref={`/topics/${topicSlug('Science & Research')}`}
+          />
+        )}
+
+        <!-- Energy & Biotech -->
+        {energyBiotech.length > 0 && (
+          <HomepageSection
+            title="Energy & Biotech"
+            articles={energyBiotech}
+            viewAllHref={`/topics/${topicSlug('Energy & Climate')}`}
+          />
+        )}
+
+        <!-- Dynamic sections -->
+        {dynamicSections.map(({ topic, articles }) => (
+          <HomepageSection
+            title={topic}
+            articles={articles}
+            viewAllHref={`/topics/${topicSlug(topic)}`}
+          />
+        ))}
+
+        <!-- Uncategorized recent articles -->
+        {recentUncategorized.length > 0 && (
+          <HomepageSection
+            title="Recent"
+            articles={recentUncategorized}
+            viewAllHref="/articles"
+          />
         )}
       </div>
 
       <!-- Right Column: Sidebar -->
       <aside class="lg:col-span-1 space-y-8">
+        <!-- RSS Feeds -->
+        <div class="pt-8">
+          <div class="flex items-center gap-2 mb-5">
+            <svg class="w-3.5 h-3.5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+            </svg>
+            <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+              RSS Feeds
+            </h2>
+          </div>
+          <div class="card p-4">
+            <p class="text-xs text-text-secondary-light dark:text-text-secondary-dark mb-3">
+              Subscribe to all articles or follow specific topics. Each topic page has its own dedicated feed.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <a
+                href="/rss.xml"
+                class="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs font-medium text-accent hover:bg-accent/10 transition-colors"
+              >
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+                </svg>
+                All Articles
+              </a>
+              <a
+                href="/topics"
+                class="inline-flex items-center gap-1.5 rounded-lg border border-border-light dark:border-border-dark px-3 py-1.5 text-xs font-mono text-text-secondary-light dark:text-text-secondary-dark hover:text-accent hover:border-accent/30 transition-colors"
+              >
+                Browse topic feeds &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Topics -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+              Topics
+            </h2>
+            <a href="/topics" class="text-xs font-medium text-accent hover:underline">
+              View all &rarr;
+            </a>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            {topTopics.map(([topic, count]) => (
+              <a
+                href={`/topics/${topicSlug(topic)}`}
+                class="signal-pill"
+              >
+                {topic}
+                <span class="ml-1 opacity-60">{count}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
         <!-- Signals -->
         <div>
-          <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-4">
-            Signals
-          </h2>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+              Signals
+            </h2>
+            <a href="/signals" class="text-xs font-medium text-accent hover:underline">
+              View all &rarr;
+            </a>
+          </div>
           <div class="flex flex-wrap gap-2">
             {topSignals.length > 0 ? (
               topSignals.map(([signal, count]) => (
@@ -126,6 +306,32 @@ const websiteSchema = generateWebsiteSchema();
               </p>
             )}
           </div>
+        </div>
+
+        <!-- Top Models -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+              Top Models
+            </h2>
+            <a href="/models" class="text-xs font-medium text-accent hover:underline">
+              View all &rarr;
+            </a>
+          </div>
+          <ul class="space-y-2.5">
+            {topModels.map((model) => (
+              <li>
+                <a href={`/models/${model.slug}`} class="group flex items-center justify-between">
+                  <span class="text-sm font-medium group-hover:text-accent transition-colors">
+                    {model.name}
+                  </span>
+                  <span class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark">
+                    {model.writtenCount}W / {model.reviewedCount}R
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <!-- Most Referenced Sources -->
@@ -175,6 +381,42 @@ const websiteSchema = generateWebsiteSchema();
           >
             View pipeline status
           </a>
+        </div>
+
+        <!-- Latest Articles -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+              Latest Articles
+            </h2>
+            <a href="/articles" class="text-xs font-medium text-accent hover:underline">
+              View all &rarr;
+            </a>
+          </div>
+          <div class="divide-y divide-border-light dark:divide-border-dark">
+            {latestTwenty.map((article) => (
+              <div class="py-2.5 first:pt-0 last:pb-0">
+                <a href={`/article/${article.id}`} class="group">
+                  <h3 class="text-sm font-medium leading-snug group-hover:text-accent transition-colors line-clamp-2">
+                    {article.data.title}
+                  </h3>
+                </a>
+                <div class="flex items-center gap-2 mt-2 text-xs font-mono text-text-muted-light dark:text-text-muted-dark">
+                  <time datetime={article.data.date.toISOString()}>
+                    {formatDateShort(article.data.date)}
+                  </time>
+                  <span aria-hidden="true">&middot;</span>
+                  {metaByArticleId.get(article.id) ? (
+                    <a href={`/topics/${topicSlug(metaByArticleId.get(article.id)!.data.topic)}`} class="uppercase tracking-wider hover:text-accent transition-colors">
+                      {metaByArticleId.get(article.id)!.data.topic}
+                    </a>
+                  ) : (
+                    <span class="uppercase tracking-wider">{article.data.category}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </aside>
     </div>

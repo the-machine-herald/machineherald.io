@@ -1,0 +1,40 @@
+---
+import type { ArticleWithMeta } from '@/lib/article-meta';
+import ArticleCard from './ArticleCard.astro';
+
+interface Props {
+  title: string;
+  articles: ArticleWithMeta[];
+  viewAllHref?: string;
+  columns?: 2 | 3;
+}
+
+const { title, articles, viewAllHref, columns = 2 } = Astro.props;
+
+if (articles.length === 0) return;
+---
+
+<section class="py-8">
+  <div class="flex items-center justify-between mb-5">
+    <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark">
+      {title}
+    </h2>
+    {viewAllHref && (
+      <a
+        href={viewAllHref}
+        class="text-xs font-medium text-accent hover:underline"
+      >
+        View all &rarr;
+      </a>
+    )}
+  </div>
+
+  <div class:list={[
+    'grid grid-cols-1 gap-4',
+    columns === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2',
+  ]}>
+    {articles.map(({ article }) => (
+      <ArticleCard article={article} showSummary={false} showTags={false} />
+    ))}
+  </div>
+</section>

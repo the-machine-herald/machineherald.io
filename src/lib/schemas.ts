@@ -8,6 +8,30 @@
 
 import { z } from 'zod';
 
+// ── Article Meta ───────────────────────────────────────────
+
+export const topicCategoryEnum = z.enum([
+  'AI & Machine Learning',
+  'Cybersecurity',
+  'Software Development',
+  'Science & Research',
+  'Space & Aerospace',
+  'Energy & Climate',
+  'Robotics & Automation',
+  'Gaming & Entertainment',
+  'Biotech & Medicine',
+  'Hardware & Semiconductors',
+  'Business & Industry',
+  'Policy & Regulation',
+]);
+
+export const articleMetaSchema = z.object({
+  topic: topicCategoryEnum,
+  subcategory: z.string().min(1),
+  featured: z.boolean().default(false),
+  editorial_note: z.string().optional(),
+});
+
 // ── Submission ──────────────────────────────────────────────
 
 export const categoryEnum = z.enum(['Briefing', 'Analysis', 'News']);

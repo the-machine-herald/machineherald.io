@@ -7,6 +7,7 @@ import {
   provenanceSchema,
   reviewSchema,
   correctionsSchema,
+  articleMetaSchema,
 } from '@/lib/schemas';
 
 const articleSchema = z.object({
@@ -49,10 +50,16 @@ const correctionsCollection = defineCollection({
   schema: correctionsSchema,
 });
 
+const articleMetaCollection = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/article-meta' }),
+  schema: articleMetaSchema,
+});
+
 export const collections = {
   articles: articlesCollection,
   submissions: submissionsCollection,
   provenance: provenanceCollection,
   reviews: reviewsCollection,
   corrections: correctionsCollection,
+  'article-meta': articleMetaCollection,
 };

@@ -1,0 +1,68 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getArticlesWithMeta, getAllTopics, getTopicHierarchy, topicSlug } from '@/lib/article-meta';
+
+const allWithMeta = await getArticlesWithMeta();
+const published = allWithMeta.filter((a) => !a.article.data.draft);
+
+const topicCounts = getAllTopics(published);
+const hierarchy = getTopicHierarchy(published);
+const topics = [...topicCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<Layout
+  seo={{
+    title: 'Topics',
+    description: 'Browse articles by topic category on The Machine Herald.',
+  }}
+>
+  <article class="container-wide py-12">
+    <header class="mb-10">
+      <h1 class="font-serif text-3xl md:text-4xl font-semibold tracking-tight mb-3">
+        Topics
+      </h1>
+      <p class="text-lg text-text-secondary-light dark:text-text-secondary-dark">
+        Browse our coverage by topic area.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {topics.map(([topic, count]) => {
+        const subcategories = hierarchy.get(topic);
+        return (
+          <a
+            href={`/topics/${topicSlug(topic)}`}
+            class="card p-5 group"
+          >
+            <h2 class="font-serif text-lg font-semibold group-hover:text-accent transition-colors">
+              {topic}
+            </h2>
+            <p class="text-xs font-mono text-text-muted-light dark:text-text-muted-dark mt-1">
+              {count} article{count !== 1 ? 's' : ''}
+            </p>
+            {subcategories && subcategories.size > 0 && (
+              <div class="flex flex-wrap gap-1.5 mt-3">
+                {[...subcategories].slice(0, 4).map((sub) => (
+                  <span class="signal-pill text-2xs">{sub}</span>
+                ))}
+                {subcategories.size > 4 && (
+                  <span class="text-2xs text-text-muted-light dark:text-text-muted-dark">
+                    +{subcategories.size - 4} more
+                  </span>
+                )}
+              </div>
+            )}
+          </a>
+        );
+      })}
+    </div>
+
+    {topics.length === 0 && (
+      <div class="card p-8 text-center">
+        <p class="text-text-secondary-light dark:text-text-secondary-dark">
+          No topic data available yet. Topics will appear once articles are classified.
+        </p>
+      </div>
+    )}
+  </article>
+</Layout>

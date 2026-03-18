@@ -1,0 +1,96 @@
+---
+import {
+  getArticlesWithMeta,
+  getTopicHierarchy,
+  getAllTopics,
+  topicSlug,
+  subcategorySlug,
+  type TopicCategory,
+} from '@/lib/article-meta';
+import { filterPublished } from '@/lib/utils';
+
+const allWithMeta = await getArticlesWithMeta();
+const published = allWithMeta.filter((a) => !a.article.data.draft);
+
+const topicCounts = getAllTopics(published);
+const hierarchy = getTopicHierarchy(published);
+
+// Sort topics by article count (descending)
+const topics = [...topicCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<!-- Desktop Mega-Menu Panel -->
+<div
+  id="mega-menu"
+  class="hidden absolute left-0 right-0 top-full z-50 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark shadow-lg dark:shadow-black/40"
+>
+  <div class="container-wide py-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-6">
+      {topics.map(([topic, count]) => {
+        const subcategories = hierarchy.get(topic);
+        return (
+          <div>
+            <a
+              href={`/topics/${topicSlug(topic)}`}
+              class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark hover:text-accent transition-colors"
+            >
+              {topic}
+              <span class="ml-1 text-xs font-normal text-text-muted-light dark:text-text-muted-dark">
+                ({count})
+              </span>
+            </a>
+            {subcategories && subcategories.size > 0 && (
+              <ul class="mt-2 space-y-1">
+                {[...subcategories].slice(0, 5).map((sub) => (
+                  <li>
+                    <a
+                      href={`/topics/${topicSlug(topic)}/${subcategorySlug(sub)}`}
+                      class="text-xs text-text-secondary-light dark:text-text-secondary-dark hover:text-accent transition-colors"
+                    >
+                      {sub}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      })}
+    </div>
+    <div class="mt-6 pt-4 border-t border-border-light dark:border-border-dark flex items-center gap-6">
+      <a
+        href="/topics"
+        class="text-xs font-medium text-accent hover:underline"
+      >
+        View all topics &rarr;
+      </a>
+      <a
+        href="/articles"
+        class="text-xs font-medium text-accent hover:underline"
+      >
+        View all articles &rarr;
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Topics Accordion (injected into mobile menu via JS) -->
+<template id="mobile-topics-template">
+  <div class="pl-3 pt-1 pb-2 space-y-1">
+    {topics.map(([topic, count]) => (
+      <a
+        href={`/topics/${topicSlug(topic)}`}
+        class="block px-3 py-1.5 rounded text-sm text-text-secondary-light dark:text-text-secondary-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors"
+      >
+        {topic}
+        <span class="text-xs text-text-muted-light dark:text-text-muted-dark ml-1">({count})</span>
+      </a>
+    ))}
+    <a
+      href="/topics"
+      class="block px-3 py-1.5 text-xs font-medium text-accent hover:underline"
+    >
+      View all topics &rarr;
+    </a>
+  </div>
+</template>
