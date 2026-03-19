@@ -7,6 +7,8 @@ interface Props {
 }
 
 const { related } = Astro.props;
+const curated = related.filter((r) => r.score >= 100);
+const discovered = related.filter((r) => r.score < 100);
 ---
 
 {related.length > 0 && (
@@ -14,32 +16,69 @@ const { related } = Astro.props;
     <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-6">
       Related Coverage
     </h2>
-    <div class="grid gap-4 sm:grid-cols-2">
-      {related.map(({ article: { article }, context }) => {
-        const readingTime = getReadingTime(article.body ?? '');
-        return (
-          <a
-            href={`/article/${article.id}`}
-            class="group card p-4 hover:border-accent/40 transition-colors"
-          >
-            <div class="flex items-center gap-2 text-xs font-mono text-text-muted-light dark:text-text-muted-dark mb-2">
-              <span class="uppercase tracking-wider">{article.data.category}</span>
-              <span aria-hidden="true">·</span>
-              <time datetime={article.data.date.toISOString()}>
-                {formatDateShort(article.data.date)}
-              </time>
-              <span aria-hidden="true">·</span>
-              <span>{readingTime}</span>
-            </div>
-            <h3 class="font-serif text-base font-medium leading-snug group-hover:text-accent transition-colors mb-2">
-              {article.data.title}
-            </h3>
-            <p class="text-xs text-text-muted-light dark:text-text-muted-dark font-mono">
-              {context}
-            </p>
-          </a>
-        );
-      })}
-    </div>
+
+    {/* Curated by editor — full-width, accent border */}
+    {curated.length > 0 && (
+      <div class="space-y-3 mb-4">
+        {curated.map(({ article: { article }, context }) => {
+          const readingTime = getReadingTime(article.body ?? '');
+          return (
+            <a
+              href={`/article/${article.id}`}
+              class="group block card p-4 border-accent/40 bg-accent/[0.03] hover:border-accent/60 hover:bg-accent/[0.06] transition-colors"
+            >
+              <div class="flex items-center gap-2 text-xs font-mono mb-2">
+                <span class="text-accent font-medium uppercase tracking-wider">Developing Story</span>
+                <span class="text-text-muted-light dark:text-text-muted-dark" aria-hidden="true">·</span>
+                <span class="text-text-muted-light dark:text-text-muted-dark uppercase tracking-wider">{article.data.category}</span>
+                <span class="text-text-muted-light dark:text-text-muted-dark" aria-hidden="true">·</span>
+                <time class="text-text-muted-light dark:text-text-muted-dark" datetime={article.data.date.toISOString()}>
+                  {formatDateShort(article.data.date)}
+                </time>
+                <span class="text-text-muted-light dark:text-text-muted-dark" aria-hidden="true">·</span>
+                <span class="text-text-muted-light dark:text-text-muted-dark">{readingTime}</span>
+              </div>
+              <h3 class="font-serif text-base md:text-lg font-medium leading-snug group-hover:text-accent transition-colors mb-1">
+                {article.data.title}
+              </h3>
+              <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                {context}
+              </p>
+            </a>
+          );
+        })}
+      </div>
+    )}
+
+    {/* Auto-discovered — grid, standard cards */}
+    {discovered.length > 0 && (
+      <div class="grid gap-4 sm:grid-cols-2">
+        {discovered.map(({ article: { article }, context }) => {
+          const readingTime = getReadingTime(article.body ?? '');
+          return (
+            <a
+              href={`/article/${article.id}`}
+              class="group card p-4 hover:border-accent/40 transition-colors"
+            >
+              <div class="flex items-center gap-2 text-xs font-mono text-text-muted-light dark:text-text-muted-dark mb-2">
+                <span class="uppercase tracking-wider">{article.data.category}</span>
+                <span aria-hidden="true">·</span>
+                <time datetime={article.data.date.toISOString()}>
+                  {formatDateShort(article.data.date)}
+                </time>
+                <span aria-hidden="true">·</span>
+                <span>{readingTime}</span>
+              </div>
+              <h3 class="font-serif text-base font-medium leading-snug group-hover:text-accent transition-colors mb-2">
+                {article.data.title}
+              </h3>
+              <p class="text-xs text-text-muted-light dark:text-text-muted-dark font-mono">
+                {context}
+              </p>
+            </a>
+          );
+        })}
+      </div>
+    )}
   </section>
 )}
