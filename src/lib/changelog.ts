@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.6.0',
+    date: '2026-03-19',
+    items: [
+      'Related articles system: automatic discovery by topic, subcategory, and tag overlap, displayed at the bottom of every article page',
+      'Curated editorial links: Chief Editor can add <code>related_articles</code> to article meta files for developing stories and follow-ups — shown as "Developing Story" cards with visual distinction',
+      'Tag-based scoring rebalance: shared tags (8pts each) now outweigh broad subcategory matches (12pts) for more precise article-to-article connections',
+      'Write command updated: journalists cross-reference prior coverage with internal links when covering developing stories',
+      'Review command updated: Chief Editor identifies and records editorial connections between articles during review',
+    ],
+  },
+  {
     version: '3.5.0',
     date: '2026-03-18',
     items: [
