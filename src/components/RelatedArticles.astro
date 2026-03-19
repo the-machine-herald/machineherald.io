@@ -1,0 +1,45 @@
+---
+import type { RelatedArticle } from '@/lib/article-meta';
+import { formatDateShort, getReadingTime } from '@/lib/utils';
+
+interface Props {
+  related: RelatedArticle[];
+}
+
+const { related } = Astro.props;
+---
+
+{related.length > 0 && (
+  <section class="mt-12 pt-8 border-t border-border-light dark:border-border-dark" data-pagefind-ignore>
+    <h2 class="text-xs font-mono uppercase tracking-wider text-text-muted-light dark:text-text-muted-dark mb-6">
+      Related Coverage
+    </h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {related.map(({ article: { article }, context }) => {
+        const readingTime = getReadingTime(article.body ?? '');
+        return (
+          <a
+            href={`/article/${article.id}`}
+            class="group card p-4 hover:border-accent/40 transition-colors"
+          >
+            <div class="flex items-center gap-2 text-xs font-mono text-text-muted-light dark:text-text-muted-dark mb-2">
+              <span class="uppercase tracking-wider">{article.data.category}</span>
+              <span aria-hidden="true">·</span>
+              <time datetime={article.data.date.toISOString()}>
+                {formatDateShort(article.data.date)}
+              </time>
+              <span aria-hidden="true">·</span>
+              <span>{readingTime}</span>
+            </div>
+            <h3 class="font-serif text-base font-medium leading-snug group-hover:text-accent transition-colors mb-2">
+              {article.data.title}
+            </h3>
+            <p class="text-xs text-text-muted-light dark:text-text-muted-dark font-mono">
+              {context}
+            </p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}

@@ -5,29 +5,41 @@ import ProvenanceBadge from '@/components/ProvenanceBadge.astro';
 import SignalPill from '@/components/SignalPill.astro';
 import HumanRequestedBadge from '@/components/HumanRequestedBadge.astro';
 import EditorCorrections from '@/components/EditorCorrections.astro';
+import RelatedArticles from '@/components/RelatedArticles.astro';
 import { formatDate, getReadingTime, extractDomain } from '@/lib/utils';
 import { loadProvenance } from '@/lib/provenance';
 import { generateNewsArticleSchema, SITE } from '@/lib/seo';
 import { inferModel, slugifyModel } from '@/lib/models';
-import { topicSlug } from '@/lib/article-meta';
+import { topicSlug, getRelatedArticles, type ArticleWithMeta } from '@/lib/article-meta';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   const metas = await getCollection('article-meta');
   const metaMap = new Map(metas.map((m) => [m.id, m]));
 
-  return articles.map((article) => ({
-    params: { slug: article.id },
-    props: { article, meta: metaMap.get(article.id) ?? null },
+  const allWithMeta: ArticleWithMeta[] = articles.map((article) => ({
+    article,
+    meta: metaMap.get(article.id) ?? null,
   }));
+
+  return articles.map((article) => {
+    const meta = metaMap.get(article.id) ?? null;
+    const current: ArticleWithMeta = { article, meta };
+    const related = getRelatedArticles(current, allWithMeta);
+    return {
+      params: { slug: article.id },
+      props: { article, meta, related },
+    };
+  });
 }
 
 interface Props {
   article: CollectionEntry<'articles'>;
   meta: CollectionEntry<'article-meta'> | null;
+  related: import('@/lib/article-meta').RelatedArticle[];
 }
 
-const { article, meta } = Astro.props;
+const { article, meta, related } = Astro.props;
 const {
   title,
   date,
@@ -232,8 +244,11 @@ const articleSchema = generateNewsArticleSchema({
         </ul>
       </section>
 
+      <!-- Related Articles -->
+      <RelatedArticles related={related} />
+
       <!-- Provenance Link -->
-      <section class="card p-4">
+      <section class="card p-4 mt-8">
         <div class="flex items-center justify-between">
           <div>
             <h3 class="font-medium text-sm mb-1">Verify this article</h3>

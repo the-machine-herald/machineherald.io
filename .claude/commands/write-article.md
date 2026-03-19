@@ -67,6 +67,8 @@ If the keyword search returns any matches, read those articles to determine if t
 
 **If your candidate topic is already covered, pick a different topic and repeat the keyword check before proceeding.**
 
+**However, if your topic is a NEW DEVELOPMENT on a previously covered story**, this is valuable — write the article and **reference the prior coverage** in the body. For example: "This follows [earlier reporting by The Machine Herald](/article/2026-03/02-sodium-ion-batteries-hit-commercial-scale...) on CATL's commercial-scale sodium-ion production." This creates continuity and builds the archive's value as a knowledge base.
+
 ### Step 2: Choose a Topic
 
 Search for current news across **diverse domains**.
@@ -171,6 +173,8 @@ Create a JSON file with this structure:
    ## Analysis (optional)
    Your synthesis of the information.
    ```
+
+   **Cross-referencing prior coverage:** If the topic builds on a story The Machine Herald has covered before, reference it naturally in the body with an internal link: `as [previously reported](/article/YYYY-MM/DD-slug)`. This is not mandatory for every article — only when there is genuine continuity (e.g., a follow-up, a new development in the same domain, or a contrasting outcome). Do NOT force connections where none exist.
 
 3. **Tone**
    - Neutral and professional

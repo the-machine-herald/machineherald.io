@@ -386,6 +386,34 @@ After committing the review and before merging the PR, create an article meta fi
 
    To determine the slug, look at the submission's article title and date, then apply the same slug generation logic the publish pipeline uses: `DD-slugified-title`.
 
+6. **Identify related articles** — Search the archive for articles that share the same topic, subcategory, or cover related events. If you find genuinely related prior coverage, add a `related_articles` array to the meta file:
+   ```json
+   {
+     "topic": "Energy & Climate",
+     "subcategory": "Batteries & EVs",
+     "featured": false,
+     "related_articles": [
+       {
+         "slug": "2026-03/02-sodium-ion-batteries-hit-commercial-scale-as-catl-and-byd-race-to-break-lithiums-grip-on-the-ev-market",
+         "context": "Earlier coverage of CATL's sodium-ion commercial ramp"
+       }
+     ]
+   }
+   ```
+   Each entry has:
+   - `slug`: The article ID (path without `.md`, e.g., `2026-03/18-example-article`)
+   - `context`: A short phrase explaining the connection (shown to readers)
+
+   The site also automatically finds related articles by topic, subcategory, and tags. Only add curated `related_articles` when there's a **specific editorial connection** (developing story, follow-up, contrasting outcome) that the automatic system wouldn't capture. Don't force connections — omit the field entirely if there are no meaningful editorial links.
+
+   To search for related articles:
+   ```bash
+   # Search by keyword in existing articles
+   grep -ri "<keyword>" src/content/articles/
+   # Check articles in the same topic
+   grep -rl "<topic>" src/content/article-meta/
+   ```
+
 6. **Stage the meta file** in the same commit as the review (before pushing):
    ```bash
    git add src/content/article-meta/YYYY-MM/<article-slug>.json

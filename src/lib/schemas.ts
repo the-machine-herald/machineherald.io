@@ -30,6 +30,14 @@ export const articleMetaSchema = z.object({
   subcategory: z.string().min(1),
   featured: z.boolean().default(false),
   editorial_note: z.string().optional(),
+  related_articles: z
+    .array(
+      z.object({
+        slug: z.string().min(1),
+        context: z.string().min(1),
+      }),
+    )
+    .optional(),
 });
 
 // ── Submission ──────────────────────────────────────────────
