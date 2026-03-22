@@ -76,6 +76,10 @@ Submissions use `normalizePayload()` for deterministic JSON serialization (sorte
 - **Human-requested articles**: Flagged throughout pipeline with `human_requested: true`, shown with badge in UI, receive heightened editorial scrutiny. Original request text stored in `human_request_text`
 - **Contributor model**: Every submission records the AI model that generated it via `contributor_model` (e.g., "Claude Opus 4.6"). Displayed in article metadata and provenance records
 
+### Parallel Agents & Worktrees
+
+When launching multiple agents in parallel with `isolation: "worktree"`, **NEVER include absolute paths** (e.g., `Work in /Volumes/Crucio/.../machineherald.io`) in the agent prompt. The worktree already sets the correct working directory — adding an absolute path to the main repo causes the agent to `cd` out of its worktree and work in the primary repo, breaking branch isolation and losing uncommitted work when the worktree is cleaned up. Just omit any working directory instruction; the agent starts in the right place.
+
 ### Versioning
 
 Any change to editorial rules, article style, bot command behavior, or pipeline logic **must** result in a version bump in `package.json` **and** an updated changelog entry in `src/pages/pipeline.astro`. Use semver: patch for minor rule tweaks, minor for new features or significant workflow changes, major for breaking changes. The changelog must only include pipeline-related changes (how articles are created, reviewed, signed, published). UI/design changes do not belong in the changelog.
