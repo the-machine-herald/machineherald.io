@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Announcing Rust 1.94.0 | Rust Blog</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Empowering everyone to build reliable and efficient software.">
+     <!-- Twitter card -->
+     <meta name="twitter:card" content="summary">
+     <meta name="twitter:site" content="@rustlang">
+     <meta name="twitter:creator" content="@rustlang">
+     <meta name="twitter:title" content="Announcing Rust 1.94.0 | Rust Blog">
+     <meta name="twitter:description" content="Empowering everyone to build reliable and efficient software.">
+    <meta name="twitter:image" content="https://www.rust-lang.org/static/images/rust-social.jpg">
+    
+    <!-- Facebook OpenGraph -->
+    <meta property="og:title" content="Announcing Rust 1.94.0 | Rust Blog" />
+    <meta property="og:description" content="Empowering everyone to build reliable and efficient software.">
+    <meta property="og:image" content="https://www.rust-lang.org/static/images/rust-social-wide.jpg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- styles -->
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/skeleton.css"/>
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/tachyons.css"/>
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/fonts.css"/>
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/app.css"/>
+    <link rel="stylesheet" type="text/css" id="syntax-theme" />
+    
+    <!-- stylesheet for user agents without js -->
+    <noscript>
+        <link rel="stylesheet" href="https://blog.rust-lang.org/styles/noscript.css">
+        <link rel="stylesheet" type="text/css" href="/styles/syntax-theme-dark.css" media="(prefers-color-scheme: dark)" />
+        <link rel="stylesheet" type="text/css" href="/styles/syntax-theme-light.css" media="(prefers-color-scheme: light)" />
+    </noscript>
+    
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://blog.rust-lang.org/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://blog.rust-lang.org/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://blog.rust-lang.org/images/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="https://blog.rust-lang.org/images/favicon.svg">
+    <link rel="manifest" href="https://blog.rust-lang.org/images/site.webmanifest">
+    <link rel="mask-icon" href="https://blog.rust-lang.org/images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#ffffff">
+    
+     <!-- atom -->
+     <link type="application/atom+xml" rel="alternate" href="https://blog.rust-lang.org/feed.xml" title="Rust Blog" />
+    
+    <!-- theme switcher -->
+    <script src="https://blog.rust-lang.org/scripts/theme-switch.js"></script>
+  </head>
+  <body>
+    <nav class="flex flex-row justify-center justify-end-l items-center flex-wrap ph2 pl3-ns pr4-ns">
+      <div class="brand flex-auto w-100 w-auto-l self-start tc tl-l">
+        <a href="https://blog.rust-lang.org/">
+          <img class="v-mid ml0-l rust-logo" alt="" src="https://blog.rust-lang.org/images/rust-logo-blk.svg">
+          <span class="dib ml1 ml0-l">Rust Blog</span>
+        </a>
+      </div>
+    
+      <ul class="nav list w-100 w-auto-l flex flex-none flex-row flex-wrap justify-center justify-end-l items-center pv2 ph0 ph4-ns">
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org">Rust</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/tools/install">Install</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/learn">Learn</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/tools">Tools</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/governance">Governance</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/community">Community</a></li>
+        <button class="theme-icon" onclick="dropdown();">🖌
+          <ul id="theme-choice">
+            <li class="theme-item" onclick="changeThemeTo('light');">Light</li>
+            <li class="theme-item" onclick="changeThemeTo('dark');">Dark</li>
+            <li class="theme-item" onclick="changeThemeTo('system');">System</li>
+          </ul>
+        </button>
+        <script src="https://blog.rust-lang.org/scripts/theme-switch-post.js"></script>
+      </ul>
+    </nav><section id="Announcing Rust 1.94.0" class="white">
+  <div class="w-100 mw-none ph3 mw8-m mw8-l center f3">
+    <header>
+      <h2>Announcing Rust 1.94.0</h2>
+      <div class="highlight mt2 mb3"></div>
+    </header>
+
+    <div class="publish-date-author">Mar. 5, 2026 &middot; The Rust Release Team
+    
+    </div>
+
+    <div class="post">
+      <p>The Rust team is happy to announce a new version of Rust, 1.94.0. Rust is a programming language empowering everyone to build reliable and efficient software.</p>
+<p>If you have a previous version of Rust installed via <code>rustup</code>, you can get 1.94.0 with:</p>
+<pre data-lang="console" class="language-console z-code"><code class="language-console" data-lang="console"><span class="z-text z-plain">$ rustup update stable
+</span></code></pre>
+<p>If you don't have it already, you can <a href="https://www.rust-lang.org/install.html">get <code>rustup</code></a> from the appropriate page on our website, and check out the <a href="https://doc.rust-lang.org/stable/releases.html#version-1940-2026-03-05">detailed release notes for 1.94.0</a>.</p>
+<p>If you'd like to help us out by testing future releases, you might consider updating locally to use the beta channel (<code>rustup default beta</code>) or the nightly channel (<code>rustup default nightly</code>). Please <a href="https://github.com/rust-lang/rust/issues/new/choose">report</a> any bugs you might come across!</p>
+<h2 id="what-s-in-1-94-0-stable"><a class="anchor" href="#what-s-in-1-94-0-stable" aria-hidden="true"></a>
+What's in 1.94.0 stable</h2>
+<h3 id="array-windows"><a class="anchor" href="#array-windows" aria-hidden="true"></a>
+Array windows</h3>
+<p>Rust 1.94 adds <a href="https://doc.rust-lang.org/stable/std/primitive.slice.html#method.array_windows"><code>array_windows</code></a>, an iterating method for slices. It works just like <a href="https://doc.rust-lang.org/stable/std/primitive.slice.html#method.windows"><code>windows</code></a> but with a constant length, so the iterator items are <code>&amp;[T; N]</code> rather than dynamically-sized <code>&amp;[T]</code>. In many cases, the window length may even be inferred by how the iterator is used!</p>
+<p>For example, part of one <a href="https://adventofcode.com/2016/day/7">2016 Advent of Code puzzle</a> is looking for ABBA patterns: "two different characters followed by the reverse of that pair, such as <code>xyyx</code> or <code>abba</code>." If we assume only ASCII characters, that could be written by sweeping windows of the byte slice like this:</p>
+<pre data-lang="rust" class="language-rust z-code"><code class="language-rust" data-lang="rust"><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-function z-rust"><span class="z-storage z-type z-function z-rust">fn</span> </span><span class="z-entity z-name z-function z-rust">has_abba</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">(</span><span class="z-variable z-parameter z-rust">s</span><span class="z-punctuation z-separator z-rust">:</span> <span class="z-keyword z-operator z-rust">&amp;</span><span class="z-storage z-type z-rust">str</span></span><span class="z-meta z-function z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-end z-rust">)</span></span></span></span><span class="z-meta z-function z-rust"> <span class="z-meta z-function z-return-type z-rust"><span class="z-punctuation z-separator z-rust">-&gt;</span> <span class="z-storage z-type z-rust">bool</span></span> </span><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-begin z-rust">{</span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">    s<span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">as_bytes</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">array_windows</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust">        <span class="z-punctuation z-accessor z-dot z-rust">.</span><span class="z-support z-function z-rust">any</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust"><span class="z-punctuation z-section z-parameters z-begin z-rust">|</span></span></span><span class="z-meta z-function z-closure z-rust"><span class="z-meta z-function z-parameters z-rust">[<span class="z-variable z-parameter z-rust">a1</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-variable z-parameter z-rust">b1</span><span class="z-punctuation z-separator z-rust">,</span> <span class="z-variable z-parameter z-rust">b2</span><span class="z-punctuation z-separator z-rust">,</span> a2</span></span>]<span class="z-keyword z-operator z-bitwise z-rust">|</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>a1 <span class="z-keyword z-operator z-comparison z-rust">!=</span> b1</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-logical z-rust">&amp;&amp;</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>a1 <span class="z-keyword z-operator z-comparison z-rust">==</span> a2</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span> <span class="z-keyword z-operator z-logical z-rust">&amp;&amp;</span> <span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-begin z-rust">(</span>b1 <span class="z-keyword z-operator z-comparison z-rust">==</span> b2</span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span></span><span class="z-meta z-group z-rust"><span class="z-punctuation z-section z-group z-end z-rust">)</span></span>
+</span></span></span><span class="z-source z-rust"><span class="z-meta z-function z-rust"><span class="z-meta z-block z-rust"></span><span class="z-meta z-block z-rust"><span class="z-punctuation z-section z-block z-end z-rust">}</span></span></span>
+</span></code></pre>
+<p>The destructuring argument pattern in that closure lets the compiler infer that we want windows of 4 here. If we had used the older <code>.windows(4)</code> iterator, then that argument would be a slice which we would have to index manually, <em>hoping</em> that runtime bounds-checking will be optimized away.</p>
+<h3 id="cargo-config-inclusion"><a class="anchor" href="#cargo-config-inclusion" aria-hidden="true"></a>
+Cargo config inclusion</h3>
+<p>Cargo now supports the <code>include</code> key in configuration files (<code>.cargo/config.toml</code>), enabling better organization, sharing, and management of Cargo configurations across projects and environments. These include paths may also be marked <code>optional</code> if they might not be present in some circumstances, e.g. depending on local developer choices.</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> array of paths</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">include</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span>
+</span><span class="z-source z-toml">    <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>frodo.toml<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-array z-toml">,</span>
+</span><span class="z-source z-toml">    <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>samwise.toml<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-array z-toml">,</span>
+</span><span class="z-source z-toml"><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span><span class="z-source z-toml">
+</span><span class="z-source z-toml"><span class="z-comment z-line z-number-sign z-toml"><span class="z-punctuation z-definition z-comment z-toml">#</span> inline tables for more control</span>
+</span><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">include</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span>
+</span><span class="z-source z-toml">    <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">path</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>required.toml<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span><span class="z-punctuation z-separator z-array z-toml">,</span>
+</span><span class="z-source z-toml">    <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">path</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>optional.toml<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">optional</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-constant z-language z-toml">true</span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span><span class="z-punctuation z-separator z-array z-toml">,</span>
+</span><span class="z-source z-toml"><span class="z-punctuation z-definition z-array z-end z-toml">]</span>
+</span></code></pre>
+<p>See the full <a href="https://doc.rust-lang.org/nightly/cargo/reference/config.html#including-extra-configuration-files"><code>include</code> documentation</a> for more details.</p>
+<h3 id="toml-1-1-support-in-cargo"><a class="anchor" href="#toml-1-1-support-in-cargo" aria-hidden="true"></a>
+TOML 1.1 support in Cargo</h3>
+<p>Cargo now parses <a href="https://toml.io/en/v1.1.0">TOML v1.1</a> for manifests and configuration files. See the <a href="https://github.com/toml-lang/toml/releases/tag/1.1.0">TOML release notes</a> for detailed changes, including:</p>
+<ul>
+<li>Inline tables across multiple lines and with trailing commas</li>
+<li><code>\xHH</code> and <code>\e</code> string escape characters</li>
+<li>Optional seconds in times (sets to 0)</li>
+</ul>
+<p>For example, a dependency like this:</p>
+<pre data-lang="toml" class="language-toml z-code"><code class="language-toml" data-lang="toml"><span class="z-source z-toml"><span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">serde</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-inline-table z-begin z-toml">{</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">version</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>1.0<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-separator z-inline-table z-toml">,</span> <span class="z-meta z-tag z-key z-toml"><span class="z-entity z-name z-tag z-toml">features</span></span> <span class="z-punctuation z-definition z-key-value z-toml">=</span> <span class="z-punctuation z-definition z-array z-begin z-toml">[</span><span class="z-string z-quoted z-double z-basic z-toml"><span class="z-punctuation z-definition z-string z-begin z-toml">&quot;</span>derive<span class="z-punctuation z-definition z-string z-end z-toml">&quot;</span></span><span class="z-punctuation z-definition z-array z-end z-toml">]</span> <span class="z-punctuation z-definition z-inline-table z-end z-toml">}</span>
+</span></code></pre>
+<p>... can now be written like this:</p>
+<!-- FIXME: this should be toml, but the blog highlighting doesn't support 1.1 yet -->
+<pre data-lang="text" class="language-text z-code"><code class="language-text" data-lang="text"><span class="z-text z-plain">serde = {
+</span><span class="z-text z-plain">    version = &quot;1.0&quot;,
+</span><span class="z-text z-plain">    features = [&quot;derive&quot;],
+</span><span class="z-text z-plain">}
+</span></code></pre>
+<p>Note that using these features in <code>Cargo.toml</code> will raise your development MSRV (minimum supported Rust version) to require this new Cargo parser, and third-party tools that read the manifest may also need to update their parsers. However, Cargo automatically rewrites manifests on publish to remain compatible with older parsers, so it is still possible to support an earlier MSRV for your crate's users.</p>
+<h3 id="stabilized-apis"><a class="anchor" href="#stabilized-apis" aria-hidden="true"></a>
+Stabilized APIs</h3>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/std/primitive.slice.html#method.array_windows"><code>&lt;[T]&gt;::array_windows</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/primitive.slice.html#method.element_offset"><code>&lt;[T]&gt;::element_offset</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/cell/struct.LazyCell.html#method.get"><code>LazyCell::get</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/cell/struct.LazyCell.html#method.get_mut"><code>LazyCell::get_mut</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/cell/struct.LazyCell.html#method.force_mut"><code>LazyCell::force_mut</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/sync/struct.LazyLock.html#method.get"><code>LazyLock::get</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/sync/struct.LazyLock.html#method.get_mut"><code>LazyLock::get_mut</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/sync/struct.LazyLock.html#method.force_mut"><code>LazyLock::force_mut</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/convert/trait.TryFrom.html#impl-TryFrom%3Cchar%3E-for-usize"><code>impl TryFrom&lt;char&gt; for usize</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/iter/struct.Peekable.html#method.next_if_map"><code>std::iter::Peekable::next_if_map</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/iter/struct.Peekable.html#method.next_if_map_mut"><code>std::iter::Peekable::next_if_map_mut</code></a></li>
+<li><a href="https://github.com/rust-lang/rust/issues/127213">x86 <code>avx512fp16</code> intrinsics</a>
+(excluding those that depend directly on the unstable <code>f16</code> type)</li>
+<li><a href="https://github.com/rust-lang/rust/issues/136306">AArch64 NEON fp16 intrinsics</a>
+(excluding those that depend directly on the unstable <code>f16</code> type)</li>
+<li><a href="https://doc.rust-lang.org/stable/std/f32/consts/constant.EULER_GAMMA.html"><code>f32::consts::EULER_GAMMA</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/f64/consts/constant.EULER_GAMMA.html"><code>f64::consts::EULER_GAMMA</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/f32/consts/constant.GOLDEN_RATIO.html"><code>f32::consts::GOLDEN_RATIO</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/f64/consts/constant.GOLDEN_RATIO.html"><code>f64::consts::GOLDEN_RATIO</code></a></li>
+</ul>
+<p>These previously stable APIs are now stable in const contexts:</p>
+<ul>
+<li><a href="https://doc.rust-lang.org/stable/std/primitive.f32.html#method.mul_add"><code>f32::mul_add</code></a></li>
+<li><a href="https://doc.rust-lang.org/stable/std/primitive.f64.html#method.mul_add"><code>f64::mul_add</code></a></li>
+</ul>
+<h3 id="other-changes"><a class="anchor" href="#other-changes" aria-hidden="true"></a>
+Other changes</h3>
+<p>Check out everything that changed in <a href="https://github.com/rust-lang/rust/releases/tag/1.94.0">Rust</a>, <a href="https://doc.rust-lang.org/nightly/cargo/CHANGELOG.html#cargo-194-2026-03-05">Cargo</a>, and <a href="https://github.com/rust-lang/rust-clippy/blob/master/CHANGELOG.md#rust-194">Clippy</a>.</p>
+<h2 id="contributors-to-1-94-0"><a class="anchor" href="#contributors-to-1-94-0" aria-hidden="true"></a>
+Contributors to 1.94.0</h2>
+<p>Many people came together to create Rust 1.94.0. We couldn't have done it without all of you. <a href="https://thanks.rust-lang.org/rust/1.94.0/">Thanks!</a></p>
+
+    </div>
+  </div>
+</section>
+    <footer class="footer">
+      <div class="w-100 mw-none ph3 mw8-m mw9-l center f3">
+        <div class="row">
+          <div class="four columns mt3 mt0-l" id="get-help">
+            <h4>Get help!</h4>
+            <ul>
+              <li><a href="https://doc.rust-lang.org" target="_blank" rel="noopener">Documentation</a></li>
+              <li><a href="mailto:core-team@rust-lang.org">Contact the Rust Team</a></li>
+            </ul>
+          </div>
+          <div class="four columns mt3 mt0-l">
+            <h4>Terms and policies</h4>
+            <ul>
+              <li><a href="https://www.rust-lang.org/policies/code-of-conduct">Code of Conduct</a></li>
+              <li><a href="https://www.rust-lang.org/policies/licenses">Licenses</a></li>
+              <li><a href="https://www.rust-lang.org/policies/media-guide">Logo Policy and Media Guide</a></li>
+              <li><a href="https://www.rust-lang.org/policies/security">Security Disclosures</a></li>
+              <li><a href="https://www.rust-lang.org/policies">All Policies</a></li>
+            </ul>
+          </div>
+          <div class="four columns mt3 mt0-l">
+            <h4>Social</h4>
+            <div class="flex flex-row flex-wrap">
+              <a rel="me" href="https://social.rust-lang.org/@rust" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/mastodon.svg" alt="Mastodon"/></a>
+              <a rel="me" href="https://bsky.app/profile/rust-lang.org" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/bluesky.svg" alt="Bluesky"/></a>
+              <a href="https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA" target="_blank" rel="noopener"><img style="padding-top: 6px; padding-bottom:6px" src="https://blog.rust-lang.org/images/youtube.svg" alt="YouTube"/></a>
+              <a href="https://discord.gg/rust-lang" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/discord.svg" alt="Discord"/></a>
+              <a href="https://github.com/rust-lang" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/github.svg" alt="GitHub"/></a>
+            </div>
+            <h4 class="mt4 mb3">RSS</h4>
+            <ul>
+              <li><a href="https://blog.rust-lang.org/feed.xml">Main Blog</a></li>
+              <li><a href="https://blog.rust-lang.org/inside-rust/feed.xml">"Inside Rust" Blog</a></li>
+            </ul>
+          </div>
+    
+        </div>
+        <div class="attribution">
+          Maintained by the Rust Team. See a typo?
+          <a href="https://github.com/rust-lang/blog.rust-lang.org/edit/main/content/Rust-1.94.0.md" target="_blank" rel="noopener">Send a fix here</a>!
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

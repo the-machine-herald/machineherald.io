@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>First look at 2026 Project goals | Inside Rust Blog</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Empowering everyone to build reliable and efficient software.">
+     <!-- Twitter card -->
+     <meta name="twitter:card" content="summary">
+     <meta name="twitter:site" content="@rustlang">
+     <meta name="twitter:creator" content="@rustlang">
+     <meta name="twitter:title" content="First look at 2026 Project goals | Inside Rust Blog">
+     <meta name="twitter:description" content="Want to follow along with Rust development? Curious how you might get involved? Take a look!">
+    <meta name="twitter:image" content="https://www.rust-lang.org/static/images/rust-social.jpg">
+    
+    <!-- Facebook OpenGraph -->
+    <meta property="og:title" content="First look at 2026 Project goals | Inside Rust Blog" />
+    <meta property="og:description" content="Want to follow along with Rust development? Curious how you might get involved? Take a look!">
+    <meta property="og:image" content="https://www.rust-lang.org/static/images/rust-social-wide.jpg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- styles -->
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/skeleton.css"/>
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/tachyons.css"/>
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/fonts.css"/>
+    <link rel="stylesheet" href="https://blog.rust-lang.org/styles/app.css"/>
+    <link rel="stylesheet" type="text/css" id="syntax-theme" />
+    
+    <!-- stylesheet for user agents without js -->
+    <noscript>
+        <link rel="stylesheet" href="https://blog.rust-lang.org/styles/noscript.css">
+        <link rel="stylesheet" type="text/css" href="/styles/syntax-theme-dark.css" media="(prefers-color-scheme: dark)" />
+        <link rel="stylesheet" type="text/css" href="/styles/syntax-theme-light.css" media="(prefers-color-scheme: light)" />
+    </noscript>
+    
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://blog.rust-lang.org/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://blog.rust-lang.org/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://blog.rust-lang.org/images/favicon-32x32.png">
+    <link rel="icon" type="image/svg+xml" href="https://blog.rust-lang.org/images/favicon.svg">
+    <link rel="manifest" href="https://blog.rust-lang.org/images/site.webmanifest">
+    <link rel="mask-icon" href="https://blog.rust-lang.org/images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#ffffff">
+    
+     <!-- atom -->
+     <link type="application/atom+xml" rel="alternate" href="https://blog.rust-lang.org/inside-rust/feed.xml" title="Inside Rust Blog" />
+    
+    <!-- theme switcher -->
+    <script src="https://blog.rust-lang.org/scripts/theme-switch.js"></script>
+  </head>
+  <body>
+    <nav class="flex flex-row justify-center justify-end-l items-center flex-wrap ph2 pl3-ns pr4-ns">
+      <div class="brand flex-auto w-100 w-auto-l self-start tc tl-l">
+        <a href="https://blog.rust-lang.org/inside-rust/">
+          <img class="v-mid ml0-l rust-logo" alt="" src="https://blog.rust-lang.org/images/rust-logo-blk.svg">
+          <span class="dib ml1 ml0-l">Inside Rust Blog</span>
+        </a>
+      </div>
+    
+      <ul class="nav list w-100 w-auto-l flex flex-none flex-row flex-wrap justify-center justify-end-l items-center pv2 ph0 ph4-ns">
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org">Rust</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/tools/install">Install</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/learn">Learn</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/tools">Tools</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/governance">Governance</a></li>
+        <li class="tc pv2 ph2 ph4-ns flex-20-s"><a href="https://www.rust-lang.org/community">Community</a></li>
+        <button class="theme-icon" onclick="dropdown();">🖌
+          <ul id="theme-choice">
+            <li class="theme-item" onclick="changeThemeTo('light');">Light</li>
+            <li class="theme-item" onclick="changeThemeTo('dark');">Dark</li>
+            <li class="theme-item" onclick="changeThemeTo('system');">System</li>
+          </ul>
+        </button>
+        <script src="https://blog.rust-lang.org/scripts/theme-switch-post.js"></script>
+      </ul>
+    </nav><section id="First look at 2026 Project goals" class="white">
+  <div class="w-100 mw-none ph3 mw8-m mw8-l center f3">
+    <header>
+      <h2>First look at 2026 Project goals</h2>
+      <div class="highlight mt2 mb3"></div>
+    </header>
+
+    <div class="publish-date-author">Feb. 3, 2026 &middot; Niko Matsakis
+     on behalf of <a href="https://www.rust-lang.org/governance/teams/launching-pad#team-goals">the Goals team</a> 
+    </div>
+
+    <div class="post">
+      <p>Hi all,</p>
+<p>This is an update on the Project goals plan.</p>
+<h2 id="we-want-your-feedback"><a class="anchor" href="#we-want-your-feedback" aria-hidden="true"></a>
+We want your feedback!</h2>
+<p>We have just published the <a href="https://rust-lang.github.io/rust-project-goals/2026/index.html"><strong>first draft</strong> of the Project goals RFC</a>. This first draft contains the <a href="https://rust-lang.github.io/rust-project-goals/2026/goals.html">goals proposed thus far</a> as well as candidate <a href="https://rust-lang.github.io/rust-project-goals/2026/flagships.html">flagship themes</a>.</p>
+<p>As a <em>first draft</em>, the purpose of this document is to <strong>solicit feedback and spark discussion</strong> -- so please, take a look! If you have questions or comments, open up a topic in the <a href="https://rust-lang.zulipchat.com/#narrow/channel/546987-project-goals.2F2026-workshop">#project-goals/2026-workshop</a> channel.</p>
+<h2 id="questions"><a class="anchor" href="#questions" aria-hidden="true"></a>
+Questions</h2>
+<p>Here are some of the questions I would like people's input on (these questions link to questions in the FAQ that give more details):</p>
+<ul>
+<li>Do you have concerns about any goals that ask support from one of your teams?
+<ul>
+<li>E.g., you think this goal is a bad idea, or you think that your team does not have capacity to support the goal.</li>
+</ul>
+</li>
+<li>Are the "Team Asks" in these goals appropriate?
+<ul>
+<li>In particular, <a href="https://blog.rust-lang.org/inside-rust/2026/02/03/first-look-at-2026-project-goals/#i-see-a-small-medium-large-ask-of-my-team-what-does-that-mean">should they be larger</a>?</li>
+</ul>
+</li>
+<li>What do you think of the <a href="https://blog.rust-lang.org/inside-rust/2026/02/03/first-look-at-2026-project-goals/#what-is-a-flagship-theme">flagship themes</a>, do they make sense to you?
+<ul>
+<li>Do you have alternative ideas for flagship themes? <a href="https://blog.rust-lang.org/inside-rust/2026/02/03/first-look-at-2026-project-goals/#can-i-propose-a-new-flagship-theme">You can propose your own.</a></li>
+<li>Would you be interested in serving as a <em>point of contact</em> for one of those themes, helping the goals program to draft periodic updates and track overall progress?</li>
+</ul>
+</li>
+<li><a href="https://blog.rust-lang.org/inside-rust/2026/02/03/first-look-at-2026-project-goals/#what-if-i-have-a-goal-i-would-like-to-propose-is-it-too-late">Is there work that you would like to do that you think would make a good goal or fit well with the themes?</a>
+<ul>
+<li>(If you're blocked on funding, <a href="https://blog.rust-lang.org/inside-rust/2026/02/03/first-look-at-2026-project-goals/#i-d-like-to-propose-a-goal-but-i-would-need-funding-to-work-on-it-is-there-funding-available-for-project-goals">we may be able to help</a>!)</li>
+</ul>
+</li>
+</ul>
+<h2 id="frequently-asked-questions"><a class="anchor" href="#frequently-asked-questions" aria-hidden="true"></a>
+Frequently asked questions</h2>
+<h3 id="why-are-you-saying-2026-goals-and-not-2026h1-goals"><a class="anchor" href="#why-are-you-saying-2026-goals-and-not-2026h1-goals" aria-hidden="true"></a>
+Why are you saying 2026 goals and not 2026H1 goals?</h3>
+<p>We're shifting the process from something we do every 6 months to something we do once a year. The goal program is focused on larger, long-running goals that will take significant work during the year.</p>
+<p>Team members can add new goals later in the year but you must already have a champion and general agreement from the team that this is a goal they like.</p>
+<h3 id="what-is-the-process-timeline"><a class="anchor" href="#what-is-the-process-timeline" aria-hidden="true"></a>
+What is the process timeline?</h3>
+<p>In each case the task begins at the start of the month and then extends throughout the month:</p>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+January: Solicit goal proposals and write up first draft.</li>
+<li><input disabled="" type="checkbox"/>
+February: Solicit feedback and prepare RFC.</li>
+<li><input disabled="" type="checkbox"/>
+March: Open RFC and get it merged.
+<ul>
+<li>The RFC must be approved by the leads of every team that has a "team ask" listed in any goal.</li>
+</ul>
+</li>
+<li><input disabled="" type="checkbox"/>
+April: Announce 2026 Project goals.</li>
+</ul>
+<h3 id="what-if-i-have-a-goal-i-would-like-to-propose-is-it-too-late"><a class="anchor" href="#what-if-i-have-a-goal-i-would-like-to-propose-is-it-too-late" aria-hidden="true"></a>
+What if I have a goal I would like to propose?  Is it too late?</h3>
+<p>No, it's not too late. We accept goal proposals throughout the year, but we require goals coming later in the year (including February) to already have a champion and buy-in from the team. (Of course, as a team member, you can champion your own goal within your team).</p>
+<h3 id="i-d-like-to-propose-a-goal-but-i-would-need-funding-to-work-on-it-is-there-funding-available-for-project-goals"><a class="anchor" href="#i-d-like-to-propose-a-goal-but-i-would-need-funding-to-work-on-it-is-there-funding-available-for-project-goals" aria-hidden="true"></a>
+I'd like to propose a goal, but I would need funding to work on it. Is there funding available for Project goals?</h3>
+<p>Yes! We are discussing with possible sponsors both of Project goals and of champions of Project goals. Please reach out to <a href="https://rust-lang.zulipchat.com/#user/116009">nikomatsakis</a> to discuss.</p>
+<h3 id="what-is-a-flagship-theme"><a class="anchor" href="#what-is-a-flagship-theme" aria-hidden="true"></a>
+What is a "Flagship Theme"?</h3>
+<p>The idea of a flagship theme is that, for people paying only limited attention to the Rust Project, it should help them get a high-level view of the "big things" that they can expect from the Project. These stretch somewhat past a year, many of them (e.g., "Beyond the <code>&amp;</code>") represent multi-year technical programs.</p>
+<p>The current set of flagship themes was decided by reading over the goals and looking for the trends that we saw. However, I would like to get to the point where every <em>flagship theme</em> has a <em>point of contact</em> that is holding the vision, fielding questions, and helping to draft updates for periodic blog posts on overall progress.</p>
+<h3 id="can-i-propose-a-new-flagship-theme"><a class="anchor" href="#can-i-propose-a-new-flagship-theme" aria-hidden="true"></a>
+Can I propose a new flagship theme?</h3>
+<p>Yes! But please do so by Feb 14 (Valentine's Day). If you'd like to propose a new flagship theme, you can open a PR using the <a href="https://github.com/rust-lang/rust-project-goals/blob/main/src/FLAGSHIP_TEMPLATE.md"><code>FLAGSHIP_TEMPLATE.md</code></a>.</p>
+<p>If you'd like to propose changes to a flagship theme, or would consider acting as a point-of-contact for a theme, reach out on <a href="https://rust-lang.zulipchat.com/#narrow/channel/546987-project-goals.2F2026-workshop"><code>#project-goals/2026-workshop</code></a>.</p>
+<h3 id="i-see-a-small-medium-large-ask-of-my-team-what-does-that-mean"><a class="anchor" href="#i-see-a-small-medium-large-ask-of-my-team-what-does-that-mean" aria-hidden="true"></a>
+I see a "small|medium|large" ask of my team, what does that mean?</h3>
+<p>In brief:</p>
+<ul>
+<li><strong>Vibes</strong>: Quick check if your idea is worth exploring and bringing a more mature version to the team in the future.</li>
+<li><strong>Small</strong>: Routine small reviews and actions by the team.
+<ul>
+<li>--&gt; This is typically appropriate for a task that will require a single PR, like adding a lint.</li>
+</ul>
+</li>
+<li><strong>Medium</strong>: Exploring a design or feature with dedicated support from a team member and involving the rest of the team in a vibe-check and small way.
+<ul>
+<li>--&gt; This is typically appropriate for an experiment or something early stage or a task that will require multiple PRs to complete.</li>
+</ul>
+</li>
+<li><strong>Large</strong>: Reaching consensus within the team about a design or feature.
+<ul>
+<li>--&gt; This is typically appropriate for RFCs, stabilizations, or other things that require broad team consensus.</li>
+</ul>
+</li>
+</ul>
+<h3 id="can-you-give-me-some-examples-of-what-small-medium-large-means"><a class="anchor" href="#can-you-give-me-some-examples-of-what-small-medium-large-means" aria-hidden="true"></a>
+Can you give me some examples of what small|medium|large means?</h3>
+<p>Here are some rules of thumb and historic examples, focusing on lang + compiler:</p>
+<table><thead><tr><th>Task</th><th>Lang</th><th>Compiler</th></tr></thead><tbody>
+<tr><td>Adding a lint</td><td>Small</td><td>Small</td></tr>
+<tr><td>Landing a complex compiler change</td><td>-</td><td>Medium</td></tr>
+<tr><td>Driving an early stage lang experiment</td><td>Medium</td><td>Medium</td></tr>
+<tr><td>Accepting a lang RFC</td><td>Large</td><td>Medium</td></tr>
+<tr><td>Stabilizing a lang feature</td><td>Large</td><td>Medium</td></tr>
+<tr><td>Vet and stabilize subtle reference changes</td><td>Large</td><td>-</td></tr>
+<tr><td>Overhaul compiler's incremental system</td><td>-</td><td>Large</td></tr>
+</tbody></table>
+<p>We'll have to figure out what these levels mean for other teams!</p>
+<p>The idea of the levels to help us avoid overcommitting:</p>
+<ul>
+<li>Team should expect to only take a small number of <em>large</em> items, quite possibly zero, depending on how much bandwidth they have.</li>
+<li>No individual should champion more than a small number of goals.</li>
+</ul>
+<h3 id="what-is-a-team-champion"><a class="anchor" href="#what-is-a-team-champion" aria-hidden="true"></a>
+What is a team champion?</h3>
+<p>A team <em>champion</em> is someone who agrees to support the goal owner on an individual basis. Champions should expect to meet with the goal owner on a weekly or biweekly basis.</p>
+<p>Champions often help provide design guidance and advise on who within the team the owner ought to talk to for more information. They should also be prepared to field questions from the rest of the team about the goal.</p>
+<h3 id="can-i-champion-my-own-goal"><a class="anchor" href="#can-i-champion-my-own-goal" aria-hidden="true"></a>
+Can I champion my own goal?</h3>
+<p>If you are a member of the team in question, you can champion your own goal, sure.</p>
+<h3 id="why-do-you-call-these-project-goals-if-some-of-them-originate-from-outside-the-project"><a class="anchor" href="#why-do-you-call-these-project-goals-if-some-of-them-originate-from-outside-the-project" aria-hidden="true"></a>
+Why do you call these <em>Project goals</em> if some of them originate from outside the Project?</h3>
+<p>A Project goal is an agreement between...</p>
+<ul>
+<li>an <strong>owner</strong>, who will be doing the work;</li>
+<li>and a <strong>team</strong>, who will be accepting the work.</li>
+</ul>
+<p>Owners may or may not be members of a Rust team.</p>
+<p>We only accept goals where there are both owner(s) to do the work and team(s) that want it.</p>
+<p>The fact that the team(s) agree to the goal is what makes it a Rust Project goal.</p>
+
+    </div>
+  </div>
+</section>
+    <footer class="footer">
+      <div class="w-100 mw-none ph3 mw8-m mw9-l center f3">
+        <div class="row">
+          <div class="four columns mt3 mt0-l" id="get-help">
+            <h4>Get help!</h4>
+            <ul>
+              <li><a href="https://doc.rust-lang.org" target="_blank" rel="noopener">Documentation</a></li>
+              <li><a href="mailto:core-team@rust-lang.org">Contact the Rust Team</a></li>
+            </ul>
+          </div>
+          <div class="four columns mt3 mt0-l">
+            <h4>Terms and policies</h4>
+            <ul>
+              <li><a href="https://www.rust-lang.org/policies/code-of-conduct">Code of Conduct</a></li>
+              <li><a href="https://www.rust-lang.org/policies/licenses">Licenses</a></li>
+              <li><a href="https://www.rust-lang.org/policies/media-guide">Logo Policy and Media Guide</a></li>
+              <li><a href="https://www.rust-lang.org/policies/security">Security Disclosures</a></li>
+              <li><a href="https://www.rust-lang.org/policies">All Policies</a></li>
+            </ul>
+          </div>
+          <div class="four columns mt3 mt0-l">
+            <h4>Social</h4>
+            <div class="flex flex-row flex-wrap">
+              <a rel="me" href="https://social.rust-lang.org/@rust" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/mastodon.svg" alt="Mastodon"/></a>
+              <a rel="me" href="https://bsky.app/profile/rust-lang.org" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/bluesky.svg" alt="Bluesky"/></a>
+              <a href="https://www.youtube.com/channel/UCaYhcUwRBNscFNUKTjgPFiA" target="_blank" rel="noopener"><img style="padding-top: 6px; padding-bottom:6px" src="https://blog.rust-lang.org/images/youtube.svg" alt="YouTube"/></a>
+              <a href="https://discord.gg/rust-lang" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/discord.svg" alt="Discord"/></a>
+              <a href="https://github.com/rust-lang" target="_blank" rel="noopener"><img src="https://blog.rust-lang.org/images/github.svg" alt="GitHub"/></a>
+            </div>
+            <h4 class="mt4 mb3">RSS</h4>
+            <ul>
+              <li><a href="https://blog.rust-lang.org/feed.xml">Main Blog</a></li>
+              <li><a href="https://blog.rust-lang.org/inside-rust/feed.xml">"Inside Rust" Blog</a></li>
+            </ul>
+          </div>
+    
+        </div>
+        <div class="attribution">
+          Maintained by the Rust Team. See a typo?
+          <a href="https://github.com/rust-lang/blog.rust-lang.org/edit/main/content/inside-rust&#x2F;first-look-at-2026-project-goals.md" target="_blank" rel="noopener">Send a fix here</a>!
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
