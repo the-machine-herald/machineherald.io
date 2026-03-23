@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta name="readthedocs-addons-api-version" content="1" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9SYWYG92Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-V9SYWYG92Y');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ztunnel Transparent Encryption (Beta) &mdash; Cilium 1.19.2 documentation</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=ef282081" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/parsed-literal.css?v=519ac8c2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=378031d3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/editbutton.css?v=d53c7333" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/helm-reference.css?v=2d9e6831" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/wrapped-table.css?v=bc1f8164" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../../_static/pygments_dark.css?v=5349f25f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=a5c4661c" />
+  <link rel="stylesheet" href="../../../_static/css/docsearch.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/docsearch-input.css" type="text/css" />
+    <link rel="canonical" href="https://docs.cilium.io/en/stable/security/network/encryption-ztunnel.html" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=66e7045b"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../../_static/js/versionwarning.js?v=d4224a34"></script>
+        <script src="../../../_static/clipboardjs.min.js?v=bf393c17"></script>
+        <script src="../../../_static/copybutton.js?v=7c37f673"></script>
+        <script src="../../../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <!-- CSS: For Dark mode -->
+    <link rel="stylesheet" href="../../../_static/dark_mode_css/dark.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/dark_mode_css/general.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../../_static/css/github-button.css" type="text/css" />
+    <script type="text/javascript" src="../../../_static/js/github-button.js"></script>
+    <script type="text/javascript" src="../../../_static/js/docsearch.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" />
+    <link rel="next" title="Overview of Network Policy" href="../../policy/" />
+    <link rel="prev" title="WireGuard Transparent Encryption" href="../encryption-wireguard/" /> 
+
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:site" content="@ciliumproject"/>
+  <meta name="twitter:title" content="Ztunnel Transparent Encryption (Beta) &mdash; Cilium 1.19.2 documentation"/>
+  <meta name="twitter:image" content="../../../_static/../../../_static/logo.svg"/>
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="cilium" /><meta name="readthedocs-version-slug" content="stable" /><meta name="readthedocs-resolver-filename" content="/security/network/encryption-ztunnel/" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav">
+  <!-- JS: For Dark mode -->
+  <script type="text/javascript" src="../../../_static/dark_mode_js/pygments_switcher.js"></script>
+  <!-- Default Light Theme -->
+  <script type="text/javascript" src="../../../_static/dark_mode_js/default_light.js"></script>
+  <script type="text/javascript" src="../../../_static/dark_mode_js/theme_switcher.js"></script>
+
+  <header class="wy-header">
+      <div class="wy-header-left">
+          
+          
+          <a href="https://www.cilium.io" class="wy-header-logo-wrapper">
+            
+              <img src="../../../_static/logo.svg" class="logo" alt="Logo"/>
+          </a><span class="wy-github-stars">
+            <span class="github-btn github-stargazers github-btn-large">
+              <a
+                class="gh-btn"
+                href="https://github.com/cilium/cilium"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span class="gh-ico" aria-hidden="true"></span>
+                <span class="gh-text">GitHub Stars</span>
+              </a>
+              <a
+                class="gh-count"
+                href="https://github.com/cilium/cilium/stargazers"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={`${this.state.stars} stargazers on GitHub`}
+                style="margin-left: 0px;"
+              >
+              </a>
+
+              <a
+                class="gh-btn"
+                href="https://slack.cilium.io/"
+                rel="noopener noreferrer"
+                target="_blank"
+                style="margin-left: 15px;"
+              >
+                <img style="height: 1em;" src="../../../_static/icons/slack.inline.svg" alt="slack_icon">
+                <span class="gh-text">Join Slack</span>
+            </a>
+            </span>
+        </span>
+    </div>
+
+    <nav class="wy-main-nav">
+      <input name="wy-main-nav-checkbox" id="wy-main-nav-checkbox" class="wy-main-nav-checkbox" type="checkbox">
+      <label for="wy-main-nav-checkbox" class="wy-main-nav-toggle">Menu</label>
+      <ul id="#wy-main-nav-menu" class="wy-main-nav-menu">
+        <li><a class="w3-hover-text-blue" href="https://cilium.io/enterprise/">Enterprise</a></li>
+        <li>
+          <div style="background-color: white; font-size: 16px; font-weight: 600; margin-left: 40px" class="w3-dropdown-hover">
+            <button class="w3-button w3-white w3-hover-white w3-hover-text-blue">Learn <span class="triangle">▾</span></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/labs/categories/getting-started" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/labs.inline.svg" alt="labs-icon">
+                Labs
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/get-started" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/get-started.inline.svg" alt="get-started-icon">
+                Get Started
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex; padding-right: 10px;" href="https://cilium.io/get-involved" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/get-involved.inline.svg" alt="get-involved-icon">
+                Get Involved
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/get-help" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/get-help.inline.svg" alt="get-help-icon">
+                Get Help
+              </a>
+            </div>
+          </div>
+
+        </li>
+        <li>
+          <div style="background-color: white; font-size: 16px;font-weight: 600; margin-left: 40px" class="w3-dropdown-hover">
+            <button class="w3-button w3-white w3-hover-white w3-hover-text-blue">News and media <span class="triangle">▾</span></i></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/adopters" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/adopters.inline.svg" alt="adopters-icon">
+                Adopters
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/blog" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/blog.inline.svg" alt="blog-icon">
+                Blog
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://github.com/cncf/artwork/blob/master/examples/incubating.md#cilium-logos" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/branding.inline.svg" alt="branding-icon">
+                Branding
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/newsletter" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../../_static/icons/newsletter.inline.svg" alt="newsletter-icon">
+                Newsletter
+              </a>
+            </div>
+          </div>
+
+        </li>
+        <li><a class="w3-hover-text-blue" href="https://docs.cilium.io/en/stable/">Documentation</a></li>
+      </ul>
+    </nav>
+  </header> 
+  <div class="wy-grid-for-nav">
+    <div class="wy-nav-wrapper" data-toggle="wy-nav-shift" >
+        <div class="wy-side-nav-search" >
+            <!--
+              <div class="version">
+                stable
+              </div> -->
+<div role="search">
+  <div id="rtd-search-form" class="wy-form">
+    <!-- DocSearch v4 container - DocSearch will inject its own search input here -->
+  </div>
+</div>
+        </div>
+
+      <nav class="wy-nav-side">
+      <div class="wy-side-scroll"><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview/intro/">Introduction to Cilium &amp; Hubble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview/component-overview/">Component Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted/k8s-install-default/">Cilium Quick Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted/demo/">Getting Started with the Star Wars Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted/terminology/">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted/gettinghelp/">Getting Help</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/taints/">Considerations on Node Pool Taints and Unmanaged Pods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/k8s-install-helm/">Installation using Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/k8s-install-migration/">Migrating a cluster to Cilium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/k8s-toc/">Installation with K8s distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation/external-toc/">External Installers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Networking</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/concepts/">Networking Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/kubernetes/">Kubernetes Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/bgp-toc/">BGP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/ebpf/">eBPF Datapath</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/clustermesh/">Multi-cluster Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/egress-gateway-toc/">Egress Gateway</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/servicemesh/">Service Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/vtep/">VXLAN Tunnel Endpoint (VTEP) Integration (beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/l2-announcements/">L2 Announcements / L2 Aware LB (Beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/node-ipam/">Node IPAM LB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/pod-mac-address/">Use a Specific MAC Address for a Pod</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../network/multicast/">Multicast Support in Cilium (Beta)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../">Securing Networks with Cilium</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../">Overview of Network Security</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../intro/">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../identity/">Identity-Based</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../policyenforcement/">Policy Enforcement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../proxy/">Proxy Injection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../encryption/">Transparent Encryption</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../encryption-ipsec/">IPsec Transparent Encryption</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../encryption-wireguard/">WireGuard Transparent Encryption</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ztunnel Transparent Encryption (Beta)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#generating-secrets-for-authentication">Generating secrets for authentication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-ztunnel-in-cilium">Enable ztunnel in Cilium</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enrolling-namespaces">Enrolling Namespaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validate-the-setup">Validate the Setup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../encryption/#known-issues-and-workarounds">Known Issues and Workarounds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../policy/">Overview of Network Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../restrict-pod-access/">Restricting privileged Cilium pod access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../threat-model/">Threat Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability/hubble/">Network Observability with Hubble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability/grafana/">Running Prometheus &amp; Grafana</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability/metrics/">Monitoring &amp; Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../observability/visibility/">Layer 7 Protocol Visibility</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../operations/system_requirements/">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operations/upgrade/">Upgrade Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration/">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operations/performance/">Performance &amp; Scalability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../operations/troubleshooting/">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/governance/">Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/community/">Community Meetings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/community/#slack">Slack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/community/#special-interest-groups">Special Interest Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../community/roadmap/">Roadmap</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/development/">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/release/">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/testing/">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing/docs/">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../grpcapi/">gRPC API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sdpapi/">SDP gRPC API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../internals/">Internals</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/">Command Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cmdref/">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../helm-reference/">Helm Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../kvstore/">Key-Value Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../further_reading/">Further Reading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../glossary/">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference-guides/bpf/">BPF and XDP Reference Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference-guides/xfrm/">XFRM Reference Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+      </nav>
+    </div>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../">Cilium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../">Overview of Network Security</a></li>
+          <li class="breadcrumb-item"><a href="../encryption/">Transparent Encryption</a></li>
+      <li class="breadcrumb-item active">Ztunnel Transparent Encryption (Beta)</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ztunnel-transparent-encryption-beta">
+<span id="encryption-ztunnel"></span><h1>Ztunnel Transparent Encryption (Beta)<a class="headerlink" href="#ztunnel-transparent-encryption-beta" title="Permalink to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a beta feature. Please provide feedback and file a GitHub issue if
+you experience any problems.</p>
+</div>
+<p>This guide explains how to configure Cilium to use ztunnel for transparent
+encryption and mutual TLS (mTLS) authentication between Cilium-managed endpoints.
+ztunnel is a purpose-built per-node proxy that provides transparent Layer 4 mTLS
+encryption and authentication for pod-to-pod communication.</p>
+<p>When ztunnel is enabled in Cilium, the agent running on each cluster node
+establishes a control plane connection with the local ztunnel proxy. Cilium
+enrolls pods into the mesh on a per-namespace basis, allowing fine-grained
+control over which workloads participate in mTLS encryption. Enrolled pods have
+their traffic transparently redirected to the ztunnel proxy using iptables rules
+configured in their network namespace, where the traffic is encrypted and
+authenticated using mutual TLS before being sent to the destination.</p>
+<section id="generating-secrets-for-authentication">
+<h2>Generating secrets for authentication<a class="headerlink" href="#generating-secrets-for-authentication" title="Permalink to this heading"></a></h2>
+<p>Cilium’s ztunnel integration requires a set of private keys and accompanying
+to certificates be present via Kubernetes secrets. This follows the same pattern
+as IPsec key injections.</p>
+<p>These keys can be generated with the following bash script prior to deploying
+Cilium.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="c1"># SPDX-License-Identifier: Apache-2.0</span>
+<span class="c1"># Copyright Authors of Cilium</span>
+
+<span class="nb">set</span><span class="w"> </span>-eu
+
+<span class="c1"># == Bootstrap ===</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>bootstrap-private.key<span class="w"> </span><span class="m">2048</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">[ req ]</span>
+<span class="s1">distinguished_name = req_distinguished_name</span>
+<span class="s1">x509_extensions = v3_ca</span>
+<span class="s1">prompt = no</span>
+
+<span class="s1">[ req_distinguished_name ]</span>
+<span class="s1">O = cluster.local</span>
+
+<span class="s1">[ v3_ca ]</span>
+<span class="s1">subjectKeyIdentifier = hash</span>
+<span class="s1">authorityKeyIdentifier = keyid:always,issuer</span>
+<span class="s1">basicConstraints = CA:FALSE</span>
+<span class="s1">keyUsage = digitalSignature, keyEncipherment</span>
+<span class="s1">extendedKeyUsage = serverAuth, clientAuth</span>
+<span class="s1">subjectAltName = @alt_names</span>
+
+<span class="s1">[alt_names]</span>
+<span class="s1">DNS.1 = localhost</span>
+<span class="s1">&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>openssl.conf
+
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-new<span class="w"> </span>-nodes<span class="w"> </span>-key<span class="w"> </span>bootstrap-private.key<span class="w"> </span>-sha256<span class="w"> </span>-days<span class="w"> </span><span class="m">3650</span><span class="w"> </span>-out<span class="w"> </span>bootstrap-root.crt<span class="w"> </span>-config<span class="w"> </span>openssl.conf
+
+<span class="c1"># == CA ==</span>
+openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span>ca-private.key<span class="w"> </span><span class="m">2048</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">[ req ]</span>
+<span class="s1">distinguished_name = req_distinguished_name</span>
+<span class="s1">x509_extensions = v3_ca</span>
+<span class="s1">prompt = no</span>
+
+<span class="s1">[ req_distinguished_name ]</span>
+<span class="s1">O = cluster.local</span>
+
+<span class="s1">[ v3_ca ]</span>
+<span class="s1">subjectKeyIdentifier = hash</span>
+<span class="s1">authorityKeyIdentifier = keyid:always,issuer</span>
+<span class="s1">basicConstraints = critical, CA:true</span>
+<span class="s1">keyUsage = critical, digitalSignature, cRLSign, keyCertSign</span>
+<span class="s1">&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>openssl.conf
+
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-new<span class="w"> </span>-nodes<span class="w"> </span>-key<span class="w"> </span>ca-private.key<span class="w"> </span>-sha256<span class="w"> </span>-days<span class="w"> </span><span class="m">3650</span><span class="w"> </span>-out<span class="w"> </span>ca-root.crt<span class="w"> </span>-config<span class="w"> </span>openssl.conf
+
+kubectl<span class="w"> </span>--namespace<span class="w"> </span>kube-system<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cilium-ztunnel-secrets<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--from-file<span class="o">=</span>bootstrap-private.key<span class="o">=</span>bootstrap-private.key<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--from-file<span class="o">=</span>bootstrap-root.crt<span class="o">=</span>bootstrap-root.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--from-file<span class="o">=</span>ca-private.key<span class="o">=</span>ca-private.key<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--from-file<span class="o">=</span>ca-root.crt<span class="o">=</span>ca-root.crt
+</pre></div>
+</div>
+<p>The ‘bootstrap’ keys are used to secure the connection between ztunnel and
+Cilium’s xDS and certificate server implementation.</p>
+<p>The ‘ca’ keys are used as the root certificate for creating in-memory and
+ephemeral client certificates on ztunnel’s request.</p>
+</section>
+<section id="enable-ztunnel-in-cilium">
+<h2>Enable ztunnel in Cilium<a class="headerlink" href="#enable-ztunnel-in-cilium" title="Permalink to this heading"></a></h2>
+<p>Before you install Cilium with ztunnel enabled, ensure that:</p>
+<ul class="simple">
+<li><p>The necessary Kubernetes secrets are available.</p></li>
+<li><p>Cluster Mesh is not enabled (ztunnel is currently not compatible with Cluster Mesh).</p></li>
+</ul>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-Q2lsaXVtIENMSQ==" aria-selected="true" class="sphinx-tabs-tab group-tab" id="tab-0-Q2lsaXVtIENMSQ==" name="Q2lsaXVtIENMSQ==" role="tab" tabindex="0">Cilium CLI</button><button aria-controls="panel-0-SGVsbQ==" aria-selected="false" class="sphinx-tabs-tab group-tab" id="tab-0-SGVsbQ==" name="SGVsbQ==" role="tab" tabindex="-1">Helm</button></div><div aria-labelledby="tab-0-Q2lsaXVtIENMSQ==" class="sphinx-tabs-panel group-tab" id="panel-0-Q2lsaXVtIENMSQ==" name="Q2lsaXVtIENMSQ==" role="tabpanel" tabindex="0"><p>If you are deploying Cilium with the Cilium CLI, pass the following
+options:</p>
+<pre class="literal-block">cilium install --version 1.19.2 \
+   --set encryption.enabled=true \
+   --set encryption.type=ztunnel</pre>
+</div><div aria-labelledby="tab-0-SGVsbQ==" class="sphinx-tabs-panel group-tab" hidden="true" id="panel-0-SGVsbQ==" name="SGVsbQ==" role="tabpanel" tabindex="0"><p>If you are deploying Cilium with Helm by following
+<a class="reference internal" href="../../../installation/k8s-install-helm/#k8s-install-helm"><span class="std std-ref">Installation using Helm</span></a>, pass the following options:</p>
+<pre class="literal-block">helm install cilium cilium/cilium --version 1.19.2 \
+  --namespace kube-system \
+  --set encryption.enabled=true \
+  --set encryption.type=ztunnel</pre>
+</div></div>
+</section>
+<section id="enrolling-namespaces">
+<h2>Enrolling Namespaces<a class="headerlink" href="#enrolling-namespaces" title="Permalink to this heading"></a></h2>
+<p>After enabling ztunnel in Cilium, you need to explicitly enroll namespaces to
+enable mTLS encryption for their workloads. This is done by applying a label
+to the namespace:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">kubectl label namespace &lt;namespace-name&gt; io.cilium/mtls-enabled=true</span>
+</pre></div>
+</div>
+<p>To verify that a namespace is enrolled:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">kubectl get namespace &lt;namespace-name&gt; --show-labels</span>
+</pre></div>
+</div>
+<p>When a namespace is enrolled:</p>
+<ul class="simple">
+<li><p>All existing pods in the namespace (except ztunnel pods themselves) are enrolled</p></li>
+<li><p>Iptables rules are configured in each pod’s network namespace for traffic redirection</p></li>
+<li><p>Pod metadata is sent to the ztunnel proxy via the ZDS protocol</p></li>
+<li><p>Future pods created in the namespace are automatically enrolled</p></li>
+</ul>
+<p>To disenroll a namespace:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">kubectl label namespace &lt;namespace-name&gt; io.cilium/mtls-enabled-</span>
+</pre></div>
+</div>
+<p>This will:</p>
+<ol class="arabic simple">
+<li><p>Disenroll all pods in the namespace from ztunnel</p></li>
+<li><p>Remove the iptables rules from each pod’s network namespace</p></li>
+<li><p>Notify ztunnel to stop processing traffic for those workloads</p></li>
+</ol>
+</section>
+<section id="validate-the-setup">
+<h2>Validate the Setup<a class="headerlink" href="#validate-the-setup" title="Permalink to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Check that ztunnel has been enabled:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">kubectl -n kube-system describe cm cilium-config | grep enable-ztunnel -A2</span>
+</pre></div>
+</div>
+<p>You should see output indicating that ztunnel encryption is enabled.</p>
+</li>
+<li><p>Check which namespaces are enrolled:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">kubectl get namespaces -l io.cilium/mtls-enabled=true</span>
+</pre></div>
+</div>
+<p>This shows all namespaces labeled for ztunnel enrollment.</p>
+<p>To verify that these namespaces are actually enrolled in the StateDB table:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">kubectl exec -n kube-system ds/cilium -- cilium-dbg statedb dump | jq &#39;.[&quot;mtls-enrolled-namespaces&quot;]&#39;</span>
+</pre></div>
+</div>
+<p>The results of this query should show which namespaces have been successfully
+processed by the enrollment reconciler.</p>
+</li>
+<li><p>Run a <code class="docutils literal notranslate"><span class="pre">bash</span></code> shell in one of the Cilium pods hosting a mtls-enrolled pod with
+<code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">-n</span> <span class="pre">kube-system</span> <span class="pre">exec</span> <span class="pre">-ti</span> <span class="pre">pod/&lt;cillium-pod-hosting-mtls-pod&gt;</span> <span class="pre">--</span> <span class="pre">bash</span></code>
+and execute the following commands:</p>
+<p>Install tcpdump</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>apt-get<span class="w"> </span>update
+<span class="gp">$ </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>tcpdump
+</pre></div>
+</div>
+<p>Check that traffic is encrypted. In the example below, this can be verified
+by the fact that packets will have a destination port of 15008 (HBONE).
+In the example below, <code class="docutils literal notranslate"><span class="pre">eth0</span></code> is the interface used for pod-to-pod
+communication. Replace this interface with e.g. <code class="docutils literal notranslate"><span class="pre">cilium_vxlan</span></code> if
+tunneling is enabled.</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="go">tcpdump -i eth0 port 15008</span>
+<span class="go">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span>
+<span class="go">listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes</span>
+<span class="go">13:00:06.982499 IP 10.244.1.95.15008 &gt; 10.244.2.3.33446: ...</span>
+<span class="go">13:00:06.982536 IP 10.244.2.3.33446 &gt; 10.244.1.95.15008: ...</span>
+<span class="go">13:00:06.982675 IP 10.244.2.3.33446 &gt; 10.244.1.95.15008: ...</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Traffic between workloads is only supported when both the source and
+destination endpoints are enrolled in ztunnel. Communication between an
+enrolled workload and a non-enrolled workload is not supported.</p></li>
+<li><p>The ztunnel integration currently only supports enrollment via namespace
+labels. Pod-level enrollment is not supported.</p></li>
+<li><p>Only TCP traffic is currently supported for mTLS encryption. UDP and other
+protocols are not redirected to ztunnel.</p></li>
+<li><p>The integration requires iptables support in the kernel and cannot be used
+with environments that do not support iptables (such as some minimal container
+runtimes).</p></li>
+<li><p>Ztunnel interferes with Cilium network policy as traffic is encrypted before
+it leaves the pod, meaning L4 policies won’t work except for directly
+targeting the ztunnel HBONE port (15008).</p></li>
+</ul>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Cluster Mesh is not currently supported when ztunnel is enabled. Attempting
+to enable both will result in a validation error.</p></li>
+<li><p>Pods without a network namespace path (such as host-networked pods) cannot
+be enrolled in ztunnel and will be skipped during enrollment.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../encryption-wireguard/" class="btn btn-neutral float-left" title="WireGuard Transparent Encryption" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../policy/" class="btn btn-neutral float-right" title="Overview of Network Policy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Cilium Authors.
+      <span class="lastupdated">Last updated on Mar 20, 2026.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    document.addEventListener(
+      "readthedocs-addons-data-ready",
+      function (event) {
+        const config = event.detail.data();
+    
+        // Create the version selector HTML
+        const versionSelector = `
+          <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+            <span class="rst-current-version" data-toggle="rst-current-version">
+              <span class="rst-current-version-label">Read the Docs</span>
+              version: ${config.versions.current.slug}
+              <span class="fa fa-caret-down"></span>
+            </span>
+            <div class="rst-other-versions">
+              <dl>
+                <dt>Versions</dt>
+                ${config.versions.active
+                  .map(version => `
+                    <dd><a href="${version.urls.documentation}">${version.slug}</a></dd>
+                  `).join('')}
+              </dl>
+            </div>
+          </div>
+        `;
+    
+        // Insert the version selector into your page
+        document.querySelector('.wy-nav-wrapper')
+          .insertAdjacentHTML('beforeend', versionSelector);
+      }
+    );
+  </script>
+  
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <script>
+    setTimeout(() => {
+      docsearch({
+        appId: 'NR0TQZZ2NG',
+        apiKey: 'ebd279472edfb5246bababfd1f324a98',
+        indexName: 'cilium_docs',
+        container: '#rtd-search-form',
+        searchParameters: {
+          facetFilters: ['version:stable']
+        },
+        disableUserPersonalization: true,
+      });
+    }, 0);
+  </script>
+
+</body>
+</html>

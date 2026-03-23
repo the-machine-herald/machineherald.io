@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta name="readthedocs-addons-api-version" content="1" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9SYWYG92Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-V9SYWYG92Y');
+    </script>
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service Mesh &mdash; Cilium 1.19.2 documentation</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=ef282081" />
+    <link rel="stylesheet" type="text/css" href="../../_static/parsed-literal.css?v=519ac8c2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=378031d3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/editbutton.css?v=d53c7333" />
+    <link rel="stylesheet" type="text/css" href="../../_static/helm-reference.css?v=2d9e6831" />
+    <link rel="stylesheet" type="text/css" href="../../_static/wrapped-table.css?v=bc1f8164" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../../_static/pygments_dark.css?v=5349f25f" />
+  <link rel="stylesheet" href="../../_static/css/docsearch.min.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/docsearch-input.css" type="text/css" />
+    <link rel="canonical" href="https://docs.cilium.io/en/stable/network/servicemesh/index.html" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=66e7045b"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../_static/js/versionwarning.js?v=d4224a34"></script>
+        <script src="../../_static/clipboardjs.min.js?v=bf393c17"></script>
+        <script src="../../_static/copybutton.js?v=7c37f673"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <!-- CSS: For Dark mode -->
+    <link rel="stylesheet" href="../../_static/dark_mode_css/dark.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/dark_mode_css/general.css" type="text/css" />
+
+    <link rel="stylesheet" href="../../_static/css/github-button.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/js/github-button.js"></script>
+    <script type="text/javascript" src="../../_static/js/docsearch.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Kubernetes Ingress Support" href="ingress/" />
+    <link rel="prev" title="Egress Gateway Advanced Troubleshooting" href="../egress-gateway/egress-gateway-troubleshooting/" /> 
+
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:site" content="@ciliumproject"/>
+  <meta name="twitter:title" content="Service Mesh &mdash; Cilium 1.19.2 documentation"/>
+  <meta name="twitter:image" content="../../_static/../../_static/logo.svg"/>
+<script async type="text/javascript" src="/_/static/javascript/readthedocs-addons.js"></script><meta name="readthedocs-project-slug" content="cilium" /><meta name="readthedocs-version-slug" content="stable" /><meta name="readthedocs-resolver-filename" content="/network/servicemesh/index.html" /><meta name="readthedocs-http-status" content="200" /></head>
+
+<body class="wy-body-for-nav">
+  <!-- JS: For Dark mode -->
+  <script type="text/javascript" src="../../_static/dark_mode_js/pygments_switcher.js"></script>
+  <!-- Default Light Theme -->
+  <script type="text/javascript" src="../../_static/dark_mode_js/default_light.js"></script>
+  <script type="text/javascript" src="../../_static/dark_mode_js/theme_switcher.js"></script>
+
+  <header class="wy-header">
+      <div class="wy-header-left">
+          
+          
+          <a href="https://www.cilium.io" class="wy-header-logo-wrapper">
+            
+              <img src="../../_static/logo.svg" class="logo" alt="Logo"/>
+          </a><span class="wy-github-stars">
+            <span class="github-btn github-stargazers github-btn-large">
+              <a
+                class="gh-btn"
+                href="https://github.com/cilium/cilium"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span class="gh-ico" aria-hidden="true"></span>
+                <span class="gh-text">GitHub Stars</span>
+              </a>
+              <a
+                class="gh-count"
+                href="https://github.com/cilium/cilium/stargazers"
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label={`${this.state.stars} stargazers on GitHub`}
+                style="margin-left: 0px;"
+              >
+              </a>
+
+              <a
+                class="gh-btn"
+                href="https://slack.cilium.io/"
+                rel="noopener noreferrer"
+                target="_blank"
+                style="margin-left: 15px;"
+              >
+                <img style="height: 1em;" src="../../_static/icons/slack.inline.svg" alt="slack_icon">
+                <span class="gh-text">Join Slack</span>
+            </a>
+            </span>
+        </span>
+    </div>
+
+    <nav class="wy-main-nav">
+      <input name="wy-main-nav-checkbox" id="wy-main-nav-checkbox" class="wy-main-nav-checkbox" type="checkbox">
+      <label for="wy-main-nav-checkbox" class="wy-main-nav-toggle">Menu</label>
+      <ul id="#wy-main-nav-menu" class="wy-main-nav-menu">
+        <li><a class="w3-hover-text-blue" href="https://cilium.io/enterprise/">Enterprise</a></li>
+        <li>
+          <div style="background-color: white; font-size: 16px; font-weight: 600; margin-left: 40px" class="w3-dropdown-hover">
+            <button class="w3-button w3-white w3-hover-white w3-hover-text-blue">Learn <span class="triangle">▾</span></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/labs/categories/getting-started" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/labs.inline.svg" alt="labs-icon">
+                Labs
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/get-started" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/get-started.inline.svg" alt="get-started-icon">
+                Get Started
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex; padding-right: 10px;" href="https://cilium.io/get-involved" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/get-involved.inline.svg" alt="get-involved-icon">
+                Get Involved
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/get-help" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/get-help.inline.svg" alt="get-help-icon">
+                Get Help
+              </a>
+            </div>
+          </div>
+
+        </li>
+        <li>
+          <div style="background-color: white; font-size: 16px;font-weight: 600; margin-left: 40px" class="w3-dropdown-hover">
+            <button class="w3-button w3-white w3-hover-white w3-hover-text-blue">News and media <span class="triangle">▾</span></i></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/adopters" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/adopters.inline.svg" alt="adopters-icon">
+                Adopters
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/blog" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/blog.inline.svg" alt="blog-icon">
+                Blog
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://github.com/cncf/artwork/blob/master/examples/incubating.md#cilium-logos" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/branding.inline.svg" alt="branding-icon">
+                Branding
+              </a>
+              <a style = "margin-left: 0px; display: inline-flex;" href="https://cilium.io/newsletter" class="w3-bar-item w3-button w3-hover-white w3-hover-text-blue">
+                <img style="height: 1.5em; margin-right: .5em" src="../../_static/icons/newsletter.inline.svg" alt="newsletter-icon">
+                Newsletter
+              </a>
+            </div>
+          </div>
+
+        </li>
+        <li><a class="w3-hover-text-blue" href="https://docs.cilium.io/en/stable/">Documentation</a></li>
+      </ul>
+    </nav>
+  </header> 
+  <div class="wy-grid-for-nav">
+    <div class="wy-nav-wrapper" data-toggle="wy-nav-shift" >
+        <div class="wy-side-nav-search" >
+            <!--
+              <div class="version">
+                stable
+              </div> -->
+<div role="search">
+  <div id="rtd-search-form" class="wy-form">
+    <!-- DocSearch v4 container - DocSearch will inject its own search input here -->
+  </div>
+</div>
+        </div>
+
+      <nav class="wy-nav-side">
+      <div class="wy-side-scroll"><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview/intro/">Introduction to Cilium &amp; Hubble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview/component-overview/">Component Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted/k8s-install-default/">Cilium Quick Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted/demo/">Getting Started with the Star Wars Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted/terminology/">Terminology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted/gettinghelp/">Getting Help</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/taints/">Considerations on Node Pool Taints and Unmanaged Pods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/k8s-install-helm/">Installation using Helm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/k8s-install-migration/">Migrating a cluster to Cilium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/k8s-toc/">Installation with K8s distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/external-toc/">External Installers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Networking</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../concepts/">Networking Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../kubernetes/">Kubernetes Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bgp-toc/">BGP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ebpf/">eBPF Datapath</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustermesh/">Multi-cluster Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../egress-gateway-toc/">Egress Gateway</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Service Mesh</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-service-mesh">What is Service Mesh?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-cilium-service-mesh">Why Cilium Service Mesh?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ingress/">Kubernetes Ingress Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/">Gateway API Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gamma/">GAMMA Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/">Migrating from Ingress to Gateway</a></li>
+<li class="toctree-l3"><a class="reference internal" href="istio/">Integration with Istio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mutual-authentication/mutual-authentication/">Mutual Authentication (Beta)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l7-traffic-management/">L7-Aware Traffic Management</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vtep/">VXLAN Tunnel Endpoint (VTEP) Integration (beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../l2-announcements/">L2 Announcements / L2 Aware LB (Beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../node-ipam/">Node IPAM LB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pod-mac-address/">Use a Specific MAC Address for a Pod</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multicast/">Multicast Support in Cilium (Beta)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Security</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../security/">Securing Networks with Cilium</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/network/">Overview of Network Security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/policy/">Overview of Network Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/restrict-pod-access/">Restricting privileged Cilium pod access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../security/threat-model/">Threat Model</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Observability</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../observability/hubble/">Network Observability with Hubble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../observability/grafana/">Running Prometheus &amp; Grafana</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../observability/metrics/">Monitoring &amp; Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../observability/visibility/">Layer 7 Protocol Visibility</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Operations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/system_requirements/">System Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/upgrade/">Upgrade Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration/">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/performance/">Performance &amp; Scalability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../operations/troubleshooting/">Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Community</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../community/governance/">Governance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../community/community/">Community Meetings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../community/community/#slack">Slack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../community/community/#special-interest-groups">Special Interest Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../community/roadmap/">Roadmap</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contributor Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/release/">Release Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/docs/">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../grpcapi/">gRPC API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sdpapi/">SDP gRPC API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../internals/">Internals</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cheatsheet/">Command Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cmdref/">Command Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../helm-reference/">Helm Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../kvstore/">Key-Value Store</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../further_reading/">Further Reading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../glossary/">Glossary</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../reference-guides/bpf/">BPF and XDP Reference Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference-guides/xfrm/">XFRM Reference Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+      </nav>
+    </div>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Cilium</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Service Mesh</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="service-mesh">
+<span id="servicemesh-root"></span><h1>Service Mesh<a class="headerlink" href="#service-mesh" title="Permalink to this heading"></a></h1>
+<section id="what-is-service-mesh">
+<h2>What is Service Mesh?<a class="headerlink" href="#what-is-service-mesh" title="Permalink to this heading"></a></h2>
+<p>With the introduction of distributed applications, additional visibility,
+connectivity, and security requirements have surfaced. Application components
+communicate over untrusted networks across cloud and premises boundaries,
+load-balancing is required to understand application protocols, resiliency is
+becoming crucial, and security must evolve to a model where sender and receiver
+can authenticate each other’s identity. In the early days of distributed
+applications, these requirements were resolved by directly embedding the
+required logic into the applications. A service mesh extracts these features out
+of the application and offers them as part of the infrastructure for all
+applications to use and thus no longer requires to change each application.</p>
+<p>Looking at the feature set of a service mesh today, it can be summarized as follows:</p>
+<ul class="simple">
+<li><p><strong>Resilient Connectivity</strong>: Service to service communication must be possible across
+boundaries such as clouds, clusters, and premises. Communication must be
+resilient and fault tolerant.</p></li>
+<li><p><strong>L7 Traffic Management</strong>: Load balancing, rate limiting, and resiliency must be
+L7-aware (HTTP, REST, gRPC, WebSocket, …).</p></li>
+<li><p><strong>Identity-based Security</strong>: Relying on network identifiers to achieve security is
+no longer sufficient, both the sending and receiving services must be able to
+authenticate each other based on identities instead of a network identifier.</p></li>
+<li><p><strong>Observability &amp; Tracing</strong>: Observability in the form of tracing and metrics is
+critical to understanding, monitoring, and troubleshooting application stability,
+performance, and availability.</p></li>
+<li><p><strong>Transparency</strong>: The functionality must be available to applications in a
+transparent manner, i.e. without requiring to change application code.</p></li>
+</ul>
+<div class="attention admonition">
+<p class="admonition-title">Video</p>
+<p>If you’d like a video explanation of Cilium’s Service Mesh implementation, check out <a class="reference external" href="https://www.youtube.com/watch?v=nJT0ASbGLvs">eCHO episode 27: eBPF-enabled Service Mesh</a> and <a class="reference external" href="https://www.youtube.com/watch?v=BWjDlynXhzg">eCHO episode 100: Next-gen mutual authentication in Cilium</a>.</p>
+</div>
+</section>
+<section id="why-cilium-service-mesh">
+<h2>Why Cilium Service Mesh?<a class="headerlink" href="#why-cilium-service-mesh" title="Permalink to this heading"></a></h2>
+<p>Since its early days, Cilium has been well aligned with the service mesh concept
+by operating at both the networking and the application protocol layer to provide
+connectivity, load-balancing, security, and observability. For all network
+processing including protocols such as IP, TCP, and UDP, Cilium uses eBPF as the
+highly efficient in-kernel datapath. Protocols at the application layer such as
+HTTP, Kafka, gRPC, and DNS are parsed using a proxy such as Envoy.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ingress/">Kubernetes Ingress Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ingress/#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingress/#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingress/#reference">Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#how-cilium-ingress-and-gateway-api-differ-from-other-ingress-controllers">How Cilium Ingress and Gateway API differ from other Ingress controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#cilium-s-ingress-config-and-ciliumnetworkpolicy">Cilium’s ingress config and CiliumNetworkPolicy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#source-ip-visibility">Source IP Visibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#ingress-path-types-and-precedence">Ingress Path Types and Precedence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#supported-ingress-annotations">Supported Ingress Annotations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ingress/#host-network-mode">Host network mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#bind-to-privileged-port">Bind to privileged port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress/#deploy-cilium-ingress-listeners-on-subset-of-nodes">Deploy Cilium Ingress listeners on subset of nodes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ingress/#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="http/">Ingress HTTP Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress-and-network-policy/">Ingress and Network Policy Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress-and-network-policy/#external-lock-down-policy">External Lock-down Policy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress-and-network-policy/#default-deny-ingress-policy">Default Deny Ingress Policy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="path-types/">Ingress Path Types Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="grpc/">Ingress gRPC Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tls-termination/">Ingress Example with TLS Termination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tls-default-certificate/">Defaults certificate for Ingresses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gateway-api/gateway-api/">Gateway API Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#what-is-gateway-api">What is Gateway API?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#cilium-gateway-api-support">Cilium Gateway API Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#reference">Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#how-cilium-ingress-and-gateway-api-differ-from-other-ingress-controllers">How Cilium Ingress and Gateway API differ from other Ingress controllers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#cilium-s-ingress-config-and-ciliumnetworkpolicy">Cilium’s ingress config and CiliumNetworkPolicy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#source-ip-visibility">Source IP Visibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#host-network-mode">Host network mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#gateway-api-addresses-support">Gateway API Addresses Support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/http/">HTTP Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/https/">HTTPS Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/grpc/">gRPC Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/splitting/">Traffic Splitting Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/header/">HTTP Header Modifier Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/parameterized-gatewayclass/">GatewayClass Parameters Support</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gateway-api/#troubleshooting">Troubleshooting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#checking-resources">Checking resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#common-mistakes">Common mistakes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gateway-api/gateway-api/#underlying-mechanics-a-high-level-overview">Underlying mechanics: a high level overview</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gateway-api/gamma/">GAMMA Support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gamma/#what-is-gamma">What is GAMMA?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gamma/#types-of-gamma-configuration">Types of GAMMA configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gamma/#cilium-gamma-support">Cilium GAMMA Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gamma/#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gateway-api/gamma/#installation">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/">Migrating from Ingress to Gateway</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/#ingress-api-limitations">Ingress API Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/#benefits-of-the-gateway-api">Benefits of the Gateway API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/#migration-methods">Migration Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/#ingress-annotations-migration">Ingress Annotations Migration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingress-to-gateway/ingress-to-gateway/#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ingress-to-gateway/http-migration/">HTTP Migration Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ingress-to-gateway/tls-migration/">TLS Migration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="istio/">Integration with Istio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="istio/#cilium-configuration">Cilium Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="istio/#istio-configuration">Istio configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="istio/#demo-application-using-cilium-with-istio-ambient-mode">Demo Application (Using Cilium with Istio ambient mode)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="istio/#prerequisites">Prerequisites</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="istio/#demo-application-istio-sidecar-mode">Demo Application (Istio sidecar mode)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="istio/#id1">Prerequisites</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mutual-authentication/mutual-authentication/">Mutual Authentication (Beta)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#mutual-authentication-and-mtls-background">Mutual Authentication and mTLS Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#mutual-authentication-in-cilium">Mutual Authentication in Cilium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#identity-management">Identity Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mutual-authentication/mutual-authentication/#spiffe-benefits">SPIFFE benefits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mutual-authentication/mutual-authentication/#cilium-and-spiffe">Cilium and SPIFFE</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mutual-authentication/mutual-authentication-example/">Mutual Authentication Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#limitations">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mutual-authentication/mutual-authentication/#detailed-roadmap-status">Detailed Roadmap Status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="l7-traffic-management/">L7-Aware Traffic Management</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="l7-traffic-management/#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l7-traffic-management/#caveats">Caveats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l7-traffic-management/#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="l7-traffic-management/#supported-envoy-api-versions">Supported Envoy API Versions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l7-traffic-management/#supported-envoy-extension-resource-types">Supported Envoy Extension Resource Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="l7-traffic-management/#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="envoy-custom-listener/">L7 Path Translation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envoy-traffic-management/">L7 Load Balancing and URL re-writing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envoy-circuit-breaker/">L7 Circuit Breaking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envoy-load-balancing/">Proxy Load Balancing for Kubernetes Services (beta)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="envoy-traffic-shifting/">L7 Traffic Shifting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../egress-gateway/egress-gateway-troubleshooting/" class="btn btn-neutral float-left" title="Egress Gateway Advanced Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ingress/" class="btn btn-neutral float-right" title="Kubernetes Ingress Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Cilium Authors.
+      <span class="lastupdated">Last updated on Mar 20, 2026.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    document.addEventListener(
+      "readthedocs-addons-data-ready",
+      function (event) {
+        const config = event.detail.data();
+    
+        // Create the version selector HTML
+        const versionSelector = `
+          <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="Versions">
+            <span class="rst-current-version" data-toggle="rst-current-version">
+              <span class="rst-current-version-label">Read the Docs</span>
+              version: ${config.versions.current.slug}
+              <span class="fa fa-caret-down"></span>
+            </span>
+            <div class="rst-other-versions">
+              <dl>
+                <dt>Versions</dt>
+                ${config.versions.active
+                  .map(version => `
+                    <dd><a href="${version.urls.documentation}">${version.slug}</a></dd>
+                  `).join('')}
+              </dl>
+            </div>
+          </div>
+        `;
+    
+        // Insert the version selector into your page
+        document.querySelector('.wy-nav-wrapper')
+          .insertAdjacentHTML('beforeend', versionSelector);
+      }
+    );
+  </script>
+  
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+  <script>
+    setTimeout(() => {
+      docsearch({
+        appId: 'NR0TQZZ2NG',
+        apiKey: 'ebd279472edfb5246bababfd1f324a98',
+        indexName: 'cilium_docs',
+        container: '#rtd-search-form',
+        searchParameters: {
+          facetFilters: ['version:stable']
+        },
+        disableUserPersonalization: true,
+      });
+    }, 0);
+  </script>
+
+</body>
+</html>
