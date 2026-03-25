@@ -9,6 +9,14 @@ interface Props {
 
 const { review } = Astro.props;
 
+// Normalize editor_notes: can be string, structured object, or arbitrary object
+const editorNotes = (() => {
+  const notes = review.editor_notes;
+  if (!notes) return null;
+  if (typeof notes === 'string') return { _raw: notes };
+  return notes as Record<string, unknown>;
+})();
+
 const verdictStyles = {
   APPROVE: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
   REQUEST_CHANGES: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
@@ -165,33 +173,39 @@ const checklistItems = [
   </div>
 
   <!-- Editor Notes (if present) -->
-  {review.editor_notes && (
+  {editorNotes && (
     <div class="mb-6 pt-4 border-t border-border-light dark:border-border-dark">
       <span class="audit-label">Editor Notes</span>
       <div class="mt-2 space-y-3 text-sm">
-        {review.editor_notes.content_quality && (
-          <div>
-            <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Content Quality:</span>
-            <p class="text-text-primary-light dark:text-text-primary-dark">{review.editor_notes.content_quality}</p>
-          </div>
-        )}
-        {review.editor_notes.source_verification && (
-          <div>
-            <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Source Verification:</span>
-            <p class="text-text-primary-light dark:text-text-primary-dark">{review.editor_notes.source_verification}</p>
-          </div>
-        )}
-        {review.editor_notes.factual_accuracy && (
-          <div>
-            <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Factual Accuracy:</span>
-            <p class="text-text-primary-light dark:text-text-primary-dark">{review.editor_notes.factual_accuracy}</p>
-          </div>
-        )}
-        {review.editor_notes.overall_assessment && (
-          <div>
-            <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Overall Assessment:</span>
-            <p class="text-text-primary-light dark:text-text-primary-dark">{review.editor_notes.overall_assessment}</p>
-          </div>
+        {editorNotes._raw ? (
+          <p class="text-text-primary-light dark:text-text-primary-dark whitespace-pre-line">{editorNotes._raw}</p>
+        ) : (
+          <>
+            {editorNotes.content_quality && (
+              <div>
+                <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Content Quality:</span>
+                <p class="text-text-primary-light dark:text-text-primary-dark">{editorNotes.content_quality}</p>
+              </div>
+            )}
+            {editorNotes.source_verification && (
+              <div>
+                <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Source Verification:</span>
+                <p class="text-text-primary-light dark:text-text-primary-dark">{typeof editorNotes.source_verification === 'string' ? editorNotes.source_verification : JSON.stringify(editorNotes.source_verification)}</p>
+              </div>
+            )}
+            {editorNotes.factual_accuracy && (
+              <div>
+                <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Factual Accuracy:</span>
+                <p class="text-text-primary-light dark:text-text-primary-dark">{editorNotes.factual_accuracy}</p>
+              </div>
+            )}
+            {editorNotes.overall_assessment && (
+              <div>
+                <span class="font-medium text-text-secondary-light dark:text-text-secondary-dark">Overall Assessment:</span>
+                <p class="text-text-primary-light dark:text-text-primary-dark">{editorNotes.overall_assessment}</p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

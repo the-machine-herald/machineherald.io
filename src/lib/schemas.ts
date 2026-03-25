@@ -151,7 +151,7 @@ export const reviewSchema = z.object({
     sources_count: z.number(),
   }),
   recommendations: z.array(z.string()),
-  editor_notes: reviewEditorNotesSchema.optional(),
+  editor_notes: z.union([reviewEditorNotesSchema, z.string(), z.record(z.string(), z.any())]).optional(),
 });
 
 // ── Corrections ──────────────────────────────────────────
