@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en" data-color-scheme="light">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>‘ELITE’: The Palantir App ICE Uses to Find Neighborhoods to Raid</title>
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+
+    <link rel="manifest" href="https://www.404media.co/assets/manifest.webmanifest?v=aed1edb787">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="preload" href="https://www.404media.co/assets/dist/app.min.js?v=aed1edb787" as="script">
+    <link rel="preload" href="https://www.404media.co/assets/dist/app.min.css?v=aed1edb787" as="style">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <script>
+  // ===============
+  // Basic Config
+  // ===============
+  let config = {
+    color_scheme_default: `Dark`,
+    enable_progress_bar: !!`true`,
+    enable_image_lightbox: !!`true`,
+    open_links_in_new_tab: !!`true`,
+    enable_hyphens: false, /* Enable hyphens */
+    enable_pwa: false, /* Enable PWA - Progressive Web App */
+    disqus_shortname: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+  }
+
+  // =========================
+  // Dark/Light Theme Handling
+  // =========================
+  let preferredTheme; 
+  if (config.color_scheme_default.toLowerCase() === 'system') {
+    const preferredColorScheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || config.color_scheme_default.toLowerCase();
+  }
+  document.documentElement.setAttribute("data-color-scheme", preferredTheme);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (config.enable_hyphens) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+  
+  // ===============================
+  // Global values used in the theme
+  // ===============================
+  const global = {
+    pagination_current_page: parseInt(``),
+    pagination_next_page: parseInt(``),
+    pagination_next_page_link: '',
+    pagination_max_pages: parseInt(''), 
+    pagination_posts_per_page: parseInt('12'),
+  }
+</script>
+
+    <link rel="stylesheet" type="text/css" href="https://www.404media.co/assets/dist/app.min.css?v=aed1edb787" />
+    <link rel="preload stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin>
+    <link rel="preload stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin>
+    <link rel="preload stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700" as="style" onload="this.onload=null;this.rel='stylesheet'" crossorigin>
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700" rel="stylesheet">
+    </noscript>
+    <style>
+      body {
+        --font-family-accent: 'Space Mono';
+        --font-family-body: 'Inter';
+        --font-family-headline: 'Space Grotesk';
+        --font-family-monospace: 'Space Mono';
+      }
+    </style>
+
+    <script async defer src="https://www.404media.co/assets/dist/app.min.js?v=aed1edb787"></script>
+
+    <meta name="description" content="Internal ICE material and testimony from an official obtained by 404 Media provides the clearest link yet between the technological infrastructure Palantir is building for ICE and the agency’s activities on the ground.">
+    <link rel="icon" href="https://www.404media.co/content/images/size/w256h256/format/png/2023/08/favicon-3.svg" type="image/png">
+    <link rel="canonical" href="https://www.404media.co/elite-the-palantir-app-ice-uses-to-find-neighborhoods-to-raid/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="404 Media">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="‘ELITE’: The Palantir App ICE Uses to Find Neighborhoods to Raid">
+    <meta property="og:description" content="Internal ICE material and testimony from an official obtained by 404 Media provides the clearest link yet between the technological infrastructure Palantir is building for ICE and the agency’s activities on the ground.">
+    <meta property="og:url" content="https://www.404media.co/elite-the-palantir-app-ice-uses-to-find-neighborhoods-to-raid/">
+    <meta property="og:image" content="https://www.404media.co/content/images/size/w1200/2026/01/54976776897_a1f5f78a32_k.jpg">
+    <meta property="article:published_time" content="2026-01-15T14:03:04.000Z">
+    <meta property="article:modified_time" content="2026-01-20T21:59:38.000Z">
+    <meta property="article:tag" content="ICE">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/404mediaco">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="‘ELITE’: The Palantir App ICE Uses to Find Neighborhoods to Raid">
+    <meta name="twitter:description" content="Internal ICE material and testimony from an official obtained by 404 Media provides the clearest link yet between the technological infrastructure Palantir is building for ICE and the agency’s activities on the ground.">
+    <meta name="twitter:url" content="https://www.404media.co/elite-the-palantir-app-ice-uses-to-find-neighborhoods-to-raid/">
+    <meta name="twitter:image" content="https://www.404media.co/content/images/size/w1200/2026/01/54976776897_a1f5f78a32_k.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Joseph Cox">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="ICE">
+    <meta name="twitter:site" content="@404mediaco">
+    <meta name="twitter:creator" content="@josephfcox">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="676">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "404 Media",
+        "url": "https://www.404media.co/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.404media.co/content/images/2023/08/Logo-Color-on-White@24x.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Joseph Cox",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://www.404media.co/content/images/size/w1200/2023/08/404-joseph-01-1.jpg",
+            "width": 1200,
+            "height": 1199
+        },
+        "url": "https://www.404media.co/author/joseph-cox/",
+        "sameAs": [
+            "https://x.com/josephfcox"
+        ]
+    },
+    "headline": "‘ELITE’: The Palantir App ICE Uses to Find Neighborhoods to Raid",
+    "url": "https://www.404media.co/elite-the-palantir-app-ice-uses-to-find-neighborhoods-to-raid/",
+    "datePublished": "2026-01-15T14:03:04.000Z",
+    "dateModified": "2026-01-20T21:59:38.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://www.404media.co/content/images/size/w1200/2026/01/54976776897_a1f5f78a32_k.jpg",
+        "width": 1200,
+        "height": 676
+    },
+    "keywords": "ICE",
+    "description": "Internal ICE material and testimony from an official obtained by 404 Media provides the clearest link yet between the technological infrastructure Palantir is building for ICE and the agency’s activities on the ground.",
+    "mainEntityOfPage": "https://www.404media.co/elite-the-palantir-app-ice-uses-to-find-neighborhoods-to-raid/"
+}
+    </script>
+
+    <meta name="generator" content="Ghost 6.22">
+    <link rel="alternate" type="application/rss+xml" title="404 Media" href="https://www.404media.co/rss/">
+    <script defer src="https://cdn.jsdelivr.net/ghost/portal@~2.66/umd/portal.min.js" data-i18n="true" data-ghost="https://www.404media.co/" data-key="0e2aa0e707c0eb7082f8f3d13b" data-api="https://404-media.ghost.io/ghost/api/content/" data-locale="en" crossorigin="anonymous"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style><script async src="https://js.stripe.com/v3/"></script>
+    <script defer src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/sodo-search.min.js" data-key="0e2aa0e707c0eb7082f8f3d13b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.8/umd/main.css" data-sodo-search="https://404-media.ghost.io/" data-locale="en" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/ghost/announcement-bar@~1.1/umd/announcement-bar.min.js" data-announcement-bar="https://www.404media.co/" data-api-url="https://www.404media.co/members/api/announcement/" crossorigin="anonymous"></script>
+    <link href="https://www.404media.co/webmentions/receive/" rel="webmention">
+    <script defer src="/public/cards.min.js?v=aed1edb787"></script>
+    <link rel="stylesheet" type="text/css" href="/public/cards.min.css?v=aed1edb787">
+    <script defer src="/public/comment-counts.min.js?v=aed1edb787" data-ghost-comments-counts-api="https://www.404media.co/members/api/comments/counts/"></script>
+    <script defer src="/public/member-attribution.min.js?v=aed1edb787"></script>
+    <script defer src="/public/ghost-stats.min.js?v=aed1edb787" data-stringify-payload="false" data-datasource="analytics_events" data-storage="localStorage" data-host="https://www.404media.co/.ghost/analytics/api/v1/page_hit"  tb_site_uuid="0f76b548-bc58-4f25-abc3-3f5ebca07da4" tb_post_uuid="113fb711-b94a-4752-8e7b-c32f38240203" tb_post_type="post" tb_member_uuid="undefined" tb_member_status="undefined"></script><style>:root {--ghost-accent-color: #45B003;}</style>
+    <meta name="robots" content="max-image-preview:standard">
+<script defer="" data-domain="www.404media.co" src="https://plausible.io/js/script.hash.outbound-links.js"></script>
+
+  </head>
+
+  <body class="post-template tag-ice post tag-ice featured" data-user="visitor">
+
+
+    <div class="menu" id="menu">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 is-flex end-xs">
+        <a tabindex="0" class="menu--close" id="menu-close">
+          <i class="icon icon-x icon--lg">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#x"></use>
+  </svg>
+</i>        </a>
+      </div>
+      <div class="col-xs-12">
+          <div class="menu__section">
+            <h6 class="menu__heading">Account</h6>
+              <ul>
+                <li><a href="/signin/" data-portal="signin">Log in</a></li>
+                <li><a href="/signup/" data-portal="signup">Subscribe</a></li>
+              </ul>
+          </div>
+        <div class="menu__section">
+          <h6 class="menu__heading">Navigation</h6>
+          <ul class="nav">
+            <li class="nav-home"><a href="https://www.404media.co">Home</a></li>
+          </ul>
+          <ul class="nav">
+    <li class="nav-about"><a href="https://www.404media.co/about/">About</a></li>
+    <li class="nav-rss"><a href="https://www.404media.co/404-media-now-has-a-full-text-rss-feed/">RSS</a></li>
+    <li class="nav-support-faq"><a href="https://www.404media.co/faq/">Support/FAQ</a></li>
+    <li class="nav-podcast"><a href="https://www.404media.co/the-404-media-podcast/">Podcast</a></li>
+    <li class="nav-foia-forum-archive"><a href="https://www.404media.co/foia-forum-archive/">FOIA Forum Archive</a></li>
+    <li class="nav-merch"><a href="https://404media.myshopify.com/">Merch</a></li>
+    <li class="nav-advertise"><a href="https://www.404media.co/advertise-with-404-media/">Advertise</a></li>
+    <li class="nav-thanks"><a href="https://www.404media.co/thank-yous/">Thanks</a></li>
+    <li class="nav-privacy"><a href="https://www.404media.co/privacy-policy/">Privacy</a></li>
+</ul>
+
+        </div>
+        <div class="menu__section">
+          <h6 class="menu__heading">Follow us</h6>
+          <div class="social-links">
+  <a class="social-links__item twitter" href="https://x.com/404mediaco" target="_blank" title="Twitter" aria-label="Twitter">Twitter</a>
+  <a class="social-links__item bluesky" href="https://bsky.app/profile/404media.co" target="_blank" title="Bluesky" aria-label="Bluesky">Bluesky</a>
+  <a class="social-links__item mastodon" href="https://mastodon.social/@404mediaco" target="_blank" title="Mastodon" aria-label="Mastodon" rel="me">Mastodon</a>
+  <a class="social-links__item instagram" href="https://instagram.com/404mediaco" target="_blank" title="Instagram" aria-label="Instagram">Instagram</a>
+  <a class="social-links__item tiktok" href="https://tiktok.com/@404.media" target="_blank" title="TikTok" aria-label="TikTok">TikTok</a>
+  <a class="social-links__item facebook" href="https://www.facebook.com/404mediaco" target="_blank" title="Facebook" aria-label="Facebook">Facebook</a>
+  <a class="social-links__item rss" href="/rss" target="_blank" title="RSS" aria-label="RSS">RSS</a>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <header class="header">
+  <div id="progress"></div>
+  <div class="header__top">
+    <div class="container-fluid wrapper">
+      <div class="row">
+        <div class="col-xs-3 col-md-4 middle-xs is-flex">
+          <div class="header__search">
+            <a class="header__search--open" data-ghost-search tabindex="0" 
+              title="Search" aria-label="Search">
+              <i class="icon icon-search icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#search"></use>
+  </svg>
+</i>            </a>
+          </div>
+          
+          <div class="header__theme">
+            <a class="header__theme--toggle" id="theme-dark" tabindex="0" 
+              title="Dark Theme" aria-label="Dark Theme">
+              <i class="icon icon-moon icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#moon"></use>
+  </svg>
+</i>            </a>
+            <a class="header__theme--toggle" id="theme-light" tabindex="0" 
+              title="Light Theme" aria-label="Light Theme">
+              <i class="icon icon-sun icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#sun"></use>
+  </svg>
+</i>            </a>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-md-4 center-xs">
+          <div class="header__brand flex-cc">
+            <a class="header__logo" href="https://www.404media.co">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118.89 37.86">
+                  <path class="header__logo-text" d="M25.6,.73h13.52l-5,22.98h4.68v6.55h-6.12l-1.49,6.86h-7.03l1.49-6.86H9.47v-9.67L25.6,.73ZM15.38,22.78v.94h11.71L31.35,4.16h-.96L15.38,22.78Z"/>
+                  <path class="header__logo-text" d="M44.92,14.87c1.1-5.13,2.94-8.89,5.51-11.28s6.11-3.59,10.62-3.59c1.88,0,3.55,.29,5,.86,1.46,.57,2.68,1.37,3.67,2.39s1.75,2.23,2.26,3.61c.51,1.39,.77,2.88,.77,4.47,0,.59-.03,1.18-.08,1.77-.05,.59-.15,1.18-.29,1.77l-1.76,8.11c-1.1,5.13-2.94,8.89-5.51,11.28-2.57,2.39-6.11,3.59-10.62,3.59-1.88,0-3.55-.29-5-.86s-2.68-1.37-3.67-2.39c-.99-1.02-1.75-2.22-2.26-3.59-.51-1.37-.77-2.87-.77-4.5,0-.59,.03-1.18,.08-1.77,.05-.59,.15-1.18,.29-1.77l1.76-8.11Zm10.22,16.74c1.21,0,2.27-.22,3.19-.65,.92-.43,1.73-1.01,2.42-1.74,.69-.73,1.26-1.59,1.7-2.6,.44-1,.79-2.08,1.04-3.22l1.97-8.94c.11-.55,.19-1.03,.24-1.43,.05-.4,.08-.79,.08-1.17,0-1.77-.47-3.15-1.41-4.13-.94-.99-2.26-1.48-3.97-1.48-1.21,0-2.27,.22-3.19,.65-.92,.43-1.73,1.01-2.42,1.74-.69,.73-1.26,1.59-1.7,2.6-.44,1.01-.79,2.08-1.04,3.22l-1.97,8.94c-.21,.94-.32,1.8-.32,2.6,0,1.77,.47,3.15,1.41,4.13s2.26,1.48,3.97,1.48Z"/>
+                  <path class="header__logo-text" d="M90.76,.73h13.52l-5,22.98h4.68v6.55h-6.12l-1.49,6.86h-7.03l1.49-6.86h-16.18v-9.67L90.76,.73Zm-10.22,22.05v.94h11.71l4.26-19.55h-.96l-15.01,18.62Z"/>
+                  <path class="header__logo-line" d="M1.07,31.42c-.58,.04-1.07-.41-1.07-.99v-.47c0-.23,.07-.46,.22-.64l1.07-1.31c.16-.19,.24-.43,.22-.68l-.27-5.39c0-.5,.36-.93,.86-1,9.83-1.36,104.88-12.17,115.62-13.39,.55-.06,1.03,.33,1.09,.88l.07,.68c.04,.42-.18,.82-.56,1.01l-1.51,.73c-.15,.07-.26,.21-.29,.37l-.8,4.31c-.08,.42-.41,.75-.84,.81C105.82,17.59,12.17,30.56,1.07,31.42Z"/>
+                  <path class="header__logo-overlap" d="M35.59,16.96c-2.48,.29-4.89,.57-7.21,.84l-1.29,5.92H15.38v-.94l3.08-3.82c-3.2,.38-6.05,.71-8.48,1.01l-.51,.63v9.67h1.88c7.04-.87,16.75-2.14,27.45-3.56v-2.99h-4.68l1.47-6.76Zm59.62-6.84l-2.01,9.22c2.58-.35,5.01-.69,7.24-1l1.97-9.04c-2.24,.25-4.65,.53-7.2,.82Zm-20.58,10.48v1.28c2.54-.35,5.04-.69,7.46-1.02l8.21-10.18c-2.69,.31-5.5,.63-8.39,.96l-7.27,8.96Zm-31.46,2.39c-.14,.59-.24,1.18-.29,1.77-.04,.47-.06,.95-.06,1.42,2.31-.31,4.65-.62,7.01-.94,.05-.58,.12-1.18,.27-1.83l1.83-8.33c-2.43,.28-4.84,.56-7.22,.83l-1.53,7.08Zm22.3-8.53l-1.97,8.93c2.44-.33,4.86-.66,7.26-.99l1.63-7.53c.14-.59,.24-1.18,.29-1.77,.01-.14,0-.28,.02-.42-2.33,.27-4.69,.54-7.06,.81-.05,.29-.1,.6-.17,.96Z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="col-xs-3 col-md-4 end-xs middle-xs is-flex">
+            <div class="header__member">
+              <div class="header__member-options">
+                  <a class="signin-link" href="/signin/" data-portal="signin">Sign in</a>
+                  <a class="signup-link header-cta" href="/signup/" data-portal="signup">Subscribe</a>
+              </div>
+            </div>
+          <button id="menu-open" class="header__menu--open hamburger" 
+            type="button" title="Menu" aria-label="Menu">
+            <i class="icon icon-menu icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#menu"></use>
+  </svg>
+</i>          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header__bottom">
+    <div class="container-fluid wrapper">
+      <nav class="header__nav">
+        <ul class="nav">
+    <li class="nav-about"><a href="https://www.404media.co/about/">About</a></li>
+    <li class="nav-rss"><a href="https://www.404media.co/404-media-now-has-a-full-text-rss-feed/">RSS</a></li>
+    <li class="nav-support-faq"><a href="https://www.404media.co/faq/">Support/FAQ</a></li>
+    <li class="nav-podcast"><a href="https://www.404media.co/the-404-media-podcast/">Podcast</a></li>
+    <li class="nav-foia-forum-archive"><a href="https://www.404media.co/foia-forum-archive/">FOIA Forum Archive</a></li>
+    <li class="nav-merch"><a href="https://404media.myshopify.com/">Merch</a></li>
+    <li class="nav-advertise"><a href="https://www.404media.co/advertise-with-404-media/">Advertise</a></li>
+    <li class="nav-thanks"><a href="https://www.404media.co/thank-yous/">Thanks</a></li>
+    <li class="nav-privacy"><a href="https://www.404media.co/privacy-policy/">Privacy</a></li>
+</ul>
+
+
+      </nav>
+    </div>
+  </div>
+</header>
+    <main class="main">
+      
+  <div class="container-fluid wrapper">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="post-hero">
+      <div class="post-hero__ad">
+        
+
+      <div class="ad ad-leaderboard">
+        <div class="ad__disclaimer">
+          <div class="ad__title">Advertisement</div>
+          <div>&bull;</div>
+          <div class="ad__upsell">
+            <a href="#/portal/signup">Go ad free</a>
+          </div>
+        </div>
+        <div id="bsa-zone_1694817838459-1_123456" class="bsa-standard"></div>
+      </div>
+
+
+      </div>
+  <div class="post-hero__content">
+    <div class="post-hero__header">
+        <a class="tag-ice post-hero__tag" href="/tag/ice/" title="ICE" aria-label="ICEs">ICE</a>
+      <h1 class="post-hero__title">‘ELITE’: The Palantir App ICE Uses to Find Neighborhoods to Raid</h1>
+      <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="/content/images/size/w100/2023/08/404-joseph-01-1.jpg" 
+            alt="Joseph Cox" 
+            src="/content/images/size/w30/2023/08/404-joseph-01-1.jpg" 
+          />  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-01-15" class="byline__date">
+    Jan 15, 2026
+    at 9:03 AM
+  </time>
+</div>    </div>
+    <div class="post-hero__excerpt">Internal ICE material and testimony from an official obtained by 404 Media provides the clearest link yet between the technological infrastructure Palantir is building for ICE and the agency’s activities on the ground.</div>
+  </div>
+    <figure class="post-hero__image">
+      <img
+        class="lazyload"
+        data-srcset="/content/images/size/w300/2026/01/54976776897_a1f5f78a32_k.jpg 300w,
+                /content/images/size/w600/2026/01/54976776897_a1f5f78a32_k.jpg 600w,
+                /content/images/size/w1000/2026/01/54976776897_a1f5f78a32_k.jpg 1000w,
+                /content/images/size/w2000/2026/01/54976776897_a1f5f78a32_k.jpg 2000w"
+        data-sizes="(max-width: 800px) 50vw,
+                (max-width: 1170px) 60vw,
+                1400px"
+        data-src="/content/images/size/w2000/2026/01/54976776897_a1f5f78a32_k.jpg"
+        src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+        alt="‘ELITE’: The Palantir App ICE Uses to Find Neighborhoods to Raid"
+      />
+        <figcaption><span style="white-space: pre-wrap;">Image: U.S. Immigration and Customs Enforcement, </span><a href="https://www.flickr.com/photos/us_icegov/54976776897/" rel="noreferrer"><span style="white-space: pre-wrap;">via Flickr</span></a><span style="white-space: pre-wrap;">.</span></figcaption>
+    </figure>
+</div>      </div>
+      <div class="col-xs-12 col-lg-8 col-xl-9">
+        <article class="post tag-ice featured post-access-paid has-sidebar">
+          <div class="post__content no-overflow">
+              <div class="post-sneak-peek fading">
+  
+<!--kg-card-begin: html-->
+<div class="outpost-pub-container" data-btn-allmembers></div>
+<!--kg-card-end: html-->
+<p>Palantir is working on a tool for Immigration and Customs Enforcement (ICE) that populates a map with potential deportation targets, brings up a dossier on each person, and provides a “confidence score” on the person’s current address, 404 Media has learned. ICE is using it to find locations where lots of people it might detain could be based.&nbsp;</p><p>The findings, based on internal ICE material obtained by 404 Media, public procurement records, and recent sworn testimony from an ICE official, show the clearest link yet between the technological infrastructure Palantir is building for ICE and the agency’s activities on the ground. The tool receives peoples’ addresses from the Department of Health and Human Services (HHS) among a range of other sources, according to the material.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text"><b><strong style="white-space: pre-wrap;">Do you know anything else about this tool? Do you work at ICE, CBP, or Palantir? I would love to hear from you. Using a non-work device, you can message me securely on Signal at joseph.404 or send me an email at joseph@404media.co.</strong></b></div></div><p>The news comes after Department of Homeland Security (DHS) head Kristi Noem <a href="https://13wham.com/news/nation-world/dhs-secretary-noem-says-more-ice-agents-will-be-sent-to-minneapolis-minnesota-immigration-fbi-nick-shirley-fraud-allegations-somali-community-mn?ref=404media.co"><u>said the agency is sending hundreds more</u></a> federal agents to Minneapolis amid widespread protests against the agency. Last week <a href="https://www.nbcnews.com/news/us-news/ice-officer-jonathan-ross-veteran-spent-decade-dhs-rcna253254?ref=404media.co"><u>ICE officer Jonathan Ross</u></a> shot <a href="https://www.404media.co/dhs-is-lying-to-you-about-ice-shooting-a-woman/"><u>and killed 37 year old U.S. citizen Renee Nicole Good</u></a>. During <a href="https://www.dhs.gov/news/2025/12/12/ice-arrests-worst-worst-criminal-illegal-aliens-including-pedophiles-rapists-and?ref=404media.co"><u>Operation Metro Surge</u></a>, which <a href="https://www.cbsnews.com/minnesota/news/homeland-security-kristi-noem-minnesota-twin-cities-immigration-arrests/?ref=404media.co"><u>DHS calls</u></a> the “largest immigration operation ever,” immigration agents have surrounded <a href="https://www.youtube.com/watch?v=5QM2hqcfOis&ref=404media.co"><u>rideshare drivers</u></a> and used pepper spray <a href="https://www.cbsnews.com/minnesota/news/minnesota-educators-families-ice-agents-stay-away-schools/?ref=404media.co"><u>on high school students</u></a>.</p>
+</div>
+
+<div class="post-access-cta p-lg text-center paid">
+  <div class="paid">
+    <h2>This post is for paid members only</h2>
+    <div class="description">Become a paid member for unlimited ad-free access to articles, bonus podcast content, and more.</div>
+    <a class="btn btn--brand m-b-lg" href="/membership/">Subscribe</a>
+  </div>
+  <div class="members">
+    <h2>Sign up for free access to this post</h2>
+    <div class="description">Free members get access to posts like this one along with an email round-up of our week's stories.</div>
+    <a class="btn btn--brand m-b-lg" href="/signup/">Subscribe</a>
+  </div>
+  <div class="sign-in">Already have an account? <a class="post-access-alt" href="/signin/" data-portal="signin">Sign in</a></div>
+</div>          </div>
+        </article>
+      </div>
+      <div class="col-xs-12 col-lg-4 col-xl-3 has-sidebar">
+        <aside class="sidebar">
+
+    <div class="sidebar__section">
+      <h6 class="sidebar__title">More like this</h6>
+      <div class="sidebar__grid">
+              <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/how-ice-and-cbp-use-free-walkie-talkie-app-zello-to-power-their-operations/" title="How ICE and CBP Use Free Walkie-Talkie App ‘Zello’ to Power Their Operations" aria-label="How ICE and CBP Use Free Walkie-Talkie App ‘Zello’ to Power Their Operations">
+      <img class="lazyload"
+          data-srcset="/content/images/size/w300/2026/02/zello.png 300w,
+                  /content/images/size/w600/2026/02/zello.png 600w,
+                  /content/images/size/w1000/2026/02/zello.png 1000w,
+                  /content/images/size/w2000/2026/02/zello.png 2000w"
+          data-sizes="(max-width: 1000px) 50vw, 700px"
+          data-src="/content/images/size/w1000/2026/02/zello.png"
+          src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+          alt="How ICE and CBP Use Free Walkie-Talkie App ‘Zello’ to Power Their Operations"
+      />
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/how-ice-and-cbp-use-free-walkie-talkie-app-zello-to-power-their-operations/" title="How ICE and CBP Use Free Walkie-Talkie App ‘Zello’ to Power Their Operations" aria-label="How ICE and CBP Use Free Walkie-Talkie App ‘Zello’ to Power Their Operations">How ICE and CBP Use Free Walkie-Talkie App ‘Zello’ to Power Their Operations</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      404 Media found multiple users of Zello, an app previously used by January 6 insurrectionists, linked to ICE officials. An officer at the scene of an CBP official shooting a U.S. citizen also used the app.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="/content/images/size/w100/2023/08/404-joseph-01-1.jpg" 
+            alt="Joseph Cox" 
+            src="/content/images/size/w30/2023/08/404-joseph-01-1.jpg" 
+          />  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-02-23" class="byline__date">
+    Feb 23, 2026
+    
+  </time>
+</div>  </div>
+</div>              <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/government-loses-hard-drives-it-was-supposed-to-put-ice-detention-center-footage-on/" title="Government Loses Hard Drives It Was Supposed to Put ICE Detention Center Footage On" aria-label="Government Loses Hard Drives It Was Supposed to Put ICE Detention Center Footage On">
+      <img class="lazyload"
+          data-srcset="/content/images/size/w300/2026/02/CleanShot-2026-02-11-at-10.04.09@2x.png 300w,
+                  /content/images/size/w600/2026/02/CleanShot-2026-02-11-at-10.04.09@2x.png 600w,
+                  /content/images/size/w1000/2026/02/CleanShot-2026-02-11-at-10.04.09@2x.png 1000w,
+                  /content/images/size/w2000/2026/02/CleanShot-2026-02-11-at-10.04.09@2x.png 2000w"
+          data-sizes="(max-width: 1000px) 50vw, 700px"
+          data-src="/content/images/size/w1000/2026/02/CleanShot-2026-02-11-at-10.04.09@2x.png"
+          src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+          alt="Government Loses Hard Drives It Was Supposed to Put ICE Detention Center Footage On"
+      />
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/government-loses-hard-drives-it-was-supposed-to-put-ice-detention-center-footage-on/" title="Government Loses Hard Drives It Was Supposed to Put ICE Detention Center Footage On" aria-label="Government Loses Hard Drives It Was Supposed to Put ICE Detention Center Footage On">Government Loses Hard Drives It Was Supposed to Put ICE Detention Center Footage On</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      A Kafkaesque saga in which the government has failed to produce critical video footage has reached new levels of absurdity.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/jason-koebler/" title="Jason Koebler">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="/content/images/size/w100/2023/08/404-jason-01-copy.jpeg" 
+            alt="Jason Koebler" 
+            src="/content/images/size/w30/2023/08/404-jason-01-copy.jpeg" 
+          />  
+        <span>Jason Koebler</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-02-11" class="byline__date">
+    Feb 11, 2026
+    
+  </time>
+</div>  </div>
+</div>              <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/inspector-general-investigating-whether-ices-surveillance-tech-breaks-the-law/" title="Inspector General Investigating Whether ICE&#x27;s Surveillance Tech Breaks the Law" aria-label="Inspector General Investigating Whether ICE&#x27;s Surveillance Tech Breaks the Law">
+      <img class="lazyload"
+          data-srcset="/content/images/size/w300/2026/02/CleanShot-2026-02-06-at-08.07.15@2x.png 300w,
+                  /content/images/size/w600/2026/02/CleanShot-2026-02-06-at-08.07.15@2x.png 600w,
+                  /content/images/size/w1000/2026/02/CleanShot-2026-02-06-at-08.07.15@2x.png 1000w,
+                  /content/images/size/w2000/2026/02/CleanShot-2026-02-06-at-08.07.15@2x.png 2000w"
+          data-sizes="(max-width: 1000px) 50vw, 700px"
+          data-src="/content/images/size/w1000/2026/02/CleanShot-2026-02-06-at-08.07.15@2x.png"
+          src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+          alt="Inspector General Investigating Whether ICE&#x27;s Surveillance Tech Breaks the Law"
+      />
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/inspector-general-investigating-whether-ices-surveillance-tech-breaks-the-law/" title="Inspector General Investigating Whether ICE&#x27;s Surveillance Tech Breaks the Law" aria-label="Inspector General Investigating Whether ICE&#x27;s Surveillance Tech Breaks the Law">Inspector General Investigating Whether ICE&#x27;s Surveillance Tech Breaks the Law</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      DHS&#x27;s inspector general is probing ICE&#x27;s biometric and surveillance programs.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/jason-koebler/" title="Jason Koebler">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="/content/images/size/w100/2023/08/404-jason-01-copy.jpeg" 
+            alt="Jason Koebler" 
+            src="/content/images/size/w30/2023/08/404-jason-01-copy.jpeg" 
+          />  
+        <span>Jason Koebler</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-02-06" class="byline__date">
+    Feb 6, 2026
+    
+  </time>
+</div>  </div>
+</div>            <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/the-people-left-behind-by-the-metaverse/" title="The People Left Behind by the Metaverse" aria-label="The People Left Behind by the Metaverse">
+      <img class="lazyload"
+          data-srcset="https://images.unsplash.com/photo-1728571195314-5979a49acd12?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;M3wxMTc3M3wwfDF8c2VhcmNofDE4fHxNZXRhJTIwVlJ8ZW58MHx8fHwxNzc0NDQ2MzEwfDA&amp;ixlib&#x3D;rb-4.1.0&amp;q&#x3D;80&amp;w&#x3D;300 300w,
+                  https://images.unsplash.com/photo-1728571195314-5979a49acd12?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;M3wxMTc3M3wwfDF8c2VhcmNofDE4fHxNZXRhJTIwVlJ8ZW58MHx8fHwxNzc0NDQ2MzEwfDA&amp;ixlib&#x3D;rb-4.1.0&amp;q&#x3D;80&amp;w&#x3D;600 600w,
+                  https://images.unsplash.com/photo-1728571195314-5979a49acd12?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;M3wxMTc3M3wwfDF8c2VhcmNofDE4fHxNZXRhJTIwVlJ8ZW58MHx8fHwxNzc0NDQ2MzEwfDA&amp;ixlib&#x3D;rb-4.1.0&amp;q&#x3D;80&amp;w&#x3D;1000 1000w,
+                  https://images.unsplash.com/photo-1728571195314-5979a49acd12?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;M3wxMTc3M3wwfDF8c2VhcmNofDE4fHxNZXRhJTIwVlJ8ZW58MHx8fHwxNzc0NDQ2MzEwfDA&amp;ixlib&#x3D;rb-4.1.0&amp;q&#x3D;80&amp;w&#x3D;2000 2000w"
+          data-sizes="(max-width: 1000px) 50vw, 700px"
+          data-src="https://images.unsplash.com/photo-1728571195314-5979a49acd12?crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;fit&#x3D;max&amp;fm&#x3D;jpg&amp;ixid&#x3D;M3wxMTc3M3wwfDF8c2VhcmNofDE4fHxNZXRhJTIwVlJ8ZW58MHx8fHwxNzc0NDQ2MzEwfDA&amp;ixlib&#x3D;rb-4.1.0&amp;q&#x3D;80&amp;w&#x3D;1000"
+          src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+          alt="The People Left Behind by the Metaverse"
+      />
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/the-people-left-behind-by-the-metaverse/" title="The People Left Behind by the Metaverse" aria-label="The People Left Behind by the Metaverse">The People Left Behind by the Metaverse</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      &quot;The way they have behaved here is profoundly harmful and I would deem it a type of psychological torture from corprotate neglect.&quot;
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/matthew/" title="Matthew Gault">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="https://www.gravatar.com/avatar/87e07bd5bb3d003b0b135303a3e7f8b9?s&#x3D;250&amp;r&#x3D;x&amp;d&#x3D;mp" 
+            alt="Matthew Gault" 
+            src="https://www.gravatar.com/avatar/87e07bd5bb3d003b0b135303a3e7f8b9?s&#x3D;250&amp;r&#x3D;x&amp;d&#x3D;mp" 
+          />  
+        <span>Matthew Gault</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-03-25" class="byline__date">
+    Mar 25, 2026
+    
+  </time>
+</div>  </div>
+</div>            <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/podcast-the-company-secretly-turning-your-zoom-meetings-into-podcasts/" title="Podcast: The Company Secretly Turning Your Zoom Meetings into Podcasts" aria-label="Podcast: The Company Secretly Turning Your Zoom Meetings into Podcasts">
+      <img class="lazyload"
+          data-srcset="/content/images/size/w300/2026/03/zoom-listening.png 300w,
+                  /content/images/size/w600/2026/03/zoom-listening.png 600w,
+                  /content/images/size/w1000/2026/03/zoom-listening.png 1000w,
+                  /content/images/size/w2000/2026/03/zoom-listening.png 2000w"
+          data-sizes="(max-width: 1000px) 50vw, 700px"
+          data-src="/content/images/size/w1000/2026/03/zoom-listening.png"
+          src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+          alt="Podcast: The Company Secretly Turning Your Zoom Meetings into Podcasts"
+      />
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/podcast-the-company-secretly-turning-your-zoom-meetings-into-podcasts/" title="Podcast: The Company Secretly Turning Your Zoom Meetings into Podcasts" aria-label="Podcast: The Company Secretly Turning Your Zoom Meetings into Podcasts">Podcast: The Company Secretly Turning Your Zoom Meetings into Podcasts</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      A company is listening to Zoom meetings en masse and making AI podcasts; the multi-millionaire who wanted to become a cocaine kingpin; and RIP the metaverse.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/joseph-cox/" title="Joseph Cox">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="/content/images/size/w100/2023/08/404-joseph-01-1.jpg" 
+            alt="Joseph Cox" 
+            src="/content/images/size/w30/2023/08/404-joseph-01-1.jpg" 
+          />  
+        <span>Joseph Cox</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-03-25" class="byline__date">
+    Mar 25, 2026
+    
+  </time>
+</div>  </div>
+</div>            <div class="sidebar-card">
+    <a class="sidebar-card__image" href="/delivery-robot-drives-through-bus-stop-sh-shattering-glass-everywhere/" title="Delivery Robot Drives Through Bus Stop Shelter, Shattering Glass Everywhere" aria-label="Delivery Robot Drives Through Bus Stop Shelter, Shattering Glass Everywhere">
+      <img class="lazyload"
+          data-srcset="/content/images/size/w300/2026/03/CleanShot-2026-03-24-at-09.33.52@2x.png 300w,
+                  /content/images/size/w600/2026/03/CleanShot-2026-03-24-at-09.33.52@2x.png 600w,
+                  /content/images/size/w1000/2026/03/CleanShot-2026-03-24-at-09.33.52@2x.png 1000w,
+                  /content/images/size/w2000/2026/03/CleanShot-2026-03-24-at-09.33.52@2x.png 2000w"
+          data-sizes="(max-width: 1000px) 50vw, 700px"
+          data-src="/content/images/size/w1000/2026/03/CleanShot-2026-03-24-at-09.33.52@2x.png"
+          src="https://www.404media.co/assets/images/img-placeholder-md.jpg?v=aed1edb787"
+          alt="Delivery Robot Drives Through Bus Stop Shelter, Shattering Glass Everywhere"
+      />
+    </a>
+  <div class="sidebar-card__content">
+    <div class="sidebar-card__title">
+      <a href="/delivery-robot-drives-through-bus-stop-sh-shattering-glass-everywhere/" title="Delivery Robot Drives Through Bus Stop Shelter, Shattering Glass Everywhere" aria-label="Delivery Robot Drives Through Bus Stop Shelter, Shattering Glass Everywhere">Delivery Robot Drives Through Bus Stop Shelter, Shattering Glass Everywhere</a>
+    </div>
+    <div class="sidebar-card__excerpt">
+      A Serve Robotics robot crashed through a Chicago bus shelter.
+    </div>
+    <div class="byline">
+    <div class="byline__author">
+      <a href="/author/jason-koebler/" title="Jason Koebler">
+          <img 
+            class="lazyload byline__author-image" 
+            data-src="/content/images/size/w100/2023/08/404-jason-01-copy.jpeg" 
+            alt="Jason Koebler" 
+            src="/content/images/size/w30/2023/08/404-jason-01-copy.jpeg" 
+          />  
+        <span>Jason Koebler</span>
+      </a>
+      
+    </div>
+  <span class="byline__details-separator">·</span>
+  <time datetime="2026-03-24" class="byline__date">
+    Mar 24, 2026
+    
+  </time>
+</div>  </div>
+</div>      </div>
+    </div>
+
+
+        <div class="sidebar__section is-sticky">
+          
+
+      <div class="ad ad-sidebar">
+        <div class="ad__disclaimer">
+          <div class="ad__title">Advertisement</div>
+          <div>&bull;</div>
+          <div class="ad__upsell">
+            <a href="#/portal/signup">Go ad free</a>
+          </div>
+        </div>
+        <div id="bsa-zone_1694814567700-7_123456" class="bsa-standard"></div>
+      </div>
+
+
+        </div>
+  
+</aside>
+      </div>
+    </div>
+  </div>
+  <div class="comments__container">
+    <div class="comments__container-content">
+      <div class="container-fluid wrapper">
+        <div class="row">
+          <div class="col-xs-12 col-lg-8 col-xl-9">
+                <div class="post">
+                  
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+
+      <div class="ad-fixed__wrapper">
+        <div class="container-fluid wrapper">
+          <div class="row">
+            <div class="ad ad-fixed is-active" id="ad-fixed">
+              <div class="ad__disclaimer">
+                <div class="ad__title">Advertisement</div>
+                <div>&bull;</div>
+                <div class="ad__upsell">
+                  <a href="#/portal/signup">Go ad free</a>
+                </div>
+                <div>&bull;</div>
+                <div class="ad__dismiss">
+                  <a id="ad-fixed-close">Hide</a>
+                </div>
+              </div>
+              <div class="ad-fixed__bsa-container">
+                <div id="bsa-zone_1694463200946-7_123456" class="bsa-standard"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+    </main>
+
+      <footer class="footer">
+  <div class="footer__top">
+    <div class="footer__top-content">
+      <div class="container-fluid wrapper">
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-md-offset-6">
+            <h3 class="footer__slogan">Unparalleled access to hidden worlds both online and IRL.</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-3">
+            <div class="nav__description">
+              404 Media is an independent media company founded by technology journalists Jason Koebler, Emanuel Maiberg, Samantha Cole, and Joseph Cox.
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-2 col-md-offset-2">
+            <ul class="nav">
+    <li class="nav-about"><a href="https://www.404media.co/about/">About</a></li>
+    <li class="nav-rss"><a href="https://www.404media.co/404-media-now-has-a-full-text-rss-feed/">RSS</a></li>
+    <li class="nav-support-faq"><a href="https://www.404media.co/faq/">Support/FAQ</a></li>
+    <li class="nav-podcast"><a href="https://www.404media.co/the-404-media-podcast/">Podcast</a></li>
+    <li class="nav-foia-forum-archive"><a href="https://www.404media.co/foia-forum-archive/">FOIA Forum Archive</a></li>
+    <li class="nav-merch"><a href="https://404media.myshopify.com/">Merch</a></li>
+    <li class="nav-advertise"><a href="https://www.404media.co/advertise-with-404-media/">Advertise</a></li>
+    <li class="nav-thanks"><a href="https://www.404media.co/thank-yous/">Thanks</a></li>
+    <li class="nav-privacy"><a href="https://www.404media.co/privacy-policy/">Privacy</a></li>
+</ul>
+
+          </div>
+          <div class="col-xs-12 col-md-2">
+            <div class="social-links">
+  <a class="social-links__item twitter" href="https://x.com/404mediaco" target="_blank" title="Twitter" aria-label="Twitter">Twitter</a>
+  <a class="social-links__item bluesky" href="https://bsky.app/profile/404media.co" target="_blank" title="Bluesky" aria-label="Bluesky">Bluesky</a>
+  <a class="social-links__item mastodon" href="https://mastodon.social/@404mediaco" target="_blank" title="Mastodon" aria-label="Mastodon" rel="me">Mastodon</a>
+  <a class="social-links__item instagram" href="https://instagram.com/404mediaco" target="_blank" title="Instagram" aria-label="Instagram">Instagram</a>
+  <a class="social-links__item tiktok" href="https://tiktok.com/@404.media" target="_blank" title="TikTok" aria-label="TikTok">TikTok</a>
+  <a class="social-links__item facebook" href="https://www.facebook.com/404mediaco" target="_blank" title="Facebook" aria-label="Facebook">Facebook</a>
+  <a class="social-links__item rss" href="/rss" target="_blank" title="RSS" aria-label="RSS">RSS</a>
+</div>
+          </div>
+          <div class="col-xs-12 col-md-3">
+            <div>Join the newsletter to get the latest updates.</div>
+              <form class="subscribe-form" data-members-form="subscribe">
+                <input aria-labelledby="footer-subscribe" data-members-email type="email" placeholder="Your email" required/>
+                <button type="submit" title="Subscribe" aria-label="Subscribe">
+                  <i class="icon icon-arrow-right">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#arrow-right"></use>
+  </svg>
+</i>                </button>
+                <div class="message message-success">
+                  <div class="message__header">
+                    <div class="message__type">Success</div> 
+                    <div class="message__close js-msg-close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#x"></use>
+  </svg>
+</i></div>
+                  </div>
+                  <div class="message__content">
+                    Great! Check your inbox and click the link to confirm your subscription
+                  </div>
+                </div>
+                <p data-members-error><!-- error message will appear here --></p>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid wrapper">
+    <div class="footer__bottom">
+      <svg class="footer__icon" width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H24.8889V3.55556H28.4444V7.11106H32L32 32H0V0ZM17.7778 3.55554H21.3333V7.1111H17.7778V3.55554ZM24.8889 10.6668V7.11121L21.3333 7.1111V10.6667H17.7778V14.2223H21.3333V10.6667L24.8889 10.6668ZM24.8889 10.6668L28.4445 10.6667V14.2223H24.8889L24.8889 10.6668ZM3.55556 3.55558H7.11111V7.11114H3.55556V3.55558ZM10.6667 7.11121L7.11111 7.11114L7.11112 10.6668L3.55556 10.6667V14.2223H7.11112V10.6668H10.6667L10.6667 14.2223H14.2222V10.6667L10.6667 10.6668V7.11121ZM10.6667 7.11121L10.6667 3.55554H14.2222V7.1111L10.6667 7.11121ZM7.11112 21.3334H3.55556V24.8889L7.1111 24.8889V28.4444H24.8889V24.8889L28.4445 24.8889V21.3334H24.8889L24.8889 24.8889H7.1111L7.11112 21.3334Z" />
+      </svg>
+      <div class="footer__copyright">
+        <span class="footer__copyright-symbol">&copy;</span>&nbsp;2026&nbsp;404 Media. Published with&nbsp;<a href="https://ghost.org">Ghost</a>.
+      </div>
+    </div>
+  </div>
+</footer>
+      <div class="scroll-to-top"><i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="https://www.404media.co/assets/icons/feather-sprite.svg?v=aed1edb787#arrow-up"></use>
+  </svg>
+</i></div>
+
+    <svg class="wave-gradient" version="1.1">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="var(--color-primary)" />
+      <stop offset="100%" stop-color="var(--color-primary)" />
+    </linearGradient>
+  </defs>
+</svg>
+    <script>
+      if (config.enable_pwa && 'serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+    
+    <script>
+  const OutpostPub = {
+    apiDomain: "https://404mediaco.outpost.pub",
+    apiKey: "69a897f3-1637-4019-bab5-339ec5d54819",
+    siteName: "404 Media",
+    memberId: "",
+    memberEmail: "",
+        post: {
+          id: "6967c2ec94b9690001012b57",
+          tags: ["ICE"],
+        }
+  }
+</script>
+<script src="https://assets.outpost.pub/assets/v2/js/outpost-pub.js"></script>
+    <script>
+!function(w,d,id,ns,s){var c=w[ns]=w[ns]||{};if(c.ready||(c.q=[],c.ready=function(){c.q.push(arguments)}),!d.getElementById(id)){var e=d.createElement(s);e.id=id,e.src="https://assets.context.ly/kit/6.latest/loader.js";var h=d.getElementsByTagName(s)[0];h.parentNode.insertBefore(e,h)}}(window,document,"ctx-loader","Contextly","script");
+</script>
+<script>
+Contextly.ready('widgets');
+</script>
+
+      <script type="text/javascript" defer src="https://www.404media.co/assets/js/bsa.js?v=aed1edb787"></script>
+	
+  </body>
+
+</html>
