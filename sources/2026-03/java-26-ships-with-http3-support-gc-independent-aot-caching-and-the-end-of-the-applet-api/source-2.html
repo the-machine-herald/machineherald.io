@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="alternate" type="application/rss+xml" title="Oracle Blogs" href="https://blogs.oracle.com/rss">
+  <script async="async" type="text/javascript"
+    src="//consent.trustarc.com/notice?domain=oracle.com&c=teconsent&js=bb&noticeType=bb&text=true&gtm=1&cdn=1&pcookie"
+    crossorigin=""></script>
+  <!-- DTM/Launch embed code - Header -->
+  <script src="//assets.adobedtm.com/6f37a0dc9cdbe818dc4979828b58b88e3f060ea4/satelliteLib-e598c5b61e39a10b402e048e87dd27b0f1cd2d4c.js"></script>
+  <title>The Arrival of Java 26 | java</title>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                let textWrapElements = document.querySelectorAll('.text-wrap');
+                for (const element of textWrapElements) {
+                    if (element.offsetHeight >= 130) {
+                        let placeholderDiv = document.createElement('div');
+                        placeholderDiv.classList.add('readmore');
+                        placeholderDiv.innerText = 'Show more';
+                        element.classList.add('text-wrap-short');
+                        element.parentNode.appendChild(placeholderDiv);
+                        readMoreFunc(element, placeholderDiv);
+                    }
+                }
+                function readMoreFunc(elem, showMoreBtn) {
+                        showMoreBtn.addEventListener('click', function () {
+                        if (elem.classList.contains('text-wrap-short')) {
+                            elem.classList.remove('text-wrap-short');
+                            showMoreBtn.innerText = "Show less";
+                        } else {
+                            elem.classList.add('text-wrap-short');
+                            showMoreBtn.innerText = "Show more";
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+        	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel="alternate" type="application/rss+xml" title="java &raquo; Feed" href="https://blogs.oracle.com/java/feed" />
+<script>
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/blogs.oracle.com\/java\/wp-includes\/js\/wp-emoji-release.min.js"}};
+/*! This file is auto-generated */
+!function(s,n){var o,i,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),a=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===a[t]})}function u(e,t){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);for(var n=e.getImageData(16,16,1,1),a=0;a<n.data.length;a++)if(0!==n.data[a])return!1;return!0}function f(e,t,n,a){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\udde8\ud83c\uddf6","\ud83c\udde8\u200b\ud83c\uddf6")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!a(e,"\ud83e\udedf")}return!1}function g(e,t,n,a){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):s.createElement("canvas"),o=r.getContext("2d",{willReadFrequently:!0}),i=(o.textBaseline="top",o.font="600 32px Arial",{});return e.forEach(function(e){i[e]=t(o,e,n,a)}),i}function t(e){var t=s.createElement("script");t.src=e,t.defer=!0,s.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",i=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){s.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+g.toString()+"("+[JSON.stringify(i),f.toString(),p.toString(),u.toString()].join(",")+"));",a=new Blob([e],{type:"text/javascript"}),r=new Worker(URL.createObjectURL(a),{name:"wpTestEmojiSupports"});return void(r.onmessage=function(e){c(n=e.data),r.terminate(),t(n)})}catch(e){}c(n=g(i,f,p,u))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+</script>
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://blogs.oracle.com/java/wp-includes/css/dist/block-library/style.min.css' media='all' />
+<style id='wp-block-library-theme-inline-css'>
+.wp-block-audio :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-audio :where(figcaption){color:#ffffffa6}.wp-block-audio{margin:0 0 1em}.wp-block-code{border:1px solid #ccc;border-radius:4px;font-family:Menlo,Consolas,monaco,monospace;padding:.8em 1em}.wp-block-embed :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-embed :where(figcaption){color:#ffffffa6}.wp-block-embed{margin:0 0 1em}.blocks-gallery-caption{color:#555;font-size:13px;text-align:center}.is-dark-theme .blocks-gallery-caption{color:#ffffffa6}:root :where(.wp-block-image figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme :root :where(.wp-block-image figcaption){color:#ffffffa6}.wp-block-image{margin:0 0 1em}.wp-block-pullquote{border-bottom:4px solid;border-top:4px solid;color:currentColor;margin-bottom:1.75em}.wp-block-pullquote cite,.wp-block-pullquote footer,.wp-block-pullquote__citation{color:currentColor;font-size:.8125em;font-style:normal;text-transform:uppercase}.wp-block-quote{border-left:.25em solid;margin:0 0 1.75em;padding-left:1em}.wp-block-quote cite,.wp-block-quote footer{color:currentColor;font-size:.8125em;font-style:normal;position:relative}.wp-block-quote:where(.has-text-align-right){border-left:none;border-right:.25em solid;padding-left:0;padding-right:1em}.wp-block-quote:where(.has-text-align-center){border:none;padding-left:0}.wp-block-quote.is-large,.wp-block-quote.is-style-large,.wp-block-quote:where(.is-style-plain){border:none}.wp-block-search .wp-block-search__label{font-weight:700}.wp-block-search__button{border:1px solid #ccc;padding:.375em .625em}:where(.wp-block-group.has-background){padding:1.25em 2.375em}.wp-block-separator.has-css-opacity{opacity:.4}.wp-block-separator{border:none;border-bottom:2px solid;margin-left:auto;margin-right:auto}.wp-block-separator.has-alpha-channel-opacity{opacity:1}.wp-block-separator:not(.is-style-wide):not(.is-style-dots){width:100px}.wp-block-separator.has-background:not(.is-style-dots){border-bottom:none;height:1px}.wp-block-separator.has-background:not(.is-style-wide):not(.is-style-dots){height:2px}.wp-block-table{margin:0 0 1em}.wp-block-table td,.wp-block-table th{word-break:normal}.wp-block-table :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-table :where(figcaption){color:#ffffffa6}.wp-block-video :where(figcaption){color:#555;font-size:13px;text-align:center}.is-dark-theme .wp-block-video :where(figcaption){color:#ffffffa6}.wp-block-video{margin:0 0 1em}:root :where(.wp-block-template-part.has-background){margin-bottom:0;margin-top:0;padding:1.25em 2.375em}
+</style>
+<style id='classic-theme-styles-inline-css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id='global-styles-inline-css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='redwood-style-css' href='https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/style.css' media='all' />
+<link rel='stylesheet' id='redwood-style-custom-css' href='https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/assets/css/custom.css' media='all' />
+<script src="https://blogs.oracle.com/java/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>
+<script src="https://blogs.oracle.com/java/wp-includes/js/jquery/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/redwood-blogs.js" id="redwood-blogs-js"></script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/oracle-scripts.js" id="oracle-scripts-js"></script>
+<link rel="https://api.w.org/" href="https://blogs.oracle.com/java/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://blogs.oracle.com/java/wp-json/wp/v2/posts/318" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://blogs.oracle.com/java/xmlrpc.php?rsd" />
+<link rel="canonical" href="https://blogs.oracle.com/java/the-arrival-of-java-26" />
+<link rel='shortlink' href='https://blogs.oracle.com/java/?p=318' />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://blogs.oracle.com/java/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblogs.oracle.com%2Fjava%2Fthe-arrival-of-java-26" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://blogs.oracle.com/java/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fblogs.oracle.com%2Fjava%2Fthe-arrival-of-java-26&#038;format=xml" />
+<meta property="og:type" content="blog">
+<meta name="contenttype_id" content="WM147046">
+<meta name="description" content="" />
+<meta name="host_name" content="http://blogs.oracle.com">
+<meta name="blog_name" content="java" />
+<meta name="keywords" content="Java, Product &amp; Ecosystem">
+<meta name="country" content="US" />
+<meta name="category" content="Java, Product &amp; Ecosystem" />
+<meta name="author" content="Sharat Chander" />
+<meta name="Language" content="en-US">
+<meta property="og:title" content="The Arrival of Java 26">
+<meta property="og:description" content="" />
+<meta property="og:url" content="https://blogs.oracle.com/java/the-arrival-of-java-26" />
+<meta property="og:image" content="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2025/11/Java-horz-clr-16-1.png" />
+<meta name="title" content="The Arrival of Java 26" />
+<meta name="audience" content="">
+<meta name="product" content="">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Arrival of Java 26">
+<meta name="twitter:description" content="" />
+<meta property="twitter:image" content="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2025/11/Java-horz-clr-16-1.png" />
+<meta name="robots" content="index,follow">
+<meta name="publish_date" content="March 17, 2026" />
+    <style>
+        #wp-admin-bar-blog-1 {
+            display: none !important;
+        }
+    </style>
+    
+<script>!function(){function o(n,i){if(n&&i)for(var r in i)i.hasOwnProperty(r)&&(void 0===n[r]?n[r]=i[r]:n[r].constructor===Object&&i[r].constructor===Object?o(n[r],i[r]):n[r]=i[r])}try{var n=decodeURIComponent("%7B%22ResourceTiming%22%3A%20%7B%20%22clearOnBeacon%22%3A%20true%20%7D%20%7D");if(n.length>0&&window.JSON&&"function"==typeof window.JSON.parse){var i=JSON.parse(n);void 0!==window.BOOMR_config?o(window.BOOMR_config,i):window.BOOMR_config=i}}catch(r){window.console&&"function"==typeof window.console.error&&console.error("mPulse: Could not parse configuration",r)}}();</script>
+                              <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="G52AM-AGLAF-9JTSA-TBAP5-PCJJE",function(){function e(){if(!o){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,i.parentNode.appendChild(e),o=!0}}function t(e){o=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(i.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",i.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"G52AM-AGLAF-9JTSA-TBAP5-PCJJE";var i=document.currentScript||document.getElementsByTagName("script")[0],o=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!o)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),i.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="l7x3pa5yde2f42odesaa-f-7197c599d-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,o={"ak.v":"39","ak.cp":"87563","ak.ai":parseInt("165106",10),"ak.ol":"0","ak.cr":29,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"e40e3305","ak.r":50849,"ak.a2":n,"ak.m":"dscx","ak.n":"essl","ak.bpcip":"95.239.183.0","ak.cport":57426,"ak.gh":"95.100.193.26","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1774396544","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==jSD7dDJwl0LAFM5yYT5/VJpRv+Iejx15791CnyHENsApoR8wwaWpVQ4+QWCrt4nB1aOqkXkIcqF5834BiyVxlUVC8WOchkZHRvke+HNuPH4BqccYIWsfkVBRWsqLxxlIspIewaQN0AzCzkOyCGxsYRHDcrVxNQK1MKV07fRezKBui1uZLYFfBYytgPM597HOJ+5Nmsm5VX7l11STFCZOUygRIgE66epaJK56aydpQCuoUdiTviBvZ39cIFGpJtwYUehekJywz3MG89o6XRu2pYEsl440TrbOaVw+mamVVBLnS3KY16vrogVHn7DJN3XS/55Sk8GdqAJvNzjwEuir40W3wieXn03daa6JPGvOW8lvEnBiUEaIsCSo1eGijrv1OkfeRFXh3eYr8IB4XZYK3S31slJQt6mgqNQhM+Snujc=","ak.pv":"332","ak.dpoabenc":"","ak.tf":i};if(""!==t)o["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))o["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(o)},rv:function(){var e=["ak.bpcip","ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:o,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script><script >bazadebezolkohpepadr="1888427428"</script><script type="text/javascript" src="https://blogs.oracle.com/akam/13/708f1c20"  defer></script></head>
+
+<body class="wp-singular post-template-default single single-post postid-318 single-format-standard wp-embed-responsive wp-theme-oracleredwoodblog f20 f20v1">
+  <div>
+    <div id="page" class="f20w1">
+      <!-- U18v2 -->
+      <div class="u18 u18v2" data-a11y="true">
+
+        <div id="u18skip2" aria-expanded="false">
+          <ul>
+            <li><a id="u18acc" href="https://www.oracle.com/corporate/accessibility/">Accessibility Policy</a></li>
+            <li><a id="u18skip2c" href="#maincontent">Skip to content</a></li>
+          </ul>
+        </div>
+
+        <nav role="banner">
+          <div class="u18w1 cwidth">
+
+            <div class="u18w2">
+              <div class="u18-logo"><a href="/"><span>Oracle</span></a></div>
+              <div class="u18-title">
+                <a href="https://blogs.oracle.com/java/" rel="home"> Java</a>
+              </div>
+            </div>
+
+            <div class="u18w3">
+              <div class="u18-search">
+    <div class="u18-searchlink">
+        <a href="#search" aria-label="Open Search Field" aria-haspopup="dialog" role="button"><span>Search</span></a>
+    </div>
+    <div class="u18-searchform" aria-hidden="true">
+            <a class="u18-search-action" id="u18exitsearch" href="#exitsearch" aria-label="Exit Search Field" role="button"><span>Exit Search Field</span></a>
+            <form role="search"  class="oform" >
+                <input class="u18-search-input" placeholder="Enter search... " type="search"  value="" name="s" id="search" />
+                <input class="u18-search-submit" type="submit" value="">
+                <a class="u18-search-action" id="u18clearsearch" href="#clearsearch" aria-label="Clear Search Field" tabindex="-1" role="button"><span>Clear Search Field</span></a>
+            </form>
+    </div>
+</div>              <div class="u18-menudd u18-dd">
+    <div class="u18-hamburger u18-ddlink">
+        <a href="#menu" aria-label="Menu" aria-haspopup="true" role="button"><span>Menu</span></a>
+    </div>
+    <div class="u18-menuoptions u18-menu" aria-hidden="true" role="navigation">
+    <div class="blogs-nav" id="blogs-category-nav">
+            
+    <ul><span class="h2-nav categories-text" style="">CATEGORIES</span><li class="mainMenu"><a href="https://blogs.oracle.com/java/category/j-product-and-ecosystem" class="parent-category categ-menu " data-has-children="false">Product &amp; Ecosystem</a></li><li class="mainMenu"><a href="https://blogs.oracle.com/java/category/j-java-technology" class="parent-category categ-menu hasMenu active" data-has-children="true">Java Technology</a><div class="sub-categories active" ><span class="back-btn" style=""><a href="javascript:void(0)" class="">Back</a></span><ul style="margin: 0 !important"><li><a href="https://blogs.oracle.com/java/category/j-java-technology" >Java Technology</a></li><li><a href="https://blogs.oracle.com/java/category/j-code-one"  data-has-children="false">Code One</a></li><li><a href="https://blogs.oracle.com/java/category/j-iot"  data-has-children="false">IoT</a></li><li><a href="https://blogs.oracle.com/java/category/j-java-9"  data-has-children="false">Java 9</a></li><li><a href="https://blogs.oracle.com/java/category/j-java-champions"  data-has-children="false">Java Champions</a></li><li><a href="https://blogs.oracle.com/java/category/j-javafx"  data-has-children="false">JavaFX</a></li><li><a href="https://blogs.oracle.com/java/category/j-mobile"  data-has-children="false">Mobile</a></li><li><a href="https://blogs.oracle.com/java/category/j-server"  data-has-children="false">Server</a></li><li><a href="https://blogs.oracle.com/java/category/j-tools"  data-has-children="false">Tools</a></li><li><a href="https://blogs.oracle.com/java/category/j-tv"  data-has-children="false">TV</a></li></ul></div></li><li class="mainMenu"><a href="https://blogs.oracle.com/java/category/j-java-card-technology" class="parent-category categ-menu " data-has-children="false">Java Card Technology</a></li><li class="mainMenu"><a href="https://blogs.oracle.com/java/category/j-java-tutorials" class="parent-category categ-menu " data-has-children="false">Java Tutorials</a></li></ul>                         <div class="u18-navdivider"></div>
+                
+        <ul>
+        <li><a href="/">Blogs Home</a></li>
+        <li><a href="https://blogs.oracle.com/java/rss">RSS</a></li>
+        </ul>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const parentLinks = document.querySelectorAll('.parent-category');
+        const backButtons = document.querySelectorAll('.back-btn');
+        
+
+        // Event listener for parent category links
+        parentLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const hasChildren = this.getAttribute('data-has-children') === 'true';
+                if (hasChildren) {
+                    event.preventDefault(); // Prevent default anchor behavior if there are children
+                    const childContainer = this.nextElementSibling;
+                    const allSiblings = this.closest('ul').children;
+                   
+                    for (let sibling of allSiblings) {
+                        if (sibling !== this.parentElement) {
+                            sibling.style.display = 'none'; // Hide other parent categories
+                        }
+                        if(sibling === this.parentElement){
+                            this.style.display = 'none';
+                        }
+                    }
+                    if (childContainer) {
+                        childContainer.style.display = (childContainer.style.display === 'none' || childContainer.style.display === '') ? 'block' : 'none';
+                        // if(childContainer.style.display === "none"){
+                        //     categoryHeading.style.display = 'none';
+                        // }
+                    }
+                }
+                // If no children, the default behavior will occur
+            });
+        });
+        // Event listener for back buttons
+        backButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const childContainer = this.parentElement;
+               
+                if (childContainer) {
+                    childContainer.style.display = 'none'; // Hide child categories
+                    childContainer.previousElementSibling.style.display = ''
+                }
+                
+               
+                // Show all sibling categories again
+                const allSiblings = this.closest('ul').children;
+                for (let sibling of allSiblings) {
+                    sibling.style.display = ''; // Reset display for siblings
+                }
+            });
+        });
+    });
+
+</script>
+            </div>
+
+          </div>
+        </nav>
+        <a id="maincontent"></a>
+      </div>
+      <!-- /U18v2 -->
+
+<section class="rh03 rh03v5 rw-ocean-150bg rw-pattern16w rw-pattern-15p rw-strip rw-strip-custom social rw-pattern-load">
+    <div class="rh03w1 cwidth social-wrapper">
+        <div class="rh03pgtitle">
+            <div class="blog-name">Java</div>            <div class="rh03subtitle">
+                <p></p>
+            </div>
+        </div>
+
+        <div class="social-share-wrapper withoutcontent" style="display: flex">
+            <label id="social-share">Follow: </label>
+            <ul class="social-share" aria-labelledby="social-share">
+                <li>
+                    <a href="https://blogs.oracle.com/java/rss" title="Oracle blog RSS" class="icn-rss" target="_blank">
+                        <span class="sr-only">RSS</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Oracle blog on Facebook" class="icn-facebook" id="facebook-url" target="_blank">
+                        <span class="sr-only">Facebook</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Oracle blog on Twitter" class="icn-twitter" id="twitter-url" target="_blank">
+                        <span class="sr-only">Twitter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Oracle blog on LinkedIn" class="icn-linkedin" id="linkedin-url" target="_blank">
+                        <span class="sr-only">LinkedIn</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Oracle blog on YouTube" class="icn-youtube" id="youtube-url" target="_blank">
+                        <span class="sr-only">YouTube</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="Oracle blog on Instagram" class="icn-instagram" id="instagram-url" target="_blank">
+                        <span class="sr-only">Instagram</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Optimized background using CSS -->
+    <div class="rh03customstrip" style="background-image: url('https://www.oracle.com/asset/web/i/rw-strip-sienna.gif'); background-size: cover; background-position: center;"></div>
+</section>
+<!-- RC86v0 -->
+<section class="rc86 rc86v0 cpad" data-a11y="true">
+    <div class="rc86w1 bwidth">
+        <div class="rc86social">
+            <a href="https://www.facebook.com/dialog/share?app_id=209650819625026&href=/java/post.php" class="sharelink icn-img icn-facebook" data-sharetype="facebook" aria-label="share on facebook">
+                <span>Facebook</span>
+            </a>
+            <a href="https://twitter.com/share?url=/java/post.php" class="sharelink icn-img icn-twitter" data-sharetype="twitter" aria-label="share on twitter">
+                <span>Twitter</span>
+            </a>
+            <a href="https://www.linkedin.com/shareArticle?url=/java/post.php" class="sharelink icn-img icn-linkedin" data-sharetype="linked-in" aria-label="post to linkedin">
+                <span>LinkedIn</span>
+            </a>
+            <a href="placeholder.html" class="sharelink icn-img icn-email" data-sharetype="email" aria-label="send an email">
+                <span>Email</span>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- /RC86v0 -->
+<post id="primary" class="site-main">
+    <section id="post-id" class="rc81 rc81v1 cpad">
+        <div class="rc81w1 bwidth">
+            <div class="rc84post">
+                                    <div class="rc81categories">
+                        <a class="rc81accent" href="https://blogs.oracle.com/java/category/j">Java</a>, <a class="rc81accent" href="https://blogs.oracle.com/java/category/j-product-and-ecosystem">Product &amp; Ecosystem</a>                    </div>
+
+                    <h1>The Arrival of Java 26</h1>
+                    <div class="blogtile-byline">
+                        <span class="publishdate">March 17, 2026</span>
+                        <span>11 minute read</span>
+                    </div>
+
+                    <div class="rc81sub"><img src="http://blogs.oracle.com/wp-content/uploads/2025/09/sharat_chander.jpg" width="40" alt="Profile picture of Sharat Chander" />
+        <span class="blogtile-byline"><a class="author-name" href="/authors/sharat-chander">Sharat Chander</a><div>Director, Java SE Product Management</div></span></div>
+                    
+                    <div class="post-content">
+<p>Follow Java on <a href="mailto:https://x.com/java">X</a> and <a href="mailto:https://www.linkedin.com/showcase/java/??v?vi?vie?view?viewA?viewAs?viewAsM?viewAsMe?viewAsMem?viewAsMemb?viewAsMembe?viewAsMember?viewAsMember=?viewAsMember=t?viewAsMember=tr?viewAsMember=tru?viewAsMember=true">LinkedIn</a></p>
+
+
+
+<p><strong>JDK 26 is now available!</strong></p>
+
+
+
+<p>Oracle is proud to announce the general availability of JDK 26 for developers, enterprises, and end-users.</p>
+
+
+
+<p><strong>New with Java 26</strong></p>
+
+
+
+<p>JDK 26 delivers <a href="https://openjdk.org/projects/jdk/26/">ten enhancements</a> that are significant enough to warrant their own <a href="http://openjdk.java.net/jeps/1">JDK Enhancement Proposals &#8211; JEPs</a>, including four preview features, and one incubator feature. &nbsp;&nbsp;These features cover innovations to the Java language, security enhancements, performance and runtime advancements, library improvements, and stewardship of the JDK through targeted maintenance and clean-up.</p>
+
+
+
+<p><strong>Language Innovation</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/530"><strong>JEP 530</strong></a><strong>: Primitive Types in Patterns, instanceof, and switch (Fourth Preview)</strong></p>
+
+
+
+<p>Helps developers increase productivity and streamline the development of applications that integrate AI inferencing by making Java more uniform and expressive. It eliminates multiple restrictions pertaining to primitive types that impose friction when using pattern matching, instanceof, and switch. To help developers further improve productivity, it also enhances the definition of unconditional exactness and applies tighter dominance checks in switch constructs, enabling the compiler to identify and reduce a wider range of coding errors.</p>
+
+
+
+<p><strong>Performance Advancements</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/522"><strong>JEP 522</strong></a><strong>: G1 GC: Improve Throughput by Reducing Synchronization</strong></p>
+
+
+
+<p>Helps developers process more work in less time by improving memory efficiency. It reduces the synchronization between application and garbage collector threads, increasing throughput with the G1 garbage collector. By running faster and supporting more users without additional hardware, Java improves efficiency, lowers infrastructure costs, and delivers a smoother user experience.</p>
+
+
+
+<p><strong>Cryptographic Security Improvements</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/524"><strong>JEP 524</strong></a><strong>: PEM Encodings of Cryptographic Objects (Second Preview)</strong></p>
+
+
+
+<p>Helps developers improve productivity and enhance Java application security across widely used security formats via a new encoding API. The API encodes objects that represent cryptographic keys, certificates, and certificate revocation lists into the widely used, privacy-enhanced mail transport format, and decodes it back into objects. This reduces the risk of errors, simplifies compliance, and enhances the portability and interoperability of secure Java applications by streamlining cryptography setup and integration for enterprise, cloud, and regulatory needs.</p>
+
+
+
+<p><strong>Project Leyden Enhancements</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/516"><strong>JEP 516</strong></a><strong>: Ahead-of-Time Object Caching with Any GC</strong></p>
+
+
+
+<p>Boosts developer productivity and resource efficiency by accelerating the start-up time for Java applications with any garbage collector (GC). It allows sequential loading of cached pre-initialized Java objects into memory from a neutral, GC-agnostic format. It also enhances the ahead-of-time cache, enabling the HotSpot Java Virtual Machine to improve start-up and warm-up time and be used with any GC, including the low-latency ZGC. This helps developers reduce application start up delays, scale their applications faster, and deliver better user experiences.</p>
+
+
+
+<p><strong>Library Improvements</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/500"><strong>JEP 500:</strong></a><strong> Prepare to Make Final Mean Final</strong></p>
+
+
+
+<p>Helps developers improve application security and reliability by preventing unintended modifications, tampering, or accidental errors in critical business systems. It issues warnings about uses of deep reflection to mutate final fields and allows developers to mutate final fields where essential to avoid both current warnings and future restrictions. This crucial change enforces Java&#8217;s &#8220;integrity by default&#8221; principle, which is focused on protecting sensitive data and business logic, reducing hidden risks, and lowering the chance of bugs or security vulnerabilities.</p>
+
+
+
+<p><a href="https://openjdk.org/jeps/517"><strong>JEP 517</strong></a><strong>: HTTP/3 for the HTTP Client API</strong></p>
+
+
+
+<p>Helps developers increase productivity by making it easier to write code that interacts with HTTP servers. It updates the HTTP Client API to support the HTTP/3 protocol, enabling libraries and applications to interact with HTTP/3 servers with minimal code change. By eliminating these common bottlenecks and enabling quicker data retrieval with reduced latency, it helps microservices and API-driven Java applications gain higher performance and more reliable network connections.</p>
+
+
+
+<p><a href="https://openjdk.org/jeps/526"><strong>JEP 526</strong></a><strong>: Lazy Constants (Second Preview)</strong></p>
+
+
+
+<p>Helps developers increase productivity and resource efficiency by offering greater flexibility in the timing of their initialization, which is particularly valuable for AI and data-driven applications. Via a new API for lazy constants, which are objects that hold unmodifiable data, the JVM treats lazy constants as true constants to enable the same performance as declaring a field final. In addition, by enabling Java applications and their cloud native and AI-powered services to launch faster and use computing resources more efficiently, it helps developers execute agile and scalable deployments that lead to cost savings and a better experience for end users.</p>
+
+
+
+<p><a href="https://openjdk.org/jeps/525"><strong>JEP 525</strong></a><strong>: Structured Concurrency (Sixth Preview)</strong></p>
+
+
+
+<p>Helps developers improve the maintainability, reliability, and observability of multithreaded code, which is especially beneficial for improving the scalability and resilience of AI and cloud native workloads. It simplifies concurrent programming via an API for structured concurrency, which treats groups of related tasks running in different threads as a single unit of work and helps reduce common risks arising from cancellation and shutdown, such as thread leaks and cancellation delays.</p>
+
+
+
+<p><a href="https://openjdk.org/jeps/529"><strong>JEP 529</strong></a><strong>: Vector API (11<sup>th</sup> Incubator)</strong></p>
+
+
+
+<p>Helps developers improve the performance and cost efficiency of their Java applications by enabling them to deliver more insights and value with less hardware. The vector API expresses vector computations that reliably compile at runtime to optimal vector instructions on supported CPU architectures, which results in faster processing for data analytics, AI inference, and scientific computing workloads. This gives developers the ability to achieve performance superior to equivalent scalar computations often used in AI inference and compute scenarios.</p>
+
+
+
+<p><strong>Stewardship of the JDK</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/504"><strong>JEP 504</strong></a><strong>: Remove the Applet API</strong></p>
+
+
+
+<p>Helps developers reduce their installation and source code footprints and improve the performance, stability, and security of applications by removing the Applet API, which was deprecated for removal in JDK 17 and is no longer part of the platform.</p>
+
+
+
+<p><strong>A Reminder on Preview, Experimental, and Incubator Features</strong></p>
+
+
+
+<p><a href="https://openjdk.org/jeps/12">Preview features</a> are fully specified and fully implemented Language or VM Features of the Java SE Platform; and yet impermanent. They are made available in JDK Feature Releases to allow for developer feedback based on real-world uses, before becoming permanent in a future release. This also affords tool vendors the opportunity to work towards supporting features before they are finalized into the Java SE Standard. Experimental features are early-stage functionalities, primarily at the Virtual Machine (VM) level, that are still undergoing development and testing and are used to gather early feedback on potentially impactful enhancements to the HotSpot VM. APIs in <a href="https://openjdk.java.net/jeps/11">Incubator modules</a> put non-final APIs and non-final tools in the hands of developers and users so that we can gather feedback that will ultimately improve the quality of the Java platform.</p>
+
+
+
+<p><strong>Non-JEP JDK Enhancements</strong></p>
+
+
+
+<p>In addition to the 10 JEPs, Java 26 offers dozens of improvements that help organizations enhance application security, reliability, and performance. These updates offer adaptation to underlying OS and firmware updates and standards.&nbsp; Users and application developers usually benefit from these changes without noticing them; access the <a href="https://jdk.java.net/26/release-notes">JDK 26 release notes</a> for the full set of non-JEP enhancements.</p>
+
+
+
+<p>Some enhancements worth mentioning include streamlining secure encryption with industry-standard hybrid public key encryption (HPKE), future-proofing their supply chains with post-quantum ready JAR signing, and benefiting from improved support for global standards with updates to Unicode 17.0 and CLDR v48. In addition, enhanced controls for cryptographic algorithms and legacy keystores further strengthen security and compliance, which helps organizations modernize with confidence.</p>
+
+
+
+<p>Application performance and reliability are improved through dozens of updates that lead to faster JVM startup, more efficient garbage collection, expanded C2 JIT compilation, and smarter heap management. Developers and administrators can increase productivity with new features including region-based file uploads in HttpClient, stricter runtime image building, an improved JVM metrics API, and a new dark mode for JavaDoc.</p>
+
+
+
+<p><strong>Additional Improvements</strong></p>
+
+
+
+<p><strong>Reintroduction of JavaFX Commercial Support to Meet Industry Demand</strong></p>
+
+
+
+<p>Oracle is reintroducing commercial support for JavaFX to meet the growing demand from customers, academia, and the software development industry for sophisticated and interactive visualizations that power AI-driven applications and analytics experiences. Commercial support for JavaFX will now be available for all new Java versions and all Java versions that Oracle provides long-term support during its five-year Premier Support period.</p>
+
+
+
+<p>Support for JavaFX on JDK 8 is being extended for three more years through March 2028, and JavaFX commercial support will be made available as part of the new Oracle Java Verified Portfolio. Upcoming JavaFX release plans include JavaFX 25 and 26 for JDK 26 (available today), with updates for JavaFX 21, 17, and 8 planned for mid-April 2026. JavaFX will be made available under the same license terms as the corresponding Oracle JDK (NFTC or OTN). In addition, Oracle continues to lead the OpenJFX project, further demonstrating commitment to JavaFX in the enterprise and academic communities.</p>
+
+
+
+<p><strong>New Oracle Java Verified Portfolio Provides Curated Set of Enterprise-Grade Tools</strong></p>
+
+
+
+<p>The new Oracle Java Verified Portfolio (JVP) introduces a trusted and dependable solution that provides  support for customers’ broader Java application and development stacks. Oracle customers and Java developers depend on a wide range of JDK-related tools, frameworks, libraries, and services that do not belong in the Oracle JDK itself, with distinct versioning, support timelines, and SLAs for each. <a href="https://www.oracle.com/java/technologies/downloads/jvp/">JVP</a> provides a curated, enterprise-grade set of components that are fully supported and governed by Oracle, with clear roadmap transparency and lifecycle management.</p>
+
+
+
+<p>JVP streamlines support, access, and documentation for mission-critical Java components, simplifies lifecycle management, and future-proofs customer investments. To support enterprise innovation and security standards, Oracle includes support for JVP for free for Java SE subscribers and Oracle Cloud Infrastructure (OCI) customers running Java workloads on OCI.&nbsp; In addition, access and use of many portfolio components remain free for a wide range of use cases and users who aren’t Java SE subscribers or OCI customers. By sourcing these validated assets directly from Oracle, customers significantly reduce their software supply chain risk as the JVP offers a trusted and verified source for essential Java ecosystem components. This helps organizations accelerate adoption and integration with the knowledge that every component is subject to Oracle’s rigorous quality, security, and support standards.</p>
+
+
+
+<p>In addition to JavaFX commercial support, JVP includes Oracle support for both Helidon and Oracle&#8217;s Java Platform Extension for Visual Studio Code.</p>
+
+
+
+<p>Helidon is an open source, cloud native Java framework designed for building and running fast, lightweight, and highly scalable microservices using Java Virtual Threads. Designed, led, and used by Oracle, Helidon integrates with enterprise and cloud native ecosystems to offer developers simplicity, productivity, choice of programming style, and built-in observability. Helidon AI extends Helidon, enabling Java developers to build high performance AI applications in Java. Helidon also includes integration with LangChain4j, Helidon MCP and facilitates building AI Agents as microservices.</p>
+
+
+
+<p>By including Helidon in JVP, Oracle expands trusted, enterprise-grade support to customers and developers, enabling them to build scalable and resilient applications powered by the latest Java innovations. The Helidon release cadence is also planned to be aligned to the JDK roadmap, providing immediate support for the latest Java releases. This close alignment with the Oracle JDK and Java SE platform ensures seamless compatibility and accelerates innovation across the Java developer ecosystem. To reinforce Oracle’s commitment to delivering trusted, enterprise-backed developer solutions while supporting innovation in the Java community, Helidon and the Java Platform Extension for VS Code will also remain open source.</p>
+
+
+
+<p><strong>Supporting the Global Java Community with Innovation in the Cloud</strong></p>
+
+
+
+<p>Java delivers increased innovation, performance, efficiency, and cost savings when deployed on OCI, <a>which is the first cloud provider to support Oracle JDK 26</a>. By delivering Oracle Java SE and advanced features such as the <a>Java Management Service</a>&nbsp; at no additional charge on OCI, Java 26 helps developers create and deploy applications that run faster, better, and with optimized cost-performance<a>.</a>&nbsp;</p>
+
+
+
+<p>The Oracle Java SE Universal Subscription provides customers with best-in-class support. It now includes JVP in addition to the Java SE Subscription Enterprise Performance Pack, Java Management Service, triage support for the entire Java portfolio, and the flexibility to upgrade at the pace of customers’ businesses. This helps IT teams manage complexity, mitigate security risks, and contain costs.&nbsp;</p>
+
+
+
+<p><strong><u>Predictability</u></strong></p>
+
+
+
+<p>JDK 26 is the 17<sup>th</sup> Feature Release delivered on time through the six-month release cadence. This level of predictability allows developers to easily manage their adoption of innovation thanks to a steady stream of improvements.</p>
+
+
+
+<figure class="wp-block-image size-full"><img fetchpriority="high" decoding="async" width="936" height="466" src="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK-26_17th-feature-release-6monthcadence.png" alt="" class="wp-image-323" srcset="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK-26_17th-feature-release-6monthcadence.png 936w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK-26_17th-feature-release-6monthcadence-300x149.png 300w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK-26_17th-feature-release-6monthcadence-768x382.png 768w" sizes="(max-width: 936px) 100vw, 936px" /></figure>
+
+
+
+<p>Java’s ability to boost performance, stability, and security continues to make it the world’s most popular programming language.</p>
+
+
+
+<p>Oracle will provide updates until September 2026 when it will be superseded by Oracle JDK 27.</p>
+
+
+
+<p><strong><u>Java 26, Together</u></strong></p>
+
+
+
+<p>As with previous releases, Java 26 is the result of the contributions of many individuals and organizations in the OpenJDK Community — we all build Java, together!</p>
+
+
+
+<p><strong>JDK 26 Fix Ratio</strong></p>
+
+
+
+<p>The rate of change over time in the JDK releases has remained largely constant for years, but under the six-month cadence the pace at which production-ready features and improvements are delivered has sharply increased.</p>
+
+
+
+<p>The changes in JDK 26 range from significant new features to small enhancements to routine maintenance, bug fixes, and documentation improvements. Each change is represented in a single commit for a single issue in the JDK Bug System.</p>
+
+
+
+<p>Of the 36,328 JIRA issues marked as fixed in Java 11 through Java 26 at the time of their GA, 25,491 were completed by people working for Oracle while 10,837 were contributed by individual developers and developers working for other organizations. Going through the issues and collating the organization data from assignees results in the following chart of organizations sponsoring the development of contributions in Java:</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="433" src="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_11-26_Oracle-Contributions-1024x433.png" alt="" class="wp-image-324" srcset="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_11-26_Oracle-Contributions-1024x433.png 1024w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_11-26_Oracle-Contributions-300x127.png 300w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_11-26_Oracle-Contributions-768x325.png 768w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_11-26_Oracle-Contributions-1536x649.png 1536w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_11-26_Oracle-Contributions-2048x866.png 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>In Java 26, of the 2,535 JIRA issues marked as fixed, 1,729 were completed by Oracle, while 806 were contributed by other members of the Java community.</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="323" src="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_26_Oracle-Contributions-1024x323.png" alt="" class="wp-image-325" srcset="https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_26_Oracle-Contributions-1024x323.png 1024w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_26_Oracle-Contributions-300x95.png 300w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_26_Oracle-Contributions-768x242.png 768w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_26_Oracle-Contributions-1536x485.png 1536w, https://blogs.oracle.com/java/wp-content/uploads/sites/114/2026/03/JDK_26_Oracle-Contributions-2048x646.png 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Oracle would like to thank the developers working for organizations including Alibaba, Amazon, ARM, Google, IBM, ISCAS, Microsoft, NTT Data, NVIDIA, Red Hat, Rivos, and SAP for their notable contributions. We are also thankful to see contributions from smaller organizations such as Bellsoft, Bytesoft, and Loongson, as well as independent developers who collectively contributed 7% of the fixes in Java 25.</p>
+
+
+
+<p>The following individuals provided invaluable feedback on build quality, logged good quality bugs, or offered frequent updates:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Lukas Eder (JOOQ)</li>
+
+
+
+<li>Marc Hoffmann (JaCoCo)</li>
+
+
+
+<li>Ben Evans (Java Champion)</li>
+
+
+
+<li>Simon Steiner (Apache Batik)</li>
+
+
+
+<li>Uwe Schindler (Apache Lucene)</li>
+
+
+
+<li>Yoann Rodiere (Hiberante ORM)</li>
+</ul>
+
+
+
+<p>Additionally, through the OpenJDK Quality Outreach program we would like to thank the following FOSS projects and individuals who provided excellent feedback on testing Java 26 early access builds to help improve the quality of the release:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Apache Ant (Jaikiran Pai)</li>
+
+
+
+<li>Apache Tomcat (Mark Thomas)</li>
+
+
+
+<li>Parallel Collectors &amp; Vavr (Grzegorz Piwowarek)</li>
+</ul>
+
+
+
+<p><strong><u>Resources</u></strong></p>
+
+
+
+<p>Java continues to be the #1 programming language for today’s technology trends.&nbsp;As the on-time delivery of improvements with Java 26 demonstrates, through continued thoughtful planning and ecosystem involvement, the Java platform is well-positioned for modern development, growth in the cloud, and enabling AI-focused application use-cases.</p>
+
+
+
+<p>Keep up with news and updates by:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Visiting <a href="https://dev.java/">Dev.java</a> (Oracle’s dedicated portal to advance your Java knowledge and community participation).</li>
+
+
+
+<li>Visiting <a href="https://inside.java/">Inside.java</a> (news and views by the Java Team at Oracle).</li>
+
+
+
+<li>Listening to the <a href="https://inside.java/podcast/">Inside.java podcasts</a> (an audio show for Java Developers brought to you directly from the people that make Java at Oracle).</li>
+
+
+
+<li>Listening to the <a href="https://dev.java/duke/corner/">Duke’s Corner Podcast</a> (an audio show that features the personal stories, experiences and expertise of Java community luminaries).</li>
+
+
+
+<li>Watching <a href="https://youtube.com/playlist?list=PLX8CzqL3ArzX8ZzPNjBgji7rznFFiOr58">Inside.java Newscasts</a> (a video show extending the Inside.java podcast).</li>
+
+
+
+<li>Watching <a href="https://youtube.com/java">Java on YouTube</a> (Oracle’s Java videos to help grow your Java expertise).</li>
+
+
+
+<li>Watching <a href="https://www.youtube.com/playlist?list=PLX8CzqL3ArzV4BpOzLanxd4bZr46x5e87">JEP Café</a> (Oracle’s technical exploration into popular JDK Enhancement Proposals).</li>
+
+
+
+<li>Joining the <a href="http://mail.openjdk.java.net/mailman/listinfo">OpenJDK mailing lists</a> (to learn about the progress of your favorite OpenJDK projects).</li>
+
+
+
+<li>Following <a href="https://twitter.com/java">Java</a> on X.</li>
+
+
+
+<li>Subscribing to the <a href="https://go.oracle.com/LP=136406?elqCampaignId=427886">Inside Java Newsletter</a> (a monthly publication summarizing many of the key Java technology and community updates from Oracle).</li>
+
+
+
+<li>Subscribing to the <a href="https://www.linkedin.com/showcase/java/">official Java community on LinkedIn</a>.</li>
+</ul>
+
+
+
+<p><a id="_msocom_1"></a></p>
+
+
+
+<p></p>
+</div>
+
+                    <div class="rc84v2 cpad">
+                        <h3 class="sr-only">Authors</h3>
+                        <div class="rc84w1 cwidth">
+                            <div class="rc84bio"><div class="rc84img"><img src="http://blogs.oracle.com/wp-content/uploads/2025/09/sharat_chander.jpg" width="90" alt="Profile picture of Sharat Chander" /></div>
+        <div class="rc84blurb"><div class="blogtile-w2-inner text-wrap">
+        <h4 class="author-name">Sharat Chander</h4><h5>Director, Java SE Product Management</h5><p>Sharat Chander has worked in the IT industry for 20 years, for firms such as Bell Atlantic, Verizon, Sun Microsystems, and Oracle. His background and technical specialty is in Java development tools, graphics design, and product/community management. Chander has been actively involved in the Java Community for 15 years, helping drive greater Java awareness, acceptance, adoption, and advocacy. At Oracle, as the director of Java developer relations, Chander serves as the JavaOne conference content chairperson, a role he&#039;s filled for 7 years, where he drives the technical content strategy and Java community involvement in the conference. He is a frequent keynote speaker and participant in developer programs worldwide. Chander holds a BS in corporate finance from the University of Maryland and an MBA in international business from Loyola College, Maryland. You can find Chander at multiple global developer events and Java community engagements. When not growing visibility for Java, he follows his other passion for baseball and fanatically following his hometown Baltimore Orioles.
+
+Twitter handle: <a href="http://twitter.com/Sharat_Chander" target="_blank">@Sharat_Chander</a>
+</p></div></div></div>                        </div>
+                    </div>
+
+                   
+
+                            </div>
+        </div>
+    </section>
+
+    <section class="rc83 rc83v0 rw-neutral-00bg cpad xwidth">
+        <div class="rc83w1 cwidth">
+            <div class="rc83pagenav">
+                <div class="rc83nav-lt"><a href="https://blogs.oracle.com/java/announcing-jvp" class="rc83arrow-lt o-hf" title="Announcing the Oracle Java Verified Portfolio including Helidon and reintroduction of JavaFX Commercial Support"><div class="icn-img icn-chevron-left"></div><p id="PreviousPostText">Previous post</p></a><h4>Announcing the Oracle Java Verified Portfolio including Helidon and reintroduction of JavaFX Commercial Support</h4><div class="rc83sub"><a href="/authors/donald-smith">Donald Smith</a><span> | </span><span>2</span><span> minute read</span></div></div>            </div>
+        </div>
+    </section>
+</post>
+
+<div class="u10 u10v6" data-trackas="ffooter" data-ocomid="redwood">
+  <div class="u10w1">
+    <div class="u10w2">
+      <div class="u10w3">
+        <div class="u10ttl" id="resourcesfor">Resources for</div>
+        <ul aria-labelledby="resourcesfor">
+
+          <li>
+            <a href="https://www.oracle.com/corporate/">About</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/corporate/careers/" data-lbl="about-oracle:careers">Careers</a>
+          </li>
+          <li>
+            <a href="https://developer.oracle.com">Developers</a>
+          </li>
+          <li>
+            <a href="https://investor.oracle.com/home/default.aspx">Investors</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/partner/">Partners</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/startup/">Startups</a>
+          </li>
+        </ul>
+        <a class="u10btn" role="none presentation"></a>
+      </div>
+    </div>
+    <div class="u10w2">
+      <div class="u10w3">
+        <div class="u10ttl" id="whyoracle">Why Oracle</div>
+        <ul aria-labelledby="whyoracle">
+          <li>
+            <a href="https://www.oracle.com/corporate/analyst-reports.html">Analyst Reports</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/cx/what-is-crm/">Best CRM</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/cloud/economics/">Cloud Economics</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/corporate/citizenship/">Corporate Responsibility</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/corporate/security-practices/">Security Practices</a>
+          </li>
+        </ul>
+        <a class="u10btn" role="none presentation"></a>
+      </div>
+    </div>
+    <div class="u10w2">
+      <div class="u10w3">
+        <div class="u10ttl" id="learn">Learn</div>
+        <ul aria-labelledby="learn">
+          <li>
+            <a href="https://www.oracle.com/cx/service/what-is-customer-service/">What is Customer Service?</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/erp/what-is-erp/">What is ERP?</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/cx/marketing/automation/what-is-marketing-automation/">What is Marketing Automation?</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/erp/what-is-procurement/">What is Procurement?</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/human-capital-management/talent-management/what-is-talent-management/">What is Talent Management?</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/cloud/compute/virtual-machines/what-is-virtual-machine/">What is VM?</a>
+          </li>
+        </ul>
+        <a class="u10btn" role="none presentation"></a>
+      </div>
+    </div>
+    <div class="u10w2">
+      <div class="u10w3">
+        <div class="u10ttl" id="what'snew">What's New</div>
+        <ul aria-labelledby="what'snew">
+          <li>
+            <a href="https://www.oracle.com/cloud/free/?source=:ow:o:h:nav:050120SiteFooter&#038;intcmp=:ow:o:h:nav:050120SiteFooter">Try Oracle Cloud Free Tier</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/solutions/green/">Oracle Sustainability</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/corporate/covid-19.html">Oracle COVID-19 Response</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/sailgp/">Oracle and SailGP</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/premier-league/">Oracle and Premier League</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/redbullracing/">Oracle and Red Bull Racing Honda</a>
+          </li>
+        </ul>
+        <a class="u10btn" role="none presentation"></a>
+      </div>
+    </div>
+    <div class="u10w2">
+      <div class="u10w3">
+        <div class="u10ttl" id="contactus">Contact Us</div>
+        <ul aria-labelledby="contactus">
+          <li>
+            <a href="tel:18006330738">US Sales 1.800.633.0738</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/corporate/contact/">How can we help?</a>
+          </li>
+          <li>
+            <a href="https://go.oracle.com/subscriptions">Subscribe to Oracle Content</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/cloud/free/?source=:ow:o:h:nav:050120SiteFooter&#038;intcmp=:ow:o:h:nav:050120SiteFooter">Try Oracle Cloud Free Tier</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/events/">Events</a>
+          </li>
+          <li>
+            <a href="https://www.oracle.com/news/" data-lbl="news-events:newsroom">News</a>
+          </li>
+        </ul>
+        <a class="u10btn" role="none presentation" aria-owns="u10cmenu"></a>
+      </div>
+    </div>
+    <div class="u10w4">
+      <hr>
+    </div>
+    <div class="u10w5 ">
+      <ul class="u10-links u10w10">
+        <li>
+          <a href="https://www.oracle.com/legal/copyright.html" data-lbl="copyright">
+            &copy; 2026 Oracle
+          </a>
+        </li>
+        <li>
+          <a data-lbl="privacy" href="https://www.oracle.com/legal/privacy/" id="u10footer1" aria-owns="u10footer2">Privacy</a>
+          <span>/</span>
+          <a data-lbl="do-not-sell-my-info" href="https://www.oracle.com/legal/privacy/privacy-choices.html" id="u10footer2">Do Not Sell My Info</a>
+        </li>
+        <li>
+          <div id="teconsent"
+            consent="0,1,2"
+            aria-label="Open Cookie Preferences Modal"
+            class="truste_caIcon_display"
+            role="complementary">
+            
+          </div>
+        </li>
+        <li>
+          <a href="https://www.oracle.com/legal/privacy/privacy-policy.html#advertising" data-lbl="ad-choices" id="u10footer3">Ad Choices</a>
+        </li>
+        <li>
+          <a href="https://www.oracle.com/corporate/careers/" data-lbl="careers">Careers</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<script async type="text/javascript" crossorigin importance="high"
+  src="https://consent.trustarc.com/asset/notice.js/v/v1.7-690"></script>
+<!-- #page --> <script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/java\/*"},{"not":{"href_matches":["\/java\/wp-*.php","\/java\/wp-admin\/*","\/java\/wp-content\/uploads\/sites\/114\/*","\/java\/wp-content\/*","\/java\/wp-content\/plugins\/*","\/java\/wp-content\/themes\/oracleredwoodblog\/*","\/java\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+
+    <script src="https://tms.oracle.com/main/prod/utag.sync.js"></script>
+
+    <script type="text/javascript">
+        (function (a, b, c, d) {
+            if (location.href.indexOf("tealium=dev") == -1) {
+                a = "https://tms.oracle.com/main/prod/utag.js";
+            } else {
+                a = "https://tms.oracle.com/main/dev/utag.js";
+            }
+            b = document; c = "script"; d = b.createElement(c); d.src = a; d.type = "text/java" + c; d.async = true;
+            a = b.getElementsByTagName(c)[0]; a.parentNode.insertBefore(d, a);
+        })();
+    </script>
+
+    <script src="https://www.oracle.com/us/assets/metrics/ora_compendiumblogs.js" language="JavaScript"></script>
+    <script id="custom-search-js-extra">
+var wp_vars = {"site_url":"https:\/\/blogs.oracle.com\/java","nonce":"a4ce095eb4","environment":"prod","site_id":"114","blog_name":"java"};
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/custom-search.js" id="custom-search-js"></script>
+<script id="load-more-author-js-extra">
+var authorParams = {"restUrl":"https:\/\/blogs.oracle.com\/java\/wp-json\/","cacheBuster":"_cache_e0091897"};
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/load-author-script.js" id="load-more-author-js"></script>
+<script id="author-directory-js-extra">
+var myAjax = {"restUrl":"https:\/\/blogs.oracle.com\/java\/wp-json\/"};
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/author-directory.js" id="author-directory-js"></script>
+<script id="custom-blog-directory-script-js-extra">
+var myAjax = {"restUrl":"https:\/\/blogs.oracle.com\/java\/wp-json\/"};
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/blog-directory.js" id="custom-blog-directory-script-js"></script>
+<script id="load-more-category-posts-js-extra">
+var myAjax = {"restUrl":"https:\/\/blogs.oracle.com\/java\/wp-json\/","maxPages":"11","category_slug":""};
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/load-more-category-posts.js" id="load-more-category-posts-js"></script>
+<script id="view-more-posts-js-extra">
+var params = {"restUrl":"https:\/\/blogs.oracle.com\/java\/wp-json\/","lastPostIndex":null,"postsPerPage":"12"};
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/view-more.js" id="view-more-posts-js"></script>
+<script id="category-slider-js-extra">
+var CategorySliderDataList = [];
+</script>
+<script src="https://blogs.oracle.com/java/wp-content/themes/oracleredwoodblog/js/category-slider.js" id="category-slider-js"></script>
+</div>
+<noscript><img src="https://blogs.oracle.com/akam/13/pixel_708f1c20?a=dD01YTA1M2QwYjU5OWJjMzE3OWE1NGFhNjZjZWI3NDRmMGU2MmI1MjA3JmpzPW9mZg==" style="visibility: hidden; position: absolute; left: -999px; top: -999px;" /></noscript><script type="text/javascript"  src="/h01cqQ_SDTTgaiERv05pHcAENa8/SJOfctiu/OmliZFd6PAI/Ug/YnWRZOIkgF?v=dd892282-733f-66cb-75cf-2da1c57f5f64" defer></script></body>
+
+</html>
+<!-- plugin=object-cache-pro client=phpredis metric#hits=1934 metric#misses=9 metric#hit-ratio=99.5 metric#bytes=497042 metric#prefetches=211 metric#store-reads=28 metric#store-writes=4 metric#store-hits=219 metric#store-misses=4 metric#sql-queries=6 metric#ms-total=90.35 metric#ms-cache=18.87 metric#ms-cache-avg=0.6087 metric#ms-cache-ratio=20.9 -->
