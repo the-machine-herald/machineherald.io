@@ -1,0 +1,443 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation - NVIDIA Nemotron</title>
+
+
+
+
+
+
+
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="NVIDIA Nemotron">
+<meta property="og:title" content="Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation">
+
+
+  <link rel="canonical" href="https://research.nvidia.com/labs/nemotron/nemotron-cascade-2/">
+  <meta property="og:url" content="https://research.nvidia.com/labs/nemotron/nemotron-cascade-2/">
+
+
+
+  <meta property="og:description" content="We introduce Nemotron-Cascade 2, an open 30B MoE model with 3B activated parameters that delivers best-in-class reasoning and strong agentic capabilities. It is the second open-weight LLM, after DeepSeek-V3.2-Speciale-671B-A37B, to achieve Gold Medal-level 🏅 performance in  2025 International Mathematical Olympiad (IMO), the International Olympiad in Informatics (IOI), and the ICPC World Finals.">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-03-16T00:00:00-07:00">
+
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Organization",
+      "name" : "NVIDIA",
+      "url" : "https://research.nvidia.com/labs/nemotron",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+
+<link href="https://research.nvidia.com/labs/nemotron/feed.xml" type="application/atom+xml" rel="alternate" title="NVIDIA Nemotron Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://research.nvidia.com/labs/nemotron/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+<base href="https://research.nvidia.com/labs/nemotron/">
+
+    
+
+<!-- start custom head snippets -->
+
+<link rel="apple-touch-icon" sizes="57x57" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-57x57.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="60x60" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-60x60.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="72x72" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-72x72.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="76x76" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-76x76.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="114x114" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-114x114.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="120x120" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-120x120.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="144x144" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-144x144.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="152x152" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-152x152.png?v=M44lzPylqQ">
+<link rel="apple-touch-icon" sizes="180x180" href="https://research.nvidia.com/labs/nemotron/images/apple-touch-icon-180x180.png?v=M44lzPylqQ">
+<link rel="icon" type="image/png" href="https://research.nvidia.com/labs/nemotron/images/favicon-32x32.png?v=M44lzPylqQ" sizes="32x32">
+<link rel="icon" type="image/png" href="https://research.nvidia.com/labs/nemotron/images/android-chrome-192x192.png?v=M44lzPylqQ" sizes="192x192">
+<link rel="icon" type="image/png" href="https://research.nvidia.com/labs/nemotron/images/favicon-96x96.png?v=M44lzPylqQ" sizes="96x96">
+<link rel="icon" type="image/png" href="https://research.nvidia.com/labs/nemotron/images/favicon-16x16.png?v=M44lzPylqQ" sizes="16x16">
+<link rel="manifest" href="https://research.nvidia.com/labs/nemotron/images/manifest.json?v=M44lzPylqQ">
+<link rel="mask-icon" href="https://research.nvidia.com/labs/nemotron/images/safari-pinned-tab.svg?v=M44lzPylqQ" color="#000000">
+<link rel="shortcut icon" href="/images/favicon.ico?v=M44lzPylqQ">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-TileImage" content="https://research.nvidia.com/labs/nemotron/images/mstile-144x144.png?v=M44lzPylqQ">
+<meta name="msapplication-config" content="https://research.nvidia.com/labs/nemotron/images/browserconfig.xml?v=M44lzPylqQ">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="https://research.nvidia.com/labs/nemotron/assets/css/academicons.css"/>
+
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+<!-- end custom head snippets -->
+
+    <script>
+  let otId = '3e2b62ff-7ae7-4ac5-87c8-d5949ecafff5';
+
+  if (window.location.host !== 'research.nvidia.com') {
+    otId = `${otId}-test`;
+  }
+
+  let script = document.createElement('script');
+
+  script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+  script.charset = 'UTF-8';
+  script.type = 'text/javascript';
+  script.setAttribute('data-document-language', 'true');
+  script.setAttribute('data-domain-script', otId);
+
+  document.head.appendChild(script);
+</script>
+
+<script type="text/javascript">
+  function OptanonWrapper() {
+    var event = new Event('bannerLoaded');
+    window.dispatchEvent(event);
+  }
+</script>
+<!-- OneTrust Cookies Consent Notice end for nvidia.com -->
+<script type="text/javascript" src="https://images.nvidia.com/aem-dam/Solutions/ot-js/ot-custom.js"></script>
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><div class="navicon"></div></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="https://research.nvidia.com/labs/nemotron/">NVIDIA Nemotron</a></li>
+          
+            
+            <li class="masthead__menu-item"><a href="https://research.nvidia.com/labs/nemotron/projects/">Projects</a></li>
+          
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://research.nvidia.com/labs/nemotron/images/nvidia-ai.jpg" class="author__avatar" alt="NVIDIA">
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">NVIDIA</h3>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+      
+      
+      
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation">
+    <meta itemprop="description" content="We introduce Nemotron-Cascade 2, an open 30B MoE model with 3B activated parameters that delivers best-in-class reasoning and strong agentic capabilities. It is the second open-weight LLM, after DeepSeek-V3.2-Speciale-671B-A37B, to achieve Gold Medal-level 🏅 performance in  2025 International Mathematical Olympiad (IMO), the International Olympiad in Informatics (IOI), and the ICPC World Finals.">
+    <meta itemprop="datePublished" content="March 16, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation
+</h1>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-03-16T00:00:00-07:00">March 16, 2026</time></p>
+        
+        
+             
+        
+    
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <h4 id="paper--model-weights---license"><a href="files/Nemotron-Cascade-2.pdf">Paper</a>    <a href="https://huggingface.co/collections/nvidia/nemotron-cascade-2">Model Weights 🤗</a>    <a href="https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/">License</a></h4>
+
+<h4 id="zhuolin-yang-zihan-liu-yang-chen--wenliang-dai-boxin-wang-sheng-chieh-lin--chankyu-lee--yangyi-chen-dongfu-jiang-jiafan-he-renjie-pi-grace-lam-nayeon-lee-alexander-bukharin-mohammad-shoeybi--bryan-catanzaro-wei-ping">Zhuolin Yang*, Zihan Liu*, Yang Chen*,  Wenliang Dai*, Boxin Wang*, Sheng-Chieh Lin,  Chankyu Lee,  Yangyi Chen, Dongfu Jiang, Jiafan He, Renjie Pi, Grace Lam, Nayeon Lee, Alexander Bukharin, Mohammad Shoeybi,  Bryan Catanzaro, Wei Ping*†</h4>
+<h5 id="-equal-technical-contribution-with-authors-listed-in-reverse-alphabetical-order-by-first-name">* Equal technical contribution, with authors listed in reverse alphabetical order by first name.</h5>
+<h5 id="-leads-the-effort">† Leads the effort.</h5>
+
+<h2 id="overview">Overview</h2>
+
+<p>We introduce Nemotron-Cascade 2, an open 30B MoE model with 3B activated parameters, built on the pretrained Nemotron-Nano-V3, that delivers best-in-class reasoning and strong agentic capabilities. Despite its compact size, its mathematical and coding reasoning performance approaches that of frontier open models. It is the second open-weight LLM, after DeepSeek-V3.2-Speciale-671B-A37B, to achieve <span style="color: gold; font-weight: bold;">Gold Medal</span>-level 🏅 performance in the 2025 International Mathematical Olympiad (IMO), the International Olympiad in Informatics (IOI), and the ICPC World Finals, demonstrating remarkably high intelligence density with 20× fewer parameters.</p>
+
+<p>In contrast to Nemotron-Cascade 1, the key technical advancements are as follows. After SFT on a meticulously curated dataset, we substantially expand Cascade RL to cover a much broader spectrum of reasoning and agentic domains. Furthermore, we introduce multi-domain on-policy distillation from the strongest intermediate teacher models for each domain throughout the Cascade RL process, allowing us to efficiently recover benchmark regressions and sustain strong performance gains along the way. We release the collection of model checkpoint and training data.</p>
+
+<h2 id="highlights">Highlights</h2>
+
+<p><img src="images/nemotron-cascade-2/cascade-2-overview.png" alt="Cascade RL Training Overview" /></p>
+
+<h3 id="main-results">Main Results</h3>
+
+<p><img src="images/nemotron-cascade-2/cascade-2-table1.png" alt="Main Results" /></p>
+
+<ul>
+  <li>Nemotron-Cascade-2-30B-A3B achieves gold-medal performance in both the IMO 2025 and IOI 2025, which demonstrate remarkably high intelligence density. One of our co-authors, who is an IMO 2015 gold medalist, reviewed and scored our model-generated solutions to verify this result.</li>
+  <li>Nemotron-Cascade-2-30B-A3B is built on the Nemotron-Nano-V3 base model, and improves upon Nemotron-Nano-V3 on nearly every benchmark, demonstrating the effectiveness of our post-training recipe.</li>
+  <li>Nemotron-Cascade-2-30B-A3B outperforms both the latest released <a href="https://huggingface.co/Qwen/Qwen3.5-35B-A3B">Qwen3.5-35B-A3B (2026-02-24)</a> and the larger <a href="https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8">Nemotron-3-Super-120B-A12B~(2026-03-11)</a> on key benchmarks spanning mathematics, code reasoning, alignment, and instruction following.</li>
+</ul>
+
+<h2 id="technical-contributions">Technical Contributions</h2>
+
+<p>Here are the key technical highlights and contributions of our work:</p>
+
+<p><img src="images/nemotron-cascade-2/pipeline.png" alt="pipeline" /></p>
+
+<ul>
+  <li><strong>Cascade RL Framework</strong>: Similar to its predecessor, Nemotron-Cascade 2 further scales Cascade RL on high-priority domains to preserve the benefits of domain-wise training,  enabling us to push the limits of reasoning performance in key domains to state-of-the-art levels.</li>
+  <li><strong>Multi-domain On-policy Distillation</strong>: We incorporate on-policy distillation as an intermediate stage within Cascade RL. This process distills knowledge from the best-performing teacher models obtained during different stages of Cascade RL training for each specific domain. By leveraging these intermediate teachers, the model can effectively recover benchmark regressions that may arise when training in increasingly complex RL environments, while preserving strong performance across previously optimized domains.</li>
+</ul>
+
+<h2 id="open-source">Open Source</h2>
+
+<p>We release the <a href="https://huggingface.co/collections/nvidia/nemotron-cascade-2">full collection of models and training data</a>.</p>
+
+<h3 id="model-checkpoints">Model checkpoints</h3>
+<ul>
+  <li><a href="https://huggingface.co/nvidia/Nemotron-Cascade-2-30B-A3B">Nemotron-Cascade-2-30B-A3B</a>: an open 30B Mixture-of-Experts (MoE) model with only 3B activated parameters post-trained using Cascade RL, capable of operating in both instruct and thinking modes.</li>
+</ul>
+
+<h3 id="data">Data</h3>
+<ul>
+  <li><a href="https://huggingface.co/datasets/nvidia/Nemotron-Cascade-2-SFT-Data">Nemotron-Cascade-2 SFT Data</a>: the data used for the SFT stage of Nemotron-Cascade-2 training pipeline.</li>
+  <li><a href="https://huggingface.co/datasets/nvidia/Nemotron-Cascade-2-RL-data">Nemotron-Cascade-2 RL Data</a>: the data used for our Nemotron-Cascade 2 RL training pipeline.</li>
+</ul>
+
+<h3 id="citation">Citation</h3>
+<pre>
+@article{Nemotron_Cascade_2,
+  title={Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation},
+  author={Yang, Zhuolin and Liu, Zihan and Chen, Yang and Dai, Wenliang and Wang, Boxin and Lin, Sheng-Chieh and Lee, Chankyu and Chen, Yangyi and Jiang, Dongfu and He, Jiafan and Pi, Renjie and Lam, Grace and Lee, Nayeon and Bukharin, Alexander and Shoeybi, Mohammad and Catanzaro, Bryan and Ping, Wei},
+  year={2026}
+}
+</pre>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=https://research.nvidia.com/labs/nemotron/nemotron-cascade-2/" class="btn btn--twitter" title="Share on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://research.nvidia.com/labs/nemotron/nemotron-cascade-2/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://research.nvidia.com/labs/nemotron/nemotron-cascade-2/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://research.nvidia.com/labs/nemotron/Nemotron-3-Super/" class="pagination--pager" title="NVIDIA Nemotron 3 Super
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+<!--<a href="/sitemap/">Sitemap</a> -->
+<div class="page__footer-legal">
+  <ul>
+    <li><a href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a></li>
+    <li><a href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/">Your Privacy Choices</a></li>
+    <li><a href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a></li>
+    <li><a href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a></li>
+    <li><a href="https://www.nvidia.com/en-us/about-nvidia/company-policies/">Corporate Policies</a></li>
+    <li><a href="https://www.nvidia.com/en-us/contact/">Contact</a></li>
+  </ul>
+</div>
+<!-- end custom footer snippets -->
+
+        
+<!--
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+    
+    <li><a href="https://research.nvidia.com/labs/nemotron/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+-->
+<div class="page__footer-copyright">&copy; 2026 NVIDIA. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    <script src="https://research.nvidia.com/labs/nemotron/assets/js/main.min.js"></script>
+
+
+
+
+
+  </body>
+</html>
+
