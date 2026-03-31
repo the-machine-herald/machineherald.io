@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Claude Code’s Real Secret Sauce Isn’t the Model | Sebastian Raschka, PhD</title>
+<meta name="generator" content="Jekyll v4.2.1">
+<meta property="og:title" content="Claude Code’s Real Secret Sauce Isn’t the Model">
+<meta name="author" content="Sebastian Raschka">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Skimming the leaked Claude Code TypeScript codebase suggests that much of its coding performance over the plain model in the web UI comes from the surrounding software harness, including repo context, tooling, caching, memory, and subagents.">
+<meta property="og:description" content="Skimming the leaked Claude Code TypeScript codebase suggests that much of its coding performance over the plain model in the web UI comes from the surrounding software harness, including repo context, tooling, caching, memory, and subagents.">
+<link rel="canonical" href="https://sebastianraschka.com/blog/2026/claude-code-secret-sauce.html">
+<meta property="og:url" content="https://sebastianraschka.com/blog/2026/claude-code-secret-sauce.html">
+<meta property="og:site_name" content="Sebastian Raschka, PhD">
+<meta property="og:image" content="https://sebastianraschka.com/images/blog/2026/claude-code-secret-sauce/hero.png">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2026-03-31T10:00:00+00:00">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:image" content="https://sebastianraschka.com/images/blog/2026/claude-code-secret-sauce/hero.png">
+<meta property="twitter:title" content="Claude Code’s Real Secret Sauce Isn’t the Model">
+<meta name="twitter:site" content="@rasbt">
+<meta name="twitter:creator" content="@rasbt">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sebastian Raschka","url":"https://sebastianraschka.com/about/"},"dateModified":"2026-03-31T15:00:00+00:00","datePublished":"2026-03-31T10:00:00+00:00","description":"Skimming the leaked Claude Code TypeScript codebase suggests that much of its coding performance over the plain model in the web UI comes from the surrounding software harness, including repo context, tooling, caching, memory, and subagents.","headline":"Claude Code’s Real Secret Sauce Isn’t the Model","image":"https://sebastianraschka.com/images/blog/2026/claude-code-secret-sauce/hero.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://sebastianraschka.com/blog/2026/claude-code-secret-sauce.html"},"url":"https://sebastianraschka.com/blog/2026/claude-code-secret-sauce.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+  
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  
+  
+
+
+
+
+
+
+
+
+
+<meta property="og:image" content="https://sebastianraschka.com/images/blog/2026/claude-code-secret-sauce/hero.png">
+<meta property="twitter:image" content="https://sebastianraschka.com/images/blog/2026/claude-code-secret-sauce/hero.png">
+<meta property="og:image:width" content="2194">
+<meta property="og:image:height" content="1268">
+<meta property="og:image:alt" content="Claude Code hero image">
+<meta name="twitter:image:alt" content="Claude Code hero image">
+
+
+<meta name="twitter:description" content="Skimming the leaked Claude Code TypeScript codebase suggests that much of its coding performance over the plain model in the web UI comes from the surroundin...">
+
+
+  
+<meta property="article:tag" content="Deep Learning">
+  
+<meta property="article:tag" content="Machine Learning">
+  
+<meta property="article:tag" content="AI">
+  
+<meta property="article:tag" content="LLM">
+  
+
+
+
+  <link rel="stylesheet" href="/css/combined_direct_no_sass.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/fork-awesome.min.css">
+  
+    <link rel="alternate" type="application/rss+xml" title="Sebastian Raschka, PhD RSS feed" href="https://sebastianraschka.com/rss_feed.xml">
+  
+  <link rel="alternate" type="text/plain" title="LLMs Index" href="https://sebastianraschka.com/llms.txt">
+  <link rel="alternate" type="text/plain" title="LLMs Full Index" href="https://sebastianraschka.com/llms-full.txt">
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#ffc40d">
+  <meta name="theme-color" content="#ffffff">
+  <script>
+    (function () {
+      var storageKey = 'preferred-theme';
+      var attribute = 'data-theme';
+      var darkColor = '#0d1117';
+      var lightColor = '#ffffff';
+
+      var root = document.documentElement;
+      var metaTheme;
+
+      function getStoredPreference() {
+        try {
+          return localStorage.getItem(storageKey);
+        } catch (err) {
+          return null;
+        }
+      }
+
+      function setStoredPreference(value) {
+        try {
+          localStorage.setItem(storageKey, value);
+        } catch (err) {
+          /* noop */
+        }
+      }
+
+      function dispatchThemeChange(value) {
+        var eventName = 'themechange';
+        var eventDetail = { theme: value };
+        var eventObject;
+        try {
+          eventObject = new CustomEvent(eventName, { detail: eventDetail });
+        } catch (err) {
+          eventObject = document.createEvent('CustomEvent');
+          eventObject.initCustomEvent(eventName, false, false, eventDetail);
+        }
+        window.dispatchEvent(eventObject);
+      }
+
+      function applyTheme(value, persist) {
+        root.setAttribute(attribute, value);
+
+        if (!metaTheme) {
+          metaTheme = document.querySelector('meta[name="theme-color"]');
+        }
+        if (metaTheme) {
+          metaTheme.setAttribute('content', value === 'dark' ? darkColor : lightColor);
+        }
+
+        state.current = value;
+        if (persist) {
+          setStoredPreference(value);
+        }
+        dispatchThemeChange(value);
+      }
+
+      var state = {
+        storageKey: storageKey,
+        current: 'light',
+        set: function (value) {
+          applyTheme(value, false);
+        },
+        persist: function (value) {
+          applyTheme(value, true);
+        },
+        toggle: function () {
+          var current = root.getAttribute(attribute) === 'dark' ? 'dark' : 'light';
+          var next = current === 'dark' ? 'light' : 'dark';
+          applyTheme(next, true);
+          return next;
+        },
+        clear: function () {
+          try {
+            localStorage.removeItem(storageKey);
+          } catch (err) {
+            /* noop */
+          }
+        },
+        getStored: getStoredPreference,
+        mediaQuery: null
+      };
+
+      var storedPreference = getStoredPreference();
+      var mediaQuery =
+        typeof window !== 'undefined' && window.matchMedia
+          ? window.matchMedia('(prefers-color-scheme: dark)')
+          : null;
+      var prefersDark = mediaQuery ? mediaQuery.matches : false;
+      var initialTheme = storedPreference === 'dark' || storedPreference === 'light'
+        ? storedPreference
+        : prefersDark
+          ? 'dark'
+          : 'light';
+
+      state.mediaQuery = mediaQuery;
+      window.__themeState = state;
+      applyTheme(initialTheme, false);
+
+      if (mediaQuery) {
+        var handleMediaChange = function (event) {
+          if (state.getStored()) {
+            return;
+          }
+          var nextTheme = event.matches ? 'dark' : 'light';
+          applyTheme(nextTheme, false);
+        };
+        if (typeof mediaQuery.addEventListener === 'function') {
+          mediaQuery.addEventListener('change', handleMediaChange);
+        } else if (typeof mediaQuery.addListener === 'function') {
+          mediaQuery.addListener(handleMediaChange);
+        }
+      }
+    })();
+  </script>
+</head>
+
+
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <img src="/images/logos/ahead-of-ai-icon.png" alt="Ahead of AI logo" width="1" height="1" loading="lazy" decoding="async" style="display: none;">
+
+<header class="site-header">
+
+  <div class="wrapper">
+    <div class="header-top">
+      <div class="site-title site-title--home">
+        <a class="site-title__link" href="/" aria-label="Sebastian Raschka home page">
+          <span class="site-title__first">Sebastian</span>
+          <span class="site-title__last">Raschka</span>
+        </a>
+        <nav class="site-title__social-group" aria-label="Social profiles">
+          <a class="site-title__social" href="https://x.com/rasbt" aria-label="Sebastian Raschka on X" title="X">
+            <img class="theme-image" src="/images/logos/twitter-bw-light.png" data-theme-light="/images/logos/twitter-bw-light.png" data-theme-dark="/images/logos/twitter-bw-dark.png" height="20" alt="Twitter/X icon" width="21">
+          </a>
+          <!--<a href="https://threads.net/@sebastianraschka"><img src="/images/logos/threads-logo-alt-small.png" height="20" style="padding-left:5px;" alt="Threads icon"></a>-->
+          <a class="site-title__social" href="https://www.linkedin.com/in/sebastianraschka/" aria-label="Sebastian Raschka on LinkedIn" title="LinkedIn">
+            <img class="theme-image" src="/images/logos/linkedin-light.png" data-theme-light="/images/logos/linkedin-light.png" data-theme-dark="/images/logos/linkedin-dark.png" height="20" alt="LinkedIn Icon" width="20">
+          </a>
+          <a class="site-title__social" href="https://github.com/rasbt" aria-label="Sebastian Raschka on GitHub" title="GitHub">
+            <img class="theme-image" src="/images/logos/github-light.png" data-theme-light="/images/logos/github-light.png" data-theme-dark="/images/logos/github-dark.png" height="20" alt="GitHub icon" width="20">
+          </a>
+        </nav>
+        <div class="site-title__controls">
+          <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false" aria-label="Toggle color theme">
+            <span class="theme-toggle__track" aria-hidden="true">
+              <span class="theme-toggle__thumb"></span>
+            </span>
+            <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+          </button>
+          <div class="header-search" data-header-search>
+            <button type="button" class="header-search__toggle" data-search-toggle aria-label="Open search" aria-expanded="false" aria-controls="site-search-panel">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+            <form id="site-search-panel" class="header-search__panel" role="search" aria-label="Site search" hidden>
+              <label class="sr-only" for="site-search-input">Search this website</label>
+              <input id="site-search-input" class="header-search__input" type="search" placeholder="Search site" autocomplete="off" spellcheck="false">
+              <button type="submit" class="sr-only">Submit search</button>
+              <p id="site-search-status" class="sr-only" role="status" aria-live="polite"></p>
+              <ul id="site-search-results" class="header-search__results" aria-live="polite" aria-relevant="additions text"></ul>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="site-nav" aria-label="Primary">
+      <button type="button" class="menu-icon" data-nav-toggle aria-controls="site-nav-menu" aria-expanded="false" aria-label="Toggle navigation menu">
+        <svg viewbox="0 0 18 15" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+          <path fill="currentColor" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+          <path fill="currentColor" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+        </svg>
+      </button>
+
+
+
+
+      <div class="trigger" id="site-nav-menu">
+
+
+
+        <!--<script type="text/javascript">
+          var total_images = 2;
+          var random_number = Math.floor((Math.random()*total_images));
+          var random_img = new Array();
+          random_img[0] = '<a href="https://twitter.com/rasbt"><img src="/images/logos/twitter-1.jpg" height="20"></a>';
+          random_img[1] = '<a href="https://linkedin.com/in/sebastianraschka"><img src="/images/logos/linkedin-1.jpg" height="20"></a>';
+          document.write(random_img[random_number]);
+          </script>-->
+
+        <span style="padding-left:0px;margin-left:0px;"></span>
+        <a class="page-link" href="https://magazine.sebastianraschka.com"><span style="color:#c5050c;"><img src="/images/logos/ahead-of-ai-icon.png" alt="Ahead of AI Logo" width="20" height="20" decoding="async"> Blog</span></a>
+        <!--<a class="page-link" href="/blog/index.html">Blog</a>-->
+        <a class="page-link" href="/books">Books</a>
+        <!--<a class="page-link" href="/newsletter">AI Newsletter</a>-->
+        <a class="page-link" href="/teaching">Courses</a>
+        <a class="page-link" href="/llm-architecture-gallery/">LLM Gallery</a>
+        <a class="page-link" href="https://github.com/rasbt/LLMs-from-scratch">LLMs From Scratch</a>
+        <a class="page-link" href="https://github.com/rasbt/reasoning-from-scratch">Reasoning Models</a>
+        <a class="page-link" href="/elsewhere">Talks</a>
+        <!--<a class="page-link" href="/contact">Contact</a>-->
+        <!--<a class="page-link" href="/resources">More</a>-->
+
+
+      </div>
+
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <main id="main-content" class="page-content" tabindex="-1">
+      <div class="wrapper">
+        
+          <div class="post">
+  
+
+
+
+<header class="post-header">
+  <h1 class="post-title">Claude Code's Real Secret Sauce Isn't the Model</h1>
+
+  
+
+  <div class="subscribe-section post-header__subscribe">
+    <div class="rss" style="display: flex; align-items: center;">
+
+     
+     <a href="/rss_feed.xml" style="display: inline-flex; align-items: center; margin-right: 20px;">
+         <i class="fa fa-rss fa-1x" style="padding-right: 5px;"></i>
+         <span>RSS Feed</span>
+     </a>
+     
+
+     <a class="page-link" href="https://magazine.sebastianraschka.com/subscribe" style="display: inline-flex; align-items: center;">
+         <img src="/images/logos/ahead-of-ai-icon.png" alt="Ahead of AI Logo" width="20" height="20" loading="lazy" decoding="async" style="padding-right: 5px;">
+         <span>Subscribe via Email</span>
+     </a>
+
+ </div>
+
+  </div>
+
+  <div class="spacing" style="margin-top: 40px;"></div>
+
+  <p class="post-meta">
+      Mar 31, 2026
+      
+      <br>by <a href="/about/" rel="author">Sebastian Raschka</a>
+      
+      
+  </p>
+</header>
+
+
+  <article class="post-content">
+    <p><img src="/images/blog/2026/claude-code-secret-sauce/hero.png" alt="Claude Code hero image" class="center-image image-100" width="2194" height="1268"></p>
+
+<p>Turns out Claude Code was leaked on March 31, 2026. There are several copies of the TypeScript codebase on GitHub. I don’t want to link here for legal reasons, but there are some interesting educational tidbits that can be learned from skimming through the code.</p>
+
+<p>Of course, it’s probably common knowledge that Claude Code works better for coding than the Claude web chat because it is not just a chat interface with a shell bolted onto it, but more of a carefully designed tool with some nice prompt and context optimizations.</p>
+
+<p>I should also say that while a lot of the qualitative coding performance over the plain model in the web UI comes from the model itself, I believe the reason why Claude Code is so good is this software harness. Meaning that if we were to drop in other models such as DeepSeek, MiniMax, or Kimi, and optimize this a bit for these models, we would also have very strong coding performance over the plain model in the web UI.</p>
+
+<p>Anyway, below are some interesting tidbits.</p>
+      <h3 id="1-claude-code-builds-a-live-repo-context">1. Claude Code Builds a Live Repo Context <a href="#1-claude-code-builds-a-live-repo-context" aria-label="Link to section: 1. Claude Code Builds a Live Repo Context" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>This is maybe the most obvious one, but when you start prompting, Claude loads the main git branch, current git branch, recent commits, and <code class="language-plaintext highlighter-rouge">CLAUDE.md</code> for context.</p>
+      <h3 id="2-aggressive-prompt-cache-reuse">2. Aggressive Prompt Cache Reuse <a href="#2-aggressive-prompt-cache-reuse" aria-label="Link to section: 2. Aggressive Prompt Cache Reuse" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>There seems to be something like a boundary marker that separates static and dynamic content. Meaning the static sections are globally cached for stability so that the expensive parts do not need to be rebuilt and reprocessed every time.</p>
+      <h3 id="3-the-tooling-is-better-than-chat-with-uploaded-files">3. The Tooling Is Better Than “Chat With Uploaded Files” <a href="#3-the-tooling-is-better-than-chat-with-uploaded-files" aria-label="Link to section: 3. The Tooling Is Better Than “Chat With Uploaded Files”" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>The prompt seems to tell the model to use a dedicated Grep tool instead of invoking <code class="language-plaintext highlighter-rouge">grep</code> or <code class="language-plaintext highlighter-rouge">rg</code> through Bash, presumably because the dedicated tool has better permission handling and, perhaps, better result collection.</p>
+
+<p>There is also a dedicated Glob tool for file discovery. And finally, it also has an LSP (Language Server Protocol) tool for call hierarchy, finding references, and related tasks. That should be a big power-up compared to the Chat UI, which, I think, sees the code more as static text.</p>
+      <h3 id="4-minimizing-context-bloat">4. Minimizing Context Bloat <a href="#4-minimizing-context-bloat" aria-label="Link to section: 4. Minimizing Context Bloat" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>One of the biggest problems is, of course, the limited context size when working with code repos. This is especially true if we have back-and-forths with the agent and repeated file reads, log files, long shell outputs, and so forth.</p>
+
+<p>There is a lot of plumbing in Claude Code to minimize that. For example, it has file-read deduplication that checks whether a file is unchanged and does not reprocess it.</p>
+
+<p>Also, if the tool results do get too large, they are written to disk, and the context only uses a preview plus a file reference.</p>
+
+<p>And, of course, like any modern LLM UI, it would automatically truncate long contexts and run autocompaction (summarization) if needed.</p>
+      <h3 id="5-structured-session-memory">5. Structured Session Memory <a href="#5-structured-session-memory" aria-label="Link to section: 5. Structured Session Memory" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>Claude Code keeps a structured markdown file for the current conversation with sections like:</p>
+
+<ul>
+  <li>Session Title</li>
+  <li>Current State</li>
+  <li>Task specification</li>
+  <li>Files and Functions</li>
+  <li>Workflow</li>
+  <li>Errors &amp; Corrections</li>
+  <li>Codebase and System Documentation</li>
+  <li>Learnings</li>
+  <li>Key results</li>
+  <li>Worklog</li>
+</ul>
+
+<p>It’s kind of how we humans code, I’d say, where we keep notes and summaries.</p>
+      <h3 id="6-it-uses-forks-and-subagents">6. It Uses Forks and Subagents <a href="#6-it-uses-forks-and-subagents" aria-label="Link to section: 6. It Uses Forks and Subagents" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>It is probably no surprise that Claude Code parallelizes work with subagents. That was basically one of the selling points over Codex for a long time, until Codex recently also added subagent support.</p>
+
+<p>Here, forked agents reuse the parent’s cache while being aware of mutable states. So that lets the system do side work such as summarization, memory extraction, or background analysis without contaminating the main agent loop.</p>
+      <h3 id="why-this-probably-feels-and-works-better-than-coding-in-the-web-ui">Why This Probably Feels And Works Better Than Coding in the Web UI <a href="#why-this-probably-feels-and-works-better-than-coding-in-the-web-ui" aria-label="Link to section: Why This Probably Feels And Works Better Than Coding in the Web UI" class="heading-anchor-link"><span class="heading-anchor-link__icon" aria-hidden="true"></span></a>
+        
+        
+      </h3>
+    
+
+<p>All in all, the reason why Claude Code works better than the plain web UI is not prompt engineering or a better model. It’s all about these little performance and context-handling improvements listed above. And there is the convenience, of course, in having everything nice and organized on your computer rather than uploading files to a chat UI.</p>
+
+  </article>
+
+
+  <!-- BEGIN SUBSCRIBE HEADER -->
+
+  <div style="height:50px;"></div>
+
+  <div class="rss" style="display: flex; align-items: center;">
+
+    <a href="/rss_feed.xml" style="display: inline-flex; align-items: center; margin-right: 20px;">
+        <i class="fa fa-rss fa-1x" style="padding-right: 5px;"></i>
+        <span>RSS</span>
+    </a>
+
+    <a class="page-link" href="https://magazine.sebastianraschka.com/subscribe" style="display: inline-flex; align-items: center;">
+        <img src="/images/logos/ahead-of-ai-icon.png" alt="Ahead of AI Logo" width="20" height="20" loading="lazy" decoding="async" style="padding-right: 5px;">
+        <span>Subscribe via Email</span>
+    </a>
+
+  </div>
+
+  <!-- END SUBSCRIBE HEADER -->
+
+  <br>
+  <br>
+
+  <hr>
+
+
+  <br>
+
+
+  <!--<strong>Have feedback on this post? I would love to hear it. Let me know and send me a <a href="https://twitter.com/intent/tweet?text=. @rasbt http://sebastianraschka.com/blog/2026/claude-code-secret-sauce.html">tweet</a> or <a href="http://sebastianraschka.com/email.html">email</a>.</strong>-->
+
+</div>
+
+        
+      </div>
+    </main>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+
+
+    <div class="footer-col-wrapper">
+
+
+    <nav class="footer-col social-col" aria-label="Footer social links">
+
+
+      
+      <a href="https://magazine.sebastianraschka.com" aria-label="Ahead of AI newsletter" title="Ahead of AI newsletter"><span><i class="fa fa-rss fa-2x" aria-hidden="true"></i></span> </a>
+      
+
+      
+          <a href="/contact" aria-label="Contact page" title="Contact"><span><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></span> </a>
+      
+
+      
+      
+        <a href="https://twitter.com/rasbt" aria-label="X profile" title="X"> <span><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></span> </a>
+      
+
+      
+            <a href="https://youtube.com/c/SebastianRaschka" aria-label="YouTube channel" title="YouTube"><span><i class="fa fa-youtube fa-2x" aria-hidden="true"></i></span> </a>
+      
+
+      
+            <a href="https://github.com/rasbt" aria-label="GitHub profile" title="GitHub"><span><i class="fa fa-github fa-2x" aria-hidden="true"></i> </span></a>
+      
+
+      
+          <a href="https://scholar.google.com/citations?user=X4RCC0IAAAAJ&amp;hl=enrasbt" aria-label="Google Scholar profile" title="Google Scholar"><span><i class="fa fa-google fa-2x" aria-hidden="true"></i> </span></a>
+      
+
+      
+          <a href="https://linkedin.com/in/sebastianraschka" aria-label="LinkedIn profile" title="LinkedIn"><span><i class="fa fa-linkedin fa-2x" aria-hidden="true"></i> </span></a>
+      
+
+
+  </nav>
+
+    <div class="footer-col  copyright-col">
+      <p>© 2013-2026 Sebastian Raschka</p>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BYQXBRPK81"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BYQXBRPK81');
+</script>
+</footer>
+
+
+  
+
+  
+
+
+
+  <script src="/js/theme-toggle.js" type="text/javascript"></script>
+  <script src="/js/site-search.js" type="text/javascript"></script>
+  <script src="/js/nav-toggle.js" type="text/javascript"></script>
+  <script src="/js/auto-hide-header.js" type="text/javascript"></script>
+  <script src="/js/article-toc.js" type="text/javascript"></script>
+  <script>
+    (function () {
+      function initPageScripts() {
+        if (window.ArticleToc && typeof window.ArticleToc.init === 'function') {
+          window.ArticleToc.init();
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPageScripts);
+      } else {
+        initPageScripts();
+      }
+    })();
+  </script>
+
+</body>
+</html>
