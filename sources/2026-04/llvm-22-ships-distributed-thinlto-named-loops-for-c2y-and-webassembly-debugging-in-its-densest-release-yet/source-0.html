@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>LLVM 22.1.0 Release Notes &#8212; LLVM 22.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="_static/llvm-theme.css?v=96924833" />
+    <script src="_static/documentation_options.js?v=19ab019f"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="How to start LLVM Social in your town" href="MeetupGuidelines.html" />
+    <link rel="prev" title="How To Add Your Build Configuration To LLVM Buildbot Infrastructure" href="HowToAddABuilder.html" />
+<style type="text/css">
+  table.right { float: right; margin-left: 20px; }
+  table.right td { border: 1px solid #ccc; }
+</style>
+
+  </head><body>
+<div class="logo">
+  <a href="index.html">
+    <img src="_static/logo.png"
+         alt="LLVM Logo" width="250" height="88"/></a>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="MeetupGuidelines.html" title="How to start LLVM Social in your town"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="HowToAddABuilder.html" title="How To Add Your Build Configuration To LLVM Buildbot Infrastructure"
+             accesskey="P">previous</a> |</li>
+  <li><a href="https://llvm.org/">LLVM Home</a>&nbsp;|&nbsp;</li>
+  <li><a href="index.html">Documentation</a>&raquo;</li>
+
+          <li class="nav-item nav-item-1"><a href="GettingInvolved.html" accesskey="U">Getting Involved</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LLVM 22.1.0 Release Notes</a></li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+
+<h3>Documentation</h3>
+
+<ul class="want-points">
+    <li><a href="https://llvm.org/docs/GettingStartedTutorials.html">Getting Started/Tutorials</a></li>
+    <li><a href="https://llvm.org/docs/UserGuides.html">User Guides</a></li>
+    <li><a href="https://llvm.org/docs/Reference.html">Reference</a></li>
+</ul>
+
+<h3>Getting Involved</h3>
+
+<ul class="want-points">
+    <li><a href="https://llvm.org/docs/Contributing.html">Contributing to LLVM</a></li>
+    <li><a href="https://llvm.org/docs/HowToSubmitABug.html">Submitting Bug Reports</a></li>
+    <li><a href="https://llvm.org/docs/GettingInvolved.html#mailing-lists">Mailing Lists</a></li>
+    <li><a href="https://llvm.org/docs/GettingInvolved.html#discord">Discord</a></li>
+    <li><a href="https://llvm.org/docs/GettingInvolved.html#meetups-and-social-events">Meetups and Social Events</a></li>
+</ul>
+
+<h3>Additional Links</h3>
+
+<ul class="want-points">
+    <li><a href="https://llvm.org/docs/FAQ.html">FAQ</a></li>
+    <li><a href="https://llvm.org/docs/Lexicon.html">Glossary</a></li>
+    <li><a href="https://llvm.org/pubs">Publications</a></li>
+    <li><a href="https://github.com/llvm/llvm-project/">Github Repository</a></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ReleaseNotes.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <!-- This document is written in Markdown and uses extra directives provided by
+MyST (https://myst-parser.readthedocs.io/en/latest/). -->
+<!-- If you want to modify sections/contents permanently, you should modify both
+ReleaseNotes.md and ReleaseNotesTemplate.txt. -->
+<section id="llvm-22-1-0-release-notes">
+<h1><a class="toc-backref" href="#id1" role="doc-backlink">LLVM 22.1.0 Release Notes</a><a class="headerlink" href="#llvm-22-1-0-release-notes" title="Link to this heading">¶</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#llvm-22-1-0-release-notes" id="id1">LLVM 22.1.0 Release Notes</a></p></li>
+<li><p><a class="reference internal" href="#introduction" id="id2">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#non-comprehensive-list-of-changes-in-this-release" id="id3">Non-comprehensive list of changes in this release</a></p>
+<ul>
+<li><p><a class="reference internal" href="#changes-to-the-llvm-ir" id="id4">Changes to the LLVM IR</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-llvm-infrastructure" id="id5">Changes to LLVM infrastructure</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-building-llvm" id="id6">Changes to building LLVM</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-tablegen" id="id7">Changes to TableGen</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-interprocedural-optimizations" id="id8">Changes to Interprocedural Optimizations</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-vectorizers" id="id9">Changes to Vectorizers</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-aarch64-backend" id="id10">Changes to the AArch64 Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-amdgpu-backend" id="id11">Changes to the AMDGPU Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-arm-backend" id="id12">Changes to the ARM Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-avr-backend" id="id13">Changes to the AVR Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-directx-backend" id="id14">Changes to the DirectX Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-hexagon-backend" id="id15">Changes to the Hexagon Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-loongarch-backend" id="id16">Changes to the LoongArch Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-mips-backend" id="id17">Changes to the MIPS Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-powerpc-backend" id="id18">Changes to the PowerPC Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-risc-v-backend" id="id19">Changes to the RISC-V Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-webassembly-backend" id="id20">Changes to the WebAssembly Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-windows-target" id="id21">Changes to the Windows Target</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-x86-backend" id="id22">Changes to the X86 Backend</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-ocaml-bindings" id="id23">Changes to the OCaml bindings</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-python-bindings" id="id24">Changes to the Python bindings</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-c-api" id="id25">Changes to the C API</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-codegen-infrastructure" id="id26">Changes to the CodeGen infrastructure</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-metadata-info" id="id27">Changes to the Metadata Info</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-debug-info" id="id28">Changes to the Debug Info</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-the-llvm-tools" id="id29">Changes to the LLVM tools</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-lldb" id="id30">Changes to LLDB</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-bolt" id="id31">Changes to BOLT</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-sanitizers" id="id32">Changes to Sanitizers</a></p></li>
+<li><p><a class="reference internal" href="#other-changes" id="id33">Other Changes</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#external-open-source-projects-using-llvm-22-1-0" id="id34">External Open Source Projects Using LLVM 22.1.0</a></p></li>
+<li><p><a class="reference internal" href="#additional-information" id="id35">Additional Information</a></p></li>
+</ul>
+</nav>
+</section>
+<section id="introduction">
+<h1><a class="toc-backref" href="#id2" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<p>This document contains the release notes for the LLVM Compiler Infrastructure,
+release 22.1.0.  Here we describe the status of LLVM, including
+major improvements from the previous release, improvements in various subprojects
+of LLVM, and some of the current users of the code.  All LLVM releases may be
+downloaded from the <a class="reference external" href="https://llvm.org/releases/">LLVM releases web site</a>.</p>
+<p>For more information about LLVM, including information about the latest
+release, please check out the <a class="reference external" href="https://llvm.org/">main LLVM web site</a>.  If you
+have questions or comments, the <a class="reference external" href="https://discourse.llvm.org">Discourse forums</a>
+is a good place to ask them.</p>
+<p>Note that if you are reading this file from a Git checkout or the main
+LLVM web page, this document applies to the <em>next</em> release, not the current
+one.  To see the release notes for a specific release, please see the
+<a class="reference external" href="https://llvm.org/releases/">releases page</a>.</p>
+</section>
+<section id="non-comprehensive-list-of-changes-in-this-release">
+<h1><a class="toc-backref" href="#id3" role="doc-backlink">Non-comprehensive list of changes in this release</a><a class="headerlink" href="#non-comprehensive-list-of-changes-in-this-release" title="Link to this heading">¶</a></h1>
+<!-- For small 1-3 sentence descriptions, just add an entry at the end of
+this list. If your description won't fit comfortably in one bullet
+point (e.g. maybe you would like to give an example of the
+functionality, or simply have a lot to talk about), see the comment below
+for adding a new subsection. -->
+<ul class="simple">
+<li><p>…</p></li>
+</ul>
+<!-- If you would like to document a larger change, then you can add a
+subsection about it right here. You can copy the following boilerplate:
+
+Special New Feature
+-------------------
+
+Makes programs 10x faster by doing Special New Thing.
+-->
+<section id="changes-to-the-llvm-ir">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Changes to the LLVM IR</a><a class="headerlink" href="#changes-to-the-llvm-ir" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">ptrtoaddr</span></code> instruction was introduced. This instruction returns the
+address component of a pointer type variable but unlike <code class="docutils literal notranslate"><span class="pre">ptrtoint</span></code> does not
+capture provenance (<a class="reference external" href="https://github.com/llvm/llvm-project/pull/125687">#125687</a>).</p></li>
+<li><p>The alignment argument of the <code class="docutils literal notranslate"><span class="pre">&#64;llvm.masked.load</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;llvm.masked.store</span></code>,
+<code class="docutils literal notranslate"><span class="pre">&#64;llvm.masked.gather</span></code> and <code class="docutils literal notranslate"><span class="pre">&#64;llvm.masked.scatter</span></code> intrinsics has been removed.
+Instead, the <code class="docutils literal notranslate"><span class="pre">align</span></code> attribute should be placed on the pointer (or vector of
+pointers) argument.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">load</span> <span class="pre">atomic</span></code> may now be used with vector types on x86.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">&#64;llvm.reloc.none</span></code> intrinsic to emit null relocations to symbols. This
+emits an undefined symbol reference without adding any dedicated code or data to
+to bear the relocation.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">modular-format</span></code> attribute to dynamically pull in aspects of libc
+format string function implementations from statically-linked libc’s based on
+the requirements of each call. Currently only <code class="docutils literal notranslate"><span class="pre">float</span></code> is supported; this can
+keep floating point support out of printf if it can be proven unused.</p></li>
+<li><p>Case values are no longer operands of <code class="docutils literal notranslate"><span class="pre">SwitchInst</span></code>.</p></li>
+<li><p>Allow metadata to be attached to IFuncs.</p></li>
+</ul>
+</section>
+<section id="changes-to-llvm-infrastructure">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Changes to LLVM infrastructure</a><a class="headerlink" href="#changes-to-llvm-infrastructure" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>On AIX, fixed the OS version in target triples on PASE.</p></li>
+<li><p>On AIX, automatically raise soft memory limits to hard limits on tool startup (<a class="reference external" href="https://github.com/llvm/llvm-project/pull/167928">#167928</a>).</p></li>
+</ul>
+</section>
+<section id="changes-to-building-llvm">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Changes to building LLVM</a><a class="headerlink" href="#changes-to-building-llvm" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>On AIX, remove default flag <code class="docutils literal notranslate"><span class="pre">-fno-semantic-interposition</span></code>.</p></li>
+<li><p>On AIX, LLVM shared libraries are now built as shared library archives by default (<a class="reference external" href="https://github.com/llvm/llvm-project/pull/155686">#155686</a>).</p></li>
+<li><p>On AIX, enable building with CMake 4.0 and above (<a class="reference external" href="https://github.com/llvm/llvm-project/pull/154537">#154537</a>).</p></li>
+<li><p>On AIX, enable building with the AIX form of the lto cache dir option (<a class="reference external" href="https://github.com/llvm/llvm-project/pull/168868">#168868</a>).</p></li>
+</ul>
+</section>
+<section id="changes-to-tablegen">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Changes to TableGen</a><a class="headerlink" href="#changes-to-tablegen" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">!getop</span></code> and <code class="docutils literal notranslate"><span class="pre">!setop</span></code> bang operators have been removed in favor of
+<code class="docutils literal notranslate"><span class="pre">!getdagop</span></code> and <code class="docutils literal notranslate"><span class="pre">!setdagop</span></code>.</p></li>
+</ul>
+</section>
+<section id="changes-to-interprocedural-optimizations">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Changes to Interprocedural Optimizations</a><a class="headerlink" href="#changes-to-interprocedural-optimizations" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">-enable-machine-outliner={optimistic-pgo,conservative-pgo}</span></code> to read
+profile data to guide the machine outliner
+(<a class="reference external" href="https://github.com/llvm/llvm-project/pull/154437">#154437</a>).</p></li>
+<li><p>Fixed static resolution of indirect calls to versioned functions on AArch64,
+by separating unrelated caller versions which were previously mixed together.
+Also improved the accuracy of the algorithm for low version counts.</p></li>
+</ul>
+</section>
+<section id="changes-to-vectorizers">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Changes to Vectorizers</a><a class="headerlink" href="#changes-to-vectorizers" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Added initial support for copyable elements in SLP, which models copyable
+elements as add <element>, 0, i.e. uses identity constants for missing lanes.</p></li>
+<li><p>SLP vectorizer supports initial recognition of FMA/FMAD pattern</p></li>
+</ul>
+</section>
+<section id="changes-to-the-aarch64-backend">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Changes to the AArch64 Backend</a><a class="headerlink" href="#changes-to-the-aarch64-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Assembler/disassembler support has been added for Armv9.7-A (2025)
+architecture extensions.</p></li>
+<li><p>Assembler/disassembler support has been added for ‘Virtual Tagging
+Extension (vMTE)’ and ‘Permission Overlay Extension version 2 (POE2)’
+Future Architecture Technologies extensions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FEAT_TME</span></code> support has been removed, as it has been withdrawn from
+all future versions of the A-profile architecture.</p></li>
+<li><p>Added support for C1-Nano, C1-Pro, C1-Premium, and C1-Ultra CPUs.</p></li>
+<li><p>Added support for Ampere1C cores.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-amdgpu-backend">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Changes to the AMDGPU Backend</a><a class="headerlink" href="#changes-to-the-amdgpu-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Removed <code class="docutils literal notranslate"><span class="pre">llvm.amdgcn.atomic.cond.sub.u32</span></code> and
+<code class="docutils literal notranslate"><span class="pre">llvm.amdgcn.atomic.csub.u32</span></code> intrinsics. Users should use the
+<code class="docutils literal notranslate"><span class="pre">atomicrmw</span></code> instruction with <code class="docutils literal notranslate"><span class="pre">usub_cond</span></code> and <code class="docutils literal notranslate"><span class="pre">usub_sat</span></code> instead.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-arm-backend">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Changes to the ARM Backend</a><a class="headerlink" href="#changes-to-the-arm-backend" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-avr-backend">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Changes to the AVR Backend</a><a class="headerlink" href="#changes-to-the-avr-backend" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-directx-backend">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Changes to the DirectX Backend</a><a class="headerlink" href="#changes-to-the-directx-backend" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-hexagon-backend">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Changes to the Hexagon Backend</a><a class="headerlink" href="#changes-to-the-hexagon-backend" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-loongarch-backend">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Changes to the LoongArch Backend</a><a class="headerlink" href="#changes-to-the-loongarch-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>RuntimeDyld now supports the <code class="docutils literal notranslate"><span class="pre">Large</span></code> code model for LoongArch64.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">PreserveMost</span></code> calling convention is now supported.</p></li>
+<li><p>An option named <code class="docutils literal notranslate"><span class="pre">loongarch-enable-merge-offset</span></code> is added to allow disabling the <code class="docutils literal notranslate"><span class="pre">MergeBaseOffset</span></code> pass.</p></li>
+<li><p>A macro instruction named <code class="docutils literal notranslate"><span class="pre">ud</span></code> is added.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">la.abs</span></code> now generates <code class="docutils literal notranslate"><span class="pre">R_LARCH_MARK_LA</span></code> relocation.</p></li>
+<li><p>LASX and LSX conversion intrinsics are added.</p></li>
+<li><p>Tail calls for <code class="docutils literal notranslate"><span class="pre">sret</span></code> and <code class="docutils literal notranslate"><span class="pre">byval</span></code> functions are now supported.</p></li>
+<li><p>Always emit symbol-based relocations regardless of relaxation.</p></li>
+<li><p>DWARF fission is now compatible with linker relaxations, allowing <code class="docutils literal notranslate"><span class="pre">-gsplit-dwarf</span></code> and <code class="docutils literal notranslate"><span class="pre">-mrelax</span></code>
+to be used together when building for the LoongArch platform.</p></li>
+<li><p>Improved LoongArch32 support by adding LA32R/LA32S relocations, PC-relative address materialization, and <code class="docutils literal notranslate"><span class="pre">call</span></code>/<code class="docutils literal notranslate"><span class="pre">tail</span></code> macro instructions.</p></li>
+<li><p>Assorted codegen improvements.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-mips-backend">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Changes to the MIPS Backend</a><a class="headerlink" href="#changes-to-the-mips-backend" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-powerpc-backend">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Changes to the PowerPC Backend</a><a class="headerlink" href="#changes-to-the-powerpc-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">half</span></code> now uses a soft float ABI, which works correctly in more cases.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">mtpidr</span></code> alias introduced in ISA3.0.</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">tlbie</span></code> instruction implementation for ISA3.0+.</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">strlen</span></code>, <code class="docutils literal notranslate"><span class="pre">strcpy</span></code> and <code class="docutils literal notranslate"><span class="pre">memcmp</span></code> to use milicode calls instead of library calls.</p></li>
+<li><p>Prototyped intrinsic for xvrlw and load/store with right length left-justified.</p></li>
+<li><p>Prototyped Elliptic Curve Cryptography (ECC) Instructions.</p></li>
+<li><p>Prototyped VSX Vector Integer Arithmetic Instructions.</p></li>
+<li><p>Prototyped AES Acceleration Instructions.</p></li>
+<li><p>Prototyped vector uncompress instructions.</p></li>
+<li><p>Prototyped vector unpack instructions.</p></li>
+<li><p>Prototyped 32-byte indexed paired load and store instructions.</p></li>
+<li><p>Prototyped Context Switch instruction <code class="docutils literal notranslate"><span class="pre">mtlpl</span></code>.</p></li>
+<li><p>Prototyped VSX rotate left word instruction.</p></li>
+<li><p>Prototyped paddis.</p></li>
+<li><p>Prototyped eTCE instructions.</p></li>
+<li><p>Prototyped Dense Math Facility and DMR COPY support.</p></li>
+<li><p>Implement the trampoline intrinsics and nest parameter for AIX.</p></li>
+<li><p>Introduced a minimum threshold for the largest number of comparisons needed to trigger bit test generation during switch lowering.</p></li>
+<li><p>Relax strictfp to constrain only <code class="docutils literal notranslate"><span class="pre">libm</span></code> libcalls, permitting non-FP optimizations.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">bne-</span></code> for atomic operations after store conditional.</p></li>
+<li><p>Consolidated predicate definitions into <code class="docutils literal notranslate"><span class="pre">PPC.td</span></code>.</p></li>
+<li><p>Cleanup asm parser code to use template functions for the various versions of
+<code class="docutils literal notranslate"><span class="pre">getImm*Encoding()</span></code> and <code class="docutils literal notranslate"><span class="pre">is*Imm()</span></code> used in <code class="docutils literal notranslate"><span class="pre">PPCRegisterInfo.td</span></code>.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-risc-v-backend">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Changes to the RISC-V Backend</a><a class="headerlink" href="#changes-to-the-risc-v-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The loop vectorizer now performs tail folding by default on RISC-V, which
+removes the need for a scalar epilogue loop. To restore the previous behaviour
+use <code class="docutils literal notranslate"><span class="pre">-prefer-predicate-over-epilogue=scalar-epilogue</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">llvm-objdump</span></code> now has basic support for switching between disassembling code
+and data using mapping symbols such as <code class="docutils literal notranslate"><span class="pre">$x</span></code> and <code class="docutils literal notranslate"><span class="pre">$d</span></code>. Switching architectures
+using <code class="docutils literal notranslate"><span class="pre">$x</span></code> with an architecture string suffix is not yet supported.</p></li>
+<li><p>Ssctr and Smctr extensions are no longer experimental.</p></li>
+<li><p>Add support for Zvfbfa (Additional BF16 vector compute support)</p></li>
+<li><p>Adds experimental support for the ‘Zibi` (Branch with Immediate) extension.</p></li>
+<li><p>Add support for Zvfofp8min (OFP8 conversion extension)</p></li>
+<li><p>Adds assembler support for the Andes <code class="docutils literal notranslate"><span class="pre">XAndesvsinth</span></code> (Andes Vector Small Int Handling Extension).</p></li>
+<li><p>DWARF fission is now compatible with linker relaxations, allowing <code class="docutils literal notranslate"><span class="pre">-gsplit-dwarf</span></code> and <code class="docutils literal notranslate"><span class="pre">-mrelax</span></code>
+to be used together when building for the RISC-V platform.</p></li>
+<li><p>The Xqci Qualcomm uC Vendor Extension is no longer marked as experimental.</p></li>
+<li><p>The Xqccmp Qualcomm Vendor Extension is no longer marked as experimental.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-webassembly-backend">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Changes to the WebAssembly Backend</a><a class="headerlink" href="#changes-to-the-webassembly-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">half</span></code> now uses a soft float lowering, which resolves various precision and
+bitcast issues.</p></li>
+</ul>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">wasm32-wasi</span></code> target has been renamed to <code class="docutils literal notranslate"><span class="pre">wasm32-wasip1</span></code>. The old
+option is still recognized, though by default will emit a deprecation
+warning.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-windows-target">
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">Changes to the Windows Target</a><a class="headerlink" href="#changes-to-the-windows-target" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-fpseudo-probe-for-profiling</span></code> is now supported for COFF.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-x86-backend">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Changes to the X86 Backend</a><a class="headerlink" href="#changes-to-the-x86-backend" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-mcpu=wildcatlake</span></code> is now supported.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-mcpu=novalake</span></code> is now supported.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-ocaml-bindings">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">Changes to the OCaml bindings</a><a class="headerlink" href="#changes-to-the-ocaml-bindings" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The IR reader bindings renamed <code class="docutils literal notranslate"><span class="pre">parse_ir</span></code> to
+<code class="docutils literal notranslate"><span class="pre">parse_ir_bitcode_or_assembly</span></code> to clarify that the parser accepts both
+textual IR and bitcode. This rename is intentional to force existing code to
+update because the ownership semantics changed: the function no longer takes
+ownership of the input memory buffer.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-python-bindings">
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Changes to the Python bindings</a><a class="headerlink" href="#changes-to-the-python-bindings" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-c-api">
+<h2><a class="toc-backref" href="#id25" role="doc-backlink">Changes to the C API</a><a class="headerlink" href="#changes-to-the-c-api" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">LLVMGetOrInsertFunction</span></code> to get or insert a function, replacing the combination of <code class="docutils literal notranslate"><span class="pre">LLVMGetNamedFunction</span></code> and <code class="docutils literal notranslate"><span class="pre">LLVMAddFunction</span></code>.</p></li>
+<li><p>Allow <code class="docutils literal notranslate"><span class="pre">LLVMGetVolatile</span></code> to work with any kind of Instruction.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">LLVMConstFPFromBits</span></code> to get a constant floating-point value from an array of 64 bit values.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">LLVMParseIRInContext2</span></code>, which is equivalent to <code class="docutils literal notranslate"><span class="pre">LLVMParseIRInContext</span></code>
+but does not take ownership of the input <code class="docutils literal notranslate"><span class="pre">LLVMMemoryBufferRef</span></code>. This matches
+the underlying C++ API and avoids ownership surprises in language bindings
+and examples.</p></li>
+<li><p>Functions working on the global context have been deprecated. Use the
+functions that work on a specific context instead.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMGetGlobalContext</span></code> -&gt; use <code class="docutils literal notranslate"><span class="pre">LLVMContextCreate</span></code> context instead</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInt1Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInt1TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInt8Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInt8TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInt16Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInt16TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInt32Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInt32TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInt64Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInt64TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInt128Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInt128TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMIntType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMIntTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMHalfType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMHalfTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMBFloatType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMBFloatTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMFloatType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMFloatTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMDoubleType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMDoubleTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMX86FP80Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMX86FP80TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMFP128Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMFP128TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMPPCFP128Type</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMPPCFP128TypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMStructType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMStructTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMVoidType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMVoidTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMLabelType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMLabelTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMX86AMXType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMX86AMXTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMConstString</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMConstStringInContext2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMConstStruct</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMConstStructInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMMDString</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMMDStringInContext2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMMDNode</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMMDNodeInContext2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMAppendBasicBlock</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMAppendBasicBlockInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMInsertBasicBlock</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMInsertBasicBlockInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMCreateBuilder</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMCreateBuilderInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMIntPtrType</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMIntPtrTypeInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMIntPtrTypeForAS</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMIntPtrTypeForASInContext</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMParseBitcode</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMParseBitcodeInContext2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMParseBitcode2</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMParseBitcodeInContext2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMGetBitcodeModule</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMGetBitcodeModuleInContext2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LLVMGetBitcodeModule2</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">LLVMGetBitcodeModuleInContext2</span></code></p></li>
+</ul>
+</li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">LLVMGetSwitchCaseValue</span></code> and <code class="docutils literal notranslate"><span class="pre">LLVMSetSwitchCaseValue</span></code> to get and set switch case values; switch case values are no longer operands of the instruction.</p></li>
+</ul>
+</section>
+<section id="changes-to-the-codegen-infrastructure">
+<h2><a class="toc-backref" href="#id26" role="doc-backlink">Changes to the CodeGen infrastructure</a><a class="headerlink" href="#changes-to-the-codegen-infrastructure" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-metadata-info">
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">Changes to the Metadata Info</a><a class="headerlink" href="#changes-to-the-metadata-info" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-debug-info">
+<h2><a class="toc-backref" href="#id28" role="doc-backlink">Changes to the Debug Info</a><a class="headerlink" href="#changes-to-the-debug-info" title="Link to this heading">¶</a></h2>
+</section>
+<section id="changes-to-the-llvm-tools">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Changes to the LLVM tools</a><a class="headerlink" href="#changes-to-the-llvm-tools" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">llvm-profgen</span></code> now supports decoding pseudo probe for COFF binaries.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">llvm-readelf</span></code> now dumps all hex format values in lower-case mode.</p></li>
+<li><p>Some code paths for supporting Python 2.7 in <code class="docutils literal notranslate"><span class="pre">llvm-lit</span></code> have been removed.</p></li>
+<li><p>Support for <code class="docutils literal notranslate"><span class="pre">%T</span></code> in lit has been removed.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">--save-stats</span></code> option to <code class="docutils literal notranslate"><span class="pre">llc</span></code> to save LLVM statistics to a file. Compatible with the Clang option.</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">--save-stats</span></code> option to <code class="docutils literal notranslate"><span class="pre">opt</span></code> to save LLVM statistics to a file. Compatible with the Clang option.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">llvm-config</span></code> gained a new flag <code class="docutils literal notranslate"><span class="pre">--quote-paths</span></code> which quotes and escapes paths
+emitted on stdout, to account for spaces or other special characters in path.
+(<code class="docutils literal notranslate"><span class="pre">#97305</span> <span class="pre">&lt;https://github.com/llvm/llvm-project/pull/97305&gt;</span></code>_).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">llvm-objdump</span></code> now supports using <code class="docutils literal notranslate"><span class="pre">--mcpu=help</span></code> and <code class="docutils literal notranslate"><span class="pre">--mattr=help</span></code> with the <code class="docutils literal notranslate"><span class="pre">--triple</span></code> option
+without requiring an input file or the <code class="docutils literal notranslate"><span class="pre">-d</span></code> (disassemble) flag.</p></li>
+</ul>
+</section>
+<section id="changes-to-lldb">
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">Changes to LLDB</a><a class="headerlink" href="#changes-to-lldb" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>LLDB can now set breakpoints, show backtraces, and display variables when
+debugging Wasm with supported runtimes (WAMR and V8).</p></li>
+<li><p>LLDB now has a Wasm platform, which can be configured to run WebAssembly
+binaries directly under a Wasm runtime. Configurable through the
+platform.plugin.wasm settings.</p></li>
+<li><p>LLDB no longer stops processes by default when receiving SIGWINCH signals
+(window resize events) on Linux. This is the default on other Unix platforms.
+You can re-enable it using <code class="docutils literal notranslate"><span class="pre">process</span> <span class="pre">handle</span> <span class="pre">--notify=true</span> <span class="pre">--stop=true</span> <span class="pre">SIGWINCH</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">show-progress</span></code> setting, which became a NOOP with the introduction of the
+statusline, now defaults to off and controls using OSC escape codes to show a
+native progress bar in supporting terminals like Ghostty and ConEmu.</p></li>
+<li><p>The default PDB reader on Windows was changed from DIA to native, which uses
+LLVM’s PDB and CodeView support. You can switch back to the DIA reader with
+<code class="docutils literal notranslate"><span class="pre">settings</span> <span class="pre">set</span> <span class="pre">plugin.symbol-file.pdb.reader</span> <span class="pre">dia</span></code>. Note that support for the
+DIA reader will be removed in a future version of LLDB.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> option was added to the <code class="docutils literal notranslate"><span class="pre">version</span></code> command. When <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> is used,
+LLDB’s build configuration is included in the command’s output. This includes
+all the supported targets, along with the presence of (or lack of) optional
+features like XML parsing.</p></li>
+<li><p>LLDB now includes formatters for many types from the MSVC STL.</p></li>
+<li><p>DIL (the new <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">variable</span></code> implementation) now uses ‘:’ as a bitfield
+extraction range character. ‘-’ is deprecated and will output an error when used.</p></li>
+<li><p>LLDB 22 is the last release supporting FreeBSD 13 and below. As a result,
+LLDB 23 will remove support for FreeBSD on MIPS64 and assume that FreeBSD targets
+have watchpoint support.</p></li>
+</ul>
+</section>
+<section id="changes-to-bolt">
+<h2><a class="toc-backref" href="#id31" role="doc-backlink">Changes to BOLT</a><a class="headerlink" href="#changes-to-bolt" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Added support for lite mode on AArch64. It can be enabled with -lite=1. When
+used, BOLT avoids duplicating cold code by reusing the original code, which
+reduces output binary size.</p></li>
+</ul>
+</section>
+<section id="changes-to-sanitizers">
+<h2><a class="toc-backref" href="#id32" role="doc-backlink">Changes to Sanitizers</a><a class="headerlink" href="#changes-to-sanitizers" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Support running TypeSanitizer with UndefinedBehaviourSanitizer.</p></li>
+<li><p>TypeSanitizer no longer inlines all instrumentation by default. Added the
+<code class="docutils literal notranslate"><span class="pre">-f[no-]sanitize-type-outline-instrumentation</span></code> flags to give users control
+over this behaviour.</p></li>
+</ul>
+</section>
+<section id="other-changes">
+<h2><a class="toc-backref" href="#id33" role="doc-backlink">Other Changes</a><a class="headerlink" href="#other-changes" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>Introduces the <code class="docutils literal notranslate"><span class="pre">AllocToken</span></code> pass, an instrumentation pass providing tokens to
+memory allocators enabling various heap organization strategies, such as heap
+partitioning.</p></li>
+<li><p>Integrated Distributed ThinLTO (DTLTO) aims to support distribution of ThinLTO
+backend compilations for any in-process ThinLTO invocation. To enable this,
+support for the ThinLTO cache (for incremental builds) has been added in this
+release, and support for additional input file types has been implemented.</p>
+<p>Bitcode objects contained in static libraries and archives (e.g. libc.a) are
+now handled transparently by temporarily extracting referenced objects for
+distribution. When thin archives are used (supported since LLVM 21), no
+extraction is required.</p>
+<p>DTLTO creates a number of temporary files during operation, which are now
+cleaned up correctly when the process exits abnormally, for example due to
+Ctrl+C or similar termination events.</p>
+<p>A new DTLTO linker option, –thinlto-remote-compiler-prepend-arg, has been
+added to support multi-call LLVM drivers. This option allows specifying an
+additional argument to select the desired subcommand, for example
+<code class="docutils literal notranslate"><span class="pre">llvm</span> <span class="pre">clang</span> <span class="pre">....</span></code></p>
+<p>Note that ELF and COFF remain the only supported platforms.</p>
+</li>
+</ul>
+</section>
+</section>
+<section id="external-open-source-projects-using-llvm-22-1-0">
+<h1><a class="toc-backref" href="#id34" role="doc-backlink">External Open Source Projects Using LLVM 22.1.0</a><a class="headerlink" href="#external-open-source-projects-using-llvm-22-1-0" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>A project…</p></li>
+</ul>
+</section>
+<section id="additional-information">
+<h1><a class="toc-backref" href="#id35" role="doc-backlink">Additional Information</a><a class="headerlink" href="#additional-information" title="Link to this heading">¶</a></h1>
+<p>A wide variety of additional information is available on the
+<a class="reference external" href="https://llvm.org/">LLVM web page</a>, in particular in the
+<a class="reference external" href="https://llvm.org/docs/">documentation</a> section.  The web page also contains
+versions of the API documentation which is up-to-date with the Git version of
+the source code.  You can access versions of these documents specific to this
+release by going into the <code class="docutils literal notranslate"><span class="pre">llvm/docs/</span></code> directory in the LLVM tree.</p>
+<p>If you have any questions or comments about LLVM, please feel free to contact
+us via the <a class="reference external" href="https://discourse.llvm.org">Discourse forums</a>.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="MeetupGuidelines.html" title="How to start LLVM Social in your town"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="HowToAddABuilder.html" title="How To Add Your Build Configuration To LLVM Buildbot Infrastructure"
+             >previous</a> |</li>
+  <li><a href="https://llvm.org/">LLVM Home</a>&nbsp;|&nbsp;</li>
+  <li><a href="index.html">Documentation</a>&raquo;</li>
+
+          <li class="nav-item nav-item-1"><a href="GettingInvolved.html" >Getting Involved</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LLVM 22.1.0 Release Notes</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2003-2026, LLVM Project.
+      Last updated on 2026-02-24.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>
