@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="underestimate-verify-ownership" content="100cfcc0-22ab-4125-9149-428c24ef1afd">
+<script>
+	(function () {
+ try {
+ var serverLayout = 'desktop';
+ var ua = navigator.userAgent || '';
+ var PHONE_UA_RE = /iPhone|iPod|Windows Phone|IEMobile|Opera Mini|BlackBerry|BB10|webOS|Android.*Mobile/i;
+ var TABLET_UA_RE = /iPad|Tablet|Silk|Kindle|PlayBook|Android(?!.*Mobile)/i;
+ var MOBILE_MAX_WIDTH = 980;
+ var DESKTOP_MIN_WIDTH = 1020;
+ var resizeTimer = null;
+
+ function readCookie(name) {
+ var match = (document.cookie || '').match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
+ return match ? match[1] : '';
+ }
+
+ function getViewport() {
+ var doc = document.documentElement || {};
+ var width = Math.max(doc.clientWidth || 0, window.innerWidth || 0);
+ var height = Math.max(doc.clientHeight || 0, window.innerHeight || 0);
+ return { width: width, height: height };
+ }
+
+ function detectHint(previousHint) {
+ var viewport = getViewport();
+ var hasTouch = ('ontouchstart' in window) || ((navigator.maxTouchPoints || 0) > 0);
+ var isPhone = PHONE_UA_RE.test(ua);
+ var isIpadDesktopMode = /Macintosh/i.test(ua) && hasTouch;
+ var isTabletLike = TABLET_UA_RE.test(ua) || isIpadDesktopMode || hasTouch;
+
+ if (isPhone) {
+ return 'mobile';
+ }
+ if (!isTabletLike) {
+ return 'desktop';
+ }
+
+ if (viewport.width <= MOBILE_MAX_WIDTH) {
+ return 'mobile';
+ }
+ if (viewport.width >= DESKTOP_MIN_WIDTH) {
+ return 'desktop';
+ }
+ if (previousHint === 'mobile' || previousHint === 'desktop') {
+ return previousHint;
+ }
+
+ return viewport.height >= viewport.width ? 'mobile' : 'desktop';
+ }
+
+ function writeCookie(value) {
+ var cookie = 'pai_layout_hint=' + value + '; path=/; max-age=604800; SameSite=Lax';
+ if (window.location && window.location.protocol === 'https:') {
+ cookie += '; Secure';
+ }
+ document.cookie = cookie;
+ }
+
+ function syncAndMaybeReload() {
+ if (window.__paiLayoutReloading) {
+ return;
+ }
+
+ var previousHint = readCookie('pai_layout_hint');
+ var hint = detectHint(previousHint);
+ if (previousHint !== hint) {
+ writeCookie(hint);
+ }
+
+ if (serverLayout && serverLayout !== hint && previousHint !== hint && window.location) {
+ window.__paiLayoutReloading = true;
+ window.location.replace(window.location.href);
+ }
+ }
+
+ syncAndMaybeReload();
+
+ window.addEventListener('orientationchange', syncAndMaybeReload, { passive: true });
+ window.addEventListener('resize', function () {
+ clearTimeout(resizeTimer);
+ resizeTimer = setTimeout(syncAndMaybeReload, 180);
+ }, { passive: true });
+ } catch (e) {
+ // no-op
+ }
+	})();
+</script>
+
+<!-- Preload above the fold main image -->
+
+<!-- jQuery -->
+<script fetchpriority="high" src="/assets/vendors/jquery-3.6.3/jquery.js"></script>
+<!--link rel="preload" fetchpriority="high" href="{ { $viewObject->Asset->js('assets/js/cookie-banner', null, false) }}" as="script">-->
+
+<!-- Preconnect to gstatic -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Preload Ubuntu Fonts -->
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCv6KVjbNBYlgoC1CzjsGyN.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCs6KVjbNBYlgoKfw72.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCv6KVjbNBYlgoCjC3jsGyN.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCv6KVjbNBYlgoCxCvjsGyN.woff2" as="font" crossorigin>
+
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCp6KVjbNBYlgoKejZftVyPN4E.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCu6KVjbNBYlgoKej70l0k.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCp6KVjbNBYlgoKejYHtFyPN4E.woff2" as="font" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/ubuntu/v15/4iCp6KVjbNBYlgoKejZPslyPN4E.woff2" as="font" crossorigin>
+
+<!-- <link rel="preload" href="/assets/svg/top_header_logo_color.svg" as="image">
+<link rel="preload" href="/assets/svg/logo_bg_2.svg" as="image">
+<link rel="preload" href="/assets/svg/logo_bg_1.svg" as="image">
+<link rel="preload" href="/assets/svg/logo_bg_live.svg" as="image">
+<link rel="preload" href="/assets/svg/top_header_logo_color_portrait.svg" as="image">
+<link rel="preload" href="/assets/svg/top_header_logo_color_portrait.svg" as="image"> -->
+
+<!-- Preload icon font -->
+<link rel="preload" href="https://cdn.proactiveinvestors.com/assets/fonts/icomoon.ttf?oyicax" as="font" type="font/ttf" crossorigin="anonymous">
+
+<!-- Style -->
+ <!-- Critical -->
+ <style>
+	.owl-carousel{display:none;width:100%;-webkit-tap-highlight-color:transparent;position:relative;z-index:1}.owl-carousel .owl-stage{position:relative;-ms-touch-action:pan-Y;touch-action:manipulation;-moz-backface-visibility:hidden}.owl-carousel .owl-stage:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0}.owl-carousel .owl-stage-outer{position:relative;overflow:hidden;-webkit-transform:translate3d(0,0,0)}.owl-carousel .owl-item,.owl-carousel .owl-wrapper{-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0)}.owl-carousel .owl-item{position:relative;min-height:1px;float:left;-webkit-backface-visibility:hidden;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}.owl-carousel .owl-item img{display:block;width:100%}.owl-carousel .owl-dots.disabled,.owl-carousel .owl-nav.disabled{display:none}.owl-carousel .owl-dot,.owl-carousel .owl-nav .owl-next,.owl-carousel .owl-nav .owl-prev{cursor:pointer;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.owl-carousel .owl-nav button.owl-next,.owl-carousel .owl-nav button.owl-prev,.owl-carousel button.owl-dot{background:0 0;color:inherit;border:none;padding:0!important;font:inherit}.owl-carousel.owl-loaded{display:block}.owl-carousel.owl-loading{opacity:0;display:block}.owl-carousel.owl-hidden{opacity:0}.owl-carousel.owl-refresh .owl-item{visibility:hidden}.owl-carousel.owl-drag .owl-item{-ms-touch-action:pan-y;touch-action:pan-y;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.owl-carousel.owl-grab{cursor:move;cursor:grab}.owl-carousel.owl-rtl{direction:rtl}.owl-carousel.owl-rtl .owl-item{float:right}.no-js .owl-carousel{display:block}.owl-carousel .animated{animation-duration:1s;animation-fill-mode:both}.owl-carousel .owl-animated-in{z-index:0}.owl-carousel .owl-animated-out{z-index:1}.owl-carousel .fadeOut{animation-name:fadeOut}@keyframes fadeOut{0%{opacity:1}100%{opacity:0}}.owl-height{transition:height .5s ease-in-out}.owl-carousel .owl-item .owl-lazy{opacity:0;transition:opacity .4s ease}.owl-carousel .owl-item .owl-lazy:not([src]),.owl-carousel .owl-item .owl-lazy[src^=""]{max-height:0}.owl-carousel .owl-item img.owl-lazy{transform-style:preserve-3d}.owl-carousel .owl-video-wrapper{position:relative;height:100%;background:#000}.owl-carousel .owl-video-play-icon{position:absolute;height:80px;width:80px;left:50%;top:50%;margin-left:-40px;margin-top:-40px;background:url(../../vendors/owlcarousel/owl.video.play.png) no-repeat;cursor:pointer;z-index:1;-webkit-backface-visibility:hidden;transition:transform .1s ease}.owl-carousel .owl-video-play-icon:hover{-ms-transform:scale(1.3,1.3);transform:scale(1.3,1.3)}.owl-carousel .owl-video-playing .owl-video-play-icon,.owl-carousel .owl-video-playing .owl-video-tn{display:none}.owl-carousel .owl-video-tn{opacity:0;height:100%;background-position:center center;background-repeat:no-repeat;background-size:contain;transition:opacity .4s ease}.owl-carousel .owl-video-frame{position:relative;z-index:1;height:100%;width:100%}.join-proactive,.top-news-section .top-news-img,nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .image-holder .spotlight-img>div,nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li .image-holder .spotlight-img>div{background-size:cover;background-position:center;background-repeat:no-repeat}section.container-fluid .section-overlay,section.container-fluid .section-overlay-dark{position:absolute;width:100%;height:100%;top:0;left:0;z-index:0}.top-news-section .bg-proactive-yellow-25 .news-item div.date-time,.top-news-section .news-item div.date-time,.top-news-section .top-news-content div.date-time{font-style:normal;font-weight:300;line-height:1.5rem;font-size:.8rem;position:relative;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.top-news-section .top-news-content div.date-time{border:none}.top-news-section .top-news-content div.date-time:after{display:none}nav.top-nav.navbar.navbar-dark.bg-proactive-dark,nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu{-webkit-box-shadow:-3px 2px 4px rgba(0,0,0,.5);box-shadow:-3px 2px 4px rgba(0,0,0,.5)}.editors-carousel .owl-next-button,.editors-carousel .owl-prev-button,.home-carousel .owl-next-button,.home-carousel .owl-prev-button{background-color:#fff;padding:20px;padding:0;height:100%;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-ms-flex-line-pack:justify;align-content:space-between;margin:auto 0}@font-face{font-family:Ubuntu;font-style:normal;font-weight:300;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCv6KVjbNBYlgoC1CzjsGyN.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCs6KVjbNBYlgoKfw72.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:normal;font-weight:500;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCv6KVjbNBYlgoCjC3jsGyN.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCv6KVjbNBYlgoCxCvjsGyN.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:italic;font-weight:300;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCp6KVjbNBYlgoKejZftVyPN4E.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:italic;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCu6KVjbNBYlgoKej70l0k.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:italic;font-weight:500;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCp6KVjbNBYlgoKejYHtFyPN4E.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:Ubuntu;font-style:italic;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/ubuntu/v15/4iCp6KVjbNBYlgoKejZPslyPN4E.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}.container{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}@media (min-width:576px){.container{max-width:540px}}@media (min-width:768px){.container{max-width:720px}}@media (min-width:992px){.container{max-width:960px}}@media (min-width:1200px){.container{max-width:1140px}}.container-fluid{width:100%;padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}.row{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-right:-15px;margin-left:-15px}.col,.col-1,.col-10,.col-11,.col-12,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-auto,.col-lg,.col-lg-1,.col-lg-10,.col-lg-11,.col-lg-12,.col-lg-2,.col-lg-3,.col-lg-4,.col-lg-5,.col-lg-6,.col-lg-7,.col-lg-8,.col-lg-9,.col-lg-auto,.col-md,.col-md-1,.col-md-10,.col-md-11,.col-md-12,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-auto,.col-sm,.col-sm-1,.col-sm-10,.col-sm-11,.col-sm-12,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-auto,.col-xl,.col-xl-1,.col-xl-10,.col-xl-11,.col-xl-12,.col-xl-2,.col-xl-3,.col-xl-4,.col-xl-5,.col-xl-6,.col-xl-7,.col-xl-8,.col-xl-9,.col-xl-auto{position:relative;width:100%;padding-right:15px;padding-left:15px}.col{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;-webkit-box-flex:1;flex-grow:1;max-width:100%}.col-auto{-ms-flex:0 0 auto;-webkit-box-flex:0;flex:0 0 auto;width:auto;max-width:100%}.col-1{-ms-flex:0 0 8.333333%;-webkit-box-flex:0;flex:0 0 8.333333%;max-width:8.333333%}.col-2{-ms-flex:0 0 16.666667%;-webkit-box-flex:0;flex:0 0 16.666667%;max-width:16.666667%}.col-3{-ms-flex:0 0 25%;-webkit-box-flex:0;flex:0 0 25%;max-width:25%}.col-4{-ms-flex:0 0 33.333333%;-webkit-box-flex:0;flex:0 0 33.333333%;max-width:33.333333%}.col-5{-ms-flex:0 0 41.666667%;-webkit-box-flex:0;flex:0 0 41.666667%;max-width:41.666667%}.col-6{-ms-flex:0 0 50%;-webkit-box-flex:0;flex:0 0 50%;max-width:50%}.col-7{-ms-flex:0 0 58.333333%;-webkit-box-flex:0;flex:0 0 58.333333%;max-width:58.333333%}.col-8{-ms-flex:0 0 66.666667%;-webkit-box-flex:0;flex:0 0 66.666667%;max-width:66.666667%}.col-9{-ms-flex:0 0 75%;-webkit-box-flex:0;flex:0 0 75%;max-width:75%}.col-10{-ms-flex:0 0 83.333333%;-webkit-box-flex:0;flex:0 0 83.333333%;max-width:83.333333%}.col-11{-ms-flex:0 0 91.666667%;-webkit-box-flex:0;flex:0 0 91.666667%;max-width:91.666667%}.col-12{-ms-flex:0 0 100%;-webkit-box-flex:0;flex:0 0 100%;max-width:100%}@media (min-width:576px){.col-sm{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;-webkit-box-flex:1;flex-grow:1;max-width:100%}.col-sm-auto{-ms-flex:0 0 auto;-webkit-box-flex:0;flex:0 0 auto;width:auto;max-width:100%}.col-sm-1{-ms-flex:0 0 8.333333%;-webkit-box-flex:0;flex:0 0 8.333333%;max-width:8.333333%}.col-sm-2{-ms-flex:0 0 16.666667%;-webkit-box-flex:0;flex:0 0 16.666667%;max-width:16.666667%}.col-sm-3{-ms-flex:0 0 25%;-webkit-box-flex:0;flex:0 0 25%;max-width:25%}.col-sm-4{-ms-flex:0 0 33.333333%;-webkit-box-flex:0;flex:0 0 33.333333%;max-width:33.333333%}.col-sm-5{-ms-flex:0 0 41.666667%;-webkit-box-flex:0;flex:0 0 41.666667%;max-width:41.666667%}.col-sm-6{-ms-flex:0 0 50%;-webkit-box-flex:0;flex:0 0 50%;max-width:50%}.col-sm-7{-ms-flex:0 0 58.333333%;-webkit-box-flex:0;flex:0 0 58.333333%;max-width:58.333333%}.col-sm-8{-ms-flex:0 0 66.666667%;-webkit-box-flex:0;flex:0 0 66.666667%;max-width:66.666667%}.col-sm-9{-ms-flex:0 0 75%;-webkit-box-flex:0;flex:0 0 75%;max-width:75%}.col-sm-10{-ms-flex:0 0 83.333333%;-webkit-box-flex:0;flex:0 0 83.333333%;max-width:83.333333%}.col-sm-11{-ms-flex:0 0 91.666667%;-webkit-box-flex:0;flex:0 0 91.666667%;max-width:91.666667%}.col-sm-12{-ms-flex:0 0 100%;-webkit-box-flex:0;flex:0 0 100%;max-width:100%}}@media (min-width:768px){.col-md{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;-webkit-box-flex:1;flex-grow:1;max-width:100%}.col-md-auto{-ms-flex:0 0 auto;-webkit-box-flex:0;flex:0 0 auto;width:auto;max-width:100%}.col-md-1{-ms-flex:0 0 8.333333%;-webkit-box-flex:0;flex:0 0 8.333333%;max-width:8.333333%}.col-md-2{-ms-flex:0 0 16.666667%;-webkit-box-flex:0;flex:0 0 16.666667%;max-width:16.666667%}.col-md-3{-ms-flex:0 0 25%;-webkit-box-flex:0;flex:0 0 25%;max-width:25%}.col-md-4{-ms-flex:0 0 33.333333%;-webkit-box-flex:0;flex:0 0 33.333333%;max-width:33.333333%}.col-md-5{-ms-flex:0 0 41.666667%;-webkit-box-flex:0;flex:0 0 41.666667%;max-width:41.666667%}.col-md-6{-ms-flex:0 0 50%;-webkit-box-flex:0;flex:0 0 50%;max-width:50%}.col-md-7{-ms-flex:0 0 58.333333%;-webkit-box-flex:0;flex:0 0 58.333333%;max-width:58.333333%}.col-md-8{-ms-flex:0 0 66.666667%;-webkit-box-flex:0;flex:0 0 66.666667%;max-width:66.666667%}.col-md-9{-ms-flex:0 0 75%;-webkit-box-flex:0;flex:0 0 75%;max-width:75%}.col-md-10{-ms-flex:0 0 83.333333%;-webkit-box-flex:0;flex:0 0 83.333333%;max-width:83.333333%}.col-md-11{-ms-flex:0 0 91.666667%;-webkit-box-flex:0;flex:0 0 91.666667%;max-width:91.666667%}.col-md-12{-ms-flex:0 0 100%;-webkit-box-flex:0;flex:0 0 100%;max-width:100%}}@media (min-width:992px){.col-lg{-ms-flex-preferred-size:0;flex-basis:0;-ms-flex-positive:1;-webkit-box-flex:1;flex-grow:1;max-width:100%}.col-lg-auto{-ms-flex:0 0 auto;-webkit-box-flex:0;flex:0 0 auto;width:auto;max-width:100%}.col-lg-1{-ms-flex:0 0 8.333333%;-webkit-box-flex:0;flex:0 0 8.333333%;max-width:8.333333%}.col-lg-2{-ms-flex:0 0 16.666667%;-webkit-box-flex:0;flex:0 0 16.666667%;max-width:16.666667%}.col-lg-3{-ms-flex:0 0 25%;-webkit-box-flex:0;flex:0 0 25%;max-width:25%}.col-lg-4{-ms-flex:0 0 33.333333%;-webkit-box-flex:0;flex:0 0 33.333333%;max-width:33.333333%}.col-lg-5{-ms-flex:0 0 41.666667%;-webkit-box-flex:0;flex:0 0 41.666667%;max-width:41.666667%}.col-lg-6{-ms-flex:0 0 50%;-webkit-box-flex:0;flex:0 0 50%;max-width:50%}.col-lg-7{-ms-flex:0 0 58.333333%;-webkit-box-flex:0;flex:0 0 58.333333%;max-width:58.333333%}.col-lg-8{-ms-flex:0 0 66.666667%;-webkit-box-flex:0;flex:0 0 66.666667%;max-width:66.666667%}.col-lg-9{-ms-flex:0 0 75%;-webkit-box-flex:0;flex:0 0 75%;max-width:75%}.col-lg-10{-ms-flex:0 0 83.333333%;-webkit-box-flex:0;flex:0 0 83.333333%;max-width:83.333333%}.col-lg-11{-ms-flex:0 0 91.666667%;-webkit-box-flex:0;flex:0 0 91.666667%;max-width:91.666667%}.col-lg-12{-ms-flex:0 0 100%;-webkit-box-flex:0;flex:0 0 100%;max-width:100%}}*{-webkit-box-sizing:border-box;box-sizing:border-box}html{font-size:16px}body{font-family:Ubuntu,sans-serif;color:#333}body p{font-size:1.125rem;font-weight:400;font-style:normal;font-stretch:normal;letter-spacing:0;line-height:1.67}body.dark-modal-overlay .modal-backdrop{background-color:#333}body.dark-modal-overlay .modal-backdrop.show{opacity:.99375}.news-item h3.h3 a{font-size:1.25rem;font-weight:500;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:0}.news-item.all-rns-item{position:relative;padding-bottom:10px}.news-item.all-rns-item:before{content:" ";width:100%;position:absolute;bottom:1px;left:0;height:1px;border-bottom:1px dotted #333}.news-item.all-rns-item:after{content:" ";width:100%;position:absolute;bottom:0;left:0;height:1px;border-bottom:1px solid #adad8c}.news-item.all-rns-item .tagline-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;margin-top:15px;margin-bottom:8px}.news-item.all-rns-item .tagline-wrapper .date-time{width:auto;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;margin:0 10px 0 0;padding:0;-webkit-box-flex:unset;-ms-flex-positive:unset;flex-grow:unset}.news-item.all-rns-item .tagline-wrapper .date-time:after,.news-item.all-rns-item .tagline-wrapper .date-time:before{display:none}.news-item.all-rns-item .tagline-wrapper a.badge.badge-primary{margin:0}.news-item.all-rns-item .tagline-wrapper .market-epic{color:#333;margin:0 10px 0 0;padding:2px 4px;font-size:.875rem}.news-item.all-rns-item .tagline-wrapper .all-rns-company-name{font-weight:400}.news-item.all-rns-item:first-child .tagline-wrapper{margin-top:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark{height:80px;z-index:1040;padding:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .sign-in-primary-btn{background-color:#fdac00!important}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .sign-in-primary-btn:hover{background-color:#fdb826!important}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .logo-box{position:absolute;top:0;left:0;height:80px;z-index:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .domains{display:-webkit-box;display:-ms-flexbox;display:flex;margin-top:auto;margin-bottom:auto;margin-right:auto;min-width:40px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark a.navbar-brand-image{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}nav.top-nav.navbar.navbar-dark.bg-proactive-dark a.search-modal-toggle{color:#fff;height:80px;width:80px;margin-top:auto;margin-bottom:auto;display:-webkit-box;display:-ms-flexbox;display:flex}nav.top-nav.navbar.navbar-dark.bg-proactive-dark a.search-modal-toggle:hover{cursor:pointer}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .icon-search{font-size:20px;margin-left:1.5rem;padding:30px;margin-right:-30px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .icon-search.active,nav.top-nav.navbar.navbar-dark.bg-proactive-dark .icon-search:active,nav.top-nav.navbar.navbar-dark.bg-proactive-dark .icon-search:focus,nav.top-nav.navbar.navbar-dark.bg-proactive-dark .icon-search:hover{background-color:#fff;color:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-block-holder{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;margin-left:auto;height:80px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container .watch-links-holder{margin-right:2.25rem;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container .watch-links-holder.my-proactive:hover .dropdown-menu{display:block;top:40px;-webkit-transform:translateX(calc(-50% - .75rem));transform:translateX(calc(-50% - .75rem))}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container .watch-links-holder.active a.watch-link:after{content:"";border-bottom:2px solid #fff;position:absolute;width:100%;bottom:-.25rem;left:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container .watch-links-holder.active a.profile-link:after{content:"";border-bottom:2px solid #fff;position:absolute;width:100%;bottom:-.25rem;left:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container .watch-links-holder a.watch-link{color:#fff;text-decoration:none;font-family:Ubuntu;font-style:normal;font-weight:400;font-size:.875rem;text-align:center;position:relative}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container .watch-links-holder a.watch-link:hover:after{content:"";border-bottom:2px solid #fff;position:absolute;width:100%;bottom:-.25rem;left:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container a.profile-link{color:#fff;text-decoration:none;font-family:Ubuntu;font-style:normal;font-weight:400;font-size:.875rem;text-align:center;position:relative}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container a.profile-link:hover:after{content:"";border-bottom:2px solid #fff;position:absolute;width:100%;bottom:-.25rem;left:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .links-container a.profile-link i.icon-everyday-investor{display:none;font-size:1.25rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container{z-index:1;margin-left:calc(-80px - 1rem);position:relative}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container.active{background-color:#fff}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container.active .burger-megamenu{display:block}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container.active .menu-burger{background-color:#fff}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container.active .menu-burger span.top{-webkit-transform:translateY(6px) translateX(0) rotate(45deg);transform:translateY(6px) translateX(0) rotate(45deg);background:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container.active .menu-burger span.middle{opacity:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container.active .menu-burger span.bottom{-webkit-transform:translateY(-6px) translateX(0) rotate(-45deg);transform:translateY(-6px) translateX(0) rotate(-45deg);background:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger{width:80px;height:80px;position:relative;left:0;z-index:3}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger:hover{opacity:.7;cursor:pointer}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger .active{background-color:#fff}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger span{background:#fff;border:none;height:2px;width:20px;border-radius:2px;position:absolute;top:calc(50% - 10px);left:calc(50% - 10px);-webkit-transition:all .35s ease;transition:all .35s ease;cursor:pointer}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger span.top{top:32px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger span.middle{top:38px;opacity:1}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .menu-burger-container .menu-burger span.bottom{top:44px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu{position:absolute;display:none;top:80px;left:0;width:800px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu.active{display:block}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container{background-color:#fff;width:100%;padding:2rem 0 1rem 2rem;position:relative}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .list-border{border-right:1px dotted #333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .login-buttons{display:none;margin-left:auto;margin-right:auto}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .login-buttons a{background-color:transparent;font-weight:700}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list{list-style-type:none;padding:1rem 0;margin:0;position:initial;border-bottom:1px solid #adad8c}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list:first-child{padding-top:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list:last-child{border:0;padding-bottom:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;position:initial}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.top-separator-link{border-top:1px solid #333;margin:8px 0;padding-top:2px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .icon-arrow-right{-webkit-transform:rotate(180deg);transform:rotate(180deg)}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list{display:block}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list.menu-list-event{padding-right:30px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list.menu-list-event li{height:auto}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list.menu-list-event li a{border-bottom:1px solid #eaeae2;padding:.75rem 0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list.menu-list-event li a:first-child{padding-top:.5rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list.menu-list-event li a h4.h4{font-size:1.125rem;font-weight:400;font-style:normal;font-stretch:normal;line-height:1;letter-spacing:0;margin:0;padding:0;margin-bottom:.5rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list.menu-list-event li a h5.h5{font-weight:400;font-style:normal;font-stretch:normal;font-size:875rem;line-height:1;margin:0;padding:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list li a{font-size:1.125rem;font-weight:400;font-style:normal;font-stretch:normal;line-height:1;letter-spacing:0;color:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list li a:hover{color:#7a7a7a}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list li a:before{display:none}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list li a .menu_event_additional_info{margin:0 0 1rem 0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list li a .menu_event_additional_info .menu_event_location{font-size:.875rem;font-weight:400}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active .second-level-list li a .menu_event_additional_info .menu_event_date{font-size:.75rem;font-weight:300}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active a{font-size:1.125rem;font-style:normal;font-weight:700;position:relative;width:100%;color:#7a7a7a}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active a:before{content:"";position:absolute;height:1.15rem;width:4px;background-color:#c55400;left:-.5rem;top:.875rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active a::-moz-selection{background-color:transparent}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li.list-link.active a::selection{background-color:transparent}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .icon-arrow-right{font-size:.625rem;position:absolute;right:0;top:1rem;-webkit-transition:-webkit-transform .2s ease-in-out;transition:-webkit-transform .2s ease-in-out;transition:transform .2s ease-in-out;transition:transform .2s ease-in-out,-webkit-transform .2s ease-in-out}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li a{padding:9px 0;font-size:1.125rem;font-style:normal;font-weight:700;position:relative;width:100%}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li a:hover{color:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li a:hover:before{content:"";position:absolute;height:1.15rem;width:4px;background-color:#eb6400;left:-.5rem;top:.875rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li a::-moz-selection{background-color:transparent}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li a::selection{background-color:transparent}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list{position:absolute;top:0;left:calc(10rem + 30px);width:270px;display:none;height:100%;border-right:1px dotted #333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight{position:absolute;top:0;right:calc(-100% - 1rem);padding:0;width:calc(100% - 1rem);display:block}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight h4.h4{font-size:1.125rem;font-weight:700;font-style:normal;font-stretch:normal;line-height:1;letter-spacing:0;margin-bottom:1.25rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list{padding:1rem;background-color:#eaeae2}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li{width:100%;padding:0;margin:24px 0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li:first-of-type{margin-top:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li:last-of-type{margin-bottom:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li a{font-size:1.125rem;font-weight:400;font-style:normal;font-stretch:normal;line-height:1;letter-spacing:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li a:hover{color:#ccc}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li a:hover:before{display:none}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li .image-holder{width:100%;padding:0;margin:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li .image-holder .spotlight-img{margin-right:1rem;position:relative;border-radius:4px;background-color:#fff;padding:4px;-webkit-box-shadow:0 .5rem .5rem rgba(33,33,33,.08);box-shadow:0 .5rem .5rem rgba(33,33,33,.08)}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li .image-holder .spotlight-img>div{height:66px;width:66px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li .image-holder .spotlight-img p{margin-bottom:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li .image-holder .spotlight-img i{font-size:40px}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .burger-megamenu .burger-megamenu-list-container .megamenu-list li .second-level-list .spotlight .third-level-list li p{margin:0;line-height:1rem}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-toggle i.icon-arrow-dropdown-opened{color:#fff;font-size:6px;padding-left:6px;vertical-align:middle;display:inline-block;-webkit-transition:-webkit-transform .15s ease-in-out;transition:-webkit-transform .15s ease-in-out;transition:transform .15s ease-in-out;transition:transform .15s ease-in-out,-webkit-transform .15s ease-in-out}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-toggle i.icon-arrow-dropdown-closed{color:#fff;font-size:6px;padding-left:6px;vertical-align:middle;display:inline-block;-webkit-transition:-webkit-transform .15s ease-in-out;transition:-webkit-transform .15s ease-in-out;transition:transform .15s ease-in-out;transition:transform .15s ease-in-out,-webkit-transform .15s ease-in-out}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-toggle:after{display:none}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu{position:absolute;top:52px;left:-22px;z-index:1000;display:none;float:left;padding:0;min-width:initial;margin:0;font-size:1rem;text-align:center;list-style:none;background-color:#fff;-webkit-box-shadow:0 2px 2px rgba(51,51,51,.4);box-shadow:0 2px 2px rgba(51,51,51,.4);background-clip:padding-box;border:0;border-radius:0}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu .dropdown-item{display:block;width:100%;padding:.75rem 1.25rem;clear:both;text-align:inherit;white-space:nowrap;background-color:transparent;border:0;text-transform:uppercase;font-weight:400;font-size:1.125rem;color:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu .dropdown-item.active{font-weight:700}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu .dropdown-item:focus,nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu .dropdown-item:hover{background-color:#eaeae2;color:#333}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu.show{display:block}nav.top-nav.navbar.navbar-dark.bg-proactive-dark .dropdown-menu::before{width:0;position:absolute;left:50%;top:-5px;height:0;border-bottom:5px solid #fff;border-right:8px solid transparent;border-left:8px solid transparent;content:"";-webkit-transform:translateX(-50%);transform:translateX(-50%)}nav.top-nav.navbar.navbar-dark.bg-proactive-dark div.container a.dropdown-toggle{color:#fff;text-decoration:none;font-family:Ubuntu;font-style:normal;font-weight:400;font-size:.875rem;text-transform:uppercase}nav.sub-nav{height:64px;padding:0;z-index:3;-webkit-box-shadow:-3px 2px 4px rgba(51,51,51,.52);box-shadow:-3px 2px 4px rgba(51,51,51,.52)}nav.sub-nav .logo-box{height:64px;opacity:.4;z-index:0}nav.sub-nav ul.nav{z-index:1}nav.sub-nav ul.nav li.nav-item{padding:0 1.25rem}nav.sub-nav ul.nav li.nav-item:first-child{padding-left:0}nav.sub-nav ul.nav li.nav-item:first-child .nav-link{padding-left:0}nav.sub-nav ul.nav li.nav-item:hover .sub-nav-megamenu{display:block}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu{-webkit-box-shadow:0 2px 4px rgba(0,0,0,.5);box-shadow:0 2px 4px rgba(0,0,0,.5);position:absolute;width:100%;height:auto;left:0;top:48px;background:#fff;z-index:6;display:none;padding-right:10px;overflow-y:auto}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .row{overflow-x:hidden}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu h3.h3{font-style:normal;font-weight:500;line-height:1;font-size:1.15rem;padding:1rem 0;margin:0;vertical-align:middle}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left{list-style-type:none;padding:0;margin:0}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left>a{margin-top:12px;display:block}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left a .menu_event_additional_info{margin:0 0 1rem 0}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left a .menu_event_additional_info .menu_event_location{font-size:14px;font-weight:400}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left a .menu_event_additional_info .menu_event_date{font-size:12px;font-weight:300}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left li a{padding:.75rem 0;font-size:1rem;font-style:normal;line-height:2.25;font-weight:400;position:relative}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-left li a:hover:before{content:"";position:absolute;height:1.15rem;width:4px;background-color:#eb6400;left:-.5rem;top:.75rem}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container{position:relative;min-height:45px}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container:after{position:absolute;content:"";background-color:#a3a3a3;width:1px;height:calc(100% + 3rem)!important;top:-3.15rem;left:0}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right{list-style-type:none;padding:0;margin:12px 0 0 0}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li{width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-flex:0;-ms-flex:0 0 100%;flex:0 0 100%;padding:0;margin:0;height:auto}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li:hover .icon-arrow-right{color:#a3a3a3}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .image-holder{width:100%;height:66px;padding:0;margin:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start;-webkit-box-align:center;-ms-flex-align:center;align-items:center;margin-bottom:12px}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .image-holder .spotlight-img{margin-right:1rem;position:relative}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .image-holder .spotlight-img>div{height:62px;width:62px}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .image-holder .spotlight-img p{margin-bottom:0}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .image-holder .spotlight-img i{font-size:40px}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li a{padding:0 12px 0 0;font-size:1.15rem;font-style:normal;line-height:2.25;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .title-date{line-height:1;font-size:1rem;height:50px;margin:5px;width:100%}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .title-date div{padding-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .title-date div span{line-height:1;font-size:.8rem}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .title-date div h5{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}nav.sub-nav ul.nav li.nav-item .sub-nav-megamenu .list-right-container .list-right li .icon-arrow-right{font-size:.75rem}nav.sub-nav ul.nav li.nav-item a.nav-link{color:#333;font-family:Ubuntu;font-style:normal;font-weight:400;line-height:18px;font-size:1rem;text-align:center;padding:8px 5px 2px 5px;border-bottom:4px solid transparent;white-space:nowrap}nav.sub-nav ul.nav li.nav-item a.nav-link:hover{border-bottom:4px solid #eb6400}nav.sub-nav ul.nav li.nav-item a.nav-link.active{border-bottom:4px solid #eb6400;padding:8px 5px 2px 5px;font-family:Ubuntu;font-style:normal;font-weight:700;line-height:18px;font-size:16px;text-align:center}nav.sub-nav .login-buttons a.btn.btn-dark,nav.sub-nav .login-buttons a.btn.btn-primary{height:32px;border:none;border-radius:0;margin:0;padding:0 1.5rem;font-size:1rem;line-height:32px}.sticky-top{background-color:#fff}section{position:relative;padding:36px 0}section.container-fluid .container{position:relative;z-index:1}section.container-fluid .section-overlay{background-color:rgba(0,0,0,.5)}section.container-fluid .section-overlay-dark{background-color:rgba(0,0,0,.75)}.top-news-section .video-row h3{width:100%}.top-news-section .video-row .image-holder{min-height:50px}.top-news-section .row.position-relative{min-height:386px}.top-news-section .top-news-container{padding:0 15px;padding-top:0;position:relative}.top-news-section .top-news-container h1.h1{margin-bottom:0;font-size:46px;background-color:rgba(255,255,255,.75)}.top-news-section .top-news-container .top-news-text-holder{z-index:2;margin-bottom:26px}.top-news-section .top-news-container .top-news-image-holder{z-index:1;position:absolute;width:100%;height:100%;text-align:right;overflow:hidden}.top-news-section .top-news-container .top-news-image-holder a{display:block;width:72%;height:100%;margin-left:auto}.top-news-section .top-news-container .top-news-image-holder a img{height:auto;max-width:100%}.top-news-section .show_more_btn_wrapper .btn-row{margin-bottom:12px}.top-news-section .top-news-content{background-color:rgba(255,255,255,.75);padding-right:33px;padding-top:27px}.top-news-section .top-news-content h2.h2 a{font-size:2rem;font-weight:700;font-style:normal;font-stretch:normal;line-height:1.19;letter-spacing:0}.top-news-section .top-news-content p{font-size:1.125rem;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.67;letter-spacing:0}.top-news-section .top-news-img{position:absolute;width:70%;height:100%;right:15px;top:0}.top-news-section .news-item .play-button{margin-left:-18px}.top-news-section .news-item .play-button .duration-time{display:none}.top-news-section .news-item h3.h3{margin:0}.top-news-section .news-item h3.h3 a{font-size:1.25rem;font-weight:500;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:0}.top-news-section .news-item .badge-primary{margin:.75rem 0 .75rem 0}.top-news-section .news-item .labelholder{margin:.75rem 0 .75rem 0}.top-news-section .news-item .labelholder .badge-primary{margin:0}.top-news-section .news-item .fixed-height-block{overflow-y:hidden;height:6rem}.top-news-section .bg-proactive-yellow-25 .row.video-row{margin-top:1rem}.top-news-section .bg-proactive-yellow-25 .row.video-row:first-child{margin-top:0}.top-news-section .bg-proactive-yellow-25 .news-item a.badge.badge-primary{color:#333;font-family:Ubuntu;font-style:normal;font-weight:700;font-size:.875rem}.top-news-section .bg-proactive-yellow-25 .news-item a.badge.badge-primary:hover{background:0 0;color:#a3a3a3}.top-news-section .bg-proactive-yellow-25 .news-item a.badge.badge-primary:after{display:none}.top-news-section .bg-proactive-yellow-25 .news-item div.date-time:after{content:" ";width:calc(100% + 30px);position:absolute;bottom:0;left:-15px;border-bottom:1px dotted #333;height:1px}.top-news-section .bg-proactive-yellow-25 .news-item div.date-time .no-after{content:"";width:0}.top-news-section .bg-proactive-yellow-25 .news-item .labelholder{margin:.75rem 0 .75rem 0}.top-news-section .bg-proactive-yellow-25 .news-item .labelholder .badge-primary{margin:0}.top-news-section .right-side-home-bar{width:100%}.top-news-section .right-side-home-bar .date-time-small{font-weight:300;font-size:.8rem}.top-news-section .right-side-home-bar .news-item .row{margin:0}.top-news-section .right-side-home-bar .news-item .row .col-md-6{padding-left:2px;padding-right:2px}.top-news-section .right-side-home-bar .news-item .h3{line-height:1.25rem;padding-bottom:0}.top-news-section .right-side-home-bar .news-item .h3 a{font-size:1rem;line-height:1.67rem;font-weight:400}.top-news-section .right-side-home-bar .news-item span{vertical-align:-webkit-baseline-middle}.join-proactive{background-image:url(/assets/img/join_background.jpg)}.join-proactive .item-holder{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.join-proactive .item-holder i[class^=icon]{color:#fff;font-size:3.8rem;padding-right:1.5rem;display:block}.join-proactive .h2{color:#fff;margin-bottom:0}.join-proactive h4{line-height:1.5rem;font-size:1.5rem;text-align:center;font-weight:400}.join-proactive .h4{color:#fff;line-height:1.5rem;font-size:1.1rem}.join-proactive p{color:#fff;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end;position:relative;-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1}.join-proactive i.icon-logo-sign{font-size:4.5rem;margin-bottom:1rem}.footer-section{border-top:4px solid #eb6400;padding:0 0 60px 0}.footer-section .container-fluid{border-bottom:1px solid rgba(234,234,226,.2)}.footer-section .container-fluid:last-child{border-bottom:0;opacity:.75}.footer-section .container-fluid .container{padding-top:1rem;padding-bottom:1rem;margin:auto}.footer-section .container-fluid .container i{font-size:32px;color:#fff;padding:0 .5rem}.footer-section .container-fluid .h5{margin-bottom:0;margin-right:50px;font-size:18px;font-weight:400;font-style:normal;font-stretch:normal;line-height:32px;letter-spacing:0}.footer-section .container-fluid p{font-weight:300;line-height:24px;font-size:12px}.footer-section .footer-navigation{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;display:-webkit-box;display:-ms-flexbox;display:flex;width:100%}.footer-section .footer-navigation .nav-item a{color:#fff;font-size:18px;font-weight:500;font-style:normal;font-stretch:normal;line-height:normal;letter-spacing:0;padding:2px}.footer-section .footer-navigation .nav-item a:hover{color:#fff}.footer-section .footer-navigation .nav-item a:first-child{padding-left:0}.footer-section .footer-navigation .nav-item a:last-child{padding-right:0}button.back-to-top{margin:0!important;padding:0!important;background-image:url(https://cdn.proactiveinvestors.com/assets/svg/scroll-to-top.svg);background-repeat:no-repeat;background-position:center;background-size:50px 50px;background-color:transparent;border-radius:100%;height:0;width:0;overflow:hidden;color:transparent;clear:both;visibility:hidden;position:fixed;cursor:pointer;display:block;border:none;right:50px;bottom:110px;font-size:0;line-height:50px;outline:0!important;opacity:.75;z-index:99;-webkit-transition:all .3s ease-in-out;transition:all .3s ease-in-out}button.back-to-top:active,button.back-to-top:focus,button.back-to-top:hover{outline:0!important;opacity:1}button.back-to-top i{font-size:0;line-height:50px;position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transition:top .2s ease-in-out;transition:top .2s ease-in-out}button.back-to-top.show{display:block;background-image:url(https://cdn.proactiveinvestors.com/assets/svg/scroll-to-top.svg);background-repeat:no-repeat;background-position:center;background-size:50px 50px;border-radius:50px;color:#fff;right:25px;bottom:85px;height:50px;width:50px;visibility:visible}button.back-to-top.show i{font-size:14px}button.back-to-top.show:hover i{top:20px}.cookies-popup{position:fixed;bottom:0;left:0;z-index:99999;padding:0;display:none;-webkit-box-pack:end;-ms-flex-pack:end;justify-content:flex-end;width:100vw;height:100vh}.cookies-popup.cookieNotSet{display:block}.cookies-popup .popup-content-overlay{background-color:#fff;-webkit-box-shadow:0 -.5rem 1rem rgba(51,51,51,.08);box-shadow:0 -.5rem 1rem rgba(51,51,51,.08);padding:20px 0;display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;position:absolute;bottom:0;z-index:1}.cookies-popup .popup-content-overlay .cookies-popup-content{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.cookies-popup .popup-content-overlay .cookies-popup-content .cookies-popup-head{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;font-weight:700;margin-top:.25rem;margin-bottom:1rem}.cookies-popup .popup-content-overlay .cookies-popup-content .cookies-popup-head .dismiss-cookies-popup{display:-webkit-box;display:-ms-flexbox;display:flex}.cookies-popup .popup-content-overlay .cookies-popup-content .cookies-popup-body .modal-info{display:-webkit-box;display:-ms-flexbox;display:flex;font-size:1rem;line-height:1.375;margin-bottom:1rem}.cookies-popup .popup-content-overlay .cookies-popup-content .cookies-popup-body .actions-holder{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:start;-ms-flex-pack:start;justify-content:flex-start}.cookies-popup .popup-content-overlay .cookies-popup-content .cookies-popup-body .actions-holder button{padding:.875rem 1.5rem;font-size:1rem;height:auto}.cookies-popup .popup-content-underlay{position:absolute;background-color:rgba(33,41,52,.75);pointer-events:none;width:100%;height:100%;left:0;top:0}.aboutThisContentLink{font-weight:400;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;white-space:nowrap;font-size:.875rem;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.67;letter-spacing:0;color:#9b9b9b}.aboutThisContentLink:hover{color:#7a7a7a}.article-update-details{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.article-update-details>div{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.article-update-details>div span{font-size:1.125rem;color:#ccc}.article-update-details>div a{font-size:1.125rem;color:#7a7a7a;font-weight:400}.article-update-details>div a:active,.article-update-details>div a:focus,.article-update-details>div a:hover{color:#333}.article-update-details>div+div{margin-top:1rem}.article-update-details+.aboutThisContentLink{margin-top:.75rem;margin-bottom:.75rem;border-top:1px dotted #333;padding-top:.5rem}.about-content-modal .modal-body a,.about-content-modal .modal-body div,.about-content-modal .modal-body p,.about-content-modal .modal-body span{line-height:1.5;font-size:.75rem;font-weight:400}.about-content-modal .modal-body a{display:block}.about-content-modal .modal-body a[href]{font-weight:400;color:#eb6400;display:block}.about-content-modal .modal-body a[href]:hover{color:#c55400}.about-content-modal .modal-body .social-icons-holder{margin-bottom:1.5rem;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center}.about-content-modal .modal-body .social-icons-holder a{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}.about-content-modal .modal-body .social-icons-holder a i{font-size:1.25rem}.about-content-modal .modal-body .social-icons-holder a+a{margin-left:.5rem}.about-content-modal .modal-body .read-more-modal{color:#a3a3a3!important;display:inline-block!important}.about-content-modal .modal-body .disclaimer{margin:0}.journalists-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(1,1fr);-webkit-column-gap:1rem;-moz-column-gap:1rem;column-gap:1rem;grid-row-gap:1.5rem;padding-top:1rem;border-top:1px solid #ccc}.journalists-grid .journalists-grid-item{display:-webkit-box;display:-ms-flexbox;display:flex}.journalists-grid .journalists-grid-item a{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;position:relative;padding-left:1rem}.journalists-grid .journalists-grid-item a::before{content:"";position:absolute;width:.625rem;height:.625rem;background-image:url(https://cdn.proactiveinvestors.com/assets/svg/scroll-to-top.svg);background-position:center;background-repeat:no-repeat;background-size:.625rem .625rem;left:0}@media screen and (-webkit-min-device-pixel-ratio:0) and (-webkit-min-device-pixel-ratio:0),screen and (-webkit-min-device-pixel-ratio:0) and (min-resolution:0.001dpcm){.sub-nav-megamenu{overflow-x:hidden}}.zoom-wrapper{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;position:fixed;inset:0;width:100vw;height:100vh;z-index:10000000000000000000;padding:60px;background-color:rgba(255,255,255,.85)}.close-zoom{position:absolute;border-radius:4px;top:60px;right:60px;background:#eb6400;color:#fff;font-size:32px;width:48px;height:46px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;z-index:2;-webkit-transition:background-color .2s ease-in-out;transition:background-color .2s ease-in-out}.close-zoom:hover{cursor:pointer;background-color:#333}.zoom-wrapper img{width:auto;height:100%;max-width:90vw;max-height:90vh}.owl-carousel.editors-carousel .owl-nav button.owl-next:focus,.owl-carousel.editors-carousel .owl-nav button.owl-prev:focus,.owl-carousel.home-carousel .owl-nav button.owl-next:focus,.owl-carousel.home-carousel .owl-nav button.owl-prev:focus,.owl-next-button,.owl-prev-button{outline:0}.editors-carousel .owl-nav,.home-carousel .owl-nav{border-left:3px solid #333;position:absolute;top:-10px;right:0;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-flow:column;flex-flow:column;-ms-flex-direction:column-reverse;flex-direction:column-reverse;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;height:calc(100% + 20px);width:170px}.editors-carousel .owl-nav button,.home-carousel .owl-nav button{-webkit-box-flex:1;-ms-flex:1;flex:1;height:100%;font:inherit}.editors-carousel .owl-nav i,.home-carousel .owl-nav i{margin:auto 0;font-size:16px}.editors-carousel .owl-stage,.home-carousel .owl-stage{display:-webkit-box;display:-ms-flexbox;display:flex}.editors-carousel .owl-stage .owl-item,.home-carousel .owl-stage .owl-item{display:-webkit-box;display:-ms-flexbox;display:flex}.editors-carousel .owl-item .owl-slide,.home-carousel .owl-item .owl-slide{padding-left:4px}.editors-carousel .owl-item .owl-slide .news-item a.video_popup_activator.image-holder img,.home-carousel .owl-item .owl-slide .news-item a.video_popup_activator.image-holder img{width:auto}.editors-carousel .owl-item .owl-slide .news-item a.video_popup_activator.image-holder .play-button-holder.bitesize,.home-carousel .owl-item .owl-slide .news-item a.video_popup_activator.image-holder .play-button-holder.bitesize{width:calc(100% - 1.125rem);left:0}.editors-carousel .owl-prev-button,.home-carousel .owl-prev-button{border-bottom:1px solid #b9b99d}.editors-carousel .owl-prev-button:hover i.icon-arrow-right,.home-carousel .owl-prev-button:hover i.icon-arrow-right{color:#b9b99d}.editors-carousel .owl-next-button:hover i.icon-arrow-left,.home-carousel .owl-next-button:hover i.icon-arrow-left{color:#b9b99d}.analyst-carousel{position:relative}.analyst-carousel[data-enable-carousel="0"] .owl-dots,.analyst-carousel[data-enable-carousel="0"] .owl-nav{display:none}.analyst-carousel button:focus{outline:0}.analyst-carousel .owl-stage-outer{overflow:hidden}.analyst-carousel .owl-stage{display:-webkit-box;display:-ms-flexbox;display:flex}.analyst-carousel .owl-stage .owl-item{display:-webkit-box;display:-ms-flexbox;display:flex}.analyst-carousel .owl-item{margin-bottom:42px}.analyst-carousel .owl-prev-button:hover i.icon-arrow-right{color:#b9b99d}.analyst-carousel .owl-next-button:hover i.icon-arrow-left{color:#b9b99d}.analyst-carousel .owl-nav{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;width:40%;position:absolute;bottom:0;left:50%;z-index:1;-webkit-transform:translateX(-50%);transform:translateX(-50%)}.analyst-carousel .owl-nav button{font:inherit;-moz-appearance:none;-webkit-appearance:none;background:0 0;border:none}.analyst-carousel .owl-nav i{margin:auto 0;font-size:16px;color:#fff}.analyst-carousel .owl-dots{position:absolute;width:calc(40% - 80px);text-align:center;bottom:2px;z-index:2;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;display:-webkit-box;display:-ms-flexbox;display:flex}.analyst-carousel .owl-dots .owl-dot{font:inherit;-moz-appearance:none;-webkit-appearance:none;background:0 0;border:none;height:26px;padding:0 4px}.analyst-carousel .owl-dots .owl-dot span{height:10px;width:10px;border-radius:10px;background-color:#fff;display:-webkit-box;display:-ms-flexbox;display:flex}.analyst-carousel .owl-dots .owl-dot.active span{background-color:#fdac00}.analyst-carousel .owl-dots .owl-dot.active:hover span{background-color:#fdb826}.analyst-carousel .owl-dots .owl-dot:hover span{background-color:#adad8c}
+</style>
+
+ <link rel="stylesheet" fetchpriority="high" href="/assets/style.min.css?v=36">
+
+
+<meta name="scripDelayTimer" content="0">
+<meta property="fb:pages" content="163845340310506"/>
+<title>OpenAI acquires personal finance startup Hiro Finance, service to wind down in April</title>
+
+<meta name="msvalidate.01" content="472F41326D53FFF7DBCB15CAA90AAE34" />
+	<meta name="yandex-verification" content="3df83aea0b5bdb42" />
+	<meta name="verify-v1" content="JoXESQYRqhBXBl24KGysRZMCoqTrODdqVMD+6Dkc43M=" />
+
+	
+<meta name="Description" content="OpenAI (Unlisted:OPAI) has acquired personal finance startup Hiro Finance, the company’s founder Ethan Bloch announced.  The financial terms of the..." />
+    <meta name="twitter:card" content="summary_large_image" />
+   <meta name="twitter:site" content="@proactive_x" />
+   <meta name="twitter:creator" content="@proactive_x" />
+   <meta name="twitter:title" content="OpenAI acquires personal finance startup Hiro Finance, service to wind down in April" />
+   <meta name="twitter:description" content="OpenAI (Unlisted:OPAI) has acquired personal finance startup Hiro Finance, the company’s founder Ethan Bloch announced.  The financial terms of the..." />
+   <meta name="twitter:image" content="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDIzLTExLTIwLTEyLTE1LTA3LWI0ZWM5MDliZTY4NTk2MjdjYmYxNTNiNzBkOTQ1OWNiXzY5ZGU3MDMxODZlYjMuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjYzMCwiZml0IjoiY292ZXIifX19" />
+   <meta name="DC.date.issued" content="2026-04-14T12:48:00Z" />
+   <meta name="REVISION_DATE" content="2026-04-14T12:48:00Z" />
+   <meta name="Headline" content="OpenAI acquires personal finance startup Hiro Finance, service to wind down in April" />
+   <meta name="OriginalPublicationDate" content="2026/04/14" />
+   <meta name="PublishedTime" content="2026-04-14T08:48:00-04:00" />
+   <meta name="UpdatedTime" content="2026-04-14T12:48:00-04:00" />
+   <meta name="Robots" content="max-image-preview:large" />
+   <meta name="Author" content="Emily Jarvie, Angela Harmantas" />
+ 
+	<link rel="alternate" href="https://www.proactiveinvestors.co.uk/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html" hreflang="en-gb" />
+<link rel="alternate" href="https://www.proactiveinvestors.com/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html" hreflang="en-us" />
+<link rel="alternate" href="https://www.proactiveinvestors.com/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html?region=ca" hreflang="en-ca" />
+<link rel="alternate" href="https://www.proactiveinvestors.com.au/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html" hreflang="en-au" />
+<link rel="alternate" href="https://www.proactiveinvestors.com/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html" hreflang="x-default" />
+
+ <link rel="canonical" href="https://www.proactiveinvestors.com/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html" />
+
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="OpenAI acquires personal finance startup Hiro Finance, service to wind down in April"/>
+<meta property="og:description" content="OpenAI (Unlisted:OPAI) has acquired personal finance startup Hiro Finance, the company&rsquo;s founder Ethan Bloch announced.&nbsp; The financial terms of the..."/>
+<meta property="og:url" content="https://www.proactiveinvestors.com/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html"/>
+<meta property="og:site_name" content="Proactiveinvestors NA"/>
+<meta property="og:image" prefix="og: https://ogp.me/ns#" content="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDIzLTExLTIwLTEyLTE1LTA3LWI0ZWM5MDliZTY4NTk2MjdjYmYxNTNiNzBkOTQ1OWNiXzY5ZGU3MDMxODZlYjMuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjAwLCJoZWlnaHQiOjYzMCwiZml0IjoiY292ZXIifX19"/>
+
+<meta property="article:published_time" content="2026-04-14T08:48:00-04:00"/>
+<meta property="article:modified_time" content="2026-04-14T12:48:00-04:00"/>
+
+ <meta property="fb:app_id" content="105482376148295"/>
+ <meta property="fb:admins" content=""/>
+
+
+
+
+
+
+	 	 	 	 	 	 	 	 	 	
+
+
+<script async src="https://play.aniview.com/67b6349974d52f30a101b9bf/67d6dd4b4cbe774ed5085bda/pbw.js"></script>
+<script>
+	// Keep Aniview ad widgets out of snippet/video preview extraction.
+	(function () {
+ function markNode(node) {
+ if (!node || node.nodeType !== 1) {
+ return;
+ }
+ node.setAttribute('data-nosnippet', '');
+
+ if (node.parentElement) {
+ node.parentElement.setAttribute('data-nosnippet', '');
+ }
+ }
+
+ function collectAndMark(root) {
+ if (!root || root.nodeType !== 1) {
+ return;
+ }
+
+ var selectors = [
+ 'iframe[src*="aniview.com"]',
+ '[id*="aniview"]',
+ '[class*="aniview"]',
+ '[id^="avw_"]',
+ '[class*="avw-"]'
+ ];
+
+ try {
+ if (root.matches && selectors.some(function (s) { return root.matches(s); })) {
+ markNode(root);
+ }
+ } catch (e) {}
+
+ selectors.forEach(function (selector) {
+ var nodes = root.querySelectorAll(selector);
+ nodes.forEach(markNode);
+ });
+ }
+
+ function initObserver() {
+ collectAndMark(document.documentElement);
+
+ if (!window.MutationObserver) {
+ return;
+ }
+
+ var observer = new MutationObserver(function (mutations) {
+ mutations.forEach(function (mutation) {
+ mutation.addedNodes.forEach(function (node) {
+ collectAndMark(node);
+ });
+ });
+ });
+
+ observer.observe(document.documentElement, { childList: true, subtree: true });
+ }
+
+ if (document.readyState === 'loading') {
+ document.addEventListener('DOMContentLoaded', initObserver);
+ } else {
+ initObserver();
+ }
+	})();
+</script>
+
+
+<!--  YouTube linking and approval -->
+<meta name="google-site-verification" content="M9NZSZipMdDL_Hircl5Z-lt9sJA-7TE3paUXRaN4SPs"/>
+
+
+
+
+
+<!-- InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.2) -->
+<script type="text/javascript" async=true>
+	(function() {
+ var host = 'proactiveinvestors.com';
+ var element = document.createElement('script');
+ var firstScript = document.getElementsByTagName('script')[0];
+ var url = 'https://cmp.inmobi.com'
+ .concat('/choice/', 'PRrmquD1Ggcb1', '/', host, '/choice.js?tag_version=V3');
+ var uspTries = 0;
+ var uspTriesLimit = 3;
+ element.async = true;
+ element.type = 'text/javascript';
+ element.src = url;
+ firstScript.parentNode.insertBefore(element, firstScript);
+ function makeStub() {
+ var TCF_LOCATOR_NAME = '__tcfapiLocator';
+ var queue = [];
+ var win = window;
+ var cmpFrame;
+ function addFrame() {
+ var doc = win.document;
+ var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
+ if (!otherCMP) {
+ if (doc.body) {
+ var iframe = doc.createElement('iframe');
+ iframe.style.cssText = 'display:none';
+ iframe.name = TCF_LOCATOR_NAME;
+ doc.body.appendChild(iframe);
+ } else {
+ setTimeout(addFrame, 5);
+ }
+ }
+ return !otherCMP;
+ }
+ function tcfAPIHandler() {
+ var gdprApplies;
+ var args = arguments;
+ if (!args.length) {
+ return queue;
+ } else if (args[0] === 'setGdprApplies') {
+ if (
+ args.length > 3 &&
+ args[2] === 2 &&
+ typeof args[3] === 'boolean'
+ ) {
+ gdprApplies = args[3];
+ if (typeof args[2] === 'function') {
+ args[2]('set', true);
+ }
+ }
+ } else if (args[0] === 'ping') {
+ var retr = {
+ gdprApplies: gdprApplies,
+ cmpLoaded: false,
+ cmpStatus: 'stub'
+ };
+ if (typeof args[2] === 'function') {
+ args[2](retr);
+ }
+ } else {
+ if(args[0] === 'init' && typeof args[3] === 'object') {
+ args[3] = Object.assign(args[3], { tag_version: 'V3' });
+ }
+ queue.push(args);
+ }
+ }
+ function postMessageEventHandler(event) {
+ var msgIsString = typeof event.data === 'string';
+ var json = {};
+ try {
+ if (msgIsString) {
+ json = JSON.parse(event.data);
+ } else {
+ json = event.data;
+ }
+ } catch (ignore) {}
+ var payload = json.__tcfapiCall;
+ if (payload) {
+ window.__tcfapi(
+ payload.command,
+ payload.version,
+ function(retValue, success) {
+ var returnMsg = {
+ __tcfapiReturn: {
+ returnValue: retValue,
+ success: success,
+ callId: payload.callId
+ }
+ };
+ if (msgIsString) {
+ returnMsg = JSON.stringify(returnMsg);
+ }
+ if (event && event.source && event.source.postMessage) {
+ event.source.postMessage(returnMsg, '*');
+ }
+ },
+ payload.parameter
+ );
+ }
+ }
+ while (win) {
+ try {
+ if (win.frames[TCF_LOCATOR_NAME]) {
+ cmpFrame = win;
+ break;
+ }
+ } catch (ignore) {}
+ if (win === window.top) {
+ break;
+ }
+ win = win.parent;
+ }
+ if (!cmpFrame) {
+ addFrame();
+ win.__tcfapi = tcfAPIHandler;
+ win.addEventListener('message', postMessageEventHandler, false);
+ }
+ };
+ makeStub();
+ var uspStubFunction = function() {
+ var arg = arguments;
+ if (typeof window.__uspapi !== uspStubFunction) {
+ setTimeout(function() {
+ if (typeof window.__uspapi !== 'undefined') {
+ window.__uspapi.apply(window.__uspapi, arg);
+ }
+ }, 500);
+ }
+ };
+ var checkIfUspIsReady = function() {
+ uspTries++;
+ if (window.__uspapi === uspStubFunction && uspTries < uspTriesLimit) {
+ console.warn('USP is not accessible');
+ } else {
+ clearInterval(uspInterval);
+ }
+ };
+ if (typeof window.__uspapi === 'undefined') {
+ window.__uspapi = uspStubFunction;
+ var uspInterval = setInterval(checkIfUspIsReady, 6000);
+ }
+	})();
+</script>
+<!-- End InMobi Choice. Consent Manager Tag v3.0 (for TCF 2.2) -->
+
+</head>
+<body>
+
+	
+	
+  <!-- Main Navigation Start -->
+<nav class="top-nav navbar navbar-dark bg-proactive-dark">
+ <img class="logo-box" src="https://cdn.proactiveinvestors.com/assets/svg/logo_bg_2.svg" alt="logo part">
+ <div class="container-fluid d-flex">
+
+ <div class="container d-flex justify-content-between h-100">
+ <div class="menu-block-holder">
+ <!--<div class="menu-burger-container d-flex justify-content-center">
+ <div class="menu-burger">
+ <span class="top"></span>
+ <span class="middle"></span>
+ <span class="bottom"></span>
+ </div>
+ <div class="burger-megamenu container">
+ <div class="row">
+ <div class="burger-megamenu-list-container">
+ 	                	<div class="row">
+
+ <div class="login-buttons">
+ @ element('Front/sign_in_out_buttons')
+ </div>
+
+ <div class="col-md-3 list-border">
+
+ <ul class="megamenu-list">
+  </ul>
+ </div>
+ </div>
+ 	                </div>
+ </div>
+ </div>
+ </div>-->
+
+ <div class="domains">
+ <div class="dropdown">
+  <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+ USA<i class="custom-dropdown-icon icon-arrow-dropdown-closed"></i>
+ </a>
+ <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+ <a class="dropdown-item " href="https://www.proactiveinvestors.co.uk/">UK</a>
+ <a class="dropdown-item active change-region" href="https://www.proactiveinvestors.com/" data-region-redirection="na">USA</a>
+ <a class="dropdown-item " href="https://www.proactiveinvestors.com.au/">AU</a>
+ <a class="dropdown-item  change-region" href="https://www.proactiveinvestors.com/" data-region-redirection="ca">CA</a>
+
+  <script>
+ $(function () {
+ $('.change-region').click(function (e) {
+ e.preventDefault();
+
+ var href = $(this).attr('href'),
+ target = $(this).attr('target'),
+ redirection_param = {
+ 'change-region': $(this).data('region-redirection')
+ };
+
+ post(href, redirection_param, 'post', target);
+ });
+ });
+ </script>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <a class="navbar-brand-image ml-auto" href="/">
+ <img src="https://cdn.proactiveinvestors.com/assets/svg/top_header_logo_color.svg" class="my-auto" alt="proactive logo" width="166" height="39">
+ </a>
+
+ <div class="links-container">
+ <!--<div class="watch-links-holder ">
+ <a href="/archives/video" class="watch-link">Watch</a>
+
+ </div>-->
+ <div class="watch-links-holder my-proactive">
+ <a href="javascript:void(0)" class="profile-link" rel="nofollow">
+ <b>My</b><i>Proactive</i>
+ <i class="icon-everyday-investor"></i>
+ </a>
+ <div class="dropdown">
+ 
+  
+ <div class="dropdown-menu">
+ <a class="dropdown-item disabled text-muted" href="/myProactive">Feed</a>
+ <a class="dropdown-item disabled text-muted" href="/myProactive/alerts">Alerts</a>
+ <a class="dropdown-item disabled text-muted" href="/myProactive/subscriptions">Subscriptions</a>
+ <a class="dropdown-item disabled text-muted" href="/myProactive/bookmarks">Bookmarks</a>
+ <a class="dropdown-item disabled text-muted" href="/myProactive/settings">Settings</a>
+  <a class="dropdown-item sign-in-primary-btn" href="/members/login">Sign In</a>
+ 
+ 
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <a class="search-modal-toggle" data-toggle="modal" data-target="#searchModal">
+ <i class="icon-search"></i>
+ </a>
+
+ </div>
+ </div>
+</nav>
+<!-- Main Navigation End -->
+<!-- Secondary Navigation Start -->
+<nav class="sub-nav navbar sticky-top">
+ <div class="container">
+ <img class="logo-box" src="https://cdn.proactiveinvestors.com/assets/svg/logo_bg_1.svg" alt="logo part">
+ <ul class="nav overflowX-auto">
+ <li class="nav-item">
+ <a class="nav-link" href="/">
+ <span class="icon-home"></span>
+ </a>
+ </li>
+   <li class="nav-item">
+ <a class="nav-link active" href="/" target=&quot;_blank&quot;>
+ News
+ </a>
+   <div class="sub-nav-megamenu container-fluid">
+ <div class="row">
+ <div class="col-md-12 bg-proactive-yellow-25">
+ <div class="container">
+ <div class="row">
+ <div class="col-md-3">
+ <h3 class="h3">Browse</h3>
+ </div>
+ <div class="col-md-5">
+  <h3 class="h3">Latest news</h3>
+  </div>
+ 
+ </div>
+ </div>
+ </div>
+ <div class="container mb-5">
+ <div class="row">
+ <div class="col-md-3 pr-0">
+ <ul class="list-left">
+  	 	  <li><a href="/proactive_live" >Live</a></li>
+  	  <li><a href="/pages/market-reports" >Market reports</a></li>
+  	  <li><a href="/otc-markets" >OTC Markets</a></li>
+  	  <li><a href="/archives/niche/categories/small-caps/53" >Small caps</a></li>
+  	 </ul>
+ </div>
+ <div class="list-right-container col-md-9">
+  <ul class="list-right">
+  <li>
+ <a href="/companies/news/1090616/morgan-stanley-earnings-beat-driven-by-strong-trading-performance-1090616.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDIyLTEwLTE0LTA5LTQxLTM5LWY5ZWQ2Y2MyNWY2MTg1YjYwNjZmNTU4OGViYTRhNGU1XzY5ZGZhMmExNWRiYzIuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MCwiaGVpZ2h0Ijo1MCwiZml0IjoiY292ZXIifX19" width="70" height="50" alt="Morgan Stanley - Morgan Stanley earnings beat driven by strong trading performance" id="1196723" />
+ <div>
+ <h5>Morgan Stanley earnings beat driven by strong trading performance</h5>
+ <span>10:35 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090606/thor-explorations-coming-of-age-as-it-moves-towards-multi-asset-growth-says-broker-1090606.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDI2LTA0LTE1LTEzLTEyLTIwLTk4ZTQ5NDM4N2QwZGFmOTdlOGFhMzI5M2JkNmJjNzBjLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="Thor Explorations 'coming of age' as it moves towards multi-asset growth, says broker" id="1196713" />
+ <div>
+ <h5>Thor Explorations &#039;coming of age&#039; as it moves towards multi-asset growth, says broker</h5>
+ <span>10:00 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090605/mixed-start-as-nasdaq-rises-but-dow-jones-slips-trump-eyes-more-iran-talk-1090605.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDI2LTAzLTIzLTEyLTA1LTQ5LTE4YWY5NmZjODc4OThkNjc1MGQzYmFjOGYyYTFiYWY3LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="Morgan Stanley - " id="1196712" />
+ <div>
+ <h5>Mixed start as Nasdaq rises but Dow Jones slips, Trump eyes more Iran talk</h5>
+ <span>10:00 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090614/enwave-partners-with-the-dry-hub-to-launch-drying-operations-in-egypt-1090614.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9FbldhdmUtdHJheS1tYWNoaW5lLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="EnWave Corp - EnWave partners with The Dry Hub to launch drying operations in Egypt" id="1196721" />
+ <div>
+ <h5>EnWave partners with The Dry Hub to launch drying operations in Egypt</h5>
+ <span>09:52 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090568/ftse-100-live-shares-mixed-as-iran-talks-awaited-ceres-and-rank-jump-1090568.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9hdml2YS1pbnZlc3RvcnMtYW5hbHlzdHMtdHJhZGVycy1mdW5kLW1hbmFnZXJzLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="aviva-investors-analysts-traders-fund-managers" id="1196677" />
+ <div>
+ <h5>FTSE 100 Live: Shares mixed as Iran talks awaited, Ceres and Rank jump</h5>
+ <span>09:52 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  </ul>
+   </div>
+  </div>
+ </div>
+
+ </div>
+ </div>
+  </li>
+   <li class="nav-item">
+ <a class="nav-link " href="/topics" target=&quot;_blank&quot;>
+ Topics
+ </a>
+   <div class="sub-nav-megamenu container-fluid">
+ <div class="row">
+ <div class="col-md-12 bg-proactive-yellow-25">
+ <div class="container">
+ <div class="row">
+ <div class="col-md-3">
+ <h3 class="h3">Browse</h3>
+ </div>
+ <div class="col-md-5">
+  <h3 class="h3">Latest news</h3>
+  </div>
+  <div class="col-md-4">
+ <h3 class="h3">Spotlight</h3>
+ </div>
+ 
+ </div>
+ </div>
+ </div>
+ <div class="container mb-5">
+ <div class="row">
+ <div class="col-md-3 pr-0">
+ <ul class="list-left">
+  	 	  <li><a href="/topics" >All topics...</a></li>
+  	  <li><a href="/basic-materials" >Basic Materials</a></li>
+  	  <li><a href="/energy" >Energy</a></li>
+  	  <li><a href="/finance" >Finance</a></li>
+  	  <li><a href="/health" >Health</a></li>
+  	  <li><a href="/industry-services" >Industry &amp; services</a></li>
+  	  <li><a href="/mining" >Mining</a></li>
+  	  <li><a href="/retail-consumer" >Retail &amp; consumer</a></li>
+  	  <li><a href="/tech" >Tech</a></li>
+  	  <li><a href="/telecommunications" >Telecoms &amp; Networks</a></li>
+  	  <li><a href="/utilities" >Utilities</a></li>
+  	 </ul>
+ </div>
+ <div class="list-right-container col-md-5">
+  <ul class="list-right">
+  <li>
+ <a href="/companies/news/1090616/morgan-stanley-earnings-beat-driven-by-strong-trading-performance-1090616.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDIyLTEwLTE0LTA5LTQxLTM5LWY5ZWQ2Y2MyNWY2MTg1YjYwNjZmNTU4OGViYTRhNGU1XzY5ZGZhMmExNWRiYzIuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MCwiaGVpZ2h0Ijo1MCwiZml0IjoiY292ZXIifX19" width="70" height="50" alt="Morgan Stanley - Morgan Stanley earnings beat driven by strong trading performance" id="1196723" />
+ <div>
+ <h5>Morgan Stanley earnings beat driven by strong trading performance</h5>
+ <span>10:35 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090606/thor-explorations-coming-of-age-as-it-moves-towards-multi-asset-growth-says-broker-1090606.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDI2LTA0LTE1LTEzLTEyLTIwLTk4ZTQ5NDM4N2QwZGFmOTdlOGFhMzI5M2JkNmJjNzBjLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="Thor Explorations 'coming of age' as it moves towards multi-asset growth, says broker" id="1196713" />
+ <div>
+ <h5>Thor Explorations &#039;coming of age&#039; as it moves towards multi-asset growth, says broker</h5>
+ <span>10:00 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090605/mixed-start-as-nasdaq-rises-but-dow-jones-slips-trump-eyes-more-iran-talk-1090605.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDI2LTAzLTIzLTEyLTA1LTQ5LTE4YWY5NmZjODc4OThkNjc1MGQzYmFjOGYyYTFiYWY3LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="Morgan Stanley - " id="1196712" />
+ <div>
+ <h5>Mixed start as Nasdaq rises but Dow Jones slips, Trump eyes more Iran talk</h5>
+ <span>10:00 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090614/enwave-partners-with-the-dry-hub-to-launch-drying-operations-in-egypt-1090614.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9FbldhdmUtdHJheS1tYWNoaW5lLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="EnWave Corp - EnWave partners with The Dry Hub to launch drying operations in Egypt" id="1196721" />
+ <div>
+ <h5>EnWave partners with The Dry Hub to launch drying operations in Egypt</h5>
+ <span>09:52 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090568/ftse-100-live-shares-mixed-as-iran-talks-awaited-ceres-and-rank-jump-1090568.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9hdml2YS1pbnZlc3RvcnMtYW5hbHlzdHMtdHJhZGVycy1mdW5kLW1hbmFnZXJzLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="aviva-investors-analysts-traders-fund-managers" id="1196677" />
+ <div>
+ <h5>FTSE 100 Live: Shares mixed as Iran talks awaited, Ceres and Rank jump</h5>
+ <span>09:52 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  </ul>
+   </div>
+  <div class="list-right-container col-md-4">
+ <ul class="list-right">
+  <li>
+ <a class="image-holder" href="/pharma">
+ <div class="spotlight-img">
+  <i class="icon-pharma-biotech"></i>
+  </div>
+ <p>Pharma &amp; Biotech</p>
+ </a>
+ </li>
+  <li>
+ <a class="image-holder" href="/archives/niche/sectors/gold-silver/226">
+ <div class="spotlight-img">
+  <i class="icon-gold"></i>
+  </div>
+ <p>Gold &amp; Silver</p>
+ </a>
+ </li>
+  <li>
+ <a class="image-holder" href="/blockchain-crypto">
+ <div class="spotlight-img">
+  <i class="icon-bitcoin"></i>
+  </div>
+ <p>Crypto</p>
+ </a>
+ </li>
+  <li>
+ <a class="image-holder" href="/archives/niche/sectors/battery-metals/230">
+ <div class="spotlight-img">
+  <i class="icon-battery-metals"></i>
+  </div>
+ <p>Battery Metals</p>
+ </a>
+ </li>
+  <li>
+ <a class="image-holder" href="/archives/niche/categories/artificial-intelligence/400">
+ <div class="spotlight-img">
+  <i class="icon-artificial-intelligence"></i>
+  </div>
+ <p>Artificial Intelligence</p>
+ </a>
+ </li>
+ 
+ </ul>
+ </div>
+  </div>
+ </div>
+
+ </div>
+ </div>
+  </li>
+   <li class="nav-item">
+ <a class="nav-link " href="/insight" target=&quot;_blank&quot;>
+ Insights
+ </a>
+   <div class="sub-nav-megamenu container-fluid">
+ <div class="row">
+ <div class="col-md-12 bg-proactive-yellow-25">
+ <div class="container">
+ <div class="row">
+ <div class="col-md-3">
+ <h3 class="h3">Browse</h3>
+ </div>
+ <div class="col-md-5">
+  <h3 class="h3">Latest news</h3>
+  </div>
+ 
+ </div>
+ </div>
+ </div>
+ <div class="container mb-5">
+ <div class="row">
+ <div class="col-md-3 pr-0">
+ <ul class="list-left">
+  	 	  <li><a href="/archives/niche/categories/deep-dive/47" >Deep dive</a></li>
+  	  <li><a href="/archives/niche/categories/feature/59" >Feature</a></li>
+  	 </ul>
+ </div>
+ <div class="list-right-container col-md-9">
+  <ul class="list-right">
+  <li>
+ <a href="/companies/news/964364/sonoro-gold-sees-strong-potential-for-flagship-cerro-caliche-project-in-mexico-964364.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDIxXzEwXC8xNjM1Mjc2NTQxX3NodXR0ZXJzdG9ja18zMjIwNTE2ODguanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MCwiaGVpZ2h0Ijo1MCwiZml0IjoiY292ZXIifX19" width="70" height="50" alt="Drilling rig at sunset" id="1068654" />
+ <div>
+ <h5>Sonoro Gold sees strong potential for flagship Cerro Caliche project in Mexico</h5>
+ <span>09:27 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1052054/from-acquisition-to-advancement-how-medicus-pharma-is-shaping-the-future-of-medicine-1052054.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI0XzA3XC9jbGluaWNhbC10cmlhbC5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjcwLCJoZWlnaHQiOjUwLCJmaXQiOiJjb3ZlciJ9fX0=" width="70" height="50" alt="Medicus Pharma - " id="1158021" />
+ <div>
+ <h5>From acquisition to advancement: How Medicus Pharma is shaping the future of medicine</h5>
+ <span>09:07 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1060025/reconnaissance-energy-africa-eyes-untapped-oil-potential-in-namibia-and-botswana-1060025.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI0XzExXC9TY3JlZW5zaG90LTIwMjQtMDgtMjktYXQtOS01Ni00Ny1BTV82NzJiZDhkMWI0M2IyLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="oil project" id="1165947" />
+ <div>
+ <h5>Reconnaissance Energy Africa eyes untapped oil potential in Namibia and Botswana</h5>
+ <span>08:48 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/982983/power-metallic-mines-is-focused-on-high-potential-copper-gold-and-battery-metal-prospects-in-canada-982983.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDIyXzA1XC8yMDIwLTA2LTAzLTExLTQ0LTMzLWJkNTdhNDVhZTVhZDI4NDMwNGYyY2RlMGRlYTFmYWY3XzYyOGJiMWJiOWVjZjUuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MCwiaGVpZ2h0Ijo1MCwiZml0IjoiY292ZXIifX19" width="70" height="50" alt="Nickel bars" id="1088175" />
+ <div>
+ <h5>Power Metallic Mines is focused on high-potential copper, gold, and battery metal prospects in Canada</h5>
+ <span>08:43 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1074793/new-era-energy-digital-powers-next-gen-data-center-infrastructure-1074793.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzExXC8yMDI1LTExLTI3LTA4LTE1LTA2LWZlNDUzMTNiOTBkYWU0MDdmMGJiY2Y1ZmU1ZDM1MjMxLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="New Era Helium" id="1180799" />
+ <div>
+ <h5>New Era Energy &amp; Digital powers next-gen data center infrastructure</h5>
+ <span>16:26 14 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  </ul>
+   </div>
+  </div>
+ </div>
+
+ </div>
+ </div>
+  </li>
+   <li class="nav-item">
+ <a class="nav-link " href="/companies/" target=&quot;_blank&quot;>
+ Companies
+ </a>
+   <div class="sub-nav-megamenu container-fluid">
+ <div class="row">
+ <div class="col-md-12 bg-proactive-yellow-25">
+ <div class="container">
+ <div class="row">
+ <div class="col-md-3">
+ <h3 class="h3">Browse</h3>
+ </div>
+ <div class="col-md-5">
+  <h3 class="h3">Latest news</h3>
+  </div>
+ 
+ </div>
+ </div>
+ </div>
+ <div class="container mb-5">
+ <div class="row">
+ <div class="col-md-3 pr-0">
+ <ul class="list-left">
+  	 	  <li><a href="/companies?category=64" >Big caps</a></li>
+  	  <li><a href="/companies?category=65" >Mid caps</a></li>
+  	  <li><a href="/companies/" >Search A-Z</a></li>
+  	  <li><a href="/companies?category=53" >Small caps</a></li>
+  	 </ul>
+ </div>
+ <div class="list-right-container col-md-9">
+  <ul class="list-right">
+  <li>
+ <a href="/companies/news/1090616/morgan-stanley-earnings-beat-driven-by-strong-trading-performance-1090616.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDIyLTEwLTE0LTA5LTQxLTM5LWY5ZWQ2Y2MyNWY2MTg1YjYwNjZmNTU4OGViYTRhNGU1XzY5ZGZhMmExNWRiYzIuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo3MCwiaGVpZ2h0Ijo1MCwiZml0IjoiY292ZXIifX19" width="70" height="50" alt="Morgan Stanley - Morgan Stanley earnings beat driven by strong trading performance" id="1196723" />
+ <div>
+ <h5>Morgan Stanley earnings beat driven by strong trading performance</h5>
+ <span>10:35 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090606/thor-explorations-coming-of-age-as-it-moves-towards-multi-asset-growth-says-broker-1090606.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDI2LTA0LTE1LTEzLTEyLTIwLTk4ZTQ5NDM4N2QwZGFmOTdlOGFhMzI5M2JkNmJjNzBjLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="Thor Explorations 'coming of age' as it moves towards multi-asset growth, says broker" id="1196713" />
+ <div>
+ <h5>Thor Explorations &#039;coming of age&#039; as it moves towards multi-asset growth, says broker</h5>
+ <span>10:00 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090605/mixed-start-as-nasdaq-rises-but-dow-jones-slips-trump-eyes-more-iran-talk-1090605.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDI2LTAzLTIzLTEyLTA1LTQ5LTE4YWY5NmZjODc4OThkNjc1MGQzYmFjOGYyYTFiYWY3LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="Morgan Stanley - " id="1196712" />
+ <div>
+ <h5>Mixed start as Nasdaq rises but Dow Jones slips, Trump eyes more Iran talk</h5>
+ <span>10:00 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090614/enwave-partners-with-the-dry-hub-to-launch-drying-operations-in-egypt-1090614.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9FbldhdmUtdHJheS1tYWNoaW5lLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="EnWave Corp - EnWave partners with The Dry Hub to launch drying operations in Egypt" id="1196721" />
+ <div>
+ <h5>EnWave partners with The Dry Hub to launch drying operations in Egypt</h5>
+ <span>09:52 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  <li>
+ <a href="/companies/news/1090568/ftse-100-live-shares-mixed-as-iran-talks-awaited-ceres-and-rank-jump-1090568.html">
+ <div class="media title-date">
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9hdml2YS1pbnZlc3RvcnMtYW5hbHlzdHMtdHJhZGVycy1mdW5kLW1hbmFnZXJzLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzAsImhlaWdodCI6NTAsImZpdCI6ImNvdmVyIn19fQ==" width="70" height="50" alt="aviva-investors-analysts-traders-fund-managers" id="1196677" />
+ <div>
+ <h5>FTSE 100 Live: Shares mixed as Iran talks awaited, Ceres and Rank jump</h5>
+ <span>09:52 15 Apr</span>
+ </div>
+ </div>
+ </a>
+ <!--<i class="icon-arrow-right"></i>-->
+
+ </li>
+  </ul>
+   </div>
+  </div>
+ </div>
+
+ </div>
+ </div>
+  </li>
+     <li class="nav-item">
+ <a class="nav-link " href="/archives/video" target=&quot;_blank&quot;>
+ Watch
+ </a>
+  </li>
+         <li class="nav-item">
+ <a class="nav-link " href="https://proactive-interviews-for-investors.simplecast.com/episodes" target=&quot;_blank&quot;>
+ Listen
+ </a>
+  </li>
+  </ul>
+
+ <div class="login-buttons">
+ 
+
+	<a href="/members/signup" class="btn btn-primary fs-2"
+	   data-toggle="tooltip" data-html="true" data-placement="bottom" data-container="body"
+	   title="<p class='text-left' style='font-size: 12px; margin-top:10px; margin-left:10px;'>Follow companies you’re interested in, and receive alerts when they’re in the news.</p><p class='text-left' style='font-size: 12px; margin-left:10px;'>Create a customised news feed, and subscribe to our regional newsletters.</p>">
+ Sign Up
+
+	 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  viewBox="0 0 16 16" style="enable-background:new 0 0 16 16; width: 16px; height: 16px; line-height: 32px; margin-top: -2px; margin-left: 2px; display: inline-block;" xml:space="preserve">
+ <style type="text/css">
+ .st0{fill:#333333;}
+ </style>
+ <g>
+ <ellipse class="st0" cx="8" cy="3.7" rx="0.8" ry="0.7"/>
+ <path class="st0" d="M8,6C7.8,6,7.6,6.2,7.6,6.4v6.2C7.6,12.8,7.8,13,8,13s0.4-0.2,0.4-0.4V6.4C8.4,6.2,8.3,6,8,6z"/>
+ <path class="st0" d="M8,0C3.6,0,0,3.6,0,8s3.6,8,8,8s8-3.6,8-8S12.4,0,8,0z M8,15c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7
+ S11.9,15,8,15z"/>
+ </g>
+ </svg>
+		</a>
+
+
+ </div>
+ </div>
+</nav>
+<!-- Secondary Navigation End -->
+
+<!-- Back to Top  button -->
+<button class="back-to-top" type="button"><i class="icon-arrow-dropdown-opened"></i></button>
+
+<!-- Animated loader -->
+<div class="logo-loader">
+ <div class="logo-loader-inner">
+ <div class="logo-loader-front">
+ <img src="https://cdn.proactiveinvestors.com/assets/svg/loader-logo-rotate.svg" alt="logo-loader">
+ </div>
+ </div>
+</div>
+
+<div class="modal" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" >
+ <div class="modal-dialog" role="document">
+ <div class="modal-content">
+ <div class="row">
+ <div class="container">
+ <div class="modal-header">
+ <h4 class="modal-title">What are you searching for?</h4>
+ </div>
+ <div class="modal-body">
+ <form method="GET" action="/search/advancedSearch/all" class="form-inline justify-content-between col-md-8 offset-md-2">
+ <div class="form-group">
+ <input type="text" name="keyword" placeholder="Search in Proactive..." id="searchMain" required="required" autocomplete="off">
+ <button class="btn btn-primary search-button"><i class="icon-search"></i></button>
+ </div>
+ <div class="search-results-holder">
+ <div class="results-header">
+ <h4>Companies</h4>
+ <h4>News</h4>
+ </div>
+ <div class="results-lists-holder">
+ <div class="results-list-block">
+ <ul id="companies-search-result" class="results-list"></ul>
+ <a data-href="/companies" class="badge badge-primary" id="companies-search-link">
+ See all companies matching <b class="search-keyword"></b><i class="icon-arrow-right"></i>
+ </a>
+ </div>
+ <div class="results-list-block">
+ <ul id="news-search-result" class="results-list"></ul>
+ <a data-href="/search/advancedSearch/news" class="badge badge-primary" id="news-search-link">
+ See all news matching <b class="search-keyword"></b><i class="icon-arrow-right"></i>
+ </a>
+ </div>
+ </div>
+ </div>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+
+
+ 
+ 
+ 
+ <div class="container-fluid">
+ <div class="row d-flex flex-column">
+ 
+
+
+<!-- Article section Start -->
+<section id="detailsart" itemscope itemtype="https://schema.org/NewsArticle" class="article container infinity-display-block">
+
+	<div class="hidden" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+ <div itemscope itemtype="https://schema.org/ImageObject">
+ <img itemprop="logo" src="https://cdn.proactiveinvestors.com/assets/img/logo.png"/>
+ <meta itemprop="url" content="https://www.proactiveinvestors.co.uk/">
+ <meta itemprop="width" content="166">
+ <meta itemprop="height" content="39">
+ </div>
+ <meta itemprop="name" content="Proactive Investors">
+	</div>
+
+
+	 <meta itemprop="backstory" content="Proactive financial news and online broadcast teams provide fast, accessible, informative and actionable business and finance news content to a global investment audience. All our content is produced independently by our experienced and qualified teams of news journalists. We are experts in medium and small-cap markets, we also keep our community up to date with blue-chip companies, commodities and broader investment stories. The team delivers news and unique insights across the market including but not confined to: biotech and pharma, mining and natural resources, battery metals, oil and gas, crypto and emerging digital and EV technologies." />
+ <meta itemprop="dateModified" content="2026-04-14T12:48:00-04:00" />
+	
+	<div class="row h-100">
+ <div class="col-md-12 col-lg-9" id="collapsed-left">
+ <article class="single-article single-article-wrapper" itemscope itemtype="https://schema.org/NewsArticle"
+  data-id="1090538"
+  data-url="/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html"
+  data-gaDimension="ga(&#039;set&#039;, &#039;dimension1&#039;, &#039;|story_id:1090538|news/details|PRIVATE:OPAI|20575|&#039;);"
+  data-gtag="{&quot;Sector&quot;:&quot;|118|&quot;,&quot;News&quot;:&quot;1090538&quot;,&quot;company&quot;:&quot;|story_id:1090538|news\/details|PRIVATE:OPAI|20575|&quot;}"
+  data-title="OpenAI acquires personal finance startup Hiro Finance, service to wind down in April"
+  data-clientContentView="false">
+
+ <div class="row">
+ <div id="left-sidebar" class="col-md-12 col-lg-3 d-flex flex-column">
+ <div class="sticky-bottom">
+ <a href="/tech" class="badge badge-primary">Tech</a>
+
+ <!-- Writer's profile link Start -->
+ <div class="writer-link" itemprop="author" itemscope itemtype="https://schema.org/Person">
+
+	  	
+	<div class="edited-by-label">Written by:</div>
+	<a href="/teams/details/429/Emily-Jarvie" class="writer-name" itemprop="url">
+   <div class="writer-image" style="background-image: url(https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL1RlYW1cL0ltYWdlXC8yMDIyXzA0XC9FbWlseS1KYXJ2aWUtSGVhZHNob3QuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo5MCwiaGVpZ2h0Ijo5MCwiZml0IjoiaW5zaWRlIn19fQ==)">
+ <div class="writer-image-overlay"></div>
+ </div>
+  <h3 itemprop="name">Emily Jarvie</h3>
+	</a>
+
+	<div class="social-share">
+		</div>
+
+<!-- <div class="date-time-published">
+  <p itemprop="datePublished" content="2026-04-14T12:48:00-04:00">
+ 12:48 Tue 14 Apr 2026
+ </p>
+	</div> -->
+</div>
+
+	<div class="article-update-details" itemprop="author" itemscope itemtype="https://schema.org/Person">
+ 
+  <div>
+ <span>Edited by:</span>
+ <a href="/teams/details/357/Angela-Harmantas" itemprop="url">
+ <div itemprop="name">Angela Harmantas</div>
+ </a>
+ </div>
+ 	</div>
+<a href="#" class="aboutThisContentLink" data-toggle="modal" data-target="#aboutContentModal_1090538">About this content</a>
+
+ <!-- Writer's profile link End -->
+
+   <a href="#" class="aboutThisContentLink" data-toggle="modal" data-target="#disclaimerModal_1090538">Disclaimer<br> No investment advice</a>
+   <div>
+ <div class="sharelink js-multiple-shares sharelink_left"
+	 data-title="OpenAI acquires personal finance startup Hiro Finance, service to wind down in April"
+	 data-description=""
+	 data-url="https://www.proactiveinvestors.com/companies/news/1090538/openai-acquires-personal-finance-startup-hiro-finance-service-to-wind-down-in-april-1090538.html"
+>
+	<span class="aboutThisContentLink"> Share article </span>
+	<div class="share-container-left">
+ <a href="#" class="js-facebook-link jssocials-share-link" target="_blank"
+    data-social-type="facebook"
+    data-nid="1090538"
+    data-cid="20575"
+ >
+ <i class="icon-facebook"></i>
+ </a>
+ <a href="#" class="js-twitter-link" target="_blank"
+    data-social-type="twitter"
+    data-id="1090538"
+    data-type="news"
+    data-nid="1090538"
+    data-cid="20575"
+ >
+ <i class="icon-twitter"></i>
+ </a>
+ <a href="#" class="js-linkendin-link jssocials-share-link" target="_blank"
+    data-social-type="linkedin"
+    data-nid="1090538"
+    data-cid="20575"
+ >
+ <i class="icon-linkedin"></i>
+ </a>
+ <a href="#" class="js-reddit-link jssocials-share-link" target="_blank"
+    data-social-type="reddit"
+    data-nid="1090538"
+    data-cid="20575"
+ >
+ <i class="icon-reddit"></i>
+ </a>
+ <a href="#" class="js-mail-link" target="_blank"
+    data-social-type="mail"
+    data-nid="1090538"
+    data-cid="20575"
+ >
+ <i class="icon-email"></i>
+ </a>
+ <a href="#" class="js-whatsapp-link jssocials-share-link" target="_blank" data-action="share/whatsapp/share"
+    data-social-type="whatsapp"
+    data-nid="1090538"
+    data-cid="20575"
+ >
+ <i class="icon-whatsapp"></i>
+ </a>
+	</div>
+</div>
+ </div>
+ 	</div>
+	<div class="modal fade about-content-modal" id="disclaimerModal_1090538"  tabindex="-1" aria-labelledby="disclaimerLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg m-4 m-sm-auto">
+ <div class="modal-content py-3 px-3">
+ <div class="modal-header">
+ NO INVESTMENT ADVICE
+ </div>
+ <div class="modal-body disclaimer">
+ 
+ <p>The content on this Site is provided for information purposes only and does not constitute investment advice, a personal recommendation, an offer or solicitation to buy or sell securities, or any other regulated activity. It should not be relied upon as the basis for any investment decision.</p>
+                       <p>Before making any investment decision, you should:</p>
+                       <ul>
+                           <li>Read the relevant prospectus, term sheet, subscription agreement, or other offering documentation in full</li>
+                           <li>Consider whether the investment is suitable for your individual circumstances, financial position, and objectives</li>
+                           <li>Seek independent advice from an appropriately qualified financial adviser</li>
+                       </ul>
+                       <p>Past performance is not a reliable indicator of future results. The value of investments can fall as well as rise. You may not recover the amount you invest, and in some cases you may be required to pay more.</p>
+
+ 
+ 
+ 
+ <a href="/pages/disclaimer" class="btn" rel="nofollow">FOR OUR FULL DISCLAIMER CLICK HERE</a>
+ </div>
+ </div>
+	</div>
+</div>
+	<div class="modal fade about-content-modal" id="aboutContentModal_1090538"  tabindex="-1" aria-labelledby="aboutContentModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg m-4 m-sm-auto">
+ <div class="modal-content py-3 px-3">
+ <div class="modal-header justify-content-center">
+ <h5 class="modal-title text-center" id="aboutContentModalLabel">
+ About this content
+ </h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+ <span aria-hidden="true">&times;</span>
+ </button>
+ </div>
+ <div class="modal-body">
+
+ 
+ <h6>About Emily Jarvie</h6>
+ <p>Emily began her career as a political journalist for Australian Community Media in Hobart, Tasmania. After she relocated to Toronto, Canada, she reported on business, legal, and scientific developments in the emerging psychedelics sector before joining Proactive in 2022. She brings a strong journalism background with her work featured in newspapers, magazines, and digital publications across Australia, Europe, and North America, including The Examiner, The Advocate, The Canberra Times, and... <a class="read-more-modal" href="/teams/details/429/Emily-Jarvie">Read more</a></p>
+
+ 
+ <h6>About the publisher</h6>
+ <p>Proactive financial news and online broadcast teams provide fast, accessible, informative and actionable business and finance news content to a global investment audience. All our content is produced independently by our experienced and qualified teams of news journalists.</p>
+ <p>Proactive news team spans the world’s key finance and investing hubs with bureaus and studios in London, New York, Toronto, Vancouver, Sydney and Perth. </p>
+ <p>We are experts in medium and small-cap markets, we also keep our community up to date with blue-chip companies, commodities and broader investment stories. This is content that excites and engages motivated private investors.</p>
+ <p>The team delivers news and unique insights across the market including but not confined to: biotech and pharma, mining and natural resources, battery metals, oil and gas, crypto and emerging digital and EV technologies.</p>
+
+ <h6>Use of technology</h6>
+ <p>Proactive has always been a forward looking and enthusiastic technology adopter.</p>
+ <p>Our human content creators are equipped with many decades of valuable expertise and experience. The team also has access to and use technologies to assist and enhance workflows.</p>
+ <p>Proactive will on occasion use automation and software tools, including generative AI. Nevertheless, all content published by Proactive is edited and authored by humans, in line with best practice in regard to content production and search engine optimisation.</p>
+ </div>
+ </div>
+	</div>
+</div>
+
+</div>
+ <div class="col-md-12 col-lg-9 article-content" id="center-sidebar">
+ <div class="row">
+ <div class="col-md-12">
+   <div class="profile-page-link">
+ <a href = "https://www.proactiveinvestors.com/PRIVATE:OPAI/OpenAI/" class="company-name" >OpenAI</a>
+  <a href="https://www.proactiveinvestors.com/PRIVATE:OPAI/OpenAI/" class="btn">View Price & Profile</a>
+ </div>
+  <h1 class='h2 mb-2 mt-3' itemprop='headline'>OpenAI acquires personal finance startup Hiro Finance, service to wind down in April</h1>
+
+ <div class="date-time-published">
+  <meta itemprop="dateModified" content="2026-04-14T12:48:00-04:00" />
+ <meta itemprop="datePublished" content="2026-04-14T12:48:00-04:00" />
+
+   <p>
+   <span>Published: </span>12:48 14 Apr 2026 EDT
+  </p>
+ </div>
+ </div>
+ </div>
+ <div class="row">
+
+ <div class="col-md-12 d-flex flex-column">
+ <div class="image-holder"><img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8yMDIzLTExLTIwLTEyLTE1LTA3LWI0ZWM5MDliZTY4NTk2MjdjYmYxNTNiNzBkOTQ1OWNiXzY5ZGU3MDMxODZlYjMuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoxMjgwLCJoZWlnaHQiOjcyMCwiZml0IjoiY292ZXIifX19" width="611" height="344" alt="OpenAI - OpenAI acquires personal finance startup Hiro Finance, service to wind down in April" id="1196643" class="img-fluid article-hero-img" itemprop="image" /></div>
+
+
+
+<div itemprop="articleBody" class="ckeditor-content">
+ <p><a href="/PRIVATE:OPAI/OpenAI/">OpenAI (Unlisted:OPAI)</a> has acquired personal finance startup Hiro Finance, the company’s founder Ethan Bloch announced. </p>
+
+<p>The financial terms of the acquisition were not disclosed. Hiro had also not publicly disclosed how much funding it had raised prior to the deal.</p>
+
+<p>In a post on LinkedIn, Bloch said Hiro is “joining OpenAI,” describing the acquisition as an opportunity to scale the startup’s original mission of building an “AI personal CFO.” He noted that Hiro had supported clients in planning for and managing more than $1 billion in assets.</p>
+
+<p>Hiro Finance was founded with a focus on providing AI-assisted personal financial guidance. According to Bloch, the company aimed to make financial planning more accessible at a time when traditional services can be costly or difficult for many users to obtain.</p>
+
+<p>“As Rushabh Doshi and I got to know the team at OpenAI, it became clear that joining forces would give us the opportunity to pursue that vision at a much larger scale,” Bloch wrote in his announcement.</p>
+
+<p>He added that the broader goal of improving financial well-being remained unchanged, and suggested that advances in AI, including systems like ChatGPT, could help expand access to personalized financial guidance.</p>
+
+<p>OpenAI has not yet publicly detailed how Hiro’s technology or team will be integrated into its existing products or research efforts.</p>
+
+<p>Following the acquisition, Hiro will discontinue onboarding new users immediately. The company stated that the Hiro product will stop functioning on April 20. As such, the deal is being seen as a potential acqui-hire, though this was not confirmed by either company.</p>
+
+<p>In his announcement, Bloch acknowledged the end of Hiro as a standalone product, expressing appreciation to users, employees, and investors. He also noted that the startup’s investors included Ribbit, General Catalyst, and Restive, among others.</p>
+
+<p>“To everyone who used Hiro: thank you for believing in us early,” Bloch wrote. “Building for you was a privilege.”</p>
+</div>
+
+
+
+
+   </div>
+ </div>
+ </div>
+ <div class="row">
+ <div class="load-article-overlay"></div>
+ <button type="button" class="btn load-more-button continue-reading" style="display:none">
+ Continue reading
+ </button>
+ </div>
+ </div>
+ </article>
+ <article class="article-like-ads-place">
+  </article>
+ </div>
+ <div class="col-md-12 col-lg-3 d-flex" id="expanded-right">
+ <div class="col-md-12">
+ <div class="row" id="right-sidebar">
+ <div style="display: block">
+   <div class="advertisment mb-4">
+ 	 </div>
+
+
+
+	<div class="bg-proactive-yellow-25 most-read col-md-12">
+ <h3>Most read</h3>
+  <div class="news-item">
+  <a href='/finance' class='badge badge-primary'>Finance</a>
+ <h3 class="h3">
+ <a href="/companies/news/1090513/nasdaq-leads-wall-street-higher-as-oil-slides-with-iran-talks-and-earnings-in-focus-1090513.html">Nasdaq leads Wall Street higher as oil slides...</a>
+ </h3>
+ <div class="date-time">18 hours, 26 minutes ago</div>
+ </div>
+  <div class="news-item">
+  <a href='/archives/niche/categories/executive-interviews/52' class='badge badge-primary'>Executive Interviews</a>
+ <h3 class="h3">
+ <a href="/companies/news/1090455/snail-usa-expands-beyond-ark-franchise-with-focus-on-original-game-development.html">Snail USA expands beyond ARK franchise with...</a>
+ </h3>
+ <div class="date-time">1 day, 17 hours ago</div>
+ </div>
+  <div class="news-item">
+  <a href='/tech' class='badge badge-primary'>Tech</a>
+ <h3 class="h3">
+ <a href="/companies/news/1090550/apple-price-target-raised-ahead-of-earnings-on-expectation-of-strong-iphone-sales-services-growth-1090550.html">Apple price target raised ahead of earnings on...</a>
+ </h3>
+ <div class="date-time">18 hours, 46 minutes ago</div>
+ </div>
+  <div class="news-item">
+  <a href='/retail-consumer' class='badge badge-primary'>Retail & Consumer</a>
+ <h3 class="h3">
+ <a href="/companies/news/1090551/amazon-s-12-5b-globalstar-deal-seen-as-long-term-strategic-bet-jefferies-says-1090551.html">Amazon&rsquo;s $12.5B Globalstar deal seen as...</a>
+ </h3>
+ <div class="date-time">18 hours, 32 minutes ago</div>
+ </div>
+  </div>
+
+ </div>
+ <div class="sticky-bottom">
+ <div class="myproactive-newsletter">
+	<div class="create-acc mb-2">
+ <p>Sign up to receive alerts and news direct to your inbox</p>
+	</div>
+	<a href="/members/signup" class="btn btn-primary px-2 w-100">Sign up for Newsletter</a>
+</div>
+
+     </div>
+ </div>
+ </div>
+ </div>
+	</div>
+	 </div>
+</section>
+
+
+
+<script>
+	$(function () {
+ // give users the ability to zoom in on images that are in the text
+ imgZoom();
+	});
+</script>
+
+<script>
+
+	let next_story_id 	= 1090573;
+	let NextStoryLoad	= "TzoxMzoiTmV4dFN0b3J5TG9hZCI6Nzp7czoxNjoiACoAaW5pdGlhbF9saW1pdCI7aToyMDtzOjU6IgAqAElEIjtpOjEwOTA1NzM7czoxMzoiACoAZXNjYXBlX2lkcyI7YToxOntpOjA7aToxMDkwNTM4O31zOjIwOiIAKgBpbml0aWFsX2xvYWRfbGlzdCI7YTozOTp7aTowO2k6MTA5MDYxNjtpOjE7aToxMDkwNjEwO2k6MjtpOjEwOTA2MTI7aTozO2k6MTA5MDYwOTtpOjQ7aToxMDkwNTk3O2k6NTtpOjEwOTA1Nzc7aTo2O2k6MTA5MDYwMztpOjc7aToxMDkwNTU4O2k6ODtpOjEwOTA1OTg7aTo5O2k6MTA5MDU3NDtpOjEwO2k6MTA5MDU4ODtpOjExO2k6MTA5MDYwNDtpOjEyO2k6MTA5MDU4NztpOjEzO2k6MTA5MDU4NjtpOjE0O2k6MTA5MDUxMztpOjE1O2k6MTA5MDYwODtpOjE2O2k6MTA5MDU1MTtpOjE3O2k6MTA5MDU5MztpOjE4O2k6MTA5MDU1MDtpOjE5O2k6MTA5MDU3MTtpOjIwO2k6MTA5MDU0NztpOjIxO2k6MTA5MDYwNjtpOjIyO2k6MTA5MDU0MztpOjIzO2k6MTA5MDU5MjtpOjI0O2k6MTA5MDU0MDtpOjI1O2k6MTA5MDU4OTtpOjI2O2k6MTA5MDUzNztpOjI3O2k6MTA5MDU3OTtpOjI4O2k6MTA5MDUzNDtpOjI5O2k6MTA5MDYwNztpOjMwO2k6MTA5MDUzMztpOjMxO2k6MTA5MDYxMTtpOjMyO2k6MTA5MDUzMjtpOjMzO2k6MTA5MDU2MTtpOjM0O2k6MTA5MDUyMDtpOjM1O2k6MTA5MDU1OTtpOjM2O2k6MTA5MDUzMDtpOjM3O2k6MTA5MDYxNDtpOjM4O2k6MTA5MDUyODt9czoxNToiACoAYm9vc3RlZF9saXN0IjthOjA6e31zOjE5OiIAKgBjbGllbnRfbGFzdF9kYXRlIjtzOjE5OiIyMDI2LTA0LTE1IDAxOjQyOjAwIjtzOjE4OiIAKgBvdGhlcl9sYXN0X2RhdGUiO3M6MTk6IjIwMjYtMDQtMTQgMTQ6Mzc6MDAiO30=";
+	let block_scroll 	= false;
+	let current_number_news = 1;
+	let previous_scroll = 0;
+	let current_news 	= 1090538;
+
+	function loadAdditionalArticle() {
+ let offset = $('.infinity-display-block article').last().offset();
+ let top = offset.top;
+ let height = $('.infinity-display-block article').last().height();
+ let w_height = $(window).height();
+ let position = Math.round(top + height - w_height);
+
+ if (($(window).scrollTop() > (position - 400)) && !block_scroll && current_number_news < 5) { //run next news a bit earlier. 5 news one by one
+
+ block_scroll = true;
+ $.ajax({
+ type: "POST",
+ url: "/news/mobile_infinityDetailsForDesktop",
+ dataType: "json",
+ data: {
+ id: next_story_id,
+ nextStoryLoad: NextStoryLoad
+ },
+ success: function (result) {
+ // remember news ID for next load
+ next_story_id = result.data.next_story;
+ // store new state of NextStoryLoad object
+ NextStoryLoad = result.data.NextStoryLoad;
+
+ $('.infinity-display-block article').last().after(result.data.content);
+
+ /*let iframe = $('.infinity-display-block .video-holder').find('iframe').last()[0];
+ if (iframe){
+ let src = iframe.src;
+ let autoplayString = "?autoplay=1&mute=1&enablejsapi=1";
+ // Check if the src already contains the query string
+ if (src && src.indexOf(autoplayString) === -1) {
+ iframe.src += autoplayString;
+ }
+ }*/
+
+ //$('.text-editor p > iframe').closest('p').addClass('video-holder');
+
+ if($('.infinity-display-block article.single-article').last().height() > 1500){
+ $('.infinity-display-block article.single-article').last().addClass('is-collapsed');
+ $('.infinity-display-block article.single-article').last().find('.continue-reading').show();
+ }
+
+ initJsSocialShare();
+ imgZoom();
+
+ //$( "#advert-google-left-article-sidebar-160-600" ).last().load(window.location.href + " #advert-google-left-article-sidebar-160-600" );
+ //$( ".dynamic-loading-ad" ).last().hide().fadeIn('fast'); //alert($( "#advert-google-left-article-sidebar-160-600" ).length);
+
+ //$( ".dynamic-loading-ad" ).last().load(window.location.href + " #advert-google-left-article-sidebar-160-600"); //alert($( ".dynamic-loading-ad").length);
+
+ //const fusetag = window.fusetag || (window.fusetag = { que: [] });
+ //fusetag.registerAll();
+
+ // un-block scroll event
+ block_scroll = false;
+ current_number_news = current_number_news + 1;
+ }
+ })
+ }
+
+ if($(window).scrollTop() > position && current_number_news < 5) {
+ $(window).scrollTop(position);
+ }
+
+ // determine scroll direction
+ let currentScroll = $(this).scrollTop();
+ // 1 means 'down'
+ // -1 means 'up'
+ let direction = currentScroll > previous_scroll ? 1 : -1;
+ previous_scroll = currentScroll;
+
+ // loop all article elements
+ let stories = $('.single-article');
+ for (var i = 0; i < stories.length; ++i) {
+ var obj = $(stories[i]);
+ if (isElementIntoView(obj, direction)) {
+ // change state only if new story appears into view
+ if (obj.data('id') !== current_news) {
+ current_news = obj.data('id');
+ window.history.pushState("state", $(obj).data('title'), $(obj).data('url'));
+
+ // update page title
+ $('title').text($(obj).data('title'));
+
+ // trigger GA
+ try {
+ // universal analytics
+ new Function(obj.data('gadimension'))();
+ ga('send', {
+ hitType: 'pageview',
+ title: $(obj).data('title'),
+ page: $(obj).data('url')
+ })
+
+ // ga4 analytics
+ gtag('event','companypagevisit', obj.data('gtag'));
+
+ // fire custom event
+ if (obj.data('clientcontentview')) {
+ gtag('event', 'client_content_view', {"event_fired":true});
+ }
+
+ } catch (e) {
+ console.log('ga trigger error');
+ }
+ }
+
+ break;
+ }
+ }
+	}
+
+	$(window).scroll(function() {
+ loadAdditionalArticle();
+	});
+
+	// Checks if the passed element is visible on the screen after scrolling, but direction plays a major role.
+	// There are two possibilities:
+	//  - If the scroll direction is 'down', the first next element whose top edge has passed the bottom line of the document
+	//    becomes the active element.
+	//
+	//  - Its inversely if the scroll direction is 'up'. The first next element whose bottom edge has passed the top line
+	//	  of the document becomes the active element.
+	function isElementIntoView(elem, direction) {
+ var docViewTop = $(window).scrollTop();
+ var docViewBottom = docViewTop + $(window).height();
+
+ var elemTop = $(elem).offset().top;
+ var elemBottom = elemTop + $(elem).height();
+
+ // if scroll direction is 'down'
+ if (direction === 1) {
+ return elemTop < docViewBottom && elemBottom > docViewBottom;
+ }
+ // if is 'up'
+ else {
+ // document top position + navigation height
+ return elemBottom > (docViewTop + 80);
+ }
+	}
+
+	$(document).on('click', '.single-article .continue-reading', function () {
+ var elm = $(this).closest('article.single-article');
+ // expand the story
+ elm.removeClass('is-collapsed');
+ $(this).hide();
+
+ $('.video-holder iframe').each(function(){
+ this.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+ });
+
+ // increase counts
+ $.ajax({
+ url: "/news/incrementStoryCounts",
+ type: "POST",
+ data: { id: elm.data('id') },
+ });
+	})
+
+	$(document).ready(function () {
+
+ if($('.infinity-display-block article.single-article').first().height() > 5000){
+ $('.infinity-display-block article.single-article').first().addClass('is-collapsed');
+ $('.infinity-display-block article.single-article').first().find('.continue-reading').show();
+ }
+
+ if ($('.infinity-display-block article.single-article').last().height() + 250 < $(window).height()) { //if the article is too short, upload the second one at once
+ loadAdditionalArticle();
+ }
+	});
+
+</script>
+
+<!-- Article section End -->
+
+<!-- Meet the analyst content Start -->
+<!-- Meet the analyst content End -->
+
+<!-- Reseach module (from company profile page) -->
+<!-- Reseach module (from company profile page) -->
+<!-- Small Caps Start -->
+<!--@ if(!empty($more_on_this_story['news']))
+@ element('Common/section_more_on_this_story', ['templates' => $templates])
+@ endif-->
+<!-- Small Caps End -->
+
+<!-- Video section Start -->
+		<!-- Video section Start -->
+<section class="video-section container-fluid bg-proactive-dark text-white">
+ <div class="row">
+ <div class="container">
+ <div class="row mb-4">
+ <div class="col-md-12">
+ <h2 class="h1 active_link " data-url="https://www.proactiveinvestors.com/PRIVATE:OPAI/OpenAI/timeline/videos">
+ <span class="head-title">
+ Watch
+ </span>
+
+  </h2>
+ </div>
+
+ 
+ <div class="col-md-12 col-lg-8">
+ <a class="video_popup_activator image-holder" href="/companies/news/1090604/poolbeg-pharma-trial-green-lit-billion-dollar-market-and-data-due-this-summer-1090604.html"
+    data-id="1090604" data-story-type="2" data-category-id="219" data-video-timestamp="06.05" data-has-short-video="" data-allow-popup="1" data-asset-tagged="0" data-has-branding="1" 
+ >
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJpbWdcL25vX3BpY3R1cmVfcGFpLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzMwLCJoZWlnaHQiOjQzNCwiZml0IjoiY292ZXIifX19" width="730" height="434" alt=" Poolbeg Pharma: trial green-lit, billion-dollar market - and data due this summer" id="1196711" class="img-fluid" data-src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9xZ1lrT01oZVBuR09qNXV3SnJLWWMwY2ZmcWc2SWRCbldPOXpKaDBPLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6NzMwLCJoZWlnaHQiOjQzNCwiZml0IjoiY292ZXIifX19" />
+ </a>
+ </div>
+ <div class="col-md-12 col-lg-4 d-flex flex-column justify-content-between">
+ <h3 class="h3 text-white mb-3 mb-md-3 mt-4 mt-lg-0">
+ <a href="/companies/news/1090604/poolbeg-pharma-trial-green-lit-billion-dollar-market-and-data-due-this-summer-1090604.html" class="text-white"> Poolbeg Pharma: trial green-lit, billion-dollar market - and data due this... </a>
+ </h3>
+ <p>Poolbeg Pharma PLC (AIM:POLB, OTC:POLBF, FRA:POLBF) CEO Jeremy Skillington and principal scientist Liam Tremble joined Proactive&#039;s Stephen Gunnion to discuss a pivotal moment for the company&#039;s lead asset, POLB 001.
+
+Full MHRA clearance has been secured, clearing the final regulatory hurdle...</p>
+ <div class="date-time">3 hours, 16 minutes ago</div>
+ </div>
+ </div>
+ <div class="row mobile-tabs">
+  
+ <div class="news-item col-md-6 col-lg-3">
+ <a href="/companies/news/1090593/anglo-asian-mining-thor-explorations-poolbeg-astrid-intelligence-qbt-light-science-technologies-1090593.html" class="video_popup_activator image-holder"
+    data-id="1090593" data-story-type="2" data-category-id="53" data-video-timestamp="01.37" data-has-short-video="" data-allow-popup="1" data-asset-tagged="0" data-has-branding="1" 
+ >
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJpbWdcL25vX3BpY3R1cmVfcGFpLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Anglo Asian Mining, Thor Explorations, Poolbeg, Astrid Intelligence, QBT, Light Science Technologies" id="1196700" class="img-fluid" data-src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC80RU54d090dE92clpJV2JvT0NPdm5xWTBhRmFJcDRwME9pUVlwUUIxLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" />
+ </a>
+ <div class="labelholder">
+  <a href='/mining' class='badge badge-primary'>Mining</a>
+  </div>
+ <a href="/companies/news/1090593/anglo-asian-mining-thor-explorations-poolbeg-astrid-intelligence-qbt-light-science-technologies-1090593.html" class="h4 text-white">
+ Anglo Asian Mining, Thor Explorations, Poolbeg, Astrid...
+ </a>
+ <div class="date-time">
+ 5 hours, 46 minutes ago
+ </div>
+ </div>
+  
+ <div class="news-item col-md-6 col-lg-3">
+ <a href="/companies/news/1090548/purepoint-uranium-expands-nova-discovery-at-dorado-project-with-strong-winter-drill-results.html" class="video_popup_activator image-holder"
+    data-id="1090548" data-story-type="2" data-category-id="52" data-video-timestamp="04.46" data-has-short-video="" data-allow-popup="1" data-asset-tagged="0" data-has-branding="1" 
+ >
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJpbWdcL25vX3BpY3R1cmVfcGFpLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Purepoint Uranium expands Nova discovery at Dorado Project with strong winter drill results" id="1196653" class="img-fluid" data-src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9FdWpxUjJWVjYxYnhPMldtY2ExQ041Q1lJU1FDaEFLZnNIelZKSzVWLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" />
+ </a>
+ <div class="labelholder">
+  <a href='/archives/niche/categories/executive-interviews/52' class='badge badge-primary'>Executive Interviews</a>
+  </div>
+ <a href="/companies/news/1090548/purepoint-uranium-expands-nova-discovery-at-dorado-project-with-strong-winter-drill-results.html" class="h4 text-white">
+ Purepoint Uranium expands Nova discovery at Dorado Project with...
+ </a>
+ <div class="date-time">
+ 19 hours, 21 minutes ago
+ </div>
+ </div>
+  
+ <div class="news-item col-md-6 col-lg-3">
+ <a href="/companies/news/1090541/vivopower-appoints-ai-strategist-khadija-mustafa-to-advisory-council.html" class="video_popup_activator image-holder"
+    data-id="1090541" data-story-type="2" data-category-id="52" data-video-timestamp="05.09" data-has-short-video="" data-allow-popup="1" data-asset-tagged="0" data-has-branding="1" 
+ >
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJpbWdcL25vX3BpY3R1cmVfcGFpLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="VivoPower appoints AI strategist Khadija Mustafa to advisory council" id="1196646" class="img-fluid" data-src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC8zbnNiNDd1YmhYQWllSE5qZmJTMDhtbjduY004S0VBYjBZRVdNb0pELmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" />
+ </a>
+ <div class="labelholder">
+  <a href='/archives/niche/categories/executive-interviews/52' class='badge badge-primary'>Executive Interviews</a>
+  </div>
+ <a href="/companies/news/1090541/vivopower-appoints-ai-strategist-khadija-mustafa-to-advisory-council.html" class="h4 text-white">
+ VivoPower appoints AI strategist Khadija Mustafa to advisory council
+ </a>
+ <div class="date-time">
+ 21 hours, 16 minutes ago
+ </div>
+ </div>
+  
+ <div class="news-item col-md-6 col-lg-3">
+ <a href="/companies/news/1090539/trillion-energy-announces-light-oil-discovery-in-turkiye-and-strategic-shift-to-oil-exploration.html" class="video_popup_activator image-holder"
+    data-id="1090539" data-story-type="2" data-category-id="52" data-video-timestamp="06.45" data-has-short-video="" data-allow-popup="1" data-asset-tagged="0" data-has-branding="1" 
+ >
+ <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJpbWdcL25vX3BpY3R1cmVfcGFpLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Trillion Energy announces light oil discovery in T&uuml;rkiye and strategic shift to oil exploration" id="1196644" class="img-fluid" data-src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzA0XC9vRk5EN3o4MTVGV2hNT2xiUmVGZ2lQaTZWbmVTMnNMcUhYVWNFWDQ0LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" />
+ </a>
+ <div class="labelholder">
+  <a href='/archives/niche/categories/executive-interviews/52' class='badge badge-primary'>Executive Interviews</a>
+  </div>
+ <a href="/companies/news/1090539/trillion-energy-announces-light-oil-discovery-in-turkiye-and-strategic-shift-to-oil-exploration.html" class="h4 text-white">
+ Trillion Energy announces light oil discovery in T&uuml;rkiye and...
+ </a>
+ <div class="date-time">
+ 21 hours, 26 minutes ago
+ </div>
+ </div>
+  </div>
+ </div>
+ </div>
+</section>
+<!-- Video section End -->
+
+<!-- Video section End -->
+
+<!-- Editor's picks Start -->
+<!-- Editor's picks Start -->
+<section class="editors-picks container">
+	 <div class="row">
+ <div class="col-md-12">
+ <div class="row">
+ <div class="col-md-12">
+ <h2 class="h1 active_link " data-url="">
+ <span class="head-title">
+ Editor's Picks
+ </span>
+
+  </h2>
+ </div>
+ </div>
+ </div>
+ <div class="owl-carousel editors-carousel col-md-12 d-flex justify-content-start">
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1087031/nasdaq-powers-ahead-dow-jones-notches-new-closing-record-1087031.html"
+    data-id="1087031" data-story-type="1" data-category-id="408" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI2XzAyXC8yMDIxLTA3LTE1LTE1LTUyLTE0LWE1OGE0ZGRhMjhiMzUyMjMxMmI4ZDI1OThjOWFjMDFjLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="New York" id="1193077" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/pages/market-reports' class='badge badge-primary'>Market Report</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1087031/nasdaq-powers-ahead-dow-jones-notches-new-closing-record-1087031.html">Nasdaq powers ahead, Dow Jones notches new closing record</a>
+ </h3>
+ <div class="date-time">on 02/09/2026</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1070842/fed-holds-rates-steady-amid-rising-risks-leaving-markets-in-limbo-1070842.html"
+    data-id="1070842" data-story-type="1" data-category-id="45" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzA1XC8yMDI1LTA1LTA3LTE1LTI5LTUzLWRiYjNjODJhZDQ1YjM1Y2IxYzFmMGYxOTNlNTViY2MzLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Fed holds rates steady amid rising risks, leaving markets in limbo" id="1176811" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/finance' class='badge badge-primary'>Finance</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1070842/fed-holds-rates-steady-amid-rising-risks-leaving-markets-in-limbo-1070842.html">Fed holds rates steady amid rising risks, leaving markets in limbo</a>
+ </h3>
+ <div class="date-time">on 05/07/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1069642/week-ahead-markets-brace-for-volatility-as-powell-speech-economic-data-and-earnings-flood-loom-1069642.html"
+    data-id="1069642" data-story-type="1" data-category-id="" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzA0XC8yMDIyLTA1LTEyLTA5LTUyLTQzLWM0MjQ3ZTFhYTgyZDFkNDEwN2ViMGY3ZTdmM2I5ZTc0LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="chicago" id="1175605" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/finance' class='badge badge-primary'>Finance</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1069642/week-ahead-markets-brace-for-volatility-as-powell-speech-economic-data-and-earnings-flood-loom-1069642.html">Week ahead: Markets brace for volatility as Powell speech,...</a>
+ </h3>
+ <div class="date-time">on 04/14/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1068317/healthcare-investment-strategies-reshaped-by-inflation-interest-rates-and-m-a-in-2025-1068317.html"
+    data-id="1068317" data-story-type="1" data-category-id="45" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAzXC8yMDI1LTAzLTIxLTExLTMwLTM1LWIyYzQ1NGQyYmY3ZGYwM2RlOTg2YzYxZmMzYjdkZjUwLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Healthcare investment strategies reshaped by inflation, interest rates and M&amp;A in 2025" id="1174272" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/health' class='badge badge-primary'>Health</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1068317/healthcare-investment-strategies-reshaped-by-inflation-interest-rates-and-m-a-in-2025-1068317.html">Healthcare investment strategies reshaped by inflation, interest...</a>
+ </h3>
+ <div class="date-time">on 03/21/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1066981/can-nvidia-meet-sky-high-ai-hopes-its-q4-earnings-should-provide-clues-1066981.html"
+    data-id="1066981" data-story-type="1" data-category-id="64" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAyXC8yMDIzLTA1LTI1LTEzLTUzLTM1LTkyNDNjMmJjMThlNTg5NWRmYjU2ZGRkOTAyNDljZDI1LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Nvidia Corp - " id="1172925" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/tech' class='badge badge-primary'>Tech</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1066981/can-nvidia-meet-sky-high-ai-hopes-its-q4-earnings-should-provide-clues-1066981.html">Can Nvidia meet sky-high AI hopes? Its Q4 earnings should provide...</a>
+ </h3>
+ <div class="date-time">on 02/26/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1066164/c3-metals-continues-to-soar-following-freeport-mcmoran-partnership-1066164.html"
+    data-id="1066164" data-story-type="1" data-category-id="53" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAyXC9TY3JlZW4tU2hvdC0yMDIyLTA2LTE2LWF0LTktMDItMjAtQU0uanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoyNTUsImhlaWdodCI6MTQzLCJmaXQiOiJjb3ZlciJ9fX0=" width="255" height="143" alt="C3 Metals Inc - " id="1172107" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/mining' class='badge badge-primary'>Mining</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1066164/c3-metals-continues-to-soar-following-freeport-mcmoran-partnership-1066164.html">C3 Metals continues to soar following Freeport-McMoRan partnership </a>
+ </h3>
+ <div class="date-time">on 02/12/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1065980/week-ahead-powell-s-testimony-and-key-inflation-data-to-set-the-tone-1065980.html"
+    data-id="1065980" data-story-type="1" data-category-id="" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAyXC8yNTgyNDczMjUyNC1kYzczYjFkMjc3LWsuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjoyNTUsImhlaWdodCI6MTQzLCJmaXQiOiJjb3ZlciJ9fX0=" width="255" height="143" alt="Jerome powell" id="1171923" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/finance' class='badge badge-primary'>Finance</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1065980/week-ahead-powell-s-testimony-and-key-inflation-data-to-set-the-tone-1065980.html">Week ahead: Powell&rsquo;s testimony and key inflation data to set the tone</a>
+ </h3>
+ <div class="date-time">on 02/10/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1065474/sona-nanotech-s-bold-bet-on-cancer-therapy-gold-nanorods-and-the-fight-against-cold-tumors-1065474.html"
+    data-id="1065474" data-story-type="1" data-category-id="45" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAxXC8yMDI1LTAxLTMxLTA5LTU4LTE0LWE0NzQzOThlM2Q0MmYzZGZlMGQ2MTE5ODMxZWQwOTU4LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Sona Nanotech Inc - Sona Nanotech&rsquo;s bold bet on cancer therapy: gold nanorods and the fight against &ldquo;cold tumors&rdquo;" id="1171417" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/health' class='badge badge-primary'>Health</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1065474/sona-nanotech-s-bold-bet-on-cancer-therapy-gold-nanorods-and-the-fight-against-cold-tumors-1065474.html">Sona Nanotech&rsquo;s bold bet on cancer therapy: gold nanorods and the...</a>
+ </h3>
+ <div class="date-time">on 01/31/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1065122/nvidia-defends-role-in-chinese-ai-advancements-after-deepseek-s-breakthroughs-1065122.html"
+    data-id="1065122" data-story-type="1" data-category-id="64" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAxXC8yMDIzLTA1LTI1LTEyLTM4LTIzLTVkNGZhN2E5M2ZlNGEwYmYxZTRmMTYxNDVjMDZiMjgwLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Nvidia Corp - " id="1171063" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/tech' class='badge badge-primary'>Tech</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1065122/nvidia-defends-role-in-chinese-ai-advancements-after-deepseek-s-breakthroughs-1065122.html">Nvidia defends role in Chinese AI advancements after DeepSeek&#039;s...</a>
+ </h3>
+ <div class="date-time">on 01/27/2025</div>
+ </div>
+ </div>
+  
+ <div class="owl-slide d-flex">
+ <div class="news-item">
+ <a class="video_popup_activator image-holder" href="/companies/news/1065113/week-ahead-tech-titans-to-test-market-confidence-as-microsoft-meta-tesla-and-apple-report-earnings-1065113.html"
+    data-id="1065113" data-story-type="1" data-category-id="64" data-video-timestamp="---" data-has-short-video="" data-allow-popup="0" data-asset-tagged="0" data-has-branding="1" 
+ >
+  <img src="https://cdn.proactiveinvestors.com/eyJidWNrZXQiOiJwYS1jZG4iLCJrZXkiOiJ1cGxvYWRcL05ld3NcL0ltYWdlXC8yMDI1XzAxXC8yMDIyLTEwLTI4LTE1LTUxLTE5LTkwZjgxNmJmMDY0NWYwYmM0ZTdjNGE2MTkwYzVjNjM4LmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MjU1LCJoZWlnaHQiOjE0MywiZml0IjoiY292ZXIifX19" width="255" height="143" alt="Microsoft Corp - Week ahead: Tech titans to test market confidence as Microsoft, Meta, Tesla, and Apple report earnings" id="1171054" class="img-fluid" />
+ </a>
+ <div class="labelholder">
+  <a href='/tech' class='badge badge-primary'>Tech</a>
+  </div>
+ <h3 class="h3">
+ <a href="/companies/news/1065113/week-ahead-tech-titans-to-test-market-confidence-as-microsoft-meta-tesla-and-apple-report-earnings-1065113.html">Week ahead: Tech titans to test market confidence as Microsoft,...</a>
+ </h3>
+ <div class="date-time">on 01/27/2025</div>
+ </div>
+ </div>
+  </div>
+ </div>
+</section>
+<!-- Editor's piks End -->
+
+<!-- Editor's piks End -->
+
+<!--@ if(!empty($rns_section_data))
+ @ element('Common/section_rns')
+@ endif-->
+
+<!-- Professional investor modal Start -->
+<!-- Professional investor modal End -->
+
+
+ </div>
+ </div>
+
+  <!-- Bottom Navigation Start -->
+<nav class="footer-section navbar navbar-dark bg-proactive-dark text-white">
+ <div class="container-fluid">
+ <div class="container my-auto">
+ <ul class="footer-navigation nav">
+ <li class="nav-item">
+ <a href="/pages/about">About</a>
+ </li>
+ <li class="nav-item">
+ <a class="nav-link" href="/teams">Meet the team</a>
+ </li>
+ <li class="nav-item">
+ <a class="nav-link" href="/contact_us">Contact</a>
+ </li>
+ <li class="nav-item">
+ <a href="/pages/terms">T&amp;C</a>
+ </li>
+ <li class="nav-item">
+ <a href="/pages/cookies">Cookies</a>
+ </li>
+ <li class="nav-item">
+ <a href="/pages/privacy">Privacy</a>
+ </li>
+ <li class="nav-item">
+ <a href="/pages/editorialPolicy">Editorial Standards</a>
+ </li>
+ <li class="nav-item">
+ <a href="/pages/vacancies">Work for us</a>
+ </li>
+ <li class="nav-item">
+ <div data-fuse-privacy-tool></div>
+ <!--<a class="nav-link" href="#" data-toggle="modal" data-target="#cookieSettingsModal">Cookie Preferences</a>-->
+ </li>
+ </ul>
+ </div>
+ </div>
+ <div class="container-fluid">
+ <div class="container my-auto d-flex flex-row footer-social">
+ <h5 class="h5">Follow us on:</h5>
+ <a href="https://www.youtube.com/user/ProactiveInvestors" class="youtube" target="_blank"><i class="icon-youtube"></i></a>
+  <a href="https://twitter.com/proactive_x" class="twitter" target="_blank"><i class="icon-twitter"></i></a>
+ <a href="https://www.facebook.com/ProactiveInvestors" class="facebook" target="_blank"><i class="icon-facebook"></i></a>
+ <a href="https://www.linkedin.com/company/proactive-investors/" class="linkedin" target="_blank"><i class="icon-linkedin"></i></a>
+ <a href="https://www.instagram.com/proactive.clips/" class="instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="icon-instagram-circle"></i></a>
+ <a href="https://www.reddit.com/r/ProactiveStocks/" class="reddit" target="_blank"><i class="icon-reddit"></i></a>
+ </div>
+ </div>
+ <div class="container-fluid">
+ <div class="container">
+ <p>Copyright © Proactive Group Holdings Inc, 2026</p>
+                       <p>All Rights Reserved - Proactive North America Inc., Proactive Investors LLC.</p>
+                       <p>Market Indices, Commodities and Regulatory News Headlines copyright © Morningstar. Data delayed 15 minutes unless otherwise indicated. <a href="https://www.proactiveinvestors.com/pages/terms">Terms of use</a>.</p>
+ </div>
+ </div>
+</nav>
+<!-- Bottom Navigation End -->
+
+<div class="modal fade videoModal" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalTitle" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+ <div class="modal-content d-flex container-fluid">
+ <div class="row">
+ <div class="container">
+ </div>
+ </div>
+ </div>
+ </div>
+</div>
+<script type="text/javascript" src="/assets/bundle.min-min.js?v=20"></script>
+
+ <script>
+  var adverts = {"PageAdvert":[],"AdvertPosition":[[],[],[],[],[],[],[],[],[]]};
+ increaseAdvertViews(adverts);
+ </script>
+
+
+
+ 
+  	<script type="text/javascript" src="/assets/js/leadforensics.js?v=20" defer></script>
+<noscript><img alt="leadf" src="https://secure.leadforensics.com/74151.png" style="display:none;" /></noscript>
+
+<script type="text/javascript" src="https://secure.leadforensics.com/js/sc/74151.js"></script>
+
+
+
+<div id="toast_wrap" class="alert" role="alert">
+ <div class="alert-body">
+ <p id="toast_message"></p>
+ </div>
+</div>
+<a href="https://1khhgavwe1.execute-api.eu-west-2.amazonaws.com/ProdStage" rel="nofollow" style="display: none" aria-hidden="true">link</a>
+<script type="text/javascript">
+
+	function downloadPdf(id, print) {
+ print = print || false;
+ var url = 'https://www.proactiveinvestors.com/pdf/create_new/news/details/' + id;
+
+ if (print === true) {
+ url += '/I';
+ }
+ window.open(url, "_blank");
+	}
+</script>
+ 
+		<!-- Google Tag Manager (noscript) -->
+	<!-- Google Tag Manager -->
+<script type="text/javascript">
+	(function (w, d, s, l, i) {
+ w[l] = w[l] || [];
+ w[l].push({
+ 'gtm.start': new Date().getTime(),
+ event: 'gtm.js'
+ });
+ var f = d.getElementsByTagName(s)[0],
+ j = d.createElement(s),
+ dl = l != 'dataLayer' ? '&l=' + l : '';
+ j.async = true;
+ j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+ f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', 'GTM-59VR6GV');
+
+	window.dataLayer = window.dataLayer || [];
+	function gtag() { dataLayer.push(arguments); }
+
+	/*if(localStorage.getItem('consentMode') === null){
+ gtag('consent', 'granted', {
+ 'ad_personalization' : 'granted',
+ 'ad_user_data' : 'granted',
+ 'ad_storage': 'granted',
+ 'analytics_storage': 'granted',
+ 'personalization_storage': 'granted',
+ 'functionality_storage': 'granted',
+ 'security_storage': 'granted',
+ });
+
+ gtag('consent', 'default', {
+ 'ad_personalization' : 'denied',
+ 'ad_user_data' : 'denied',
+ 'ad_storage': 'denied',
+ 'analytics_storage': 'denied',
+ 'personalization_storage': 'denied',
+ 'functionality_storage': 'granted',
+ 'security_storage': 'granted',
+ 'region': ['BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'GR']
+ });
+	} else {
+ gtag('consent', 'default', JSON.parse(localStorage.getItem('consentMode')));
+	}*/
+
+		 gtag('event', 'companypagevisit', {"Sector":"|118|","News":"1090538","company":"|story_id:1090538|news\/details|PRIVATE:OPAI|20575|"});
+	</script>
+<!-- End Google Tag Manager -->
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-59VR6GV"
+   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+	
+ </body>
+</html>
