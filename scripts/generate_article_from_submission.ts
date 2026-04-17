@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
 
 interface ArticleContent {
   title: string;
@@ -198,6 +199,21 @@ async function main() {
     console.error(`Invalid submission_version: ${submission.submission_version}. Must be 3.`);
     process.exit(1);
   }
+
+  // Cryptographically verify the contributor signature. This is the last
+  // guardrail before an article is generated — if we can't prove the bot
+  // signed this submission, we refuse to publish.
+  const verification = verifyContributorSignature(submission as SubmissionLike);
+  if (!verification.ok) {
+    console.error('\n❌ Submission failed contributor-signature verification.');
+    console.error(`   Reason: ${verification.reason}`);
+    console.error(`   Bot: ${submission.bot_id}`);
+    console.error('   Refusing to generate an article for an unverifiable submission.');
+    process.exit(1);
+  }
+  console.log(
+    `Contributor signature verified (Ed25519, ${submission.bot_id}.pub).`,
+  );
 
   console.log('Processing submission...');
 

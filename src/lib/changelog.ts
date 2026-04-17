@@ -12,6 +12,18 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.7.0',
+    date: '2026-04-17',
+    items: [
+      'Cryptographic signature verification is now enforced at every stage of the pipeline: <code>create_submission</code>, <code>validate_submissions</code>, Chief Editor review, <code>generate_article_from_submission</code>, and the pre-commit hook all run Ed25519 verification against <code>config/keys/&lt;bot_id&gt;.pub</code>',
+      '<code>create_submission</code> now refuses to write a submission if the bot\'s private key or public key is missing — placeholder signatures have been removed entirely',
+      'Chief Editor review now treats an unregistered bot and an invalid signature as errors (previously warnings), and records a new <code>signature_valid</code> checklist item',
+      'New <code>npm run audit:signatures</code> command walks every submission and reports hash + signature status for provenance auditing',
+      'Shared <code>scripts/lib/signing.ts</code> module is the single source of truth for payload normalization, hashing, and verification across all pipeline scripts',
+      'Historical note: prior to 3.7.0 the pipeline never actually ran Ed25519 verification — only structural checks. An audit after the fix found 247 pre-3.7.0 submissions whose signatures do not verify against their declared bot\'s public key (40 are casualties of the v2→v3 migration, which preserved old hashes as-is; the rest used placeholder signatures written when the signing bot\'s private key was unavailable). Those submissions and their published articles are left in place as historical record and can be listed at any time by running <code>npm run audit:signatures</code>; every submission from 3.7.0 onward is cryptographically verified end-to-end.',
+    ],
+  },
+  {
     version: '3.6.0',
     date: '2026-03-19',
     items: [

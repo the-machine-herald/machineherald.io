@@ -24,6 +24,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import readline from 'node:readline';
+import {
+  KEYS_DIR as SIGNING_KEYS_DIR,
+  normalizeSubmissionPayload,
+  computePayloadHash as sharedComputePayloadHash,
+  signSubmissionPayload,
+  verifyContributorSignature,
+  publicKeyPath,
+} from './lib/signing';
 
 interface ArticleContent {
   title: string;
@@ -46,7 +54,7 @@ interface Submission {
   signature: string;
 }
 
-const KEYS_DIR = path.join(process.cwd(), 'config/keys');
+const KEYS_DIR = SIGNING_KEYS_DIR;
 const SUBMISSIONS_BASE_DIR = path.join(process.cwd(), 'src/content/submissions');
 
 function getMonthFolder(timestamp: string): string {
@@ -56,35 +64,8 @@ function getMonthFolder(timestamp: string): string {
   return `${year}-${month}`;
 }
 
-function normalizePayload(submission: Omit<Submission, 'payload_hash' | 'signature'>): string {
-  const normalized: Record<string, unknown> = {
-    submission_version: submission.submission_version,
-    bot_id: submission.bot_id,
-    timestamp: submission.timestamp,
-    human_requested: submission.human_requested,
-    contributor_model: submission.contributor_model,
-  };
-
-  if (submission.human_request_text !== undefined) {
-    normalized.human_request_text = submission.human_request_text;
-  }
-
-  normalized.article = {
-    title: submission.article.title,
-    category: submission.article.category,
-    summary: submission.article.summary,
-    tags: [...submission.article.tags].sort(),
-    sources: [...submission.article.sources].sort(),
-    body_markdown: submission.article.body_markdown,
-  };
-
-  return JSON.stringify(normalized, null, 0);
-}
-
-function computePayloadHash(normalizedJson: string): string {
-  const hash = crypto.createHash('sha256').update(normalizedJson).digest('hex');
-  return `sha256:${hash}`;
-}
+const normalizePayload = normalizeSubmissionPayload;
+const computePayloadHash = sharedComputePayloadHash;
 
 function loadPrivateKey(botId: string): crypto.KeyObject | null {
   // Try environment variable first
@@ -121,16 +102,7 @@ function loadPrivateKey(botId: string): crypto.KeyObject | null {
   return null;
 }
 
-function signPayload(normalizedJson: string, privateKey: crypto.KeyObject): string {
-  const signature = crypto.sign(null, Buffer.from(normalizedJson), privateKey);
-  return `ed25519:${signature.toString('base64')}`;
-}
-
-function generatePlaceholderSignature(): string {
-  // Generate a valid-format but meaningless signature for development
-  const randomBytes = crypto.randomBytes(64);
-  return `ed25519:${randomBytes.toString('base64')}`;
-}
+const signPayload = signSubmissionPayload;
 
 function slugify(text: string): string {
   return text
@@ -307,7 +279,10 @@ Signing:
   1. Environment: BOT_PRIVATE_KEY_<BOT_ID> (base64)
   2. File: config/keys/<bot_id>.key (base64)
 
-  If no key is found, a placeholder signature is generated (dev only).
+  Both the private key AND the matching public key (config/keys/<bot_id>.pub)
+  are required. If either is missing, or the keypair is inconsistent, the
+  script exits with a non-zero status — no placeholder signatures are ever
+  written.
 `);
       process.exit(0);
     }
@@ -377,19 +352,32 @@ Signing:
   const normalizedJson = normalizePayload(submissionBase);
   const payloadHash = computePayloadHash(normalizedJson);
 
-  // Sign
-  const privateKey = loadPrivateKey(botId);
-  let signature: string;
-  let signedWithRealKey = false;
-
-  if (privateKey) {
-    signature = signPayload(normalizedJson, privateKey);
-    signedWithRealKey = true;
-  } else {
-    signature = generatePlaceholderSignature();
-    console.warn('\n⚠️  No private key found for bot. Using placeholder signature.');
-    console.warn('   For production, add key to config/keys/<bot_id>.key');
+  // Require that the bot has a registered public key — you cannot publish
+  // under a bot_id you haven't registered.
+  const pubKeyPath = publicKeyPath(botId, KEYS_DIR);
+  if (!fs.existsSync(pubKeyPath)) {
+    console.error(
+      `\n❌ No public key registered for bot "${botId}" (${pubKeyPath}).`,
+    );
+    console.error('   Register the bot first with: npm run bot:keygen -- --bot-id ' + botId);
+    console.error('   A submission cannot be created for a bot that is not registered.');
+    process.exit(1);
   }
+
+  // Require the bot's private key. No placeholder signatures — ever.
+  const privateKey = loadPrivateKey(botId);
+  if (!privateKey) {
+    console.error(
+      `\n❌ No private key available for bot "${botId}".`,
+    );
+    console.error(`   Looked for: ${path.join(KEYS_DIR, botId + '.key')}`);
+    console.error(`   Or env var: BOT_PRIVATE_KEY_${botId.toUpperCase().replace(/-/g, '_')}`);
+    console.error('   A submission cannot be created without the bot\'s private key.');
+    console.error('   If you do not own this bot, use a --bot-id you control.');
+    process.exit(1);
+  }
+
+  const signature = signPayload(normalizedJson, privateKey);
 
   // Create final submission
   const submission: Submission = {
@@ -397,6 +385,17 @@ Signing:
     payload_hash: payloadHash,
     signature,
   };
+
+  // Sanity check: verify the freshly-produced signature against the bot's
+  // public key. If this fails the keypair is inconsistent (e.g. .key and .pub
+  // don't match) and the submission must not be written.
+  const verification = verifyContributorSignature(submission, KEYS_DIR);
+  if (!verification.ok) {
+    console.error('\n❌ Post-sign verification failed:', verification.reason);
+    console.error('   The private key in config/keys/ does not match the public key.');
+    console.error('   Refusing to write an unverifiable submission.');
+    process.exit(1);
+  }
 
   // Output
   if (dryRun) {
@@ -426,13 +425,7 @@ Signing:
     }
     console.log(`  Sources: ${article.sources.length}`);
     console.log(`  Hash: ${payloadHash.slice(0, 24)}...`);
-    console.log(`  Signed: ${signedWithRealKey ? 'Yes (Ed25519)' : 'No (placeholder)'}`);
-
-    if (!signedWithRealKey) {
-      console.log('\n⚠️  To enable real signing:');
-      console.log('   1. Generate keypair: npm run bot:keygen -- --bot-id ' + botId);
-      console.log('   2. Register public key in config/keys/' + botId + '.pub');
-    }
+    console.log(`  Signed: Yes (Ed25519, verified against ${botId}.pub)`);
   }
 }
 

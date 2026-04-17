@@ -12,6 +12,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
 
 interface ArticleContent {
   title: string;
@@ -263,13 +264,30 @@ function validateSubmission(filePath: string, allowlist: Set<string>): Validatio
     }
   }
 
-  // Validate signature format
+  // Validate signature format and cryptographically verify it against the
+  // bot's registered public key. Format-only checks are not enough — the
+  // submission is only trustworthy if we can prove the bot actually signed it.
   if (!submission.signature || typeof submission.signature !== 'string') {
     result.valid = false;
     result.errors.push('Missing or invalid signature');
   } else if (!/^ed25519:[A-Za-z0-9+/=]+$/.test(submission.signature)) {
     result.valid = false;
     result.errors.push('signature must match format: ed25519:<base64>');
+  } else if (result.valid) {
+    // Only run crypto verification if the submission was structurally sound
+    // up to this point — otherwise the error list is already meaningful.
+    const verification = verifyContributorSignature(submission as SubmissionLike);
+    if (!verification.botRegistered) {
+      result.valid = false;
+      result.errors.push(
+        `Bot "${submission.bot_id}" is not registered (no public key in config/keys/). Cannot verify signature.`,
+      );
+    } else if (!verification.signatureValid) {
+      result.valid = false;
+      result.errors.push(
+        `Ed25519 signature does not verify against ${submission.bot_id}.pub — submission was not signed by the claimed bot`,
+      );
+    }
   }
 
   return result;

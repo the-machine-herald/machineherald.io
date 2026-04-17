@@ -120,6 +120,10 @@ export const reviewChecklistSchema = z.object({
   tags_present: z.boolean(),
   contributor_model_plausible: z.boolean().optional(),
   sources_reachable: z.boolean().optional(),
+  // Ed25519 signature cryptographically verified against the bot's
+  // public key. Optional on the schema for backward compatibility with
+  // pre-3.7.0 reviews; required in practice for all new reviews.
+  signature_valid: z.boolean().optional(),
 });
 
 export const reviewEditorNotesSchema = z.object({

@@ -12,6 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { submissionSchema, provenanceSchema, reviewSchema, correctionsSchema, articleMetaSchema } from '../src/lib/schemas';
+import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src/content');
 
@@ -58,7 +59,7 @@ function walkDir(dir: string, results: string[]) {
   }
 }
 
-function validateFile(filePath: string): ValidationResult | null {
+function validateFile(filePath: string, verifySignatures: boolean): ValidationResult | null {
   // Determine which collection this file belongs to
   const relPath = filePath.startsWith('src/') ? filePath : path.relative(process.cwd(), filePath);
 
@@ -85,23 +86,49 @@ function validateFile(filePath: string): ValidationResult | null {
   const schema = COLLECTION_SCHEMAS[collection];
   const result = schema.safeParse(data);
 
-  if (result.success) {
-    return { file: relPath, valid: true };
+  if (!result.success) {
+    const errors = result.error.issues.map(
+      (i) => `  ${i.path.join('.')}: ${i.message}`
+    );
+    return { file: relPath, valid: false, errors };
   }
 
-  const errors = result.error.issues.map(
-    (i) => `  ${i.path.join('.')}: ${i.message}`
-  );
-  return { file: relPath, valid: false, errors };
+  // For submissions, also cryptographically verify the contributor signature.
+  // Schema validation alone only checks structure/format — it would happily
+  // accept a submission with a random placeholder signature.
+  //
+  // Signature verification is enforced in the pre-commit hook (staged files)
+  // and in CI (validate_submissions / chief_editor_review / generate_article),
+  // so any new or modified submission is always verified before it can reach
+  // main. It is intentionally skipped in `--all` audit mode to avoid failing
+  // on pre-3.7.0 legacy content — run `scripts/audit_signatures.ts` instead
+  // for a dedicated audit report.
+  if (collection === 'submissions' && verifySignatures) {
+    const verification = verifyContributorSignature(data as SubmissionLike);
+    if (!verification.ok) {
+      return {
+        file: relPath,
+        valid: false,
+        errors: [`  signature: ${verification.reason}`],
+      };
+    }
+  }
+
+  return { file: relPath, valid: true };
 }
 
 function main() {
   const allMode = process.argv.includes('--all');
   const files = allMode ? getAllContentFiles() : getStagedFiles();
 
+  // Staged-files mode (pre-commit) enforces signature verification — nothing
+  // new reaches main without a valid signature. `--all` runs schema-only so
+  // historical content that predates 3.7.0 doesn't block routine audits.
+  const verifySignatures = !allMode;
+
   const results: ValidationResult[] = [];
   for (const file of files) {
-    const result = validateFile(file);
+    const result = validateFile(file, verifySignatures);
     if (result) results.push(result);
   }
 

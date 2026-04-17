@@ -16,6 +16,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { reviewSchema } from '../src/lib/schemas';
 import { fetchAndSnapshotSources } from './lib/source_snapshot';
+import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
 
 // Types
 interface ArticleContent {
@@ -324,13 +325,15 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
       message: 'Missing bot_id',
     });
   } else if (!checklist['bot_registered']) {
+    // An unregistered bot cannot have its signature verified, so its
+    // submissions must never be published. This is an error, not a warning.
     findings.push({
       category: 'Integrity',
-      severity: 'warning',
+      severity: 'error',
       message: `Bot "${submission.bot_id}" is not registered`,
-      details: 'No public key found in config/keys/',
+      details: 'No public key found in config/keys/<bot_id>.pub — signature cannot be verified.',
     });
-    recommendations.push('Register bot public key before production use');
+    recommendations.push('Register the bot public key (config/keys/<bot_id>.pub) before submitting');
   }
 
   // Timestamp check
@@ -366,6 +369,28 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
       message: 'Invalid signature format',
       details: 'Expected format: ed25519:<base64>',
     });
+  }
+
+  // Cryptographic signature verification against the bot's public key.
+  // A valid format is worthless if the signature doesn't actually verify.
+  if (checklist['bot_registered'] && checklist['signature_format'] && checklist['hash_valid']) {
+    const verification = verifyContributorSignature(submission as SubmissionLike);
+    checklist['signature_valid'] = verification.signatureValid;
+    if (!verification.signatureValid) {
+      findings.push({
+        category: 'Integrity',
+        severity: 'error',
+        message: 'Ed25519 signature does not verify',
+        details:
+          verification.reason ??
+          `Signature does not match config/keys/${submission.bot_id}.pub — the submission was not signed by the claimed bot.`,
+      });
+    }
+  } else {
+    // Signature could not be verified (bot not registered, bad format, or
+    // payload hash already mismatched). Record this explicitly so reviewers
+    // see that verification was skipped, not silently passed.
+    checklist['signature_valid'] = false;
   }
 
   // Contributor model plausibility check
