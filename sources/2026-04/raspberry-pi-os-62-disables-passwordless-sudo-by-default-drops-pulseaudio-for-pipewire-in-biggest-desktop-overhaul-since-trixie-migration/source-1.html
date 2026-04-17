@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Raspberry Pi OS ends open-door policy for sudo • The Register</title>
+    <meta name="robots" content="max-snippet:-1, max-image-preview:standard, max-video-preview:0">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <meta property="og:image" content="https://regmedia.co.uk/2022/02/09/security_shutterstock.jpg">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/">
+    <meta property="og:title" content="Raspberry Pi OS ends open-door policy for sudo">
+    <meta property="og:description" content=": Command prefix will require password by default">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TheRegister">
+<script type="application/ld+json">
+{
+"@context":"http://schema.org",
+"@type":"NewsArticle",
+"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/"},
+"headline":"Raspberry Pi OS ends open-door policy for sudo",
+"datePublished":"2026-04-15T11:35:48Z",
+"dateModified":"2026-04-15T11:35:13Z",
+"image":{"@type":"ImageObject","url":"https://regmedia.co.uk/2022/02/09/security_shutterstock.jpg","width":"1000","height":"714"},
+"author":{"@type":"Person","name":"Richard Speed"},
+"publisher":{"@type":"Organization","name":"The Register","url":"https://www.theregister.com/","logo":{"@type":"ImageObject","url":"https://www.theregister.com/design_picker/1fea2ae01c5036112a295123c3cc9c56eb28836a/graphics/std/red_logo_sans_strapline.png","width":330,"height":55}}
+}
+</script>
+    <script>
+      var RegZoot = {  };
+      var RegCC = [  ];
+      var RegPageType = 'Story';
+      var RegTruePageType = 'www story';
+    </script>
+    <link rel="canonical" href="https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/">
+<script>
+        var RegArticle={id:245613,pf:0,af:0,bms:0,sec:'software/oses',cat:'inform_me',ec:[],kw:[["linux",'Linux'],["operating system",'Operating System'],["raspberry pi",'Raspberry Pi']],kwp:[["foss",'FOSS'],["linus torvalds",'Linus Torvalds']],short_url:'https://reg.cx/4mGZ',cp:0,noads:[],author:'Richard Speed'}
+    </script>
+    <script src="https://cdn.theregister.com/chrome/masthead.iife.93eb6f47.js" defer></script>
+<link rel=stylesheet type="text/css" href="https://cdn.theregister.com/chrome/masthead.371adbcb.css">
+<link rel=stylesheet type="text/css" href="https://cdn.theregister.com/chrome/footer.61345fed.css">
+
+<link rel=stylesheet type="text/css" href="https://assets.theregister.com/css/4edda76fcf5371883ddb024c584ee91b2151f300/scaffolding.css">
+<link rel=stylesheet type="text/css" href="https://assets.theregister.com/css/4edda76fcf5371883ddb024c584ee91b2151f300/design.css">
+
+    <style>
+        #nav-software, #nav-software-oses {
+          text-decoration: underline !important;
+        }
+    </style>
+
+    <link rel='stylesheet' type='text/css' href='/css/4edda76fcf5371883ddb024c584ee91b2151f300/story_only.css'>
+<link rel=stylesheet type="text/css" href="/css/4edda76fcf5371883ddb024c584ee91b2151f300/rows.css">
+    <link rel=alternate type="application/atom+xml" href="/headlines.atom" title="The Register: whole site">
+    <link rel=alternate type="application/atom+xml" href="/software/oses/headlines.atom" title="The Register: OSes section">
+    
+    <script>
+var RegCR = true;
+</script>
+
+    <script src="https://assets.theregister.com/design_picker/31ed57829b02cd82b1d66b5255fa81ac25cfaec1/javascript/_.js"></script>
+    <script>
+    RegGPT('reg_software/oses','76bab59aa225af92fb7beef301a4ba8c','76bab59aa225af92fb7beef301a4ba8c');
+</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js"></script>
+    <link rel=search href="https://search.theregister.com/">
+    <link rel=search type="application/opensearchdescription+xml" title="El Reg Search" href="/Design/page/search.osd">
+    <link rel="icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.ico" sizes="any"><!-- 32×32 -->
+<link rel="icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/apple-touch-icon.png"><!-- 180×180 -->
+<link rel="manifest" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/site.webmanifest">
+<meta name="msapplication-TileColor" content="#ff0000">
+<meta name="msapplication-config" content="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ff0000">
+
+</head>
+<body class="fullwidth" data-pagetype='Story' data-pagenum="0">
+<div id="page">
+        <div data-oop="1" data-pos="top" data-raptor="kite" aria-hidden="true" class="adun"></div>
+
+    <header class="masthead"
+  data-my-account-url="https://account.theregister.com/edit/your_details"
+  data-login-url="https://account.theregister.com/login/"
+>
+  <p class="masthead--account">
+    <noscript>
+      <a href="https://account.theregister.com/edit/your_details">My Account</a>
+    </noscript>
+  </p>
+  <p class="masthead--home">
+    <a href="https://www.theregister.com/">
+      <span class="masthead--visually-hidden">The Register Home Page</span>
+      <img class="masthead--logo-full"    src="https://cdn.theregister.com/assets/images/the_register_logo.6befe899.svg"         alt="">
+      <img class="masthead--logo-vulture" src="https://cdn.theregister.com/assets/images/the_register_vulture_logo.53c8756c.svg" alt="">
+    </a>
+  </p>
+  <div class="masthead--actions">
+    <details class="masthead--search">
+      <summary>
+        <span class="masthead--visually-hidden">Search</span>
+        <img class="masthead--icon-open"  src="https://cdn.theregister.com/assets/images/magnifying_glass.9cbf748e.svg" alt="" height="20">
+        <img class="masthead--icon-close" src="https://cdn.theregister.com/assets/images/close.77a839fd.svg"            alt="" height="20">
+      </summary>
+      <form
+  	  action="https://search.theregister.com/"
+        method="get"
+        role="search">
+        <label
+          for="masthead-search-input"
+          class="masthead--visually-hidden">Search The Register</label>
+        <input
+          type="search"
+          id="masthead-search-input"
+          name="q"
+          placeholder="Search The Register…"
+          autocomplete="off">
+        <button
+          type="submit"
+          aria-label="Submit search">
+          <img src="https://cdn.theregister.com/assets/images/magnifying_glass_vulture.292e7b64.svg" alt="" height="20">
+        </button>
+      </form>
+    </details>
+    <details class="masthead--navigation">
+      <summary>
+        <span class="masthead--visually-hidden">Navigation</span>
+        <img class="masthead--icon-open"  src="https://cdn.theregister.com/assets/images/burger_menu.5dd339c3.svg" alt="" height="20">
+        <img class="masthead--icon-close" src="https://cdn.theregister.com/assets/images/close.77a839fd.svg"       alt="" height="20">
+      </summary>
+      <nav aria-label="Site navigation">
+        <section>
+          <h2>Topics</h2>
+          <div class="masthead--nav-group">
+            <div>
+        <h3>Security</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/security/">All Security</a></li>
+            <li><a href="https://www.theregister.com/security/cyber_crime/">Cyber-crime</a></li>
+            <li><a href="https://www.theregister.com/security/patches/">Patches</a></li>
+            <li><a href="https://www.theregister.com/security/research/">Research</a></li>
+            <li><a href="https://www.theregister.com/security/cso/">CSO</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Off-Prem</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/off_prem/">All Off-Prem</a></li>
+            <li><a href="https://www.theregister.com/off_prem/edge_iot/">Edge + IoT</a></li>
+            <li><a href="https://www.theregister.com/off_prem/channel/">Channel</a></li>
+            <li><a href="https://www.theregister.com/off_prem/paas_iaas/">PaaS + IaaS</a></li>
+            <li><a href="https://www.theregister.com/off_prem/saas/">SaaS</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>On-Prem</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/on_prem/">All On-Prem</a></li>
+            <li><a href="https://www.theregister.com/on_prem/systems/">Systems</a></li>
+            <li><a href="https://www.theregister.com/on_prem/storage/">Storage</a></li>
+            <li><a href="https://www.theregister.com/on_prem/networks/">Networks</a></li>
+            <li><a href="https://www.theregister.com/on_prem/hpc/">HPC</a></li>
+            <li><a href="https://www.theregister.com/on_prem/personal_tech/">Personal Tech</a></li>
+            <li><a href="https://www.theregister.com/on_prem/cxo/">Cx0</a></li>
+            <li><a href="https://www.theregister.com/on_prem/public_sector/">Public Sector</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Software</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/software/">All Software</a></li>
+            <li><a href="https://www.theregister.com/software/ai_ml/">AI + ML</a></li>
+            <li><a href="https://www.theregister.com/software/applications/">Applications</a></li>
+            <li><a href="https://www.theregister.com/software/databases/">Databases</a></li>
+            <li><a href="https://www.theregister.com/software/devops/">DevOps</a></li>
+            <li><a href="https://www.theregister.com/software/oses/">OSes</a></li>
+            <li><a href="https://www.theregister.com/software/virtualization/">Virtualization</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Offbeat</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/offbeat/">All Offbeat</a></li>
+            <li><a href="https://www.theregister.com/offbeat/columnists/">Columnists</a></li>
+            <li><a href="https://www.theregister.com/offbeat/science/">Science</a></li>
+            <li><a href="https://www.theregister.com/offbeat/geeks_guide/">Geek&#39;s Guide</a></li>
+            <li><a href="https://www.theregister.com/offbeat/bofh/">BOFH</a></li>
+            <li><a href="https://www.theregister.com/offbeat/legal/">Legal</a></li>
+            <li><a href="https://www.theregister.com/offbeat/bootnotes/">Bootnotes</a></li>
+            <li><a href="https://www.theregister.com/offbeat/site_news/">Site News</a></li>
+            <li><a href="https://www.theregister.com/offbeat/about_us/">About Us</a></li>
+            </ul>
+    </div>
+            </div>
+        </section>
+        <section>
+          <h2>More from The Register</h2>
+          <div class="masthead--nav-group">
+            <div>
+        <h3>Special Features</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/special_features/">All Special Features</a></li>
+            <li><a href="https://www.theregister.com/special_features/rsa/">RSA</a></li>
+            <li><a href="https://www.theregister.com/special_features/agentic_ai/">Agentic AI</a></li>
+            <li><a href="https://www.theregister.com/special_features/future_of_the_datacenter/">The Future of the Datacenter</a></li>
+            <li><a href="https://www.theregister.com/special_features/aws_reinvent/">AWS:Reinvent</a></li>
+            <li><a href="https://www.theregister.com/special_features/2025_11_sycomp_supercomputing/">SC25</a></li>
+            <li><a href="https://www.theregister.com/special_features/2025_11_supercomputing_month/">Supercomputing Month</a></li>
+            <li><a href="https://www.theregister.com/special_features/datacenter_networking_nexus/">Datacenter Networking Nexus</a></li>
+            <li><a href="https://www.theregister.com/special_features/the_state_of_storage/">The State of Storage</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Vendor Voice</h3>
+        <ul>
+            <li><a href="https://vendorvoice.theregister.com/">All Vendor Voice</a></li>
+            <li><a href="https://vendorvoice.theregister.com/everpure/">Everpure</a></li>
+            <li><a href="https://vendorvoice.theregister.com/rubrik/">Rubrik</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_capgemini/">Make it real with Capgemini and AWS</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_fis/">Money Movement Hub</a></li>
+            <li><a href="https://vendorvoice.theregister.com/zte/">ZTE</a></li>
+            <li><a href="https://vendorvoice.theregister.com/nutantix_cloud_native_apps/">Scale Kubernetes. Not Chaos.</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_new_horizon/">AWS New Horizon</a></li>
+            <li><a href="https://vendorvoice.theregister.com/infinidat/">Infinidat</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Resources</h3>
+        <ul>
+            <li><a href="https://intelligence.theregister.com/">Whitepapers</a></li>
+            <li><a href="https://intelligence.theregister.com/events/list/">Webinars &amp; Events</a></li>
+            <li><a href="https://account.theregister.com/login?r=https%3A%2F%2Faccount.theregister.com%2Fedit%2Fnewsletter%2F">Newsletters</a></li>
+            </ul>
+    </div>
+            </div>
+        </section>
+        </nav>
+    </details>
+  </div>
+</header>
+
+    
+    <div aria-hidden="true" class="adun" data-pos="top" data-raptor="condor" data-xmd=",fluid,leaderboard," data-lg=",fluid,leaderboard," data-xlg=",fluid,superleaderboard,billboard,leaderboard," data-xxlg=",fluid,superleaderboard,billboard,brandwidth,leaderboard,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+
+<article>
+        <div id=top-col-story>
+            <div class="header_left">
+                <div class="cat_header">
+                    <h4 class="dcl">
+                        <a href="/software/oses/" aria-label="OSes">OSes</a>
+                    </h4>
+                </div>
+                <div class="comments_wrap mobile_only">
+        <a class="comment_count" aria-label="Read comments on this article, currently there are 64 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2026/04/15/raspberry_pi_os_sudo/">
+            <strong aria-hidden="true">64</strong>
+            <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+        </a>
+                    </div>
+            </div>
+            <div class="header_right">
+
+<h1>Raspberry Pi OS ends open-door policy for sudo</h1>            </div>
+
+
+            <div class="header_left">
+                <div class="comments_wrap desktop_only">
+        <a class="comment_count" aria-label="Read comments on this article, currently there are 64 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2026/04/15/raspberry_pi_os_sudo/">
+            <strong aria-hidden="true">64</strong>
+            <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+        </a>
+                    </div>
+            </div>
+            <div class="header_right">
+<h2>Command prefix will require password by default</h2>
+                    <div class="byline_and_dateline_and_share_and_comments">
+                        <div class="byline_wrap">
+                            <img class="vulture_icon" src="/design_picker/d518b499f8a6e2c65d4d8c49aca8299d54b03012/graphics/icon/vulture_red.svg" alt="icon">
+                                <a class="byline" href="/Author/Richard-Speed" title="Read more by this author">
+Richard Speed                                </a>
+                        </div>
+                        <div class="dateline_wrap">
+                                <span class="dateline">
+Wed&nbsp;15&nbsp;Apr&nbsp;2026                                    <span class="slashes"> // </span>
+11:35&nbsp;UTC                                </span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    <div id=main-col>
+        <div id="article-wrapper" class="article_wrap">
+            <div class="left_col">
+                    <div class="floating_bar">
+                        <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_2">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo&amp;url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo&amp;summary=Command%20prefix%20will%20require%20password%20by%20default" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                <div class="promo_advert">
+                </div>
+            </div>
+            <div class="centre_col">
+                <div id="article">
+                    <div id="body">
+<p>The latest version of Raspberry Pi OS now requires a password for <code>sudo</code> by default.</p>
+<p>The <a target="_blank" rel="nofollow" href="https://www.raspberrypi.com/news/a-security-update-for-raspberry-pi-os/">change</a> affects only new installations - existing setups are untouched. Using the <code>sudo</code> prefix to run a command with administrator privileges will now prompt for a password; enter it wrong, and the command is refused.</p>
+<p>Previously, any user could run <code>sudo</code> commands as an administrator without authentication. It's convenient, and has always been the default yet it is an obvious security risk as anyone with access to the machine could cause serious harm.</p>
+
+    <div aria-hidden="true" class="adun" data-pos="top" data-raptor="condor" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+
+<p>Once an admin enters the password correctly, the system won't prompt for it again for the next five minutes, so multiple <code>sudo</code> commands in a row stay frictionless.</p>
+
+        <div aria-hidden="true" class="adun" data-pos="top" data-raptor="falcon" data-xmd=",fluid,mpu,leaderboard," data-lg=",fluid,mpu,leaderboard," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,leaderboard,mpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D4%26raptor%3Dfalcon%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D426raptor%3Dfalcon%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+
+        <div class="adun_eagle_desktop_story_wrapper">
+            <div aria-hidden="true" class="adun" data-pos="mid" data-raptor="eagle" data-xxlg=",mpu,dmpu,">
+                <noscript>
+                    <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=3&amp;c=33aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D3%26raptor%3Deagle%26pos%3Dmid%26test%3D0" target="_blank">
+                        <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=3&amp;c=33aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D3%26raptor%3Deagle%26pos%3Dmid%26test%3D0" alt="">
+                    </a>
+                </noscript>
+            </div>
+        </div>
+
+<p>Users who prefer the old behavior can revert the system to its original passwordless state in the Control Centre or via a raspi-config setting.</p>
+<p>The change will undoubtedly inconvenience some users - certain scripts may break - however the reasoning is sound. Passwordless <code>sudo</code> by default was a clear vulnerability, even if Raspberry Pi acknowledged that beefing up security is "a tricky balance."</p>
+<ul class="listinks">
+
+<li><a href="https://www.theregister.com/2026/04/01/raspberry_pi_price_hikes/">We know what day it is but these Raspberry Pi price hikes are no joke</a></li>
+
+<li><a href="https://www.theregister.com/2026/03/31/raspberry_pi_fy_2025/">Raspberry Pi leans into semiconductors as sales climb – especially in US and China</a></li>
+
+<li><a href="https://www.theregister.com/2026/02/20/raspberry_pi_meme_stock_disorder/">The idea of using a Raspberry Pi to run OpenClaw makes no sense</a></li>
+
+<li><a href="https://www.theregister.com/2026/02/06/summoning_the_spirit_of_the/">Summoning the spirit of the BBC Micro with a Pi 500+ and a can of spray paint</a></li>
+</ul>
+<p>"Anything that makes the operating system more secure will invariably inconvenience legitimate users to some extent."</p>
+<p>Reaction from users has been mixed: One called it a "lame change" and said "it ruined my day," while others accepted the need to improve the default security posture. It's worth reiterating that the change is easy to reverse, and leaves existing installations alone.</p>
+
+        <div aria-hidden="true" class="adun" data-pos="top" data-raptor="falcon" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D4%26raptor%3Dfalcon%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D426raptor%3Dfalcon%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+<p>For a device with free-wheeling hobbyist roots, requiring a password feels like a small but meaningful step toward the mainstream, which is understandable, even if not universally welcome. ®</p>                                <div class="wptl btm">
+                                    <noscript><strong>Get our</strong> <a href="https://whitepapers.theregister.com/" style="text-transform:uppercase">Tech Resources</a></noscript>
+                                </div>
+                    </div>
+
+
+
+                            <div class="article_body_btm mobile_only">
+                                <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+        <span>Share</span>
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_3">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo&amp;url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo&amp;summary=Command%20prefix%20will%20require%20password%20by%20default" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+                            </div>
+                </div>
+            </div>
+
+            <div class="right_col desktop_only">
+                <div class="similar_topics">
+        <div class="similar_topics">
+            <h4>More about</h4>
+            <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Raspberry%20Pi/"
+        >
+            <span class="keyword_name">
+                Raspberry Pi
+            </span>
+        </a>
+    </li>
+            </ul>
+        </div>
+    <div class="keyword_wrap" style="display: none;">
+        <div class="keyword_trigger">More like these</div>
+    </div>
+    <div class="lightbox_overlay">
+        <div class="keyword_popup more_topics">
+            <div class="close">&times;</div>
+                <div class="keyword_group similar_topics">
+                    <h3>More about</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Raspberry%20Pi/"
+        >
+            <span class="keyword_name">
+                Raspberry Pi
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group child_topics">
+                    <h3>Narrower topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Android/"
+        >
+            <span class="keyword_name">
+                Android
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Asahi%20Linux/"
+        >
+            <span class="keyword_name">
+                Asahi Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/CentOS/"
+        >
+            <span class="keyword_name">
+                CentOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Debian/"
+        >
+            <span class="keyword_name">
+                Debian
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Elementary%20OS/"
+        >
+            <span class="keyword_name">
+                Elementary OS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Fedora/"
+        >
+            <span class="keyword_name">
+                Fedora
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Firmware/"
+        >
+            <span class="keyword_name">
+                Firmware
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GNOME/"
+        >
+            <span class="keyword_name">
+                GNOME
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/iOS/"
+        >
+            <span class="keyword_name">
+                iOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux%20Foundation/"
+        >
+            <span class="keyword_name">
+                Linux Foundation
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/macOS/"
+        >
+            <span class="keyword_name">
+                macOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/One%20Way%20Forward/"
+        >
+            <span class="keyword_name">
+                One Way Forward
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/OS%2F2/"
+        >
+            <span class="keyword_name">
+                OS/2
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Qubes/"
+        >
+            <span class="keyword_name">
+                Qubes
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/UEFI/"
+        >
+            <span class="keyword_name">
+                UEFI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Unix/"
+        >
+            <span class="keyword_name">
+                Unix
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows/"
+        >
+            <span class="keyword_name">
+                Windows
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2010/"
+        >
+            <span class="keyword_name">
+                Windows 10
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2011/"
+        >
+            <span class="keyword_name">
+                Windows 11
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%207/"
+        >
+            <span class="keyword_name">
+                Windows 7
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%208/"
+        >
+            <span class="keyword_name">
+                Windows 8
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server/"
+        >
+            <span class="keyword_name">
+                Windows Server
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202003/"
+        >
+            <span class="keyword_name">
+                Windows Server 2003
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202008/"
+        >
+            <span class="keyword_name">
+                Windows Server 2008
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202012/"
+        >
+            <span class="keyword_name">
+                Windows Server 2012
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202013/"
+        >
+            <span class="keyword_name">
+                Windows Server 2013
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202016/"
+        >
+            <span class="keyword_name">
+                Windows Server 2016
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Subsystem%20for%20Linux/"
+        >
+            <span class="keyword_name">
+                Windows Subsystem for Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20XP/"
+        >
+            <span class="keyword_name">
+                Windows XP
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group parent_topics">
+                    <h3>Broader topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/FOSS/"
+        >
+            <span class="keyword_name">
+                FOSS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linus%20Torvalds/"
+        >
+            <span class="keyword_name">
+                Linus Torvalds
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+                </div>
+            </div>
+            <div class="right_col mobile_only">
+                <div class="similar_topics">
+                    <h4>More about</h4>
+                </div>
+            </div>
+
+
+            <div class="left_col main_content">
+                    <div class="sharing_block">
+                        <div class=article_body_btm>
+                            <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+        <span>Share</span>
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_4">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo&amp;url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Raspberry%20Pi%20OS%20ends%20open-door%20policy%20for%20sudo&amp;summary=Command%20prefix%20will%20require%20password%20by%20default" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2026/04/15/raspberry_pi_os_sudo/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+
+                        </div>
+                    </div>
+            </div>
+
+            <div class="centre_col main_content">
+        <div class="comments ">
+            <a class="comment_count" aria-label="Read comments on this article, currently there are 64 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2026/04/15/raspberry_pi_os_sudo/">
+                <strong aria-hidden="true">64</strong>
+                <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+                    COMMENTS
+            </a>
+        </div>
+                </div>
+            <div class="hidden_col mobile_only">
+        <div class="similar_topics">
+            <h4>More about</h4>
+            <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Raspberry%20Pi/"
+        >
+            <span class="keyword_name">
+                Raspberry Pi
+            </span>
+        </a>
+    </li>
+            </ul>
+        </div>
+    <div class="keyword_wrap" style="display: none;">
+        <div class="keyword_trigger">More like these</div>
+    </div>
+    <div class="lightbox_overlay">
+        <div class="keyword_popup more_topics">
+            <div class="close">&times;</div>
+                <div class="keyword_group similar_topics">
+                    <h3>More about</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Raspberry%20Pi/"
+        >
+            <span class="keyword_name">
+                Raspberry Pi
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group child_topics">
+                    <h3>Narrower topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Android/"
+        >
+            <span class="keyword_name">
+                Android
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Asahi%20Linux/"
+        >
+            <span class="keyword_name">
+                Asahi Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/CentOS/"
+        >
+            <span class="keyword_name">
+                CentOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Debian/"
+        >
+            <span class="keyword_name">
+                Debian
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Elementary%20OS/"
+        >
+            <span class="keyword_name">
+                Elementary OS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Fedora/"
+        >
+            <span class="keyword_name">
+                Fedora
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Firmware/"
+        >
+            <span class="keyword_name">
+                Firmware
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GNOME/"
+        >
+            <span class="keyword_name">
+                GNOME
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/iOS/"
+        >
+            <span class="keyword_name">
+                iOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux%20Foundation/"
+        >
+            <span class="keyword_name">
+                Linux Foundation
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/macOS/"
+        >
+            <span class="keyword_name">
+                macOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/One%20Way%20Forward/"
+        >
+            <span class="keyword_name">
+                One Way Forward
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/OS%2F2/"
+        >
+            <span class="keyword_name">
+                OS/2
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Qubes/"
+        >
+            <span class="keyword_name">
+                Qubes
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/UEFI/"
+        >
+            <span class="keyword_name">
+                UEFI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Unix/"
+        >
+            <span class="keyword_name">
+                Unix
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows/"
+        >
+            <span class="keyword_name">
+                Windows
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2010/"
+        >
+            <span class="keyword_name">
+                Windows 10
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2011/"
+        >
+            <span class="keyword_name">
+                Windows 11
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%207/"
+        >
+            <span class="keyword_name">
+                Windows 7
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%208/"
+        >
+            <span class="keyword_name">
+                Windows 8
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server/"
+        >
+            <span class="keyword_name">
+                Windows Server
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202003/"
+        >
+            <span class="keyword_name">
+                Windows Server 2003
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202008/"
+        >
+            <span class="keyword_name">
+                Windows Server 2008
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202012/"
+        >
+            <span class="keyword_name">
+                Windows Server 2012
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202013/"
+        >
+            <span class="keyword_name">
+                Windows Server 2013
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202016/"
+        >
+            <span class="keyword_name">
+                Windows Server 2016
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Subsystem%20for%20Linux/"
+        >
+            <span class="keyword_name">
+                Windows Subsystem for Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20XP/"
+        >
+            <span class="keyword_name">
+                Windows XP
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group parent_topics">
+                    <h3>Broader topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/FOSS/"
+        >
+            <span class="keyword_name">
+                FOSS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linus%20Torvalds/"
+        >
+            <span class="keyword_name">
+                Linus Torvalds
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+            </div>
+            <div class="right_col main_content">
+
+    <div class="tip_off_widget">
+        <h4>TIP US OFF</h4>
+        <p><a href="https://www.theregister.com/Profile/contact/" target="_blank">Send us news</a></p>
+    </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+        <hr id=story_section_break>
+                <script>
+                    RegWpTl = [
+                        '<a href="https://go.theregister.com/tl/3346/shttps://go.theregister.com/k/reg-preferred-sources">No more fake tech news! Add The Register to your Preferred Sources in Google Search<\/a>'
+                    ];
+                </script>
+    <div id=story-bot-col>
+        <h3 style="position:absolute;color:transparent;z-index:-1;">Other stories you might like</h3>
+        <div id="aua" data-unit-type="aua" class="keepreading">
+            <div class=headlines>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2026/04/17/bork_jack_in_the_box/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/14/bork_3.jpg"></div>        <div class="article_text_elements">
+            <h4>Would you like fries with that terminal?</h4>
+            <div class=standfirst>
+                <span class="label">Bork!Bork!Bork!</span>&nbsp;Jack might be on Track, but the order screen certainly isn't</div>
+            <div class=time_comments>
+                <span class="section_name">Offbeat</span><span class="time_stamp" title="17 Apr 2026 9:15" data-epoch="1776417312">17 Apr 2026</span> | <span class="comment light_bg_comments">2</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/17/capita_csps/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2019/08/01/greenlight.jpg"></div>        <div class="article_text_elements">
+            <h4>Capita won disastrous UK pensions gig after acing performance checks</h4>
+            <div class=standfirst>Top civil servant tells MPs bid was strong on quality and value for money</div>
+            <div class=time_comments>
+                <span class="section_name">Public Sector</span><span class="time_stamp" title="17 Apr 2026 8:30" data-epoch="1776414613">17 Apr 2026</span> | <span class="comment light_bg_comments">7</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/17/on_call/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/15/nano_banana_technician_aura.jpg"></div>        <div class="article_text_elements">
+            <h4>Support tech caught by 'Technician Aura': the bug that only hides when you're watching</h4>
+            <div class=standfirst>
+                <span class="label">On Call</span>&nbsp;All that kit, and the fix was simply stepping aside</div>
+            <div class=time_comments>
+                <span class="section_name">Networks</span><span class="time_stamp" title="17 Apr 2026 7:29" data-epoch="1776410947">17 Apr 2026</span> | <span class="comment light_bg_comments">13</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/02/18/why_flexibility_will_define/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2021/06/23/shutterstock_nutanix_editorial_only.jpg"></div>        <div class="article_text_elements">
+            <h4>Why flexibility will define the future of functionality</h4>
+            <div class=standfirst>Enterprise infrastructure choices shouldn't have to be hostages to compromise. Cisco FlashStack with Nutanix sets out to break the deadlock</div>
+            <div class=time_comments><span class="section_name">Sponsored Feature</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+
+    <div aria-hidden="true" class="adun" data-pos="btm" data-raptor="hawk" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu," data-xmd=",fluid,leaderboard,mpu,dmpu," data-lg=",fluid,mpu,leaderboard,dmpu," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard,dmpu," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,mpu,leaderboard,dmpu,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=6&amp;c=66aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D6%26raptor%3Dhawk%26pos%3Dbtm%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=6&amp;c=66aeIDd7S8WKKsZTkmZ4_J-wAAARA&amp;t=ct%3Dns%26unitnum%3D6%26raptor%3Dhawk%26pos%3Dbtm%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2026/04/17/claude_opus_wrote_chrome_exploit/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2015/04/07/awsnap.png"></div>        <div class="article_text_elements">
+            <h4>Claude Opus wrote a Chrome exploit for $2,283</h4>
+            <div class=standfirst>Pause your Mythos panic because mainstream models anyone can use already pick holes in popular software</div>
+            <div class=time_comments>
+                <span class="section_name">Security</span><span class="time_stamp" title="17 Apr 2026 7:2" data-epoch="1776409329">17 Apr 2026</span> | <span class="comment light_bg_comments">5</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/17/iown_use_cases/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/17/shutterstock_data_flow.jpg"></div>        <div class="article_text_elements">
+            <h4>IOWN Global Forum targets datacenter interconnects to scatter AI infrastructure</h4>
+            <div class=standfirst>Fast WAN consortium thinks neoclouds are ripe for hookups</div>
+            <div class=time_comments>
+                <span class="section_name">Networks</span><span class="time_stamp" title="17 Apr 2026 6:15" data-epoch="1776406507">17 Apr 2026</span> | <span class="comment light_bg_comments">1</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/17/cisco_wifi_ap_useless_data/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/17/shutterstock_wifi_death.jpg"></div>        <div class="article_text_elements">
+            <h4>Cisco Wi-Fi boxes are filling their disks with 5MB of undeletable data every day</h4>
+            <div class=standfirst>Fix for critical flaw is an OS update you may not be able to make because the junk data uses all memory</div>
+            <div class=time_comments>
+                <span class="section_name">Networks</span><span class="time_stamp" title="17 Apr 2026 4:35" data-epoch="1776400546">17 Apr 2026</span> | <span class="comment light_bg_comments">8</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/17/ipv6_50_percent_google/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/17/shutterstock_fingers_crossed.jpg"></div>        <div class="article_text_elements">
+            <h4>IPv6 carried half of internet traffic – for one day, according to Google</h4>
+            <div class=standfirst>We're not half way there, we're still livin' on a prayer</div>
+            <div class=time_comments>
+                <span class="section_name">Networks</span><span class="time_stamp" title="17 Apr 2026 2:4" data-epoch="1776391490">17 Apr 2026</span> | <span class="comment light_bg_comments">8</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2026/04/16/anthropic_mcp_design_flaw/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/01/16/shutterstock_2570283165.jpg"></div>        <div class="article_text_elements">
+            <h4>Anthropic won't own MCP 'design flaw' putting 200K servers at risk, researchers say</h4>
+            <div class=standfirst>Bug or feature?</div>
+            <div class=time_comments>
+                <span class="section_name">Security</span><span class="time_stamp" title="16 Apr 2026 22:45" data-epoch="1776379537">16 Apr 2026</span> | <span class="comment light_bg_comments">6</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/16/mozilla_thunderbolt_enterprise_ai_client/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/16/lightning_thunderbolt_hands.jpg"></div>        <div class="article_text_elements">
+            <h4>Mozilla throws Thunderbolt at enterprise AI providers</h4>
+            <div class=standfirst>Client connects to deepset's Haystack platform</div>
+            <div class=time_comments>
+                <span class="section_name">AI + ML</span><span class="time_stamp" title="16 Apr 2026 21:35" data-epoch="1776375309">16 Apr 2026</span> | <span class="comment light_bg_comments">5</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/16/nodeweaver_vs_vmware_at_edge/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/16/shutterstock_2338568963.jpg"></div>        <div class="article_text_elements">
+            <h4>NodeWeaver says its perpetual licensing beats VMware’s perpetual price hikes</h4>
+            <div class=standfirst>'I think you can run this thing on a potato,' NodeWeaver CTO Alan Conboy said.</div>
+            <div class=time_comments>
+                <span class="section_name">Virtualization</span><span class="time_stamp" title="16 Apr 2026 21:8" data-epoch="1776373709">16 Apr 2026</span> | <span class="comment light_bg_comments">5</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/16/anthropic_ejects_bundled_tokens_enterprise/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2015/08/03/ejector_seat_action.jpg"></div>        <div class="article_text_elements">
+            <h4>Anthropic squeezes enterprises by ejecting bundled tokens from seat deal</h4>
+            <div class=standfirst>
+                <span class="label">UPDATED</span>&nbsp;Large organizations pushed toward metered pricing</div>
+            <div class=time_comments>
+                <span class="section_name">AI + ML</span><span class="time_stamp" title="16 Apr 2026 20:25" data-epoch="1776371143">16 Apr 2026</span> | <span class="comment light_bg_comments">6</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+            </div>
+    <div aria-hidden="true" class="adun" data-pos="btm" data-raptor="owl" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu," data-xmd=",fluid,leaderboard,mpu,dmpu," data-lg=",fluid,mpu,leaderboard,dmpu," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard,dmpu," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,mpu,leaderboard,dmpu,"></div>
+
+        </div>
+    </div><footer class="site-footer">
+  <div class="site-footer--slogan">
+    <a href="https://www.theregister.com/">
+      <span class="footer--visually-hidden">The Register Home Page</span>
+      <img class="site-footer--the-register-logo" src="https://cdn.theregister.com/assets/images/the_register_logo.6befe899.svg" alt="">
+    </a>
+    <p>Biting the hand that feeds IT</p>
+  </div>
+  <div class="site-footer--wrapper">
+    <nav class="site-footer--nav" aria-label="Footer">
+      <div class="site-footer--group">
+        <h2>About Us</h2>
+        <ul>
+        <li>
+            <a href="https://www.theregister.com/Profile/contact/">Contact us</a>
+          </li>
+        <li>
+            <a href="https://situationpublishing.com/contact/" target="_blank" rel="noopener">Advertise with us</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/about_the_register/">Who we are</a>
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer--group">
+        <h2>Our Websites</h2>
+        <ul>
+        <li>
+            <a href="https://www.nextplatform.com/" target="_blank" rel="noopener">The Next Platform</a>
+          </li>
+        <li>
+            <a href="https://devclass.com/" target="_blank" rel="noopener">DevClass</a>
+          </li>
+        <li>
+            <a href="https://blocksandfiles.com/" target="_blank" rel="noopener">Blocks and Files</a>
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer--group">
+        <h2>Your Privacy</h2>
+        <ul>
+        <li>
+            <a href="https://www.theregister.com/Profile/cookies/">Cookies Policy</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/privacy/">Privacy Policy</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/terms_and_conditions_of_use/">Ts &amp; Cs</a>
+          </li>
+        </ul>
+      </div>
+      </nav>
+    <div class="site-footer--copyright">
+      <a href="https://situationpublishing.com/">
+        <span class="footer--visually-hidden">Situation Publishing</span>
+        <img class="footer--sitpub-logo-two-lines" src="https://cdn.theregister.com/assets/images/situation_publishing_logo_two_lines.7bfa3d3e.svg" alt="">
+        <img class="footer--sitpub-logo-one-line" src="https://cdn.theregister.com/assets/images/situation_publishing_logo_one_line.b1e3235b.svg" alt="">
+      </a>
+      <p>Copyright.
+        <span class="footer--no-wrap">All rights reserved</span>
+        <span class="footer--no-wrap">&copy; 1998&ndash;2026</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<div id=end_scripts>
+        <script>
+            if (typeof(ElReg.Ga.sendPageView) === 'function') {
+                ElReg.Ga.sendPageView('reg_software/oses','76bab59aa225af92fb7beef301a4ba8c','76bab59aa225af92fb7beef301a4ba8c');
+            }
+        </script>
+    <script>
+        $(function() { RegUtils.set_bucket_group(659) });
+    </script>
+</div></div>
+</body>
+</html>
