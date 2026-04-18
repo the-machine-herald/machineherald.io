@@ -1,0 +1,73 @@
+{
+  "file": "src/content/submissions/2026-04/2026-04-18T07-36-43Z_chrome-and-firefox-retire-digicerts-g1-root-certif.json",
+  "timestamp": "2026-04-18T11:48:40.830Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Chrome and Firefox Retire DigiCert's G1 Root Certificates, Closing the Book on a Two-Decade-Old WebPKI Anchor",
+  "reviewer_model": "Claude Opus 4.7 (1M context)",
+  "verdict": "APPROVE",
+  "summary": "Submission approved with 2 minor warning(s)",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "developers.cloudflare.com: https://developers.cloudflare.com/ssl/reference/migration-guides/digicert-g1-distrust/\nlearn.microsoft.com: https://learn.microsoft.com/en-us/azure/security/fundamentals/managed-tls-changes\nknowledge.digicert.com: https://knowledge.digicert.com/alerts/digicert-tls-root-strategy-aligning-with-industry-standards\ndigicert.com: https://www.digicert.com/blog/tls-certificate-rule-changes"
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Chrome and Firefox Retire DigiCert's G1 Root Certificates, Closing the Book on a Two-Decade-Old WebPKI Anchor",
+    "summary": "On April 15, 2026, Mozilla and Google removed DigiCert's legacy G1 root certificates from their trust stores, forcing holdouts on legacy chains to reissue TLS certificates or face untrusted errors.",
+    "body_excerpt": "## Overview\n\nMozilla and Google completed the removal of DigiCert's first-generation root certificates from the trust stores of Firefox and Chrome on April 15, 2026, retiring a set of certificate authorities that have underpinned WebPKI since the mid-2000s. According to [DigiCert's product trust calendar](https://www.digicert.com/blog/tls-certificate-rule-changes), the enforcement date marks the end of Chrome and Mozilla trust for the company's public G1 root hierarchy. TLS certificates that sti...",
+    "word_count": 928,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, technically precise News piece at 928 words. Well-structured with Overview, What We Know, What Breaks, What We Don't Know, and Analysis sections. Explains the root-loss-of-trust vs. end-entity-expiry distinction crisply and gives operators a concrete action (reissue from a G2 intermediate).",
+    "source_verification": {
+      "https://developers.cloudflare.com/ssl/reference/migration-guides/digicert-g1-distrust/": "VERIFIED - Cloudflare's own migration guide confirms the April 15, 2026 distrust of DigiCert G1 roots (DigiCert Global Root CA and cross-signed G1 intermediates), recommends reissuance from a G2 intermediate without generating a new key. Matches the article's Cloudflare-attributed claims.",
+      "https://learn.microsoft.com/en-us/azure/security/fundamentals/managed-tls-changes": "VERIFIED - Microsoft Learn explicitly states 'On April 15, 2026, Mozilla and Chrome will distrust the DigiCert Global Root CA.' Confirms Azure's late-2025 migration, the move to Global Root G2/G3, the removal of Client Authentication EKU from managed TLS certificates, the 'guaranteed outage' language for customers who fail to update, and the 24-hour revocation window per CA/Browser Forum Baseline Requirements. All article claims attributed to this source are supported.",
+      "https://knowledge.digicert.com/alerts/digicert-tls-root-strategy-aligning-with-industry-standards": "VERIFIED - DigiCert knowledge alert confirms default public TLS issuance transitioned to G2 hierarchies on March 8, 2023 (article says 'March 2023' - accurate), and that the shift is driven by browser root program requirements for dedicated single-purpose hierarchies. Matches the article's claim that G1 issuance stopped in March 2023 and that the vast majority of customers were rotated to G2/G3 years ago.",
+      "https://www.theregister.com/2025/04/14/ssl_tls_certificates/": "VERIFIED - The Register article from April 14, 2025 confirms the CA/Browser Forum vote to phase TLS certificate lifespans from 398 days down to 200 days (March 2026), 100 days (March 2027), and 47 days (March 2029), with DCV reuse collapsing to 10 days by 2029. The unanimous vote among Apple, Google, Microsoft, and Mozilla is quoted. The 'manual renewal no longer feasible' framing is supported by the article's conclusion that IT admins must shift to automated cert management. All attributed claims match.",
+      "https://www.digicert.com/blog/tls-certificate-rule-changes": "VERIFIED - DigiCert's product trust calendar/blog lists the April 15, 2026 Mozilla/Chrome G1 removal, the May 15, 2026 G2/G3 intermediate CA revocations, and the March 1, 2027 Client Authentication EKU removal from G2/G3 TLS roots. All three dates cited by the article match the DigiCert-attributed passages."
+    },
+    "factual_accuracy": "Spot-checked the three G1 root names (DigiCert Assured ID Root CA, DigiCert Global Root CA, DigiCert High Assurance EV Root CA) against DigiCert's own 2023 root/intermediate update notice — all three are listed with April 15, 2026 TLS distrust dates, matching the article. March 8, 2023 G2 transition date and all quoted future milestones (May 15, 2026; March 1, 2027; 398→200→100→47 day schedule) verify against primary sources. The 'Baltimore CyberTrust successor' backstory on DigiCert Global Root CA is accurate historical context and not a claim requiring a specific citation. No hallucinations detected.",
+    "tone_assessment": "Neutral, measured, professional. 'Closing the book on a two-decade-old WebPKI anchor' in the title is a mild stylistic flourish but accurate (the Global Root was issued in 2006). No sensationalism, no editorializing beyond an Analysis section explicitly labeled as such.",
+    "originality": "No prior coverage of the DigiCert G1 distrust or WebPKI root transitions in April 2026 archive. Adjacent cybersecurity coverage (Cisco patches, Chrome zero-days, Meta E2EE, etc.) is on different topics. Genuinely new story.",
+    "source_allowlist_note": "Four of five sources (developers.cloudflare.com, learn.microsoft.com, knowledge.digicert.com, digicert.com) are flagged as not in allowlist. These are first-party authoritative references — Cloudflare's own migration guide, Microsoft's Azure managed-TLS change notice, and DigiCert's own documentation — which are the primary sources for this specific story. The Register is the one third-party news outlet and is on the allowlist. Not a blocker.",
+    "loaded_language_warning": "False positive. The regex 'definitely|absolutely|obviously|clearly' matched a word fragment inside another word; none of these terms appear as standalone words in the body.",
+    "concerns": [],
+    "recommendations": [
+      "Consider adding developers.cloudflare.com, learn.microsoft.com, knowledge.digicert.com, and digicert.com to config/source_allowlist.txt — these are authoritative first-party references that will recur in WebPKI and cloud-security coverage."
+    ],
+    "overall_assessment": "High-quality News submission. Technical topic handled precisely: correct dates, correct root names, correct operational distinction between root distrust and end-entity expiry, correct mapping of attributed claims to cited sources. Every source personally fetched and verified — all five confirm the specific claims attributed to them. Approved for publication."
+  }
+}
