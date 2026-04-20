@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <!-- Meta Data -->
+    <meta charset="UTF-8">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
+    <link href="/favicon.ico" rel="apple-touch-icon" sizes="180x180">
+    <link href="/favicon.ico" rel="icon" sizes="32x32" type="image/png">
+    <link href="/favicon.ico" rel="icon" sizes="16x16" type="image/png">
+
+    <!-- Site Stylesheet -->
+    <link href="/files/css/styles.min.css?v=1.0" rel="stylesheet">
+    <link href="//fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="//fonts.gstatic.com" rel="preconnect">
+    <link href="//fonts.googleapis.com/css2?family=Barlow:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!--Basic meta information-->
+    <title>CERT-EU - European Commission cloud breach: a supply-chain compromise</title>
+    <meta content="CERT-EU - European Commission cloud breach: a supply-chain compromise" name="description">
+    <meta content="CERT-EU - European Commission cloud breach: a supply-chain compromise" name="keywords">
+
+    <!--Share information-->
+    <meta property="og:title" content="European Commission cloud breach: a supply-chain compromise">
+    <meta property="og:description" content="European Commission cloud breach: a supply-chain compromise">
+    <meta property="og:url" content="https://cert.europa.eu/blog/european-commission-cloud-breach-trivy-supply-chain">
+    <meta property="og:image" content="https://cert.europa.eu/files/images/certeu_home_share-v2.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <style nonce="YLZfUm1-Q2dRGzYLjEIJxoSlpcXd-pOS">
+        .tlp_red {
+            padding: 0 3px;
+            background-color: #000;
+            color: #FF2B2B;
+            font-weight: 600;
+            line-height: 1.4em;
+        }
+
+        .tlp_amber,
+        .tlp_amber_strict {
+            padding: 0 3px;
+            background-color: #000;
+            color: #FFC000;
+            font-weight: 600;
+            line-height: 1.4em;
+        }
+
+        .tlp_green {
+            padding: 0 3px;
+            background-color: #000;
+            color: #33FF00;
+            font-weight: 600;
+            line-height: 1.4em;
+        }
+
+        .tlp_clear,
+        .tlp_white {
+            padding: 0 3px;
+            background-color: #000;
+            color: #FFFFFF;
+            font-weight: 600;
+            line-height: 1.4em;
+        }
+    </style>
+</head>
+<body>
+<header class="header_website--not_scrolled">
+    <section class="header_website_top d-flex justify-content-between px-15">
+        <div class="header_website_top--social d-flex align-items-center">
+            <a href="https://www.linkedin.com/company/certeu/mycompany/" target="_blank"
+               class="header_website_top--social--icon">
+                <span class="share-xs share-icon-linkedin-white m-2"></span>
+            </a>
+            <a href="https://github.com/certeu" target="_blank" class="header_website_top--social--icon">
+                <span class="share-sm share-icon-github-white"></span>
+            </a>
+            <a href="https://infosec.exchange/@cert_eu" target="_blank"
+               class="header_website_top--social--icon" rel="me">
+                <span class="share-sm share-icon-mastodon-white"></span>
+            </a>
+        </div>
+        <div class="d-flex">
+            <a class="header_website_top--right mt-5 mr-40 a-norm-rev" href="//goo.gl/maps/sNEAsRwQ739XLHVz9"
+               target="_blank">
+                Address: Rue de la Loi 107, 1049 Brussels, Belgium
+            </a>
+            <a class="header_website_top--right mt-5 a-norm-rev" href="tel:+32 229 52100">Tel: +32 2 295 2100</a>
+        </div>
+    </section>
+
+    <section class="d-flex flex-row px-10 header_website">
+        <a href="/" class="flex-grow-1 align-self-center header_website--logo"></a>
+        <input class="menu-btn" id="menu-btn" type="checkbox"/>
+        <nav class="align-self-center horizontal-menu" role="navigation">
+            <ul>
+                <li><a class="small-caps hover-underline-animation-white" href="/about-us">About us</a></li>
+
+                <li><a class="small-caps hover-underline-animation-orange text-orange" href="/conference/steam-n-steel-the-chronicles-of-the-cyberverse/announcement">Annual Conference</a></li>
+
+                <li><a class="small-caps hover-underline-animation-white" href="/blog">Blog</a></li>
+                <li><a class="small-caps" href="/publications">Publications</a>
+                    <ul>
+                        <li>
+                            <a class="small-caps hover-underline-animation-blue"
+                               href="/publications/security-advisories/">
+                                Security advisories
+                            </a>
+                        </li>
+                        <li>
+                            <a class="small-caps hover-underline-animation-blue"
+                               href="/publications/security-guidance/">
+                                Security guidance
+                            </a>
+                        </li>
+                        <li>
+                            <a class="small-caps hover-underline-animation-blue"
+                               href="/publications/threat-intelligence/">
+                                Threat intelligence
+                            </a>
+                        </li>
+                        <li>
+                            <a class="small-caps hover-underline-animation-blue"
+                               href="/publications/tlr-10-years/">
+                                TLR 10 Years
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a class="small-caps hover-underline-animation-white" href="/vacancies">Vacancies</a></li>
+                <li>
+                    <a class="small-caps hover-underline-animation-white" href="/hall-of-fame">
+                        Hall of fame
+                    </a>
+                </li>
+                <li><a class="small-caps" href="/iicb/">IICB</a></li>
+                <li><a class="small-caps hover-underline-animation-white" href="/contact-us">Contact us</a></li>
+            </ul>
+        </nav>
+        <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+    </section>
+</header>
+
+<main>
+    <section class="top_section d-flex flex-column justify-content-center">
+        <h1 class="top_section--title text-center">European Commission cloud breach: a supply-chain compromise</h1>
+        <ul class="top_section--breadcrumb d-flex flex-row justify-content-center mt-20">
+            <li><a class="a-norm" href="/">Home</a></li>
+            <li><a class="a-norm" href="/blog">Blog</a></li>
+            <li>Article</li>
+        </ul>
+    </section>
+
+    <section class="news py-30 blog">
+        <article class="container d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-row flex-wrap">
+                    <span class="mr-5 text-grey">By</span>
+                    <span class="author">
+                        CERT-EU 
+                    </span>
+                    <span class="mr-5 text-grey">, on</span>
+                    <time class="text-grey"
+                          datetime="2026-04-02T15:15:00+02:00">Thursday, April 02, 2026 03:15:00 PM CEST</time>
+                </div>
+                <aside
+                    class="mt-30-sm mt-40-lg justify-content-center justify-content-sm-end justify-content-lg-end align-self-end">
+                    <div class="font-amender">
+                        <a data-font-amender-class="font-amender-small">A</a>
+                        <a data-font-amender-class="font-amender-normal" class="font-amender-selected">A</a>
+                        <a data-font-amender-class="font-amender-medium">A</a>
+                        <a data-font-amender-class="font-amender-big">A</a>
+                    </div>
+                </aside>
+            </div>
+            <div class="mt-30 blog--body font-amender-apply">
+                <div>
+    <h2>Foreword</h2>
+    <p>In the interest of transparency, and in full agreement with the European Commission, CERT-EU is publishing this
+              blog post to inform the wider community about a cybersecurity incident affecting the European Commission’s
+              public website platform “europa.eu” hosted on Amazon Web Services (AWS) cloud infrastructure.
+    </p>
+    <p>CERT-EU was notified of this incident on 25 March 2026 by the European Commission, in accordance with Article 21
+              of<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202302841" target="_blank">
+                  Regulation (EU, Euratom) 2023/2841</a> (the “Cybersecurity Regulation”), which requires the Union
+              institutions, bodies, offices and agencies (Union entities) to report significant incidents to CERT-EU without
+              undue delay. CERT-EU has been providing support in accordance with Article 22 of the same Regulation.
+    </p>
+    <p>On March 27, the European Commission publicly disclosed the incident through a
+       <a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_26_748" target="_blank"> press release</a>.
+    </p>
+</div>
+
+<div>
+    <h2>Key points</h2>
+    <ul>
+        <li>On March 24, the European Commission’s Cybersecurity Operations Centre received alerts about potential
+            misuse of Amazon APIs, potential account compromise, and an abnormal increase in network traffic. On March
+            25, CERT-EU was informed.
+        </li>
+        <li>We assess with high confidence that initial access was obtained through the Trivy supply-chain compromise,
+            which was publicly attributed to a threat actor known as TeamPCP.
+        </li>
+        <li>A significant volume of data (about 91.7 GB compressed) was exfiltrated from the compromised AWS account,
+            including personal data such as names, email addresses, and email content.
+        </li>
+        <li>On March 28, the data extortion group ShinyHunters made the stolen data publicly available on their dark web leak site.
+        </li>
+        <li>The compromised account is part of the technical infrastructure that drives multiple websites of the
+            European Commission. Data pertaining to at least 29 other Union entities may be affected.
+        </li>
+        <li>We assess that the rise in supply-chain compromises poses a significant threat. We strongly encourage all
+            organisations to implement the recommendations in this post.
+        </li>
+    </ul>
+</div>
+
+<div>
+    <h2>What happened</h2>
+    <p>On March 25, CERT-EU received a notification from the European Commission that one of their AWS cloud accounts
+        had been compromised. The first alerts, indicating potential misuse of Amazon APIs, potential account
+        compromise, and an unusual volume of network traffic, had been detected by their Cybersecurity Operations Centre
+        (CSOC) team the previous day.</p>
+    <p>An investigation uncovered that a malicious actor acquired an Amazon Web Services (AWS) secret (an API key) on
+        March 19 through the <a href="https://www.aquasec.com/blog/trivy-supply-chain-attack-what-you-need-to-know/"
+                                target="_blank"> Trivy</a> supply chain compromise. This key granted control over
+        other AWS accounts affiliated with the European Commission. On the same day, the threat actor attempted to
+        discover additional secrets by launching TruffleHog, a tool commonly used for scanning secrets and validating
+        AWS credentials by calling the Security Token Service (STS). STS is an AWS service that generates short-lived
+        security credentials for accessing AWS resources and verifying identities.</p>
+    <p>The threat actor used the compromised AWS secret to create and attach a new access key to an existing user,
+        aiming to evade detection. They then carried out reconnaissance activities.</p>
+    <p>The European Commission swiftly revoked the compromised account’s rights to block any illegitimate access. All
+        compromised access keys have been deactivated or deleted.</p>
+</div>
+
+<div>
+    <h2>How it happened</h2>
+    <p>The European Commission and CERT-EU have assessed with high confidence that the initial access vector was the
+        Trivy supply-chain compromise, publicly attributed to TeamPCP by Aqua Security. The firm has provided
+        comprehensive details on this compromise <a
+                href="https://www.aquasec.com/blog/trivy-supply-chain-attack-what-you-need-to-know/" target="_blank">
+            in its advisory</a>.</p>
+    <p>This assessment is based on three main factors:</p>
+    <ul class="list_style_decimal">
+        <li>The timing of the Trivy supply-chain compromise coincides with the observed initial compromise on March
+            19.
+        </li>
+        <li>The specific resources being targeted: AWS credentials and cloud infrastructure.</li>
+        <li>The European Commission was unwittingly using a compromised version of Trivy during the relevant timeframe,
+            having received it through normal software update channels.
+        </li>
+    </ul>
+    <p>According to Aqua Security, TeamPCP's tooling is designed to operate within CI/CD pipelines and exfiltrates
+        harvested secrets via multiple channels, including typosquatted domains, GitHub repositories, and Cloudflare
+        tunnels.</p>
+</div>
+
+<div>
+    <h2>What data was taken</h2>
+    <p>The threat actor used the compromised AWS secret to exfiltrate data from the affected cloud environment. The
+        exfiltrated data relates to websites hosted for up to 71 clients of the Europa web hosting service: 42 internal
+        clients of the European Commission, and at least 29 other Union entities.</p>
+    <p>On March 28, the data extortion group ShinyHunters published the exfiltrated dataset on their dark web leak site,
+        <a href="https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-breach-after-europaeu-hack/"
+           target="_blank"> claiming</a> to have stolen &ldquo;data dumps of mail servers, datavases [sic],
+        confidential documents, contracts, and much more sensitive material&rdquo;. The published dataset was
+        approximately 91.7 GB compressed (340 GB uncompressed).</p>
+    <p>Analysis of the published dataset has so far confirmed the presence of personal data, including lists of names,
+        last names, usernames, and email addresses, predominantly from the European Commission’s websites but
+        potentially pertaining to users across multiple Union entities.</p>
+    <p>The dataset also contains at least 51,992 files related to outbound email communications, totalling 2.22 GB. The
+        majority of these are automated notifications with little to no content. However, “bounce-back” notifications,
+        which are responses to incoming messages from users, may contain the original user-submitted content, posing a
+        risk of personal data exposure.</p>
+    <p>The analysis of the databases linked to the hosted websites is underway. Given the volume and intricate nature of
+        the data involved, this process requires a considerable amount of time.</p>
+</div>
+
+<div>
+    <h2>Lateral movement</h2>
+    <p>The threat actor obtained management rights for the compromised AWS secret, which could have allowed them to move
+        laterally to other AWS accounts belonging to the European Commission. However, no indication of such movement
+        has been uncovered so far.</p>
+</div>
+
+<div>
+    <h2>What the European Commission did</h2>
+    <p>The European Commission took the following response actions:</p>
+    <ul>
+        <li>Immediately secured the compromised AWS secret and disabled the newly created access keys involved in the
+            threat actor’s activities.
+        </li>
+        <li>Sent a breach notification to their Data Protection Controller (DPC) and the potentially affected Union
+            entities’ Data Protection Officers (DPOs).
+        </li>
+        <li>Notified the European Data Protection Supervisor (EDPS), as required under Regulation (EU) 2018/1725 for
+            personal data breaches involving Union institutions.
+        </li>
+        <li>Starting on March 31, began communicating directly with the identified impacted clients of the Europa web
+            hosting service through dedicated meetings to inform them of the incident and the measures taken.
+        </li>
+    </ul>
+    <p>The European Commission’s <a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_26_748"
+                                    target="_blank"> press release of March 27</a> confirmed that its internal systems
+        were not affected and that it would continue to monitor the situation and take all necessary measures to ensure
+        the security of its systems and data.</p>
+</div>
+
+<div>
+    <h2>Who else is affected</h2>
+    <p>The compromised AWS cloud account forms part of the technical backend of the “europa.eu” web hosting service.
+        This service supports several public websites of the European Commission and other Union entities. As noted
+        above, exfiltrated data may pertain to 42 internal clients of the European Commission, and at least 29 other
+        Union entities using the service.</p>
+    <p>No websites were taken offline or tampered with by the threat actor, and no service interruptions have been
+        observed.</p>
+    <p>The European Commission has already initiated direct communications with the identified impacted clients (see
+        Response section above), facilitated where relevant by CERT-EU. Should the ongoing analysis of the exfiltrated
+        databases yield further findings, additional details on specific exposure will be shared directly with the
+        affected parties.</p>
+</div>
+
+<div>
+    <h2>Timeline</h2>
+    <table class="blog--body--table_0">
+        <tr>
+            <td><strong>Date</strong></td>
+            <td><strong>Event</strong></td>
+        </tr>
+        <tr>
+            <td style="white-space: nowrap;"><strong>2026-03-19</strong></td>
+            <td>The threat actor obtained a compromised AWS secret (API key) with management rights over other AWS
+                accounts belonging to the European Commission, via the Trivy supply-chain compromise. On the same day,
+                the threat actor launched TruffleHog to scan for additional secrets and began reconnaissance activities.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>2026-03-24</strong></td>
+            <td>The European Commission’s CSOC team received alerts indicating potential misuse of Amazon APIs,
+                potential account compromise, and an unusually large volume of network traffic. An incident response
+                process was initiated.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>2026-03-25</strong></td>
+            <td>CERT-EU was informed by the European Commission that at least one AWS cloud account had been
+                compromised. The European Commission secured the compromised AWS secret and disabled the newly created
+                access keys.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>2026-03-27</strong></td>
+            <td>The European Commission published a press release disclosing the incident.</td>
+        </tr>
+        <tr>
+            <td><strong>2026-03-28</strong></td>
+            <td>Data extortion group ShinyHunters released the exfiltrated dataset publicly on their dark web leak
+                site.
+            </td>
+        </tr>
+        <tr>
+            <td><strong>2026-03-31</strong></td>
+            <td>The European Commission began communicating directly with impacted clients of the Europa web hosting
+                service through dedicated meetings.
+            </td>
+        </tr>
+    </table>
+</div>
+  <div><h2>Tactics, Techniques and Procedures (TTPs)</h2>
+      <table class="blog--body--table_0">
+          <tr>
+              <td><strong>ATT&CK ID</strong></td>
+              <td><strong>Technique</strong></td>
+          </tr>
+          <tr>
+              <td><a href="https://attack.mitre.org/techniques/T1586/003/" target="_blank">T1586.003</a></td>
+              <td>Compromise Accounts: Cloud Accounts</td>
+          </tr>
+          <tr>
+              <td><a href="https://attack.mitre.org/techniques/T1078/004/" target="_blank">T1078.004</a></td>
+              <td>Valid Accounts: Cloud Accounts</td>
+          </tr>
+          <tr>
+              <td><a href="https://attack.mitre.org/techniques/T1195/002/" target="_blank">T1195.002</a></td>
+              <td>Supply Chain Compromise: Compromise Software Supply Chain</td>
+          </tr>
+          <tr>
+              <td><a href="https://attack.mitre.org/techniques/T1005/" target="_blank">T1005</a></td>
+              <td>Data from Local System</td>
+          </tr>
+      </table>
+  </div>
+
+  <div><h2>What to do</h2>
+      <h3>Immediate</h3>
+      <p><strong>Address the Trivy supply-chain compromise.</strong> As a priority, organisations using Trivy should:</p>
+      <ul>
+          <li>Update to a known-safe version as identified by <a
+                  href="https://www.aquasec.com/blog/trivy-supply-chain-attack-what-you-need-to-know/" target="_blank">
+              Aqua Security</a>.
+          </li>
+          <li>Rotate all AWS secrets and credentials that may have been exposed to Trivy during the compromise window.
+          </li>
+          <li>Audit Trivy versions deployed across all environments, including CI/CD pipelines.</li>
+          <li>Pin all GitHub Actions to full SHA hashes rather than mutable tags.</li>
+          <li>Search CI/CD logs and environments for exfiltration artefacts associated with TeamPCP (e.g., connections to
+              typosquatted domains, unexpected Cloudflare tunnel activity).
+          </li>
+      </ul>
+      <p><strong>Audit and rotate AWS credentials.</strong> Review all AWS access keys, particularly those accessible from
+          CI/CD pipelines. Deactivate any keys that are unused, over-privileged, or that may have been exposed. Enable and
+          review AWS CloudTrail logs for indicators consistent with this incident, including anomalous STS calls, use of
+          TruffleHog, creation of new access keys on existing users, and lateral movement.</p>
+      <h3>Short-term</h3>
+      <p><strong>Restrict CI/CD pipeline access to cloud credentials.</strong> Review whether CI/CD pipelines have access
+          to AWS secrets. Where they do, ensure credentials are scoped to the minimum required permissions. Consider
+          implementing AWS Service Control Policies (SCPs) to restrict sensitive API actions at the organisation level.
+      </p>
+      <p><strong>Implement vendor risk management for CI/CD dependencies.</strong> Establish release verification and
+          vendor risk assessment processes for third-party CI/CD tooling. This includes verifying signatures on tool
+          updates, maintaining an inventory of pipeline dependencies, and subscribing to security advisories for critical
+          components. The Trivy compromise demonstrates that trusted vendors can become vectors for malicious code
+          distribution.</p>
+      <p><strong>Implement behavioural monitoring for CI/CD environments.</strong> Deploy behavioural monitoring and
+          real-time alerting to detect anomalous CI/CD activity, such as unexpected secret access, outbound connections to
+          unknown endpoints, or atypical API usage patterns. This enables early identification of supply-chain compromises
+          before data exfiltration occurs.</p>
+      <h3>Continuously</h3>
+      <p><strong>Enforce least privilege and credential hygiene.</strong> Apply least privilege principles across all
+          cloud accounts and CI/CD service accounts. Implement regular credential rotation schedules, restrict access to
+          credential storage mechanisms, and monitor for suspicious credential-related activity. Refer to MITRE
+          mitigations <a href="https://attack.mitre.org/mitigations/M1043" target="_blank"> M1043</a> (Credential
+          Access Protection) and <a href="https://attack.mitre.org/mitigations/M1018" target="_blank"> M1018</a> (User
+          Account Management) for additional guidance.</p>
+      <p><strong>Monitor for secondary exploitation of disclosed data.</strong> Given that the exfiltrated dataset has
+          been publicly released, organisations whose data may be affected should monitor for targeted phishing or social
+          engineering attempts leveraging the disclosed personal information (names, e-mail addresses, e-mail content).
+          Raise awareness among staff accordingly.</p>
+      <p><strong>Maintain software update and vulnerability scanning practices.</strong> Ensure all systems, applications,
+          and CI/CD tooling are kept up to date with security patches. Conduct regular vulnerability scans to identify
+          misconfigurations, unpatched software, or other weaknesses. Refer to MITRE mitigations <a
+                  href="https://attack.mitre.org/mitigations/M1051" target="_blank"> M1051</a> (Update Software) and <a
+                  href="https://attack.mitre.org/mitigations/M1016" target="_blank"> M1016</a> (Vulnerability Scanning)
+          for additional guidance.</p></div>
+  <div><h2>Legal framework</h2>
+      <p>This incident and CERT-EU’s involvement fall within the framework of <a
+              href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202302841" target="_blank">
+          Regulation (EU, Euratom) 2023/2841</a> of the European Parliament and of the Council of 13 December 2023, laying
+          down measures for a high common level of cybersecurity at the institutions, bodies, offices and agencies of the
+          Union. Relevant provisions include:</p>
+      <ul>
+          <li><strong>Article 21 (Reporting obligations)</strong> – requires Union entities to notify CERT-EU of
+              significant incidents without undue delay, within 24 hours of becoming aware of them.
+          </li>
+          <li><strong>Article 22 (Incident response coordination and cooperation)</strong> – mandates CERT-EU to provide
+              support to the affected Union entity and to coordinate the response with relevant stakeholders.
+          </li>
+          <li><strong>Article 17 (Cooperation with Member State counterparts)</strong> – provides for CERT-EU to cooperate
+              and exchange incident-specific information with national CSIRTs and competent authorities.
+          </li>
+          <li><strong>Article 20 (Cybersecurity information-sharing arrangements)</strong> – enables the voluntary sharing
+              of cybersecurity information between Union entities and with relevant counterparts to improve collective
+              detection and response capabilities.
+          </li>
+      </ul>
+  </div>
+  <div><h2>References</h2>
+      <ul>
+          <li><a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_26_748" target="_blank">
+              European Commission press release (IP/26/748)</a></li>
+          <li><a href="https://www.aquasec.com/blog/trivy-supply-chain-attack-what-you-need-to-know/" target="_blank">
+              Aqua Security: Trivy Supply-Chain Attack — What You Need to Know</a></li>
+          <li><a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202302841" target="_blank">
+              Regulation (EU, Euratom) 2023/2841 (Cybersecurity Regulation)</a></li>
+          <li><a href="https://www.theregister.com/2026/03/24/1k_cloud_environments_infected_following/" target="_blank">The Register: 1K cloud environments infected following Trivy supply-chain compromise</a></li>
+          <li><a href="https://www.bleepingcomputer.com/news/security/european-commission-confirms-data-breach-after-europaeu-hack/" target="_blank">BleepingComputer: European Commission confirms data breach after Europa.eu hack</a></li>
+          <li><a href="https://www.bleepingcomputer.com/news/security/european-commission-investigating-breach-after-amazon-cloud-account-hack/" target="_blank">BleepingComputer: European Commission investigating breach after Amazon cloud hack</a></li>
+      </ul>
+  </div>
+  <div><h2>About CERT-EU</h2>
+      <p>CERT-EU is the Cybersecurity Service for the Union institutions, bodies, offices and agencies, established under
+          <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=OJ:L_202302841" target="_blank">Regulation
+          (EU, Euratom) 2023/2841</a>. Under the Cybersecurity Regulation, CERT-EU acts as the central
+          cybersecurity hub for all Union entities, providing threat intelligence, incident response coordination,
+          vulnerability management, and security guidance. CERT-EU also supports Union entities in implementing their
+          cybersecurity risk-management frameworks and issues calls for action to raise the collective level of
+          cybersecurity across the EU institutional ecosystem.</p>
+      <p>CERT-EU is a member of the CSIRTs Network, the network of national Computer Security Incident Response Teams
+          established under the NIS2 Directive (Directive (EU) 2022/2555). The CSIRTs Network facilitates operational
+          cooperation and the exchange of cybersecurity information between EU Member States and Union entities, enabling
+          coordinated responses to cross-border cyber incidents.</p>
+      <p>CERT-EU also maintains a structured cooperation with ENISA, the European Union Agency for Cybersecurity, as
+          provided for under Regulation (EU) 2019/881 (the Cybersecurity Act). This cooperation covers areas such as cyber
+          threat analysis and the sharing of threat landscape assessments.</p>
+
+            </div>
+            <div class="mt-40">
+                <div class="share-title">Share this post</div>
+                <ul class="mt-15 d-flex flex-row justify-content-between blog--share">
+                    <li>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://cert.europa.eu/blog/european-commission-cloud-breach-trivy-supply-chain"
+                           target="_blank" class="share-md share-icon-linkedin-blue_dark"></a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/sharer.php?u=https://cert.europa.eu/blog/european-commission-cloud-breach-trivy-supply-chain"
+                           target="_blank" class="share-md share-icon-fb-blue_dark"></a>
+                    </li>
+                    <li>
+                        <a href="mailto:?subject=European Commission cloud breach: a supply-chain compromise&body=Hi,%0D%0DI thought the following article might be of interest to you:%0Dhttps://cert.europa.eu/blog/european-commission-cloud-breach-trivy-supply-chain%0D%0DCheers."
+                           target="_blank" class="share-md share-icon-email-blue_dark"></a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </section>
+
+        <section class="accept_cookies">
+        <div class="accept_cookies--modal d-flex flex-column">
+        <h2>We got cookies</h2>
+            <p class="mt-30">
+                We only use cookies that are necessary for the technical functioning of our website. Find out more on
+                <a class="a-norm" href="/cookies-policy">here</a>.
+            </p>
+            <div class="align-self-end mt-auto">
+                <button class="btn accept_cookies--modal--btn--accept">OK</button>
+            </div>
+        </div>
+    </section>
+        <section class="hidden" data-certeu-scrollTop=""></section>
+</main>
+
+<footer class="footer_website d-flex flex-row flex-lg-column">
+    <section class="container">
+        <p>
+            This website is managed by CERT-EU.
+        </p>
+        <div class="d-flex flex-column flex-lg-row pb-lg-20 bb-0 bb-1-lg bc-200">
+            <div class="mr-lg-30">
+                <p class="mt-20">
+                    <strong>Please send any comments or suggestions to</strong>
+                    <br>
+                    <a class="a-norm" href="mailto:services@cert.europa.eu">services@cert.europa.eu</a>
+                </p>
+                <p class="footer_website--link-sm-h">
+                    <strong>The information on this site is subject to a</strong>
+                    <br>
+                    <a class="a-norm" href="/legal-notice">Legal notice</a>
+                </p>
+            </div>
+            <div class="mr-lg-30">
+                <p class="mt-20">
+                    <strong>PGP fingerprint:</strong>
+                    <br>
+                    <a class="a-norm" href="/files/certs/2025-CERT-EU-PGP.asc" target="_blank">
+                        152D 5B54 B526 4A3D F420 35D3 FCB2 4C57 FE5E 446A</a>
+                    <br>
+                    <a class="a-norm footer_website--link-sm" href="/files/certs/891D04EC_Revocation_certificate-2024.asc"
+                       target="_blank">
+                        revocation certificate</a>
+                </p>
+                <p class="mt-20">
+                    <strong>Emergency phone:</strong>
+                    <br>
+                    <a class="a-norm" href="tel:+3222990005">+32 2 299 0005</a>
+                </p>
+            </div>
+            <div class="ml-lg-auto footer_website--social">
+                <div class="d-flex flex-row mt-20">
+                    <a href="https://www.linkedin.com/company/certeu/mycompany/" target="_blank"
+                       class="footer_website--social--icon">
+                        <span class="share-sm share-icon-linkedin-white m-4"></span>
+                    </a>
+                    <a href="https://github.com/certeu" target="_blank" class="footer_website--social--icon">
+                        <span class="share-md share-icon-github-white"></span>
+                    </a>
+                    <a href="https://infosec.exchange/@cert_eu" target="_blank"
+                       class="footer_website--social--icon" rel="me">
+                        <span class="share-md share-icon-mastodon-white"></span>
+                    </a>
+                </div>
+                <p class="mt-20">
+                    <strong>Address:</strong>
+                    <br>
+                    <a class="a-norm" href="//goo.gl/maps/sNEAsRwQ739XLHVz9" target="_blank">
+                        Rue de la Loi 107<br>1049 Brussels, Belgium
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="d-flex flex-column flex-lg-row mt-20 footer_website--bottom">
+            <div class="d-flex flex-column flex-lg-row mt-20 footer_website--bottom--left">
+                <a class="a-norm mx-lg-10 footer_website--bottom--item" href="/cookies-policy">Cookies</a>
+                <a class="a-norm mx-lg-10 footer_website--bottom--item" href="/privacy-policy">Privacy policy</a>
+                <a class="a-norm mx-lg-10 footer_website--bottom--item"
+                   href="/coordinated-vulnerability-disclosure-policy">
+                    Coordinated vulnerability disclosure policy</a>
+                <a class="a-norm mx-lg-10 footer_website--bottom--item"
+                   href="/static/files/RFC2350.pdf" target="_blank">RFC2350</a>
+            </div>
+            <div class="d-flex flex-column flex-lg-row mt-20 footer_website--bottom--right ml-auto">
+                &copy; 2022-2026 CERT-EU. All rights reserved.
+            </div>
+        </div>
+    </section>
+</footer>
+
+<script src="/files/js/functions.min.js?v=1.1" nonce="YLZfUm1-Q2dRGzYLjEIJxoSlpcXd-pOS"></script>
+<script type="text/javascript" nonce="YLZfUm1-Q2dRGzYLjEIJxoSlpcXd-pOS">
+    CERTEU.UTILS.MENUBAR_HORIZONTAL_LEVEL1.init();
+    CERTEU.UTILS.SCROLL_TOP.init();
+    CERTEU.UTILS.STICKY_HEADER.init();
+    CERTEU.UTILS.COOKIES_POLICY.init();
+</script>
+
+
+<div id="popupConferencePromote" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="myModalLabel"></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body px-10 px-md-20 px-lg-40 d-flex flex-column align-items-center">
+                <h2 class="mt-20">Annual conference</h2>
+                <p class="mt-30 text-center">
+                    The Call for Proposals (CFP) for the technical track is now open!
+                </p>
+                <p class="mt-20 text-center">
+                    Want to seize the opportunity to have your voice heard and potentially participate in shaping the
+                    discussions at our highly valued, highly regarded event? Easy! Visit our conference page and submit
+                    your proposal by May 4 at the latest.
+                </p>
+                <div class="my-40 mx-auto">
+                    <a href="/conference/steam-n-steel-the-chronicles-of-the-cyberverse/announcement">
+                        <button class="btn btn-lg">Get more info</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" nonce="YLZfUm1-Q2dRGzYLjEIJxoSlpcXd-pOS">
+    const popupConferencePromote = (popUpId) => {
+        // May I show the popup?
+        const acceptCookie = getCookie("accept-cookies");
+        if (acceptCookie === null || acceptCookie !== "yes"
+            || getCookie(popUpId) !== null)
+            return;
+
+        // Are you on the conference page?
+        if (typeof conferencePageReached !== "undefined") {
+            setCookie(popUpId, "yes", 7);
+            return;
+        }
+
+        // ok, show it then
+        const modalEl = document.getElementById(popUpId);
+        new Modal(modalEl, {backdrop: true}).show();
+        modalEl.addEventListener("hide.bs.modal", () => setCookie(popUpId, "yes", 7), false);
+    }
+    popupConferencePromote("popupConferencePromote");
+</script>
+
+<script type="text/javascript" nonce="YLZfUm1-Q2dRGzYLjEIJxoSlpcXd-pOS">
+    CERTEU.UTILS.FONT_AMENDER.init();
+</script>
+</body>
+</html>
