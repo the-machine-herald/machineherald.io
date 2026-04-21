@@ -1,0 +1,1584 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head><script src="/d-Headiction-our-How-and-ther-Lord-That-manly-sp" async></script>
+
+
+
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-V9L7');</script>
+<!-- End Google Tag Manager -->
+
+
+<link rel="shortcut icon" href="https://assets.pokemon.com/static2/_ui/img/favicon.ico"/>
+<link rel="stylesheet" href="https://assets.pokemon.com/static2/_ui/css/main.css"/>
+<link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css" />
+
+<script src="https://assets.pokemon.com/static2/_ui/js/vendor/modernizr.custom.js"></script>
+    <script src="https://www.recaptcha.net/recaptcha/enterprise.js?render=6Lc4P0MoAAAAAAhyCYBhoVfHZUF3HMvFdXSRZ-kO&hl=en"></script>
+
+
+<script>
+    // TODO: this should be moved to a better place in the application
+    // needed for image deferred loading in sliders
+    window.addEventListener('load', function () {
+        window.loaded = true;
+    });
+</script>
+
+
+<script>
+    window.token = "4irb2DZnTqszXC3dKKW48KmSgGELh60QcW3VrBbRAo5bgwFIfDdCFypAvQvwR2SK";
+    window.mockAPI = false;
+    window.loginURL = 'https://trainer.pokemon.com/profile';
+    window.pokemonUI = window.pokemonUI || {};
+
+
+    window.pokemonUI.recaptcha_key = "6Lc4P0MoAAAAAAhyCYBhoVfHZUF3HMvFdXSRZ-kO";
+    window.pokemonUI.email_signup_api = "https://api.emo.pokemon.com/";
+    window.pokemonUI.countryCode = 'us';
+    window.pokemonUI.api = {
+        'user-details': 'https://www.pokemon.com/api/users/details',
+        'base-url-secure': 'https://www.pokemon.com',
+
+        'gsa': '/us/search/api/'
+
+    };
+
+    window.pokemonUI.config = {
+        'collection': 'production_pokemon_collection'
+    };
+
+    window.pokemonUI.modals = window.pokemonUI.modals || {};
+    window.pokemonUI.modals = {
+        "season": "Season",
+        "episode": "Episode",
+        "legal": "Notice: If you click on the YouTube video above, you will leave Pokemon.com. The Pokémon Company International is not responsible for the content of any linked website that is not operated by The Pokémon Company International. Please note that these websites' privacy policies and security practices may differ from The Pokémon Company International's standards.",
+
+        "twitchlegal": "Notice: If you click on the Twitch video above, you will leave Pokemon.com. The Pokémon Company International is not responsible for the content of any linked website that is not operated by The Pokémon Company International. Please note that these websites' privacy policies and security practices may differ from The Pokémon Company International's standards.",
+    };
+    window.pokemonUI.dictionary = window.pokemonUI.dictionary || {};
+    window.pokemonUI.dictionary.dashboard = {
+        "youRecentlyPurchased": "You Recently Redeemed",
+        "shopMore": "Shop More"
+    };
+    window.pokemonUI.global_dictionary = window.pokemonUI.global_dictionary || {};
+    window.pokemonUI.global_dictionary.search = {
+        'searchUrl': '/us/search',
+        'GSALanguageCode': 'us',
+        'sortBy': 'Sort by:',
+        'filterBy': 'Filter by:',
+        'selectCategory': 'View All',
+        'mostRelevant': 'Most Relevant',
+        'mostRecent': 'Most Recent',
+        'returnedResults': 'Returned XXXX Results',
+        'shortQuery': 'Your search term is too short.',
+        'recommendedResults': 'Recommended Results',
+        'playGame': 'Play Game',
+        'all': {title: 'View All'},
+        'pokedex': {title: 'Pokédex'},
+        'videogames': {title: 'Video Game'},
+        'tcg': {title: 'Trading Card Game'},
+        'funzone': {title: 'Online Game'},
+        'animation': {title: 'Animation'},
+        'news': {title: 'News'},
+        'events': {title: 'Events'},
+        'strategy': {title: 'Strategy'},
+
+        "numberPrefix": "#"
+    };
+    window.pokemonUI.global_dictionary.datatables = {
+        'search': 'Search:',
+        'previous': 'Previous',
+        'next': 'Next',
+        'emptyTable': "No data is available.",
+        'zeroRecords': "No matching records found."
+    };
+    window.pokemonUI.global_dictionary.errorMessages = {
+        'dataError': 'Currently unavailable. Please try again.'
+    };
+    window.pokemonUI['ui-path'] = 'https://assets.pokemon.com/static2/_ui/'
+
+    window.pokemonUI.global_api = {
+
+        'gsa': '/us/search/api/',
+
+        'status-indicators': {
+            'game-server-status': '/api/tcg/game_server_status',
+            'tcgo-in-maintenance': '/api/tcg/in_maintenance_status',
+            'notifications': 'https://www.pokemon.com/api/user/notifications/config'
+        }
+    };
+
+    window.pokemonUI.site_search_api = {
+        'url': 'https://api.search.prod.pokemon.com/v1/search'
+    }
+
+    window.pokemonUI.cookie = {
+        set: function (name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            } else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        },
+
+        get: function (name) {
+            var nameEQ = name + '=',
+                ca = document.cookie.split(';'),
+                c, i = 0, ii = 0;
+
+            for (i = 0, ii = ca.length; i < ii; i++) {
+                c = ca[i];
+
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+
+                if (c.indexOf(nameEQ) === 0) {
+                    var value = c.substring(nameEQ.length, c.length);
+                    if (value.charAt(0) == '"' && value.charAt(value.length - 1) == '"') {
+                        value = value.substring(1, value.length - 1);
+                    }
+                    return value;
+                }
+            }
+            return null;
+        }
+    };
+
+    window.enableDashboard = true;
+
+</script>
+<link rel="stylesheet" href="https://assets.pokemon.com/static2/_ui/css/gus.css" media="all" type="text/css"/>
+<link rel="stylesheet" href="https://assets.pokemon.com/static2/_ui/css/gus_integration.css"/>
+
+                <link rel="alternate" hreflang="it" href="https://www.pokemon.com/it/novita-pokemon/pokemon-champions-e-ora-disponibile-su-nintendo-switch-e-nintendo-switch-2" />
+                <link rel="alternate" hreflang="en" href="https://www.pokemon.com/us/pokemon-news/pokemon-champions-is-now-available-on-nintendo-switch-and-nintendo-switch-2" />
+                <link rel="alternate" hreflang="en-gb" href="https://www.pokemon.com/uk/pokemon-news/pokemon-champions-is-now-available-on-nintendo-switch-and-nintendo-switch-2" />
+                <link rel="alternate" hreflang="fr" href="https://www.pokemon.com/fr/actus-pokemon/pokemon-champions-est-desormais-disponible-sur-nintendo-switch-et-nintendo-switch-2" />
+                <link rel="alternate" hreflang="de" href="https://www.pokemon.com/de/pokemon-news/pokemon-champions-ist-jetzt-fuer-nintendo-switch-und-nintendo-switch-2-verfuegbar" />
+                <link rel="alternate" hreflang="pt-br" href="https://www.pokemon.com/br/noticias-pokemon/pokemon-champions-ja-esta-disponivel-nos-consoles-nintendo-switch-e-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es" href="https://www.pokemon.com/es/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-xl" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-do" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-py" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-cl" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-gt" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-mx" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-hn" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-uy" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-bo" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-ar" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-cr" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-pe" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-co" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-pa" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+                <link rel="alternate" hreflang="es-sv" href="https://www.pokemon.com/el/noticias-pokemon/pokemon-champions-ya-esta-disponible-en-nintendo-switch-y-nintendo-switch-2" />
+
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta http-equiv="Content-Language" content="en"/>
+<meta name="language" content="en"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="twitter:card" content="summary" />
+
+    <meta name="pkm-title" content="Pokémon Champions Is Now Available on Nintendo Switch and Nintendo Switch&amp;nbsp;2" />
+    <meta property="og:title" content="Pokémon Champions Is Now Available on Nintendo Switch and Nintendo Switch&amp;nbsp;2" />
+<meta name="twitter:title" content="Pokémon Champions Is Now Available on Nintendo Switch and Nintendo Switch&amp;nbsp;2" />
+
+        <meta name="pkm-image" content="https://www.pokemon.com/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/pokemon-champions-169.png"/>
+<meta property="og:image" content="https://www.pokemon.com/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/pokemon-champions-169.png" />
+<meta name="twitter:image" content="https://www.pokemon.com/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/pokemon-champions-169.png" />
+
+    <meta name="pkm-category" content="news" />
+
+    <meta name="pkm-subcategory" content="April 08, 2026" />
+
+    <meta name="description" content="Move Pokémon from Pokémon HOME, build new teams, and battle hard." />
+    <meta property="og:description" content="Move Pokémon from Pokémon HOME, build new teams, and battle hard." />
+    <meta name="twitter:description" content="Move Pokémon from Pokémon HOME, build new teams, and battle hard." />
+    <meta name="pkm-description" content="Move Pokémon from Pokémon HOME, build new teams, and battle hard." />
+
+    <meta name="pkm-modified-date" content="20260408" />
+
+    <link rel="canonical" href="https://www.pokemon.com/us/pokemon-news/pokemon-champions-is-now-available-on-nintendo-switch-and-nintendo-switch-2" />
+
+        <link rel="stylesheet" href="/static-assets/app/static3/css/related-news.css" />
+        <link rel="stylesheet" href="https://assets.pokemon.com/static2/_ui/css/template-d.css" />
+        <link rel="stylesheet" href="/static-assets/app/static3/css/iframe-embed.css" />
+
+        <title>Pokémon Champions Is Now Available on Nintendo Switch and Nintendo Switch&nbsp;2 | Pokemon.com</title>
+    </head>
+
+    <body class="us fluid custom-form-elements">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-V9L7"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id='gus-wrapper'>
+    <div class="pokemon-gus-container" data-site="pcom" data-locale="en" data-api="/pcom/api/gus/" data-width="913px"></div>
+</div>
+<div class="main-filler"></div>
+
+
+<nav class="main">
+
+    <div class="blocker"></div>
+
+    <div class="content-wrapper">
+
+        <div class="nav-bar">
+            <a href="#" class="nav-toggle"><span
+                    class="icon icon_hamburger"></span></a>
+
+            <ul class="dashboard-open visible-mobile">
+                <li class="visible-signed-in">
+                    <a href="https://trainer.pokemon.com/profile">
+                        <div class="avatar-icon-wrapper">
+                            <img class="avatar-icon avatar-icon-mobile"
+                                 src="https://assets.pokemon.com/static2/_ui/img/chrome/profile-navigation/profile-nav-avatar.png"
+                                 alt="View Profile"/>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="visible-not-signed-in">
+                    <a href="https://trainer.pokemon.com/profile">
+                        <div class="avatar-icon-wrapper">
+                            <img class="avatar-icon avatar-icon-mobile"
+                                src="https://assets.pokemon.com/static2/_ui/img/chrome/profile-navigation/profile-nav-signup.png"
+                                alt="Log In / Sign Up"/>
+                        </div>
+                        <div class="sign-in-text-wrapper sign-in-text-wrapper-mobile">
+                            Log In
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <ul data-analytics-label="primary-nav">
+
+
+
+
+<li class="home">
+  <a href="/us/"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_home">
+
+
+
+    </span>
+
+    <span class="title title_home">Home</span>
+  </a>
+
+
+
+</li>
+
+
+
+<li class="explore">
+  <a href="/us/pokedex/"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_pokeball">
+
+
+
+    </span>
+
+    <span class="title title_pokeball">Pokédex</span>
+  </a>
+
+
+
+</li>
+
+
+
+<li class="watch">
+  <a href="/us/pokemon-video-games/"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_joystick">
+
+
+
+    </span>
+
+    <span class="title title_joystick">Video Games & Apps</span>
+  </a>
+
+
+
+</li>
+
+
+
+<li class="play">
+  <a href="/us/pokemon-tcg/"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_cards">
+
+
+
+    </span>
+
+    <span class="title title_cards">Trading Card Game</span>
+  </a>
+
+
+
+</li>
+
+
+
+<li class="attend">
+  <a href="/us/animation"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_pokemontv">
+
+
+
+    </span>
+
+    <span class="title title_pokemontv">Animation</span>
+  </a>
+
+
+
+</li>
+
+
+
+<li class="trade">
+  <a href="/us/play-pokemon/"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_event">
+
+
+
+    </span>
+
+    <span class="title title_event">Play! Pokémon Events</span>
+  </a>
+
+<a href="#" class="subnav-toggle"><span class="icon"></span></a>
+
+<ul class="subnav secondary">
+
+    <li class="subnav-title"
+        data-content-id=""
+        data-content-type="Sidebar"
+        data-content-variation="sidebarLeft"
+        data-content-location=""
+        data-content-category=""
+        data-content-download="">
+        <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+        <a href="#"><span class="title">Play! Pokémon Events</span></a>
+    </li>
+
+
+
+<li>
+    <a href="/us/play-pokemon/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Play! Pokémon Events</a>
+
+    <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+
+<ul class="subnav tertiary">
+
+    <li class="subnav-title"
+        data-content-id=""
+        data-content-type="Sidebar"
+        data-content-variation="sidebarLeft"
+        data-content-location=""
+        data-content-category=""
+        data-content-download="">
+        <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+        <a href="#"><span class="title">Play! Pokémon Events</span></a>
+    </li>
+
+
+
+<li>
+    <a href="/us/play-pokemon/pokemon-events/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Play! Pokémon Events</a>
+
+    <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+
+<ul class="subnav tertiary">
+
+    <li class="subnav-title"
+        data-content-id=""
+        data-content-type="Sidebar"
+        data-content-variation="sidebarLeft"
+        data-content-location=""
+        data-content-category=""
+        data-content-download="">
+        <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+        <a href="#"><span class="title">Play! Pokémon Events</span></a>
+    </li>
+
+
+
+<li>
+    <a href="/us/play-pokemon/pokemon-events/find-an-event/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Event Locator</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/pokemon-events/play-in-a-league/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Pokémon League</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/pokemon-events/pokemon-tournaments/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Pokémon Championship Series</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/pokemon-events/pokemon-tournaments/earn-championship-points/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Championship Points</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/leaderboards/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Championship Rating and Rankings</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/pokemon-events/pre-release-tournaments/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Prerelease Tournaments</a>
+
+
+
+</li>
+
+
+</ul>
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/about/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">About Play! Pokémon</a>
+
+    <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+
+<ul class="subnav tertiary">
+
+    <li class="subnav-title"
+        data-content-id=""
+        data-content-type="Sidebar"
+        data-content-variation="sidebarLeft"
+        data-content-location=""
+        data-content-category=""
+        data-content-download="">
+        <a href="#" class="subnav-toggle"><span class="icon"></span></a>
+        <a href="#"><span class="title">About Play! Pokémon</span></a>
+    </li>
+
+
+
+<li>
+    <a href="/us/play-pokemon/about/play-points/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Play! Points</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/about/tournaments-rules-and-resources/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Rules & Resources</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/about/tournaments-glossary/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Play! Pokémon Glossary</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/about/video-game-glossary/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Video Game Glossary</a>
+
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/about/parents-guide/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Parents Guide</a>
+
+
+
+</li>
+
+
+</ul>
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/organize/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Organize Events</a>
+
+
+
+</li>
+
+
+</ul>
+
+
+</li>
+<li>
+    <a href="/us/play-pokemon/leaderboards/"
+
+
+
+       data-content-id=""
+       data-content-type="Sidebar"
+       data-content-variation="sidebarLeft"
+       data-content-location=""
+       data-content-category=""
+       data-content-download=""
+       target="_self">Play! Pokémon Leaderboards</a>
+
+
+
+</li>
+
+
+</ul>
+
+
+</li>
+
+
+
+<li class="game last-item">
+  <a href="/us/pokemon-news/"
+
+
+
+     target="_self"
+     data-content-id=""
+     data-content-type="Sidebar"
+     data-content-variation="sidebarLeft"
+     data-content-location=""
+     data-content-category=""
+     data-content-download="">
+    <span class="fill"></span>
+
+    <span class="icon icon_news">
+
+
+
+    </span>
+
+    <span class="title title_news">News</span>
+  </a>
+
+
+
+</li>
+
+
+
+    <li class="search">
+        <div class="search-wrapper">
+            <form id="mobile-nav-site-search-widget" action="/search/" method="GET">
+                <input id="mobile-search" type="search" value="" placeholder="Search" name="q"
+                       id="mobile-nav-site-search-widget-term"/>
+                <span class="icon icon_search"></span>
+            </form>
+        </div>
+    </li>
+</ul>
+
+
+
+    </div>
+
+</nav>
+
+<div id="user-dashboard" class="default-background">
+    <div class="drawer">
+        <nav class="profile-nav hidden-mobile">
+            <ul class="dashboard-open">
+                <li class="visible-not-signed-in sign-up">
+                    <a href="https://trainer.pokemon.com/profile">
+                        <span class="">
+                            <div class="avatar-icon-wrapper">
+                                <img class="avatar-icon" src="https://assets.pokemon.com/static2/_ui/img/chrome/profile-navigation/profile-nav-signup.png"
+                                     alt="Log In"/>
+                            </div>
+                            <div class="sign-in-text-wrapper">
+                                Log In
+                            </div>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="visible-signed-in">
+                    <a href="https://trainer.pokemon.com/profile">
+                        <span class="">
+                            <div class="avatar-icon-wrapper">
+                                <img class="avatar-icon"
+                                     src="https://assets.pokemon.com/static2/_ui/img/chrome/profile-navigation/profile-nav-avatar.png"
+                                     alt="Profile"/>
+                            </div>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="visible-signed-in organizer-link">
+                    <a href="/us/pokemon-trainer-club/play-pokemon/events/">
+                            <span class="" >
+                                <div class="organizer-icon-wrapper">
+                                    <img class="organizer-icon default" alt="Profile"
+                                         src="https://assets.pokemon.com/static2/_ui/img/chrome/profile-navigation/profile-nav-builder.png" />
+                                    <img class="organizer-icon ie9-hover" alt="Profile"
+                                         src="https://assets.pokemon.com/static2/_ui/img/chrome/profile-navigation/profile-nav-builder-ie9-hover.png" />
+                                    <span class="offscreen">Profile</span>
+                                </div>
+                            </span>
+                    </a>
+                </li>
+
+                <li class="visible-signed-in sign-in" id="sidebar-logout-button">
+                    <a href="/us/pokemon-trainer-club/logout">
+                        <span>Log Out</span>
+                    </a>
+                </li>
+
+            </ul>
+            <div class="search">
+                <a class="icon icon_search" href="">
+                    <span class="offscreen"></span>
+                </a>
+            </div>
+            <div class="bottom-angle"></div>
+        </nav>
+
+        <div class="dashboard"></div>
+
+    </div>
+
+</div>
+
+	    <div class="container">
+
+<section id="template-d-hero">
+    <div class="hero-wrapper">
+        <div >
+                <div class="single-image-wrapper">
+                            <img src="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/pokemon-champions-169.png" alt="Pokémon Champions Is Now Available on Nintendo Switch and Nintendo Switch 2" />
+                </div>
+                <span class="notch-bottom-left hidden-mobile"></span>
+        </div>
+    </div>
+</section>
+
+	        <section class="mosaic section template-d">
+                <div class="column-8 push-1">
+                    <div class="content-block content-block-full" >
+                        <article class="full-article">
+                                <div class="date">
+                                    <p>
+                                        April 08, 2026
+                                    </p>
+                                </div>
+
+                            <h1 class="us-title">Pokémon Champions Is Now Available on Nintendo Switch and Nintendo Switch&nbsp;2</h1>
+
+                                <h2>Oh yeah, it’s time to battle. </h2>
+
+                            <div class="full-article-body" >
+                                        <p><span style="float: left; font-size: 550%; font-weight: bold; line-height: 80%; color: #30a7d7; margin: 0 5px -5px 0;">G</span>et ready for intense Pok&eacute;mon battles! <a href="https://champions.pokemon.com/en-us/">Pok&eacute;mon Champions</a> is now available for download on Nintendo Switch and Nintendo Switch 2. Especially enthusiastic Trainers can <em>really </em>hit the ground running with the Pok&eacute;mon Champions + Starter Pack bundle, which includes in-game benefits like added Pok&eacute;mon storage space, an extra battle song, and more. Nintendo Switch 2 players will be able to download a free update to the game that allows you to enjoy the action with even clearer graphics.</p>
+<p>In&nbsp;Pok&eacute;mon Champions,&nbsp;you&rsquo;ll&nbsp;engage in Pok&eacute;mon battles like those in&nbsp;previous&nbsp;Pok&eacute;mon titles.&nbsp;These battles will&nbsp;utilize&nbsp;familiar mechanics such as Pok&eacute;mon types, Abilities, and moves, enabling the rich and varied battle strategies that players know and love.&nbsp;A mobile version of Pok&eacute;mon Champions is also on the way, and&nbsp;you&rsquo;ll&nbsp;be able to&nbsp;battle cross-platform between Nintendo Switch and mobile devices.</p>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%; border: 1px solid #f2f2f2;"><a href="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/inline/full/01-en.png" target="_blank"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/inline/web/01-en.png" alt=""></a></div>
+</div>
+<p>Pok&eacute;mon Champions will also link with <a href="https://home.pokemon.com/en-us/">Pok&eacute;mon HOME</a>, allowing players to team up with certain Pok&eacute;mon brought over from past Pok&eacute;mon series video games and <a href="/us/pokemon-video-games/pokemon-go">Pok&eacute;mon GO</a>.</p>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%;"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="
+/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/03/24/inline/01-en.png" alt=""></div>
+</div>
+<p>Among the Pok&eacute;mon appearing in Pok&eacute;mon Champions are Mega Meganium, Mega Emboar, and Mega Feraligatr, who all originally appeared in <a href="https://legends.pokemon.com/en-us"><em>Pok&eacute;mon Legends: Z-A</em></a>. After undergoing Mega Evolution, some of these Pok&eacute;mon will have never-before-seen Abilities in Pok&eacute;mon Champions.</p>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%;"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="
+/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/03/24/inline/02-en.png" alt=""></div>
+</div>
+<p>Mega Meganium will have the newly discovered Ability Mega Sol, which lets the Pok&eacute;mon use its moves as if the weather were harsh sunlight. Mega Emboar has the Mold Breaker Ability, which causes its moves to be unaffected by the Ability of the target. Mega Feraligatr&rsquo;s newly discovered Ability, Dragonize, turns Normal-type moves into Dragon-type moves <em>and </em>boosts their power by 20%.</p>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%;"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="
+/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/03/24/inline/03-en.png" alt=""></div>
+</div>
+<div style="line-height: 0; padding-bottom: 0.5em;"><br></div>
+<div style="line-height: 0; padding: 18px 0 24px; text-align: center;">
+<div style="display: inline-block; line-height: 0; width: 50%; border-bottom: 1px solid #d9d9d9;"><br></div>
+</div>
+<div style="text-align: center; padding: 8px 16px 12px;">
+<h1 style="line-height: normal; color: #313131; font-family: Roboto, sans-serif; font-weight: bold; font-size: 150%; margin: 0;">Receive Chesnaughtite, Delphoxite, Greninjite, and Floettite</h1>
+</div>
+<div style="line-height: 0; padding-bottom: 0.5em;"><br></div>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%; border: 1px solid #f2f2f2;"><a href="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/full/01.png" target="_blank"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/web/01.png" alt=""></a></div>
+</div>
+<p>By storing the Chesnaught, Delphox, Greninja, and Eternal Flower Floette you befriended during <em>Pok&eacute;mon Legends: Z-A</em> in Pok&eacute;mon HOME and bringing them to Pok&eacute;mon Champions as visitors, you can obtain their Mega Stones from your mailbox in Pok&eacute;mon Champions.</p>
+<div style="line-height: 0; padding: 18px 0 24px; text-align: center;">
+<div style="display: inline-block; line-height: 0; width: 50%; border-bottom: 1px solid #d9d9d9;"><br></div>
+</div>
+<div style="text-align: center; padding: 8px 16px 12px;">
+<h1 style="line-height: normal; color: #313131; font-family: Roboto, sans-serif; font-weight: bold; font-size: 150%; margin: 0;">Receive Dragonite as an Early-Download Bonus</h1>
+</div>
+<div style="line-height: 0; padding-bottom: 0.5em;"><br></div>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%;"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="
+/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/02.png" alt=""></div>
+</div>
+<p>If you play Pok&eacute;mon Champions by Monday, August 31, 2026, you can claim Dragonite and 100 Quick Coupons from your mailbox in-game.</p>
+<p>Additionally, if you continue playing Pok&eacute;mon Champions, you can obtain a Dragoninite stone from the first season&rsquo;s Battle Pass. When Dragonite holds a Dragoninite stone, it can Mega Evolve into Mega Dragonite.</p>
+<ul class="list">
+<li>
+<p>Dragonite can be claimed on both the Nintendo Switch version and mobile device version.</p>
+</li>
+<li>
+<p>Dragonite can also be obtained through other methods.</p>
+</li>
+<li>
+<p>The Dragoninite stone available in this campaign may be unlocked in the shop or other areas of the game at a later date.</p>
+</li>
+<li>
+<p>Pok&eacute;mon received as gifts in Pok&eacute;mon Champions can&rsquo;t be deposited in Pok&eacute;mon HOME.</p>
+</li>
+</ul>
+<div style="line-height: 0; padding: 18px 0 24px; text-align: center;">
+<div style="display: inline-block; line-height: 0; width: 50%; border-bottom: 1px solid #d9d9d9;"><br></div>
+</div>
+<div style="text-align: center; padding: 8px 16px 12px;">
+<h1 style="line-height: normal; color: #313131; font-family: Roboto, sans-serif; font-weight: bold; font-size: 150%; margin: 0;">Pok&eacute;mon Champions Competitions</h1>
+</div>
+<div style="line-height: 0; padding-bottom: 0.5em;"><br></div>
+<div style="text-align: center; padding: 4px 0 8px 0;">
+<div style="display: inline-block; width: 578px; max-width: 100%;"><img style="max-width: 100%; margin: 0; border-radius: 0;" src="
+/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/03.png" alt=""></div>
+</div>
+<p>Ready to give some of those new Mega-Evolved Pok&eacute;mon a try? You can find an exciting in-game tournament known as the Warm-up Challenge right as you open Pok&eacute;mon Champions, where you&rsquo;ll be able to battle Trainers across the world and earn rewards based on your performance. Entry for this tournament will be open until the tournament concludes on April 12 at 6:59 p.m. PDT. If you finish three or more matches with at least one win or loss, you&rsquo;ll be able to claim a Gardevoir and 100 Quick Coupons from your in-game mailbox after checking the final ranking results.</p>
+<p>If you&rsquo;re looking to take your battle talents even further or just take a peek at the competition, look no further than the <a href="https://championships.pokemon.com/en-us/events/regionals/2026/indianapolis">2026 Indianapolis Regional Championships</a> from May 29 through May 31! This will be the first Video Game Championships event to feature Pok&eacute;mon Champions and will be a perfect sneak peek for all the action to take place at the <a href="https://championships.pokemon.com/en-us/events/internationals/2026/new-orleans">2026 North America International Championships</a> from June 12 through June 14.</p>
+<p>Whether you&rsquo;re looking to reach the top in Ranked Battles or enjoy some easygoing Casual Battles, Pok&eacute;mon Champions is ready to deliver plenty of fun!</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="hidden-mobile">
+                    <div class="column-4 push-9" >
+                        <div class="content-block content-block-full more-cards-block">
+                            <a class="button button-lightblue" href="/us/pokemon-news">Back to News</a>
+                        </div>
+
+
+
+<div id="game-promo" class="content content-block content-block-full" >
+    <div id="game-promo-top">
+        <img src="/static-assets/content-assets/cms2/img/video-games/video-games/pokemon_champions/pokemon-champions-logo-169.png"
+             >
+    </div>
+
+
+    <div class="banner banner-gray">
+        <table>
+                <tr>
+                    <td>Release Date:</td>
+                    <td>April 8, 2026</td>
+                </tr>
+                <tr>
+                    <td>Genre:</td>
+                    <td>Battle</td>
+                </tr>
+                <tr>
+                    <td>Platform:</td>
+                    <td>Nintendo Switch, iOS, and Android devices</td>
+                </tr>
+                <tr>
+                    <td>Players:</td>
+                    <td>1–2</td>
+                </tr>
+            <tr>
+                <td colspan="2">
+
+
+                            <a href="https://www.esrb.org/" class="exit-link" target="_blank" class="noBorder external">
+
+                            <img src="/static-assets/content-assets/cms2/img/video-games/rating-logos/e_65x80.png"
+                                alt="E"
+                            />
+
+                            </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <span class="notch-bottom-center"></span>
+</div>
+
+
+    <a href="https://champions.pokemon.com/en-us/"
+        
+        class=""
+        
+    >
+<div class="content-block   ">
+
+
+
+        <div class="tile-image-wrapper">
+                <img src="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/announce/pokemon-champions-169.png"
+                     class="breakpoint rating-image"
+                     data-maxwidth720px="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/announce/pokemon-champions-169.png"
+                     data-minwidth721px="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/announce/pokemon-champions-169.png"
+                     alt="Pokémon Champions"/>
+        </div>
+
+                <div class="banner banner banner-gray">
+                    <h3>Visit the Site</h3>
+            </div>
+
+
+
+</div>
+    </a>
+
+
+<div class="quicklink content-block-quicklink content-block-full" >
+    <div class="color-block-quicklink color-block-lightblue">
+        <h2>Video Game Links</h2>
+    </div>
+
+    <div class="banner-quicklink banner-lightgray">
+        <ul>
+                    <li><a href="/us/pokemon-news?articleTopic=video-games-apps" target="_self">News</a></li>
+                    <li><a href="/us/strategy" target="_self">Strategy</a></li>
+                    <li><a href="/us/pokemon-video-games/pokemon-distributions" target="_self">Pokémon Distributions</a></li>
+                    <li><a href="/us/app" target="_self">Pokémon Apps</a></li>
+        </ul>
+    </div>
+</div>                    </div>
+                </div>
+        
+                <div class="loader"></div>
+            </section>
+            <div class="visible-mobile">
+                <div class="column-4 push-9">
+                    <div class="content-block content-block-full more-cards-block">
+                        <a class="button button-lightblue" href="/us/pokemon-news">Back to News</a>
+                    </div>
+
+
+
+<div id="game-promo" class="content content-block content-block-full" >
+    <div id="game-promo-top">
+        <img src="/static-assets/content-assets/cms2/img/video-games/video-games/pokemon_champions/pokemon-champions-logo-169.png"
+             >
+    </div>
+
+
+    <div class="banner banner-gray">
+        <table>
+                <tr>
+                    <td>Release Date:</td>
+                    <td>April 8, 2026</td>
+                </tr>
+                <tr>
+                    <td>Genre:</td>
+                    <td>Battle</td>
+                </tr>
+                <tr>
+                    <td>Platform:</td>
+                    <td>Nintendo Switch, iOS, and Android devices</td>
+                </tr>
+                <tr>
+                    <td>Players:</td>
+                    <td>1–2</td>
+                </tr>
+            <tr>
+                <td colspan="2">
+
+
+                            <a href="https://www.esrb.org/" class="exit-link" target="_blank" class="noBorder external">
+
+                            <img src="/static-assets/content-assets/cms2/img/video-games/rating-logos/e_65x80.png"
+                                alt="E"
+                            />
+
+                            </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <span class="notch-bottom-center"></span>
+</div>
+
+
+    <a href="https://champions.pokemon.com/en-us/"
+        
+        class=""
+        
+    >
+<div class="content-block   ">
+
+
+
+        <div class="tile-image-wrapper">
+                <img src="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/announce/pokemon-champions-169.png"
+                     class="breakpoint rating-image"
+                     data-maxwidth720px="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/announce/pokemon-champions-169.png"
+                     data-minwidth721px="/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/announce/pokemon-champions-169.png"
+                     alt="Pokémon Champions"/>
+        </div>
+
+                <div class="banner banner banner-gray">
+                    <h3>Visit the Site</h3>
+            </div>
+
+
+
+</div>
+    </a>
+
+
+<div class="quicklink content-block-quicklink content-block-full" >
+    <div class="color-block-quicklink color-block-lightblue">
+        <h2>Video Game Links</h2>
+    </div>
+
+    <div class="banner-quicklink banner-lightgray">
+        <ul>
+                    <li><a href="/us/pokemon-news?articleTopic=video-games-apps" target="_self">News</a></li>
+                    <li><a href="/us/strategy" target="_self">Strategy</a></li>
+                    <li><a href="/us/pokemon-video-games/pokemon-distributions" target="_self">Pokémon Distributions</a></li>
+                    <li><a href="/us/app" target="_self">Pokémon Apps</a></li>
+        </ul>
+    </div>
+</div>            </div>
+        </div>
+
+
+
+                <section class="section template-d no-padding">
+                    <div class="column-8 push-1">
+                        <div>
+                            <ul class="article-tags">
+                                    <li class="category-tags category-tags-lightblue" style="margin-right: 20px;">
+                                        <a href="/us/pokemon-news?articleTopic=video-games-apps"> Video Games & Apps </a>
+                                    </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+    </div>
+
+
+  <div id="back-to-top" class="visible-mobile">
+    <span class="offscreen">Back to Top</span>
+  </div>
+
+  <div class="footer-divider">
+    <span class="footer-notch"></span>
+  </div>
+
+  <footer class="global-footer">
+
+<div class="global-footer-email">
+    <p class="footer-email-title">Sign up for Pok&eacute;mon&nbsp;emails!</p>
+    <div class="footer-email-container disable-custom-select-menu">
+        <div class="footer-email-form">
+            <input type="email" name="email-signup-email-text" id="email-signup-email-text" placeholder="Email" class="footer-white-box" required />
+            <div class="region_dob_wrap">
+                <select id="email-signup-regions" class="footer-white-box footer-region-select" required>
+                </select>
+                <input type="text" class="footer-email-input footer-white-box" title="Birthday" id="email-signup-dob" placeholder="Birthday" />
+            </div>
+        </div>
+        <div class="footer-email-notification-options">
+            <p class="email_msg">I’d like to receive emails&nbsp;about:</p>
+            <div class="footer-email-checkbox-wrapper-1">
+                <input type="checkbox" id="email-signup-vg-apps" name="email-signup-vg-apps" value="pokemon_news" class="footer-email-checkbox">
+                <label for="email-signup-vg-apps"> Pokémon video games, apps, and&nbsp;more</label>
+            </div>
+            <div class="footer-email-checkbox-wrapper-1" id="email-signup-pc-container">
+                <input type="checkbox" id="email-signup-pc" name="email-signup-pc" value="pcenter" class="footer-email-checkbox">
+                <label for="email-signup-pc"> Pokémon Center (our official&nbsp;online shop)</label>
+            </div>
+            <div class="footer-email-checkbox-wrapper-1">
+                <input type="checkbox" id="email-signup-terms" name="email-signup-terms" value="terms" class="footer-email-checkbox">
+                <label for="email-signup-terms">
+                    I accept the Pokemon.com <a class="footer-email-link" href="/us/terms-of-use">Terms of Use</a> and <a class="footer-email-link" href="/us/privacy-notice">Privacy Notice</a>
+                </label>
+            </div>
+        </div>
+    </div>
+    <input type="submit" name="submit_button" value="SIGN UP" class="footer-email-sumbit" id="email-signup-submit-button"/>
+</div>    <div class="content-wrapper match-height-tablet">
+
+
+<div class="global-footer-links match">
+  <h2><span class="offscreen">The Pok&eacute;mon Company</span></h2>
+  <ul>
+        <li>
+          <a href="/us/pokemon-news" rel="" title="">
+            News
+          </a>
+        </li>
+
+      <li>
+        <a href="/us/parents-guide" rel="" title="">
+         Parents Guide
+        </a>
+      </li>
+
+      <li>
+        <a href="/us/customer-service" rel="" title="">
+          Customer Service
+        </a>
+      </li>
+
+      <li>
+        <a href="https://corporate.pokemon.com/en-us/" rel="" title="" id="about-our-company-link">
+          About Our Company
+        </a>
+      </li>
+
+        <li>
+          <a id="careers-link" href="https://boards.greenhouse.io/pokemoncareers" class="exit-link"
+            target="_blank"
+            rel="https://boards.greenhouse.io/pokemoncareers"
+            title="External: https://boards.greenhouse.io/pokemoncareers">
+            Careers
+          </a>
+        </li>
+
+    <li>
+      <a href="/us/country-region" rel="" title="">
+        Select a Country/Region
+        <i class="icon-us"></i>
+      </a>
+    </li>
+
+    <li>
+      <a id="press-link" href="https://press.pokemon.com/en" class="exit-link"
+        target="_blank"
+        rel="https://press.pokemon.com/en"
+        title="External: https://press.pokemon.com/en">
+        Press Site
+      </a>
+    </li>
+
+  </ul>
+</div>
+
+<div class="global-footer-social match">
+
+    <div class="footer-social-wrapper">
+        <div class="find-us">
+            <div class="find-us-box">
+
+                <a href="https://www.facebook.com/pokemon" class="facebook exit-link" target="_blank"
+                   title="External: https://www.facebook.com/pokemon">
+                    <span class="offscreen">Facebook</span>
+                </a>
+
+                <a href="https://www.youtube.com/user/Pokemon" class="youtube exit-link" target="_blank"
+                   title="External: https://www.youtube.com/user/Pokemon">
+                    <span class="offscreen">Youtube</span>
+                </a>
+
+                <a href="https://www.twitter.com/pokemon" class="twitter exit-link" target="_blank"
+                   title="External: https://www.twitter.com/pokemon">
+                    <span class="offscreen">Twitter</span>
+                </a>
+
+                    <a href="https://www.instagram.com/pokemon" class="instagram exit-link" target="_blank"
+                       title="External: https://www.instagram.com/pokemon">
+                        <span class="offscreen">Instagram</span>
+                    </a>
+
+                    <a href="https://www.pinterest.com/pokemon" class="pinterest exit-link" target="_blank"
+                       title="External: https://www.pinterest.com/pokemon">
+                        <span class="offscreen">Pinterest</span>
+                    </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="global-footer-legal match">
+
+  <div class="footer-legal-wrapper">
+
+    <div id="footer--privacy">
+        <a
+            title="External: https://caru.bbbprograms.org/seal/Confirmation/1596150491"
+                class="exit-link" target="_blank"
+                href="https://caru.bbbprograms.org/seal/Confirmation/1596150491"
+            >
+        </a>
+
+      <ul>
+
+          <li>
+            <a href="/us/terms-of-use">Terms of Use</a>
+          </li>
+
+          <li>
+            <a href="/us/privacy-notice">Privacy Notice</a>
+          </li>
+
+          <li>
+            <a id="cookieLink" href="/us/cookie-page">Cookie Page</a>
+          </li>
+
+          <li>
+            <a href="/us/legal">Legal Info</a>
+          </li>
+
+            <li>
+              <a id="securityLink" href="/us/vulnerability-disclosure-program">Security</a>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <span>©2023 Pokémon. ©1995 - 2023 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.</span>
+
+  </div>
+
+</div>
+
+    </div>
+  </footer>
+
+
+  
+
+
+<div id="modal" class="popup">
+	<div class="externalLink">
+    <h6>
+
+      You are about to leave a site operated by The Pokémon Company International, Inc.
+
+    </h6>
+		<p>
+
+The Pokémon Company International is not responsible for the content of any linked website that is not operated by The Pokémon Company International. Please note that these websites' privacy policies and security practices may differ from The Pokémon Company International's standards.
+
+    </p>
+		<div class="buttons-wrapper">
+			<a href="#" class="button button-green arrow-right continueBtn">
+
+        Continue
+
+      </a>
+			<a href="#" class="button button-darkgray arrow-left closeBtn">
+
+        Cancel
+
+      </a>
+		</div>
+	</div>
+</div>
+
+<div id="pokemon-center-modal" class="popup">
+	<div class="externalLink centerLink">
+    <h6>
+      Click Continue to visit PokemonCenter.com, our official online shop.
+    </h6>
+    <h6>
+      The privacy and security policies differ.
+    </h6>
+		<div class="buttons-wrapper">
+			<a href="#" class="button button-green arrow-right continueBtn">
+
+        Continue
+
+      </a>
+			<a href="#" class="button button-darkgray arrow-left closeBtn" target="_blank">
+
+        Cancel
+
+      </a>
+		</div>
+	</div>
+</div>
+
+<div id="site-search-modal" class="popup">
+
+	<form id="site-search-widget" class="form-analytics" name="site-search-modal">
+		<span class="search"><input type="search" placeholder="Search" name="search" id="site-search-widget-term" autocomplete="off" /></span>
+		<span class="submit icon icon_search"><input type="submit" value="" id="site-search-widget-submit"/></span>
+        <div id="modal-search-results"></div>
+	</form>
+</div>
+
+<div id='report-screen-name-success-modal' class='popup'>
+  <h6>Report Inappropriate Screen Name</h6>
+
+  <div class='modalBox'>
+    <img src="https://assets.pokemon.com/static2/_ui/img/chrome/external_link_bumper.png" alt="" class="hidden-mobile" />
+
+    <p>
+    Pokemon.com administrators have been notified and will review the screen name for compliance with the Terms of Use.
+    </p>
+
+    <div class='buttons-wrapper'>
+      <a href='#' class='button button-orange closeBtn'>
+        Close
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id='report-screen-name-failure-modal' class='popup'>
+  <h6>Report Inappropriate Screen Name</h6>
+
+  <div class='modalBox'>
+    <img src="https://assets.pokemon.com/static2/_ui/img/chrome/external_link_bumper.png" alt="" class="hidden-mobile" />
+
+    <p>
+    Your request could not be completed. Please try again. If the problem persists, please contact Customer Support.
+    </p>
+
+    <div class='buttons-wrapper'>
+      <a href='#' class='button button-orange closeBtn'>
+        Close
+      </a>
+    </div>
+  </div>
+</div>
+
+    <div id="email-signup-success" class="email-modal-content popup" tabindex="0">
+        <div class="email-modal-close-icon-container">
+            <a tabindex="0" class="icon icon_multiply email-modal-close-icon closeBtn"></a>
+        </div>
+        <div class="email-modal-body modalBox">
+            <span class="icon icon_check email-modal-big-icon" style="color: green;"></span>
+            <p class="email-modal-emphasis-text">You have successfully signed up for Pokémon&nbsp;emails!</p>
+            <p>We'll send you a few emails every week.</p>
+            <p>Unsubscribe at any time using the link in your email's&nbsp;footer.</p>
+        </div>
+    </div>
+
+    <div id="email-signup-failure" class="email-modal-content popup" tabindex="0">
+        <div class="email-modal-close-icon-container">
+            <a tabindex="0" class="icon icon_multiply email-modal-close-icon closeBtn"></a>
+        </div>
+        <div class="email-modal-body modalBox">
+            <p class="email-modal-emphasis-text">We're sorry, but we can't process your request.</p>
+            <p>We can't sign you up for emails right&nbsp;now.</p>
+            <p>
+              You can visit <a href="/us">pokemon.com</a> for the latest Pokémon news or contact Customer&nbsp;Support&nbsp;<a href="https://support.pokemon.com/hc/en-us/articles/20573695697428">here</a>.
+            </p>
+        </div>
+    </div>
+<div id='popupScreen' class="popupScreen"></div>
+
+
+  
+    
+<div id="video-modal" class="popup">
+<span class="watch-token-info"><span class="token_icon"></span><p class="token_verbal">You've been awarded <span class="token_amount">0</span> Token(s) for watching Pokémon TV!</p></span>
+    <div class="video-modal-wrapper">
+
+        <header class="video-header">
+            <h4 id="episodeInfo">
+
+            </h4>
+            <!-- HEADLINE -->
+            <h1 id="episodeTitle"></h1>
+        </header>
+
+        <div class="video-container">
+        </div>
+
+        <p class="legal" style="padding-top: 10px"></p>
+
+        <p class="video-summary">
+
+        </p>
+
+        
+
+        <a href="#" class="closeBtn button button-orange no-arrow right"><i class="icon icon_multiply"></i> Close</a>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    // define waitSeconds above require script tag
+    // to override the default, until main.js loads
+    window.requirejs = {
+        waitSeconds: 30 // when loaded, main.js also sets waitSeconds to 30
+    };
+</script>
+<script data-main="https://assets.pokemon.com/static2/_ui/js/template-d.js"
+        src="https://assets.pokemon.com/static2/_ui/js/vendor/require.js"></script>
+
+<script type="text/javascript">
+if (typeof _satellite !== "undefined") {
+  _satellite.pageBottom();
+}
+</script>
+
+    <script type="application/ld+json">
+    {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "headline": "Pok\u00e9mon Champions Is Now Available on Nintendo Switch and Nintendo Switch&nbsp;2",
+    "description": "Move Pok\u00e9mon from Pok\u00e9mon HOME, build new teams, and battle hard.",
+    "image": [
+        "https://www.pokemon.com/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/pokemon-champions-169.png",
+        "https://www.pokemon.com/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/inline/web/01-en.png",
+        "https://www.pokemon.com/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/web/01.png"
+    ],
+    "articleBody": "<p><span style=\"float: left; font-size: 550%; font-weight: bold; line-height: 80%; color: #30a7d7; margin: 0 5px -5px 0;\">G</span>et ready for intense Pok&eacute;mon battles! <a href=\"https://champions.pokemon.com/en-us/\">Pok&eacute;mon Champions</a> is now available for download on Nintendo Switch and Nintendo Switch 2. Especially enthusiastic Trainers can <em>really </em>hit the ground running with the Pok&eacute;mon Champions + Starter Pack bundle, which includes in-game benefits like added Pok&eacute;mon storage space, an extra battle song, and more. Nintendo Switch 2 players will be able to download a free update to the game that allows you to enjoy the action with even clearer graphics.</p>\n<p>In&nbsp;Pok&eacute;mon Champions,&nbsp;you&rsquo;ll&nbsp;engage in Pok&eacute;mon battles like those in&nbsp;previous&nbsp;Pok&eacute;mon titles.&nbsp;These battles will&nbsp;utilize&nbsp;familiar mechanics such as Pok&eacute;mon types, Abilities, and moves, enabling the rich and varied battle strategies that players know and love.&nbsp;A mobile version of Pok&eacute;mon Champions is also on the way, and&nbsp;you&rsquo;ll&nbsp;be able to&nbsp;battle cross-platform between Nintendo Switch and mobile devices.</p>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%; border: 1px solid #f2f2f2;\"><a href=\"/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/inline/full/01-en.png\" target=\"_blank\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/02/27/inline/web/01-en.png\" alt=\"\"></a></div>\n</div>\n<p>Pok&eacute;mon Champions will also link with <a href=\"https://home.pokemon.com/en-us/\">Pok&eacute;mon HOME</a>, allowing players to team up with certain Pok&eacute;mon brought over from past Pok&eacute;mon series video games and <a href=\"/us/pokemon-video-games/pokemon-go\">Pok&eacute;mon GO</a>.</p>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%;\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"\n/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/03/24/inline/01-en.png\" alt=\"\"></div>\n</div>\n<p>Among the Pok&eacute;mon appearing in Pok&eacute;mon Champions are Mega Meganium, Mega Emboar, and Mega Feraligatr, who all originally appeared in <a href=\"https://legends.pokemon.com/en-us\"><em>Pok&eacute;mon Legends: Z-A</em></a>. After undergoing Mega Evolution, some of these Pok&eacute;mon will have never-before-seen Abilities in Pok&eacute;mon Champions.</p>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%;\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"\n/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/03/24/inline/02-en.png\" alt=\"\"></div>\n</div>\n<p>Mega Meganium will have the newly discovered Ability Mega Sol, which lets the Pok&eacute;mon use its moves as if the weather were harsh sunlight. Mega Emboar has the Mold Breaker Ability, which causes its moves to be unaffected by the Ability of the target. Mega Feraligatr&rsquo;s newly discovered Ability, Dragonize, turns Normal-type moves into Dragon-type moves <em>and </em>boosts their power by 20%.</p>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%;\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"\n/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/03/24/inline/03-en.png\" alt=\"\"></div>\n</div>\n<div style=\"line-height: 0; padding-bottom: 0.5em;\"><br></div>\n<div style=\"line-height: 0; padding: 18px 0 24px; text-align: center;\">\n<div style=\"display: inline-block; line-height: 0; width: 50%; border-bottom: 1px solid #d9d9d9;\"><br></div>\n</div>\n<div style=\"text-align: center; padding: 8px 16px 12px;\">\n<h1 style=\"line-height: normal; color: #313131; font-family: Roboto, sans-serif; font-weight: bold; font-size: 150%; margin: 0;\">Receive Chesnaughtite, Delphoxite, Greninjite, and Floettite</h1>\n</div>\n<div style=\"line-height: 0; padding-bottom: 0.5em;\"><br></div>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%; border: 1px solid #f2f2f2;\"><a href=\"/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/full/01.png\" target=\"_blank\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/web/01.png\" alt=\"\"></a></div>\n</div>\n<p>By storing the Chesnaught, Delphox, Greninja, and Eternal Flower Floette you befriended during <em>Pok&eacute;mon Legends: Z-A</em> in Pok&eacute;mon HOME and bringing them to Pok&eacute;mon Champions as visitors, you can obtain their Mega Stones from your mailbox in Pok&eacute;mon Champions.</p>\n<div style=\"line-height: 0; padding: 18px 0 24px; text-align: center;\">\n<div style=\"display: inline-block; line-height: 0; width: 50%; border-bottom: 1px solid #d9d9d9;\"><br></div>\n</div>\n<div style=\"text-align: center; padding: 8px 16px 12px;\">\n<h1 style=\"line-height: normal; color: #313131; font-family: Roboto, sans-serif; font-weight: bold; font-size: 150%; margin: 0;\">Receive Dragonite as an Early-Download Bonus</h1>\n</div>\n<div style=\"line-height: 0; padding-bottom: 0.5em;\"><br></div>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%;\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"\n/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/02.png\" alt=\"\"></div>\n</div>\n<p>If you play Pok&eacute;mon Champions by Monday, August 31, 2026, you can claim Dragonite and 100 Quick Coupons from your mailbox in-game.</p>\n<p>Additionally, if you continue playing Pok&eacute;mon Champions, you can obtain a Dragoninite stone from the first season&rsquo;s Battle Pass. When Dragonite holds a Dragoninite stone, it can Mega Evolve into Mega Dragonite.</p>\n<ul class=\"list\">\n<li>\n<p>Dragonite can be claimed on both the Nintendo Switch version and mobile device version.</p>\n</li>\n<li>\n<p>Dragonite can also be obtained through other methods.</p>\n</li>\n<li>\n<p>The Dragoninite stone available in this campaign may be unlocked in the shop or other areas of the game at a later date.</p>\n</li>\n<li>\n<p>Pok&eacute;mon received as gifts in Pok&eacute;mon Champions can&rsquo;t be deposited in Pok&eacute;mon HOME.</p>\n</li>\n</ul>\n<div style=\"line-height: 0; padding: 18px 0 24px; text-align: center;\">\n<div style=\"display: inline-block; line-height: 0; width: 50%; border-bottom: 1px solid #d9d9d9;\"><br></div>\n</div>\n<div style=\"text-align: center; padding: 8px 16px 12px;\">\n<h1 style=\"line-height: normal; color: #313131; font-family: Roboto, sans-serif; font-weight: bold; font-size: 150%; margin: 0;\">Pok&eacute;mon Champions Competitions</h1>\n</div>\n<div style=\"line-height: 0; padding-bottom: 0.5em;\"><br></div>\n<div style=\"text-align: center; padding: 4px 0 8px 0;\">\n<div style=\"display: inline-block; width: 578px; max-width: 100%;\"><img style=\"max-width: 100%; margin: 0; border-radius: 0;\" src=\"\n/static-assets/content-assets/cms2/img/video-games/_tiles/pokemon-champions/2026/04/08/inline/03.png\" alt=\"\"></div>\n</div>\n<p>Ready to give some of those new Mega-Evolved Pok&eacute;mon a try? You can find an exciting in-game tournament known as the Warm-up Challenge right as you open Pok&eacute;mon Champions, where you&rsquo;ll be able to battle Trainers across the world and earn rewards based on your performance. Entry for this tournament will be open until the tournament concludes on April 12 at 6:59 p.m. PDT. If you finish three or more matches with at least one win or loss, you&rsquo;ll be able to claim a Gardevoir and 100 Quick Coupons from your in-game mailbox after checking the final ranking results.</p>\n<p>If you&rsquo;re looking to take your battle talents even further or just take a peek at the competition, look no further than the <a href=\"https://championships.pokemon.com/en-us/events/regionals/2026/indianapolis\">2026 Indianapolis Regional Championships</a> from May 29 through May 31! This will be the first Video Game Championships event to feature Pok&eacute;mon Champions and will be a perfect sneak peek for all the action to take place at the <a href=\"https://championships.pokemon.com/en-us/events/internationals/2026/new-orleans\">2026 North America International Championships</a> from June 12 through June 14.</p>\n<p>Whether you&rsquo;re looking to reach the top in Ranked Battles or enjoy some easygoing Casual Battles, Pok&eacute;mon Champions is ready to deliver plenty of fun!</p>",
+    "datePublished": "2026-04-08T00:00:00"
+}
+    </script>
+
+	<script type="text/javascript" src="/_Incapsula_Resource?SWJIYLWA=719d34d31c8e3a6e6fffd425f7e032f3&ns=2&cb=159313097" async></script></body>
+</html>
