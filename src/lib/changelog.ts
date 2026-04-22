@@ -12,6 +12,14 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.7.1',
+    date: '2026-04-22',
+    items: [
+      '<code>/write-article</code> now distinguishes a <strong>category hint</strong> (prefix <code>category:</code> or <code>cat:</code>) from a specific topic request — a category hint narrows the journalist\'s search space but leaves story selection autonomous and does NOT flag the article as human-requested',
+      'A bare argument without the prefix is still treated as a specific topic and continues to set <code>--human-requested</code> with <code>--human-request-text</code>',
+    ],
+  },
+  {
     version: '3.7.0',
     date: '2026-04-17',
     items: [
