@@ -1,0 +1,1773 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Linux 7.0 debuts as Linus Torvalds ponders AI's impact • The Register</title>
+    <meta name="robots" content="max-snippet:-1, max-image-preview:standard, max-video-preview:0">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <meta property="og:image" content="https://regmedia.co.uk/2026/04/13/shutterstock_penguin_shaped_number_7.jpg">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/">
+    <meta property="og:title" content="Linux 7.0 debuts as Linus Torvalds ponders AI's impact">
+    <meta property="og:description" content=": Makes Rust support official, adds code for ancient Alpha and SPARC CPUs">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TheRegister">
+<script type="application/ld+json">
+{
+"@context":"http://schema.org",
+"@type":"NewsArticle",
+"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/"},
+"headline":"Linux 7.0 debuts as Linus Torvalds ponders AI's bug-finding powers",
+"datePublished":"2026-04-13T00:10:17Z",
+"dateModified":"2026-04-13T17:34:08Z",
+"image":{"@type":"ImageObject","url":"https://regmedia.co.uk/2026/04/13/shutterstock_penguin_shaped_number_7.jpg","width":"1200","height":"600"},
+"author":{"@type":"Person","name":"Simon Sharwood"},
+"publisher":{"@type":"Organization","name":"The Register","url":"https://www.theregister.com/","logo":{"@type":"ImageObject","url":"https://www.theregister.com/design_picker/1fea2ae01c5036112a295123c3cc9c56eb28836a/graphics/std/red_logo_sans_strapline.png","width":330,"height":55}}
+}
+</script>
+    <script>
+      var RegZoot = {  };
+      var RegCC = [  ];
+      var RegPageType = 'Story';
+      var RegTruePageType = 'www story';
+    </script>
+    <link rel="canonical" href="https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/">
+<script>
+        var RegArticle={id:245559,pf:0,af:0,bms:0,sec:'software/oses',cat:'update_me',ec:[],kw:[["ai",'AI'],["linus torvalds",'Linus Torvalds'],["linux",'Linux'],["operating system",'Operating System']],kwp:[["foss",'FOSS'],["self driving car",'Self-driving Car']],short_url:'https://reg.cx/4mEU',cp:0,noads:[],author:'Simon Sharwood'}
+    </script>
+    <script src="https://cdn.theregister.com/chrome/masthead.iife.93eb6f47.js" defer></script>
+<link rel=stylesheet type="text/css" href="https://cdn.theregister.com/chrome/masthead.371adbcb.css">
+<link rel=stylesheet type="text/css" href="https://cdn.theregister.com/chrome/footer.61345fed.css">
+
+<link rel=stylesheet type="text/css" href="https://assets.theregister.com/css/4edda76fcf5371883ddb024c584ee91b2151f300/scaffolding.css">
+<link rel=stylesheet type="text/css" href="https://assets.theregister.com/css/4edda76fcf5371883ddb024c584ee91b2151f300/design.css">
+
+    <style>
+        #nav-software, #nav-software-oses {
+          text-decoration: underline !important;
+        }
+    </style>
+
+    <link rel='stylesheet' type='text/css' href='/css/4edda76fcf5371883ddb024c584ee91b2151f300/story_only.css'>
+<link rel=stylesheet type="text/css" href="/css/4edda76fcf5371883ddb024c584ee91b2151f300/rows.css">
+    <link rel=alternate type="application/atom+xml" href="/headlines.atom" title="The Register: whole site">
+    <link rel=alternate type="application/atom+xml" href="/software/oses/headlines.atom" title="The Register: OSes section">
+    
+    <script>
+var RegCR = true;
+</script>
+
+    <script src="https://assets.theregister.com/design_picker/31ed57829b02cd82b1d66b5255fa81ac25cfaec1/javascript/_.js"></script>
+    <script>
+    RegGPT('reg_software/oses','76bab59aa225af92fb7beef301a4ba8c','76bab59aa225af92fb7beef301a4ba8c');
+</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js"></script>
+    <link rel=search href="https://search.theregister.com/">
+    <link rel=search type="application/opensearchdescription+xml" title="El Reg Search" href="/Design/page/search.osd">
+    <link rel="icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.ico" sizes="any"><!-- 32×32 -->
+<link rel="icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/apple-touch-icon.png"><!-- 180×180 -->
+<link rel="manifest" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/site.webmanifest">
+<meta name="msapplication-TileColor" content="#ff0000">
+<meta name="msapplication-config" content="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ff0000">
+
+</head>
+<body class="fullwidth" data-pagetype='Story' data-pagenum="0">
+<div id="page">
+        <div data-oop="1" data-pos="top" data-raptor="kite" aria-hidden="true" class="adun"></div>
+
+    <header class="masthead"
+  data-my-account-url="https://account.theregister.com/edit/your_details"
+  data-login-url="https://account.theregister.com/login/"
+>
+  <p class="masthead--account">
+    <noscript>
+      <a href="https://account.theregister.com/edit/your_details">My Account</a>
+    </noscript>
+  </p>
+  <p class="masthead--home">
+    <a href="https://www.theregister.com/">
+      <span class="masthead--visually-hidden">The Register Home Page</span>
+      <img class="masthead--logo-full"    src="https://cdn.theregister.com/assets/images/the_register_logo.6befe899.svg"         alt="">
+      <img class="masthead--logo-vulture" src="https://cdn.theregister.com/assets/images/the_register_vulture_logo.53c8756c.svg" alt="">
+    </a>
+  </p>
+  <div class="masthead--actions">
+    <details class="masthead--search">
+      <summary>
+        <span class="masthead--visually-hidden">Search</span>
+        <img class="masthead--icon-open"  src="https://cdn.theregister.com/assets/images/magnifying_glass.9cbf748e.svg" alt="" height="20">
+        <img class="masthead--icon-close" src="https://cdn.theregister.com/assets/images/close.77a839fd.svg"            alt="" height="20">
+      </summary>
+      <form
+  	  action="https://search.theregister.com/"
+        method="get"
+        role="search">
+        <label
+          for="masthead-search-input"
+          class="masthead--visually-hidden">Search The Register</label>
+        <input
+          type="search"
+          id="masthead-search-input"
+          name="q"
+          placeholder="Search The Register…"
+          autocomplete="off">
+        <button
+          type="submit"
+          aria-label="Submit search">
+          <img src="https://cdn.theregister.com/assets/images/magnifying_glass_vulture.292e7b64.svg" alt="" height="20">
+        </button>
+      </form>
+    </details>
+    <details class="masthead--navigation">
+      <summary>
+        <span class="masthead--visually-hidden">Navigation</span>
+        <img class="masthead--icon-open"  src="https://cdn.theregister.com/assets/images/burger_menu.5dd339c3.svg" alt="" height="20">
+        <img class="masthead--icon-close" src="https://cdn.theregister.com/assets/images/close.77a839fd.svg"       alt="" height="20">
+      </summary>
+      <nav aria-label="Site navigation">
+        <section>
+          <h2>Topics</h2>
+          <div class="masthead--nav-group">
+            <div>
+        <h3>Security</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/security/">All Security</a></li>
+            <li><a href="https://www.theregister.com/security/cyber_crime/">Cyber-crime</a></li>
+            <li><a href="https://www.theregister.com/security/patches/">Patches</a></li>
+            <li><a href="https://www.theregister.com/security/research/">Research</a></li>
+            <li><a href="https://www.theregister.com/security/cso/">CSO</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Off-Prem</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/off_prem/">All Off-Prem</a></li>
+            <li><a href="https://www.theregister.com/off_prem/edge_iot/">Edge + IoT</a></li>
+            <li><a href="https://www.theregister.com/off_prem/channel/">Channel</a></li>
+            <li><a href="https://www.theregister.com/off_prem/paas_iaas/">PaaS + IaaS</a></li>
+            <li><a href="https://www.theregister.com/off_prem/saas/">SaaS</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>On-Prem</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/on_prem/">All On-Prem</a></li>
+            <li><a href="https://www.theregister.com/on_prem/systems/">Systems</a></li>
+            <li><a href="https://www.theregister.com/on_prem/storage/">Storage</a></li>
+            <li><a href="https://www.theregister.com/on_prem/networks/">Networks</a></li>
+            <li><a href="https://www.theregister.com/on_prem/hpc/">HPC</a></li>
+            <li><a href="https://www.theregister.com/on_prem/personal_tech/">Personal Tech</a></li>
+            <li><a href="https://www.theregister.com/on_prem/cxo/">Cx0</a></li>
+            <li><a href="https://www.theregister.com/on_prem/public_sector/">Public Sector</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Software</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/software/">All Software</a></li>
+            <li><a href="https://www.theregister.com/software/ai_ml/">AI + ML</a></li>
+            <li><a href="https://www.theregister.com/software/applications/">Applications</a></li>
+            <li><a href="https://www.theregister.com/software/databases/">Databases</a></li>
+            <li><a href="https://www.theregister.com/software/devops/">DevOps</a></li>
+            <li><a href="https://www.theregister.com/software/oses/">OSes</a></li>
+            <li><a href="https://www.theregister.com/software/virtualization/">Virtualization</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Offbeat</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/offbeat/">All Offbeat</a></li>
+            <li><a href="https://www.theregister.com/offbeat/columnists/">Columnists</a></li>
+            <li><a href="https://www.theregister.com/offbeat/science/">Science</a></li>
+            <li><a href="https://www.theregister.com/offbeat/geeks_guide/">Geek&#39;s Guide</a></li>
+            <li><a href="https://www.theregister.com/offbeat/bofh/">BOFH</a></li>
+            <li><a href="https://www.theregister.com/offbeat/legal/">Legal</a></li>
+            <li><a href="https://www.theregister.com/offbeat/bootnotes/">Bootnotes</a></li>
+            <li><a href="https://www.theregister.com/offbeat/site_news/">Site News</a></li>
+            <li><a href="https://www.theregister.com/offbeat/about_us/">About Us</a></li>
+            </ul>
+    </div>
+            </div>
+        </section>
+        <section>
+          <h2>More from The Register</h2>
+          <div class="masthead--nav-group">
+            <div>
+        <h3>Special Features</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/special_features/">All Special Features</a></li>
+            <li><a href="https://www.theregister.com/special_features/rsa/">RSA</a></li>
+            <li><a href="https://www.theregister.com/special_features/agentic_ai/">Agentic AI</a></li>
+            <li><a href="https://www.theregister.com/special_features/future_of_the_datacenter/">The Future of the Datacenter</a></li>
+            <li><a href="https://www.theregister.com/special_features/aws_reinvent/">AWS:Reinvent</a></li>
+            <li><a href="https://www.theregister.com/special_features/2025_11_sycomp_supercomputing/">SC25</a></li>
+            <li><a href="https://www.theregister.com/special_features/2025_11_supercomputing_month/">Supercomputing Month</a></li>
+            <li><a href="https://www.theregister.com/special_features/datacenter_networking_nexus/">Datacenter Networking Nexus</a></li>
+            <li><a href="https://www.theregister.com/special_features/the_state_of_storage/">The State of Storage</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Vendor Voice</h3>
+        <ul>
+            <li><a href="https://vendorvoice.theregister.com/">All Vendor Voice</a></li>
+            <li><a href="https://vendorvoice.theregister.com/infinidat/">Infinidat</a></li>
+            <li><a href="https://vendorvoice.theregister.com/everpure/">Everpure</a></li>
+            <li><a href="https://vendorvoice.theregister.com/rubrik/">Rubrik</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_capgemini/">Make it real with Capgemini and AWS</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_fis/">Money Movement Hub</a></li>
+            <li><a href="https://vendorvoice.theregister.com/zte/">ZTE</a></li>
+            <li><a href="https://vendorvoice.theregister.com/nutantix_cloud_native_apps/">Scale Kubernetes. Not Chaos.</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_new_horizon/">AWS New Horizon</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Resources</h3>
+        <ul>
+            <li><a href="https://intelligence.theregister.com/">Whitepapers</a></li>
+            <li><a href="https://intelligence.theregister.com/events/list/">Webinars &amp; Events</a></li>
+            <li><a href="https://account.theregister.com/login?r=https%3A%2F%2Faccount.theregister.com%2Fedit%2Fnewsletter%2F">Newsletters</a></li>
+            </ul>
+    </div>
+            </div>
+        </section>
+        </nav>
+    </details>
+  </div>
+</header>
+
+    
+    <div aria-hidden="true" class="adun" data-pos="top" data-raptor="condor" data-xmd=",fluid,leaderboard," data-lg=",fluid,leaderboard," data-xlg=",fluid,superleaderboard,billboard,leaderboard," data-xxlg=",fluid,superleaderboard,billboard,brandwidth,leaderboard,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+
+<article>
+        <div id=top-col-story>
+            <div class="header_left">
+                <div class="cat_header">
+                    <h4 class="dcl">
+                        <a href="/software/oses/" aria-label="OSes">OSes</a>
+                    </h4>
+                </div>
+                <div class="comments_wrap mobile_only">
+        <a class="comment_count" aria-label="Read comments on this article, currently there are 13 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2026/04/13/linux_kernel_7_releaseed/">
+            <strong aria-hidden="true">13</strong>
+            <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+        </a>
+                    </div>
+            </div>
+            <div class="header_right">
+
+<h1>Linux 7.0 debuts as Linus Torvalds ponders AI's bug-finding powers</h1>            </div>
+
+
+            <div class="header_left">
+                <div class="comments_wrap desktop_only">
+        <a class="comment_count" aria-label="Read comments on this article, currently there are 13 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2026/04/13/linux_kernel_7_releaseed/">
+            <strong aria-hidden="true">13</strong>
+            <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+        </a>
+                    </div>
+            </div>
+            <div class="header_right">
+<h2>Makes Rust support official, adds code for ancient Alpha and SPARC CPUs</h2>
+                    <div class="byline_and_dateline_and_share_and_comments">
+                        <div class="byline_wrap">
+                            <img class="vulture_icon" src="/design_picker/d518b499f8a6e2c65d4d8c49aca8299d54b03012/graphics/icon/vulture_red.svg" alt="icon">
+                                <a class="byline" href="/Author/Simon-Sharwood" title="Read more by this author">
+Simon Sharwood                                </a>
+                        </div>
+                        <div class="dateline_wrap">
+                                <span class="dateline">
+Mon&nbsp;13&nbsp;Apr&nbsp;2026                                    <span class="slashes"> // </span>
+00:10&nbsp;UTC                                </span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    <div id=main-col>
+        <div id="article-wrapper" class="article_wrap">
+            <div class="left_col">
+                    <div class="floating_bar">
+                        <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_2">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers&amp;url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers&amp;summary=Makes%20Rust%20support%20official%2c%20adds%20code%20for%20ancient%20Alpha%20and%20SPARC%20CPUs" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                <div class="promo_advert">
+                </div>
+            </div>
+            <div class="centre_col">
+                <div id="article">
+                    <div id="body">
+<p>Linus Torvalds has released version 7.0 of the Linux kernel.</p>
+<p>As <i>The Register</i> has previously <a target="_blank" href="https://www.theregister.com/2026/02/23/linux_7_0_rc1/">reported</a>, kernel boss Linus Torvalds doesn’t think kernel version numbers signify anything important, but he feels that once a release series reaches x.19 it’s worth rolling over to x.0 to avoid confusion.</p>
+<p>His Sunday <a target="_blank" rel="nofollow" href="https://lkml.org/lkml/2026/4/12/604">release announcement</a> for version 7.0 therefore represents a normal kernel release that just happens to feature a round number.</p>
+
+    <div aria-hidden="true" class="adun" data-pos="top" data-raptor="condor" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+
+<p>However, Torvalds’ release announcement features something a little unusual.</p>
+
+        <div aria-hidden="true" class="adun" data-pos="top" data-raptor="falcon" data-xmd=",fluid,mpu,leaderboard," data-lg=",fluid,mpu,leaderboard," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,leaderboard,mpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D4%26raptor%3Dfalcon%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D426raptor%3Dfalcon%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+
+        <div class="adun_eagle_desktop_story_wrapper">
+            <div aria-hidden="true" class="adun" data-pos="mid" data-raptor="eagle" data-xxlg=",mpu,dmpu,">
+                <noscript>
+                    <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=3&amp;c=33aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D3%26raptor%3Deagle%26pos%3Dmid%26test%3D0" target="_blank">
+                        <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=3&amp;c=33aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D3%26raptor%3Deagle%26pos%3Dmid%26test%3D0" alt="">
+                    </a>
+                </noscript>
+            </div>
+        </div>
+
+<p>“The last week of the release continued the same ‘lots of small fixes’ trend, but it all really does seem pretty benign, so I've tagged the final 7.0 and pushed it out,” he wrote.</p>
+<p>“I suspect it's a lot of AI tool use that will keep finding corner cases for us for a while, so this may be the ‘new normal’ at least for a while. Only time will tell.”</p>
+
+        <div aria-hidden="true" class="adun" data-pos="top" data-raptor="falcon" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D4%26raptor%3Dfalcon%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D426raptor%3Dfalcon%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+<p>That’s an interesting observation in light of kernel dev 2IC Greg Kroah-Hartman’s <a target="_blank" href="https://www.theregister.com/2026/03/26/greg_kroahhartman_ai_kernel/?_gl=1*12aqhp9*_ga*MTI0MjE1MDMxNS4xNzE5OTg5NTg5*_ga_JXW44Y23NM*czE3NzYwMzY2NTQkbzIxMjkkZzEkdDE3NzYwMzgyODUkajQ1JGwwJGgw">observation</a> that AI has become a truly useful bug-spotter for the kernel maintenance crew. GKH also last week made a <a target="_blank" rel="nofollow" href="https://lore.kernel.org/lkml/adId7vSqL8c2y_5_@kroah.com/">pull request</a> that delivered what he described as “some documentation updates to the security-bugs.rst file to hopefully tell the AI tools (and any users that actually read the documentation), how to send us better security bug reports as the quantity of reports these past few weeks has increased dramatically due to tools getting better at ‘finding’ things.”</p>
+<ul class="listinks">
+
+<li><a href="https://www.theregister.com/2026/04/06/patch_to_end_i486_support/">Patch to end i486 support hits Linux kernel merge queue</a></li>
+
+<li><a href="https://www.theregister.com/2026/04/06/ai_agents_cups_server_rce/">AI agents found vulns in this popular Linux and Unix print server</a></li>
+
+<li><a href="https://www.theregister.com/2026/03/26/greg_kroahhartman_ai_kernel/">AI bug reports went from junk to legit overnight, says Linux kernel czar</a></li>
+
+<li><a href="https://www.theregister.com/2026/03/24/foss_age_verification/">Age checks creep into Linux as systemd gets a DOB field</a></li>
+</ul>
+<p>Probably the most notable inclusion in this release is the conclusion of experimental work to support Rust – meaning the language is now officially supported for kernel development.</p>
+<p>Version 7.0 of the kernel also includes more work to support ARM, RISC-V and Loongson processors, and more sophisticated support for KVM virtual machines on AMD EPYC 5 CPUs.</p>
+<p>Self-healing XFS is another inclusion, making the filesystem more robust.</p>
+<p>The kernel watchers at Phoronix <a target="_blank" rel="nofollow" href="https://www.phoronix.com/news/Linux-7.0-SPARC-Alpha-m68k">spotted</a> new code for the venerable SPARC and DEC Alpha CPUs</p>
+
+        <div aria-hidden="true" class="adun" id="story_eagle_xsm_sm_md_xmd_lg_xlg" data-pos="mid" data-raptor="eagle" data-xsm=",mpu,dmpu," data-sm=",mpu,dmpu," data-md=",mpu,dmpu," data-xmd=",mpu,dmpu," data-lg=",mpu,dmpu," data-xlg=",mpu,dmpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=3&amp;c=33aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D3%26raptor%3Deagle%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=3&amp;c=33aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D3%26raptor%3Deagle%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+<p>The new kernel is yours to download <a target="_blank" rel="nofollow" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=028ef9c96e96197026887c0f092424679298aae8">here</a>. ®</p>                                <div class="wptl btm">
+                                    <noscript><strong>Get our</strong> <a href="https://whitepapers.theregister.com/" style="text-transform:uppercase">Tech Resources</a></noscript>
+                                </div>
+                    </div>
+
+
+
+                            <div class="article_body_btm mobile_only">
+                                <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+        <span>Share</span>
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_3">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers&amp;url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers&amp;summary=Makes%20Rust%20support%20official%2c%20adds%20code%20for%20ancient%20Alpha%20and%20SPARC%20CPUs" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+                            </div>
+                </div>
+            </div>
+
+            <div class="right_col desktop_only">
+                <div class="similar_topics">
+        <div class="similar_topics">
+            <h4>More about</h4>
+            <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/AI/"
+        >
+            <span class="keyword_name">
+                AI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linus%20Torvalds/"
+        >
+            <span class="keyword_name">
+                Linus Torvalds
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+            </ul>
+        </div>
+    <div class="keyword_wrap" style="display: none;">
+        <div class="keyword_trigger">More like these</div>
+    </div>
+    <div class="lightbox_overlay">
+        <div class="keyword_popup more_topics">
+            <div class="close">&times;</div>
+                <div class="keyword_group similar_topics">
+                    <h3>More about</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/AI/"
+        >
+            <span class="keyword_name">
+                AI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linus%20Torvalds/"
+        >
+            <span class="keyword_name">
+                Linus Torvalds
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group child_topics">
+                    <h3>Narrower topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/AIOps/"
+        >
+            <span class="keyword_name">
+                AIOps
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Android/"
+        >
+            <span class="keyword_name">
+                Android
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Asahi%20Linux/"
+        >
+            <span class="keyword_name">
+                Asahi Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/CentOS/"
+        >
+            <span class="keyword_name">
+                CentOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Debian/"
+        >
+            <span class="keyword_name">
+                Debian
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/DeepSeek/"
+        >
+            <span class="keyword_name">
+                DeepSeek
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Elementary%20OS/"
+        >
+            <span class="keyword_name">
+                Elementary OS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Fedora/"
+        >
+            <span class="keyword_name">
+                Fedora
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Firmware/"
+        >
+            <span class="keyword_name">
+                Firmware
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Gemini/"
+        >
+            <span class="keyword_name">
+                Gemini
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GNOME/"
+        >
+            <span class="keyword_name">
+                GNOME
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Google%20AI/"
+        >
+            <span class="keyword_name">
+                Google AI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GPT-3/"
+        >
+            <span class="keyword_name">
+                GPT-3
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GPT-4/"
+        >
+            <span class="keyword_name">
+                GPT-4
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/iOS/"
+        >
+            <span class="keyword_name">
+                iOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Large%20Language%20Model/"
+        >
+            <span class="keyword_name">
+                Large Language Model
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux%20Foundation/"
+        >
+            <span class="keyword_name">
+                Linux Foundation
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Machine%20Learning/"
+        >
+            <span class="keyword_name">
+                Machine Learning
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/macOS/"
+        >
+            <span class="keyword_name">
+                macOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/MCubed/"
+        >
+            <span class="keyword_name">
+                MCubed
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Neural%20Networks/"
+        >
+            <span class="keyword_name">
+                Neural Networks
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/NLP/"
+        >
+            <span class="keyword_name">
+                NLP
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/One%20Way%20Forward/"
+        >
+            <span class="keyword_name">
+                One Way Forward
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/OS%2F2/"
+        >
+            <span class="keyword_name">
+                OS/2
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Qubes/"
+        >
+            <span class="keyword_name">
+                Qubes
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Retrieval%20Augmented%20Generation/"
+        >
+            <span class="keyword_name">
+                Retrieval Augmented Generation
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Star%20Wars/"
+        >
+            <span class="keyword_name">
+                Star Wars
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Tensor%20Processing%20Unit/"
+        >
+            <span class="keyword_name">
+                Tensor Processing Unit
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/TOPS/"
+        >
+            <span class="keyword_name">
+                TOPS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/UEFI/"
+        >
+            <span class="keyword_name">
+                UEFI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Unix/"
+        >
+            <span class="keyword_name">
+                Unix
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows/"
+        >
+            <span class="keyword_name">
+                Windows
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2010/"
+        >
+            <span class="keyword_name">
+                Windows 10
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2011/"
+        >
+            <span class="keyword_name">
+                Windows 11
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%207/"
+        >
+            <span class="keyword_name">
+                Windows 7
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%208/"
+        >
+            <span class="keyword_name">
+                Windows 8
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server/"
+        >
+            <span class="keyword_name">
+                Windows Server
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202003/"
+        >
+            <span class="keyword_name">
+                Windows Server 2003
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202008/"
+        >
+            <span class="keyword_name">
+                Windows Server 2008
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202012/"
+        >
+            <span class="keyword_name">
+                Windows Server 2012
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202013/"
+        >
+            <span class="keyword_name">
+                Windows Server 2013
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202016/"
+        >
+            <span class="keyword_name">
+                Windows Server 2016
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Subsystem%20for%20Linux/"
+        >
+            <span class="keyword_name">
+                Windows Subsystem for Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20XP/"
+        >
+            <span class="keyword_name">
+                Windows XP
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group parent_topics">
+                    <h3>Broader topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/FOSS/"
+        >
+            <span class="keyword_name">
+                FOSS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Self-driving%20Car/"
+        >
+            <span class="keyword_name">
+                Self-driving Car
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+                </div>
+            </div>
+            <div class="right_col mobile_only">
+                <div class="similar_topics">
+                    <h4>More about</h4>
+                </div>
+            </div>
+
+
+            <div class="left_col main_content">
+                    <div class="sharing_block">
+                        <div class=article_body_btm>
+                            <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+        <span>Share</span>
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_4">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers&amp;url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Linux%207.0%20debuts%20as%20Linus%20Torvalds%20ponders%20AI%27s%20bug-finding%20powers&amp;summary=Makes%20Rust%20support%20official%2c%20adds%20code%20for%20ancient%20Alpha%20and%20SPARC%20CPUs" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2026/04/13/linux_kernel_7_releaseed/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+
+                        </div>
+                    </div>
+            </div>
+
+            <div class="centre_col main_content">
+        <div class="comments ">
+            <a class="comment_count" aria-label="Read comments on this article, currently there are 13 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2026/04/13/linux_kernel_7_releaseed/">
+                <strong aria-hidden="true">13</strong>
+                <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+                    COMMENTS
+            </a>
+        </div>
+                </div>
+            <div class="hidden_col mobile_only">
+        <div class="similar_topics">
+            <h4>More about</h4>
+            <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/AI/"
+        >
+            <span class="keyword_name">
+                AI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linus%20Torvalds/"
+        >
+            <span class="keyword_name">
+                Linus Torvalds
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+            </ul>
+        </div>
+    <div class="keyword_wrap" style="display: none;">
+        <div class="keyword_trigger">More like these</div>
+    </div>
+    <div class="lightbox_overlay">
+        <div class="keyword_popup more_topics">
+            <div class="close">&times;</div>
+                <div class="keyword_group similar_topics">
+                    <h3>More about</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/AI/"
+        >
+            <span class="keyword_name">
+                AI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linus%20Torvalds/"
+        >
+            <span class="keyword_name">
+                Linus Torvalds
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux/"
+        >
+            <span class="keyword_name">
+                Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group child_topics">
+                    <h3>Narrower topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/AIOps/"
+        >
+            <span class="keyword_name">
+                AIOps
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Android/"
+        >
+            <span class="keyword_name">
+                Android
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Asahi%20Linux/"
+        >
+            <span class="keyword_name">
+                Asahi Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/CentOS/"
+        >
+            <span class="keyword_name">
+                CentOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Debian/"
+        >
+            <span class="keyword_name">
+                Debian
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/DeepSeek/"
+        >
+            <span class="keyword_name">
+                DeepSeek
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Elementary%20OS/"
+        >
+            <span class="keyword_name">
+                Elementary OS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Fedora/"
+        >
+            <span class="keyword_name">
+                Fedora
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Firmware/"
+        >
+            <span class="keyword_name">
+                Firmware
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Gemini/"
+        >
+            <span class="keyword_name">
+                Gemini
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GNOME/"
+        >
+            <span class="keyword_name">
+                GNOME
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Google%20AI/"
+        >
+            <span class="keyword_name">
+                Google AI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GPT-3/"
+        >
+            <span class="keyword_name">
+                GPT-3
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/GPT-4/"
+        >
+            <span class="keyword_name">
+                GPT-4
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/iOS/"
+        >
+            <span class="keyword_name">
+                iOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Large%20Language%20Model/"
+        >
+            <span class="keyword_name">
+                Large Language Model
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Linux%20Foundation/"
+        >
+            <span class="keyword_name">
+                Linux Foundation
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Machine%20Learning/"
+        >
+            <span class="keyword_name">
+                Machine Learning
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/macOS/"
+        >
+            <span class="keyword_name">
+                macOS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/MCubed/"
+        >
+            <span class="keyword_name">
+                MCubed
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Neural%20Networks/"
+        >
+            <span class="keyword_name">
+                Neural Networks
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/NLP/"
+        >
+            <span class="keyword_name">
+                NLP
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/One%20Way%20Forward/"
+        >
+            <span class="keyword_name">
+                One Way Forward
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/OS%2F2/"
+        >
+            <span class="keyword_name">
+                OS/2
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Qubes/"
+        >
+            <span class="keyword_name">
+                Qubes
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Retrieval%20Augmented%20Generation/"
+        >
+            <span class="keyword_name">
+                Retrieval Augmented Generation
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Star%20Wars/"
+        >
+            <span class="keyword_name">
+                Star Wars
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Tensor%20Processing%20Unit/"
+        >
+            <span class="keyword_name">
+                Tensor Processing Unit
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/TOPS/"
+        >
+            <span class="keyword_name">
+                TOPS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/UEFI/"
+        >
+            <span class="keyword_name">
+                UEFI
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Unix/"
+        >
+            <span class="keyword_name">
+                Unix
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows/"
+        >
+            <span class="keyword_name">
+                Windows
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2010/"
+        >
+            <span class="keyword_name">
+                Windows 10
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%2011/"
+        >
+            <span class="keyword_name">
+                Windows 11
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%207/"
+        >
+            <span class="keyword_name">
+                Windows 7
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%208/"
+        >
+            <span class="keyword_name">
+                Windows 8
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server/"
+        >
+            <span class="keyword_name">
+                Windows Server
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202003/"
+        >
+            <span class="keyword_name">
+                Windows Server 2003
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202008/"
+        >
+            <span class="keyword_name">
+                Windows Server 2008
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202012/"
+        >
+            <span class="keyword_name">
+                Windows Server 2012
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202013/"
+        >
+            <span class="keyword_name">
+                Windows Server 2013
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Server%202016/"
+        >
+            <span class="keyword_name">
+                Windows Server 2016
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20Subsystem%20for%20Linux/"
+        >
+            <span class="keyword_name">
+                Windows Subsystem for Linux
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Windows%20XP/"
+        >
+            <span class="keyword_name">
+                Windows XP
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group parent_topics">
+                    <h3>Broader topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/FOSS/"
+        >
+            <span class="keyword_name">
+                FOSS
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Self-driving%20Car/"
+        >
+            <span class="keyword_name">
+                Self-driving Car
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+            </div>
+            <div class="right_col main_content">
+
+    <div class="tip_off_widget">
+        <h4>TIP US OFF</h4>
+        <p><a href="https://www.theregister.com/Profile/contact/" target="_blank">Send us news</a></p>
+    </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+        <hr id=story_section_break>
+                <script>
+                    RegWpTl = [
+                        '<a href="https://go.theregister.com/tl/3346/shttps://go.theregister.com/k/reg-preferred-sources">No more fake tech news! Add The Register to your Preferred Sources in Google Search<\/a>'
+                    ];
+                </script>
+    <div id=story-bot-col>
+        <h3 style="position:absolute;color:transparent;z-index:-1;">Other stories you might like</h3>
+        <div id="aua" data-unit-type="aua" class="keepreading">
+            <div class=headlines>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2026/04/23/sharing_isnt_caring_pwned/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/21/shutterstock_2471527435.jpg"></div>        <div class="article_text_elements">
+            <h4>Sharing isn’t caring if it’s an admin password</h4>
+            <div class=standfirst>
+                <span class="label">PWNED</span>&nbsp;Keeping it simple for the developers can lead to very complex headaches later</div>
+            <div class=time_comments>
+                <span class="section_name">Security</span><span class="time_stamp" title="23 Apr 2026 9:28" data-epoch="1776936492">23 Apr 2026</span> | <span class="comment light_bg_comments">3</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/23/stale_govuk_pages_are_feeding/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2018/03/21/wrong_sign_shutterstock.jpg"></div>        <div class="article_text_elements">
+            <h4>Stale gov.uk pages are feeding AI overviews old data and Brits are believing it</h4>
+            <div class=standfirst>Whitehall content teams play whack-a-mole with zombie pages as Google hoovers up the lot</div>
+            <div class=time_comments>
+                <span class="section_name">AI + ML</span><span class="time_stamp" title="23 Apr 2026 8:45" data-epoch="1776933906">23 Apr 2026</span> | <span class="comment light_bg_comments">8</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/23/ncsc_passkey_tech_now_reliable/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2024/05/02/passkey_shutterstock.jpg"></div>        <div class="article_text_elements">
+            <h4>Pass the key, passwords have passed their sell-by date</h4>
+            <div class=standfirst>NCSC passes judgment: passkeys pass muster, passwords fail</div>
+            <div class=time_comments>
+                <span class="section_name">Security</span><span class="time_stamp" title="23 Apr 2026 8:0" data-epoch="1776931208">23 Apr 2026</span> | <span class="comment light_bg_comments">20</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/02/18/why_flexibility_will_define/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2021/06/23/shutterstock_nutanix_editorial_only.jpg"></div>        <div class="article_text_elements">
+            <h4>Why flexibility will define the future of functionality</h4>
+            <div class=standfirst>Enterprise infrastructure choices shouldn't have to be hostages to compromise. Cisco FlashStack with Nutanix sets out to break the deadlock</div>
+            <div class=time_comments><span class="section_name">Sponsored Feature</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+
+    <div aria-hidden="true" class="adun" data-pos="btm" data-raptor="hawk" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu," data-xmd=",fluid,leaderboard,mpu,dmpu," data-lg=",fluid,mpu,leaderboard,dmpu," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard,dmpu," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,mpu,leaderboard,dmpu,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=6&amp;c=66aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D6%26raptor%3Dhawk%26pos%3Dbtm%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=6&amp;c=66aenwjzpV0i7zotHdK-6E7wAAA4s&amp;t=ct%3Dns%26unitnum%3D6%26raptor%3Dhawk%26pos%3Dbtm%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2026/04/23/kubernetes_1_36_haru/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2024/02/23/leonardo_ai_japan_ocean_hokusai.jpg"></div>        <div class="article_text_elements">
+            <h4>Kubernetes explains the release that kills Ingress NGINX with Japanese poetry and art</h4>
+            <div class=standfirst>Release team sets new standard for release notes by linking between Version 1.36 and classic print <i>The Great Wave off Kanagawa</i></div>
+            <div class=time_comments>
+                <span class="section_name">Software</span><span class="time_stamp" title="23 Apr 2026 1:44" data-epoch="1776908681">23 Apr 2026</span> | <span class="comment light_bg_comments">4</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/22/another_npm_supply_chain_attack/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2017/07/14/heretics_of_dune.jpg"></div>        <div class="article_text_elements">
+            <h4>Another npm supply chain worm is tearing through dev environments</h4>
+            <div class=standfirst>Plus, the payload references 'TeamPCP/LiteLLM method'</div>
+            <div class=time_comments>
+                <span class="section_name">Cyber-crime</span><span class="time_stamp" title="22 Apr 2026 22:34" data-epoch="1776897299">22 Apr 2026</span> | <span class="comment light_bg_comments">7</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/22/anthropic_mythos_hype_nothingburger/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/22/nothingburger.jpg"></div>        <div class="article_text_elements">
+            <h4>Anthropic's super-scary bug hunting model Mythos is shaping up to be a nothingburger</h4>
+            <div class=standfirst>Hackpocalypse deferred</div>
+            <div class=time_comments>
+                <span class="section_name">Security</span><span class="time_stamp" title="22 Apr 2026 21:39" data-epoch="1776893984">22 Apr 2026</span> | <span class="comment light_bg_comments">24</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/22/sk_hynix_indiana/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2023/02/01/shutterstock_skhynix.jpg"></div>        <div class="article_text_elements">
+            <h4>SK Hynix’s aspirations for ’Merica-made HBM inch closer to reality</h4>
+            <div class=standfirst>New site set to begin manufacturing and testing HBM memory just in time for Nvidia's Rubin-Ultra GPUs in 2028</div>
+            <div class=time_comments>
+                <span class="section_name">Systems</span><span class="time_stamp" title="22 Apr 2026 20:28" data-epoch="1776889705">22 Apr 2026</span> | <span class="comment light_bg_comments">1</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2026/04/22/openai_chronicle_no_privacy_screenshot/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2015/09/11/cctv_9876354634.jpg"></div>        <div class="article_text_elements">
+            <h4>OpenAI now lets you screenshot your privacy in the foot</h4>
+            <div class=standfirst>Make your model smarter through self-surveillance</div>
+            <div class=time_comments>
+                <span class="section_name">AI + ML</span><span class="time_stamp" title="22 Apr 2026 19:56" data-epoch="1776887818">22 Apr 2026</span> | <span class="comment light_bg_comments">5</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/22/github_opts_all_cli_users/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2019/08/19/spy_shutterstock1.jpg"></div>        <div class="article_text_elements">
+            <h4>GitHub opts all CLI users into telemetry collection whether they want it or not</h4>
+            <div class=standfirst>Opt-out instructions included if you're not keen on GitHub watching you in the name of product improvement</div>
+            <div class=time_comments>
+                <span class="section_name">Devops</span><span class="time_stamp" title="22 Apr 2026 18:33" data-epoch="1776882789">22 Apr 2026</span> | <span class="comment light_bg_comments">15</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/22/linux_us_state_age_verificaiton_laws/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2026/04/22/shutterstock_2716409083.jpg"></div>        <div class="article_text_elements">
+            <h4>Linux may get a hall pass from one state age-check bill, but Congress plays hall monitor</h4>
+            <div class=standfirst>Colorado amendments could exempt open source OSes, code repos, and containers</div>
+            <div class=time_comments>
+                <span class="section_name">Public Sector</span><span class="time_stamp" title="22 Apr 2026 17:55" data-epoch="1776880525">22 Apr 2026</span> | <span class="comment light_bg_comments">20</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/04/22/us_nonprofits_datacenter_power_plants/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2024/10/14/shutterstock_coalpowerstation.jpg"></div>        <div class="article_text_elements">
+            <h4>Datacenter boom keeps dirty coal plants alive in the US</h4>
+            <div class=standfirst>Happy Earth Day!</div>
+            <div class=time_comments>
+                <span class="section_name">Systems</span><span class="time_stamp" title="22 Apr 2026 17:10" data-epoch="1776877814">22 Apr 2026</span> | <span class="comment light_bg_comments">15</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+            </div>
+    <div aria-hidden="true" class="adun" data-pos="btm" data-raptor="owl" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu," data-xmd=",fluid,leaderboard,mpu,dmpu," data-lg=",fluid,mpu,leaderboard,dmpu," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard,dmpu," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,mpu,leaderboard,dmpu,"></div>
+
+        </div>
+    </div><footer class="site-footer">
+  <div class="site-footer--slogan">
+    <a href="https://www.theregister.com/">
+      <span class="footer--visually-hidden">The Register Home Page</span>
+      <img class="site-footer--the-register-logo" src="https://cdn.theregister.com/assets/images/the_register_logo.6befe899.svg" alt="">
+    </a>
+    <p>Biting the hand that feeds IT</p>
+  </div>
+  <div class="site-footer--wrapper">
+    <nav class="site-footer--nav" aria-label="Footer">
+      <div class="site-footer--group">
+        <h2>About Us</h2>
+        <ul>
+        <li>
+            <a href="https://www.theregister.com/Profile/contact/">Contact us</a>
+          </li>
+        <li>
+            <a href="https://situationpublishing.com/contact/" target="_blank" rel="noopener">Advertise with us</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/about_the_register/">Who we are</a>
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer--group">
+        <h2>Our Websites</h2>
+        <ul>
+        <li>
+            <a href="https://www.nextplatform.com/" target="_blank" rel="noopener">The Next Platform</a>
+          </li>
+        <li>
+            <a href="https://devclass.com/" target="_blank" rel="noopener">DevClass</a>
+          </li>
+        <li>
+            <a href="https://blocksandfiles.com/" target="_blank" rel="noopener">Blocks and Files</a>
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer--group">
+        <h2>Your Privacy</h2>
+        <ul>
+        <li>
+            <a href="https://www.theregister.com/Profile/cookies/">Cookies Policy</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/privacy/">Privacy Policy</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/terms_and_conditions_of_use/">Ts &amp; Cs</a>
+          </li>
+        </ul>
+      </div>
+      </nav>
+    <div class="site-footer--copyright">
+      <a href="https://situationpublishing.com/">
+        <span class="footer--visually-hidden">Situation Publishing</span>
+        <img class="footer--sitpub-logo-two-lines" src="https://cdn.theregister.com/assets/images/situation_publishing_logo_two_lines.7bfa3d3e.svg" alt="">
+        <img class="footer--sitpub-logo-one-line" src="https://cdn.theregister.com/assets/images/situation_publishing_logo_one_line.b1e3235b.svg" alt="">
+      </a>
+      <p>Copyright.
+        <span class="footer--no-wrap">All rights reserved</span>
+        <span class="footer--no-wrap">&copy; 1998&ndash;2026</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<div id=end_scripts>
+        <script>
+            if (typeof(ElReg.Ga.sendPageView) === 'function') {
+                ElReg.Ga.sendPageView('reg_software/oses','76bab59aa225af92fb7beef301a4ba8c','76bab59aa225af92fb7beef301a4ba8c');
+            }
+        </script>
+    <script>
+        $(function() { RegUtils.set_bucket_group(294) });
+    </script>
+</div></div>
+</body>
+</html>

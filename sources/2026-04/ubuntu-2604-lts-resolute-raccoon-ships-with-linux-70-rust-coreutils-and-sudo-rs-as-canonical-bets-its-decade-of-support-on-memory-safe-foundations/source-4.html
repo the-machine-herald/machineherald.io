@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Ubuntu 25.10 lands: Rustier, Wayland-ier, but Flatpak broke • The Register</title>
+    <meta name="robots" content="max-snippet:-1, max-image-preview:standard, max-video-preview:0">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <meta property="og:image" content="https://regmedia.co.uk/2025/10/13/software_bug.jpg">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/">
+    <meta property="og:title" content="Ubuntu 25.10 lands: Rustier, Wayland-ier, but Flatpak broke">
+    <meta property="og:description" content=": Canonical&#39;s Questing Quokka waddles in at 5.7 GB with AppArmor woes">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TheRegister">
+<script type="application/ld+json">
+{
+"@context":"http://schema.org",
+"@type":"NewsArticle",
+"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/"},
+"headline":"Ubuntu 25.10 lands: Rustier and Wayland-ier, but Flatpak is broken",
+"datePublished":"2025-10-14T08:15:10Z",
+"dateModified":"2025-10-14T08:16:04Z",
+"image":{"@type":"ImageObject","url":"https://regmedia.co.uk/2025/10/13/software_bug.jpg","width":"5717","height":"3607"},
+"author":{"@type":"Person","name":"Liam Proven"},
+"publisher":{"@type":"Organization","name":"The Register","url":"https://www.theregister.com/","logo":{"@type":"ImageObject","url":"https://www.theregister.com/design_picker/1fea2ae01c5036112a295123c3cc9c56eb28836a/graphics/std/red_logo_sans_strapline.png","width":330,"height":55}}
+}
+</script>
+    <script>
+      var RegZoot = {  };
+      var RegCC = [  ];
+      var RegPageType = 'Story';
+      var RegTruePageType = 'www story';
+    </script>
+    <link rel="canonical" href="https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/">
+<script>
+        var RegArticle={id:242448,pf:0,af:0,bms:0,sec:'software/oses',cat:'update_me',ec:[],kw:[["ubuntu",'Ubuntu']],kwp:[["canonical",'Canonical'],["debian",'Debian'],["operating system",'Operating System']],short_url:'https://reg.cx/4jzR',cp:0,noads:[],author:'Liam Proven'}
+    </script>
+    <script src="https://cdn.theregister.com/chrome/masthead.iife.93eb6f47.js" defer></script>
+<link rel=stylesheet type="text/css" href="https://cdn.theregister.com/chrome/masthead.371adbcb.css">
+<link rel=stylesheet type="text/css" href="https://cdn.theregister.com/chrome/footer.61345fed.css">
+
+<link rel=stylesheet type="text/css" href="https://assets.theregister.com/css/4edda76fcf5371883ddb024c584ee91b2151f300/scaffolding.css">
+<link rel=stylesheet type="text/css" href="https://assets.theregister.com/css/4edda76fcf5371883ddb024c584ee91b2151f300/design.css">
+
+    <style>
+        #nav-software, #nav-software-oses {
+          text-decoration: underline !important;
+        }
+    </style>
+
+    <link rel='stylesheet' type='text/css' href='/css/4edda76fcf5371883ddb024c584ee91b2151f300/story_only.css'>
+<link rel=stylesheet type="text/css" href="/css/4edda76fcf5371883ddb024c584ee91b2151f300/rows.css">
+    <link rel=alternate type="application/atom+xml" href="/headlines.atom" title="The Register: whole site">
+    <link rel=alternate type="application/atom+xml" href="/software/oses/headlines.atom" title="The Register: OSes section">
+    
+    <script>
+var RegCR = true;
+</script>
+
+    <script src="https://assets.theregister.com/design_picker/31ed57829b02cd82b1d66b5255fa81ac25cfaec1/javascript/_.js"></script>
+    <script>
+    RegGPT('reg_software/oses','76bab59aa225af92fb7beef301a4ba8c','76bab59aa225af92fb7beef301a4ba8c');
+</script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js"></script>
+    <link rel=search href="https://search.theregister.com/">
+    <link rel=search type="application/opensearchdescription+xml" title="El Reg Search" href="/Design/page/search.osd">
+    <link rel="icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.ico" sizes="any"><!-- 32×32 -->
+<link rel="icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/apple-touch-icon.png"><!-- 180×180 -->
+<link rel="manifest" href="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/site.webmanifest">
+<meta name="msapplication-TileColor" content="#ff0000">
+<meta name="msapplication-config" content="https://assets.theregister.com/design_picker/b3abce7144e52ec67efd11fc0a98d0b441a0cfd0/graphics/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ff0000">
+
+</head>
+<body class="fullwidth" data-pagetype='Story' data-pagenum="0">
+<div id="page">
+        <div data-oop="1" data-pos="top" data-raptor="kite" aria-hidden="true" class="adun"></div>
+
+    <header class="masthead"
+  data-my-account-url="https://account.theregister.com/edit/your_details"
+  data-login-url="https://account.theregister.com/login/"
+>
+  <p class="masthead--account">
+    <noscript>
+      <a href="https://account.theregister.com/edit/your_details">My Account</a>
+    </noscript>
+  </p>
+  <p class="masthead--home">
+    <a href="https://www.theregister.com/">
+      <span class="masthead--visually-hidden">The Register Home Page</span>
+      <img class="masthead--logo-full"    src="https://cdn.theregister.com/assets/images/the_register_logo.6befe899.svg"         alt="">
+      <img class="masthead--logo-vulture" src="https://cdn.theregister.com/assets/images/the_register_vulture_logo.53c8756c.svg" alt="">
+    </a>
+  </p>
+  <div class="masthead--actions">
+    <details class="masthead--search">
+      <summary>
+        <span class="masthead--visually-hidden">Search</span>
+        <img class="masthead--icon-open"  src="https://cdn.theregister.com/assets/images/magnifying_glass.9cbf748e.svg" alt="" height="20">
+        <img class="masthead--icon-close" src="https://cdn.theregister.com/assets/images/close.77a839fd.svg"            alt="" height="20">
+      </summary>
+      <form
+  	  action="https://search.theregister.com/"
+        method="get"
+        role="search">
+        <label
+          for="masthead-search-input"
+          class="masthead--visually-hidden">Search The Register</label>
+        <input
+          type="search"
+          id="masthead-search-input"
+          name="q"
+          placeholder="Search The Register…"
+          autocomplete="off">
+        <button
+          type="submit"
+          aria-label="Submit search">
+          <img src="https://cdn.theregister.com/assets/images/magnifying_glass_vulture.292e7b64.svg" alt="" height="20">
+        </button>
+      </form>
+    </details>
+    <details class="masthead--navigation">
+      <summary>
+        <span class="masthead--visually-hidden">Navigation</span>
+        <img class="masthead--icon-open"  src="https://cdn.theregister.com/assets/images/burger_menu.5dd339c3.svg" alt="" height="20">
+        <img class="masthead--icon-close" src="https://cdn.theregister.com/assets/images/close.77a839fd.svg"       alt="" height="20">
+      </summary>
+      <nav aria-label="Site navigation">
+        <section>
+          <h2>Topics</h2>
+          <div class="masthead--nav-group">
+            <div>
+        <h3>Security</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/security/">All Security</a></li>
+            <li><a href="https://www.theregister.com/security/cyber_crime/">Cyber-crime</a></li>
+            <li><a href="https://www.theregister.com/security/patches/">Patches</a></li>
+            <li><a href="https://www.theregister.com/security/research/">Research</a></li>
+            <li><a href="https://www.theregister.com/security/cso/">CSO</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Off-Prem</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/off_prem/">All Off-Prem</a></li>
+            <li><a href="https://www.theregister.com/off_prem/edge_iot/">Edge + IoT</a></li>
+            <li><a href="https://www.theregister.com/off_prem/channel/">Channel</a></li>
+            <li><a href="https://www.theregister.com/off_prem/paas_iaas/">PaaS + IaaS</a></li>
+            <li><a href="https://www.theregister.com/off_prem/saas/">SaaS</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>On-Prem</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/on_prem/">All On-Prem</a></li>
+            <li><a href="https://www.theregister.com/on_prem/systems/">Systems</a></li>
+            <li><a href="https://www.theregister.com/on_prem/storage/">Storage</a></li>
+            <li><a href="https://www.theregister.com/on_prem/networks/">Networks</a></li>
+            <li><a href="https://www.theregister.com/on_prem/hpc/">HPC</a></li>
+            <li><a href="https://www.theregister.com/on_prem/personal_tech/">Personal Tech</a></li>
+            <li><a href="https://www.theregister.com/on_prem/cxo/">Cx0</a></li>
+            <li><a href="https://www.theregister.com/on_prem/public_sector/">Public Sector</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Software</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/software/">All Software</a></li>
+            <li><a href="https://www.theregister.com/software/ai_ml/">AI + ML</a></li>
+            <li><a href="https://www.theregister.com/software/applications/">Applications</a></li>
+            <li><a href="https://www.theregister.com/software/databases/">Databases</a></li>
+            <li><a href="https://www.theregister.com/software/devops/">DevOps</a></li>
+            <li><a href="https://www.theregister.com/software/oses/">OSes</a></li>
+            <li><a href="https://www.theregister.com/software/virtualization/">Virtualization</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Offbeat</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/offbeat/">All Offbeat</a></li>
+            <li><a href="https://www.theregister.com/offbeat/columnists/">Columnists</a></li>
+            <li><a href="https://www.theregister.com/offbeat/science/">Science</a></li>
+            <li><a href="https://www.theregister.com/offbeat/geeks_guide/">Geek&#39;s Guide</a></li>
+            <li><a href="https://www.theregister.com/offbeat/bofh/">BOFH</a></li>
+            <li><a href="https://www.theregister.com/offbeat/legal/">Legal</a></li>
+            <li><a href="https://www.theregister.com/offbeat/bootnotes/">Bootnotes</a></li>
+            <li><a href="https://www.theregister.com/offbeat/site_news/">Site News</a></li>
+            <li><a href="https://www.theregister.com/offbeat/about_us/">About Us</a></li>
+            </ul>
+    </div>
+            </div>
+        </section>
+        <section>
+          <h2>More from The Register</h2>
+          <div class="masthead--nav-group">
+            <div>
+        <h3>Special Features</h3>
+        <ul>
+            <li><a href="https://www.theregister.com/special_features/">All Special Features</a></li>
+            <li><a href="https://www.theregister.com/special_features/rsa/">RSA</a></li>
+            <li><a href="https://www.theregister.com/special_features/agentic_ai/">Agentic AI</a></li>
+            <li><a href="https://www.theregister.com/special_features/future_of_the_datacenter/">The Future of the Datacenter</a></li>
+            <li><a href="https://www.theregister.com/special_features/aws_reinvent/">AWS:Reinvent</a></li>
+            <li><a href="https://www.theregister.com/special_features/2025_11_sycomp_supercomputing/">SC25</a></li>
+            <li><a href="https://www.theregister.com/special_features/2025_11_supercomputing_month/">Supercomputing Month</a></li>
+            <li><a href="https://www.theregister.com/special_features/datacenter_networking_nexus/">Datacenter Networking Nexus</a></li>
+            <li><a href="https://www.theregister.com/special_features/the_state_of_storage/">The State of Storage</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Vendor Voice</h3>
+        <ul>
+            <li><a href="https://vendorvoice.theregister.com/">All Vendor Voice</a></li>
+            <li><a href="https://vendorvoice.theregister.com/infinidat/">Infinidat</a></li>
+            <li><a href="https://vendorvoice.theregister.com/everpure/">Everpure</a></li>
+            <li><a href="https://vendorvoice.theregister.com/rubrik/">Rubrik</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_capgemini/">Make it real with Capgemini and AWS</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_fis/">Money Movement Hub</a></li>
+            <li><a href="https://vendorvoice.theregister.com/zte/">ZTE</a></li>
+            <li><a href="https://vendorvoice.theregister.com/nutantix_cloud_native_apps/">Scale Kubernetes. Not Chaos.</a></li>
+            <li><a href="https://vendorvoice.theregister.com/aws_new_horizon/">AWS New Horizon</a></li>
+            </ul>
+    </div>
+            <div>
+        <h3>Resources</h3>
+        <ul>
+            <li><a href="https://intelligence.theregister.com/">Whitepapers</a></li>
+            <li><a href="https://intelligence.theregister.com/events/list/">Webinars &amp; Events</a></li>
+            <li><a href="https://account.theregister.com/login?r=https%3A%2F%2Faccount.theregister.com%2Fedit%2Fnewsletter%2F">Newsletters</a></li>
+            </ul>
+    </div>
+            </div>
+        </section>
+        </nav>
+    </details>
+  </div>
+</header>
+
+    
+    <div aria-hidden="true" class="adun" data-pos="top" data-raptor="condor" data-xmd=",fluid,leaderboard," data-lg=",fluid,leaderboard," data-xlg=",fluid,superleaderboard,billboard,leaderboard," data-xxlg=",fluid,superleaderboard,billboard,brandwidth,leaderboard,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+
+<article>
+        <div id=top-col-story>
+            <div class="header_left">
+                <div class="cat_header">
+                    <h4 class="dcl">
+                        <a href="/software/oses/" aria-label="OSes">OSes</a>
+                    </h4>
+                </div>
+                <div class="comments_wrap mobile_only">
+        <a class="comment_count" aria-label="Read comments on this article, currently there are 32 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2025/10/14/ubuntu_2510_is_here/">
+            <strong aria-hidden="true">32</strong>
+            <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+        </a>
+                    </div>
+            </div>
+            <div class="header_right">
+
+<h1>Ubuntu 25.10 lands: Rustier and Wayland-ier, but Flatpak is broken</h1>            </div>
+
+
+            <div class="header_left">
+                <div class="comments_wrap desktop_only">
+        <a class="comment_count" aria-label="Read comments on this article, currently there are 32 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2025/10/14/ubuntu_2510_is_here/">
+            <strong aria-hidden="true">32</strong>
+            <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+        </a>
+                    </div>
+            </div>
+            <div class="header_right">
+<h2>Canonical's Questing Quokka waddles in at 5.7 GB with AppArmor woes</h2>
+                    <div class="byline_and_dateline_and_share_and_comments">
+                        <div class="byline_wrap">
+                            <img class="vulture_icon" src="/design_picker/d518b499f8a6e2c65d4d8c49aca8299d54b03012/graphics/icon/vulture_red.svg" alt="icon">
+                                <a class="byline" href="/Author/Liam-Proven" title="Read more by this author">
+Liam Proven                                </a>
+                        </div>
+                        <div class="dateline_wrap">
+                                <span class="dateline">
+Tue&nbsp;14&nbsp;Oct&nbsp;2025                                    <span class="slashes"> // </span>
+08:15&nbsp;UTC                                </span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    <div id=main-col>
+        <div id="article-wrapper" class="article_wrap">
+            <div class="left_col">
+                    <div class="floating_bar">
+                        <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_2">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken&amp;url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken&amp;summary=Canonical%27s%20Questing%20Quokka%20waddles%20in%20at%205.7%20GB%20with%20AppArmor%20woes" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                <div class="promo_advert">
+                </div>
+            </div>
+            <div class="centre_col">
+                <div id="article">
+                    <div id="body">
+<p>The latest interim release of Ubuntu is here, showcasing some significant changes. This isn't a long-term release, yet many of its differences will be in 26.04 next year.</p>
+<p>At the end of last week, Canonical <a target="_blank" href="https://discourse.ubuntu.com/t/ubuntu-25-10-questing-quokka-released/69067" rel="nofollow">released Ubuntu 25.10 "Questing Quokka,"</a> along with nine of the ten <a target="_blank" href="https://ubuntu.com/desktop/flavors" rel="nofollow">official flavors</a>. The <a target="_blank" href="https://discourse.ubuntu.com/t/questing-quokka-release-notes/59220/2" rel="nofollow">release notes</a> cover what's new.</p>
+<div class="CaptionedImage Center Border"><a href="https://regmedia.co.uk/2025/10/13/questing-gnome.jpg" target="_blank"><img src="https://regmedia.co.uk/2025/10/13/questing-gnome.jpg?x=648&amp;y=404&amp;infer_y=1" alt="Ubuntu 25.10 Questing Quokka showing the GNOME desktop and a terminal window" title="Questing has a wallaby-themed wallpaper, and the full install has 12 snap packages." height="404" width="648"/></a>
+<p class="text_center">Questing has a wallaby-themed wallpaper, and the full install has 12 snap packages</p>
+</div>
+<p>A fairly significant bug was discovered after the Quokka was released: <a target="_blank" href="https://bugs.launchpad.net/ubuntu/+source/flatpak/+bug/2122161" rel="nofollow">Flatpak is broken</a> due to a bug in how Ubuntu's <a target="_blank" href="https://apparmor.net/" rel="nofollow">AppArmor</a> security module handles the <a target="_blank" href="https://man7.org/linux/man-pages/man1/fusermount3.1.html" rel="nofollow"><code>fusermount3</code> command</a>. There is a <a target="_blank" href="https://bugs.launchpad.net/ubuntu/+source/flatpak/+bug/2122161/comments/5" rel="nofollow">workaround</a> and a fix is in progress. The Ubuntu desktop doesn't include Flatpak as standard and <a target="_blank" href="https://www.theregister.com/2023/02/23/ubuntu_remixes_drop_flatpak/">neither do any of the flavors</a>, but many users do prefer Flatpak to Canonical's own Snap format. So much so that Flatpak is the default in multiple downstream Ubuntu-based distros, notably Linux Mint but also including Elementary OS, Zorin OS, and <a target="_blank" href="https://www.theregister.com/2025/05/23/anduinos/">Anduin OS</a>.</p>
+<p>Ubuntu and its upstream Debian both use AppArmor, while most distros from the Red Hat family use <a target="_blank" href="https://github.com/selinuxproject" rel="nofollow">SELinux</a> instead. Notably, the recently released <a target="_blank" href="https://en.opensuse.org/Release_announcement_16.0" rel="nofollow">openSUSE Leap 16</a> switched from AppArmor to SELinux, as we reported when we <a target="_blank" href="https://www.theregister.com/2025/08/07/opensuse_leap_16_reaches_rc/">looked at the release candidate</a> in August.</p>
+<p>The missing flavor is Ubuntu Unity, of which there won't be a Questing version. On the <a target="_blank" href="https://t.me/ubuntuunitydiscuss" rel="nofollow">remix's Telegram channel</a>, admin <a target="_blank" href="https://wiki.ubuntu.com/Maik" rel="nofollow">Maik Adamietz</a> said:</p>
+<div class="blockextract">
+
+<p>We want to announce that there won't be a Ubuntu Unity 25.10 ISO release. During the testing phase bugs were discovered that we just couldn't fix in time for a respin of the ISO. We had to mark the ISO as not ready.</p>
+</div>
+<p><em>The Register</em> has already covered much of what's new in version 25.10. Instead of the GNU <code>coreutils</code>, it has <a target="_blank" href="https://www.theregister.com/2025/03/19/ubuntu_2510_rust/">new implementations in Rust</a>, including the <a target="_blank" href="https://www.theregister.com/2025/05/08/ubuntu_2510_makes_rusk_sudo_default/"><code>sudo</code> utility</a>. "Questing" includes a preview version of the <a target="_blank" href="https://www.theregister.com/2025/07/31/ubuntu_tpm_fde/">TPM-chip backed Full Disk Encryption system</a>, which Canonical has been working on for a couple of years.</p>
+<div class="CaptionedImage Center Border"><a href="https://regmedia.co.uk/2025/10/13/questing-budgie.jpg" target="_blank"><img src="https://regmedia.co.uk/2025/10/13/questing-budgie.jpg?x=648&amp;y=488&amp;infer_y=1" alt="Questing Budgie showing the Welcome screen." title="The Questing Budgie is a little smaller and cleaner – just nine snaps, for instance. Who's a pretty boy then?" height="488" width="648"/></a>
+<p class="text_center">The Questing Budgie is a little smaller and cleaner – just nine snaps, for instance. Who's a pretty boy then?</p>
+</div>
+<p>The default graphical desktop edition uses GNOME 49 with some new apps, as we <a target="_blank" href="https://www.theregister.com/2025/09/11/ubuntu_2510/">described when it reached beta</a>. As we <a target="_blank" href="https://www.theregister.com/2025/06/12/ubuntu_2510_to_drop_x11/">reported earlier in the development cycle</a>, only GNOME on Wayland is included. There's no X11 session. This also applies to <a target="_blank" href="https://kubuntu.org/news/kubuntu-25-10-questing-quokka-released/" rel="nofollow">Kubuntu 25.10</a>, which comes with KDE Plasma 6.4 and is equally Wayland-centric.</p>
+<ul class="listinks">
+
+<li><a href="https://www.theregister.com/2025/10/01/aurora_immutable_kde_workstation/">Aurora immutable KDE Plasma workstation: Big, slow, and confusing</a></li>
+
+<li><a href="https://www.theregister.com/2025/09/30/pop_os_2404_beta_released/">Pop! System76's 24.04 beta is here – complete with a beta of polarizing COSMIC</a></li>
+
+<li><a href="https://www.theregister.com/2025/09/25/bcachefs_dkms_modules/">Bcachefs goes DKMS after Torvalds' kernel banishment</a></li>
+
+<li><a href="https://www.theregister.com/2025/09/24/zorin_os_18_beta/">Zorin OS 18 beta makes Linux look like anything but Linux</a></li>
+</ul>
+<p>This implies a few important details that we feel we should spell out. Firstly, both Ubuntu 25.10 and Kubuntu 25.10 do install XWayland by default, so X11 apps work seamlessly. Secondly, this change doesn't apply to the other official flavors with other desktops, which still use X.org. This includes <a target="_blank" href="https://ubuntubudgie.org/2025/10/ubuntu-budgie-25-10-release-notes/" rel="nofollow">Ubuntu Budgie 25.10</a>, or "Questing Budgie" as we like to think of it – although that flavor team is aiming to be Wayland-only for version 26.04. In turn, the fact that the other desktops still use X11 means that all the X.org packages are still in the Ubuntu repositories, so you can install GNOME-on-X11 or Plasma-on-X11 sessions if you want or need them.</p>
+<p>On other platforms, there are deeper changes. The Raspberry Pi edition of Ubuntu has a new A/B boot mechanism, as described by Dave Jones, Canonical's boffin for all things Pi, in a <a target="_blank" href="https://waldorf.waveform.org.uk/2025/pull-yourself-up-by-your-bootstraps.html" rel="nofollow">blog post back in July</a>. It also defaults to doing a minimal installation. On other Arm64 hardware, the new universal ISO uses a <a target="_blank" href="https://discourse.ubuntu.com/t/spec-stubble-a-secure-boot-friendly-device-tree-loading-efi-stub/66278" rel="nofollow">new UEFI boot stub</a>, which is called <a target="_blank" href="https://github.com/ubuntu/stubble" rel="nofollow">stubble</a> and enables Secure Boot support on some hardware, such as some laptops with Qualcomm Snapdragon SoC.</p>
+
+    <div aria-hidden="true" class="adun" data-pos="top" data-raptor="condor" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=2&amp;c=2aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D2%26raptor%3Dcondor%26pos%3Dtop%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+
+<p>The RISC-V edition <a target="_blank" href="https://ubuntu.com/download/risc-v" rel="nofollow">requires</a> the new RVA23S64 ISA profile, which has the slight snag that means for now it only runs in emulation under QEMU. All nine of the existing supported RISC-V boards are stuck with Ubuntu 24.04.3 for the time being.</p>
+
+        <div aria-hidden="true" class="adun" data-pos="top" data-raptor="falcon" data-xmd=",fluid,mpu,leaderboard," data-lg=",fluid,mpu,leaderboard," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,leaderboard,mpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D4%26raptor%3Dfalcon%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D426raptor%3Dfalcon%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+<p>There are some less visible changes under the hood, such as new time sync tools, and the initramfs is now built with <code>dracut</code> instead of the old <code>initramfs-tools</code> package. Changes like this, and the new <code>coreutils</code> and <code>sudo</code> tools, will be invisible to most users – but they will affect some people with unusual configs. That, of course, is why they're happening in an interim release.</p>
+<p>The current interim release, Plucky Puffin, goes end of life in January – so Plucky users should upgrade to Questing before then. We <a target="_blank" href="https://www.theregister.com/2025/04/04/ubuntu_2504_beta/">called it Pudgy Puffin</a> for its 6 GB ISO size, and Questing is barely any smaller: the GNOME variant is a 5.7 GB download. It uses 1.7 GB of RAM at idle, and takes up 7 GB of disk. The weight gain doesn't affect the other flavors, though: it's something Gnomic.</p>
+
+        <div aria-hidden="true" class="adun" data-pos="top" data-raptor="falcon" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu,">
+            <noscript>
+                <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D4%26raptor%3Dfalcon%26pos%3Dmid%26test%3D0" target="_blank">
+                    <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=4&amp;c=44aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D426raptor%3Dfalcon%26pos%3Dmid%26test%3D0" alt="">
+                </a>
+            </noscript>
+        </div>
+
+<p>Questing Quokka will reach the end of its life in nine months, in July 2026. ®</p>                                <div class="wptl btm">
+                                    <noscript><strong>Get our</strong> <a href="https://whitepapers.theregister.com/" style="text-transform:uppercase">Tech Resources</a></noscript>
+                                </div>
+                    </div>
+
+
+
+                            <div class="article_body_btm mobile_only">
+                                <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+        <span>Share</span>
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_3">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken&amp;url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken&amp;summary=Canonical%27s%20Questing%20Quokka%20waddles%20in%20at%205.7%20GB%20with%20AppArmor%20woes" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+                            </div>
+                </div>
+            </div>
+
+            <div class="right_col desktop_only">
+                <div class="similar_topics">
+        <div class="similar_topics">
+            <h4>More about</h4>
+            <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+            </ul>
+        </div>
+    <div class="keyword_wrap" style="display: none;">
+        <div class="keyword_trigger">More like these</div>
+    </div>
+    <div class="lightbox_overlay">
+        <div class="keyword_popup more_topics">
+            <div class="close">&times;</div>
+                <div class="keyword_group similar_topics">
+                    <h3>More about</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group child_topics">
+                    <h3>Narrower topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Elementary%20OS/"
+        >
+            <span class="keyword_name">
+                Elementary OS
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group parent_topics">
+                    <h3>Broader topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Canonical/"
+        >
+            <span class="keyword_name">
+                Canonical
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Debian/"
+        >
+            <span class="keyword_name">
+                Debian
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+                </div>
+            </div>
+            <div class="right_col mobile_only">
+                <div class="similar_topics">
+                    <h4>More about</h4>
+                </div>
+            </div>
+
+
+            <div class="left_col main_content">
+                    <div class="sharing_block">
+                        <div class=article_body_btm>
+                            <div class="sharing_widget_story_desktop uses_overlay">
+    <button class="top_blob" aria-label="Share this story" title="Share this story">
+        <img width="25" height="25" src="/design_picker/d2e337b97204af4aa34dda04c4e5d56d954b216f/graphics/icons/social_share_icon.svg" alt="">
+        <span>Share</span>
+    </button>
+    <div class="sharing_widget_overlay" id="sharing_widget_overlay_4">
+        <div class="sharing_box">
+            <a data-social="reddit" href="https://www.reddit.com/submit?url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dreddit&amp;title=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken" target="_blank">
+
+            </a>
+            <a data-social="twitter" class="twit" href="https://twitter.com/intent/tweet?text=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken&amp;url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dtwitter&amp;via=theregister" target="_blank">
+
+            </a>
+            <a data-social="facebook" class="faceb_dialog" href="https://www.facebook.com/dialog/feed?app_id=1404095453459035&amp;display=popup&amp;link=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dfacebook" target="_blank">
+
+            </a>
+            <br class="hide_after_sm">
+            <a data-social="linkedin" class="linkedin_social" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dlinkedin&amp;title=Ubuntu%2025.10%20lands%3a%20Rustier%20and%20Wayland-ier%2c%20but%20Flatpak%20is%20broken&amp;summary=Canonical%27s%20Questing%20Quokka%20waddles%20in%20at%205.7%20GB%20with%20AppArmor%20woes" target="_blank">
+
+            </a>
+            <a data-social="whatsapp" href="https://api.whatsapp.com/send?text=https://www.theregister.com/2025/10/14/ubuntu_2510_is_here/%3futm_medium%3dshare%26utm_content%3darticle%26utm_source%3dwhatsapp" target="_blank">
+
+            </a>
+        </div>
+    </div>
+</div>
+
+
+                        </div>
+                    </div>
+            </div>
+
+            <div class="centre_col main_content">
+        <div class="comments ">
+            <a class="comment_count" aria-label="Read comments on this article, currently there are 32 comments" title="View comments on this article" href="https://forums.theregister.com/forum/all/2025/10/14/ubuntu_2510_is_here/">
+                <strong aria-hidden="true">32</strong>
+                <img aria-hidden="true" width="18" height="16" alt="comment bubble on white" src="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.png" srcset="/design_picker/f5daacc84b9722c1e31ba85f836c37e4ad993fc4/graphics/icons/bubble_comment_white.svg">
+                    COMMENTS
+            </a>
+        </div>
+                </div>
+            <div class="hidden_col mobile_only">
+        <div class="similar_topics">
+            <h4>More about</h4>
+            <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+            </ul>
+        </div>
+    <div class="keyword_wrap" style="display: none;">
+        <div class="keyword_trigger">More like these</div>
+    </div>
+    <div class="lightbox_overlay">
+        <div class="keyword_popup more_topics">
+            <div class="close">&times;</div>
+                <div class="keyword_group similar_topics">
+                    <h3>More about</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Ubuntu/"
+        >
+            <span class="keyword_name">
+                Ubuntu
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group child_topics">
+                    <h3>Narrower topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Elementary%20OS/"
+        >
+            <span class="keyword_name">
+                Elementary OS
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+                <div class="keyword_group parent_topics">
+                    <h3>Broader topics</h3>
+                    <ul class="keywords">
+    <li>
+        <a
+            href="/Tag/Canonical/"
+        >
+            <span class="keyword_name">
+                Canonical
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Debian/"
+        >
+            <span class="keyword_name">
+                Debian
+            </span>
+        </a>
+    </li>
+    <li>
+        <a
+            href="/Tag/Operating%20System/"
+        >
+            <span class="keyword_name">
+                Operating System
+            </span>
+        </a>
+    </li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+            </div>
+            <div class="right_col main_content">
+
+    <div class="tip_off_widget">
+        <h4>TIP US OFF</h4>
+        <p><a href="https://www.theregister.com/Profile/contact/" target="_blank">Send us news</a></p>
+    </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+        <hr id=story_section_break>
+                <script>
+                    RegWpTl = [
+                        '<a href="https://go.theregister.com/tl/3346/shttps://go.theregister.com/k/reg-preferred-sources">No more fake tech news! Add The Register to your Preferred Sources in Google Search<\/a>'
+                    ];
+                </script>
+    <div id=story-bot-col>
+        <h3 style="position:absolute;color:transparent;z-index:-1;">Other stories you might like</h3>
+        <div id="aua" data-unit-type="aua" class="keepreading">
+            <div class=headlines>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2025/10/20/xubuntu_website_compromised/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2015/07/13/crypto_325345456456.jpg"></div>        <div class="article_text_elements">
+            <h4>Xubuntu downloads section injection threatens users with crypto infection</h4>
+            <div class=standfirst>Attempted exploit was a feeble effort to target Windows users</div>
+            <div class=time_comments>
+                <span class="section_name">Cybersecurity Month</span><span class="time_stamp" title="20 Oct 2025 19:19" data-epoch="1760987957">20 Oct 2025</span> | <span class="comment light_bg_comments">2</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/09/30/pop_os_2404_beta_released/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2016/11/01/shutterstock_214674865.jpg"></div>        <div class="article_text_elements">
+            <h4>Pop! System76's 24.04 beta is here – complete with a beta of polarizing COSMIC</h4>
+            <div class=standfirst>Twice the betas and twice the crashes means twice the fun, right?</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="30 Sep 2025 15:22" data-epoch="1759245750">30 Sep 2025</span> | <span class="comment light_bg_comments">12</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/09/24/zorin_os_18_beta/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2025/09/24/zorin-18-menu.jpg"></div>        <div class="article_text_elements">
+            <h4>Zorin OS 18 beta makes Linux look like anything but Linux</h4>
+            <div class=standfirst>Windows, macOS, Cinnamon, even iPadOS – all just a layout switch away</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="24 Sep 2025 16:15" data-epoch="1758730513">24 Sep 2025</span> | <span class="comment light_bg_comments">64</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2026/02/18/why_flexibility_will_define/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2021/06/23/shutterstock_nutanix_editorial_only.jpg"></div>        <div class="article_text_elements">
+            <h4>Why flexibility will define the future of functionality</h4>
+            <div class=standfirst>Enterprise infrastructure choices shouldn't have to be hostages to compromise. Cisco FlashStack with Nutanix sets out to break the deadlock</div>
+            <div class=time_comments><span class="section_name">Sponsored Feature</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+
+    <div aria-hidden="true" class="adun" data-pos="btm" data-raptor="hawk" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu," data-xmd=",fluid,leaderboard,mpu,dmpu," data-lg=",fluid,mpu,leaderboard,dmpu," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard,dmpu," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,mpu,leaderboard,dmpu,">
+        <noscript>
+            <a href="https://pubads.g.doubleclick.net/gampad/jump?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=6&amp;c=66aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D6%26raptor%3Dhawk%26pos%3Dbtm%26test%3D0" target="_blank">
+                <img src="https://pubads.g.doubleclick.net/gampad/ad?co=1&amp;iu=/6978/reg_software/oses&amp;sz=300x50%7C300x100%7C300x250%7C300x251%7C300x252%7C300x600%7C300x601&amp;tile=6&amp;c=66aenwj-w7XsGDslzBAWMwWAAAAM4&amp;t=ct%3Dns%26unitnum%3D6%26raptor%3Dhawk%26pos%3Dbtm%26test%3D0" alt="">
+            </a>
+        </noscript>
+    </div>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2025/09/22/fedora_ubuntu_betas/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2015/07/24/green_light.jpg"></div>        <div class="article_text_elements">
+            <h4>You can now test drive Fedora 43 and Ubuntu 25.10</h4>
+            <div class=standfirst>Spooky season is nearly here. Want to be scared? There are fresh betas to try</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="22 Sep 2025 17:41" data-epoch="1758562876">22 Sep 2025</span> | <span class="comment light_bg_comments">11</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/09/11/ubuntu_2510/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2025/07/31/shutterstock_quokka.jpg"></div>        <div class="article_text_elements">
+            <h4>'Questing Quokka' enters UI freeze as Ubuntu 25.10 nears release</h4>
+            <div class=standfirst>Rust coreutils, TPM encryption, and GNOME 49 line up for October debut</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="11 Sep 2025 6:30" data-epoch="1757572206">11 Sep 2025</span> | <span class="comment light_bg_comments">10</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/09/08/canonical_server_outage/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2021/02/17/outage1.jpg"></div>        <div class="article_text_elements">
+            <h4>Ubuntu users left waiting after Canonical's servers take weekend off</h4>
+            <div class=standfirst>Package queues jammed until Monday despite brief downtime</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="8 Sep 2025 14:59" data-epoch="1757343548">8 Sep 2025</span> | <span class="comment light_bg_comments">27</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/08/08/ubuntu_24043_quietly_slips_out/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2022/04/07/shutterstock_penguin.jpg"></div>        <div class="article_text_elements">
+            <h4>Ubuntu 24.04.3: Noble Numbat point release slips out quietly</h4>
+            <div class=standfirst>Bugs in the current LTS are getting squished</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="8 Aug 2025 16:25" data-epoch="1754670314">8 Aug 2025</span> | <span class="comment light_bg_comments">15</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+                        <div class="srow rt-1b">
+<article>
+    <a href="/2025/07/31/ubuntu_tpm_fde/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2025/07/31/shutterstock_quokka.jpg"></div>        <div class="article_text_elements">
+            <h4>Canonical dusts off TPM encryption for Ubuntu 25.10</h4>
+            <div class=standfirst>Passwordless disk locking is coming, a couple of years later than hoped</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="31 Jul 2025 14:15" data-epoch="1753971306">31 Jul 2025</span> | <span class="comment light_bg_comments">63</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/07/03/canonical_java_extra_shot/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2021/03/23/shutterstock_coffee.jpg"></div>        <div class="article_text_elements">
+            <h4>Canonical adds extra shots to Ubuntu Java</h4>
+            <div class=standfirst>Juices the tooling and support for developers and enterprise customers</div>
+            <div class=time_comments>
+                <span class="section_name">Software</span><span class="time_stamp" title="3 Jul 2025 10:39" data-epoch="1751539152">3 Jul 2025</span> | <span class="comment light_bg_comments">4</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/06/12/ubuntu_2510_to_drop_x11/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2023/04/14/shutterstock_brokengnome.jpg"></div>        <div class="article_text_elements">
+            <h4>Ubuntu 25.10 and Fedora 43 to drop X11 in GNOME editions</h4>
+            <div class=standfirst>Distros align with GNOME 49's move to make Wayland the only supported session</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="12 Jun 2025 16:33" data-epoch="1749745992">12 Jun 2025</span> | <span class="comment light_bg_comments">72</span></div>
+        </div>
+    </a>
+</article>
+<article>
+    <a href="/2025/05/23/anduinos/?td=keepreading" class=story_link>
+
+        <div class="packed_img story_grid_img" data-width=150 data-height=100 data-src="/2025/05/22/anduinos_start.jpg"></div>        <div class="article_text_elements">
+            <h4>What would a Microsoft engineer do to Ubuntu? AnduinOS is the answer</h4>
+            <div class=standfirst>It's not radical, but it is slim and pretty – usually a winning combination</div>
+            <div class=time_comments>
+                <span class="section_name">OSes</span><span class="time_stamp" title="23 May 2025 11:27" data-epoch="1747999627">23 May 2025</span> | <span class="comment light_bg_comments">78</span></div>
+        </div>
+    </a>
+</article>
+                        </div>
+            </div>
+    <div aria-hidden="true" class="adun" data-pos="btm" data-raptor="owl" data-xsm=",fluid,mpu,dmpu," data-sm=",fluid,mpu,dmpu," data-md=",fluid,mpu,dmpu," data-xmd=",fluid,leaderboard,mpu,dmpu," data-lg=",fluid,mpu,leaderboard,dmpu," data-xlg=",fluid,billboard,superleaderboard,mpu,leaderboard,dmpu," data-xxlg=",fluid,billboard,superleaderboard,brandwidth,brandimpact,mpu,leaderboard,dmpu,"></div>
+
+        </div>
+    </div><footer class="site-footer">
+  <div class="site-footer--slogan">
+    <a href="https://www.theregister.com/">
+      <span class="footer--visually-hidden">The Register Home Page</span>
+      <img class="site-footer--the-register-logo" src="https://cdn.theregister.com/assets/images/the_register_logo.6befe899.svg" alt="">
+    </a>
+    <p>Biting the hand that feeds IT</p>
+  </div>
+  <div class="site-footer--wrapper">
+    <nav class="site-footer--nav" aria-label="Footer">
+      <div class="site-footer--group">
+        <h2>About Us</h2>
+        <ul>
+        <li>
+            <a href="https://www.theregister.com/Profile/contact/">Contact us</a>
+          </li>
+        <li>
+            <a href="https://situationpublishing.com/contact/" target="_blank" rel="noopener">Advertise with us</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/about_the_register/">Who we are</a>
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer--group">
+        <h2>Our Websites</h2>
+        <ul>
+        <li>
+            <a href="https://www.nextplatform.com/" target="_blank" rel="noopener">The Next Platform</a>
+          </li>
+        <li>
+            <a href="https://devclass.com/" target="_blank" rel="noopener">DevClass</a>
+          </li>
+        <li>
+            <a href="https://blocksandfiles.com/" target="_blank" rel="noopener">Blocks and Files</a>
+          </li>
+        </ul>
+      </div>
+      <div class="site-footer--group">
+        <h2>Your Privacy</h2>
+        <ul>
+        <li>
+            <a href="https://www.theregister.com/Profile/cookies/">Cookies Policy</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/privacy/">Privacy Policy</a>
+          </li>
+        <li>
+            <a href="https://www.theregister.com/Profile/terms_and_conditions_of_use/">Ts &amp; Cs</a>
+          </li>
+        </ul>
+      </div>
+      </nav>
+    <div class="site-footer--copyright">
+      <a href="https://situationpublishing.com/">
+        <span class="footer--visually-hidden">Situation Publishing</span>
+        <img class="footer--sitpub-logo-two-lines" src="https://cdn.theregister.com/assets/images/situation_publishing_logo_two_lines.7bfa3d3e.svg" alt="">
+        <img class="footer--sitpub-logo-one-line" src="https://cdn.theregister.com/assets/images/situation_publishing_logo_one_line.b1e3235b.svg" alt="">
+      </a>
+      <p>Copyright.
+        <span class="footer--no-wrap">All rights reserved</span>
+        <span class="footer--no-wrap">&copy; 1998&ndash;2026</span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<div id=end_scripts>
+        <script>
+            if (typeof(ElReg.Ga.sendPageView) === 'function') {
+                ElReg.Ga.sendPageView('reg_software/oses','76bab59aa225af92fb7beef301a4ba8c','76bab59aa225af92fb7beef301a4ba8c');
+            }
+        </script>
+    <script>
+        $(function() { RegUtils.set_bucket_group(776) });
+    </script>
+</div></div>
+</body>
+</html>
