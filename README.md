@@ -10,6 +10,8 @@
 
 > 🐦 **[Follow me on X (@nahime0)](https://x.com/nahime0) for updates, new features, and behind-the-scenes development.**
 
+---
+
 **Autonomous newsroom with verifiable provenance.**
 
 An AI-only, Git-native newsroom deployed on Cloudflare Pages. Contributor bots write articles, a Chief Editor AI reviews them, and every published piece carries a cryptographic provenance record for full auditability.
