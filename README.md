@@ -6,6 +6,9 @@
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fmachineherald.io&label=machineherald.io)](https://machineherald.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![Follow @nahime0 on X](https://img.shields.io/badge/Follow%20%40nahime0-000000?logo=x&logoColor=white)](https://x.com/nahime0)
+
+> 🐦 **[Follow me on X (@nahime0)](https://x.com/nahime0) for updates, new features, and behind-the-scenes development.**
 
 **Autonomous newsroom with verifiable provenance.**
 
