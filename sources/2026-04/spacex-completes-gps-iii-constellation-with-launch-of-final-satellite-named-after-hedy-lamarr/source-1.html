@@ -1,0 +1,2076 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+<!-- begin spin_special_output(head_start) -->
+<script type="text/javascript" wd_script_id="view_printable_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+	function view_printable() {
+		var loc = window.location;
+		var sep = (loc.search == "") ? "?" : "&";
+		var url = loc.protocol+"//"+loc.host+loc.pathname+loc.search+sep+"printable"+loc.hash;
+		window.open(url, "_blank", "");
+	}
+</script>
+<link href="thirdparty/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" wd_script_id="font-awesome.min.css">
+<style type="text/css" wd_script_id="toolbar_style" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+			div.wd_toolbar {
+				border-top: 1px solid #cccccc;
+				border-bottom: 1px solid #cccccc;
+				margin: 15px 0px 15px 0px;
+				padding: 5px;
+				line-height: 1;
+			}
+			div.wd_toolbar-page {
+				clear: both;
+			}
+			div.wd_toolbar ul.wd_tools {
+				display: inline-block;
+				width: 100%;
+				margin: 0;
+				padding: 5px 0;
+			}
+			div.wd_toolbar ul.wd_tools li.wd_tool {
+				display: block;
+				list-style-type: none;
+				margin-right: 5px;
+				padding: 0;
+				float: right;
+			}
+			span.wd_tool_icon > a:link,
+			span.wd_tool_icon > a:visited {
+				border-radius: 2px;
+				display: inline-block;
+				width: 30px;
+				height: 30px;
+				box-sizing: border-box;
+				margin: 0;
+				padding: 7px;
+				font-size: 16px;
+				line-height: 1;
+				text-align: center;
+				color: #ffffff;
+				background-color: #767676;
+			} 
+			span.wd_tool_icon > a:hover {
+				color: #ffffff;
+				background-color: #666666;
+				text-decoration: none;
+			}
+			div.wd_toolbar ul.wd_tools li.wd_tool-addthis {
+				float: left;
+			}
+		</style>
+<script type="text/javascript" src="js/jquery-webdriver.js" wd_script_id="jquery-webdriver.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<script type="text/javascript" src="js/webdriver.js" wd_script_id="webdriver.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<script type="text/javascript" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">webDriver.push_jQuery();</script>
+<script type="text/javascript" src="js/jquery-ui.js" wd_script_id="jquery-ui.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<script type="text/javascript" src="js/wd_resize.js" wd_script_id="wd_resize.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<link href="css/wd_modal.css" type="text/css" rel="stylesheet" wd_script_id="wd_modal.css">
+<link href="css/wd_wcag.css" type="text/css" rel="stylesheet" wd_script_id="wd_wcag.css">
+<script type="text/javascript" wd_script_id="wd_modal_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+(function($) {
+	webDriver.resizeModal = function() {
+		$(this).find(".wd_modal").wd_modal("resize");
+		return false;
+	}
+	
+	var modals = [];
+		
+	function _value(value, base) {
+		if (typeof value == "string" && value.indexOf("%") > 0) {
+			return  base * parseInt(value, 10) / 100;
+		} else {
+			return parseInt(value, 10);
+		}
+	}
+	
+	var wd_modal = function(element, options) {
+		this.init(element, options);
+	};
+	
+	wd_modal.prototype = {
+		init: function(element, options) {
+			var self = this;
+			
+			this.isOpen = false;
+			this.opener = null;
+			
+			this.$element = $(element);
+			this._options = {
+				autoOpen: false,
+				closeExisting: false,
+				closeOnEscape: true,
+				closeOnOverlayClick: true,
+				fadeDuration: null,
+				margin: "10%",
+				padding: 10
+			};
+			
+			this.options(options);
+			
+			this.$overlay = $("<div>").addClass("wd_modal-overlay").attr("wd_resize","resizeModal").appendTo($("body")).hide();
+			this.$outer = $("<div>").addClass("wd_modal-outer").appendTo(this.$overlay);
+			this.$inner = $("<div>").addClass("wd_modal-inner").appendTo(this.$outer).append(this.$element);
+			// Hack because I can't figure out where the extra few pixels at the bottom of the content are coming from
+			this.$inner.css("overflow-y", "hidden");
+			this.$close = $("<a class=\"wd_modal-close fa fa-times\" href=\"#close\" title=\"Close\"><span class=\"wd_sr-only\">Close Dialog<\/span><\/a>")
+					.on("click", function(event) {self.close(); event.preventDefault();})
+					.appendTo(this.$outer);
+			this.$element.addClass("wd_modal");
+			
+			if (this._options.autoOpen)
+				this.open(this._options.closeExisting);
+		},
+		
+		options: function(options) {
+			if (options) {
+				$.extend(this._options, options);
+
+				this._options.fadeDuration = parseInt(this._options.fadeDuration, 10);
+				if (isNaN(this._options.fadeDuration))
+					this._options.fadeDuration = false;
+				
+				if (!$.isArray(this._options.margin))
+					this._options.margin = [this._options.margin];
+				if (this._options.margin.length < 2)
+					this._options.margin[1] = this._options.margin[0];
+				if (this._options.margin.length < 3)
+					this._options.margin[2] = this._options.margin[0];
+				if (this._options.margin.length < 4)
+					this._options.margin[3] = this._options.margin[1];
+				
+				if (!$.isArray(this._options.padding))
+					this._options.padding = [this._options.padding];
+				if (this._options.padding.length < 2)
+					this._options.padding[1] = this._options.padding[0];
+				if (this._options.padding.length < 3)
+					this._options.padding[2] = this._options.padding[0];
+				if (this._options.padding.length < 4)
+					this._options.padding[3] = this._options.padding[1];
+			} else {
+				return this._options;
+			}
+		},
+		
+		reload: function(options) {
+			if (options) {
+				this.options(options);
+			}
+			
+			this.resize();
+		},
+		
+		open: function(closeExisting, now) {
+			if (this.isOpen)
+				return;
+			
+			var self = this;
+			var myCloseExisting = closeExisting;
+			
+			if (!this.opener)
+				this.opener = document.activeElement;
+
+			if (closeExisting && modals.length > 0) {
+				for (var i = modals.length - 1; i >= 0; --i)
+					modals[i].close(true, true);
+			}
+
+			this.$overlay.addClass("wd_modal-current");
+			$("body").append(this.$overlay);
+
+			if (!now && this._options.fadeDuration) {
+				this.$overlay.fadeIn(this._options.fadeDuration, function() {self.open(myCloseExisting, true);});
+			} else {
+				if (modals.length == 0) {
+					$("body").css("overflow","hidden");
+					$(document).on("keydown.wd_modal", function (event) {
+						var current = modals[modals.length - 1];
+						if ((event.which == 27 || event.keyCode == 27) && current._options.closeOnEscape) {
+							current.close();
+							event.stopImmediatePropagation();
+							event.preventDefault();
+						}
+					});
+				}
+
+				if (this._options.closeOnOverlayClick) {
+					this.$overlay.on("click.wd_modal", function (event) {
+						if (event.target == this) {
+							self.close();
+							event.preventDefault();
+						}
+					});
+				}
+
+				modals.push(this);
+				
+				this.$overlay.show();
+				
+				var $focus = this.$element.find(":focusable");
+				if ($focus.length > 0)
+					$focus[0].focus();
+				
+				this.isOpen = true;
+
+				this.$element.trigger("open");
+			}
+		},
+		
+		close: function(skipCurrent, now) {
+			if (!this.isOpen)
+				return;
+			
+			this.$element.trigger("beforeClose");
+			
+			// TODO: allow closing of lower modals
+			modals.pop();
+			
+			if (modals.length == 0) {
+				$("body").css("overflow","");
+				$(document).off("keydown.wd_modal");
+			}
+			
+			this.$overlay.off("click.wd_modal");
+			
+			if (this.opener) {
+				this.opener.focus();
+				this.opener = null;
+			}
+			
+			this.isOpen = false;
+			this.$overlay.removeClass("wd_modal-current").hide();
+			
+			if (!skipCurrent && modals.length > 0)
+				modals[modals.length-1].$overlay.addClass("wd_modal-current");
+			
+			this.$element.trigger("close");
+		},
+		
+		destroy: function() {
+			this.close(false, true);
+			$("body").append(this.$element);
+			this.$overlay.remove();
+		},
+		
+		resize: function() {
+			if (!this.isOpen)
+				return;
+			
+			var self = this;
+			var winWidth = $(window).width();
+			var winHeight = $(window).height();
+			
+			var margin = this._options.margin;
+			var padding = this._options.padding;
+			
+			var width = winWidth - _value(margin[1], winWidth) - _value(margin[3], winWidth) - _value(padding[1], winWidth) - _value(padding[1], winWidth);
+			var height = winHeight - _value(margin[0], winHeight) - _value(margin[2], winHeight) - _value(padding[0], winHeight) - _value(padding[2], winHeight);
+			
+			this.$inner.css("max-width", width);
+			this.$inner.css("max-height", height);
+			
+			$.each(["Top", "Right", "Bottom", "Left"], function(i, v) {
+				self.$outer.css("padding" + v, _value(padding[i])+"px");
+			});
+			
+			var fixed = this.$element.find("[wd_need_fixed_container]").is(":visible");
+			
+			this.$inner.css("width", width);
+			this.$inner.css("height", height);
+
+			webDriver.doResize(this.$inner);
+			
+			if (!fixed) {
+				this.$inner.css("width", "auto");
+				this.$inner.css("height", "auto");
+				if (this.$element.outerHeight() > height)
+					this.$inner.css("height", height);
+				if (this.$element.outerWidth() > width)
+					this.$inner.css("width", width);
+			}
+		}
+	};
+
+	$.fn.wd_modal = function(options) {
+		if (options == "exists") {
+			return !!$(this).data("wd_modal");
+		} else if (typeof options == "string") {
+            var instance = $(this).data("wd_modal");
+			if (!instance)
+				return null;
+			var args = Array.prototype.slice.call(arguments, 1);
+            return instance[options].apply(instance, args);
+        } else {
+            return this.each(function() {
+                var instance = $(this).data("wd_modal");
+                if (instance) {
+                    instance.reload(options);
+                } else {
+                    $(this).data("wd_modal", new wd_modal(this, options));
+                }
+            });
+        }
+    };
+})(webDriver.jQuery);
+</script>
+<script type="text/javascript" src="js/wd_hashchange.js" wd_script_id="wd_hashchange.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<script type="text/javascript" wd_script_id="asset_modal_support_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+			(function($) {
+				var prev_group_id = "";
+				var prev_type_id = "";
+				var prev_item_id = "";
+				var prev_hash = false;
+				var on_close = "back";
+				function hash_update() {
+					var hash = window.location.hash || "#";
+					if (hash == prev_hash) return;
+
+					var type_id = "";
+					var item_id = ""
+					var group_id = "main";
+
+					var apos = hash.indexOf("assets_");
+					if (apos >= 0) {
+						type_id = hash.substr(apos+7);
+
+						var dpos = type_id.indexOf("-");
+						if (dpos >= 0) {
+							group_id = type_id.substr(0, dpos);
+							type_id = type_id.substr(dpos+1);
+						}
+
+						var cpos = type_id.indexOf(":");
+						if (cpos >= 0) {
+							item_id = type_id.substr(cpos+1);
+							type_id = type_id.substr(0, cpos);
+						}
+					}
+
+					if (type_id == "")
+						type_id = "all";
+
+					if ((type_id != prev_type_id || group_id != prev_group_id) && item_id == "") {
+						var $carousel = $(".wd_asset_carousel_"+group_id+"_list")
+						if ($carousel.length > 0)
+							$carousel.wd_carousel("filter", (type_id == "all") ? false : ".wd_asset_type_"+type_id);
+
+						var $slideshow = $(".wd_asset_slideshow_"+group_id+"_list")
+						if ($slideshow.length > 0)
+							$slideshow.wd_slideshow("filter", (type_id == "all") ? false : ".wd_asset_type_"+type_id);
+
+						$(".wd_asset_carousel_type_link").removeClass("wd_active");
+						$(".wd_asset_carousel_type_link.wd_asset_type_"+type_id).addClass("wd_active");
+
+						prev_type_id = type_id;
+						on_close = "back";
+					}
+
+					if (type_id != prev_type_id || item_id != prev_item_id || group_id != prev_group_id) {
+						if (item_id == "") {
+							var save_close = on_close;
+							on_close = false;
+							hide_asset_modal();
+							on_close = save_close;
+						} else {
+							load_asset_modal(group_id, type_id, item_id);
+						}
+						set_social_share_data();
+
+						prev_item_id = item_id;
+
+						if (prev_hash === false)
+							on_close = "reset";
+					}
+
+					prev_group_id = group_id;
+					prev_hash = hash;
+				}
+
+				hide_asset_modal = function() {
+					$(".wd_asset_modal").wd_modal("close");
+				}
+
+				load_asset_modal = function(group_id, type_id, item_id) {
+					var $modal = $(".wd_asset_modal_"+group_id);;
+					if ($modal.length == 0)
+						return;
+
+					if (!$modal.wd_modal("exists")) {
+						$modal.wd_modal({
+							autoOpen: false,
+						});
+
+						$modal.show();
+
+						$modal.on("close", function() {
+							if (on_close == "back") {
+								history.back();
+							} else if (on_close == "reset") {
+								var href = window.location.href;
+								href = href.replace(/#.*$/, "#assets_all");
+								window.location.replace(href);
+							}
+						});
+					}
+
+					$modal.wd_modal("open", true);
+					
+					var $slideshow = $(".wd_asset_slideshow_"+group_id+"_list");
+					if ($slideshow.length > 0) {
+						var $slideshow_item = $slideshow.find(".wd_asset_"+type_id+"-"+item_id).not(".wd_clone");
+						if ($slideshow_item.length > 0)
+							$slideshow.wd_slideshow("scrollToItem", $slideshow_item);
+					}
+
+					var $carousel = $(".wd_asset_carousel_"+group_id+"_list");
+					if ($carousel.length > 0) {
+						var $carousel_item = $carousel.find(".wd_asset_"+type_id+"-"+item_id).not(".wd_clone");
+						if ($carousel_item.length > 0)
+							$carousel.wd_carousel("scrollToItem", $carousel_item);
+					}
+				}
+				
+				set_social_share_data = function() {
+					var href = window.location.href.replace("#", "#!");
+					window.addthis_share = {
+						url: href
+					}
+				}
+				
+				$(function() {
+					setTimeout(hash_update, 10);
+					$(window).hashchange(hash_update);
+				});
+			})(webDriver.jQuery);
+		</script>
+<style type="text/css" wd_script_id="asset_modal_support_style" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+			.wd_asset_modal .wd_captioned_image {
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.wd_asset_modal img {
+				max-width: 100%;
+				max-height: 100%;
+			}
+			.wd_asset_modal div.wd_toolbar.wd_toolbar-asset_modal {
+				position: fixed;
+				background: transparent;
+				top: 5%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				border: none;
+				margin: 0;
+			}
+		</style>
+<style type="text/css" wd_script_id="asset_inline_style" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+			.wd_asset_inline_list {
+				width: 50%;
+				float: right;
+				clear: right;
+				margin: 0 0 0 10px;
+			}
+			.wd_asset_inline {
+				background-color: #666666;
+			}
+			.wd_asset_inline_list div.wd_toolbar {
+				border: none;
+				font-size: 10px;
+				position: relative;
+			}
+			.wd_asset_inline_list span.wd_tool_icon a {
+				font-size: 10px;
+				width: 16px;
+				height: 16px;
+				padding: 3px;
+			}
+		</style>
+<script type="text/javascript" src="js/wd_imagesloaded.js" wd_script_id="wd_imagesloaded.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<script type="text/javascript" src="js/wd_scriptloader.js" wd_script_id="wd_scriptloader.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<link href="css/wd_slideshow.css" type="text/css" rel="stylesheet" wd_script_id="wd_slideshow.css">
+<script type="text/javascript" wd_script_id="wd_slideshow_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+(function($, undefined) {
+	webDriver.resizeSlideshow = function() {
+		$(this).find(".wd_slideshow-list").wd_slideshow("resize");
+		return false;
+	}
+	
+	var wd_slideshow = function(element, options) {
+		this.init(element, options);
+	};
+	
+	wd_slideshow.prototype = {
+		init: function(element, options) {
+			var self = this;
+			
+			this.$element = $(element);
+			this._options = {
+				selector: "li",
+				preload: false,
+				"class": "",
+				resize: "container" // children, self, container
+			};
+			
+			this.options(options);
+			
+			this.$container = $("<div>").addClass("wd_slideshow").attr("wd_resize","resizeSlideshow").attr("tabindex","-1").insertBefore(this.$element);
+			if (this._options["class"])
+				this.$container.addClass(this._options["class"]);
+			this.$cropper = $("<div>").addClass("wd_slideshow-cropper").appendTo(this.$container);
+			this.$element
+					.addClass("wd_slideshow-list")
+					.appendTo(this.$cropper)
+			;
+			this.$prev = $("<a class=\"wd_slideshow-arrow wd_slideshow-prev fa fa-chevron-left\" href=\"#prev\" title=\"Previous\"><span class=\"wd_sr-only\">Previous Item<\/span><\/a>")
+					.on("click", function(event) {
+						self.prev();
+						event.preventDefault();
+					})
+					.appendTo(this.$container);
+			this.$next = $("<a class=\"wd_slideshow-arrow wd_slideshow-next fa fa-chevron-right\" href=\"#next\" title=\"Next\"><span class=\"wd_sr-only\">Next Item<\/span><\/a>")
+					.on("click", function(event) {
+						self.next();
+						event.preventDefault();
+					})
+					.appendTo(this.$container);
+			
+			this.$container.on("keydown.wd_slideshow", function (event) {
+				var key = event.which || event.keyCode;
+				if (key == 37) {
+					self.prev();
+					event.stopImmediatePropagation();
+					event.preventDefault();
+				}
+				if (key == 39) {
+					self.next();
+					event.stopImmediatePropagation();
+					event.preventDefault();
+				}
+			});
+
+			this.$items = this.$element.children(this._options.selector);
+			this.$items.addClass("wd_slideshow-item");
+			
+			// Remove any non-items (e.g. unintended text nodes)
+			this.$element.empty();
+			this.$element.append(this.$items);
+
+			this.navEnabled = true;
+			this.currentIndex = 0;
+			this.$currentItem = this.$items.eq(0);
+			
+			if (this._options.preload)
+				this.load_next();
+		},
+		
+		options: function(options) {
+			if (options) {
+				$.extend(this._options, options);
+			} else {
+				return this._options;
+			}
+		},
+		
+		reload: function(options) {
+			if (options) {
+				this.options(options);
+			}
+			
+			this.reset();
+		},
+
+		reset: function() {
+			this.$items.data("wd_slideshow-index", null);
+			
+			var $children = this.$element.children();
+			this.itemCount = $children.length;
+			$children.each(function(index) {
+				$(this).data("wd_slideshow-index", index);
+			});
+
+			this.hideNav(this.itemCount < 2);
+			
+			var index = this.$currentItem.data("wd_slideshow-index");
+			if (!index)
+				index = 0;
+			
+			this.scrollToIndex(index, false);
+		},
+				
+		hideNav: function(hide) {
+			this.$prev.toggle(!hide);
+			this.$next.toggle(!hide);
+			this.navEnabled = !hide;
+		},
+				
+		item_loaded: function(item) {
+			var $item = $(item);
+			return ($item.children().length > 0 || !$item.attr("wd_ajax_url"));
+		},
+				
+		load_next: function() {
+			var self = this;
+			var next = null;
+			var $children = this.$element.children().not(".wd_clone");
+
+			var after = this.currentIndex;
+			var before = this.currentIndex;
+			while (after < $children.length || before >= 0) {
+				if (after < $children.length && !this.item_loaded($children[after])) {
+					next = $children[after];
+					break;
+				}
+				++after;
+				if (before >= 0 && !this.item_loaded($children[before])) {
+					next = $children[before];
+					break;
+				}
+				--before;
+			}
+			
+			if (!next) {
+				var $filtered = this.$items.remove($children);
+
+				$filtered.each(function() {
+					if (!self.item_loaded(this)) {
+						next = this;
+						return false;
+					}
+				});
+			}
+			
+			if (next)
+				this.load_item(next, function() {self.load_next();});
+		},
+		
+		load_item: function(item, on_complete) {
+			var self = this;
+			var $item = $(item);
+			var complete = on_complete;
+			
+			if (!this.item_loaded($item)) {
+				$item.html("<div>Loading...</div>");
+				$item.addClass("wd_loading");
+				$item.load(
+					$item.attr("wd_ajax_url"),
+					function(response, status, xhr) {
+						if ($item.children().length == 0)
+							$item.append("<div>No content</div>");
+						webDriver.queueCallback(function() {
+							if ($item.hasClass("wd_slideshow-current"))
+								self.resize(self._options["resize"] == "container");
+							$item.removeClass("wd_loading");
+							if ($item.hasClass("wd_slideshow-current")) {
+								$item.wd_imagesloaded(
+									function() {
+										self.resize(self._options["resize"] == "container");
+									},
+									"size"
+								);
+							}
+						});
+
+						if (complete)
+							complete(response, status, xhr);
+					}
+				);
+			}
+		},
+				
+		next: function() {
+			return this.scrollBy(1);
+		},
+
+		prev: function() {
+			return this.scrollBy(-1);
+		},
+		
+		scrollBy: function(count) {
+			var index = this.currentIndex + count;
+			
+			return this.scrollToIndex(index, true);
+		},
+		
+		scrollToIndex: function(index, update_hash) {
+			var self = this;
+			var $children = this.$element.children().not(".wd_clone");
+			
+			var orig_index = index;
+			index = (index + $children.length) % $children.length;
+			var $child = $children.eq(index);
+			
+			if (update_hash && $child.attr("wd_item_hash")) {
+				var hash = "#"+$child.attr("wd_item_hash");
+				var current_hash = window.location.hash || "#";
+				if (hash != current_hash) {
+					var href = window.location.href+"#";
+					href = href.replace(/#.*$/, hash);
+					window.location.replace(href);
+					return;
+				}
+			}
+			
+			this.$element.find(".wd_slideshow-current").removeClass("wd_slideshow-current");
+			$child.addClass("wd_slideshow-current");
+			
+			if (!this.item_loaded($child))
+				this.load_item($child);
+			
+			this.$container[0].focus();
+
+			this.currentIndex = index;
+			this.$currentItem = $child;
+			
+			this.resize(this._options["resize"] == "container");
+		},
+				
+		scrollToItem: function(item) {
+			var index = $(item).data("wd_slideshow-index");
+			if (index !== null)
+				this.scrollToIndex(index, true);
+		},
+				
+		filter: function(selector) {
+			this.$element.children().detach();
+			var $items = this.$items;
+			if (selector)
+				$items = $items.filter(selector);
+			this.$element.append($items);
+			this.reset();
+		},
+		
+		destroy: function() {
+			this.filter(false);
+			this.$items
+				.removeClass("wd_slideshow-item")
+				.data("wd_slideshow-index", null)
+			;
+			this.$element
+				.removeClass("wd_slideshow-list")
+				.insertBefore(this.$container)
+			;
+			this.$container.remove();
+		},
+		
+		resize: function(resize_container) {
+			if (resize_container) {
+				webDriver.doResize(this.$container, "container");
+			} else if (this.$currentItem && !this.$currentItem.hasClass("wd_loading")) {
+				webDriver.doResize(this.$currentItem);
+			}
+		}
+	};
+
+	$.fn.wd_slideshow = function(options) {
+		var args = Array.prototype.slice.call(arguments, 1);
+		var result = this;
+		
+		this.each(function() {
+			var instance = $(this).data("wd_slideshow");
+			if (typeof options == "string") {
+				var res = instance[options].apply(instance, args);
+				if (typeof res != "undefined") {
+					result = res;
+					return false;
+				}
+			} else {
+                if (!instance) {
+					instance = new wd_slideshow(this, options);
+					$(this).data("wd_slideshow", instance);
+				}
+				
+                instance.reload(options);
+			}
+        });
+		
+		return result;
+    };
+})(webDriver.jQuery);
+</script>
+<script type="text/javascript" wd_script_id="template_list_slideshow_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+						webDriver.jQuery(function($) {
+							$(".wd_layout-slideshow").each(function() {
+								var $slideshow = $(this);
+								$slideshow.wd_slideshow({
+									preload: true,
+									"class": "wd_asset_slideshow_wrapper wd_asset_slideshow_main_wrapper"
+								});
+							});
+						});
+					</script>
+<script type="text/javascript" src="js/wd_equal_height.js" wd_script_id="wd_equal_height.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<style type="text/css" wd_script_id="template asset_masonry_item:gallery:system style" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+.wd_gallery_asset {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	color: #ffffff;
+	min-height: 100px;
+}
+.wd_gallery_asset .wd_asset_image {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	font-size: 0px;
+}
+.wd_gallery_asset .wd_asset_image > div {
+	width: 100%;
+	text-align: center;
+}
+.wd_gallery_asset .wd_asset_image img {
+	max-width: 100%;
+	max-height: none;
+	margin: 0;
+	float: none;
+	flex-shrink: 0;
+}
+.wd_gallery_asset .wd_icon_overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .75) none center center no-repeat;
+	opacity: 0.0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+.wd_gallery_asset .wd_icon_overlay .wd_link_underlay {
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+.wd_gallery_asset .wd_icon_overlay a.wd_link_underlay:hover {
+	background-color: transparent;
+}
+.wd_gallery_asset .wd_icon_overlay .wd_icon_container {
+	font-size: 50px;
+	position: relative;
+	text-align: center;
+}
+.wd_gallery_asset .wd_icon_overlay .wd_icon_container > a,
+.wd_gallery_asset .wd_icon_overlay .wd_icon_container > a:link,
+.wd_gallery_asset .wd_icon_overlay .wd_icon_container > a:visited {
+	color: #cccccc;
+}
+.wd_gallery_asset .wd_icon_overlay .wd_icon_container > a:hover {
+	text-decoration: none;
+	background-color: transparent;
+}
+.wd_gallery_asset .wd_title_overlay {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+	pointer-events: none;
+	opacity: 0.0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	-moz-justify-content: flex-start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+	-webkit-box-align: end;
+	-webkit-align-items: flex-end;
+	-moz-box-align: end;
+	-ms-flex-align: end;
+	align-items: flex-end;
+}
+.wd_gallery_asset:hover .wd_icon_overlay,
+.wd_gallery_asset:hover .wd_title_overlay,
+.wd_gallery_asset:focus-within .wd_icon_overlay,
+.wd_gallery_asset:focus-within .wd_title_overlay {
+	opacity: 1.0;
+}</style>
+<script type="text/javascript" src="js/wd_masonry.js" wd_script_id="wd_masonry.js" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ=="></script>
+<script type="text/javascript" wd_script_id="template_list_masonry_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+						webDriver.jQuery(function($) {
+							var $container = $(".wd_layout-masonry");
+							$container.wd_masonry({"minWidth":250});
+							$container.wd_imagesloaded(function() {
+								$(this).wd_masonry("reflow");
+							});
+							$container.on("wd_more_loaded", function() {
+								$(this).wd_masonry("reflow");
+							});
+						});
+					</script>
+<style type="text/css" wd_script_id="template_list_masonry_style" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+						ul.wd_layout-masonry {
+							position: relative;
+							margin: 10px 0;
+							padding: 0;
+							list-style: none;
+						}
+					</style>
+<script type="text/javascript" wd_script_id="move_content_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+				(function($) {
+					function wd_move_content() {
+						$("[wd_move_after]").each(function() {
+							var $this = $(this);
+							var selectors = $this.attr("wd_move_after").split("|");
+							for (var i = 0; i < selectors.length; ++i) {
+								var $dest = $(selectors[i]);
+								if ($dest.length > 0) {
+									$this.insertAfter($dest.eq(0));
+									break;
+								}
+							}
+						});
+					}
+					
+					$(function() {
+						wd_move_content();
+					});
+				})(webDriver.jQuery);
+			</script>
+<script type="text/javascript" wd_script_id="format_news_script" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+(function($) {
+	webDriver.formatNews = function() {
+		var $news = $(this);
+		var print_url = $news.attr("wd_print_url");
+		$news.find("table").each(function() {
+			var $table = $(this);
+			var $parent = $table.parent();
+			if ($parent.innerWidth() < $table.outerWidth()) {
+				if ($parent.hasClass("wd_news_table")) {
+					$parent.find(".fullscreen-button").show();
+				} else {
+					var $btn = $("<button>View News Release Full Screen</button>")
+						.addClass("fullscreen-button")
+						.on("click", function() {
+							if (print_url)
+								window.open(print_url, "_blank", "");
+							else
+								view_printable();
+						})
+					;
+
+					var $div = $("<div></div>)")
+						.addClass("wd_news_table")
+						.css("overflow-x", "auto")
+						.append($btn)
+					;
+
+					$table.replaceWith($div);
+					$div.append($table);
+				}
+			} else {
+				if ($parent.hasClass("wd_news_table"))
+					$parent.find(".fullscreen-button").hide();
+			}
+		});
+	}
+})(webDriver.jQuery);
+</script>
+<style type="text/css" wd_script_id="template detail:newsfeed_releases:system style" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+.wd_title {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+.wd_subtitle {
+	font-weight: bold;
+}
+table.wd_extimagetable {
+	border-style: none; 
+	border-spacing:0px;
+	clear: right; 
+	float: right; 
+}
+td.wd_extimagecell {
+	text-align: right; 
+	margin: 0px 0px 5px 5px;
+	padding:0px;
+}
+td.wd_extimagecell img {
+	padding-left:10px;
+	padding-bottom:10px;
+	border-style: none; 
+}
+blockquote.wd_pullquote {
+	font-style: italic;
+	width:200px;
+	margin:0 0 20px 20px;
+	line-height: 1.8em;
+	float: right;
+	clear: right;
+}
+blockquote.wd_pullquote:before {
+	content: "“ ";
+	font-size: xx-large;
+}
+blockquote.wd_pullquote:after {
+	content: " ”";
+	font-size: xx-large;
+	float: right;
+}
+.fullscreen-button {
+	border: 1px solid #d1d1d1;
+	background: #e3e3e3 url(images/webdriver/view_full_screen_button_background.png) no-repeat;
+	padding: 3px 3px 3px 30px;
+	margin: 5px 0px 5px 0px;
+	color: #727272;
+	width: 220px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.wd_contact {
+	margin: 1em 0;
+}
+.wd_release_data {
+	margin: 1em 0;
+}
+.wd_caption {
+	text-align: center;
+	font-size: 0.72em;
+	font-style: italic;
+	margin: 1em 0 0 0;
+}
+</style>
+<script type="text/javascript" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">webDriver.pop_jQuery();</script>
+
+<!-- end spin_special_output(head_start) -->
+
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="algolia-site-verification"  content="B5FE90C2A078ADBA" />
+
+		<link rel="shortcut icon" href="https://www.lockheedmartin.com/favicon.ico">
+		<title>Lockheed Martin Launches GPS III Satellite, Paving the Way for Next-Generation GPS IIIF Spacecraft - Apr 21, 2026</title>
+		
+ <meta name="keywords" content="" />
+ <meta name="description" content="" />
+ <meta name="twitter:card" content="summary" />
+ <meta name="twitter:title" content="Lockheed Martin Launches GPS III Satellite, Paving the Way for Next-Generation GPS IIIF Spacecraft" />
+ <meta name="twitter:description" content="The final GPS III satellite delivers major upgrades in constellation resilience and accuracy, including a crosslink demonstration payload, as the next-gen GPS IIIF series is in production. CAPE..." />
+ <meta name="twitter:image" content="https://news.lockheedmartin.com/image/lm-logo.jpg" />
+ <meta property="og:site_name" content="Media - Lockheed Martin" />
+ <meta property="og:url" content="https://news.lockheedmartin.com/2026-04-21-Lockheed-Martin-Launches-GPS-III-Satellite,-Paving-the-Way-for-Next-Generation-GPS-IIIF-Spacecraft" />
+ <meta property="og:title" content="Lockheed Martin Launches GPS III Satellite, Paving the Way for Next-Generation GPS IIIF Spacecraft" />
+ <meta property="og:description" content="The final GPS III satellite delivers major upgrades in constellation resilience and accuracy, including a crosslink demonstration payload, as the next-gen GPS IIIF series is in production. CAPE..." />
+ <meta name="image" property="og:image" content="https://mma.prnewswire.com/media/2961625/GPS_SV10_Launch.jpg?p=facebook" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic@1.17.7/dist/theme.min.css" integrity="sha256-s8HZAxSFlUyg8xDRIGM9bjVSO0OZ9xJJCpJLtIyBUlA=" crossorigin="anonymous"/>
+        
+		<link rel="stylesheet" href="css/2022.min.css" type="text/css">
+		<link rel="stylesheet" href="css/search.css" type="text/css">
+		<!-- dataLayer for GTM -->
+		<script type="text/javascript">
+			var dataLayer = window.dataLayer = window.dataLayer || [];
+			dataLayer.push({
+			  'contentType' : '',
+			  'country' : '',
+			  'language' : '',
+			  'marketingPillar' : '',
+			  'capabilities' : '',
+			  'programOrFunction' : '',
+			  'businessArea' : '',
+			  'publishDate' : '',
+			  'fireGtm': true
+			});
+		</script>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','GTM-WDHXRC9');
+		</script>
+		<!-- End Google Tag Manager -->
+
+		<!-- Algolia Search -->
+        <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.24.0/dist/algoliasearch-lite.umd.js" integrity="sha256-b2n6oSgG4C1stMT/yc/ChGszs9EY/Mhs6oltEjQbFCQ=" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.75.5/dist/instantsearch.production.min.js" integrity="sha256-Ge9l2WgQoXm9fEH5EX/9oXKOjZVrpOwrMK7vAF2oWKg=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-js@1.17.7/dist/umd/index.production.js" integrity="sha256-SbEFZ66RzxGTw6+A7I+m/9hVVV/eGY1tT0wdSVWFt+w=" crossorigin="anonymous"></script>
+		<script>const { autocomplete } = window['@algolia/autocomplete-js'];</script>
+        <script src="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-plugin-query-suggestions@1.17.7/dist/umd/index.production.js" integrity="sha256-rT9HEvrsHkeM9zHbWB+7xp02FKxnplHB1JEHdZQfeMg=" crossorigin="anonymous"></script>
+		<script>const { createQuerySuggestionsPlugin } = window['@algolia/autocomplete-plugin-query-suggestions'];</script>
+        <!-- End Algolia Search -->
+
+		<link rel="stylesheet" href="css/wdcontent.css" type="text/css">
+	
+<!-- begin spin_special_output(head_end) -->
+<link rel="canonical" href="https://news.lockheedmartin.com/2026-04-21-Lockheed-Martin-Launches-GPS-III-Satellite,-Paving-the-Way-for-Next-Generation-GPS-IIIF-Spacecraft" />
+<!-- end spin_special_output(head_end) -->
+</head>
+	<body class="wd_pageid_20295 wd_item_page wd_item_129818">
+		<h1 class="sr-only sr-only-focusable">Lockheed Martin Corporation</h1>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe sandbox src="https://www.googletagmanager.com/ns.html?id=GTM-WDHXRC9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<main>
+			<div>
+			<!--    Header Section Starts -->
+
+            <header>
+                <div class="bg-white">
+                    <div class="container-fluid container-xxxl">
+                        <div class="row">
+                            <div class="navMenuPlaceHolder col-2 pl-md-5">
+                                <button id="customBurger" class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navMenu_1_MainMenu" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </div>
+                            <div class="navMenuPlaceHolder col-8 text-center">
+                                <a class="mt-4" href="https://www.lockheedmartin.com/en-us/index.html"><img src="https://www.lockheedmartin.com/content/dam/lockheed-martin/general/lm-logo.svg" alt="Lockheed Martin Logo" style="width: 200px"></a>
+                            </div>
+                            <div class="navMenuPlaceHolder col-2 text-right pr-md-5 pr-2">
+                                <a id="searchIconOutsideOfNav" class="fa fa-search" aria-controls="navMenu_2_Search" aria-expanded="false" href="#"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="windowShade"></div>
+                <!-- nav -->
+                <div id="navMenuContainer">
+                  <div id="miniWindowShade"></div>
+                  <div class="container-fluid container-xxxl">
+                    <div class="row">
+                      <div id="navMenu_1_MainMenu" class="navMenuCard navLevel1 col-9 col-lg-12 d-flex flex-column flex-lg-row justify-content-lg-between pl-lg-5 pr-lg-5">
+                        <div class="navMenuCardTopper">
+                          <a class="" href="https://www.lockheedmartin.com/">
+                            <img src="images/lm-logo.svg" style="width: 200px" alt="Lockheed Martin Logo">
+                          </a>
+                          <a class="mx-auto mr-sm-4 d-block d-lg-none navItem withSub noIcon" aria-controls="navMenu_2_Search" aria-expanded="false" href="#">
+                            <img src="images/search.svg">
+                          </a>
+                          <img class="customCloser d-lg-none" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_2_WhoWeAre" aria-expanded="false">Who we are</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_2_WhatWeDo" aria-expanded="false">What we do</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/news.html">News</a>
+                        <!-- <a class="navItem" href="https://www.lockheedmartin.com/careers">Careers</a> -->
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_2_Careers" aria-expanded="false">Careers</a>
+                        <a class="navItem" href="https://investors.lockheedmartin.com/">Investors</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/suppliers.html">Suppliers</a>
+                        <div class="navMenuCardBottom">
+                          <a id="navIconGlobe" class="d-flex align-items-center align-items-lg-start navItem withSub noIcon fa fa-globe" aria-controls="navMenu_2_GlobalActivity" aria-expanded="false" href="#">
+                            <div class="d-lg-none ml-3">
+                              <div class="navMenuTitle">Global Activity</div>
+                              <div class="navMenuTitleEng mt-1">United States | English</div>
+                            </div>
+                          </a>
+                          <a id="navIconSearch" class="pl-4 d-none d-lg-block navItem withSub noIcon fa fa-search" aria-controls="navMenu_2_Search" aria-expanded="false" href="#"></a>
+                        </div>
+                      </div>
+                      <div id="navMenu_2_GlobalActivity" class="navMenuCard navLevel2 col-9">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_1_MainMenu">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Global Activity</div>
+                        <div class="d-flex h-100">
+                          <div class="globalActivityPanel d-none d-lg-block">
+                            <div class="navSectionHeading">Featured</div>
+                            <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/international.html">
+                              <img src="images/ryan169.jpg" class="img-fluid navImage" alt="Global Activity image">
+                            </a>
+                            <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/international.html">Global Presence, Local Impact</a>
+                            <div class="navParagraph">Learn how we are strengthening the economies, industries and communities of our global partner nations.</div>
+                          </div>
+                          <div class="globalActivityPanel">
+                            <div class="globalActivityCountry">Australia</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-au/index.html">English</a>
+                            <div class="globalActivityCountry">Canada</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-ca/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/fr-ca/index.html">Français</a>
+                            <div class="globalActivityCountry">Denmark</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-dk/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/da-dk/index.html">Danish</a>
+                            <div class="globalActivityCountry">Germany</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-de/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/de-de/index.html">Deutsch</a>
+                            <div class="globalActivityCountry">Greece</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-gr/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/gr-gr/index.html">Ελληνικά</a>
+                            <div class="globalActivityCountry">India</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/who-we-are/international/india.html">English</a>
+                            <div class="globalActivityCountry">Israel</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-il/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/he-il/index.html">עברית</a>
+                            <div class="globalActivityCountry">Japan</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-jp/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/ja-jp/index.html">日本語</a>
+                            <div class="globalActivityCountry">Latin America</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/who-we-are/international/latin-america.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/who-we-are/international/latin-america/latin-america-es.html">Spanish</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/who-we-are/international/latin-america/latin-america-pt.html">Portuguese</a>
+                            <div class="globalActivityCountry">New Zealand</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-au/new-zealand.html">English</a>
+                            <div class="globalActivityCountry">Norway</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-no/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/no-no/index.html">Norsk</a>
+                          </div>
+                          <div class="globalActivityPanel">
+                            <div class="globalActivityCountry">Poland</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-pl/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/pl-pl/index.html">Polski</a>
+                            <div class="globalActivityCountry">Republic of Korea</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-kr/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/ko-kr/index.html">한국어</a>
+                            <div class="globalActivityCountry">Romania</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-ro/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/ro-ro/index.html">Română</a>
+                            <div class="globalActivityCountry">Saudi Arabia</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-sa/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/ar-sa/index.html">عربى</a>
+                            <div class="globalActivityCountry">Singapore</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/who-we-are/international/singapore.html">English</a>
+                            <div class="globalActivityCountry">Spain</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-es/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/es-es/index.html">Español</a>
+                            <div class="globalActivityCountry">Taiwan</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/who-we-are/international/taiwan.html">English</a>
+                            <div class="globalActivityCountry">United Arab Emirates</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-ae/index.html">English</a>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/ar-ae/index.html">عربى</a>
+                            <div class="globalActivityCountry">United Kingdom</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-gb/index.html">English</a>
+                            <div class="globalActivityCountry">United States</div>
+                            <a class="globalActivityLink" href="https://www.lockheedmartin.com/en-us/index.html">English</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="navMenu_2_Search" class="navMenuCard notTall navLevel2 col-9 col-lg-12">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_1_MainMenu">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Search</div>
+                        <div class="d-flex pl-lg-5 pr-lg-5">
+                          <div class="searchInputVisualBox">
+                            <div id="top-nav-search" class="subnav-dropdown-menu search">
+                              <div id="lm-search" name="q" type="text">
+                                <div id="autocomplete"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="navMenu_2_WhoWeAre" class="navMenuCard navLevel2 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_1_MainMenu">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Who we are</div>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_AboutUs" aria-expanded="false">About Us</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_LeadershipAndGovernance" aria-expanded="false">Leadership &amp; Governance</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_OurBusiness" aria-expanded="false">Our Businesses</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_EnvironmentalAndSocial" aria-expanded="false">Sustainability &amp; Social Impact</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Ethics" aria-expanded="false">Ethics</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/economic-and-workforce-impact.html">Economic and Workforce Impact</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/international.html">Global Activities</a>
+                      </div>
+                      <div id="navMenu_3_AboutUs" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhoWeAre">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle" href="https://www.lockheedmartin.com/en-us/who-we-are.html">About Us</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are.html">Our Company</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/life-at-lm.html">Our Culture</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/news/features/history.html">Our History</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/economic-and-workforce-impact.html#economic">Our Economic Impact</a>
+                      </div>
+                      <div id="navMenu_3_LeadershipAndGovernance" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhoWeAre">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle" href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance.html">Leadership &amp; Governance</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance.html">Executive Leadership Team</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance/full-spectrum-leadership.html">Full Spectrum Leadership</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Corporate Governance</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance/board-of-directors.html">Board of Directors</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance/board-of-directors/corporate-charter.html">Corporate Charter</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance/board-of-directors/political-disclosures.html">Political Disclosures</a>
+                      </div>
+                      <div id="navMenu_3_OurBusiness" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhoWeAre">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Our Businesses</div>
+                        <div class="navSectionHeading">BUSINESS AREAS</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/aeronautics.html">Aeronautics</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/missiles-and-fire-control.html">Missiles and Fire Control</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/rotary-and-mission-systems.html">Rotary and Mission Systems</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/space.html">Space</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">INNOVATION &amp; INVESTMENT</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/lm-evolve.html">LM Evolve</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/lockheed-martin-ventures.html">LM Ventures</a>
+                      </div>
+                      <div id="navMenu_3_EnvironmentalAndSocial" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhoWeAre">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Sustainability &amp; Social Impact</div>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_4_GivingBack" aria-expanded="false">Social Impact</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/eesh.html">Environmental, Safety and Health</a>
+                        <a class="navItem" href="https://sustainability.lockheedmartin.com/sustainability/index.html">Sustainability</a>
+                      </div>
+                      <div id="navMenu_4_GivingBack" class="navMenuCard navLevel4 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_3_EnvironmentalAndSocial">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle" href="https://www.lockheedmartin.com/en-us/who-we-are/communities.html">Social Impact</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/communities.html">In the Community</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/communities/military-veteran-support.html">Military and Veteran Support</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/communities/stem-education.html">Future STEM Workforce</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/communities/employee-focused-programs.html">Employee Focused Programs</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/communities/volunteerism.html">Volunteerism</a>
+                        <div class="navDivider"></div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/communities/applying-for-contributions.html">Contribution Process</a>
+                      </div>
+                      <div id="navMenu_3_Ethics" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhoWeAre">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Ethics</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/ethics.html">Ethics</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/ethics/code-of-ethics.html">Code of Conduct</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/ethics/business-conduct-compliance-training.html">Business Conduct</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/ethics/ethics-awareness-training.html">Ethics Awareness Training</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/ethics/integrity-minute.html">Integrity Minute</a>
+                      </div>
+                      <div id="navMenu_4_Sustainability" class="navMenuCard navLevel4 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_3_EnvironmentalAndSocial">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Sustainability</div>
+                        <a class="navItem" href="https://sustainability.lockheedmartin.com/sustainability/index.html">Sustainability at LM</a>
+                        <a class="navItem" href="https://sustainability.lockheedmartin.com/sustainability/content/Lockheed_Martin_2022_Sustainability_Performance_Report.pdf">Sustainability Performance Report</a>
+                        <a class="navItem" href="https://sustainability.lockheedmartin.com/sustainability/sustainability-management-plan/2025-smp-management/">Sustainability Management Plan</a>
+                        <a class="navItem" href="https://sustainability.lockheedmartin.com/sustainability/esg-governance/">Sustainability Governance Plan</a>
+                      </div>
+                      <div id="navMenu_2_WhatWeDo" class="navMenuCard navLevel2 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_1_MainMenu">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">What We Do</div>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Aircraft" aria-expanded="false">Aircraft</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_AllDomain" aria-expanded="false">All-Domain Operations</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Autonomy" aria-expanded="false">Autonomy &amp; AI</a>
+                        <!---<a class="navItem" href="">Products by Domain</a>--->
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/cyber.html">Cyber</a>
+                        <!---<a class="navItem withSub" href="#" aria-controls="navMenu_3_Cyber" aria-expanded="false">Cyber</a>--->
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Deterrence" aria-expanded="false">Deterrence Capabilities</a>
+                        <!---<a class="navItem withSub" href="#" aria-controls="navMenu_3_MaritimeSystems" aria-expanded="false">Maritime Systems</a>--->
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/maritime-systems.html">Maritime Systems</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/mission-integration.html">Mission Integration</a>
+                        <!-- <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Space</a> -->
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Space" aria-expanded="false">Space</a>
+                        <!---<a class="navItem withSub" href="#" aria-controls="navMenu_3_SpaceTechnology" aria-expanded="false">Space</a>--->
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Sustainment" aria-expanded="false">Sustainment &amp; Training Systems</a>
+                        <!---<a class="navItem withSub" href="#" aria-controls="navMenu_3_ThreatDetection" aria-expanded="false">Threat Detection</a>--->
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_TransformativeTechnology" aria-expanded="false">Transformative Technology</a>
+                        <div class="navDivider"></div>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_3_Products" aria-expanded="false">Products by Domain</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Featured</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/accelerating-transformation.html">
+                          <img src="images/accelerating-transformation.jpg" class="img-fluid navImage" alt="Accelerating Transformation Image">
+                        </a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/accelerating-transformation.html">Accelerating Transformation</a>
+                        <div class="navParagraph">Turning acquisition reform into mission-ready delivery.</div>
+                        <!---<div class="navDivider"></div><a class="navItem actionButton" href="">All Products</a>--->
+                      </div>
+                      <div id="navMenu_3_Autonomy" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Autonomy &amp; AI</div>
+                        <div class="navSectionHeading">AI</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/artificial-intelligence-machine-learning.html">Artificial Intelligence</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/artificial-intelligence-machine-learning/ai-fight-club.html">AI Fight Club™</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/artificial-intelligence-machine-learning/star-os-ai-integration-framework.html">STAR.OS Integration Framework</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">AUTONOMY</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/autonomous-unmanned-systems.html">Autonomy</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=&amp;capability=ai%2C&amp;country=">View All Products</a>
+                      </div>
+                      <div id="navMenu_3_Aircraft" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Aircraft</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/air-dominance.html">Air Dominance</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Fixed Wing</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=air%2C&amp;capability=ai%2C&amp;country=">Autonomous Aircraft</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/commercial-aircraft.html">Commercial Aircraft</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/aircraft.html">Fighter Jets</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/c130.html">Tactical Airlift</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/c130/kc-130j-tanker.html">Tanker Transport</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Rotary Wing</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sikorsky.html">Sikorsky</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/sikorsky-matrix-technology.html">Autonomous Aircraft</a>
+                        <a class="navItem" href="https://lockheedmartin.com/en-us/products/sikorsky-black-hawk-helicopter.html">Black Hawk Family</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sikorsky/sikorsky-commercial-aircraft-and-services.html">Commercial Aircraft</a>
+                        <div class="navDivider"></div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/aircraft.html">Explore All Aircraft</a>
+                      </div>
+                      <div id="navMenu_3_AllDomain" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">All-Domain Operations</div>
+                        <!---<div class="d-flex flex-column flex-lg-row"><div class="d-flex flex-column w-50">--->
+                        <!---<a class="navItem withSub" href="#" aria-controls="navMenu_4_Aircraft" aria-expanded="false">Aircraft</a>--->
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/21st-century-security-networked-solutions.html">21st Century Security®</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/c4isr.html">C4ISR Solutions</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/multi-domain-operations.html">Joint All-Domain Operations</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/mission-integration.html">Mission Integration</a>
+                        <!---</div><div class="d-flex flex-column  w-50"><a class="navItem withSub" href="#" aria-controls="navMenu_4_Aircraft" aria-expanded="false">Item with Sub</a><a class="navItem" href="">Item</a><a class="navItem" href="">Item</a><a class="navItem" href="">Item</a><a class="navItem" href="">Item</a></div></div>--->
+                      </div>
+                      <div id="navMenu_4_Aircraft" class="navMenuCard navLevel4 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_3_DefenseSystems">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Aircraft</div>
+                        <div class="navSectionHeading">Fixed Wing</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html">Autonomous Aircraft</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/commercial-aircraft.html">Commercial Aircraft</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/aircraft.html">Fighter Jets</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/c130/kc-130j-tanker.html">Tanker Transport</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Rotary Wing</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sikorsky.html">Sikorsky</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/sikorsky-matrix-technology.html">Autonomous Aircraft</a>
+                        <a class="navItem" href="https://lockheedmartin.com/en-us/products/sikorsky-black-hawk-helicopter.html">Black Hawk Family</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sikorsky/sikorsky-commercial-aircraft-and-services.html">Commercial Aircraft</a>
+                      </div>
+                      <div id="navMenu_3_Cyber" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Cyber Capabilities</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/aeronautics/skunkworks.html">Cyber 1</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/atc.html">Cyber 2</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/research-labs/advanced-technology-labs.html">Cyber 3</a>
+                      </div>
+                      <div id="navMenu_3_Innovation" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Innovation</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/aeronautics/skunkworks.html">Skunk Works®</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Global Research and Development</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/atc.html">Advanced Technology Center</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/research-labs/advanced-technology-labs.html">Advanced Technology Laboratories</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/research-labs/center-for-innovation.html">Center for Innovation</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sikorsky/sikorsky-innovations.html">Sikorsky Innovations</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-au/stelarlab-research-development-operations-centre.html">STELaRLab</a>
+                      </div>
+                      <div id="navMenu_3_SpaceTechnology" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Space Capabilities</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Communications Security</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Deterrence &amp; Missile Defence</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Global Situational Awareness</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Human &amp; Scientific Exploration</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Intelligence Solutions &amp; Cyber</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">Space Technologies</a>
+                      </div>
+                      <div id="navMenu_3_Sustainment" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Sustainment &amp; Training Systems</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sustainment.html">Sustainment &amp; Global Readiness</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/training-logistics-sustainment.html">Training &amp; Simulation</a>
+                      </div>
+                      <div id="navMenu_3_Deterrence" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Deterrence Capabilities</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/air-dominance.html">Air Dominance</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/c4isr.html">C4ISR Solutions</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/counter-unmanned-aerial-systems.html">Counter-Unmanned Aerial Systems</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/cyber.html">Cyber Solutions</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/directed-energy.html">Directed Energy</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/electronic-warfare.html">Electronic Warfare</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/hypersonics.html">Hypersonics</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/missile-defense.html">Integrated Air &amp; Missile Defense</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/multi-domain-operations.html">Joint All-Domain Operations</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/radar-sensors.html">Radar</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sensors.html">Sensors</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/undersea-warfare.html">Undersea Warfare</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/weapon-systems.html">Weapon Systems</a>
+                      </div>
+                      <div id="navMenu_3_Space" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Space</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space.html">All Space Capabilities</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/deep-space-exploration.html">Deep Space Exploration</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/human-space-exploration.html">Human Space Exploration</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/national-security-space.html">National Security Space</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/strategic-missile-defense.html">Strategic &amp; Missile Defense Systems</a>
+                        <a class="navItem" href="https://lockheedmartin.com/en-us/capabilities/space/weather-earth-science.html">Weather &amp; Earth Science</a>
+                      </div>
+                      <div id="navMenu_3_Products" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Products by Domain</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html">All Products</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">By Domain</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=air%2C&amp;capability=&amp;country=">Air</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=cyber%2C&amp;capability=&amp;country=">Cyber</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=land%2C&amp;capability=&amp;country=">Land</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=sea%2C&amp;capability=&amp;country=">Sea</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products.html?domain=space%2C&amp;capability=&amp;country=">Space</a>
+                      </div>
+                      <div id="navMenu_3_TransformativeTechnology" class="navMenuCard navLevel3 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_2_WhatWeDo">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Transformative Technologies</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/21st-century-security-networked-solutions.html">21st Century Security®</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/5G.html">5G.MIL Solutions</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/artificial-intelligence-machine-learning.html">Artificial Intelligence</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/cyber.html">Cyber</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/directed-energy.html">Directed Energy</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/products/firefighting-intelligence.html">Firefighting Intelligence</a>
+                        <!---<a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/energy.html">Energy Solutions</a><a class="navItem" href="https://www.lockheedmartin.com/fvl/index.html">Future Vertical Lift</a>--->
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/hypersonics.html">Hypersonic Solutions</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/innovation-defense-technology.html">Innovation in Defense</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/spectrum-convergence.html">Spectrum Dominance</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Our Business Innovation</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/accelerating-transformation/delivering-at-scale.html">Delivering at Scale</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/digital-transformation.html">Digital Transformation</a>
+                        <a class="navItem withSub" href="#" aria-controls="navMenu_4_ResearchLabs" aria-expanded="false">Research Labs</a>
+                        <!---<a class="navItem" href="https://www.lockheedmartin.com/sustainment/index.html">Sustainment and Global Readiness</a>--->
+                      </div>
+                      <div id="navMenu_4_ResearchLabs" class="navMenuCard navLevel4 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_3_TransformativeTechnology">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Research Labs</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/who-we-are/business-areas/aeronautics/skunkworks.html">Skunk Works®</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">Global Research and Development</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-au/advanced-systems-and-technologies.html">Advanced Systems and Technologies - AU</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/space/atc.html">Advanced Technology Center</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/research-labs/advanced-technology-labs.html">Advanced Technology Laboratories</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/research-labs/center-for-innovation.html">Center for Innovation</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/capabilities/sikorsky/sikorsky-innovations.html">Sikorsky Innovations</a>
+                      </div>
+                      <div id="navMenu_2_Careers" class="navMenuCard navLevel2 col-9 col-lg-3">
+                        <div class="navMenuCardTopper d-lg-none">
+                          <a class="navItem customBack" aria-controls="navMenu_1_MainMenu">back</a>
+                          <img class="customCloser" src="images/custom-close.svg" alt="close icon">
+                        </div>
+                        <div class="navMenuTitle">Careers</div>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/index.html">Careers Home</a>
+                        <a class="navItem" href="https://www.lockheedmartinjobs.com/search-jobs">Search Open Jobs</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/career-areas.html">Career Areas</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/locations.html">Locations</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/candidates/students-early-careers.html">Student &amp; Early Careers</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/candidates/ex-pro.html">Experienced Professionals</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/why-lm.html">Why LM?</a>
+                        <a class="navItem" href="https://www.lockheedmartin.com/en-us/careers/life-at-lm.html">Life@LM</a>
+                        <div class="navDivider"></div>
+                        <div class="navSectionHeading">My Account</div>
+                        <a class="navItem" href="https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25037&amp;siteid=5014&amp;pk_vid=b6c27996c05b2c151732641010904953#home" target="_blank">Early Careers</a>
+                        <a class="navItem" href="https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25037&amp;siteid=5010&amp;pk_vid=b6c27996c05b2c151732641004904953#home" target="_blank">Experienced Professionals</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </header>
+
+            <!--    Header Section Ends-->
+		  
+			<div class="content-well">
+				<div class="white">
+					<div class="container-fluid container-xxxl">
+						<div class="row">
+							<div class="col-12">
+								<div class="no-padding">
+									<div class="wd_pageheader"><div class="container"><h1>Releases</h1></div></div>																		<!-- BEGIN HEADER -->
+									<div class="wd_header">
+										<div class="wd_home_hero" style="background-image: url(/image/JADO-JADC2-Aegis-crop1.jpg);">
+											<div class="wd_header_content">
+																							</div>
+										</div>
+									</div>
+																		<!-- END HEADER -->
+								</div>
+								<!-- BEGIN CONTAINER -->
+								<div class="wd_container">
+									<!-- BEGIN CONTENT-WRAPPER -->
+									<div class="wd_content-wrapper">
+																				<div class="breadcrumb">
+											<a href="https://news.lockheedmartin.com/home">Newsroom<i class="fa fa-chevron-right" aria-hidden="true"></i></a><!-- Use the Code field from the Structure table --> 
+											<li>
+	<a href="https://news.lockheedmartin.com/news-releases" target="_self">
+		News Releases	</a>
+</li>
+										</div>
+																														<!-- BEGIN CONTENT -->
+										<div class="wd_content" >
+											<div id="wd_printable_content" class="fr-view">
+<div class="wd_newsfeed_releases-detail">
+<div class="wd_title wd_language_left">Lockheed Martin Launches GPS III Satellite, Paving the Way for Next-Generation GPS IIIF Spacecraft</div>
+
+<div class="wd_toolbar wd_toolbar-detail"><ul class="wd_tools"><li class="wd_tool wd_tool-print"><span class="wd_tool_icon"><a onclick="view_printable(); return false;" rel="nofollow" href="#print" title="print"><span class="fa fa-print"></span></a></span></li><li class="wd_tool wd_tool-socialshare_facebook"><span class="wd_tool_icon">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fnews.lockheedmartin.com%2Findex.php%3Fs%3D20295%26item%3D129818" target="_blank" title="Facebook Share" style="background-color:#4267B2;">
+                    <span class="fa fa-facebook"></span>
+		    <span class="wd_sr-only wd_sr-only-focusable"></span>
+                    </a>
+                </span></li><li class="wd_tool wd_tool-socialshare_linkedin"><span class="wd_tool_icon">
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fnews.lockheedmartin.com%2Findex.php%3Fs%3D20295%26item%3D129818" target="_blank" title="Linkedin Share" style="background-color:#0077B5;">
+                    <span class="fa fa-linkedin"></span>
+		    <span class="wd_sr-only wd_sr-only-focusable"></span>
+                    </a>
+                </span></li><li class="wd_tool wd_tool-socialshare_twitter"><span class="wd_tool_icon">
+                    <a href="https://twitter.com/share?url=https%3A%2F%2Fnews.lockheedmartin.com%2Findex.php%3Fs%3D20295%26item%3D129818" target="_blank" title="Twitter Share" style="background-color:#000;">
+                    <span class="fa fa-twitter"></span>
+		    <span class="wd_sr-only wd_sr-only-focusable"></span>
+                    </a>
+                </span></li><li class="wd_tool wd_tool-email"><span class="wd_tool_icon"><a onclick="window.location.href = 'mailto:?subject=Lockheed%20Martin%20Launches%20GPS%20III%20Satellite%2C%20Paving%20the%20Way%20for%20Next-Generation%20GPS%20IIIF%20Spacecraft%20-%20Apr%2021%2C%202026&amp;body='+encodeURIComponent(window.location.href);return false;" href="#email" title="email"><span class="fa fa-envelope"></span></a></span></li><li class="wd_tool wd_tool-pdf"><span class="wd_tool_icon"><a href="https://news.lockheedmartin.com/2026-04-21-Lockheed-Martin-Launches-GPS-III-Satellite,-Paving-the-Way-for-Next-Generation-GPS-IIIF-Spacecraft?asPDF=1" rel="nofollow" title="pdf"><span class="fa fa-file-pdf-o"></span></a></span></li><li class="wd_tool wd_tool-rss"><span class="wd_tool_icon"><a href="https://news.lockheedmartin.com/rss?rsspage=20295" title="rss"><span class="fa fa-rss"></span></a></span></li></ul></div>
+
+<div wd_move_after=".wd_body &gt; p ~ p|.wd_body &gt; p">
+			<div class="wd_asset_modal wd_asset_modal_main" style="display:none;">
+				
+				<ul class="wd_layout-slideshow wd_asset_slideshow_list wd_asset_slideshow_main_list">
+					<li class="wd_asset_slideshow wd_asset_type_117 wd_asset_117-20447" wd_item_hash="assets_117:20447" wd_ajax_url="https://news.lockheedmartin.com/news-releases?gallery=20447&ajax=ajax&op=modal">
+					</li>
+				</ul>
+			</div>
+		
+			<ul class="wd_layout-masonry wd_asset_list wd_asset_inline_list">
+				<li class="wd_asset_inline wd_item wd_asset_type_117 wd_asset_117-20447">
+					
+						<div class="wd_gallery_asset" wd_resize="adjustEqualHeight" wd_min_ratio="16:9">
+	<div class="wd_asset_image">
+		<div>
+			<img src="https://mma.prnewswire.com/media/2961625/GPS_SV10_Launch.jpg?w=600" title="GPS-SV10-Launch" border="0"/>
+		</div>
+	</div>
+	<div class="wd_icon_overlay">
+		<a href="https://news.lockheedmartin.com/2026-04-21-Lockheed-Martin-Launches-GPS-III-Satellite,-Paving-the-Way-for-Next-Generation-GPS-IIIF-Spacecraft#assets_117:20447" class="wd_link_underlay" tabindex="-1"></a>
+		<div>
+			<div class="wd_icon_container"><a href="https://news.lockheedmartin.com/2026-04-21-Lockheed-Martin-Launches-GPS-III-Satellite,-Paving-the-Way-for-Next-Generation-GPS-IIIF-Spacecraft#assets_117:20447"><span class="fa fa-search-plus"></span><span class="wd_sr-only wd_sr-only-focusable">View File</span></a> <a href="https://mma.prnewswire.com/media/2961625/GPS_SV10_Launch.jpg?p=original" target=""><span class="fa fa-download"></span><span class="wd_sr-only wd_sr-only-focusable">Download File</span></a></div>
+			
+		</div>
+	</div>
+	<div class="wd_title_overlay">
+		GPS-SV10-Launch
+	</div>
+</div>
+
+					
+				</li>
+			</ul>
+		</div>
+
+			
+		
+
+			
+		
+
+<style type="text/css">
+
+
+/* Style Definitions */
+span.prnews_span
+{
+font-size:8pt;
+font-family:"Arial";
+color:black;
+}
+a.prnews_a
+{
+color:blue;
+}
+li.prnews_li
+{
+font-size:8pt;
+font-family:"Arial";
+color:black;
+}
+p.prnews_p
+{
+font-size:0.62em;
+font-family:"Arial";
+color:black;
+margin:0in;
+}
+
+
+					span.prnews_span{
+						font-size:inherit;
+						font-family:inherit;
+					}
+					li.prnews_li{
+						font-size: inherit;
+						font-family: inherit;           
+					}
+					p.prnews_p{
+						font-size: inherit;
+						font-family: inherit;           
+					}
+				
+					div.PRN_ImbeddedAssetReference{
+						display: none;
+					}
+					div[id^="prni_dvprne"]{
+						display: none;
+					}
+				</style>
+
+<div class="wd_body wd_news_body fr-view" wd_resize="formatNews" wd_print_url="https://news.lockheedmartin.com/2026-04-21-Lockheed-Martin-Launches-GPS-III-Satellite,-Paving-the-Way-for-Next-Generation-GPS-IIIF-Spacecraft?printable=1">
+<p><i>The final GPS III satellite delivers major upgrades in constellation resilience and accuracy, including a crosslink demonstration payload, as the next-gen GPS IIIF series is in production.</i></p><p><span class="legendSpanClass">CAPE CANAVERAL, Fla.</span>, <span class="legendSpanClass">April 21, 2026</span> /<a href="http://www.prnewswire.com/" target="_blank">PRNewswire</a>/ -- Early this morning, Lockheed Martin (NYSE: LMT) and the U.S. Space Force strengthened the <a href="https://edge.prnewswire.com/c/link/?t=0&l=en&o=4668988-1&h=2221485480&u=https%3A%2F%2Fwww.lockheedmartin.com%2Fen-us%2Fproducts%2Fgps.html&a=Global+Positioning+System" target="_blank" rel="nofollow">Global Positioning System</a> (GPS) constellation to its highest level ever achieved with the launch of GPS III Space Vehicle 10 (SV10), the final satellite in the GPS III series.</p>
+    <div class="PRN_ImbeddedAssetReference" id="DivAssetPlaceHolder1">
+                <p>
+                        <a href="https://mma.prnewswire.com/media/2961625/GPS_SV10_Launch.html" target="_blank" rel="nofollow">
+                    <img src="https://mma.prnewswire.com/media/2961625/GPS_SV10_Launch.jpg" title="GPS III SV10 launches from Cape Canaveral, Fla. in the early hours of April 21. (Photo Credit: Lockheed Martin)" alt="GPS III SV10 launches from Cape Canaveral, Fla. in the early hours of April 21. (Photo Credit: Lockheed Martin)"/>
+                        </a>
+                </p>
+    </div>
+<p>SV10 adds essential resiliency and accuracy enhancements to the GPS constellation, including an <a href="https://edge.prnewswire.com/c/link/?t=0&l=en&o=4668988-1&h=1697829132&u=https%3A%2F%2Fwww.lockheedmartin.com%2Fen-us%2Fnews%2Ffeatures%2F2026%2FFrom-a-Rocket-to-Your-Pocket-Behind-the-GPS-III-Evolution.html&a=optical+crosslink+demonstration" target="_blank" rel="nofollow">optical crosslink demonstration</a> payload. With this payload, GPS III SV10 will demonstrate optical communication capabilities that will play a crucial role in the future strength of the constellation. The optical crosslinks allow GPS satellites to be able to directly communicate with each other in space, increasing on-orbit resiliency.</p><p>The GPS III SV10 launch marks the fourth consecutive GPS launch on an accelerated schedule, demonstrating Lockheed Martin's rapid delivery of on‑orbit capabilities to warfighters.</p><p>GPS III SV10 launched from Cape Canaveral Space Force Station at 2:53 a.m. Eastern time. It secured signal acquisition soon after and is currently managed at Lockheed Martin's Denver Launch & Checkout Operations Center pending formal acceptance into the GPS operational control network.</p><p><b>Why it matters</b></p><p>This spacecraft paves the way for the advanced <a href="https://edge.prnewswire.com/c/link/?t=0&l=en&o=4668988-1&h=928885180&u=https%3A%2F%2Fwww.lockheedmartin.com%2Fen-us%2Fnews%2Ffeatures%2F2025%2Fregional-military-protection-secures-the-high-ground.html&a=GPS%C2%A0IIIF+generation" target="_blank" rel="nofollow">GPS IIIF generation</a>, which will bring even stronger anti-jamming capabilities for warfighters and improvements for its six billion civilian users. GPS III satellites deliver critical advancements over legacy spacecraft, including three‑times greater accuracy, eight‑times stronger anti‑jamming capability, and secure M‑Code signals for warfighters worldwide.</p><p>For military users, these improvements provide dependable positioning, navigation, and timing in contested or hostile environments. For civilian users, GPS III enhances everyday smartphone navigation, speeds up emergency response location, and supplies more precise timing for financial markets and telecommunications networks.</p><p>"The final GPS III deployment is an important milestone as we continue strengthening the GPS constellation," said Fang Qian, vice president of GPS at Lockheed Martin. "By launching SV10 into orbit, we're not only adding to the resiliency of today's GPS capabilities – we're opening the door to the next generation of GPS IIIF satellites that will provide greater resiliency and serve as the backbone of the GPS constellation for years to come."</p><p>In addition to the crosslink demo, the satellite is also equipped with a demonstration Digital Rubidium Atomic Frequency Standard clock, an advanced atomic clock that will provide reliable and precise time-keeping capabilities.</p><p><b>Preparing for a new era of GPS </b></p><p>With GPS III SV10 in orbit, Lockheed Martin is now focused on production of GPS IIIF satellites. Deploying these next‑generation spacecraft is essential for preserving reliable global coverage, and the IIIF block will add a new suite of capabilities that further harden the constellation's resilience.</p><p>Among the upgrades, GPS IIIF will feature Regional Military Protection, delivering more than a 60‑fold boost in anti‑jamming performance for warfighters. This dramatic increase in resistance to hostile interference helps U.S. forces stay ahead of evolving electronic warfare threats.</p><p>Lockheed Martin is actively producing GPS IIIF spacecraft at its Denver, Colorado facility. The company is integrating emerging technology, including augmented reality and digital twins, to accelerate GPS satellite production. Lockheed Martin is currently under contract to build 12 GPS IIIF satellites, demonstrating the company's long-term commitment to a resilient and robust navigation infrastructure.</p><p>Today, more than 30 GPS satellites operate in orbit, delivering crucial positioning, navigation and timing services to warfighters, civilians and commercial users. Overall, GPS remains the world's most trusted space-based navigation system, serving billions of people.</p><p><b>About Lockheed Martin</b><br/>Lockheed Martin is a global defense technology company driving innovation and advancing scientific discovery. Our all‑domain mission solutions and 21st Century Security® vision accelerate the delivery of transformative technologies to ensure those we serve always stay ahead of ready. More information at LockheedMartin.com.</p>
+<div class="PRN_ImbeddedAssetReference" id="DivAssetPlaceHolder2">
+                <p>
+                        <a href="https://mma.prnewswire.com/media/627587/LOCKHEED_MARTIN_Logo.html" target="_blank" rel="nofollow">
+                    <img src="https://mma.prnewswire.com/media/627587/LOCKHEED_MARTIN_Logo.jpg" title="Lockheed Martin Logo. (PRNewsfoto/Lockheed Martin)" alt="Lockheed Martin Logo. (PRNewsfoto/Lockheed Martin)"/>
+                        </a>
+                </p>
+</div>
+
+
+
+<p>SOURCE Lockheed Martin</p></div>
+
+<div class="wd_contact">For further information: Andrew Eversden, 202-431-7215, andrew.eversden@lmco.com</div>
+
+
+ 
+				
+			
+
+<!-- ITEMDATE: 2026-04-21 05:00:00 EDT -->
+
+</div>
+</div>										</div>
+										<!-- END CONTENT -->
+									</div>
+									<!-- END CONTENT-WRAPPER -->
+								</div>
+							
+									
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+			<!--    Content Area Section Ends  -->
+			<!--    Footer Section  Starts -->
+			<footer>
+				<div class="bg-black">
+					<div id="homeHelpfulLinks" class="container-fluid container-xxxl pt-5 pb-5 reverseGray">
+						<div class="row">
+							<div class="col-12 pl-md-5">
+								<div class="typedSectionHeading reverseWhite mb-5">
+									Helpful Links &nbsp; ___
+								</div>
+							</div>
+							<div class="col-6 col-lg-2 pl-md-5 mb-5 mb-lg-0">
+								<span class="listedLink reverseWhite">What We Do</span>
+								<a href="https://www.lockheedmartin.com/en-us/capabilities.html" class="listedLink">Our Capabilities</a>
+								<a href="https://www.lockheedmartin.com/en-us/products.html" class="listedLink">Our Products</a>
+							</div>
+							<div class="col-6 col-lg-2 mb-5 mb-lg-0">
+								<span class="listedLink reverseWhite">Who We Are</span>
+								<a href="https://www.lockheedmartin.com/en-us/careers/index.html" class="listedLink">Careers</a>
+								<a href="https://www.lockheedmartin.com/en-us/who-we-are/communities.html" class="listedLink">Community</a>
+								<a href="https://www.lockheedmartin.com/en-us/who-we-are/leadership-governance.html" class="listedLink">Leadership</a>
+								<a href="https://news.lockheedmartin.com/" class="listedLink">Newsroom</a>
+								<a href="https://sustainability.lockheedmartin.com/" class="listedLink">Sustainability</a>
+								<a href="https://www.lockheedmartin.com/en-us/who-we-are.html" class="listedLink">About Us</a>
+							</div>
+							<div class="col-6 col-lg-2 pl-md-5 pl-lg-2 mb-5 mb-lg-0">
+								<span class="listedLink reverseWhite">Information</span>
+								<a href="https://www.lockheedmartin.com/en-us/employees.html" class="listedLink">Employees</a>
+								<a href="https://www.lockheedmartin.com/en-us/who-we-are/international.html" class="listedLink">International</a>
+								<a href="https://investors.lockheedmartin.com/" class="listedLink" target="_blank">Investors</a>
+								<a href="https://www.lockheedmartin.com/en-us/suppliers.html" class="listedLink">Suppliers</a>
+							</div>
+							<div class="col-6 col-lg-2 mb-5 mb-lg-0">
+								<span class="listedLink reverseWhite">Connect</a>
+								<a href="https://www.lockheedmartin.com/en-us/contact.html" class="listedLink">Contact Us</span>
+								<a href="https://www.lockheedmartin.com/en-us/news/media-contacts.html" class="listedLink">Media Relations</a>
+								<a href="https://www.lockheedmartin.com/en-us/news/multimedia.html" class="listedLink">Multimedia</a>
+								<a href="https://www.lockheedmartin.com/en-us/contact/vulnerability-disclosure-policy.html" class="listedLink">Disclosures</a>
+							</div>
+							<div class="d-lg-none col-12 mb-5" style="border-bottom: #ccc 1px solid;"></div>
+							<div class="d-none d-lg-block col-1" style="border-left: #ccc 1px solid;"></div>
+							<div class="col-9 col-lg-3 pl-md-5 pl-lg-0 pr-md-5">
+								<h4 class="reverseWhite mb-4">Join the Vector Star newsletter</h4>
+								<div class="mb-4">Get articles on the innovative projects Lockheed Martin scientists and engineers are working on right now.</div>
+								<a class="actionButton inline" href="https://www.lockheedmartin.com/en-us/news/features/vector-star.html" style="box-sizing: unset;">Join Now</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bg-gray">
+				<div class="container-fluid container-xxxl pt-5 pb-5">
+					<div class="row">
+						<div class="col-12 col-lg-2 mb-5 pl-md-5">
+							<a href="https://www.lockheedmartin.com/"><img src="images/lm-logo.svg" class="img-fluid" alt="Lockheed Martin Logo"></a>
+						</div>
+						<div class="col-12 col-lg-2 mb-5 pl-md-5 pl-lg-2">
+							&copy; 2026<br>
+							Lockheed Martin Corporation.<br>
+							All Rights Reserved.
+						</div>
+						<div class="col-6 col-lg-2 mb-5 pl-md-5 pl-lg-2">
+							<a href="https://www.lockheedmartin.com/en-us/contact/disclaimer.html#privacy">Privacy</a>
+							<a href="https://www.lockheedmartin.com/en-us/contact/disclaimer.html">Terms of Use</a>
+							<a href="https://www.lockheedmartin.com/en-us/contact/lockheed-martin-corporation-privacy-notice-eu.html">EU and UK Data Protection Notice (EU-US DPF Privacy Notice)</a>
+							<a href="https://www.lockheedmartin.com/en-us/contact/cookies.html">Cookies</a>
+						</div>
+						<div class="col-6 col-lg-2 mb-5 footer-copyright" stock-url="https://www.lockheedmartin.com/stockticker.html">
+							Stock Price<br>
+							<h5 id="stockPrice"></h5>
+						</div>
+						<div class="col-10 col-md-6 col-lg-3 offset-lg-1 pl-md-5 pl-lg-2 pr-md-5">
+							Social Media
+							<div class="d-flex flex-row justify-content-between mt-3">
+								<a href="http://www.facebook.com/lockheedmartin"><img src="images/footerIconFacebook.png" alt="Facebook Logo"></a>
+								<a href="http://twitter.com/lockheedmartin"><img src="images/twitter-x-logo-20.png" alt="Twitter Logo"></a>
+								<a href="http://www.youtube.com/user/LockheedMartinVideos"><img src="images/footerIconYouTube.png" alt="YouTube Logo"></a>
+								<a href="https://www.linkedin.com/company/lockheed-martin"><img src="images/footerIconLinkedIn.png" alt="LindIn Logo"></a>
+								<a href="http://instagram.com/lockheedmartin"><img src="images/footerIconInstagram.png" alt="Instagram Logo"></a>
+							</div>
+						</div>
+						<div>
+						</div>
+					</div>
+			</footer>
+			<!--    Footer Section Ends -->
+			</div> 	
+		</main>
+		<script src="js/2022.min.js"></script>
+		<script type="text/javascript">
+			var addthis_config ={"data_track_clickback":true};
+		</script>    
+		<!-- global modal -->     
+		<div class="modal fade" id="global-modal">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+					</div>
+					<div class="modal-body"></div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+		  $(document).ready(function(){
+		  
+		  // REMOVE TRAILING THUMBNAIL HREF
+			$('.wd_newsfeed_releases-teaser .item .wd_thumbnail a img').each(function(){
+			  this.src = this.src.replace('p=thumbnail', 'p=original');
+			  this.src = this.src.replace('?thumbnail=144', '');
+			});
+		  
+			// IMAGE REPLACEMENT
+			$('.wd_newsfeed_releases-teaser .item').each(function(){
+			  if($(this).find('.wd_thumbnail').length){}else{
+			  var $link = $(this).find('.wd_title a').attr('href');
+			  var $text = $(this).find('.wd_title').text();
+				$(this).prepend('<div class="wd_thumbnail"><a href="'+$link+'"><img alt="'+$text+'" src="images/lockheed_replacement.jpg" border="0"></a></div>');
+			  };
+			});
+		  
+			// ADD READ MORE BUTTON
+			$('.wd_newsfeed_releases-teaser .item').append('<button class="btn-simple"></button>');
+			$('.wd_newsfeed_releases-teaser .item').each(function () {
+			  var href = $(this).find('a').attr('href');
+			  $(this).find('button').wrapInner('<a href="'+href+'">More</a><i class="fas fa-angle-right"></i>');
+			});
+		  
+					  
+			// MOVE PAGE HEADER TO HERO IN INTERNAL PAGE
+						 if ( $('.wd_home_hero').length ) {
+			 $('h1.page_header').appendTo('.wd_header .wd_home_hero');
+			 };
+		  
+			 $(".wd_standard .item table").each(function() {
+				$(this).appendTo($(this).parent());
+			 });
+									 // ADD BUTTON TO BOTTOM OF RELEASES
+			 $('<div class="back-button"><a class="wd_pr_button" href="https://www.lockheedmartin.com/en-us/news/media-contacts.html">Media contacts</a><a class="wd_pr_button" href="news-releases">View all News</a></div>').appendTo('.wd_newsfeed_releases-detail');
+		  
+				//Custom Inner Detail page only for masonry type asset
+				if($('.wd_layout-masonry.wd_asset_list')[0]){
+		  
+					 $('.wd_body.wd_news_body').addClass('wd_flex_wrap')
+		  
+					 $('.wd_news_body').wrapInner('<div class="wd_left_col" />');
+					 $('.wd_news_body').append('<div class="wd_right_col" />');
+		  
+					 $('.wd_newsfeed_releases-detail .wd_captioned_image').appendTo('.wd_right_col');
+					 $('.wd_newsfeed_releases-detail .wd_pullquote').appendTo('.wd_right_col')
+		  
+					 $('.wd_layout-masonry.wd_asset_list').prependTo('.wd_right_col');
+				}
+
+			  //Toggle items
+			  $('.wd_toggle strong, .wd_toggle b').parent('p').addClass('wd_trigger');
+			  $('.wd_toggle').children().not('.wd_trigger').hide();
+			  $('.wd_trigger').click(function() {
+			  $(this).toggleClass('active');
+			  $(this).nextAll().slideToggle();
+			  });
+			  
+		  
+		  		  
+		  // CONVERT IMAGES TO BACKGROUND ON FRONT PAGE
+		  $('.wd_featureboxes_middle .wd_newsfeed_releases-teaser .item .wd_thumbnail a img').hide();
+		  $('.wd_featureboxes_middle .wd_newsfeed_releases-teaser .item .wd_thumbnail').each(function(){
+			 var img = $(this).find('img').attr('src');
+			 var top_height = $(this).parent('.wd_featureboxes_top').height();
+			 
+			 $(this).css({'height':top_height,
+			 'background-size':'cover',
+			 'background-image':'url('+img+')',
+			 'background-position':'center',
+			 'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+img+'", sizingMethod="scale")',
+			 '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+img+'", sizingMethod="scale")'});
+		  })
+
+
+	  $('.fa-linkedin').each(function(){$(this).toggleClass('fa fab');});   
+			 $('.fa-facebook').each(function(){$(this).toggleClass('fa fab');});
+			 $('.fa-twitter').each(function(){$(this).toggleClass('fa fab');});
+		  
+		  });
+	  </script>
+	  <!-- Cision Impact Container Tag Code -->
+	  <script src="https://cdn.c212.net/c.min.js"></script>
+	  <script language="javascript">
+		  cidconv.setClientId("mvkxyFWL");
+		  cidconv.addEvent("e8", "1");
+		  cidconv.sendEvents();
+	  </script>
+	  <!-- End Cision Impact Container Tag Code -->
+	
+<!-- begin spin_special_output(body_end) -->
+<script wd_script_id="piwik_tracking_code"></script>
+<!-- Piwik Tracking Code -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+
+  _paq.push(["setCustomVariable", 4, "News Release Feed ID", "202604210500PR_NEWS_USPR_____SF39138", "page"]);
+
+  _paq.push(["setCustomVariable", 1, "Content Type", "News Releases Feed", "page"]);
+
+  _paq.push(["setCustomVariable", 3, "Navigation Page", "News Releases", "page"]);
+
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+  (function() {
+    var u="//stats.drivetheweb.com/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", 3661]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
+    g.type="text/javascript"; g.async=true; g.defer=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript>
+	<img src="https://stats.drivetheweb.com/piwik.php?idsite=3661&rec=1" style="border:0" alt="" />
+</noscript>
+<!-- End Piwik Tracking Code -->
+		<script type="text/javascript" wd_script_id="google_tracking_code" nonce="OTg5ODRlZDJiZWZiMDhlMjc1YjIzOTFjZGU0ZmVhYzU1ZjE3OGIyZQ==">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-2727857-1']);
+		  _gaq.push(['_setDomainName', 'lockheedmartin.com']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+
+<!-- end spin_special_output(body_end) -->
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f1ed57aaf17ed9b',t:'MTc3NzEzNTY5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
