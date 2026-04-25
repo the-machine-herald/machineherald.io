@@ -1,0 +1,786 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta charset="utf-8">
+    <meta property="fb:pages" content="264207047431419" />
+        
+  
+        <title>OpenAI has released 'OpenAI Privacy Filter' as open source, which masks personal information such as names, email addresses, and phone numbers in documents to prevent their leakage. - GIGAZINE</title>
+    <meta property="og:site_name" content="GIGAZINE" />
+    <meta property="og:title" content="OpenAI has released 'OpenAI Privacy Filter' as open source, which masks personal information such as names, email addresses, and phone numbers in documents to prevent their leakage." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://gigazine.net/gsc_news/en/20260423-openai-privacy-filter/" />
+    <meta property="fb:pages" content="264781820600439" />
+    <meta property="og:image" content="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/00.jpg" />
+    <meta property="og:description" content=" OpenAI has released ' OpenAI Privacy Filter ,' a model that detects and masks personal information in text. OpenAI Privacy Filter is a compact model specializing in detecting and masking personally identifiable information, and is characterized by its ability to process raw documents locally without sending them to an external server. It is available under the Apache 2.0 license through GitHub and Hugging Face. Introducing OpenAI Privacy Filter | OpenAI https://openai.com/index/introducing-openai-privacy-filter/ OpenAI-Privacy-Filter-Model-Card.pdf (PDF file) https://cdn.openai.com/pdf/c66281ed-b638-456a-8ce1-97e9f5264a90/OpenAI-Privacy-Filter-Model-Card.pdf openai/privacy-filter: OpenAI Privacy Filter https://github.com/openai/privacy-filter openai/privacy-filter · Hugging Face https://huggingface.co/openai/privacy-filter OpenAI Privacy Filter detects eight types of information in documents, including personal names, addresses, email addresses, phone numbers, URLs, dates, account numbers, and sensitive information such as passwords and API keys.  OpenAI Privacy Filter is based on a pre-trained autoregressive model that transforms it into a bidirectional token classification model. Instead of generating tokens from the input sentence one by one, it labels the entire sentence in a single inference. It then employs a method of refining consecutive censored ranges using named entity BIOES tags and constrained Viterbi decoding , enabling high-speed processing even for long texts and handling contexts of up to 128,000 tokens. The model has a total of 1.5 billion parameters, with 50 million parameters active at runtime. While conventional PII detection tools are strong at detecting standardized formats like phone numbers and email addresses, they tend to overlook context-dependent personal information and nuanced cases. OpenAI Privacy Filter, however, combines language understanding and context recognition to more precisely distinguish between information that should be kept public and information that should be kept private. In terms of performance, the PII-Masking-300k benchmark recorded an F1 score of 96%, accuracy of 94.04%, and recall of 98.04%, which combines the model&amp;#39;s 'low detection rate' and 'low false positive rate.' OpenAI reported that a version corrected for annotation issues achieved an F1 score of 97.43%, accuracy of 96.79%, and recall of 98.08%. Detection was also performed using CredData , which evaluates authentication information detection within a codebase, and the corrected F1 score per token was 84.4%.  Furthermore, in the SPY dataset , which simulates legal and medical consultations, the F1 score improved from 54.5% before additional training to 96.2% with only 10% of the training data, highlighting the ease of fine-tuning to suit domain-specific strategies.  OpenAI also performs language-specific evaluations, and in PII-Masking-300k, it showed results in English, Dutch, French, German, Italian, and Spanish. In addition, in further multilingual synthesis evaluations, it has also tested Japanese, Chinese, Korean, Hindi, Arabic, and Russian, showing values of 86.6% recall, 89.7% precision, and 88.1% F1 score for Japanese.  However, the OpenAI Privacy Filter is not marketed as a fully multilingual model, and even the model card states that the supported languages are 'primarily English.' OpenAI warns that 'performance may be degraded with text other than English, non-Latin characters, or notations that differ from the training distribution.' OpenAI also explicitly states that the OpenAI Privacy Filter should not be used as a guarantee of anonymization or legal compliance. The OpenAI Privacy Filter is merely one element of privacy protection, and may require additional training for different masking policies across organizations. Furthermore, its performance may degrade with languages other than English or with notations outside the training distribution. Therefore, manual verification should be retained in high-risk fields such as healthcare, law, finance, and government." />
+    <meta property="twitter:account_id" content="131135499" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@gigazine_en">
+    <meta name="description" content=" OpenAI has released ' OpenAI Privacy Filter ,' a model that detects and masks personal information in text. OpenAI Privacy Filter is a compact model specializing in detecting and masking personally identifiable information, and is characterized by its ability to process raw documents locally without sending them to an external server. It is available under the Apache 2.0 license through GitHub and Hugging Face. Introducing OpenAI Privacy Filter | OpenAI https://openai.com/index/introducing-openai-privacy-filter/ OpenAI-Privacy-Filter-Model-Card.pdf (PDF file) https://cdn.openai.com/pdf/c66281ed-b638-456a-8ce1-97e9f5264a90/OpenAI-Privacy-Filter-Model-Card.pdf openai/privacy-filter: OpenAI Privacy Filter https://github.com/openai/privacy-filter openai/privacy-filter · Hugging Face https://huggingface.co/openai/privacy-filter OpenAI Privacy Filter detects eight types of information in documents, including personal names, addresses, email addresses, phone numbers, URLs, dates, account numbers, and sensitive information such as passwords and API keys.  OpenAI Privacy Filter is based on a pre-trained autoregressive model that transforms it into a bidirectional token classification model. Instead of generating tokens from the input sentence one by one, it labels the entire sentence in a single inference. It then employs a method of refining consecutive censored ranges using named entity BIOES tags and constrained Viterbi decoding , enabling high-speed processing even for long texts and handling contexts of up to 128,000 tokens. The model has a total of 1.5 billion parameters, with 50 million parameters active at runtime. While conventional PII detection tools are strong at detecting standardized formats like phone numbers and email addresses, they tend to overlook context-dependent personal information and nuanced cases. OpenAI Privacy Filter, however, combines language understanding and context recognition to more precisely distinguish between information that should be kept public and information that should be kept private. In terms of performance, the PII-Masking-300k benchmark recorded an F1 score of 96%, accuracy of 94.04%, and recall of 98.04%, which combines the model&amp;#39;s 'low detection rate' and 'low false positive rate.' OpenAI reported that a version corrected for annotation issues achieved an F1 score of 97.43%, accuracy of 96.79%, and recall of 98.08%. Detection was also performed using CredData , which evaluates authentication information detection within a codebase, and the corrected F1 score per token was 84.4%.  Furthermore, in the SPY dataset , which simulates legal and medical consultations, the F1 score improved from 54.5% before additional training to 96.2% with only 10% of the training data, highlighting the ease of fine-tuning to suit domain-specific strategies.  OpenAI also performs language-specific evaluations, and in PII-Masking-300k, it showed results in English, Dutch, French, German, Italian, and Spanish. In addition, in further multilingual synthesis evaluations, it has also tested Japanese, Chinese, Korean, Hindi, Arabic, and Russian, showing values of 86.6% recall, 89.7% precision, and 88.1% F1 score for Japanese.  However, the OpenAI Privacy Filter is not marketed as a fully multilingual model, and even the model card states that the supported languages are 'primarily English.' OpenAI warns that 'performance may be degraded with text other than English, non-Latin characters, or notations that differ from the training distribution.' OpenAI also explicitly states that the OpenAI Privacy Filter should not be used as a guarantee of anonymization or legal compliance. The OpenAI Privacy Filter is merely one element of privacy protection, and may require additional training for different masking policies across organizations. Furthermore, its performance may degrade with languages other than English or with notations outside the training distribution. Therefore, manual verification should be retained in high-risk fields such as healthcare, law, finance, and government.">
+    <meta name="keywords" content="news, blog, internet, IT, software, hardware, web service, food, mobile, game, anime, note, GIGAZINE">
+       
+    <link rel="canonical" href="https://gigazine.net/gsc_news/en/20260423-openai-privacy-filter/">
+    <link rel="alternate" hreflang="ja" href="https://gigazine.net/news/20260423-openai-privacy-filter/" />
+
+
+<link rel="alternate" type="application/rss+xml" title="GIGAZINE RSS Feed" href="https://gigazine.net/news/rss_2.0/">
+<link rel="apple-touch-icon" href="https://gigazine.net/apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* { box-sizing: border-box;}
+html { font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;} article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary { display: block;} audio,canvas,progress,video { display: inline-block; vertical-align: baseline;} audio:not([controls]) { display: none; height: 0;} [hidden],template { display: none;} a { background-color: transparent;} a:active,a:hover { outline: 0;} abbr[title] { border-bottom: 1px dotted;} b,strong { font-weight: bold;} dfn { font-style: italic;} h1 { font-size: 2em; margin: 0.67em 0;} mark { background: #ff0; color: #000;} small { font-size: 80%;} sub,sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline;} sup { top: -0.5em;} sub { bottom: -0.25em;} img { border: 0;} svg:not(:root) { overflow: hidden;} figure { margin: 1em 40px;} hr { -webkit-box-sizing: content-box; box-sizing: content-box; height: 0;} pre { overflow: auto;} code,kbd,pre,samp { font-family: monospace, monospace; font-size: 1em;} button,input,optgroup,select,textarea { color: inherit; font: inherit; margin: 0;} button { overflow: visible;} button,select { text-transform: none;} button,html input[type="button"],input[type="reset"],input[type="submit"] { -webkit-appearance: button; cursor: pointer;} button[disabled],html input[disabled] { cursor: default;} button::-moz-focus-inner,input::-moz-focus-inner { border: 0; padding: 0;} input { line-height: normal;} input[type="checkbox"],input[type="radio"] { padding: 0;} input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button { height: auto;} input[type="search"] { -webkit-appearance: textfield; -webkit-box-sizing: content-box; box-sizing: content-box;} input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration { -webkit-appearance: none;} fieldset { border: 1px solid #c0c0c0; margin: 0 2px; padding: 0.35em 0.625em 0.75em;} legend { border: 0; padding: 0;} textarea { overflow: auto;} optgroup { font-weight: bold;} table { border-collapse: collapse; border-spacing: 0;} td,th { padding: 0;}
+
+body {padding: 0; background: #fff; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: none;}
+a {margin:0; padding:0; text-decoration:none; vertical-align:baseline;} a:link {color:#1020d0;} a:visited {color:#777;} a:hover, a:active {color:#1020d0;}
+h1, h2, h3, h4, a, p, span, blockquote, li, th, td, dt, dd, input, .yeartime, .calendarBG {font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "San Francisco", "Segoe UI", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "Roboto", Verdana, Arial, Helvetica, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", sans-serif, MS UI Gothic;}
+b, big, .year, .time, #inq dt, #inq dd {background:transparent; word-break: break-all; word-wrap: break-word; overflow:hidden;}
+
+.defs {display: none;}
+#header {width: 100%; background: #fbfef4; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;}
+.logo {margin: 2px; padding:0; background: transparent;} .logo a {margin: 0;padding: 0;}
+.logo svg {width: 180px; height: 53px;}
+.logo .logojackimg {height: 53px;}
+#Google_TH {text-align: center;grid-column: 1 / 4;grid-row: 3 / 4; min-height:90px;}
+@media all and (min-width: 1033px) {
+  #Google_TH {grid-column:2/3; grid-row: 1/2}
+}
+@media all and (max-width: 540px) {
+  #Google_TH {min-height:0px;}
+}
+#Google_TC {height: 280px; max-width: calc(100vw - 32px);}
+#header-social-button-box {
+  margin: auto 5px 9px auto;
+}
+#push_off, #push_on {display:none; z-index:9888;}
+.header-social-button {width:26px; height:26px; display:inline-block; cursor: pointer;}
+.header-social-button svg {width:20px; height:20px; display:block; margin: 3px auto; }
+
+@media only screen and (min-width:467px) {
+  .logo svg {width: 205px; height: 60px;} 
+  .logo .logojackimg {height: 60px;}
+  #Google_TC {min-height: 100px; height: auto;}
+}
+@media only screen and (min-width:1380px) {
+  .logo svg {width: 425px; height: 125px;} 
+  .logo .logojackimg {height: 125px;}
+}
+#main > #section, #main > #article, #main > #latest, #main > #sub, #subtop {width: 100%; display: block;}
+#main > #section, #main > #article {background: transparent; border: 1px solid #ddd;}
+#main {
+  display: grid;
+  grid-template-areas: "article" "latest" "sub";
+}
+#article {
+  grid-area: article;
+  overflow: auto;
+}
+#latest {
+  grid-area: latest;
+  width: 100%;
+}
+#sub {
+  grid-area: sub;
+  width: 100%;
+}
+.sbn {width:100%; height:auto; margin:5px auto 5px; padding:0; background: transparent; overflow:hidden;}
+.sbn img {width:100%; height:auto; overflow:hidden;}
+@media only screen and (min-width:728px) {
+  .sbn img {width:728px; height:auto;} .sbn #TC {width:728px; margin:0 auto 0; text-align:center;}
+}
+
+.sbn #Google_TC {width:auto; max-width: calc(100vw - 32px); margin:0 auto 0; text-align:center;}
+.sbn #G_TC {width:300px; height:auto; margin:0 auto 0; text-align:center;}
+@media only screen and (min-width: 728px) and (max-width: 1579px) {
+  .sbn #G_TC {width:728px; height:auto; margin:0 auto 0; text-align:center;}
+}
+
+#latest h3 {margin:0 0 10px 0; padding:5px; color: #2F4F2F; background-color: #fef592; font-size:1em;}
+#subNav {width:100%; background:transparent; margin: 0 auto 0; padding: 0; display: -webkit-box; display: -ms-flexbox; -js-display: flex; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -ms-flex-flow: row wrap; flex-flow: row wrap;}
+#subNav > .list-1, #subNav > .list-2, #subNav > .list-3 {background-color: transparent; margin: 0 auto 0; padding: 0; -webkit-box-flex: 1; -ms-flex: 1 1 auto; flex: 1 1 auto;}
+#subNav dl {margin:0 0 10px 0; padding:0; background-color: transparent;}
+#subNav dl dt {margin:0; padding:5px; color: #2F4F2F; background-color: #fef592; font-size:1em; font-weight: bold;}
+#subNav dl dd {background: transparent;}
+#calendar {width:300px; height:auto; margin:10px auto 10px;}
+
+#searchform {margin:0; padding:0;}
+#searchform form {width:298px; margin:10px auto 10px; padding:0; overflow: hidden; position: relative;}
+#searchform input.input[type="text"] {border-radius: 0; border-style: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; background:transparent; width: 254px; height: 40px; border: 1px solid #e1e1e1; background:#fff; margin:0; padding:0;}
+#searchform input.reset[type="reset"], #searchform input.submit[type="submit"], #searchform button.submit[type="submit"] {border-radius: 0; border-style: none; -webkit-appearance: none; -moz-appearance: none; appearance: none; background:transparent;}
+#searchform .reset{position: absolute; top: 0; left: 226px; width: 30px; height: 40px; margin:0; padding:0; font-weight:bold;font-size:22px; vertical-align:middle; color:#757575;}
+#searchform .submit{position: absolute; top: 0; left: 254px; width: 42px; height: 42px; margin:0; padding:0;}
+#searchform button.submit[type="submit"]{background:#3b78e7; border: 1px solid #3367d6;}
+#searchform .submit .icon{display: inline-block; width: 1em; height: 1em; margin: 0; padding: 0; fill:#fff;}
+
+.cntimage .yeartime {color:#777; font-size: .9em; font-weight: bold; display:inline-block; margin: 2px 0 2px 0;}
+.cntimage .title{display:block; color: #000; background: #ffdd00; margin: 0 0 5px 0; padding:2px 1px 2px 5px; line-height: 1.1em; font-weight: bold; font-size: 1.2em; word-wrap: break-word;}
+.preface, .article{color: #333; font-size: 1em;line-height:1.6em; word-break: break-all; word-wrap: break-word;}
+.preface{margin: 0; padding:1px 4px 1px 4px;}
+.article{margin: 0; padding:19px 4px 14px 4px;}
+.preface b {color: #000;}
+.cntimage img {width:100%; height:auto; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1; border-left:1px solid #e1e1e1; border-right:1px solid #e1e1e1; vertical-align:bottom; overflow: hidden;}
+.img-standard-size { aspect-ratio: 16/9; }
+.img-old-ratio { aspect-ratio: 4/3; }
+.cntimage span img{width: auto; height: auto; border-top: none; border-bottom: none; overflow: hidden;}
+#latest .e_ad .card{width:100%; margin:0;padding:2px 0 2px 0; background: #fbfef4; display: -webkit-box; display: -ms-flexbox; -js-display: flex; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -ms-flex-flow: row wrap; flex-flow: row wrap;}
+#latest .e_ad .thumb{width: 101px; -webkit-box-flex: 0; -ms-flex: none; flex: none; -webkit-box-ordinal-group: 3; -ms-flex-order: 2; order: 2; min-height: 59px;}
+#latest .e_ad .thumb a:link, #latest .e_ad .thumb a:visited, #latest .e_ad .thumb a:hover, #latest .e_ad .thumb a:active{display:block; width: 96px; height: 54px; margin: 0 5px 5px 0; overflow: hidden; background-color: #888; border: 1px solid #e1e1e1;}
+#latest .e_ad .thumb img{position: relative; top: 50%; left: 50%; width: 93px; height: 52px; -webkit-transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%); transform: translate(-50%,-50%);}
+#latest .e_ad h2{display:block; width:auto; height:auto; margin:0; padding: 0 0 2px 5px; font-weight:normal; font-size: .875em;line-height:1.2em; word-wrap: break-word; background: #fbfef4; -webkit-box-flex: 1; -ms-flex: 1 1 60%; flex: 1 1 60%; -webkit-box-ordinal-group: 2; -ms-flex-order: 1; order: 1;}
+#latest .e_ad h2 a{display:inline; width:auto; height:auto; background: #fbfef4; margin:0 auto 0; padding: 0; overflow: hidden;}
+#latest .e_ad h2 a span{display:inline; padding: 1px 0 0 0; word-wrap: break-word;}
+#latest .e_ad .date { -webkit-box-flex: initial; -ms-flex: initial; flex: initial; width: 100%; -webkit-box-ordinal-group: 4; -ms-flex-order: 3; order: 3; height:1em;}
+#latest .e_ad .adtag .catab{position:absolute; top:2px; left:5px; color: #333; word-wrap: break-word; margin:0; font-weight:bold; font-size: .675em;}
+
+#latest .e_frame { position: relative; height: 5.45em; }
+#latest .e_frame>iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+@media all and (min-width: 810px) {
+  .cntimage .title{font-size: 1.3em;}
+  .cntimage img {width:auto; max-width:100%; height:auto;}
+  .img-standard-size, .img-old-ratio { width: 560px !important;}
+  #article .cntimage {width:auto; height:auto; margin: 0; padding:2px; overflow: hidden;}
+}
+
+@media all and (min-width: 1112px) {
+  #main {
+    min-height: 800px; 
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: "auto auto";
+    grid-template-areas: "latest article" "sub sub";
+  }
+  #main > #latest { width: 300px;}
+  #subNav {max-width:960px; background:transparent; margin: 10px auto 10px; padding: 0; display: -webkit-box; display: -ms-flexbox; -js-display: flex; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -ms-flex-flow: row wrap; flex-flow: row wrap;}
+  #subNav > .list-1, #subNav > .list-2, #subNav > .list-3 {width:300px; margin:0 10px 0 10px;}
+  #subNav .navi-list-2col{max-width:300px; margin:0; border-bottom:none; background:#fbfef4; overflow:hidden;}
+  #subNav .navi-list-2col:after{content:""; display:block; clear:both;}
+  #subNav .navi-list-2col dd{margin:0; width:50%; float:left; -webkit-box-sizing:border-box; box-sizing:border-box; background:#fbfef4;}
+  #subNav .navi-list-2col dd:nth-child(even),#subNav .navi-list-2col dd:nth-child(odd){border-right:none;}
+
+  #subNav .navi-list-2col dd a{position: relative; display:block; margin:0; padding:0; line-height:1em; margin-bottom:-1px; border-top:none; border-bottom:none;}
+  #subNav .navi-list-2col dd .iconcat{display: inline-block; width: 30px; height: 30px; margin:0 0 0 .55em; padding: 0;}
+  #subNav .navi-list-2col dd a b{position: absolute; top: 6px; left: 40px; font-size: .875em; display: inline; margin:0; padding: 0; vertical-align:middle;}
+  #article .cntimage {width:auto; height:auto; margin: 0; padding:0 4px 0; overflow: hidden;}
+}
+
+@media all and (min-width: 1380px) {
+  #main {
+    grid-template-columns: 300px 1fr 300px;
+    grid-template-areas: "latest article sub";
+  }
+  #main > #sub { width: 300px;}
+  .date time, .catab, .contentadleft .e_ad .adtag .catab {font-size: .8em;}
+  .cntimage .yeartime {font-size: 1.1em;} .cntimage .title{font-size: 1.5em;}
+  #latest h3, #subNav dl dt {font-size:1.17em;}
+  #main > #sub { width: 300px;}
+  #sub {border-top:none;}
+  #sub #subNav {max-width:300px; background:transparent; margin: 0; padding: 0; display: -webkit-box; display: -ms-flexbox; -js-display: flex; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -ms-flex-flow: row wrap; flex-flow: row wrap;}
+  #sub #subNav > .list-1, #sub #subNav > .list-2, #sub #subNav > .list-3 {width:300px; margin:0;}
+}
+
+#Google_IL > div{
+  max-width: calc(100vw - 32px);
+}
+#LT {
+  width: 300px;
+  height: 250px;
+  max-width: 100%;
+}
+</style>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="9ca0967de387fa3cd01ef163-|49"></script><link rel="stylesheet" type="text/css" href="https://i.gzn.jp/css/common_v5_21.css" media="print" onload="this.media='all'">
+<!-- a_lib_css -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="9ca0967de387fa3cd01ef163-text/javascript"></script>
+    <script src="https://i.gzn.jp/js/lazysizes.min.js" async="" type="9ca0967de387fa3cd01ef163-text/javascript"></script>
+<!-- gsc_news/.a_lib_google -->
+
+
+<script data-cfasync="false">
+(function(w,d,s,l,i){
+  w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;
+  j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WKH2HB8');
+</script>
+
+
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" type="9ca0967de387fa3cd01ef163-text/javascript"></script>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+
+  var slotData = [
+    {name:'/4330625/EF_en',sizes:[[300, 250], [336, 280]],domId:'div-gpt-ad-1657676439748-0'},
+    {name:'/4330625/UF_en',sizes:[[300, 250], [336, 280]],domId:'div-gpt-ad-1657676548989-0'},
+    {name:'/4330625/LT_en',sizes:[[336, 280], [300, 250], [200, 200]],domId:'div-gpt-ad-1657676592791-0'},
+    {name:'/4330625/LB_en',sizes:[[200, 446], [300, 250], [180, 600], [300, 600], [160, 600], [300, 100], [120, 600], [336, 280], [200, 200]],domId:'div-gpt-ad-1657676636663-0'},
+    {name:'/4330625/RT_en',sizes:[[200, 200], [300, 250], [336, 280]],domId:'div-gpt-ad-1657676687124-0'},
+    {name:'/4330625/RB_en',sizes:[[300, 250], [200, 200], [300, 600], [160, 600], [336, 280]],domId:'div-gpt-ad-1657676739637-0'}
+  ];
+
+  if( (navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || (navigator.userAgent.indexOf('Android') > 0 && navigator.userAgent.indexOf('Mobile') > 0) || navigator.userAgent.indexOf('Windows Phone') > 0 ){
+    slotData.push({name:'/4330625/TC_en',sizes:[[336, 280], [300, 250], [320, 180]],domId:'div-gpt-ad-1657676352808-0'});
+  } else {
+    slotData.push({name:'/4330625/TC_en',sizes:[[750, 100], [320, 50], [234, 60], [728, 90], [468, 60], [320, 100]],domId:'div-gpt-ad-1657676352808-0'});
+  }
+
+  googletag.cmd.push(()=>{
+    slotData.forEach(data=>{
+      try {googletag.defineSlot(data.name,data.sizes,data.domId).addService(googletag.pubads());} catch {
+        console.log(`slot "${data.name}" is already exists.`);
+      }
+    });
+    googletag.pubads().disableInitialLoad();
+    googletag.pubads().enableLazyLoad({
+      fetchMarginPercent: 500,  // Fetch slots within 5 viewports.
+      renderMarginPercent: 200,  // Render slots within 2 viewports.
+      mobileScaling: 2.0  // Double the above values on mobile.
+    });
+    googletag.pubads().enableSingleRequest();
+    googletag.pubads().collapseEmptyDivs();
+    googletag.enableServices();
+  });
+  googletag.cmd.push(function() {googletag.pubads().refresh();});
+</script>
+
+<!-- gsc_news/.a_lib_google -->
+    <script async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js' type="9ca0967de387fa3cd01ef163-text/javascript"></script>
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">
+      var googletag = googletag || {};
+      googletag.cmd = googletag.cmd || [];
+    </script>
+
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">
+      googletag.cmd.push(function() {
+        googletag.defineSlot('/4330625/G_RC_1st_en', ['fluid'], 'div-gpt-ad-1503551019012-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().collapseEmptyDivs();
+        googletag.enableServices();
+      });
+    </script>
+  </head>
+  <body>
+<noscript>
+<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKH2HB8" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+    <svg class="defs" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs>
+      <symbol id="logo" viewBox="0 0 200.478 58.796"><g><g id="logoid1"><path d="M47.44 13.564c-2.235-1.29-7.403-4.06-14.665-4.06-1.327 0-4.47.13-7.96 1.29-6.705 2.384-10.616 7.732-10.616 14.368 0 1.16.14 3.995 1.675 7.023 1.536 3.093 5.796 8.505 15.433 8.505 2.933 0 4.75-.45 7.472-1.353l.07-8.634H27.188l5.028-8.118h18.716l-.21 21.842c-3.073 1.224-11.313 4.38-21.23 4.38-3.422 0-17.388-.32-24.582-10.63C3.374 35.987 1 31.67 1 25.162 1 15.755 6.447 10.085 9.24 7.83 12.872 4.8 19.716 1 31.308 1c3.422 0 8.59.194 16.132 2.32v10.244z" fill="#fcc800" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid2"><path d="M58.69 13.857c-2.473 0-4.505-1.836-4.505-4.652 0-2.755 2.143-4.53 4.505-4.53 2.417 0 4.505 1.775 4.505 4.59 0 2.878-2.197 4.592-4.505 4.592zm4.395 34.1V17.714H54.24v30.243h8.845z" fill="#f39800" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid3"><path d="M91.325 44.357c0 .624.05 2.544-.48 4.416-.96 3.648-4.27 9.023-13.294 9.023-1.2 0-5.663-.192-9.55-1.776V49.3c2.304 1.824 5.712 2.976 8.64 2.976.815 0 4.27 0 5.998-2.832.816-1.296 1.01-2.88 1.01-6V41.86l-3.457 4.896c-.48.096-1.39.288-2.687.288-1.296 0-5.184-.144-8.063-3.168-1.2-1.248-2.736-3.552-2.736-7.632 0-.816.096-3.12 1.104-5.375 1.392-3.073 4.847-7.2 12.863-7.2 3.745 0 7.2.816 10.656 2.352v18.335zm-7.727-14.4c-1.535-.67-2.4-.72-3.215-.72-3.696 0-5.616 2.833-5.616 6.29 0 3.31 1.68 6.095 5.23 6.095 1.73 0 3.17-.72 3.65-.912l-.05-10.752z" fill="#eb6100" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid4"><path d="M105.575 47.957c-.072-.504-.072-.972-.108-1.44 0-.432-.036-.864-.036-1.296l-2.41 2.99c-.47.07-1.01.18-2.017.18-2.232 0-4.572-.65-5.832-2.665-.72-1.152-.755-2.376-.755-2.88 0-.612.072-2.016 1.116-3.348 1.153-1.44 3.205-2.664 7.165-2.664 1.296 0 2.304.144 2.736.18 0-.18 0-.612-.107-1.08-.648-2.556-3.204-2.448-3.852-2.448-1.44 0-2.88.216-5.615 1.404l2.7-4.573c2.16-.54 3.96-.576 4.788-.576.648 0 4.032-.107 6.048 1.98.83.83 1.117 1.62 1.225 2.053.324 1.008.324 2.052.324 2.376v9.575c0 .864 0 1.404.107 2.232h-5.472zm-.144-7.668c-.323-.037-.863-.11-1.69-.11-1.08 0-2.52.11-3.313 1.117-.432.54-.468 1.116-.468 1.368 0 1.008.647 2.16 2.807 2.16 1.008 0 1.764-.252 2.664-.612V40.29z" fill="#e60012" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid5"><path d="M114.103 47.957v-4.86l13.068-15.48h-12.095V22.54h20.448v5.005L122.527 42.88h14.616l-2.952 5.077z" fill="#a9005b" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid6"><path d="M144.696 13.857c-2.473 0-4.505-1.836-4.505-4.652 0-2.755 2.144-4.53 4.506-4.53 2.417 0 4.505 1.775 4.505 4.59 0 2.878-2.197 4.592-4.504 4.592zm4.394 34.1V17.714h-8.845v30.243h8.845z" fill="#460292" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid7"><path d="M172.738 47.957l-13.932-15.444v15.444h-6.48V22.54h5.832l12.42 13.79V22.54h6.444v25.417z" fill="#091aac" stroke="#0B0008" stroke-width="1.5"/></g><g id="logoid8"><path d="M180.36 47.957V22.54h16.487v5.005h-9.864v4.896h8.46v4.933h-8.46v5.544h11.772l-2.88 5.04z" fill="#0d26f9" stroke="#0B0008" stroke-width="1.5"/></g></g></symbol>
+      <symbol id="icon-tw" viewBox="0 0 1200 1227"><path d="m714.163 519.284 446.727-519.284h-105.86l-387.893 450.887-309.809-450.887h-357.328l468.492 681.821-468.492 544.549h105.866l409.625-476.152 327.181 476.152h357.328l-485.863-707.086zm-144.998 168.544-47.468-67.894-377.686-540.2396h162.604l304.797 435.9906 47.468 67.894 396.2 566.721h-162.604l-323.311-462.446z"></path></symbol><symbol id="icon-facebook" viewBox="0 0 1024 1024"><path d="M608 192h160v-192h-160c-123.514 0-224 100.486-224 224v96h-128v192h128v512h192v-512h160l32-192h-192v-96c0-17.346 14.654-32 32-32z"></path></symbol><symbol id="icon-yt" viewBox="0 0 1024 1024"><path d="M1013.8 307.2c0 0-10-70.6-40.8-101.6-39-40.8-82.6-41-102.6-43.4-143.2-10.4-358.2-10.4-358.2-10.4h-0.4c0 0-215 0-358.2 10.4-20 2.4-63.6 2.6-102.6 43.4-30.8 31-40.6 101.6-40.6 101.6s-10.2 82.8-10.2 165.8v77.6c0 82.8 10.2 165.8 10.2 165.8s10 70.6 40.6 101.6c39 40.8 90.2 39.4 113 43.8 82 7.8 348.2 10.2 348.2 10.2s215.2-0.4 358.4-10.6c20-2.4 63.6-2.6 102.6-43.4 30.8-31 40.8-101.6 40.8-101.6s10.2-82.8 10.2-165.8v-77.6c-0.2-82.8-10.4-165.8-10.4-165.8zM406.2 644.8v-287.8l276.6 144.4-276.6 143.4z"></path></symbol><symbol id="icon-rss" viewBox="0 0 1024 1024"><path d="M136.294 750.93c-75.196 0-136.292 61.334-136.292 136.076 0 75.154 61.1 135.802 136.292 135.802 75.466 0 136.494-60.648 136.494-135.802-0.002-74.742-61.024-136.076-136.494-136.076zM0.156 347.93v196.258c127.784 0 247.958 49.972 338.458 140.512 90.384 90.318 140.282 211.036 140.282 339.3h197.122c-0.002-372.82-303.282-676.070-675.862-676.070zM0.388 0v196.356c455.782 0 826.756 371.334 826.756 827.644h196.856c0-564.47-459.254-1024-1023.612-1024z"></path></symbol>
+      <symbol id="icon-search" viewBox="0 0 1024 1024"><path d="M992.262 871.396l-242.552-206.294c-25.074-22.566-51.89-32.926-73.552-31.926 57.256-67.068 91.842-154.078 91.842-249.176 0-212.078-171.922-384-384-384-212.076 0-384 171.922-384 384s171.922 384 384 384c95.098 0 182.108-34.586 249.176-91.844-1 21.662 9.36 48.478 31.926 73.552l206.294 242.552c35.322 39.246 93.022 42.554 128.22 7.356s31.892-92.898-7.354-128.22zM384 640c-141.384 0-256-114.616-256-256s114.616-256 256-256 256 114.616 256 256-114.614 256-256 256z"></path></symbol>
+      <symbol id="icon-ftid1" viewBox="0 0 24 24"><path d="M18.165 24h-15c-.276 0-.5-.224-.5-.5V5.063c0-.12.044-.238.124-.33l4-4.563c.09-.11.23-.17.37-.17h11c.275 0 .5.224.5.5V7h-1V1H7.392L3.665 5.25V23h14v-7h1v7.5c0 .276-.225.5-.5.5z"/><path d="M7.165 6h-3.5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h3V1c0-.276.224-.5.5-.5s.5.224.5.5v4.5c0 .276-.224.5-.5.5zm2.5 3h-4c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h4c.276 0 .5.224.5.5s-.224.5-.5.5z"/><path d="M7.665 8h4v1h-4zm2 4h-4c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h4c.276 0 .5.224.5.5s-.224.5-.5.5z"/><path d="M7.665 11h4v1h-4zm5 4h-7c-.276 0-.5-.224-.5-.5 0-.275.224-.5.5-.5h7c.276 0 .5.225.5.5 0 .276-.224.5-.5.5zm8.11 8.478c-.2 0-.39-.12-.464-.317l-2.97-7.602c-.102-.258.026-.547.284-.648.26-.1.548.026.647.282l2.975 7.607c.102.255-.025.545-.283.646-.06.023-.12.034-.18.034z"/><path d="M16.07 16.2c-2.184 0-4.108-1.315-4.903-3.35-.512-1.31-.483-2.74.08-4.03s1.597-2.278 2.907-2.79c.615-.24 1.26-.362 1.916-.362 2.184 0 4.108 1.313 4.903 3.348 1.057 2.704-.285 5.763-2.988 6.82-.614.24-1.257.363-1.915.363zm0-9.532c-.53 0-1.053.1-1.553.294-1.06.414-1.896 1.217-2.354 2.26-.457 1.044-.48 2.203-.065 3.263.644 1.647 2.204 2.713 3.972 2.713.53 0 1.053-.1 1.552-.294 2.19-.855 3.274-3.334 2.42-5.524-.645-1.648-2.202-2.712-3.972-2.712z"/><path d="M18.165 13h-4c-.276 0-.5-.224-.5-.5v-3c0-.276.224-.5.5-.5h4c.275 0 .5.224.5.5v3c0 .276-.225.5-.5.5zm-3.5-1h3v-2h-3v2z"/></symbol><symbol id="icon-ftid2" viewBox="0 0 24 24"><path d="M19.458 15.125c-.08 0-.162-.02-.237-.06-.24-.132-.33-.438-.2-.68l2.37-4.388-2.37-4.388c-.13-.245-.04-.55.2-.68.247-.134.55-.04.68.202l2.5 4.625c.08.145.08.325 0 .474l-2.5 4.626c-.09.17-.263.265-.44.265z"/><path d="M8.04 18c-.275 0-.5-.225-.5-.5v-2c0-3.31 2.692-6 6-6h8c.276 0 .5.225.5.5s-.224.5-.5.5h-8c-2.756 0-5 2.243-5 5v2c0 .275-.223.5-.5.5z"/><path d="M18.04 20.5h-16c-.275 0-.5-.225-.5-.5V4c0-.275.225-.5.5-.5h15.5c.276 0 .5.225.5.5s-.224.5-.5.5h-15v15h15v-3c0-.275.226-.5.5-.5s.5.225.5.5V20c0 .275-.224.5-.5.5z"/></symbol><symbol id="icon-ftid3" viewBox="0 0 24 24"><path d="M18.5 24h-17c-.276 0-.5-.225-.5-.5v-19c0-.276.224-.5.5-.5h17c.275 0 .5.224.5.5v19c0 .275-.225.5-.5.5zM2 23h16V5H2v18zm19.5 0c-.215 0-.406-.138-.475-.342l-1-3c-.016-.05-.025-.104-.025-.158v-16c0-.276.225-.5.5-.5h2c.275 0 .5.224.5.5v16c0 .054-.01.107-.025.158l-1 3c-.07.204-.26.342-.475.342zm-.5-3.58l.5 1.5.5-1.5V4h-1v15.42z"/><path d="M22 7h-1c-.275 0-.5-.224-.5-.5s.225-.5.5-.5h1c.275 0 .5.224.5.5s-.225.5-.5.5zm0 12h-1c-.275 0-.5-.225-.5-.5s.225-.5.5-.5h1c.275 0 .5.225.5.5s-.225.5-.5.5zM14.5 4.5c-.275 0-.5-.224-.5-.5V3h-1.5c-.276 0-.5-.224-.5-.5 0-.827-.673-1.5-1.5-1.5h-1C8.673 1 8 1.673 8 2.5c0 .276-.224.5-.5.5H6v1c0 .276-.224.5-.5.5S5 4.276 5 4V2.5c0-.276.224-.5.5-.5h1.55C7.282.86 8.292 0 9.5 0h1c1.208 0 2.217.86 2.45 2h1.55c.277 0 .5.224.5.5V4c0 .276-.225.5-.5.5zm2 17.5h-13c-.276 0-.5-.225-.5-.5v-15c0-.276.224-.5.5-.5h13c.275 0 .5.224.5.5v15c0 .275-.225.5-.5.5zM4 21h12V7H4v14z"/><path d="M13 10H7c-.276 0-.5-.224-.5-.5S6.724 9 7 9h6c.275 0 .5.224.5.5s-.225.5-.5.5zm0 3H7c-.276 0-.5-.225-.5-.5 0-.276.224-.5.5-.5h6c.275 0 .5.224.5.5 0 .275-.225.5-.5.5zm0 3H7c-.276 0-.5-.225-.5-.5s.224-.5.5-.5h6c.275 0 .5.225.5.5s-.225.5-.5.5z"/></symbol><symbol id="icon-ftid4" viewBox="0 0 24 24"><path d="M9.424 15.813h-5c-.275 0-.5-.224-.5-.5v-8c0-.276.225-.5.5-.5h5c.276 0 .5.224.5.5v8c0 .277-.224.5-.5.5zm-4.5-1h4v-7h-4v7z"/><path d="M15.424 20.813c-.115 0-.23-.04-.32-.116l-6-5c-.113-.095-.18-.233-.18-.384V7.165c0-.14.06-.272.163-.367l6-5.48c.146-.133.357-.17.54-.087.18.08.297.26.297.46v18.63c0 .2-.11.37-.288.46-.067.03-.14.05-.212.05zm-5.5-5.734l5 4.16V2.82l-5 4.565v7.694zm-3 .73h-2.45c-2.438 0-4.425-2.02-4.425-4.5s1.98-4.5 4.42-4.5h2.45c.27 0 .5.22.5.5s-.23.5-.5.5H4.47c-1.855 0-3.425 1.6-3.425 3.5s1.568 3.5 3.425 3.5h2.45c.276 0 .5.22.5.5s-.224.5-.5.5zm11.48-2.92c-.277 0-.5-.23-.5-.5 0-.28.223-.5.5-.5.52 0 .924-.4.924-.9s-.406-.89-.925-.89c-.276 0-.5-.23-.5-.5s.224-.5.5-.5c1.08 0 1.925.83 1.925 1.89s-.846 1.89-1.925 1.89z"/><path d="M18.404 14.642c-.276 0-.5-.225-.5-.5 0-.276.224-.5.5-.5 1.522 0 2.717-1.16 2.717-2.644 0-1.48-1.19-2.642-2.71-2.642-.27 0-.5-.224-.5-.5s.23-.5.5-.5c2.09 0 3.72 1.6 3.72 3.642 0 2.044-1.63 3.644-3.71 3.644z"/><path d="M18.37 16.465c-.277 0-.5-.226-.5-.5 0-.276.223-.5.5-.5 2.568 0 4.58-1.96 4.58-4.467 0-2.504-2.012-4.465-4.58-4.465-.277 0-.5-.224-.5-.5 0-.274.223-.5.5-.5 3.13 0 5.58 2.4 5.58 5.465 0 3.066-2.45 5.467-5.58 5.467zm-7.926 6.348h-3.02c-.224 0-.42-.148-.48-.362l-2-7c-.044-.14-.014-.31.08-.43.096-.12.243-.2.4-.2h3c.223 0 .418.15.48.37l1.963 6.876c.048.078.076.17.076.266 0 .275-.223.498-.5.498zm-2.643-1h1.96l-1.71-6H6.09l1.713 6z"/></symbol><symbol id="icon-ftid5" viewBox="0 0 24 24"><path d="M19.47 15.985h-15c-.274 0-.5-.225-.5-.5s.226-.5.5-.5h15c.276 0 .5.225.5.5s-.224.5-.5.5zm-1.5-5h-12c-.274 0-.5-.224-.5-.5s.226-.5.5-.5h12c.276 0 .5.224.5.5s-.224.5-.5.5zm-.062 10H5.97c-.274 0-.5-.225-.5-.5s.226-.5.5-.5h11.94c.275 0 .5.225.5.5s-.225.5-.502.5z"/><path d="M12 24.007c-.15 0-.297-.066-.396-.194-.17-.22-.13-.533.09-.7 2.662-2.057 4.172-5.145 4.037-8.266-.12-2.84-1.58-5.362-4-6.92-.23-.148-.3-.457-.15-.69.15-.232.46-.3.69-.15 2.7 1.736 4.327 4.55 4.46 7.717.15 3.445-1.503 6.847-4.422 9.1-.09.068-.198.103-.305.103z"/><path d="M12 24.007c-.107 0-.215-.035-.307-.104-2.918-2.252-4.572-5.653-4.426-9.1.137-3.167 1.764-5.98 4.46-7.716.23-.15.54-.083.69.15.148.232.082.542-.15.69-2.42 1.56-3.88 4.08-4 6.92-.135 3.12 1.374 6.21 4.036 8.265.22.168.26.48.09.7-.096.128-.243.195-.393.195z"/><path d="M12 24.015c-4.688 0-8.5-3.813-8.5-8.5 0-4.688 3.813-8.5 8.5-8.5 4.687 0 8.5 3.813 8.5 8.5 0 4.686-3.813 8.5-8.5 8.5zm0-16c-4.137 0-7.5 3.363-7.5 7.5 0 4.135 3.363 7.5 7.5 7.5 4.136 0 7.5-3.365 7.5-7.5 0-4.137-3.364-7.5-7.5-7.5z"/><path d="M12.97 12.485c-.274 0-.5-.224-.5-.5v-7c0-.276.226-.5.5-.5s.5.224.5.5v7c0 .276-.224.5-.5.5z"/><path d="M12.994 4.985c-1.38 0-2.5-1.122-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.122 2.5 2.5-1.12 2.5-2.5 2.5zm0-4c-.828 0-1.5.673-1.5 1.5s.672 1.5 1.5 1.5c.826 0 1.5-.673 1.5-1.5s-.672-1.5-1.5-1.5z"/></symbol><symbol id="icon-ftid6" viewBox="0 0 24 24"><path d="M27 23.875c-.275 0-.5-.225-.5-.5v-1c0-2.493-3.682-3.422-6-3.422-.156 0-.303-.072-.397-.195l-2.25-2.922c-.168-.22-.127-.53.092-.7.22-.168.533-.13.7.09l2.103 2.73c2.805.067 6.752 1.27 6.752 4.42v1c0 .274-.225.5-.5.5zm-19.625-7c-2.965 0-5.38-3.22-5.607-6.068C1.1 10.62.5 10.07.5 9.375v-2c0-.625.605-1.076 1-1.304V4.38C1.5 2.48 3.015.93 4.897.878 5.3.715 6.883.125 8.5.125c2.58 0 4 1.51 4 4.25V5.92c1 .194 1 .997 1 1.455v2c0 .696-.316 1.215-.826 1.412-.19 2.955-2.394 6.088-5.3 6.088zM8.5 1.125c-1.622 0-3.287.702-3.303.71-.063.026-.13.04-.197.04-1.378 0-2.5 1.12-2.5 2.5v2c0 .196-.116.375-.295.456-.356.17-.686.44-.706.55v2c0 .22.42.5.75.5.27 0 .5.23.5.5 0 2.48 2.13 5.5 4.62 5.5 2.43 0 4.31-2.95 4.31-5.5 0-.27.22-.5.5-.5.21 0 .31-.16.31-.5v-2c0-.5 0-.5-.5-.5-.28 0-.5-.22-.5-.5v-2c0-2.18-.98-3.25-3-3.25z"/><path d="M17.5 15.785c-1.277 0-2.38-.258-3.378-.537-.267-.074-.42-.35-.347-.616.074-.266.352-.423.615-.347.932.26 1.95.5 3.108.5 4.887 0 6.813-2.393 7.425-3.442-.447-.76-1.68-2.896-1.91-3.875-.397-1.686-1.73-5.604-5.515-5.604-.752 0-1.468.17-2.13.505-.248.12-.546.02-.67-.23-.126-.25-.027-.55.22-.67.804-.41 1.67-.61 2.58-.61 3.167 0 5.53 2.32 6.487 6.37.195.83 1.47 3.05 1.94 3.83.09.145.097.33.02.48-1.322 2.65-4.48 4.23-8.445 4.23zM-3 23.875c-.276 0-.5-.225-.5-.5v-1c0-2.896 2.313-5 5.5-5h1.233l1.33-1.986c.155-.23.465-.3.695-.14.23.15.29.46.137.69l-1.48 2.2c-.092.14-.248.22-.415.22H2c-2.65 0-4.5 1.646-4.5 4v1c0 .275-.224.5-.5.5zm21 0c-.275 0-.5-.225-.5-.5v-1c0-2.355-1.816-4-4.418-4h-1.5c-.165 0-.32-.08-.412-.217l-1.623-2.36c-.156-.228-.1-.54.13-.694.227-.154.538-.1.694.13l1.48 2.145h1.24c3.19 0 5.42 2.05 5.42 5v1c0 .27-.22.49-.5.49z"/><path d="M5.5 22.875c-.03 0-.06-.003-.09-.01-.163-.028-.3-.137-.367-.287l-2-4.5c-.09-.2-.037-.438.13-.58.166-.147.407-.162.592-.047l4 2.5c.13.09.214.22.23.37.02.15-.034.31-.142.41l-2 2c-.094.1-.222.15-.353.15zm-.88-3.71l1.042 2.342 1.04-1.04-2.08-1.302z"/><path d="M9.5 22.875c-.132 0-.26-.052-.355-.146l-2-2c-.108-.11-.16-.26-.143-.41.017-.15.103-.29.23-.37l4-2.5c.187-.12.427-.1.594.04.166.142.218.38.13.58l-2 4.5c-.068.15-.205.26-.367.29H9.5zm-1.203-2.41l1.04 1.042 1.042-2.342-2.09 1.3z"/></symbol>
+      </defs></svg>
+    
+    
+    <header id="header">
+      <div class="logo"><a href="/gsc_news/en/"><svg><title>GIGAZINE</title><use xlink:href="#logo"></use></svg></a></div>
+      <div id="header-social-button-box" style="min-height:31px">
+        <a class="fl-tw header-social-button" href="https://twitter.com/gigazine_en" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/twitter.com/gigazine_en']);" rel="nofollow" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>Twitter</title><use xlink:href="#icon-tw"></use></svg></a>
+        <a class="fl-fb header-social-button" href="https://www.facebook.com/gigazine.en" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/www.facebook.com/gigazine.en']);" rel="nofollow" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>Facebook</title><use xlink:href="#icon-facebook"></use></svg></a>
+        <a class="fl-yt header-social-button" href="https://www.youtube.com/user/gigazine" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/www.youtube.com/gigazine']);" rel="nofollow" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>YouTube</title><use xlink:href="#icon-yt"></use></svg></a>
+      </div>
+    </header>
+    
+    <div id="main">
+      <div id="article">
+        <div class="sbn">
+          <div id="Google_TC">
+            <div id='div-gpt-ad-1657676352808-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676352808-0');});
+</script>
+</div>          </div>
+        </div>
+                <div class="cntimage"><!-- ←20140212 -->
+          <time datetime="2026-04-23T12:29:00+09:00" class="yeartime">Apr 23, 2026  12:29:00</time>
+          <h1 class="title">OpenAI has released 'OpenAI Privacy Filter' as open source, which masks personal information such as names, email addresses, and phone numbers in documents to prevent their leakage.</h1>
+          <!-- google_ad_section_start -->
+         <p class="preface"></p><a href="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/00.jpg" target="_blank"><div style="aspect-ratio:16/9;max-width:560px;width:100%;display:inline-block;"><img src="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/00_m.jpg" border="0" alt="" class="lzsmall"></div></a><p class="preface"><br><br> OpenAI has released ' <b>OpenAI Privacy Filter</b> ,' a model that detects and masks personal information in text. OpenAI Privacy Filter is a compact model specializing in detecting and masking personally identifiable information, and is characterized by its ability to process raw documents locally without sending them to an external server. It is available under the Apache 2.0 license through GitHub and Hugging Face.<br><br> <b>Introducing OpenAI Privacy Filter | OpenAI</b><br> <b></p><a href="https://openai.com/index/introducing-openai-privacy-filter/" target="_blank">https://openai.com/index/introducing-openai-privacy-filter/</a></b><br><br> <b>OpenAI-Privacy-Filter-Model-Card.pdf</b><br> <b>(PDF file) <a href="https://cdn.openai.com/pdf/c66281ed-b638-456a-8ce1-97e9f5264a90/OpenAI-Privacy-Filter-Model-Card.pdf" target="_blank">https://cdn.openai.com/pdf/c66281ed-b638-456a-8ce1-97e9f5264a90/OpenAI-Privacy-Filter-Model-Card.pdf</a></b><br><br> <b>openai/privacy-filter: OpenAI Privacy Filter</b><br> <b><a href="https://github.com/openai/privacy-filter" target="_blank">https://github.com/openai/privacy-filter</a></b><br><br> <b>openai/privacy-filter · Hugging Face</b><br> <b><a href="https://huggingface.co/openai/privacy-filter" target="_blank">https://huggingface.co/openai/privacy-filter</a></b><br><br> OpenAI Privacy Filter detects eight types of information in documents, including personal names, addresses, email addresses, phone numbers, URLs, dates, account numbers, and sensitive information such as passwords and API keys.<br> <a href="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1611.png" target="_blank"><img src="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1611_m.png" border="0" alt="" class="lzsmall"></a><p class="preface"><br><br> OpenAI Privacy Filter is based on a pre-trained autoregressive model that transforms it into a bidirectional token classification model. Instead of generating tokens from the input sentence one by one, it labels the entire sentence in a single inference. It then employs a method of refining consecutive censored ranges using named entity BIOES tags and constrained <b></p><a href="https://en.wikipedia.org/wiki/Viterbi_decoder" target="_blank">Viterbi decoding</a></b> , enabling high-speed processing even for long texts and handling contexts of up to 128,000 tokens. The model has a total of 1.5 billion parameters, with 50 million parameters active at runtime.<br><br> While conventional PII detection tools are strong at detecting standardized formats like phone numbers and email addresses, they tend to overlook context-dependent personal information and nuanced cases. OpenAI Privacy Filter, however, combines language understanding and context recognition to more precisely distinguish between information that should be kept public and information that should be kept private.<br><br> In terms of performance, <b><a href="https://huggingface.co/datasets/ai4privacy/pii-masking-300k" target="_blank">the PII-Masking-300k</a></b> benchmark recorded an F1 score of 96%, accuracy of 94.04%, and recall of 98.04%, which combines the model&#39;s 'low detection rate' and 'low false positive rate.' OpenAI reported that a version corrected for annotation issues achieved an F1 score of 97.43%, accuracy of 96.79%, and recall of 98.08%. Detection was also performed using <b><a href="https://github.com/Samsung/CredData" target="_blank">CredData</a></b> , which evaluates authentication information detection within a codebase, and the corrected F1 score per token was 84.4%.<br> <a href="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1612.png" target="_blank"><img src="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1612_m.png" border="0" alt="" class="lzsmall"></a><p class="preface"><br><br> Furthermore, in <b></p><a href="https://aclanthology.org/2025.naacl-srw.23/" target="_blank">the SPY dataset</a></b> , which simulates legal and medical consultations, the F1 score improved from 54.5% before additional training to 96.2% with only 10% of the training data, highlighting the ease of fine-tuning to suit domain-specific strategies.<br> <a href="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1613.png" target="_blank"><img src="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1613_m.png" border="0" alt="" class="lzsmall"></a><p class="preface"><br><br> OpenAI also performs language-specific evaluations, and in PII-Masking-300k, it showed results in English, Dutch, French, German, Italian, and Spanish. In addition, in further multilingual synthesis evaluations, it has also tested Japanese, Chinese, Korean, Hindi, Arabic, and Russian, showing values of 86.6% recall, 89.7% precision, and 88.1% F1 score for Japanese.<br> </p><a href="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1614.png" target="_blank"><img src="https://i.gzn.jp/img/2026/04/23/openai-privacy-filter/snap1614_m.png" border="0" alt="" class="lzsmall"></a><p class="preface"><br><br> However, the OpenAI Privacy Filter is not marketed as a fully multilingual model, and even the model card states that the supported languages are 'primarily English.' OpenAI warns that 'performance may be degraded with text other than English, non-Latin characters, or notations that differ from the training distribution.'<br><br> OpenAI also explicitly states that the OpenAI Privacy Filter should not be used as a guarantee of anonymization or legal compliance. The OpenAI Privacy Filter is merely one element of privacy protection, and may require additional training for different masking policies across organizations. Furthermore, its performance may degrade with languages other than English or with notations outside the training distribution. Therefore, manual verification should be retained in high-risk fields such as healthcare, law, finance, and government.<br><br />
+</p>
+        </div>
+        
+        <div id="EndFooter">
+          <div class="EF_Left">
+            <div id='div-gpt-ad-1657676439748-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676439748-0');});
+</script>
+</div>          </div>
+        </div>
+
+        
+        <div class="rlcontents-s">
+<p class="preface"><b>Related Posts:</b></p>
+<ul id="rl-list">  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20250522-mistral-ai-all-hands-ai-devstral"><img data-src="https://i.gzn.jp/img/2025/05/22/mistral-ai-all-hands-ai-devstral/00_m.png" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20250522-mistral-ai-all-hands-ai-devstral">Mistral AI Announces 'Devstral,' a Small, High-Performance Agent-Based Coding AI That Runs Locally</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20190123-laser-natural-language-processing-toolkit"><img data-src="https://i.gzn.jp/img/2019/01/23/laser-natural-language-processing-toolkit/00.jpg" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20190123-laser-natural-language-processing-toolkit">Facebook presents a tool kit 'LASER' for accelerating machine translation of over 90 languages</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20260116-google-translategemma"><img data-src="https://i.gzn.jp/img/2026/01/16/google-translategemma/00_m.png" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20260116-google-translategemma">Google releases translation-specialized AI model 'TranslateGemma,' now supports Japanese</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20130401-yokohama-font"><img data-src="https://i.gzn.jp/img/2013/04/01/yokohama-font/top.png" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20130401-yokohama-font">Japanese font "Imagine · Yokohama font" designed based on the impression of Yokohama which can be downloaded for free</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20240719-nvidia-mistral-nemo-ai"><img data-src="https://i.gzn.jp/img/2024/07/19/nvidia-mistral-nemo-ai/00.png" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20240719-nvidia-mistral-nemo-ai">NVIDIA and Mistral AI Announce AI Model 'Mistral NeMo,' Adopting New Tokenizer 'Tekken' to Strengthen Multilingual Capabilities Including Japanese</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20241126-open-japanese-llm-leaderboard"><img data-src="https://i.gzn.jp/img/2024/11/26/open-japanese-llm-leaderboard/00_m.png" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20241126-open-japanese-llm-leaderboard">'Open Japanese LLM Leaderboard' released to evaluate the performance of large-scale language models used in Japanese AI</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20150202-office-2016-screenshot"><img data-src="https://i.gzn.jp/img/2015/02/02/office-2016-screenshot/00-top_m.jpg" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20150202-office-2016-screenshot">Screenshot of next-generation desktop version of Office "Office 2016" leaks a lot</a>
+    </div>
+  </li>
+  <li class="rl-list-item">
+    <div class="rl-list-item-image">
+      <a href="/gsc_news/en/20140215-unbabel"><img data-src="https://i.gzn.jp/img/2014/02/15/unbabel/00-top.png" class="lazyload"></a>
+    </div>
+    <div class="rl-list-item-link">
+      <a href="/gsc_news/en/20140215-unbabel">Speedy high quality translation service "Unbabel" of about 1.4 yen per word</a>
+    </div>
+  </li>
+</ul>
+</div>        <style>/* 更新：20170620 */
+          #rl-list{z-index:10000; padding-left:5px; display:-webkit-box; display:-ms-flexbox; display:flex; -webkit-box-orient:horizontal; -webkit-box-direction:normal; -ms-flex-direction:row; flex-direction:row; -ms-flex-wrap:wrap; flex-wrap:wrap; justify-content: flex-start;}
+          .rl-list-item {margin:.1rem .2rem .5rem .2rem; width:24%; list-style:none; background:#ffdd00;}
+          .rl-list-item-ad {margin:.1rem .2rem .5rem .2rem; width:24%; list-style:none; background:#ffdd00;}
+          .rl-list-item-image img{box-sizing:border-box; max-width:100%;}
+          .rl-list-item-link {font-weight:bold; font-size:80%;}
+          .rl-list-item-link a {padding:0 2px 0; color:#333; display:inline-block;}
+          .rlcontents-s{width:98%;padding:4px;}
+          @media(max-width:680px) {
+            .rl-list-item{width: 30%}
+            .rl-list-item-ad{width: 30%}
+          }
+          @media(max-width:400px) {#rl-list{flex-direction:column;}
+            .rl-list-item {margin-bottom:.1rem; width:98%; display:flex; background:#fffde3;}
+            .rl-list-item-ad {margin-bottom:.1rem; width:98%;background:#fffde3;}
+            .rl-list-item-image {width:33%;}
+            .rl-list-item-link {width:67%; padding-left:.3rem;}
+            .rl-list-item-link a {padding:2px; color:#1020d0; display:inline-block;}
+          }
+        </style>
+        
+
+        
+        
+
+        <nav>
+          <ul id="next-prev">
+            <li>
+              
+              <p>&lt;&lt; Next</p>
+<div><a href="/gsc_news/en/20260423-sony-ai-table-tennis-ace/"><img data-src="https://i.gzn.jp/img/2026/04/23/sony-ai-table-tennis-ace/00_m.png" class="lazyload"></a></div>
+<p class="np-bg"><a href="/gsc_news/en/20260423-sony-ai-table-tennis-ace/">Sony AI&#39;s robot system 'Ace' defeats a professional in a table tennis match using official rules.</a></p>
+            </li>
+            <li>
+              <p>Prev &gt;&gt;</p>
+<div><a href="/gsc_news/en/20260423-catl-3rd-gen-lfp-battery/"><img data-src="https://i.gzn.jp/img/2026/04/23/catl-3rd-gen-lfp-battery/00_m.jpg" class="lazyload"></a></div>
+<p class="np-bg"><a href="/gsc_news/en/20260423-catl-3rd-gen-lfp-battery/">China&#39;s Contemporary Electronics Company (Ningde) has announced the third-generation model of its 'Shenxing' EV battery, which can be almost fully charged in 6 minutes.</a></p>            </li>
+          </ul>
+        </nav>
+        
+        <style>
+          #next-prev{display: -webkit-box;display: -ms-flexbox;display: flex;-ms-flex-wrap: wrap;flex-wrap: wrap;-ms-flex-pack: distribute;
+            justify-content: space-around;-webkit-box-orient: horizontal;-webkit-box-direction: normal;-ms-flex-direction: row;flex-direction: row;
+            padding:0}
+          #next-prev li{width:49%;max-width:402px;list-style: none;}
+          #next-prev p{margin:.2rem 0;font-weight:bold;font-size:.875em}
+          #next-prev img{max-width:100%;border:1px solid #333;vertical-align: text-top;box-sizing: border-box;}
+          #next-prev .np-bg{background-color:#fd0;margin-top:0;padding:4px;max-width:402px;box-sizing: border-box;}
+        </style>
+        <div class="items">
+          <p><time datetime="2026-04-23T12:29:00+09:00">Apr 23, 2026  12:29:00</time> in  <a href="/gsc_news/en/C48/">AI</a>, &nbsp; <a href="/gsc_news/en/C14/">Security</a>,  Posted by log1i_yk</p>
+          <div class="social-button">
+            <a class="fl-tw" href="https://twitter.com/gigazine_en" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/twitter.com/gigazine_en']);" rel="nofollow" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>Twitter</title><use xlink:href="#icon-tw"></use></svg></a>
+            <a class="fl-fb" href="https://www.facebook.com/gigazine.en" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/www.facebook.com/gigazine.en']);" rel="nofollow" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>Facebook</title><use xlink:href="#icon-facebook"></use></svg></a>
+            <a class="fl-yt" href="https://www.youtube.com/user/gigazine" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/www.youtube.com/gigazine']);" rel="nofollow" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>YouTube</title><use xlink:href="#icon-yt"></use></svg></a>
+            <a class="fl-rs" href="https://gigazine.net/{template_group_name/rss_2.0}/" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/en_rss_20']);" target="_blank" data-cf-modified-9ca0967de387fa3cd01ef163-=""><svg><title>RSS 2.0</title><use xlink:href="#icon-rss"></use></svg></a>
+          </div>
+        </div> 
+        
+<!--      article-->
+      </div>
+      
+     <aside id="latest">
+        <div id="LT">
+<div id='div-gpt-ad-1657676592791-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676592791-0');});
+</script>
+</div>
+</div>        <h3>Latest news 40</h3>
+        <ul id="list"></ul>
+       <script type="9ca0967de387fa3cd01ef163-text/javascript">
+         fetch('/amp/amp_2018_news_list_en')
+           .then(r=>r.json())
+           .then(d=>d.items.map(e=>{
+           const li = document.createElement('li');
+           const a = document.createElement('a');
+           a.href = `/gsc_news/en/${e.url_title}`;
+           a.appendChild(document.createTextNode(e.title));
+           li.appendChild(a);
+           return li;
+         }))
+           .then(li=>{
+           const fr = document.createDocumentFragment();
+           li.forEach(li=>fr.appendChild(li));
+           document.getElementById('list').appendChild(fr);
+         });
+       </script>
+        <div id="LB" style="position:sticky; top:0;">
+<div id='div-gpt-ad-1657676636663-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676636663-0');});
+</script>
+</div>
+</div>      </aside><!-- end_#latest -->
+      
+      <aside id="sub">
+        
+        <div id="subNav">
+          <dl class="list-1">
+            <dt>Archives</dt>
+            <dd id="calendar"></dd>
+          </dl>
+          <dl class="list-2 navi-list-2col">
+        <div id="Google_RT">
+<div id='div-gpt-ad-1657676687124-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676687124-0');});
+</script>
+</div>
+</div>            <dt>Categories</dt>
+            
+            <dd><a href="/gsc_news/en/C45/"><i class="iconcat icon-catid45"></i><b>Free Member</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C47/"><i class="iconcat icon-catid47"></i><b>Education</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C48/"><i class="iconcat icon-catid48"></i><b>AI</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C9/"><i class="iconcat icon-catid9"></i><b>Video</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C7/"><i class="iconcat icon-catid7"></i><b>Note</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C6/"><i class="iconcat icon-catid6"></i><b>Hardware</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C4/"><i class="iconcat icon-catid4"></i><b>Software</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C5/"><i class="iconcat icon-catid5"></i><b>Web Service</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C29/"><i class="iconcat icon-catid29"></i><b>Science</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C18/"><i class="iconcat icon-catid18"></i><b>Smartphone</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C12/"><i class="iconcat icon-catid12"></i><b>Review</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C13/"><i class="iconcat icon-catid13"></i><b>Tasting</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C10/"><i class="iconcat icon-catid10"></i><b>Game</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C22/"><i class="iconcat icon-catid22"></i><b>Coverage</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C19/"><i class="iconcat icon-catid19"></i><b>Headline</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C20/"><i class="iconcat icon-catid20"></i><b>Anime</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C30/"><i class="iconcat icon-catid30"></i><b>Vehicle</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C14/"><i class="iconcat icon-catid14"></i><b>Security</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C23/"><i class="iconcat icon-catid23"></i><b>Movie</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C15/"><i class="iconcat icon-catid15"></i><b>Food</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C33/"><i class="iconcat icon-catid33"></i><b>Creature</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C31/"><i class="iconcat icon-catid31"></i><b>Design</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C38/"><i class="iconcat icon-catid38"></i><b>Manga</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C32/"><i class="iconcat icon-catid32"></i><b>Creation</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C37/"><i class="iconcat icon-catid37"></i><b>Web Application</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C34/"><i class="iconcat icon-catid34"></i><b>Pick Up</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C17/"><i class="iconcat icon-catid17"></i><b>Interview</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C8/"><i class="iconcat icon-catid8"></i><b>Notice</b></a></dd>
+             
+            <dd><a href="/gsc_news/en/C16/"><i class="iconcat icon-catid16"></i><b>Column</b></a></dd>
+               
+          </dl>
+          
+        <dl class="list-3">
+          <dt>Search</dt>
+          <dd id="searchform">
+           <script async src="https://cse.google.com/cse.js?cx=6fd8b2e663233d918" type="9ca0967de387fa3cd01ef163-text/javascript"></script>
+           <div class="gcse-search"></div>
+          </dd>
+        </dl>
+        
+        </div><!-- end_#subNav -->
+        <style>.icon-catid38{background-position: 0 -750px;}</style>
+        <!-- a_lib_sub -->
+        <div id="Google_RB" style="position:sticky; top:0;">
+<div id='div-gpt-ad-1657676739637-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676739637-0');});
+</script>
+</div>
+</div>      </aside>
+<!--      main-->
+    </div>
+    
+    
+    <footer>
+      <dl class="navi-list-2col">
+        <dt><!-- footer --></dt><dd><a href="/gsc_news/contact1/" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/contact1']);" data-cf-modified-9ca0967de387fa3cd01ef163-=""><i class="icon icon-ftid1"></i><b>Contacts</b></a></dd>
+        <dd><a href="/gsc_news/about/" onClick="if (!window.__cfRLUnblockHandlers) return false; javascript:_gaq.push(['_trackPageview', '/outgoing/about']);" data-cf-modified-9ca0967de387fa3cd01ef163-=""><i class="icon icon-ftid5"></i><b>About GIGAZINE</b></a></dd>
+        <dd><form name="iform" method="post" action="/gsc_news/en_add_suggestion/" autocomplete="off" target="_blank"><i class="icon icon-ftid1"></i><input type="submit" value="Add Suggestion" onclick="if (!window.__cfRLUnblockHandlers) return false; ga('send', 'event', 'outgoing', 'click', '/outgoing/gigazine.net/en_add_suggestion');" data-cf-modified-9ca0967de387fa3cd01ef163-=""><input type="hidden" name="memid" value="9531"><input type="hidden" name="inqtitle" value="OpenAI has released 'OpenAI Privacy Filter' as open source, which masks personal information such as names, email addresses, and phone numbers in documents to prevent their leakage."><input type="hidden" name="inqentryid" value="106858"><input type="hidden" name="inqurl_title" value="20260423-openai-privacy-filter"><input type="hidden" name="csrf_token" value="1e95ed93eef891ed97b9f8273053ee0f572fef97"></form></dd>
+      </dl>
+    </footer>
+    <!-- a_lib_footer -->
+    <div id="UFad"><div class="ufadbox">
+      <div id='div-gpt-ad-1657676548989-0'>
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+googletag.cmd.push(function() {googletag.display('div-gpt-ad-1657676548989-0');});
+</script>
+</div>    </div></div>
+    
+    
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <div id="fb-root"></div>
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script><!-- class="fb" -->
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script><!-- class="pk" -->
+    
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">
+      $(document).ready(function(){
+        var nowDate = new Date();
+        var nowYear = nowDate.getFullYear();
+        var nowMonth = nowDate.getMonth() + 1;
+
+        var $dir = location.pathname.split("/");
+        if ($dir.length < 6) {setCalendar(nowYear,nowMonth);} else {
+          var pathYear = Number($dir[3]);
+          var pathMonth = Number($dir[4]);
+          if ( pathYear > 0 && pathMonth > 0 && pathMonth < 13) {setCalendar(pathYear,pathMonth);} else {setCalendar(nowYear,nowMonth);}
+        }
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = nowDate.getMonth() + 1;
+        var output = "<option value=\"\">Select Month</option>\n";
+        while( year >= 2006){
+          while( month > 0) {
+            if ( !(year == 2006 && month == 1) ){
+              output += "<option value=\"/gsc_news/en/"+year+"/"+("0" + month).slice(-2)+"/\">"+month+", "+year+""+"</option>\n";
+            }
+            month--;
+          }
+          year--;
+          month = 12;
+        }
+
+
+        selMonth = $("select[name=\"selmonth\"]");
+        selMonth.append(output);
+        selMonth.on("change",function(){location.href=$(this).val();});
+      });
+
+      function setCalendar(yy, mm) {
+        var nowDate = new Date();
+        var nowYear = nowDate.getFullYear();
+        var nowMonth = nowDate.getMonth() + 1;
+        var nowDay = nowDate.getDate();
+
+        var yy, mm;
+        var zdate = new Date(yy,mm-1,0);
+        var tdate = new Date(yy,mm,0);
+        var rdate = new Date(yy,mm+1,0);
+        zedYear = zdate.getFullYear();
+        zedMonth = zdate.getMonth()+1;
+        zedd = zdate.getDate();
+        zedy = zdate.getDay();
+        tedYear = tdate.getFullYear();
+        tedMonth = tdate.getMonth()+1;
+        tedd = tdate.getDate();
+        tedy = tdate.getDay();
+        rdm  = rdate.getMonth()+1;
+        rdy  = rdate.getFullYear();
+
+        var days = [];
+        if (zedy != 6) {
+          for (var i=zedy; i>=0; i--) {
+            days[zedy-i] = (zedd - i);
+          }
+          for (var i=1; i<=tedd; i++) {
+            days[zedy+i] = i;
+          }
+          if ((zedy + tedd) <= 34) {
+            for (var i=1; i<35-zedy-tedd; i++) {
+              days[zedy+tedd+i] = i;
+            }
+          } else if((zedy + tedd) > 34) {
+            for (var i=1; i<42-zedy-tedd; i++) {
+              days[zedy+tedd+i] = i;
+            }
+          }
+
+        } else if(zedy == 6) {
+          for (var i=1; i<=tedd; i++) {
+            days[i-1] = i;
+          }
+          for (var i=0; i<35-tedd; i++) {
+            days[tedd+i] = i + 1;
+          }
+        }
+
+        var out = "<table class=\"calendarBG\">";
+        out += "<tr class=\"calendarHeader\"><th class=\"calendarMonthLinks\"><a href=\"/gsc_news/en/"+ zedYear+"/"+("0"+zedMonth).slice(-2) +"/\"> \< </a></th>";
+        out += "<th colspan=5 class=\"calendarHeader\">"+mm+', '+yy+''+"</th>";
+        out += "<th class=\"calendarMonthLinks\"><a href=\"/gsc_news/en/"+ rdy +"/"+("0"+rdm).slice(-2)+"/\"> \></a></th></tr>\n";
+        var youbi = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        out += "<tr class=\"calendarHeader\">";
+        for (var i in youbi) {
+          out += "<th class=\"calendarDayHeading\">"+youbi[i]+"</th>\n";
+        }
+        out += "</tr>\n";
+
+        var row = days.length/7;
+        var todayClass = "";
+        for (var i=1; i<=row; i++) {
+          out += "<tr>";
+          for (var j=7*i-6; j<=7*i; j++) {
+            todayClass = "";
+
+            if ( i == 1 && days[j-1] > 20 ) {
+              out += "<td class=\"calendarBlank\">"+days[j-1]+"</td>";
+            } else if ( i == row && days[j-1] < 10) {
+              out += "<td class=\"calendarBlank\">"+days[j-1]+"</td>";
+
+            } else {
+              if ( nowYear == tedYear && nowMonth == tedMonth && nowDay == days[j-1]) {
+                todayClass = "calendarToday ";
+              }
+
+              sday = new Date(tedYear,tedMonth-1,days[j-1]);
+
+              if ( sday.getTime() < nowDate.getTime() ){
+                if ( todayClass == "") {
+                  out += "<td class=\"calendarCell\">"+"<a href=\"/gsc_news/en/"+tedYear+"/"+("0"+tedMonth).slice(-2)+"/"+("0" + days[j-1]).slice(-2)+"/\">"+days[j-1]+"</a></td>";
+                } else {
+                  out += "<td class=\"calendarToday\">"+"<a href=\"/gsc_news/en/"+tedYear+"/"+("0"+tedMonth).slice(-2)+"/"+("0" + days[j-1]).slice(-2)+"/\">"+days[j-1]+"</a></td>"; 
+                }
+              } else {
+                if ( todayClass == "") {
+                  out += "<td class=\"calendarCell\">"+days[j-1]+"</td>";
+                } else {
+                  out += "<td class=\"calendarToday\">"+days[j-1]+"</td>";
+                }
+              }
+            }
+          }
+          out += "</tr>";
+        }
+        out += "</table>";
+
+        out += "<form style=\"padding:10px 0 10px 0;\" name=\"monthmenu\" action=\"\">";
+        out += "<select class=\"selmonth\" name=\"selmonth\">";
+        out += "</select>";
+        out += "</form>";
+
+
+        $("#calendar").html(out);
+      }
+    </script>
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">
+      $(document).ready(function(){
+        
+        var node_add = "<div style=\"display: flex;\"><div style=\"text-align:center; display:inline-block; margin:auto; border:solid 1px #ccc; border-radius:3px; padding:3px 6px; background-color:#fbfef4;\"><small>This article, originally posted in <b><a href=\"http://gigazine.net/news/20260423-openai-privacy-filter/\" target=\"_blank\">Japanese</a></b> on 12:29 Apr 23, 2026, may contains some machine-translated parts.<br />If you would like to suggest a corrected translation, please click <b><a href=\"javascript:iform.submit();\">here</a></b>.</small></div></div>";
+        $(".cntimage br").first().next("br").after(node_add + "<br />");
+        $(".cntimage br").first().next("small").next("br").after("<br />" + node_add);
+      });
+    </script>
+    <!-- a_lib_js_pagelast -->
+    
+    <script type="9ca0967de387fa3cd01ef163-text/javascript">
+      $(document).ready(function(){
+        var cookie = document.cookie;
+        
+        if ( cookie.match(/exp_sessionid/)){
+          $.ajax({
+            url: '/gsc_news/login.js',
+            type: 'post',
+            data: { url_title : '20260423-openai-privacy-filter'},
+            dataType: 'script',
+          })
+        }
+        
+      });
+    </script>
+    
+<!-- Matomo -->
+<script type="9ca0967de387fa3cd01ef163-text/javascript">
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setCookieDomain", "*.gigazine.net"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://mt.gigazine.net/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '8']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="https://mt.gigazine.net/matomo.php?idsite=8&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->
+    <!-- 0.3623 -->
+  <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="9ca0967de387fa3cd01ef163-|49" defer></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"de8f35931f0247c6bdd54312f7427ce8","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html><!-- news_entry -->
+
