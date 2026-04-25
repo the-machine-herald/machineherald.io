@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:400,700,400italic,700italic&display=swap" />
+    <title>What Is Mechanistic Interpretability? How Researchers Are Opening AI&#039;s Black Box | AI Weekly</title>
+          <meta name="description" content="Learn what mechanistic interpretability is, how researchers reverse-engineer neural networks to find features and circuits, and why it matters for AI safety." />
+              <meta name="keywords" content="mechanistic interpretability" />
+              <link rel="canonical" href="https://aiweekly.co/learning-ai/ai-safety/what-mechanistic-interpretability-how-researchers-are-opening-ais-black-box" />
+            <link rel="icon" type="image/svg+xml" href="/themes/custom/aiweekly/images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/themes/custom/aiweekly/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/themes/custom/aiweekly/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/themes/custom/aiweekly/images/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="AI Weekly RSS Feed" href="/feed" />
+          <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://aiweekly.co/#organization","name":"AI Weekly","alternateName":"AI News Weekly","url":"https://aiweekly.co","logo":{"@type":"ImageObject","url":"https://dxj7eshgz03ln.cloudfront.net/production/publication/logo/1475/8f402391-cd29-43a4-9695-35d930a59660.png","width":1460,"height":535},"description":"AI news delivered 3x/week. Curated AI updates on funding, models, regulation, and applications. Read by 44,000+ professionals since 2017.","foundingDate":"2015","sameAs":["https://twitter.com/aiaboratory"],"contactPoint":{"@type":"ContactPoint","contactType":"editorial","email":"alexis@aiweekly.co"}},{"@type":"WebSite","@id":"https://aiweekly.co/#website","url":"https://aiweekly.co","name":"AI Weekly","description":"AI news delivered 3x/week for 44,000+ professionals.","publisher":{"@id":"https://aiweekly.co/#organization"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://aiweekly.co/search/node?keys={search_term_string}"},"query-input":"required name=search_term_string"}},{"@type":"Article","@id":"https://aiweekly.co/learning-ai/ai-safety/what-mechanistic-interpretability-how-researchers-are-opening-ais-black-box#article","headline":"What Is Mechanistic Interpretability? How Researchers Are Opening AI's Black Box","url":"https://aiweekly.co/learning-ai/ai-safety/what-mechanistic-interpretability-how-researchers-are-opening-ais-black-box","author":{"@type":"Person","name":"Alexis Gonzalez-del-Valle","url":"https://aiweekly.co/about"},"publisher":{"@id":"https://aiweekly.co/#organization"},"isPartOf":{"@id":"https://aiweekly.co/#website"},"inLanguage":"en-US","datePublished":"2026-03-28T00:00:00+00:00","dateModified":"2026-03-28T00:00:00+00:00","description":"Learn what mechanistic interpretability is, how researchers reverse-engineer neural networks to find features and circuits, and why it matters for AI safety."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://aiweekly.co"},{"@type":"ListItem","position":2,"name":"Learning AI","item":"https://aiweekly.co/learning-ai"},{"@type":"ListItem","position":3,"name":"What Is Mechanistic Interpretability? How Researchers Are Opening AI's Black Box","item":"https://aiweekly.co/learning-ai/ai-safety/what-mechanistic-interpretability-how-researchers-are-opening-ais-black-box"}]}]}</script>
+        <link rel="stylesheet" media="all" href="/sites/default/files/css/css_QmC0P-Z4mR_rKpD9MYMN_dYVmLAgSpXbfeYwwd2pDfs.css?delta=0&amp;language=en&amp;theme=aiweekly&amp;include=eJxLzCxPTc3OqdRPz8lPSszRKa4sLknN1U9KLE4FAJWjCpc" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_zqlTYV4m-BJawz8t7iMyTP_iOXmZkt2dHGl1FQp9908.css?delta=1&amp;language=en&amp;theme=aiweekly&amp;include=eJxLzCxPTc3OqdRPz8lPSszRKa4sLknN1U9KLE4FAJWjCpc" />
+
+    
+    <script src="/themes/custom/aiweekly/js/subscribe.js?te285q" defer></script>
+
+    
+  </head>
+  <body>
+    
+      <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+    <header class="header header--compact" role="banner">
+  <div class="navbar navbar--inline" role="navigation">
+    <div class="i">
+      <div class="navbar-collapse">
+        <a class="navbar-a navbar-menu-item" href="/">Latest Issue</a>
+        <a class="navbar-a" href="/issues">Archives</a>
+        <a class="navbar-a" href="/learning-ai">Learning AI</a>
+        <a class="navbar-a" href="/newsletters">Newsletters</a>
+        <a class="navbar-a" href="/ai-index/dashboard">AI Index</a>
+        <a class="navbar-a navbar-a--live" href="/ai-news-today">AI News Today</a>
+                  <a class="navbar-a" href="/login">Login</a>
+              </div>
+      <a class="navbar-a navbar-brand" href="/">
+        <picture>
+          <source srcset="/themes/custom/aiweekly/images/logo.webp" type="image/webp" />
+          <img alt="AI News Weekly" width="1460" height="535" src="/themes/custom/aiweekly/images/logo.png" />
+        </picture>
+      </a>
+      <button class="navbar-toggle" aria-label="Toggle menu">
+        <span class="navbar-toggle-bar"></span>
+        <span class="navbar-toggle-bar"></span>
+        <span class="navbar-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+      <div class="cta cta--header">
+      <div class="i">
+        <div id="subscribe-alert" class="cta-alert" style="display:none;"></div>
+        <form class="new_publication_email_subscriber aiweekly-subscribe-form" id="subscribe-form" action="/email_subscribers" method="post">
+          <div class="form_elements">
+            <label for="subscribe-email">Email</label>
+            <input class="form-control" placeholder="Your email address" type="email" name="email" id="subscribe-email" required />
+            <button type="submit" class="btn" id="subscribe-btn">SUBSCRIBE</button>
+          </div>
+          <div class="subscribe-alerts-opt">
+            <label class="subscribe-alerts-label"><input type="checkbox" name="alerts" id="subscribe-alerts" checked /> Also get daily AI alerts — breaking stories only</label>
+          </div>
+        </form>
+        <p class="trust-msg">No spam, ever. We'll never share your email address and you can opt out at any time. <a href="/login" style="color:#aaa;">Already a subscriber? Log in</a></p>
+      </div>
+    </div>
+  </header>
+
+<main>
+    <div>
+    <div id="block-aiweekly-content">
+  
+    
+      <article class="article"  data-history-node-id="505">
+  <header class="article__heading">
+    <div class="i">
+              <div class="article__topics">
+                      <a href="/learn/ai-safety" class="article__topic-tag">AI Safety</a>
+                  </div>
+            <h1 class="article__title">
+<span>What Is Mechanistic Interpretability? How Researchers Are Opening AI&#039;s Black Box</span>
+</h1>
+              <div class="article__date">March 28th 2026 · By <a href="/about">Alexis</a></div>
+          </div>
+  </header>
+
+  <div class="article__body">
+    <div class="i">
+      
+            <div><h1>What Is Mechanistic Interpretability? How Researchers Are Opening AI's Black Box</h1>
+<p>Modern AI systems can write code, diagnose diseases, and hold nuanced conversations. But ask their creators exactly how they produce a specific answer, and you will get an uncomfortable shrug. The internal workings of large neural networks have been opaque since the field began. Mechanistic interpretability is the research discipline working to change that.</p>
+<p>MIT Technology Review named mechanistic interpretability one of its 10 Breakthrough Technologies for 2026, recognizing rapid advances in mapping the internal structures of AI models. Anthropic, Google DeepMind, and a growing community of independent researchers are building tools that let us peer inside these systems and understand what they are actually doing, not just what they output.</p>
+<p>This guide explains what mechanistic interpretability is, how it works at a technical level, why it matters for AI safety, and where the field stands today.</p>
+<h2>What Mechanistic Interpretability Actually Means</h2>
+<p>Mechanistic interpretability is a subfield of AI research that aims to reverse-engineer neural networks by identifying the internal structures, features, and circuits that drive their behavior. Think of it as creating a detailed schematic for a machine that was never designed with a blueprint.</p>
+<p>Traditional approaches to understanding AI focus on inputs and outputs. You give a model a prompt, observe its response, and draw conclusions about its capabilities. This is useful but limited. It tells you what the model does, not how or why.</p>
+<p>Mechanistic interpretability goes deeper. It examines the model's internal activations, the weights connecting its neurons, and the computational pathways that transform an input into an output. The goal is to build a complete, mechanistic account of the model's reasoning, similar to how a biologist might trace a neural pathway in the brain or an engineer might reverse-engineer a circuit board.</p>
+<p>The analogy to reverse engineering is deliberate. A compiled computer program is a sequence of binary instructions that works but is nearly impossible for humans to read. Reverse engineers use specialized tools to reconstruct the original logic. Mechanistic interpretability applies the same philosophy to <a href="/learning-ai/deep-learning/what-are-neural-networks">neural networks</a>, which encode their learned knowledge in billions of numerical parameters that are equally opaque.</p>
+<h2>Why It Matters: The Safety Case</h2>
+<p>The urgency behind mechanistic interpretability comes from a simple problem: we are deploying increasingly powerful AI systems without understanding how they work internally. This creates several concrete risks.</p>
+<h3>Detecting Deceptive Behavior</h3>
+<p>As AI models become more capable, the risk of deceptive alignment grows. A model might learn to behave well during testing while harboring different objectives that emerge in deployment. Without the ability to inspect a model's internal representations, we have no reliable way to detect this. Mechanistic interpretability offers a path to examining what a model "believes" and "intends" at a computational level, rather than relying solely on behavioral testing.</p>
+<h3>Understanding Failure Modes</h3>
+<p>When an AI system produces a wrong or harmful output, mechanistic interpretability can help researchers trace exactly which internal features contributed to the error. This is fundamentally different from simply observing the mistake. It lets researchers identify whether the failure was caused by a specific misrepresentation, a faulty reasoning circuit, or an unexpected interaction between features.</p>
+<h3>Pre-Deployment Safety Evaluation</h3>
+<p>Anthropic has already used mechanistic interpretability in practice for safety assessment. Before releasing Claude Sonnet 4.5, researchers examined internal features for dangerous capabilities, deceptive tendencies, and undesired goals. This represents a shift from purely behavioral evaluation to structural inspection of the model itself.</p>
+<h3>Building Trust in AI Systems</h3>
+<p>As AI systems take on higher-stakes roles in healthcare, law, finance, and national security, the inability to explain their decisions becomes a practical and legal liability. Mechanistic interpretability provides a scientific foundation for understanding and auditing AI behavior, moving beyond the black-box paradigm that has defined the field.</p>
+<h2>How Mechanistic Interpretability Works</h2>
+<p>The technical machinery of mechanistic interpretability involves several interconnected concepts and methods. Understanding them requires grasping how neural networks store and process information at a fundamental level.</p>
+<h3>Features: The Building Blocks</h3>
+<p>A feature is a property or pattern that a neural network has learned to recognize and represent internally. In a vision model, features might correspond to edges, textures, shapes, or high-level concepts like "dog" or "sunset." In a <a href="/learning-ai/generative-ai/what-is-a-large-language-model">large language model</a>, features correspond to concepts like specific entities, abstract ideas, grammatical structures, or reasoning patterns.</p>
+<p>The key insight is that models learn to represent human-interpretable concepts internally, even though nobody programmed those concepts explicitly. During training on vast datasets, meaningful features emerge naturally as the model discovers statistical patterns.</p>
+<p>Anthropic's breakthrough work demonstrated this concretely. Researchers identified specific features inside Claude that correspond to recognizable concepts, from the Golden Gate Bridge to Michael Jordan to abstract ideas like deception and sycophancy. When researchers artificially amplified the Golden Gate Bridge feature, Claude began inserting references to the bridge in completely unrelated conversations, demonstrating that the feature genuinely controls a specific aspect of the model's behavior.</p>
+<h3>The Superposition Problem</h3>
+<p>One of the central challenges in mechanistic interpretability is superposition. Neural networks appear to store far more features than they have individual neurons. A single neuron does not neatly correspond to a single concept. Instead, multiple concepts are encoded across overlapping sets of neurons, and a single neuron participates in representing many different features.</p>
+<p>This is called polysemanticity: individual neurons respond to multiple, seemingly unrelated concepts. A neuron that activates for the concept of "legal precedent" might also activate for "academic citation" and "recipe ingredient." This makes it extremely difficult to interpret the network by examining neurons one at a time.</p>
+<p>Superposition likely occurs because the model needs to represent more concepts than it has neurons. By encoding features in overlapping patterns, the model compresses more information into a fixed-size network. This is efficient for the model but creates a major obstacle for researchers trying to understand it.</p>
+<h3>Sparse Autoencoders: Cracking Superposition</h3>
+<p>The most promising tool for addressing superposition is the sparse autoencoder (SAE). An SAE is a secondary neural network trained to decompose a model's internal activations into a larger set of interpretable features.</p>
+<p>Here is how it works. The SAE takes the activation vector from a layer of the model and maps it to a much higher-dimensional space, where each dimension ideally corresponds to a single interpretable feature. A sparsity constraint ensures that only a small number of these dimensions are active at any time, reflecting the intuition that only a few concepts are relevant to any particular input.</p>
+<p>The result is a dictionary of features, each with a clear interpretation, that together reconstruct the model's internal state. Researchers at Anthropic have extracted millions of features from Claude using this technique, creating what they describe as an AI microscope.</p>
+<h3>Circuits: How Features Connect</h3>
+<p>Features alone tell you what a model represents, but not how it processes information. Circuits fill that gap. A circuit is a connected pathway of features across multiple layers that work together to perform a specific computation.</p>
+<p>For example, a circuit for answering "What country is Paris in?" might involve features that recognize the entity Paris, features that encode the capital-of relationship, features that represent France, and the connections between them that route information from question to answer.</p>
+<p>Circuit analysis reveals the actual algorithms that models implement internally. Some circuits are surprisingly clean and human-interpretable. Others are tangled and resist easy explanation. Mapping these circuits is the core work of mechanistic interpretability.</p>
+<h3>Attribution Graphs: Tracing Model Thoughts</h3>
+<p>In 2025, Anthropic introduced attribution graphs, a method for tracing the complete computational path a model takes from input to output. An attribution graph shows which features activated at each layer, how strongly they influenced each other, and which pathway ultimately determined the model's response.</p>
+<p>The method works by using a replacement model that substitutes interpretable components called cross-layer transcoders for portions of the original network. By tracing information flow through these interpretable components, researchers can construct a readable map of the model's reasoning.</p>
+<p>Anthropic open-sourced this tool, releasing a library that supports attribution graph generation on popular open-weight models like Gemma and Llama, along with a visual frontend hosted by Neuronpedia for interactive exploration. This has enabled the broader research community to trace circuits, visualize reasoning paths, and test hypotheses by modifying feature values and observing how the model's output changes.</p>
+<h3>Activation Patching: Causal Testing</h3>
+<p>Activation patching, also called causal tracing, is a technique for establishing causal relationships between internal components and model behavior. The method runs the model on two different inputs, then selectively replaces activations from one run with activations from the other at specific points in the network.</p>
+<p>If swapping a particular activation changes the model's output from one answer to another, that activation is causally responsible for the behavior in question. This technique lets researchers move beyond correlation to establish which internal components actually drive specific outputs.</p>
+<h2>Key Players and Milestones</h2>
+<p>The mechanistic interpretability field has grown rapidly. Several organizations are driving progress.</p>
+<h3>Anthropic</h3>
+<p>Anthropic has invested more heavily in mechanistic interpretability than any other frontier AI lab. Key milestones include the discovery of interpretable features in large language models using sparse autoencoders, the Golden Gate Bridge demonstration showing precise feature-level control, pre-deployment safety analysis of Claude Sonnet 4.5 using interpretability tools, the development and open-sourcing of attribution graphs for circuit tracing, and Dario Amodei's public essay on "The Urgency of Interpretability" laying out the strategic case for the field.</p>
+<p>Anthropic's dedicated interpretability team publishes its research at transformer-circuits.pub and has created some of the most widely cited work in the field.</p>
+<h3>Google DeepMind</h3>
+<p>DeepMind has contributed foundational work on circuit analysis and feature visualization, particularly in vision models. Their research on mechanistic interpretability complements Anthropic's language-model-focused work with insights from different architectures and modalities.</p>
+<h3>Independent Researchers</h3>
+<p>The field has a strong independent research community. Neel Nanda, formerly at DeepMind, has produced widely used educational resources and research. Organizations like MATS (ML Alignment Theory Scholars) train new researchers in mechanistic interpretability. The Alignment Forum and LessWrong host active discussions and preprints.</p>
+<h3>Academic Institutions</h3>
+<p>Universities including MIT, Oxford, and UC Berkeley have established research groups focused on mechanistic interpretability. MIT's recognition of the field as a 2026 breakthrough technology reflects its growing academic credibility.</p>
+<h2>Current Limitations and Open Problems</h2>
+<p>Despite rapid progress, mechanistic interpretability faces substantial challenges.</p>
+<h3>Scale</h3>
+<p>The largest language models contain hundreds of billions of parameters. Extracting and analyzing features at this scale is computationally expensive and methodologically difficult. Most detailed circuit analyses have been performed on smaller models. Scaling these techniques to frontier models remains an active research challenge.</p>
+<h3>Defining "Feature" Rigorously</h3>
+<p>The concept of a feature, despite being central to the field, lacks a rigorous mathematical definition. Researchers generally agree on what features look like in practice, but there is no formal framework that guarantees the features found by sparse autoencoders are the "right" decomposition of the model's representations. Different SAE configurations can produce different feature sets, raising questions about which decomposition is most meaningful.</p>
+<h3>Completeness</h3>
+<p>Even the best current interpretability tools capture only a partial picture of a model's computation. Attribution graphs trace the most important pathways but may miss subtle interactions. Features extracted by SAEs may not account for all of the model's representational capacity. The gap between what interpretability tools reveal and the model's full computational behavior is not yet well characterized.</p>
+<h3>Intractability Results</h3>
+<p>Theoretical computer science results show that many interpretability queries are computationally intractable in the worst case. Determining whether a specific behavior is possible given a model's weights, or finding the minimal circuit responsible for a behavior, can be NP-hard or worse. Practical methods work well in many cases but lack theoretical guarantees.</p>
+<h3>Safety Relevance</h3>
+<p>Perhaps the most pressing concern is whether current interpretability methods are actually useful for safety. Some researchers argue that practical methods still underperform simple baselines on safety-relevant tasks. A model might pass an interpretability-based safety check while still exhibiting dangerous behavior that the tools were not designed to detect. Closing this gap between interpretability research and practical safety is a top priority for the field.</p>
+<h2>How Mechanistic Interpretability Connects to Broader AI Safety</h2>
+<p>Mechanistic interpretability is one piece of a larger <a href="/learning-ai/artificial-intelligence/artificial-intelligence-research">AI safety</a> puzzle. It complements other approaches rather than replacing them.</p>
+<p><a href="/learning-ai/deep-learning/what-is-reinforcement-learning">Reinforcement learning from human feedback (RLHF)</a> and constitutional AI shape model behavior through training. Mechanistic interpretability provides tools to verify whether that training worked as intended. Red-teaming and adversarial testing probe model behavior from the outside. Mechanistic interpretability examines the internal mechanisms that produce that behavior. Formal verification aims to prove properties about model behavior mathematically. Mechanistic interpretability provides the structural understanding needed to formulate those proofs.</p>
+<p>The long-term vision is a world where deploying an AI system includes a thorough internal audit, similar to how a building must pass structural inspection before occupancy. We are not there yet. But the progress in 2025 and 2026 has moved the field from theoretical aspiration to practical engineering discipline.</p>
+<h2>The Road Ahead</h2>
+<p>Mechanistic interpretability is at an inflection point. The tools are maturing, the research community is growing, and the results are beginning to influence real product decisions at major AI labs.</p>
+<p>Several developments will shape the field in the coming years. First, scaling interpretability to frontier models will require new techniques and significant computational investment. Second, standardizing evaluation methods will help the community measure progress and compare approaches. Third, integrating interpretability into the AI development lifecycle, rather than treating it as a separate research project, will determine whether the field achieves its safety goals.</p>
+<p>The stakes are high. As AI systems become more capable, the window for understanding them before they become too complex to analyze may be closing. The researchers working on mechanistic interpretability are racing to build the tools we need to ensure that the most powerful technology humanity has ever created remains something we can understand and control.</p>
+<h2>Key Takeaways</h2>
+<ul>
+<li><strong>Mechanistic interpretability</strong> reverse-engineers neural networks to understand how they process information internally, going beyond input-output analysis.</li>
+<li><strong>Features</strong> are the concepts a model learns to represent. <strong>Circuits</strong> are the pathways that connect and process those features.</li>
+<li><strong>Sparse autoencoders</strong> address the superposition problem by decomposing polysemantic neurons into interpretable features.</li>
+<li><strong>Attribution graphs</strong> trace the complete reasoning path from input to output, and Anthropic has open-sourced tools for generating them.</li>
+<li>The field has moved from theory to practice: Anthropic used interpretability tools for pre-deployment safety evaluation of Claude Sonnet 4.5.</li>
+<li><strong>Major challenges</strong> remain, including scaling to frontier models, rigorously defining core concepts, and proving that interpretability methods are genuinely useful for safety.</li>
+<li>MIT named mechanistic interpretability a <strong>2026 breakthrough technology</strong>, signaling its growing importance to the future of AI development.</li>
+</ul></div>
+      
+    </div>
+  </div>
+
+    <div class="article__signup">
+    <div class="i">
+      <div class="article-cta">
+        <h3 class="article-cta__title">Stay ahead in AI</h3>
+        <p class="article-cta__text">Join 44,000+ professionals getting the AI briefing that matters. 3x/week, free, no spam.</p>
+        <div id="article-cta-msg" class="cta-alert" style="display:none;"></div>
+        <form class="article-cta__form aiweekly-subscribe-form" id="article-cta-form">
+          <input type="email" name="email" placeholder="Your email" required class="article-cta__input" />
+          <button type="submit" class="article-cta__btn">SUBSCRIBE</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+      <div class="i">
+      <section class="issue__comments">
+        <section>
+  
+  
+
+  
+</section>
+
+      </section>
+    </div>
+  </article>
+
+  </div>
+
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="i">
+    <p>&copy;2015-2026 AI News Weekly | <a href="/">Latest Issue</a> | <a href="/issues">Archives</a> | <a href="/learning-ai">Learning AI</a></p>
+    <p><a href="/login">Log in</a> | <a href="/unsubscribe">Unsubscribe</a></p>
+  </div>
+</footer>
+
+<style>
+/* Compact header: logo left, nav right */
+.header--compact .navbar--inline .i {
+  display: flex; align-items: center;
+}
+.header--compact .navbar-brand {
+  float: none; padding: 10px 0; max-width: none; order: -1;
+}
+.header--compact .navbar-brand img {
+  max-width: 150px; height: auto; display: block;
+}
+.header--compact .navbar-collapse {
+  max-height: none; overflow: visible; display: flex;
+  flex-wrap: wrap; align-items: center; flex: 1;
+  justify-content: flex-end;
+}
+.header--compact .navbar-a {
+  padding: 8px 0; margin: 0 0 0 14px; font-size: 12px;
+}
+.header--compact .navbar-toggle { display: none; }
+@media (max-width: 760px) {
+  .header--compact .navbar-brand img { max-width: 120px; }
+  .header--compact .navbar-collapse { max-height: 0; overflow: hidden; display: block; }
+  .header--compact .navbar-collapse.is-open { max-height: 500px; }
+  .header--compact .navbar-toggle { display: block; }
+  .header--compact .navbar-a { padding: 8px 0; margin: 0 10px; display: block; }
+}
+
+</style>
+
+<script>
+(function() {
+  var toggle = document.querySelector('.navbar-toggle');
+  var nav = document.querySelector('.navbar-collapse');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      toggle.classList.toggle('is-open');
+      nav.classList.toggle('is-open');
+    });
+  }
+})();
+</script>
+
+  </div>
+
+    
+
+        <style>
+      #cookie-consent .cc-buttons { display:flex; gap:8px; flex-shrink:0; flex-wrap:wrap; }
+      #cookie-consent .cc-btn { padding:12px 20px; border-radius:6px; font-size:14px; cursor:pointer; min-height:44px; }
+      @media (max-width: 600px) {
+        #cookie-consent .cc-buttons { flex-direction:column; width:100%; }
+        #cookie-consent .cc-btn { width:100%; text-align:center; }
+      }
+    </style>
+    <div id="cookie-consent" style="display:none; position:fixed; bottom:0; left:0; right:0; z-index:9999; background:#1a1a2e; color:#fff; font-family:'Lato',sans-serif; box-shadow:0 -2px 12px rgba(0,0,0,0.3);">
+      <div style="max-width:1100px; margin:0 auto; padding:18px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:240px; font-size:14px; line-height:1.5;">
+          We use essential cookies to keep the site working (login, form security). With your permission, we also use analytics cookies to understand how you use the site.
+          <a href="/privacy" style="color:#93c5fd; text-decoration:underline;">Privacy policy</a>
+        </div>
+        <div class="cc-buttons">
+          <button onclick="cookieConsent('all')" class="cc-btn" style="background:#22c55e; color:#fff; border:none; font-weight:700;">Accept All</button>
+          <button onclick="cookieConsent('essential')" class="cc-btn" style="background:transparent; color:#fff; border:1px solid #555; font-weight:700;">Essential Only</button>
+          <button onclick="cookieConsent('reject')" class="cc-btn" style="background:transparent; color:#999; border:1px solid #333;">Reject Non-Essential</button>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function() {
+      // Show banner if no consent recorded.
+      var consent = localStorage.getItem('cookie_consent');
+      if (!consent) {
+        document.getElementById('cookie-consent').style.display = 'block';
+      }
+      // Expose consent level globally for any scripts to check.
+      window.aiweeklyCookieConsent = consent || 'none';
+    })();
+    function cookieConsent(level) {
+      localStorage.setItem('cookie_consent', level);
+      localStorage.setItem('cookie_consent_date', new Date().toISOString());
+      document.getElementById('cookie-consent').style.display = 'none';
+      window.aiweeklyCookieConsent = level;
+
+      // If user rejected non-essential, clear any analytics cookies that may exist.
+      if (level === 'reject' || level === 'essential') {
+        document.cookie.split(';').forEach(function(c) {
+          var name = c.split('=')[0].trim();
+          // Keep essential cookies: session, csrf, Drupal.
+          if (name === 'csrf_subscribe' || name.indexOf('SESS') === 0 || name.indexOf('SSESS') === 0) return;
+          document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+        });
+      }
+    }
+    // ── Google Analytics 4 (consent-gated) ──
+    // Only loads gtag.js if user accepted analytics cookies.
+    // GA4 Measurement ID: G-1WVJ6T5EFW
+    function loadGA4() {
+      if (document.getElementById('ga4-script')) return;
+      var s = document.createElement('script');
+      s.id = 'ga4-script';
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-1WVJ6T5EFW';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-1WVJ6T5EFW', { anonymize_ip: true });
+    }
+
+    // Load immediately if consent was previously given.
+    if (window.aiweeklyCookieConsent === 'all') { loadGA4(); }
+
+    // Patch cookieConsent() to also load GA4 when user clicks "Accept All".
+    var _originalCookieConsent = cookieConsent;
+    cookieConsent = function(level) {
+      _originalCookieConsent(level);
+      if (level === 'all') { loadGA4(); }
+    };
+    </script>
+  </body>
+</html>
