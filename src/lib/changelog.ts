@@ -12,6 +12,14 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.7.2',
+    date: '2026-04-26',
+    items: [
+      'Chief Editor source verification now reads the local HTML snapshots saved by <code>chief:review</code> in <code>sources/YYYY-MM/&lt;article-slug&gt;/</code> instead of re-fetching every URL via WebFetch — eliminates duplicate network calls, avoids rate limits, and ensures the reviewer reads the exact captured version recorded in the provenance chain',
+      'Live URL fetch is now reserved as a last-resort fallback for sources whose snapshot failed (dead link, persistent paywall, network error), with explicit documentation required in <code>editor_notes.source_verification</code>',
+    ],
+  },
+  {
     version: '3.7.1',
     date: '2026-04-22',
     items: [

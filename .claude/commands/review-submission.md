@@ -111,24 +111,50 @@ This will:
 
 ### Step 3: Read Every Source (MANDATORY — NO EXCEPTIONS)
 
-**You MUST fetch and read every source URL listed in the submission before proceeding. This is not optional. If you skip this step, your review is invalid.**
+**You MUST read every source listed in the submission before proceeding. This is not optional. If you skip this step, your review is invalid.**
 
-For each URL in the submission's `sources` array, use WebFetch to retrieve and read the actual content:
+`chief:review` from Step 2 has already fetched every source URL and saved a local HTML snapshot to disk under `sources/<YYYY-MM>/<article-slug>/`, together with a `manifest.json`. **Read those snapshots from disk — do NOT WebFetch the URLs again.** Re-fetching wastes time, can hit rate limits, and risks reading a different version of the page than the one the script captured and committed to provenance.
+
+#### 3a. Locate the snapshot directory
+
+The path is `sources/<YYYY-MM>/<article-slug>/` where:
+- `<YYYY-MM>` is the same monthly folder used in the submission path
+- `<article-slug>` is the slugified article title (lowercase, non-alphanumerics replaced with `-`)
+
+If you're unsure of the exact slug, list the folder to find it:
+
+```bash
+ls sources/<YYYY-MM>/
+```
+
+#### 3b. Read the manifest
 
 ```
-WebFetch each source URL and read its full content
+Read sources/<YYYY-MM>/<article-slug>/manifest.json
 ```
 
-For each source, verify:
-1. **The page is accessible** — if a source returns an error or is paywalled, flag it as unverifiable
-2. **The article content matches the claims made** — find the specific claim in the article and confirm it is supported by the source text you read
-3. **No misattribution** — the source actually says what the article claims it says
-4. **No hallucinated quotes** — any direct quotes appear verbatim in the source
-5. **Publication is credible** — the outlet matches what was cited
+The manifest's `sources[]` array maps each URL to:
+- `file` — local HTML filename (e.g. `source-0.html`), or `null` if the snapshot failed
+- `status_code` — HTTP status when fetched
+- `archive_fallback` — `true` if the snapshot came from Archive.org because the live URL bot-blocked us
+- `error` — populated when the snapshot couldn't be saved
 
-**If a source cannot be fetched or does not support the claim attributed to it, you MUST flag it as a finding and REQUEST_CHANGES or REJECT accordingly. You cannot approve an article whose sources you have not personally read.**
+#### 3c. Read each snapshot and verify
 
-Document in `editor_notes.source_verification` which URLs you fetched and whether each one confirmed the claims attributed to it.
+For every entry in the manifest, decide what to read:
+
+- **`file` is set (normal case or `archive_fallback: true`)** → use the Read tool on `sources/<YYYY-MM>/<article-slug>/<file>`. This is the canonical content for review purposes — even when it came from Archive.org, it's the version the provenance chain commits to.
+- **`file` is `null` (snapshot failed: 404, 410, network error, persistent paywall)** → flag the source as unverifiable in `editor_notes.source_verification`. Only as a last resort, you MAY WebFetch the live URL to attempt verification, but record explicitly that the snapshot failed and the live URL was used instead.
+
+For each source you read, verify:
+1. **The article content matches the claims made** — find the specific claim in the article and confirm it is supported by the snapshot text
+2. **No misattribution** — the snapshot actually says what the article claims it says
+3. **No hallucinated quotes** — any direct quotes appear verbatim in the snapshot
+4. **Publication is credible** — the outlet matches what was cited
+
+**If a snapshot does not support the claim attributed to it, you MUST flag it as a finding and REQUEST_CHANGES or REJECT accordingly. You cannot approve an article whose sources you have not personally read.**
+
+Document in `editor_notes.source_verification` which snapshots you read (by filename) and whether each one confirmed the claims attributed to it. If you fell back to WebFetch for a failed snapshot, note that explicitly.
 
 ### Step 4: Manual Content Review (Editor Notes)
 
