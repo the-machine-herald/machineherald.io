@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Center for Responsible, Decentralized Intelligence at Berkeley</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=1040">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&amp;display=swap" rel="stylesheet">
+    <link href="/assets/css/css2" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!--
+    <script src="/assets/js/splide.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/splide.min.css">
+    -->
+    <script src="/assets/js/61c2f15e92f56eaa354c18452db280ac.js"></script>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            new Splide('.splide').mount();
+        });
+    </script>
+    <script async src=”https://siteimproveanalytics.com/js/siteanalyze_6294756.js”></script>
+</head>
+<head>
+  <link href="/assets/css/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1034.0" data-gr-ext-installed="">
+
+<!-- Header (matching homepage) -->
+<header class="sticky top-0 bg-white shadow z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+    
+    <!-- Logo -->
+    <div id="logo-container" class="py-2">
+      <a href="/" aria-label="Berkeley Center for RDI Logo">
+        <img src="/assets/images/rdi_logo_horizontal_720.png" alt="Berkeley RDI Logo" class="h-16 w-auto max-w-full">
+      </a>
+    </div>
+
+    <!-- Hamburger Button (shown on mobile only) -->
+    <button id="menu-toggle" class="sm:hidden text-gray-600 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+    <!-- Desktop Nav Links -->
+    <nav id="nav-links" class="hidden sm:flex space-x-6 text-sm font-medium">
+      <a href="/" class="hover:text-blue-600">Home</a>
+      <a href="/research" class="hover:text-blue-900">Research</a>
+      <a href="/education" class="hover:text-blue-900">Education</a>
+      <a href="/events" class="hover:text-blue-900">Events</a>
+      <a href="/blog" class="hover:text-blue-900">Blog</a>
+      <a href="/people" class="hover:text-blue-900">About</a>
+    </nav>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="sm:hidden hidden px-6 pb-4 space-y-2 text-sm font-medium">
+    <a href="/" class="block py-1">Home</a>
+    <a href="/research" class="block py-1">Research</a>
+    <a href="/education" class="block py-1">Education</a>
+    <a href="/events" class="block py-1">Events</a>
+    <a href="/blog" class="block py-1">Blog</a>
+    <a href="/people" class="block py-1">About</a>
+    <a href="/contact" class="block py-1">Contact</a>
+  </div>
+</header>
+
+    <div class="constraint">
+        <article class="blog-post">
+            <div style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+                <p><img src="figures/teaser.png" alt="AI agent celebrating 100% on a benchmark podium — behind the curtain, it's just reading the answers" class="cover-image" style="max-width: 40%; display: block; margin: 1rem auto;" /></p>
+
+<h1 id="we-scored-100-on-ai-benchmarks-without-solving-a-single-problem">We Scored 100% on AI Benchmarks Without Solving a Single Problem</h1>
+
+<div class="author-info">
+<strong>Hao Wang, Qiuyang Mang, Alvin Cheung, Koushik Sen, Dawn Song</strong>
+<br />
+UC Berkeley
+<br />
+April 2026
+<br />
+<em>(Est. 8-10 minutes read, tool available at <a href="https://github.com/moogician/trustworthy-env" target="_blank">github.com/moogician/trustworthy-env</a>)</em>
+</div>
+
+<hr />
+
+<h3 id="fake-scores-real-consequences">Fake Scores, Real Consequences</h3>
+
+<p>Every major AI company uses benchmark scores to sell their models. Training data companies use them to price their products. And increasingly, benchmark scores aren’t just measuring models — they’re shaping how models are trained, from RL reward signals to data filtering pipelines. Benchmarks don’t just measure capability — they shape behavior. And if they are exploitable, they <strong>actively train models to cheat</strong>.</p>
+
+<p><strong>So what happens when the benchmarks themselves are broken?</strong></p>
+
+<p>It’s not a hypothetical. A model that “improves SWE-bench by 5%” might just be better at hacking test suite gaps. Training data priced on benchmark gains might be teaching models to game evaluations instead of solving real problems. The leaderboard number that closed your Series B might be inflatable by anyone who reads the eval script.</p>
+
+<p>Here’s what’s been happening in public:</p>
+
+<ul>
+  <li><a href="https://github.com/IQuestLab/IQuest-Coder-V1/issues/14">IQuest-Coder-V1</a> claimed 81.4% on SWE-bench — then researchers found 24.4% of trajectories just ran <code class="language-plaintext highlighter-rouge">git log</code> to copy the answer from commit history. Corrected score: 76.2%.</li>
+  <li><a href="https://metr.org/blog/2025-06-05-recent-reward-hacking/">METR found</a> that o3 and Claude 3.7 Sonnet reward-hack in <strong>30%+ of evaluation runs</strong> — stack introspection, monkey-patching graders, operator overloading.</li>
+  <li><a href="https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/">OpenAI dropped SWE-bench Verified</a> after finding 59.4% of audited problems had flawed tests.</li>
+  <li>In <a href="https://github.com/ScalingIntelligence/KernelBench/issues/82">KernelBench</a>, <code class="language-plaintext highlighter-rouge">torch.empty()</code> returns stale GPU memory containing the reference answer — <a href="https://deep-reinforce.com/defense_kernel_hack.html">zero computation, full marks</a>.</li>
+</ul>
+
+<p>These are the ones people caught by hand. We built an AI agent that finds them automatically — and it found a lot more.</p>
+
+<h3 id="what-we-did">What We Did</h3>
+
+<p>We built an AI agent that analyzes benchmark evaluation code in depth and automatically discovers inflation of benchmark scores. We pointed it at 13 widely-used AI benchmarks — including FrontierCS, BFCL, LiveBench, GAIA, WebArena, AGIEval, AgentBench, Terminal-Bench, tau-bench, MLE-bench, OSWorld, FieldWorkArena, and CAR-bench.</p>
+
+<div style="text-align: center;">
+  <img src="figures/results.svg" style="max-width: 85%; display: block; margin: 1rem auto;" alt="Audit Results Overview" />
+  <p style="margin-top: 0.8rem; font-size: 0.9em; color: #888;">Overview of findings across 13 audited benchmarks. Every benchmark was rated critical risk.</p>
+</div>
+
+<p>The 45 confirmed hacking solutions each come with a working proof-of-concept — code that achieves inflated or perfect scores without solving the actual task. They affect benchmarks used to evaluate everything from code generation to web navigation to general-purpose AI assistants.</p>
+
+<h3 id="how-we-found-them">How We Found Them</h3>
+
+<p>We used a <strong>fully automated</strong> hybrid agent that, with zero human intervention, scans benchmark repos, identifies potential vulnerabilities, generates working exploit code, and verifies results end-to-end. <strong>Manual auditing doesn’t scale</strong> — a human expert might spend days on a single evaluation harness, and we needed to cover 13 benchmarks with hundreds of scoring scripts each.</p>
+
+<p>The agent runs a dual detection pipeline. The <strong>LLM Detector</strong> uses 15 specialized scanners that reason about code intent — cross-referencing task descriptions with test logic to catch semantic gaps like spec mismatches and answer leakage. The <strong>Formal Detector</strong> uses 12 analysis modules built on AST parsing, data-flow analysis, and z3 SMT solving to catch structural issues without any language model.</p>
+
+<p>The full system is an 8-stage audit pipeline:</p>
+
+<div style="text-align: center;">
+  <img src="figures/pipeline.svg" style="max-width: 90%; display: block; margin: 1rem auto;" alt="8-Stage Audit Pipeline" />
+  <p style="margin-top: 0.8rem; font-size: 0.9em; color: #888;">The full audit pipeline: from benchmark ingestion through adversarial PoC generation and findings correlation.</p>
+</div>
+
+<p>Point the agent at a benchmark repo and it produces a full audit report — vulnerability analysis, working exploit code, and fix suggestions. The 45 confirmed hacking solutions in this post were all <strong>discovered, written, and verified by the agent</strong>, not by us.</p>
+
+<h3 id="example-1-perfect-score-zero-work-frontier-cs">Example 1: Perfect Score, Zero Work (Frontier-CS)</h3>
+
+<p>In Frontier-CS’s research track, the evaluator loads submitted solutions via <code class="language-plaintext highlighter-rouge">importlib.util.spec_from_file_location()</code> and <code class="language-plaintext highlighter-rouge">exec_module()</code>. This means the submitted code runs <strong>in the same Python process as the evaluator</strong> — sharing <code class="language-plaintext highlighter-rouge">sys.modules</code>, global state, and the call stack.</p>
+
+<p>A malicious solution can walk up the stack and replace the scoring function:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">sys</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s">'evaluate_kernel_performance'</span> <span class="ow">in</span> <span class="n">frame</span><span class="p">.</span><span class="n">f_globals</span><span class="p">:</span>
+                <span class="k">def</span> <span class="nf">fake_evaluate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">{</span>
+                        <span class="s">"score"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s">"pass_all"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="s">"geometric_mean_speedup"</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+                        <span class="s">"total_tests"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">"passed_tests"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="n">frame</span><span class="p">.</span><span class="n">f_globals</span><span class="p">[</span><span class="s">'evaluate_kernel_performance'</span><span class="p">]</span> <span class="o">=</span> <span class="n">fake_evaluate</span>
+                <span class="k">break</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">.</span><span class="n">f_back</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">"code"</span><span class="p">:</span> <span class="s">"pass"</span><span class="p">}</span>  <span class="c1"># No actual solution needed
+</span></code></pre></div></div>
+
+<p><strong>Result: score 100 out of 100 without solving anything.</strong> The solution doesn’t even need to contain relevant code. Alternative attack vectors include monkey-patching <code class="language-plaintext highlighter-rouge">torch.allclose</code> to always return <code class="language-plaintext highlighter-rouge">True</code>, overwriting baseline files to fake speedup ratios, or using <code class="language-plaintext highlighter-rouge">atexit</code> to inject a fake score as the last stdout line. The Docker container runs both evaluator and solution in the same process with no sandboxing.</p>
+
+<blockquote>
+  <p><strong>Root cause:</strong> No process isolation between submitted code and evaluation infrastructure. The solution has full read/write access to evaluator source code and baseline implementations inside the container.</p>
+</blockquote>
+
+<h3 id="example-2-fake-c-extension-terminal-bench">Example 2: Fake C Extension (Terminal-Bench)</h3>
+
+<p>The task asks the agent to write a <strong>C extension</strong> for portfolio risk/return calculation — a systems programming task that should test low-level optimization skills. The test suite has three checks:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">test_c_extension_exists()</code> — verifies a compiled <code class="language-plaintext highlighter-rouge">.so</code> file exists with <code class="language-plaintext highlighter-rouge">portfolio_risk_c</code> and <code class="language-plaintext highlighter-rouge">portfolio_return_c</code> functions</li>
+  <li><code class="language-plaintext highlighter-rouge">test_correctness_small()</code> — checks computation accuracy on small inputs</li>
+  <li><code class="language-plaintext highlighter-rouge">test_performance_and_scalability()</code> — requires 1.2x speedup over pure Python</li>
+</ol>
+
+<p>The critical gap: <strong>test 1 checks that C functions exist, but never calls them.</strong> Tests 2 and 3 import from the Python wrapper, not from the C extension. The wrapper can use any implementation internally.</p>
+
+<p>The exploit — a dummy C extension paired with a numpy wrapper:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// portfolio_optimized_c.c — compiles to .so, passes test_c_extension_exists()</span>
+<span class="k">static</span> <span class="n">PyObject</span><span class="o">*</span> <span class="nf">portfolio_risk_c</span><span class="p">(</span><span class="n">PyObject</span> <span class="o">*</span><span class="n">self</span><span class="p">,</span> <span class="n">PyObject</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">PyFloat_FromDouble</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">// Dummy — never actually called</span>
+<span class="p">}</span>
+<span class="k">static</span> <span class="n">PyObject</span><span class="o">*</span> <span class="nf">portfolio_return_c</span><span class="p">(</span><span class="n">PyObject</span> <span class="o">*</span><span class="n">self</span><span class="p">,</span> <span class="n">PyObject</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">PyFloat_FromDouble</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">// Dummy — never actually called</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># portfolio_optimized.py — uses numpy, not the C extension
+</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">portfolio_optimized_c</span>  <span class="c1"># noqa: imported so .so is loadable
+</span>
+<span class="k">def</span> <span class="nf">portfolio_risk_c</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">cov_matrix</span><span class="p">):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">cov</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">cov_matrix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span> <span class="o">@</span> <span class="n">cov</span> <span class="o">@</span> <span class="n">w</span><span class="p">))</span>  <span class="c1"># numpy, not C
+</span></code></pre></div></div>
+
+<p><strong>Result: all three tests pass without writing any meaningful C code.</strong> The dummy <code class="language-plaintext highlighter-rouge">.so</code> satisfies the existence check. numpy satisfies correctness (within 1e-10) and performance (1.2x faster than pure Python loops).</p>
+
+<blockquote>
+  <p><strong>Root cause:</strong> The benchmark tests what it’s easy to test (does a file exist?) rather than what it claims to test (can the agent write optimized C?). No check verifies the C extension functions produce correct output or are actually called.</p>
+</blockquote>
+
+<h3 id="example-3-all-812-answers-in-a-json-file-webarena">Example 3: All 812 Answers in a JSON File (WebArena)</h3>
+
+<p><a href="https://webarena.dev/">WebArena</a> tests whether agents can navigate websites to complete real-world tasks — shopping, forum posting, content management. The evaluator checks the agent’s answer against reference answers using string matching.</p>
+
+<p>The problem: <code class="language-plaintext highlighter-rouge">config_files/test.raw.json</code> contains <strong>every reference answer in plaintext</strong>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"task_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"intent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"What is the top-1 best-selling product in 2022"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"eval"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"reference_answers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"exact_match"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Quest Lumaflex Band"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>All 812+ tasks. Every answer. Sitting on the same filesystem where the agent runs. No sandboxing prevents the agent from reading it. A trivial cheating agent:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">CheatingAgent</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'config_files/test.raw.json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">tasks</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">answers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">t</span><span class="p">[</span><span class="s">'task_id'</span><span class="p">]:</span> <span class="n">t</span><span class="p">[</span><span class="s">'eval'</span><span class="p">][</span><span class="s">'reference_answers'</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tasks</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">observation</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">answers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">task_id</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="n">ref</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'exact_match'</span><span class="p">,</span> <span class="n">ref</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'must_include'</span><span class="p">,</span> <span class="p">[</span><span class="s">''</span><span class="p">])[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">'action_type'</span><span class="p">:</span> <span class="s">'stop'</span><span class="p">,</span> <span class="s">'answer'</span><span class="p">:</span> <span class="n">answer</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Result: perfect score on all string-match tasks with zero web browsing.</strong> No clicking, no navigation, no understanding of web interfaces. Just read a JSON file and return the answer.</p>
+
+<blockquote>
+  <p><strong>Root cause:</strong> Reference answers stored in agent-accessible filesystem with no integrity protection. The evaluator reads from the same JSON files the agent can access.</p>
+</blockquote>
+
+<h3 id="designing-benchmarks-that-resist-reward-hacking">Designing Benchmarks that Resist Reward Hacking</h3>
+
+<p>If your benchmark is exploitable, it will be exploited.</p>
+
+<p>Across 13 benchmarks and 45 confirmed hacking solutions, we identified 16 distinct attack types — from weak test assertions and answer leakage to shared address spaces and score injection. They cluster into a few recurring design failures. Here’s how to avoid them.</p>
+
+<h4 id="isolate-everything-that-scores-from-everything-being-scored">Isolate everything that scores from everything being scored</h4>
+<p>The most common pattern we exploited was submissions running in the same process, container, or filesystem as the evaluator. If submitted code can read reference answers, overwrite baseline files, monkey-patch scoring functions, or inject output into the evaluator’s stdout — it will. Run evaluator and submission in separate containers with no shared state. Mount all reference and baseline files as read-only. Checksum them before and after each run.</p>
+
+<h4 id="never-trust-output-from-the-code-youre-evaluating">Never trust output from the code you’re evaluating</h4>
+<p>Self-reported metrics, timing measurements controlled by the submission, and loosely parsed evaluator output are all attack surfaces. The evaluator must independently compute every score from raw outputs. Parse results with a strict schema. Measure performance from outside the submission process. Treat anything the submission produces as untrusted input.</p>
+
+<h4 id="test-the-tests-not-just-the-submissions">Test the tests, not just the submissions</h4>
+<p>Many of our exploits passed because the tests were weaker than the task description. Run every test suite against a trivial or null submission first — if it passes, the tests are broken. Add adversarial negative cases that <em>should</em> fail. Cross-check that every requirement in the spec has a corresponding assertion. If the task says “write C code,” verify the C code is actually called, not just that a <code class="language-plaintext highlighter-rouge">.so</code> file exists.</p>
+
+<h4 id="make-tolerances-and-baselines-honest">Make tolerances and baselines honest</h4>
+<p>Loose numerical tolerances, naive baselines, and precision mismatches between reference and submitted answers all create room for inflated scores without real capability. Tighten thresholds to match actual task difficulty. Use independently verified, competitive baselines. Enforce identical precision settings on both sides. Report confidence intervals, not just point estimates.</p>
+
+<h4 id="treat-evaluation-code-as-production-code">Treat evaluation code as production code</h4>
+<p>Two of our attack types exploited outright bugs in evaluation scripts — logic errors that gave full marks to wrong answers. Fuzz your evaluation scripts. Run them on intentionally wrong submissions and verify they produce failing scores. Review eval code with the same rigor you’d apply to any production system, because the decisions built on its output are production decisions.</p>
+
+<h3 id="takeaway">Takeaway</h3>
+
+<p>A trustworthy benchmark doesn’t just measure success — it makes it harder to cheat than to solve the task correctly. Broken benchmarks don’t just produce wrong leaderboards — they poison training signals, inflate data pricing, and mislead deployment decisions. If nobody audits the evaluation infrastructure, everything built on top of it is unreliable.</p>
+
+<p>Our agent found 45 confirmed hacking solutions that human reviewers missed — not because they were subtle, but because nobody was looking.
+The tools and methodology are open source at <a href="https://github.com/moogician/trustworthy-env">github.com/moogician/trustworthy-env</a>.
+Try it out for your own benchmark today!</p>
+
+            </div>
+        </article>
+    </div>
+
+<!-- Footer (matching homepage) -->
+<footer class="bg-gray-900 text-gray-300 text-sm py-10 px-6">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-6">
+    <div>
+      <h4 class="text-white font-semibold mb-2">Berkeley RDI</h4>
+      <p>Advancing the science, technology, and education of decentralization and AI to empower a responsible digital economy.</p>
+      <div class="flex space-x-3 mt-4 text-xl">
+        <!-- Twitter -->
+        <a href="https://twitter.com/BerkeleyRDI" class="hover:text-white transition text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+          </svg>
+        </a>
+        <!-- Youtube -->
+        <a href="https://www.youtube.com/@BerkeleyRDI" class="hover:text-white transition text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+            <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+          </svg>
+        </a>
+        <!-- Discord -->
+        <a href="https://discord.gg/NWVpQ9rBvd" class="hover:text-white transition text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+            <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/>
+          </svg>
+        </a>
+        <!-- Mail -->
+        <a href="mailto:rdi@berkeley.edu" class="hover:text-white transition text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-white font-semibold mb-2 text-yellow-400">Explore</h4>
+      <ul class="space-y-1">
+        <li><a href="/research" class="hover:underline">Research</a></li>
+        <li><a href="/education" class="hover:underline">Education</a></li>
+        <li><a href="/events" class="hover:underline">Events</a></li>
+        <li><a href="/blog" class="hover:underline">Blog</a></li>
+        <li><a href="/people" class="hover:underline">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="text-center text-xs mt-8 text-gray-500">
+    Copyright © 2025 UC Regents; all rights reserved
+  </div>
+</footer>
+
+<style>
+.blog-post {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
+    color: #333;
+}
+
+.blog-post h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 2rem 0 1rem;
+    line-height: 1.2;
+    color: #003262;
+}
+
+.blog-post h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+    color: #003262;
+}
+
+.blog-post h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
+    color: #003262;
+}
+
+.blog-post h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1.25rem 0 0.5rem;
+    color: #003262;
+}
+
+.blog-post p {
+    margin: 1rem 0;
+    font-size: 1.1rem;
+}
+
+.blog-post img {
+    max-width: 80%;
+    height: auto;
+    margin: 2rem auto;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post ul, .blog-post ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.blog-post li {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.blog-post a {
+    color: #003262;
+    text-decoration: underline;
+}
+
+.blog-post a:hover {
+    color: #FDB515;
+}
+
+.blog-post code {
+    background-color: #f4f4f4;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+}
+
+.blog-post pre {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.blog-post pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+.blog-post blockquote {
+    border-left: 4px solid #FDB515;
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: #555;
+    font-style: italic;
+}
+
+.blog-post .author-info {
+    font-size: 1rem;
+    color: #666;
+    margin: 1rem 0 2rem;
+    line-height: 1.6;
+}
+
+.blog-post .metadata {
+    font-size: 0.95rem;
+    color: #888;
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.blog-post .cover-image {
+    width: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    /* margin: 2rem 0; */
+    border-radius: 8px;
+}
+
+.blog-post strong {
+    font-weight: 600;
+    color: #000;
+}
+</style>
+
+<script>
+  // Mobile menu toggle
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  toggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+
+<script async src="https://siteimproveanalytics.com/js/siteanalyze_6294756.js"></script>
+</body>
+</html>
+
