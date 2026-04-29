@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Crystal 1.20.0 is released! - The Crystal Programming Language</title>
+    <meta charset="utf-8">
+    <link href="/assets/stylesheet.css" rel="stylesheet">
+    <link
+      href="/feed.xml"
+      rel="alternate"
+      title="Newsfeed (Atom)"
+      type="application/atom+xml"
+    >
+    <link href="/favicon.png" rel="icon" type="image/png">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <script src="/assets/js/bundle.js" defer></script><!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Crystal 1.20.0 is released!" />
+<meta name="author" content="Julien Portalier" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="We are announcing a new Crystal release 1.20.0 with several new features and bug fixes." />
+<meta property="og:description" content="We are announcing a new Crystal release 1.20.0 with several new features and bug fixes." />
+<link rel="canonical" href="https://crystal-lang.org/2026/04/16/1.20.0-released/" />
+<meta property="og:url" content="https://crystal-lang.org/2026/04/16/1.20.0-released/" />
+<meta property="og:site_name" content="The Crystal Programming Language" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-16T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Crystal 1.20.0 is released!" />
+<meta name="twitter:site" content="@CrystalLanguage" />
+<meta name="twitter:creator" content="@Julien Portalier" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Julien Portalier"},"dateModified":"2026-04-16T00:00:00+00:00","datePublished":"2026-04-16T00:00:00+00:00","description":"We are announcing a new Crystal release 1.20.0 with several new features and bug fixes.","headline":"Crystal 1.20.0 is released!","mainEntityOfPage":{"@type":"WebPage","@id":"https://crystal-lang.org/2026/04/16/1.20.0-released/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://crystal-lang.org/assets/media/crystal_logo.svg"},"name":"Julien Portalier"},"url":"https://crystal-lang.org/2026/04/16/1.20.0-released/"}</script>
+<!-- End Jekyll SEO tag -->
+
+      <meta property="og:image" content="/assets/banner.webp" />
+      <meta property="twitter:image" content="/assets/banner.webp" />
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="preload" href="/assets/fonts/roboto/roboto-v30-latin-300.woff2" as="font" type="font/woff2">
+    <link rel="preload" href="/assets/fonts/roboto/roboto-v30-latin-regular.woff2" as="font" type="font/woff2">
+    <link rel="preload" href="/assets/fonts/roboto/roboto-v30-latin-500.woff2" as="font" type="font/woff2">
+  </head>
+
+  <body class="layout--release"><a href="#top" class="visually-hidden">Skip to content</a>
+
+<header>
+<div class="nav-start">
+  <a class="site-logo" id="logo-container" href="/" aria-label="Homepage">
+    <canvas height="70" id="logo-canvas" width="70" role="presentation"></canvas>
+  </a>
+</div>
+
+
+
+  <div class="section-nav"><nav class="breadcrumbs" aria-label="Breadcrumbs"><span class="breadcrumb">
+    <a href="/" rel="index up">Home</a>
+  </span>
+
+  <span aria-hidden="true">/</span>
+
+      <div class="breadcrumb"><a href="/releases/" rel="up">Releases</a>
+      </div>
+</nav>
+
+<nav class="section-links" aria-label="Section links"><ul>
+    <li>
+      <a href="/releases/highlights/" 
+        >Highlights</a>
+    </li>
+    <li>
+      <a href="https://crystal-lang.org/reference/project/release-policy.html" 
+        >Release Policy</a>
+    </li>
+</ul>
+
+</nav>
+
+  </div>
+
+
+<nav class="mainnav" aria-label="Quick links"><ul>
+    <li>
+      <a href="/blog/" 
+        >Blog</a>
+    </li>
+    <li>
+      <a href="/install" 
+        >Install</a>
+    </li>
+    <li>
+      <a href="/sponsors/" 
+        >Sponsors</a>
+    </li>
+    <li>
+      <a href="/community/" 
+        >Community</a>
+    </li>
+    <li>
+      <a href="https://crystal-lang.org/reference/" 
+        >Docs</a>
+    </li>
+</ul>
+
+</nav>
+
+<div class="utilnav">
+  <a
+    class="icon"
+    href="https://github.com/crystal-lang/crystal"
+    rel="me"
+    title="Crystal repository on GitHub"
+    aria-label="GitHub"
+  ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24.13 23.03">
+  <path fill="currentColor" d="M12.11 0C5.61-.19.21 4.91 0 11.41c-.2 5.3 3.2 10 8.3 11.6.3.1.7-.1.8-.4v-2.2c-3.3.7-4-1.6-4-1.6-.2-.7-.7-1.3-1.3-1.7-1.1-.7.1-.7.1-.7.8.1 1.4.6 1.8 1.2.7 1.2 2.2 1.6 3.4 1 .1-.6.3-1.2.8-1.6-2.7-.3-5.5-1.3-5.5-5.8 0-1.2.4-2.3 1.2-3.2-.4-1-.3-2.1.1-3.1 0 0 1-.3 3.3 1.2 2-.5 4-.5 6 0 2.3-1.5 3.3-1.2 3.3-1.2.4 1 .5 2.1.1 3.1.8.9 1.2 2 1.2 3.2 0 4.5-2.8 5.5-5.5 5.8.6.6.9 1.4.8 2.2v3.2c0 .3.3.6.6.6h.3c6.2-1.9 9.7-8.5 7.8-14.7-1.49-5.1-6.19-8.5-11.49-8.31Z"/>
+</svg>
+
+    <span class="visually-hidden">GitHub Repository</span>
+  </a>
+  <a
+    class="icon"
+    href="https://forum.crystal-lang.org/"
+    rel="me"
+    title="Crystal Forum"
+    aria-label="Crystal Forum"
+  ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 40 39.95">
+  <path d="M0 30V2.1c0-.47.22-.93.65-1.4S1.53 0 2 0h25.95c.5 0 .97.22 1.4.68.43.45.65.92.65 1.42v17.8c0 .47-.22.93-.65 1.4s-.9.7-1.4.7H8l-8 8Zm10.05 2c-.47 0-.93-.23-1.38-.7-.45-.47-.68-.93-.68-1.4V25h25V8h5c.47 0 .92.23 1.35.7.43.47.65.95.65 1.45v29.8L32.04 32H10.05Z"/>
+</svg>
+
+    <span class="visually-hidden">Forum</span>
+  </a>
+  <a
+    class="icon"
+    href="/feed.xml"
+    rel="alternate"
+    title="Newsfeed for Crystal blog posts and releases"
+    aria-label="Newsfeed"
+    type="application/atom+xml"
+  ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+</svg>
+
+    <span class="visually-hidden">RSS-Newsfeed</span>
+  </a>
+</div>
+
+</header>
+
+<hr class="visually-hidden" id="top">
+
+<main><article class="post" itemscope itemtype="https://schema.org/Article">
+  <hgroup>
+    <h1 class="post-title">Crystal 1.20.0 is released!</h1>
+  </hgroup><time class="post-date" pubdate datetime="2026-04-16 00:00:00 +0000"
+  >16 Apr 2026</time
+>
+
+<ul class="avatar-list" aria-hidden="true">
+  <li>
+    <a title="Julien Portalier">
+      <img
+        src="/assets/authors/ysbaddaden.jpg"
+        alt=""
+      />
+    </a>
+  </li>
+</ul>
+<div class="author-names">
+  <span class="author-name" title="ysbaddaden">Julien Portalier</span>
+</div>
+
+<div class="taxonomy">
+</div>
+
+
+
+  <div class="post__body">
+    <div class="content" itemprop="articleBody"><div class="link-actions">
+    <a href="https://crystal-lang.org/api/1.20.0">
+      API Docs
+    </a>
+  <a href="https://github.com/crystal-lang/crystal/releases/tag/1.20.0">
+    Changelog
+  </a>
+  <a href="https://github.com/crystal-lang/crystal/tree/1.20.0">
+    Source
+  </a>
+</div>
+
+
+<div class="release-highlights">
+  <h2>Highlights</h2>
+
+  <ul>
+<li>
+    <span class="highlight">
+      <span><a href="#target-features"><code class="language-plaintext highlighter-rouge">@[TargetFeature]</code> annotation</a>
+</span>
+      <span class="label">lang/annotations</span>
+    </span>
+  </li>
+<li>
+    <span class="highlight">
+      <span><a href="#process-api">Preview: New API for spawning processes and capturing output</a>
+</span>
+      <span class="label">stdlib/system</span>
+    </span>
+  </li>
+<li>
+    <span class="highlight">
+      <span><a href="#io_uring">Preview: Event loop implementation based on <code class="language-plaintext highlighter-rouge">io_uring</code></a>
+</span>
+      <span class="label">stdlib/runtime</span>
+    </span>
+  </li>
+<li>
+    <span class="highlight">
+      <span><a href="#kernel-tls">Kernel TLS</a>
+</span>
+      <span class="label">stdlib/networking</span>
+    </span>
+  </li>
+<li>
+    <span class="highlight">
+      <span><a href="#compiler">Compiler defaults to <code class="language-plaintext highlighter-rouge">mold</code> or <code class="language-plaintext highlighter-rouge">lld</code> if available</a>
+</span>
+      <span class="label">compiler/codegen</span>
+    </span>
+  </li>
+
+</ul>
+
+</div>
+
+
+<p>We are announcing a new Crystal release 1.20.0 with several new features and bug
+fixes.</p>
+
+<p>Pre-built packages are available on <a href="https://github.com/crystal-lang/crystal/releases/tag/1.20.0">GitHub
+Releases</a> and our
+official distribution channels. See
+<a href="https://crystal-lang.org/install/">crystal-lang.org/install</a> for installation
+instructions.</p>
+
+<div class="header-wrapper">
+  <h2 id="stats">Stats</h2>
+  <a href="#stats">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Stats</span>
+  </a>
+</div>
+
+<p>This release includes <a href="https://github.com/crystal-lang/crystal/pulls?q=is%3Apr+milestone%3A1.20.0">161 changes since 1.19.1</a>
+by 21 contributors. We thank all the contributors for all the effort put into
+improving the language! ❤️</p>
+
+<div class="header-wrapper">
+  <h2 id="changes">Changes</h2>
+  <a href="#changes">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Changes</span>
+  </a>
+</div>
+
+<p>Below we list the most remarkable changes in the language, compiler and stdlib.
+For more details, visit the <a href="https://github.com/crystal-lang/crystal/releases/tag/1.20.0">full
+changelog</a>.</p>
+
+<div class="header-wrapper">
+  <h3 id="breaking">Breaking</h3>
+  <a href="#breaking">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Breaking</span>
+  </a>
+</div>
+
+<p>We do not expect any breaking changes in existing code. We expect the few
+bugfixes below to not negatively impact your programs. If you notice any
+unexpected issues, please let us know in the <a href="https://github.com/crystal-lang/crystal/issues">issue tracker</a> or <a href="https://forum.crystal-lang.org/">forum</a>.</p>
+
+<ul>
+  <li>OpenSSL sockets shouldn’t flush on read (<a href="https://github.com/crystal-lang/crystal/pull/16650">#16650</a>)</li>
+  <li>Fix <a href="https://crystal-lang.org/api/master/Process.html#wait:Process::Status-instance-method"><code class="language-plaintext highlighter-rouge">Process#wait</code></a> to not close <code class="language-plaintext highlighter-rouge">@input</code> before waiting (<a href="https://github.com/crystal-lang/crystal/pull/16620">#16620</a>, <a href="https://github.com/crystal-lang/crystal/pull/16638">#16638</a>)</li>
+  <li>Ensure that heredoc lexing allows only valid identifiers (<a href="https://github.com/crystal-lang/crystal/pull/16548">#16548</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/straight-shoota">@straight-shoota</a>, <a href="https://github.com/ysbaddaden">@ysbaddaden</a>, <a href="https://github.com/Sija">@Sija</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="security">Security</h3>
+  <a href="#security">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Security</span>
+  </a>
+</div>
+
+<p><code class="language-plaintext highlighter-rouge">HTTP::Server</code> accepted requests containing both <code class="language-plaintext highlighter-rouge">Content-Length</code> and <code class="language-plaintext highlighter-rouge">Transfer-Encoding</code>
+headers and prioritized <code class="language-plaintext highlighter-rouge">Content-Length</code>. This allowed HTTP request smuggling as per
+<a href="https://cwe.mitre.org/data/definitions/444.html">CWE-444</a> when the server is behind a vulnerable frontend. Refer to the
+<a href="https://github.com/crystal-lang/crystal/security/advisories/GHSA-wqh5-7w63-pm68">advisory</a>
+for more details.</p>
+
+<p><code class="language-plaintext highlighter-rouge">HTTP::Server</code> now rejects requests where both headers are present. The HTTP parser now
+ignores <code class="language-plaintext highlighter-rouge">Content-Length</code> when the <code class="language-plaintext highlighter-rouge">Transfer-Encoding</code> header is present. (commit <a href="https://github.com/crystal-lang/crystal/commit/c948b31ee6d5414050e771f89955c7dc02883ebc">c948b31</a>).</p>
+
+<div class="header-wrapper">
+  <h3 id="target-features">Target features</h3>
+  <a href="#target-features">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Target features</span>
+  </a>
+</div>
+
+<p><a href="https://github.com/crystal-lang/rfcs/pull/20">RFC 0020</a> introduces a new <a href="https://crystal-lang.org/api/master/TargetFeature.html"><code class="language-plaintext highlighter-rouge">@[TargetFeature]</code></a> annotation that allows specifying
+CPU features or a CPU model or variant for individual functions. It
+complements the <code class="language-plaintext highlighter-rouge">--mattr</code> and <code class="language-plaintext highlighter-rouge">--mcpu</code> CLI arguments that target the whole
+program. This allows embedding multiple optimized functions for different CPU
+features into a single executable, for example a portable SIMD
+implementation alongside AVX2 and AVX512 alternatives.</p>
+
+<p>The program is responsible for detecting which feature is available and calling the
+proper function at runtime. Otherwise, the program might crash with SIGILL, for
+example.</p>
+
+<p>For example:</p>
+
+<div class="language-crystal highlighter-rouge"><div class="highlight"><pre class="code_section"><code><span class="p">{%</span> <span class="k">if</span> <span class="n">flag?</span><span class="p">(</span><span class="ss">:x86_64</span><span class="p">)</span> <span class="p">%}</span>
+  <span class="nd">@[TargetFeature("+avx2")]</span>
+  <span class="kp">private</span> <span class="k">def</span> <span class="nf">foo_avx2</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span> <span class="k">def</span> <span class="nf">cpu_supports_avx2?</span>
+  <span class="k">end</span>
+<span class="p">{%</span> <span class="k">end</span> <span class="p">%}</span>
+
+<span class="kp">private</span> <span class="k">def</span> <span class="nf">foo_portable</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">foo</span>
+  <span class="p">{%</span> <span class="k">if</span> <span class="n">flag?</span><span class="p">(</span><span class="ss">:x86_64</span><span class="p">)</span> <span class="p">%}</span>
+    <span class="k">return</span> <span class="n">foo_avx2</span> <span class="k">if</span> <span class="n">cpu_supports_avx2?</span>
+  <span class="p">{%</span> <span class="k">end</span> <span class="p">%}</span>
+  <span class="n">foo_portable</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>While not strictly required, we still recommend wrapping architecture-specific
+method definitions within macro flag checks.</p>
+
+<ul>
+  <li>Add <a href="https://crystal-lang.org/api/master/TargetFeature.html"><code class="language-plaintext highlighter-rouge">@[TargetFeature]</code></a> annotation (<a href="https://github.com/crystal-lang/crystal/pull/16717">#16717</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/stakach">@stakach</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="execution-contexts">Execution contexts</h3>
+  <a href="#execution-contexts">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Execution contexts</span>
+  </a>
+</div>
+
+<p>Execution contexts from <a href="https://github.com/crystal-lang/rfcs/pull/2">RFC 0002</a> continue as a final preview feature,
+enabled with the compiler flags <code class="language-plaintext highlighter-rouge">-Dpreview_mt -Dexecution_context</code>. We plan to
+enable it by default in Crystal 1.21.</p>
+
+<p>In addition to fixing bugs, we implemented M:N scheduling that allows threads to
+be attached to and detached from a context. This avoids blocking other
+fibers on certain syscalls, such as <code class="language-plaintext highlighter-rouge">getaddrinfo</code>.</p>
+
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">Fiber::ExecutionContext::ThreadPool</code> (<a href="https://github.com/crystal-lang/crystal/pull/15885">#15885</a>, <a href="https://github.com/crystal-lang/crystal/pull/16750">#16750</a>)</li>
+  <li>Detach execution context scheduler from running thread during blocking syscall (<a href="https://github.com/crystal-lang/crystal/pull/15871">#15871</a>, <a href="https://github.com/crystal-lang/crystal/pull/16679">#16679</a>)</li>
+</ul>
+
+<p>The parallel contexts now automatically start threads to adapt to the actual
+workload and distribute fibers across more cores when needed.</p>
+
+<ul>
+  <li>Add adaptive scaling to <a href="https://crystal-lang.org/api/master/Fiber/ExecutionContext/Parallel.html"><code class="language-plaintext highlighter-rouge">ExecutionContext::Parallel</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16719">#16719</a>)</li>
+</ul>
+
+<p><em>This effort is part of the <a href="/2024/02/09/84codes-manas-mt/">ongoing project to improve multi-threading support</a>
+with the help of <a href="https://www.84codes.com/">84codes</a>.</em></p>
+
+<p><em>Thanks <a href="https://github.com/ysbaddaden">@ysbaddaden</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="process-api">Process API</h3>
+  <a href="#process-api">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Process API</span>
+  </a>
+</div>
+
+<p>This release brings a new ergonomic, safe, and portable API for spawning sub-processes, as proposed in <a href="https://github.com/crystal-lang/rfcs/pull/25">RFC 0025</a>.</p>
+
+<p>A significant change is that the modern API treats the command line as an array of strings.
+The first element is the program to execute, and the remaining elements are its arguments.</p>
+
+<div class="language-cr highlighter-rouge"><div class="highlight"><pre class="code_section"><code><span class="c1"># legacy API:</span>
+<span class="no">Process</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="s2">"crystal"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"tool"</span><span class="p">,</span> <span class="s2">"format"</span><span class="p">])</span>
+
+<span class="c1"># modern API:</span>
+<span class="no">Process</span><span class="p">.</span><span class="nf">run</span><span class="p">([</span><span class="s2">"crystal"</span><span class="p">,</span> <span class="s2">"tool"</span><span class="p">,</span> <span class="s2">"format"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>The new API also includes convenient methods for capturing process output:
+<a href="https://crystal-lang.org/api/master/Process.html#capture%28args%3AEnumerable%28String%29%2C%2A%2Cenv%3AEnv%3Dnil%2Cclear_env%3ABool%3Dfalse%2Cinput%3AStdio%3DRedirect%3A%3AClose%2Cerror%3AStdio%3DRedirect%3A%3APipe%2Cchdir%3APath%7CString%7CNil%3Dnil%29%3AString-class-method"><code class="language-plaintext highlighter-rouge">Process.capture</code></a> and <a href="https://crystal-lang.org/api/master/Process.html#capture_result%28args%3AEnumerable%28String%29%2C%2A%2Cenv%3AEnv%3Dnil%2Cclear_env%3ABool%3Dfalse%2Cinput%3AStdio%3DRedirect%3A%3AClose%2Coutput%3AStdio%3DRedirect%3A%3APipe%2Cerror%3AStdio%3DRedirect%3A%3APipe%2Cchdir%3APath%7CString%7CNil%3Dnil%29%3AResult-class-method"><code class="language-plaintext highlighter-rouge">Process.capture_result</code></a>.</p>
+
+<p>The new API does not have a <code class="language-plaintext highlighter-rouge">shell</code> parameter. If you need shell behaviour, we recommend running a shell explicitly.</p>
+
+<p>These are the most significant individual changes:</p>
+
+<ul>
+  <li>Add overloads with combined <code class="language-plaintext highlighter-rouge">args</code> parameter instead of <code class="language-plaintext highlighter-rouge">command, args</code> (<a href="https://github.com/crystal-lang/crystal/pull/16681">#16681</a>, <a href="https://github.com/crystal-lang/crystal/pull/16739">#16739</a>)</li>
+  <li>Add <a href="https://crystal-lang.org/api/master/Process.html#run%3F%28args%3AEnumerable%28String%29%2C%2A%2Cenv%3AEnv%3Dnil%2Cclear_env%3ABool%3Dfalse%2Cinput%3AStdio%3DRedirect%3A%3AClose%2Coutput%3AStdio%3DRedirect%3A%3AClose%2Cerror%3AStdio%3DRedirect%3A%3AClose%2Cchdir%3APath%7CString%7CNil%3Dnil%29%3AProcess%3A%3AStatus%7CNil-class-method"><code class="language-plaintext highlighter-rouge">Process.run?</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16738">#16738</a>)</li>
+  <li>Add <a href="https://crystal-lang.org/api/master/Process.html#capture%28args%3AEnumerable%28String%29%2C%2A%2Cenv%3AEnv%3Dnil%2Cclear_env%3ABool%3Dfalse%2Cinput%3AStdio%3DRedirect%3A%3AClose%2Cerror%3AStdio%3DRedirect%3A%3APipe%2Cchdir%3APath%7CString%7CNil%3Dnil%29%3AString-class-method"><code class="language-plaintext highlighter-rouge">Process.capture</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16773">#16773</a>)</li>
+</ul>
+
+<p>All new methods and overloads are experimental.
+We expect to stabilize the API for the next release.</p>
+
+<p><em>Thanks <a href="https://github.com/straight-shoota">@straight-shoota</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="io_uring">io_uring</h3>
+  <a href="#io_uring">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled io_uring</span>
+  </a>
+</div>
+
+<p>An io_uring event loop is available for Linux targets and can be selected by
+specifying <code class="language-plaintext highlighter-rouge">-Devloop=io_uring</code> when compiling. The event loop is highly
+experimental and its performance benefits will differ for every program. We don’t
+expect it to be faster than epoll, and it may even be slower, except on some
+benchmarks with SQPOLL enabled.</p>
+
+<p>SQPOLL can be selected by specifying the idle time for the kernel threads with
+<code class="language-plaintext highlighter-rouge">-Dio_uring_sq_thread_idle=200</code> (for 200ms). It is recommended to keep the idle
+time low (below 2s), otherwise your CPU cores will regularly spin at 100% usage
+when doing nothing.</p>
+
+<p>An interesting but potentially surprising behavior is that any I/O call that <em>could</em>
+yield the calling fiber will now <em>always</em> yield. One benefit is that an always
+ready socket won’t block other fibers from progressing. A downside is that there
+might be lots of context switches.</p>
+
+<ul>
+  <li>Add io_uring event loop (linux) (<a href="https://github.com/crystal-lang/crystal/pull/16264">#16264</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/ysbaddaden">@ysbaddaden</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="kernel-tls">Kernel TLS</h3>
+  <a href="#kernel-tls">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Kernel TLS</span>
+  </a>
+</div>
+
+<p>Kernel TLS is now supported by default on Linux and FreeBSD as long as support
+has been compiled into OpenSSL (which should be the default) and enabled on the
+system (likely disabled by default), for example with <code class="language-plaintext highlighter-rouge">modprobe tls</code> on Linux.</p>
+
+<ul>
+  <li>Add Kernel TLS support to custom <code class="language-plaintext highlighter-rouge">OpenSSL::BIO</code> (<a href="https://github.com/crystal-lang/crystal/pull/16646">#16646</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/ysbaddaden">@ysbaddaden</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="macros">Macros</h3>
+  <a href="#macros">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Macros</span>
+  </a>
+</div>
+
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">#select</code> and <code class="language-plaintext highlighter-rouge">#reject</code> to <a href="https://crystal-lang.org/api/master/Crystal/Macros/HashLiteral.html"><code class="language-plaintext highlighter-rouge">HashLiteral</code></a> and <a href="https://crystal-lang.org/api/master/Crystal/Macros/NamedTupleLiteral.html"><code class="language-plaintext highlighter-rouge">NamedTupleLiteral</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16558">#16558</a>)</li>
+  <li>Refine error message for unsupported named arguments in macros (<a href="https://github.com/crystal-lang/crystal/pull/16576">#16576</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/Blacksmoke16">@Blacksmoke16</a>, <a href="https://github.com/hahwul">@hahwul</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="standard-library">Standard library</h3>
+  <a href="#standard-library">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Standard library</span>
+  </a>
+</div>
+
+<p><a href="https://crystal-lang.org/api/master/OptionParser.html"><code class="language-plaintext highlighter-rouge">OptionParser</code></a> now supports option bundling and can parse <code class="language-plaintext highlighter-rouge">-ncfoo</code>
+as <code class="language-plaintext highlighter-rouge">-n -c foo</code>.</p>
+
+<ul>
+  <li>Add short option bundling for <a href="https://crystal-lang.org/api/master/OptionParser.html"><code class="language-plaintext highlighter-rouge">OptionParser</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16770">#16770</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/Qard">@Qard</a></em></p>
+
+<p>The <a href="https://crystal-lang.org/api/master/OAuth.html"><code class="language-plaintext highlighter-rouge">OAuth</code></a> module expected a success response on HTTP OK statuses, but multiple
+OAuth providers send error responses with an HTTP OK status (sic).</p>
+
+<ul>
+  <li>Detect <a href="https://crystal-lang.org/api/master/OAuth.html"><code class="language-plaintext highlighter-rouge">OAuth</code></a> error in payload (<a href="https://github.com/crystal-lang/crystal/pull/16634">#16634</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/jgaskins">@jgaskins</a></em></p>
+
+<p><a href="https://crystal-lang.org/api/master/HTTP/WebSocket.html"><code class="language-plaintext highlighter-rouge">HTTP::WebSocket</code></a> can now negotiate sub-protocols.</p>
+
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">Sec-WebSocket-Protocol</code> checks to <code class="language-plaintext highlighter-rouge">HTTP::WebSocket::Protocol</code> (<a href="https://github.com/crystal-lang/crystal/pull/16600">#16600</a>, <a href="https://github.com/crystal-lang/crystal/pull/16671">#16671</a>)</li>
+  <li>Add support for <code class="language-plaintext highlighter-rouge">Sec-WebSocket-Protocol</code> to <a href="https://crystal-lang.org/api/master/HTTP/WebSocketHandler.html"><code class="language-plaintext highlighter-rouge">HTTP::WebSocketHandler</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16574">#16574</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/antondalgren">@antondalgren</a>, <a href="https://github.com/straight-shoota">@straight-shoota</a></em></p>
+
+<p><a href="https://crystal-lang.org/api/master/StringScanner.html"><code class="language-plaintext highlighter-rouge">StringScanner</code></a> saw multiple improvements, ranging from performance to subtle
+niceties for debugging.</p>
+
+<ul>
+  <li>Add <a href="https://crystal-lang.org/api/master/StringScanner.html#scan(len:Int):String|Nil-instance-method"><code class="language-plaintext highlighter-rouge">StringScanner#scan</code></a>, <a href="https://crystal-lang.org/api/master/StringScanner.html#check%28len%3AInt%29%3AString%7CNil-instance-method"><code class="language-plaintext highlighter-rouge">#check</code></a>, and <a href="https://crystal-lang.org/api/master/StringScanner.html#skip(len:Int):Int32|Nil-instance-method"><code class="language-plaintext highlighter-rouge">#skip</code></a> overloads for <code class="language-plaintext highlighter-rouge">Int</code> (<a href="https://github.com/crystal-lang/crystal/pull/16557">#16557</a>)</li>
+  <li>Add <a href="https://crystal-lang.org/api/master/StringScanner.html#peek_behind(len):String-instance-method"><code class="language-plaintext highlighter-rouge">StringScanner#peek_behind</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16593">#16593</a>)</li>
+  <li>Add convenience methods to <a href="https://crystal-lang.org/api/master/StringScanner.html"><code class="language-plaintext highlighter-rouge">StringScanner</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16595">#16595</a>)</li>
+  <li>Improve cursor window format in <a href="https://crystal-lang.org/api/master/StringScanner.html#inspect%28io%3AIO%29%3ANil-instance-method"><code class="language-plaintext highlighter-rouge">StringScanner#inspect</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16594">#16594</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/jneen">@jneen</a></em></p>
+
+<p>The memory management model for libxml2 changed in Crystal 1.17 to become manual
+instead of integrating the GC. The change introduced another memory leak that is
+now fixed.</p>
+
+<ul>
+  <li>Call <code class="language-plaintext highlighter-rouge">xmlFree</code> for the string pointer from <code class="language-plaintext highlighter-rouge">xmlNodeGetContent</code> (<a href="https://github.com/crystal-lang/crystal/pull/16688">#16688</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/toddsundsted">@toddsundsted</a></em></p>
+
+<p>Some additional niceties:</p>
+
+<ul>
+  <li>Add <a href="https://crystal-lang.org/api/master/IO.html#read_greedy(slice:Bytes):Int32-instance-method"><code class="language-plaintext highlighter-rouge">IO#read_greedy</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16535">#16535</a>)</li>
+  <li>Add <a href="https://crystal-lang.org/api/master/FileUtils.html#rm_f(path:Path|String):Nil-instance-method"><code class="language-plaintext highlighter-rouge">FileUtils#rm_f</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/12832">#12832</a>)</li>
+  <li>Add <a href="https://crystal-lang.org/api/master/Pointer.html#align_up(boundary:UInt64):Pointer(T)-instance-method"><code class="language-plaintext highlighter-rouge">Pointer#align_up</code></a> and <a href="https://crystal-lang.org/api/master/Pointer.html#align_down(boundary:UInt64):Pointer(T)-instance-method"><code class="language-plaintext highlighter-rouge">#align_down</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16585">#16585</a>)</li>
+  <li>Add <a href="https://crystal-lang.org/api/master/HTTP/Server/Response.html#content_type:String|Nil-instance-method"><code class="language-plaintext highlighter-rouge">HTTP::Server::Response#content_type</code></a> and <a href="https://crystal-lang.org/api/master/HTTP/Server/Response.html#content_length:Int64|Nil-instance-method"><code class="language-plaintext highlighter-rouge">#content_length</code></a> as convenient accessors (<a href="https://github.com/crystal-lang/crystal/pull/16712">#16712</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/BlobCodes">@BlobCodes</a>, <a href="https://github.com/CTC97">@CTC97</a>, <a href="https://github.com/zw963">@zw963</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="compiler">Compiler</h3>
+  <a href="#compiler">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Compiler</span>
+  </a>
+</div>
+
+<ul>
+  <li>Prefer modern linker (<code class="language-plaintext highlighter-rouge">mold</code> or <code class="language-plaintext highlighter-rouge">lld</code>) (<a href="https://github.com/crystal-lang/crystal/pull/16696">#16696</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/straight-shoota">@straight-shoota</a></em></p>
+
+<ul>
+  <li>Parse <code class="language-plaintext highlighter-rouge">MacroVar</code> with empty expressions: <code class="language-plaintext highlighter-rouge">%var{}</code> (<a href="https://github.com/crystal-lang/crystal/pull/16772">#16772</a>)</li>
+  <li>Parse <code class="language-plaintext highlighter-rouge">ProcNotation</code> with empty arg parenthesis: <code class="language-plaintext highlighter-rouge">() -&gt;</code> (<a href="https://github.com/crystal-lang/crystal/pull/16741">#16741</a>)</li>
+  <li>Add <code class="language-plaintext highlighter-rouge">--base-path</code> for <code class="language-plaintext highlighter-rouge">crystal docs</code> (<a href="https://github.com/crystal-lang/crystal/pull/16091">#16091</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/straight-shoota">@straight-shoota</a>, <a href="https://github.com/matiasgarciaisaia">@matiasgarciaisaia</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="dependencies">Dependencies</h3>
+  <a href="#dependencies">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Dependencies</span>
+  </a>
+</div>
+
+<ul>
+  <li>Support for LLVM 22.1 and 23.0 (<a href="https://github.com/crystal-lang/crystal/pull/16631">#16631</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/HertzDevil">@HertzDevil</a></em></p>
+
+<div class="header-wrapper">
+  <h3 id="deprecations">Deprecations</h3>
+  <a href="#deprecations">
+    <span aria-hidden="true"><svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z" fill="currentcolor"></path></svg>
+    </span>
+    <span class="visually-hidden">Section titled Deprecations</span>
+  </a>
+</div>
+
+<p>There is a single deprecation in this release, and it is a trivial one: rename
+<a href="https://crystal-lang.org/api/master/Mutex.html"><code class="language-plaintext highlighter-rouge">Mutex</code></a> to <a href="https://crystal-lang.org/api/master/Sync/Mutex.html"><code class="language-plaintext highlighter-rouge">Sync::Mutex</code></a> to use the new algorithm introduced in Crystal 1.19.</p>
+
+<p>We’re experimenting with a two-step mechanism to deprecate a feature. First, we
+soft deprecate the method in the documentation with a <code class="language-plaintext highlighter-rouge">DEPRECATE:</code> callout, then
+after a few releases we’ll hard deprecate by adding the <code class="language-plaintext highlighter-rouge">@[Deprecated]</code>
+annotation.</p>
+
+<ul>
+  <li>Soft deprecate <a href="https://crystal-lang.org/api/master/Mutex.html"><code class="language-plaintext highlighter-rouge">Mutex</code></a> in favor of <a href="https://crystal-lang.org/api/master/Sync/Mutex.html"><code class="language-plaintext highlighter-rouge">Sync::Mutex</code></a> (<a href="https://github.com/crystal-lang/crystal/pull/16737">#16737</a>)</li>
+</ul>
+
+<p><em>Thanks <a href="https://github.com/ysbaddaden">@ysbaddaden</a></em></p>
+
+<hr />
+
+<div class="callout callout--thanks">
+  <div class="callout-title">Thanks
+</div>
+<p>We have been able to do all of this thanks to the continued support of
+ <a href="https://www.84codes.com/">84codes</a> and every other <a href="/sponsors">sponsor</a>.  To
+ maintain and increase the development pace, donations and sponsorships are
+ essential.  <a href="https://opencollective.com/crystal-lang">OpenCollective</a> is
+ available for that.</p>
+
+<p>Reach out to <a href="mailto:crystal@manas.tech">crystal@manas.tech</a> if you’d like to
+ become a direct sponsor or find other ways to support Crystal. We thank you in
+ advance!</p>
+
+
+  <a class="hex" href="/sponsors#contribute">Contribute</a>
+</div>
+
+
+</div>
+
+    
+
+    <div id="discourse-comments"></div>
+<meta name="discourse-username" content="Crys">
+<script type="text/javascript">
+  DiscourseEmbed = {
+    discourseUrl: "https://forum.crystal-lang.org/",
+    discourseEmbedUrl: "https://crystal-lang.org/2026/04/16/1.20.0-released/",
+  };
+
+  (function() {
+    var d = document.createElement("script"); d.type = "text/javascript"; d.async = true;
+    d.src = DiscourseEmbed.discourseUrl + "javascripts/embed.js";
+    (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(d);
+  })();
+</script>
+
+
+    
+  </div>
+</article>
+
+<nav class="post-pagination" aria-label="Blog post navigation">
+    <a rel="next" href="/2026/04/27/1.19.2-released/">Crystal 1.19.2 is released!</a>
+    <a rel="prev" href="/2026/01/20/1.19.1-released/">Crystal 1.19.1 is released!</a>
+</nav>
+
+</main>
+
+<hr class="visually-hidden">
+
+
+<aside class="edit-on-github" aria-label="Edit this page">
+  <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M18.414 2a.995.995 0 0 0-.707.293L16 4l4 4 1.707-1.707a.999.999 0 0 0 0-1.414l-2.586-2.586A.996.996 0 0 0 18.414 2zM14.5 5.5 3 17v4h4L18.5 9.5l-4-4z"/>
+</svg>
+
+    Found a typo, or want to help improve this page?
+    <a href="https://github.com/crystal-lang/crystal-website/edit/master/_releases/2026-04-16-1.20.0-released.md">Edit on GitHub</a>
+    or
+    <a href="https://github.com/crystal-lang/crystal-website/issues/new">file an issue</a>.
+  </p>
+</aside>
+
+
+<footer><div class="footer-nav">
+  <nav class="footer-section" aria-label="Home section links">
+    <a class="link-item__main" href="/">Home</a><ul>
+    <li>
+      <a href="/blog/" 
+        >Blog</a>
+    </li>
+    <li>
+      <a href="/install/" 
+        >Install</a>
+    </li>
+    <li>
+      <a href="/releases/" 
+        >Releases</a>
+    </li>
+    <li>
+      <a href="/success-stories/" 
+        >Success stories</a>
+    </li>
+    <li>
+      <a href="/sitemap/" 
+        >Sitemap</a>
+    </li>
+</ul>
+
+  </nav>
+
+  <nav class="footer-section" aria-label="Docs section links">
+    <a class="link-item__main" href="/docs">Documentation</a><ul>
+    <li>
+      <a href="https://crystal-lang.org/reference/getting_started/" 
+        >Getting Started</a>
+    </li>
+    <li>
+      <a href="https://crystal-lang.org/reference/tutorials" 
+        >Tutorials</a>
+    </li>
+    <li>
+      <a href="https://crystal-lang.org/api" 
+        >API Docs</a>
+    </li>
+    <li>
+      <a href="https://crystal-lang.org/reference/syntax_and_semantics" 
+        >Specification</a>
+    </li>
+    <li>
+      <a href="https://crystal-lang.org/reference/guides" 
+        >Guides</a>
+    </li>
+    <li>
+      <a href="/media/" 
+        >Media</a>
+    </li>
+</ul>
+
+  </nav>
+
+  <nav class="footer-section" aria-label="Community section links">
+    <a class="link-item__main" href="/community">Community</a><ul>
+    <li>
+      <a href="/team/" 
+        >Team</a>
+    </li>
+    <li>
+      <a href="/sponsors/" 
+        >Sponsors</a>
+    </li>
+    <li>
+      <a href="/community/#events" 
+        >Events</a>
+    </li>
+    <li>
+      <a href="/used_in_prod/" 
+        >Used in production</a>
+    </li>
+    <li>
+      <a href="/community/governance/" 
+        >Governance</a>
+    </li>
+</ul>
+
+  </nav>
+
+  <div class="link-items">
+    <h3>Help</h3>
+
+    <div class="link-item">
+      <a class="link-item__main" href="https://forum.crystal-lang.org" title="Crystal Forum"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 40 39.95">
+  <path d="M0 30V2.1c0-.47.22-.93.65-1.4S1.53 0 2 0h25.95c.5 0 .97.22 1.4.68.43.45.65.92.65 1.42v17.8c0 .47-.22.93-.65 1.4s-.9.7-1.4.7H8l-8 8Zm10.05 2c-.47 0-.93-.23-1.38-.7-.45-.47-.68-.93-.68-1.4V25h25V8h5c.47 0 .92.23 1.35.7.43.47.65.95.65 1.45v29.8L32.04 32H10.05Z"/>
+</svg>
+
+        Crystal forum
+      </a>
+    </div>
+
+    <div class="link-item">
+      <a class="link-item__main" href="https://discord.gg/YS7YvQy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M19.98 5.69c-1.68-1.34-4.08-1.71-5.12-1.82h-.04c-.16 0-.31.09-.36.24-.09.23.05.48.28.52 1.17.24 2.52.66 3.75 1.43.25.15.31.49.11.72-.16.18-.43.2-.64.08C15.56 5.38 12.58 5.3 12 5.3s-3.56.08-5.96 1.56c-.21.12-.48.1-.64-.08-.2-.23-.14-.57.11-.72 1.23-.77 2.58-1.19 3.75-1.43.23-.04.37-.29.28-.52-.05-.15-.2-.24-.36-.24h-.04c-1.04.11-3.44.48-5.12 1.82-.98.91-2.93 6.14-3.02 10.77 0 .31.08.62.26.87 1.17 1.65 3.71 2.64 5.63 2.78.29.02.57-.11.74-.35.01 0 .01-.01.02-.02a.899.899 0 0 0-.42-1.37c-1.6-.59-2.42-1.29-2.47-1.34a.488.488 0 0 1-.05-.68c.18-.2.48-.22.68-.04.03.02 2.25 1.91 6.61 1.91s6.58-1.89 6.61-1.91c.2-.18.5-.16.68.04.17.2.15.5-.05.68-.05.05-.87.75-2.47 1.34-.56.21-.77.89-.42 1.37.01.01.01.02.02.02.17.24.45.37.74.35 1.92-.14 4.46-1.13 5.63-2.78.18-.25.26-.56.26-.87-.09-4.63-2.04-9.86-3.02-10.77zM8.89 14.87c-.92 0-1.67-.86-1.67-1.91 0-1.06.75-1.92 1.67-1.92.93 0 1.67.86 1.67 1.92 0 1.05-.74 1.91-1.67 1.91zm6.22 0c-.93 0-1.67-.86-1.67-1.91 0-1.06.74-1.92 1.67-1.92.92 0 1.67.86 1.67 1.92 0 1.05-.75 1.91-1.67 1.91z"/>
+</svg>
+
+        Crystal Discord
+      </a>
+    </div>
+
+    <div class="link-item">
+      <a class="link-item__main" href="https://www.reddit.com/r/crystal_programming/" title="Crystal Programming on Reddit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 30 30">
+  <path d="M17.662 2C15.565 2 14 3.713 14 5.662v3.373c-2.75.146-5.266.88-7.273 2.03-.774-.744-1.81-1.074-2.815-1.073-1.09.001-2.203.378-2.97 1.242l-.018.02-.018.02c-.737.92-1.028 2.154-.832 3.378a4.4 4.4 0 0 0 1.953 2.977C2.02 17.753 2 17.875 2 18c0 4.962 5.832 9 13 9s13-4.038 13-9c0-.125-.02-.247-.027-.371a4.4 4.4 0 0 0 1.953-2.977c.196-1.224-.095-2.458-.832-3.379l-.018-.02-.017-.019c-.769-.864-1.882-1.241-2.971-1.242-1.005 0-2.041.33-2.815 1.072C21.266 9.914 18.75 9.181 16 9.035V5.662C16 4.683 16.565 4 17.662 4c.52 0 1.155.26 2.149.61.84.294 1.932.592 3.33.681A2.501 2.501 0 0 0 25.5 7C26.875 7 28 5.875 28 4.5S26.875 2 25.5 2a2.5 2.5 0 0 0-2.18 1.3 9.836 9.836 0 0 1-2.847-.577C19.569 2.406 18.738 2 17.663 2zm-13.75 9.992c.395 0 .77.104 1.08.272-1.104.921-1.941 1.998-2.447 3.174a2.31 2.31 0 0 1-.494-1.102c-.108-.672.093-1.37.412-1.783.301-.325.851-.56 1.45-.56zm22.174 0c.598 0 1.15.236 1.451.56.319.414.52 1.112.412 1.784a2.31 2.31 0 0 1-.494 1.101c-.506-1.175-1.343-2.252-2.447-3.173a2.27 2.27 0 0 1 1.078-.272zM10 14a2 2 0 1 1 .001 3.999A2 2 0 0 1 10 14zm10 0a2 2 0 1 1 .001 3.999A2 2 0 0 1 20 14zm.238 5.533C19.6 21.4 17.556 23 15 23c-2.556 0-4.6-1.599-5.238-3.332 1.15.933 3.066 1.6 5.238 1.6 2.172 0 4.088-.668 5.238-1.735z"/>
+</svg>
+
+        r/crystal_programming
+      </a>
+    </div>
+
+    <div class="link-item">
+      <a class="link-item__main" href="ircs://irc.libera.chat:6697#crystal-lang"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-0.02 -0.02 118.5 91.27">
+  <path d="m80.75-117.8-.019.003a61.108 61.108 0 0 0-1.633.344l-.325.074a59.046 59.046 0 0 0-2.588.658 61.438 61.438 0 0 0-1.6.47 58.774 58.774 0 0 0-4.405 1.55 55.447 55.447 0 0 0-.501.201l17.04 56.44 2.62-3.067zm22.65-.063-6.202 47.55 5.02-5.874.997 1.598 11.13-40.09a53.582 53.582 0 0 0-1.834-.695 58.77 58.77 0 0 0-5.742-1.748 52.747 52.747 0 0 0-1.298-.31 52.735 52.735 0 0 0-1.306-.28 61.131 61.131 0 0 0-.654-.13zm-53.41 16.47a53.412 53.412 0 0 0-1.567 1.637 67.048 67.048 0 0 0-.888.987 61.177 61.177 0 0 0-2.324 2.813 55.865 55.865 0 0 0-1.192 1.593 53.852 53.852 0 0 0-1.137 1.632l-.184.275-.01.017 32.53 35.55 2.461-3.203.114.05zm83.83-.656L109.76-64.1l2.738 4.389 29.12-32.98a61.725 61.725 0 0 0-.725-1.058 52.015 52.015 0 0 0-.774-1.077 58.893 58.893 0 0 0-4.681-5.592 57.553 57.553 0 0 0-1.617-1.639zM34.07-71.48a57.73 57.73 0 0 0-.45 2.6 58.02 58.02 0 0 0-.62 7.235 60.646 60.646 0 0 0-.016 1.558l34.66 13.04 2.7-3.512zm116.5 1.015-33.02 18.86 2.591 4.152 31.3-11.4.004-.17.007-.33c.002-.11.004-.22.004-.33l.003-.33c0-.11.002-.22.001-.33v-.33l-.004-.331-.003-.21-.006-.33c-.002-.11-.004-.22-.008-.33l-.01-.33-.011-.33-.013-.33-.016-.33-.017-.33-.019-.33-.02-.33a52.024 52.024 0 0 0-.048-.659l-.026-.329-.029-.329c-.009-.11-.02-.219-.03-.329-.01-.11-.021-.219-.033-.328-.01-.11-.022-.22-.033-.329a52.237 52.237 0 0 0-.114-.984 50.511 50.511 0 0 0-.226-1.636 59.857 59.857 0 0 0-.215-1.304l-.01-.053zm-112.8 33.2a52.743 52.743 0 0 0 .522 1.17 56.048 56.048 0 0 0 2.1 4.13 59.04 59.04 0 0 0 2.238 3.676 56.369 56.369 0 0 0 1.124 1.64l.014.02 10.18-2.259.202-.265-.241.001 6.319-8.223zm88.93.314 4.904 8.144 9.146 2.064.068-.096a51.292 51.292 0 0 0 .567-.817 66.106 66.106 0 0 0 .912-1.384 56.728 56.728 0 0 0 1.21-1.978 62.04 62.04 0 0 0 .974-1.732 52.576 52.576 0 0 0 .766-1.467 61.926 61.926 0 0 0 1.137-2.39l.002-.003z" style="paint-order:markers fill stroke" transform="translate(-32.984 117.86)"/>
+  <path d="m69.945 40.2-17.25 19.7-7.897-3.488-25.66 32.99 2.235.002s15.98-20.43 24-30.71l7.82 3.455 16.48-18.83c9.126 15.53 18.97 30.48 27.93 46.1l2.226-.013z"/>
+  <path d="m69.645 46.09-16.02 18.37-7.826-3.25-22.13 28.18 2.445.015 20.28-25.94 7.76 3.22 15.22-17.45 23.94 40.24 2.37-.045z"/>
+  <path d="m28.485 89.37 18.48-23.56 7.918 3.219 14.38-16.52 21.59 36.89z"/>
+</svg>
+
+        IRC: <em>#crystal-lang</em>
+      </a> (<a href="https://web.libera.chat/#crystal-lang">web</a>, <a href="http://irclog.crystal-lang.org">logs</a>)
+    </div>
+
+    <div class="link-item">
+      <a class="link-item__main" href="https://matrix.to/#/#crystal-lang_crystal:gitter.im"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M4 4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h1a1 1 0 1 0 0-2V6a1 1 0 1 0 0-2H4zm15 0a1 1 0 1 0 0 2v12a1 1 0 1 0 0 2h1a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-1zm-4.25 4.426c-.499-.01-1 .113-1.404.39-.26.178-.484.406-.74.625-.392-.777-1.1-.984-1.907-.998-.817-.013-1.45.358-2.017 1.036a.838.838 0 0 0-.838-.838h-.006A.838.838 0 0 0 7 9.479v4.615a.895.895 0 0 0 1.787 0c0-.8.001-1.95.004-2.66.001-.222.01-.45.06-.664.146-.627.865-1.03 1.495-.9.485.1.708.434.734 1.081.004.087.007 1.983.008 3.145 0 .493.4.89.894.89h.022a.893.893 0 0 0 .894-.892c0-.815 0-1.987.006-2.63a3.5 3.5 0 0 1 .094-.81c.148-.588.627-.875 1.275-.804.572.063.857.379.899 1v3.257c0 .494.4.895.894.895h.024a.89.89 0 0 0 .892-.887c.004-1.039.01-2.735-.01-3.715a2.2 2.2 0 0 0-.238-.904c-.332-.667-1.153-1.053-1.984-1.07z"/>
+</svg>
+
+        Matrix: <em>#crystal-lang_crystal:gitter.im</em>
+      </a>(<a href="https://gitter.im/crystal-lang/crystal">web</a>)
+    </div>
+  </div>
+
+  <div class="link-items">
+    <h3>News feeds</h3>
+
+    <div class="link-item">
+      <a class="link-item__main" href="/feed.xml" rel="alternate" type="application/atom+xml"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+</svg>
+
+        Blog posts and releases
+      </a>
+    </div>
+    <div class="link-item">
+      <a class="link-item__main" href="/releases/feed.xml" rel="alternate" type="application/atom+xml"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+</svg>
+
+        Releases
+      </a>
+    </div>
+    <div class="link-item">
+      <a class="link-item__main" href="/newsletter/feed" rel="alternate" type="application/atom+xml"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20 5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+</svg>
+
+        Newsletter
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="footer-extra">
+  <div class="newsletter-footer"><div class="newsletter-form">
+  <form
+    action="https://tech.us6.list-manage.com/subscribe/post?u=68338ca88d5d6326c9a824317&amp;id=6f80e8b0be&amp;f_id=005a33e3f0"
+    method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_self"
+    novalidate>
+    <label for="mce-EMAIL">Subscribe to our <a href="/newsletter">newsletter</a></label>
+    <input
+        type="email" name="EMAIL" class="required email" id="mce-EMAIL" required value="" placeholder="E-Mail">
+    <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-flat btn-large hex">Submit</button>
+    <div hidden>
+      <input type="text" name="b_68338ca88d5d6326c9a824317_6f80e8b0be" tabindex="-1" value="" aria-labelledby="">
+    </div>
+  </form>
+</div>
+
+    
+  </div>
+
+  <div class="link-items link-items--social">
+    <div class="link-item">
+      <a class="link-item__main" href="https://github.com/crystal-lang/crystal" title="Crystal repository on GitHub" rel="me"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24.13 23.03">
+  <path fill="currentColor" d="M12.11 0C5.61-.19.21 4.91 0 11.41c-.2 5.3 3.2 10 8.3 11.6.3.1.7-.1.8-.4v-2.2c-3.3.7-4-1.6-4-1.6-.2-.7-.7-1.3-1.3-1.7-1.1-.7.1-.7.1-.7.8.1 1.4.6 1.8 1.2.7 1.2 2.2 1.6 3.4 1 .1-.6.3-1.2.8-1.6-2.7-.3-5.5-1.3-5.5-5.8 0-1.2.4-2.3 1.2-3.2-.4-1-.3-2.1.1-3.1 0 0 1-.3 3.3 1.2 2-.5 4-.5 6 0 2.3-1.5 3.3-1.2 3.3-1.2.4 1 .5 2.1.1 3.1.8.9 1.2 2 1.2 3.2 0 4.5-2.8 5.5-5.5 5.8.6.6.9 1.4.8 2.2v3.2c0 .3.3.6.6.6h.3c6.2-1.9 9.7-8.5 7.8-14.7-1.49-5.1-6.19-8.5-11.49-8.31Z"/>
+</svg>
+
+        GitHub
+      </a>
+    </div>
+    <div class="link-item">
+      <a class="link-item__main" href="https://www.youtube.com/@CrystalLanguage" title="Crystal channel on YouTube" rel="me"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M21.582 6.186a2.506 2.506 0 0 0-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768C5.746 20 12 20 12 20s6.254 0 7.814-.418a2.504 2.504 0 0 0 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L16 12l-6 3.464z"/>
+</svg>
+
+        YouTube
+      </a>
+    </div>
+    <div class="link-item">
+      <a class="link-item__main" href="https://fosstodon.org/@CrystalLanguage"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
+  <path d="M15.938 4.031c-3.021.013-6.02.396-7.58 1.115 0 0-3.358 1.529-3.358 6.735 0 6.197-.005 13.98 5.563 15.484 2.131.573 3.965.697 5.439.612 2.675-.151 3.998-.971 3.998-.971l-.09-1.977s-1.734.611-3.88.541c-2.128-.075-4.369-.234-4.718-2.89a5.64 5.64 0 0 1-.046-.746c4.507 1.119 8.35.487 9.408.359 2.954-.359 5.525-2.211 5.853-3.904.514-2.668.471-6.508.471-6.508 0-5.206-3.352-6.735-3.352-6.735-1.645-.768-4.688-1.127-7.709-1.115zm-3.233 3.971c1.035.028 2.058.49 2.688 1.469l.609 1.035.607-1.035c1.265-1.967 4.1-1.845 5.45-.323 1.244 1.448.966 2.383.966 8.852v.002h-2.447v-5.629c0-2.635-3.36-2.737-3.36.365V16h-2.43v-3.262c0-3.102-3.358-3.002-3.358-.367V18H8.977c0-6.474-.273-7.415.966-8.852.68-.766 1.727-1.174 2.762-1.146z"/>
+</svg>
+
+        Mastodon
+      </a>
+    </div>
+    <div class="link-item">
+      <a class="link-item__main" href="https://twitter.com/CrystalLanguage"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24">
+  <path d="M22 3.999c-.78.463-2.345 1.094-3.265 1.276-.027.007-.049.016-.075.023A4.5 4.5 0 0 0 11 8.499c0 .131-.011.372 0 .5-3.353 0-5.905-1.756-7.735-4-.199.5-.286 1.29-.286 2.032 0 1.401 1.095 2.777 2.8 3.63-.314.081-.66.139-1.02.139A2.686 2.686 0 0 1 3 10.183v.051c0 1.958 2.078 3.291 3.926 3.662-.375.221-1.131.243-1.5.243-.26 0-1.18-.119-1.426-.165.514 1.605 2.368 2.507 4.135 2.539-1.382 1.084-2.341 1.486-5.171 1.486H2C3.788 19.145 6.065 20 8.347 20 15.777 20 20 14.337 20 8.999l-.005-.447c0-.018.005-.035.005-.053 0-.027-.008-.053-.008-.08a18.384 18.384 0 0 0-.009-.329A8.217 8.217 0 0 0 22 5.999a8.07 8.07 0 0 1-2.32.636c.834-.5 2.019-1.692 2.32-2.636z"/>
+</svg>
+
+        Twitter
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="imprint">
+  <p>Licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
+  <p>Crystal language, born &amp; raised at <a href="https://manas.tech">Manas<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
+  <path d="M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32 32-14.3 32-32S49.7 0 32 0zm18 47h-4V36.9c0-3.3-2.7-6-6-6s-6 2.7-6 6V39h-4v-2.1c0-3.3-2.7-6-6-6s-6 2.7-6 6V39h-4V19h4v9.8c4.3-3.3 10.6-2.5 13.9 1.9l.1.1c3.3-4.4 9.6-5.3 14-2 2.5 1.9 4 4.9 4 8V47zm0-24h-9.9c-2.7 0-5.2-1.1-7-3.1l2.8-2.8c1.1 1.2 2.6 1.8 4.2 1.8h10L50 23z"/>
+</svg>
+</a></p>
+</div>
+
+</footer>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D3KP40BWCR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D3KP40BWCR');
+</script>
+
+  </body>
+</html>
