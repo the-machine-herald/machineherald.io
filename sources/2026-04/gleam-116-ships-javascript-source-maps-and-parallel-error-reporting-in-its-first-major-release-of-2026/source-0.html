@@ -1,0 +1,1424 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta content="width=device-width" name="viewport"><link href="/images/lucy/lucy.svg" rel="shortcut icon"><link href="https://gleam.run/feed.xml" rel="alternate" title="Gleam" type="application/atom+xml"><title>JavaScript source maps | Gleam programming language</title><meta content="News post: Gleam v1.16.0 released!" name="description"><meta content="website" property="og:type"><meta content="https://gleam.run/images/preview/v1.16.png" property="og:image"><meta content="JavaScript source maps | Gleam programming language" property="og:title"><meta content="News post: Gleam v1.16.0 released!" property="og:description"><meta content="https://gleam.run/news/javascript-source-maps" property="og:url"><meta content="summary_large_image" property="twitter:card"><meta content="https://gleam.run" property="twitter:url"><meta content="JavaScript source maps | Gleam programming language" property="twitter:title"><meta content="News post: Gleam v1.16.0 released!" property="twitter:description"><meta content="https://gleam.run/images/preview/v1.16.png" property="twitter:image"><script async data-domain="gleam.run" defer src="https://plausible.io/js/plausible.js"></script><link href="/styles/main.css?v=V6t2jkD1v7oBFkd3Zc2Y206K5TD3G3dOtysaDM_nTNE" rel="stylesheet"></head><body><div class="page-header"><nav class="navbar"><div class="content"><div><a class="logo" href="/"><img alt="Lucy the star, Gleam&#39;s mascot" class="navbar-lucy" src="/images/lucy/lucy.svg">Gleam</a></div><div><a href="/news">News</a><a href="/community">Community</a><a href="/sponsor">Sponsor</a></div><div><a href="https://packages.gleam.run">Packages</a><a href="/documentation">Docs</a><a href="/install">Install</a></div></div></nav><div class="hero"><div class="content"><div class="text"><h1>JavaScript source maps</h1><p class="hero-subtitle">Gleam v1.16.0 released!</p></div></div><img alt="a soft wavey boundary between two sections of the website" class="home-waves" src="/images/waves.svg"></div></div><main class="page content "><div class="post"><div class="post-meta"><a class="meta-button back-button" href="/news"><img alt="Return Icon" src="/images/return-icon.svg" width="20"></a><p class="post-authored"><time>24 April, 2026</time> by <a href="https://github.com/lpil">Louis Pilfold</a></p><button aria-label="Copy post URL to clipboard" class="tooltip-container meta-button share-button" data-tooltip-position="right" data-tooltip-trigger="click" onclick="window.navigator.clipboard.writeText(document.location.href)"><img alt="Share Icon" src="/images/share-icon.svg" width="20">Share<span aria-hidden="true" class="tooltip" id="share-tooltip" role="status">Copied the post URL!</span></button></div><article class="prose"><p>Gleam is a type safe and scalable language for the Erlang virtual machine and
+JavaScript runtimes. Today Gleam <a href="https://github.com/gleam-lang/gleam/releases/tag/v1.16.0">v1.16.0</a> has been published, let&#39;s
+go over what&#39;s new.</p>
+<h2 id="Gleam-gets-source-maps">Gleam gets source maps</h2>
+<p>Gleam&#39;s robust type system makes runtime errors very rare, but it would be naive
+to say that it&#39;s never necessary to debug Gleam code at runtime. When compiling
+code to JavaScript one challenge for runtime debugging is that the error and
+the source code shown is that of the compiled JavaScript, not the Gleam the
+programmer actually wrote.</p>
+<p>The solution to this problem is source maps, additional files that Gleam&#39;s
+compiler can now generate, teaching browsers and JavaScript runtimes what the
+original code is and how it maps on to the JavaScript it runs. Here it is in
+action with Safari&#39;s dev-tools:</p>
+<img src="/images/news/gleam-v1.16-released/debugger.png" class="shadow" alt="Safari's dev tools debugger showing Gleam code">
+<p>As you may know, it&#39;s not limited to just displaying the code, it also
+translates exception stack traces to the original locations, and enables use of
+breakpoints and debuggers.</p>
+<p>To enable source maps set the <code>javascript.source_maps</code> property to <code>true</code> in
+your <code>gleam.toml</code>, and ensure that you are serving these new files to the web
+browser along with your JavaScript code. If you are serving the build directory
+or using <a href="https://lustre.build/">Lustre&#39;s</a> dev-tools then there&#39;s nothing else
+to do.</p>
+<pre><code><span class=hl-function>name </span>= "my_project"
+<span class=hl-function>version </span>= "1.0.0"
+
+<span class=hl-module>[javascript]</span>
+<span class=hl-function>source_maps </span>= true
+
+<span class=hl-module>[dependencies]</span>
+<span class=hl-function>gleam_stdlib </span>= ">= 1.0.0 and < 2.0.0"
+</code></pre>
+<p>A huge thank you to <a href="https://github.com/Acepie">Ameen Radwan</a> for this big
+improvement. Folks who enjoy breakpoint debugging will be especially pleased.</p>
+<h2 id="Package-level-fault-tolerance">Package-level fault tolerance</h2>
+<p>Gleam is a fully-typed language, so to compile a module of Gleam code the
+compiler must first successfully compile all the modules it imports in order to
+have the required type information. Attempting to analyse modules without this
+information would result in a cascading failure of incorrect and misleading
+error messages, so when a module cannot be compiled the build tool stops and
+reports the errors.</p>
+<p>This behaviour successfully prevents the error cascade, but it has been a
+source of confusion at times. Some developers may not realise they have an error
+upstream in their project and so do not understand why the language server is
+providing minimal assistance, presuming that it is broken.</p>
+<p>Worse still, because compilation stops at the first failed module the language
+server may be unable to help with modules that do not directly or indirectly
+import an invalid module, but just happen to come after them in the compilation
+order. There&#39;s no justifiable reason why these modules could not have been
+compiled, but the developer is stuck without them.</p>
+<p>These two pain points have now been resolved. If the programmer opens in their
+editor a module that genuinely could not be compiled, then the language server
+will display a diagnostic on the import that leads to the problem, removing the
+confusion.</p>
+<p>When a module fails to compile the build tool will prune that sub-tree of
+modules and move on to the next set of modules that can be compiled, ensuring
+that the programmer has as much up-to-date information as possible available to
+them in their editor.</p>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>! This will
+make a big difference to some Gleam programmers.</p>
+<h2 id="Faster-string-pattern-matching">Faster string pattern matching</h2>
+<p>The compiler now emits more efficient code when matching on single-character
+string prefixes on the JavaScript target. For example, <code>glance</code>  (a Gleam
+package that can parse Gleam code) is now nearly 30% faster on the JavaScript
+target:</p>
+<pre><code># before:
+min: 10.8ms, max: 365.82ms, median: 14.74ms, mean: 14.76ms
+warmup: 100/1.5s, total post-warmup: 1000/14.76s
+
+# after:
+min: 8.96ms, max: 143.76ms, median: 10.72ms, mean: 11.06ms
+warmup: 100/1.24s, total post-warmup: 1000/11.06s
+</code></pre>
+<p>Thank you <a href="https://github.com/yoshi-monster/">Rebecca Reusch</a> and
+<a href="https://github.com/GearsDatapacks">Surya Rose</a>!</p>
+<h2 id="Record-update-fault-tolerance">Record update fault tolerance</h2>
+<p>To provide a good language server experience with invalid code, Gleam&#39;s
+compilation aims to be fault-tolerant, and will attempt to continue analysing
+the code after finding an error.</p>
+<p>With this release the analysis of record update expressions is now fault-
+tolerant, and the compiler now shows a better error message when trying to use
+the record update syntax with variants that have no labelled fields.</p>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<h2 id="Oversized-int-pattern-warning">Oversized int pattern warning</h2>
+<p>The largest size an int can have on JavaScript is 52 bits, after which
+precision is lost. The compiler now raises a warning on the JavaScript target
+when a pattern attempts to extract an int larger than JavaScript supports, to
+avoid unexpected results.</p>
+<pre><code><b><span class="code-warning">warning</span>: Truncated bit array segment</b>
+<span class="code-decoration">  ┌─</span> /src/app/warning.gleam:3:20
+<span class="code-decoration">  │</span>
+<span class="code-decoration">3 │</span>     let &lt;&lt;_, number:152&gt;&gt; = sha
+<span class="code-decoration">  │</span>                     <span class="code-warning">^^^</span>
+
+This segment is a 152-bit long int, but on the JavaScript target
+numbers have at most 52 bits. It would be truncated to its first 52 bits.
+Hint: Did you mean to use the `bytes` segment option?
+</code></pre>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<h2 id="Spoiling-practical-jokes">Spoiling practical jokes</h2>
+<p>The compiler now emits a helpful error message when source code contains an
+invalid unicode character that looks similar to a correct character.</p>
+<pre><code><b><span class="code-error">error</span>: Syntax error</b>
+<span class="code-decoration">  ┌─</span> /src/parse/error.gleam:1:20
+<span class="code-decoration">  │</span>
+<span class="code-decoration">1 │</span> pub fn main() { #(1‚ 2) }
+<span class="code-decoration">  │</span>                    <span class="code-error">^ Unexpected character</span>
+
+This looks like ascii comma, but it is actually the unicode low single
+comma quotation mark.
+</code></pre>
+<p>Bad news for mischievous pranksters, good news for folks who don&#39;t like
+debugging unexpected parse errors.</p>
+<h2 id="Hex-package-ownership-management">Hex package ownership management</h2>
+<p><a href="https://github.com/nkxxll">Niklas Kirschall</a> has added the new
+<code>gleam hex owner add</code> command, allowing folks to add additional owners to their
+Hex packages. Thank you Niklas!</p>
+<h2 id="Hex-package-manager-error-message-improvements">Hex package manager error message improvements</h2>
+<p>The build tool now produces a nicer error message when trying to add a package
+version that doesn&#39;t exist. For example, running <code>gleam add wisp@11</code>
+will now produce:</p>
+<pre><code><b><span class="code-error">error</span>: Dependency resolution failed</b>
+
+The package `wisp` has no versions in the range &gt;= 11.0.0 and &lt; 12.0.0.
+</code></pre>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<p><a href="https://github.com/d-matz">David Matz</a> has also updated our error handling for
+the new error types recently added to Hex&#39;s API, fixing some incorrect and
+misleading messages that we would show due to attempting to parse them as the
+old errors. Thank you David!</p>
+<h2 id="Add-and-remove-anonymous-function-code-actions">Add and remove anonymous function code actions</h2>
+<p>Gleam is a functional programming language, so functions are very commonly used
+as values, and are passed as arguments to other functions. Sometimes an
+anonymous function is used.</p>
+<pre><code><span class=hl-keyword>let</span> add_item = <span class=hl-keyword>fn</span>(item) { <span class=hl-module>catalog</span>.<span class=hl-function>record</span>(item) }
+</code></pre>
+<p>Other times the function is referenced directly.</p>
+<pre><code><span class=hl-keyword>let</span> add_item = catalog.record
+</code></pre>
+<p>These two expressions are equivalent, and the programmer would pick between the
+two depending on what they find to be clearer at each point in their code.</p>
+<p>To make writing Gleam even nicer the language server now offers code actions to
+switch between the two syntaxes. For example:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>main</span>() {
+  [<span class=hl-number>-1</span>, <span class=hl-number>-2</span>, <span class=hl-number>-3</span>] <span class=hl-operator>|&gt;</span> <span class=hl-module>list</span>.<span class=hl-function>map</span>(<span class=hl-keyword>fn</span>(a) { <span class=hl-module>int</span>.<span class=hl-function>absolute_value</span>(a) })
+                        <span class=hl-comment>// ^^ Activating the &quot;Remove anonymous function&quot;</span>
+                        <span class=hl-comment>// code action here</span>
+}
+</code></pre>
+<p>Would result in this code:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>main</span>() {
+  [<span class=hl-number>-1</span>, <span class=hl-number>-2</span>, <span class=hl-number>-3</span>] <span class=hl-operator>|&gt;</span> <span class=hl-module>list</span>.<span class=hl-function>map</span>(int.absolute_value)
+}
+</code></pre>
+<p>And with this code the other action could be used to reverse the change.</p>
+<p>Thank you <a href="https://github.com/treuherz">Eli Treuherz</a>!</p>
+<h2 id="Extract-function-code-action-improvements">Extract function code action improvements</h2>
+<p>Gleam&#39;s language server has an &quot;extract function&quot; code action that can be used
+to… well… extract a function.</p>
+<p>It can now be used in pipelines to extract a part of one into a function. For
+example, triggering it here:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>words</span>(phrase: <span class=hl-variant>String</span>) -&gt; <span class=hl-variant>List</span>(<span class=hl-variant>String</span>) {
+  phrase
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>string</span>.<span class=hl-function>lowercase</span>
+  <span class=hl-comment>// ^^^</span>
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>string</span>.<span class=hl-function>replace</span>(each: <span class=hl-string>&quot;jak&quot;</span>, with: <span class=hl-string>&quot;lucy&quot;</span>)
+  <span class=hl-comment>// ^^^ selecting these two steps of the pipeline</span>
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>string</span>.<span class=hl-function>split</span>(on: <span class=hl-string>&quot; &quot;</span>)
+}
+</code></pre>
+<p>Would result in the following code:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>words</span>(phrase: <span class=hl-variant>String</span>) -&gt; <span class=hl-variant>List</span>(<span class=hl-variant>String</span>) {
+  phrase
+  <span class=hl-operator>|&gt;</span> function
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>string</span>.<span class=hl-function>split</span>(on: <span class=hl-string>&quot; &quot;</span>)
+}
+
+<span class=hl-keyword>fn</span> <span class=hl-function>function</span>(string: <span class=hl-variant>String</span>) -&gt; <span class=hl-variant>String</span> {
+  string
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>string</span>.<span class=hl-function>lowercase</span>
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>string</span>.<span class=hl-function>replace</span>(each: <span class=hl-string>&quot;jak&quot;</span>, with: <span class=hl-string>&quot;lucy&quot;</span>)
+}
+</code></pre>
+<p>It has also been improved to work better with assignments, extracting the
+assigned value. For example:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>personal_blog</span>() {
+  <span class=hl-keyword>let</span> introduction =
+    <span class=hl-module>html</span>.<span class=hl-function>main</span>([], [
+      <span class=hl-module>html</span>.<span class=hl-function>h1</span>([], [<span class=hl-module>html</span>.<span class=hl-function>text</span>(<span class=hl-string>&quot;Hello, world!&quot;</span>)]),
+      <span class=hl-module>html</span>.<span class=hl-function>p</span>([], [<span class=hl-module>html</span>.<span class=hl-function>text</span>(<span class=hl-string>&quot;Gleam is cool&quot;</span>)])
+    ])
+  <span class=hl-comment>//^^^ Triggering &quot;extract function&quot; on this expression</span>
+
+  <span class=hl-module>html</span>.<span class=hl-function>body</span>([introduction, <span class=hl-function>blog_posts</span>()])
+}
+</code></pre>
+<p>Would result in the following code:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>personal_blog</span>() {
+  <span class=hl-keyword>let</span> introduction = <span class=hl-function>function</span>()
+  <span class=hl-module>html</span>.<span class=hl-function>body</span>([introduction, <span class=hl-function>blog_posts</span>()])
+}
+
+<span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>function</span>() {
+  <span class=hl-module>html</span>.<span class=hl-function>main</span>([], [
+    <span class=hl-module>html</span>.<span class=hl-function>h1</span>([], [<span class=hl-module>html</span>.<span class=hl-function>text</span>(<span class=hl-string>&quot;Hello, world!&quot;</span>)]),
+    <span class=hl-module>html</span>.<span class=hl-function>p</span>([], [<span class=hl-module>html</span>.<span class=hl-function>text</span>(<span class=hl-string>&quot;Gleam is cool&quot;</span>)])
+  ])
+}
+</code></pre>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<h2 id="Replace-_-with-type-code-action">Replace <code>_</code> with type code action</h2>
+<p>Gleam&#39;s type hole syntax allows one to omit parts of a type annotation, putting
+no restrictions on what that part of the type can be inferred as. This can be
+convenient when sketching out new code, but it&#39;s best practice to have full
+annotations to make the code and the intended behaviour of the code easier to
+understand.</p>
+<p>To aid with moving to full annotation the language server has a code action to
+replace a type hole with the underlying type. For example:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>load_user</span>(id: <span class=hl-variant>Int</span>) -&gt; <span class=hl-variant>Result</span>(_, <span class=hl-variant>Error</span>) {
+  <span class=hl-module>sql</span>.<span class=hl-function>find_by_id</span>(id)
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>result</span>.<span class=hl-function>map_error</span>(<span class=hl-variant>CannotLoadUser</span>)
+}
+</code></pre>
+<p>Triggering the code action over the <code>_</code> will result in the following code:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>fn</span> <span class=hl-function>load_user</span>(id: <span class=hl-variant>Int</span>) -&gt; <span class=hl-variant>Result</span>(<span class=hl-variant>User</span>, <span class=hl-variant>Error</span>) {
+  <span class=hl-module>sql</span>.<span class=hl-function>find_by_id</span>(id)
+  <span class=hl-operator>|&gt;</span> <span class=hl-module>result</span>.<span class=hl-function>map_error</span>(<span class=hl-variant>CannotLoadUser</span>)
+}
+</code></pre>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<h2 id="Constant-list-prepending">Constant list prepending</h2>
+<p>The compiler now supports list prepending in constants. For example:</p>
+<pre><code><span class=hl-keyword>pub</span> <span class=hl-keyword>const</span> viviparous_mammals = [<span class=hl-string>&quot;dog&quot;</span>, <span class=hl-string>&quot;cat&quot;</span>, <span class=hl-string>&quot;human&quot;</span>]
+
+<span class=hl-keyword>pub</span> <span class=hl-keyword>const</span> all_mammals = [<span class=hl-string>&quot;platypus&quot;</span>, <span class=hl-string>&quot;echidna&quot;</span>, ..viviparous_mammals]
+</code></pre>
+<p>Thank you <a href="https://github.com/GearsDatapacks">Surya Rose</a>!</p>
+<h2 id="Language-server-completion-improvements">Language server completion improvements</h2>
+<p>The language server&#39;s completion capability has been improved to understand
+Gleam code more precisely. It now shows completions for the labelled
+argument of a record when writing a record update, and no longer shows
+completions for values when editing a qualified type.</p>
+<p>Thank you <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<h2 id="Tuple-formatting-improvement">Tuple formatting improvement</h2>
+<p>Gleam has a source code formatter, automating the business of formatting your
+code, so you can focus on your task, and not get stuck in another argument
+about whether or not you should use a trailing comma.</p>
+<p>With this release the formatting of long nested tuples has been improved.
+Previously the formatter would split only the last tuple, but now it favours
+first splitting each element onto its own line:</p>
+<pre><code><span class=hl-comment>// Old format</span>
+#(#(<span class=hl-number>12345</span>, wobble), #(
+  some_long_tuple,
+  <span class=hl-string>&quot;passed_as_last_argument&quot;</span>
+))
+
+<span class=hl-comment>// New format:</span>
+#(
+  #(<span class=hl-number>12345</span>, wobble),
+  #(some_long_tuple, <span class=hl-string>&quot;passed_as_last_argument&quot;</span>)
+)
+</code></pre>
+<p>Thank you to formatter wizard <a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>!</p>
+<h2 id="More-external-code-source-extension-support">More external code source extension support</h2>
+<p>Gleam&#39;s external type and external function features allow Gleam code to make
+use of code written in other languages on the same runtime, and Gleam&#39;s build tool
+will process source files of these languages that are included in a source
+directory of a Gleam project.</p>
+<p>Some JavaScript runtimes now have built-in support for TypeScript and JSX, so
+the build tool has had support for including files with <code>mts</code>, <code>cts</code>, <code>jsx</code>,
+and <code>tsx</code> extensions.</p>
+<p>Thank you <a href="https://github.com/nkxxll">Niklas Kirschall</a>!</p>
+<h2 id="And-the-rest">And the rest</h2>
+<p>And thank you to the bug fixers and experience polishers:
+<a href="https://github.com/ankddev">Andrey Kozhev</a>,
+<a href="https://github.com/lupodevelop">Daniele Scaratti</a>,
+<a href="https://github.com/eyupcanakman">Eyup Can Akman</a>,
+<a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>,
+<a href="https://github.com/GioMaz">Giovanni Maria Zanchetta</a>,
+<a href="https://github.com/jtdowney">John Downey</a>,
+<a href="https://github.com/lpil">Louis Pilfold</a>,
+<a href="https://github.com/lucymcphail">Lucy McPhail</a>,
+<a href="https://github.com/luka-hash">Luka Ivanović</a>,
+<a href="https://github.com/nkxxll">Niklas Kirschall</a>, and
+<a href="https://github.com/GearsDatapacks">Surya Rose</a>.</p>
+<p>For full details of the many fixes and improvements they&#39;ve implemented see <a href="https://github.com/gleam-lang/gleam/blob/main/changelog/v1.16.md">the
+changelog</a>.</p>
+<h2 id="A-call-for-support">A call for support</h2>
+<p>Gleam is not owned by a corporation; instead it is entirely supported by
+sponsors, most of which contribute between $5 and $20 USD per month, and Gleam
+is my sole source of income.</p>
+<p>We have made great progress towards our goal of being able to appropriately pay
+the core team members, but we still have further to go. Please consider
+supporting <a href="https://github.com/sponsors/lpil">the project</a> or core team members
+<a href="https://github.com/sponsors/giacomocavalieri">Giacomo Cavalieri</a> and
+<a href="https://github.com/sponsors/GearsDatapacks">Surya Rose</a>
+on GitHub Sponsors.</p>
+<a class="sponsor-level0" href="https://github.com/sponsors/lpil" rel="noopener" target="_blank">
+  <img src="/images/community/github.svg" alt="GitHub Sponsors" style="filter: invert(1)">
+</a>
+<p>Thank you to all our sponsors! And special thanks to our top sponsor:</p>
+<ul class="top-sponsors">
+  <li>
+    <a class="sponsor-level1" href="https://lambdaclass.com/" rel="noopener" target="_blank" >
+      <img src="/images/sponsors/lambda-class-white.png" alt="Lambda Class">
+    </a>
+  </li>
+</ul>
+<ul>
+<li>
+<a href="https://github.com/agundy">Aaron Gunderson</a>
+</li>
+<li>
+<a href="https://github.com/abeljim">Abel Jimenez</a>
+</li>
+<li>
+<a href="https://github.com/aboio-labs">Aboio</a>
+</li>
+<li>
+<a href="https://github.com/ad-ops">ad-ops</a>
+</li>
+<li>
+<a href="https://github.com/AdamBrodzinski">Adam Brodzinski</a>
+</li>
+<li>
+<a href="https://github.com/adam12">Adam Daniels</a>
+</li>
+<li>
+<a href="https://github.com/adjohnston">Adam Johnston</a>
+</li>
+<li>
+<a href="https://github.com/thebugcatcher">Adi Iyengar</a>
+</li>
+<li>
+<a href="https://github.com/amouat">Adrian Mouat</a>
+</li>
+<li>
+<a href="https://github.com/JitPackJoyride">Ajit Krishna</a>
+</li>
+<li>
+<a href="https://github.com/albertchae">albertchae</a>
+</li>
+<li>
+<a href="https://github.com/Guria">Aleksei Gurianov</a>
+</li>
+<li>
+<a href="https://alembic.com.au">Alembic</a>
+</li>
+<li>
+<a href="https://github.com/ahouseago">Alex Houseago</a>
+</li>
+<li>
+<a href="https://github.com/adkelley">Alex Kelley</a>
+</li>
+<li>
+<a href="https://github.com/rawhat">Alex Manning</a>
+</li>
+<li>
+<a href="https://github.com/muonoum">Alexander Stensrud</a>
+</li>
+<li>
+<a href="https://github.com/defgenx">Alexandre Del Vecchio</a>
+</li>
+<li>
+<a href="https://github.com/GomZik">Aliaksiej Homza</a>
+</li>
+<li>
+<a href="https://github.com/alii">Alistair Smith</a>
+</li>
+<li>
+<a href="https://github.com/Acepie">Ameen Radwan</a>
+</li>
+<li>
+<a href="https://github.com/ankddev">Andrey</a>
+</li>
+<li>
+<a href="https://github.com/andremw">André Mazoni</a>
+</li>
+<li>
+<a href="https://github.com/ayoung19">Andy Young</a>
+</li>
+<li>
+<a href="https://github.com/antharuu">Antharuu</a>
+</li>
+<li>
+<a href="https://github.com/amscotti">Anthony Scotti</a>
+</li>
+<li>
+<a href="https://github.com/afarinetti">Antonio Farinetti</a>
+</li>
+<li>
+<a href="https://github.com/aweagel">Arthur Weagel</a>
+</li>
+<li>
+<a href="https://github.com/aryairani">Arya Irani</a>
+</li>
+<li>
+<a href="https://github.com/domalaq">Baqtiar</a>
+</li>
+<li>
+<a href="https://github.com/chiroptical">Barry Moore II</a>
+</li>
+<li>
+<a href="https://github.com/requestben">Ben Martin</a>
+</li>
+<li>
+<a href="https://github.com/bgmarx">Ben Marx</a>
+</li>
+<li>
+<a href="https://github.com/benmyles">Ben Myles</a>
+</li>
+<li>
+<a href="https://github.com/bbkane">Benjamin Kane</a>
+</li>
+<li>
+<a href="https://github.com/drteeth">Benjamin Moss</a>
+</li>
+<li>
+<a href="https://github.com/bgwdotdev">bgw</a>
+</li>
+<li>
+<a href="https://github.com/Billuc">Billuc</a>
+</li>
+<li>
+<a href="https://github.com/bjartelund">Bjarte Aarmo Lund</a>
+</li>
+<li>
+<a href="https://github.com/00bpa">Bjoern Paschen</a>
+</li>
+<li>
+<a href="https://github.com/blurrcat">blurrcat</a>
+</li>
+<li>
+<a href="https://github.com/bmehder">Brad Mehder</a>
+</li>
+<li>
+<a href="https://github.com/brettcannon">Brett Cannon</a>
+</li>
+<li>
+<a href="https://github.com/brettkolodny">Brett Kolodny</a>
+</li>
+<li>
+<a href="https://github.com/bglusman">Brian Glusman</a>
+</li>
+<li>
+<a href="https://github.com/bruce">Bruce Williams</a>
+</li>
+<li>
+<a href="https://github.com/brunoskonrad">Bruno Konrad</a>
+</li>
+<li>
+<a href="https://github.com/bucsi">bucsi</a>
+</li>
+<li>
+<a href="https://github.com/cameronpresley">Cameron Presley</a>
+</li>
+<li>
+<a href="https://github.com/carlomunguia">Carlo Munguia</a>
+</li>
+<li>
+<a href="https://github.com/csaltos">Carlos Saltos</a>
+</li>
+<li>
+<a href="https://github.com/chadselph">Chad Selph</a>
+</li>
+<li>
+<a href="https://github.com/charlie-n01r">Charlie Govea</a>
+</li>
+<li>
+Charlie Tonneslan
+</li>
+<li>
+<a href="https://github.com/choonkeat">Chew Choon Keat</a>
+</li>
+<li>
+<a href="https://github.com/chrislloyd">Chris Lloyd</a>
+</li>
+<li>
+<a href="https://github.com/utilForever">Chris Ohk</a>
+</li>
+<li>
+<a href="https://github.com/chrisolsen">Chris Olsen</a>
+</li>
+<li>
+<a href="https://github.com/cvincent">Chris Vincent</a>
+</li>
+<li>
+<a href="https://github.com/veeso">Christian Visintin</a>
+</li>
+<li>
+<a href="https://github.com/christophershirk">Christopher David Shirk</a>
+</li>
+<li>
+<a href="https://github.com/devries">Christopher De Vries</a>
+</li>
+<li>
+<a href="https://github.com/cdaringe">Christopher Dieringer</a>
+</li>
+<li>
+<a href="https://github.com/christhekeele">Christopher Keele</a>
+</li>
+<li>
+<a href="https://github.com/CliffordAnderson">Clifford Anderson</a>
+</li>
+<li>
+<a href="https://github.com/coder">Coder</a>
+</li>
+<li>
+<a href="https://github.com/colelawrence">Cole Lawrence</a>
+</li>
+<li>
+<a href="https://github.com/Comamoca">Comamoca</a>
+</li>
+<li>
+<a href="https://github.com/Lucostus">Constantin (Cleo) Winkler</a>
+</li>
+<li>
+<a href="https://github.com/jcorentin">Corentin J.</a>
+</li>
+<li>
+<a href="https://github.com/uberguy">Cris Holm</a>
+</li>
+<li>
+<a href="https://github.com/pairshaped">Curling IO</a>
+</li>
+<li>
+<a href="https://github.com/dagi3d">dagi3d</a>
+</li>
+<li>
+<a href="https://github.com/dvic">Damir Vandic</a>
+</li>
+<li>
+<a href="https://github.com/d2718">Dan</a>
+</li>
+<li>
+<a href="https://github.com/ddresselhaus">Dan Dresselhaus</a>
+</li>
+<li>
+<a href="https://github.com/Giesch">Dan Gieschen Knutson</a>
+</li>
+<li>
+<a href="https://github.com/danpiths">Dan Piths</a>
+</li>
+<li>
+<a href="https://github.com/strongoose">Dan Strong</a>
+</li>
+<li>
+<a href="https://github.com/lupodevelop">Daniele</a>
+</li>
+<li>
+<a href="https://github.com/ndan">Daniil Nevdah</a>
+</li>
+<li>
+<a href="https://github.com/pinnet">Danny Arnold</a>
+</li>
+<li>
+<a href="https://github.com/despairblue">Danny Martini</a>
+</li>
+<li>
+<a href="https://github.com/davydog187">Dave Lucia</a>
+</li>
+<li>
+<a href="https://github.com/dbernheisel">David Bernheisel</a>
+</li>
+<li>
+<a href="https://github.com/davidcornu">David Cornu</a>
+</li>
+<li>
+<a href="https://github.com/PotatoEMR">David Matz</a>
+</li>
+<li>
+<a href="https://github.com/dpen2000">David Pendray</a>
+</li>
+<li>
+<a href="https://github.com/diemogebhardt">Diemo Gebhardt</a>
+</li>
+<li>
+<a href="https://github.com/djordjedjukic">Djordje Djukic</a>
+</li>
+<li>
+<a href="https://github.com/thedadams">Donnie Adams</a>
+</li>
+<li>
+<a href="https://github.com/dbanty">Dylan Anthony</a>
+</li>
+<li>
+<a href="https://github.com/gdcrisp">Dylan Carlson</a>
+</li>
+<li>
+<a href="https://github.com/EdRW">Ed Rosewright</a>
+</li>
+<li>
+<a href="https://github.com/edongashi">Edon Gashi</a>
+</li>
+<li>
+<a href="https://github.com/enoonan">Eileen Noonan</a>
+</li>
+<li>
+<a href="https://github.com/treuherz">Eli Treuherz</a>
+</li>
+<li>
+<a href="https://github.com/Emma-Fuller">Emma</a>
+</li>
+<li>
+<a href="https://github.com/ekosz">Eric Koslow</a>
+</li>
+<li>
+<a href="https://github.com/Nimok">Erik Ohlsson</a>
+</li>
+<li>
+<a href="https://github.com/eterps">Erik Terpstra</a>
+</li>
+<li>
+<a href="https://liberapay.com/erikareads/">erikareads</a>
+</li>
+<li>
+<a href="https://github.com/ErikML">ErikML</a>
+</li>
+<li>
+<a href="https://github.com/erlend-axelsson">erlend-axelsson</a>
+</li>
+<li>
+<a href="https://github.com/oberernst">Ernesto Malave</a>
+</li>
+<li>
+<a href="https://github.com/EthanOlpin">Ethan Olpin</a>
+</li>
+<li>
+<a href="https://github.com/evaldobratti">Evaldo Bratti</a>
+</li>
+<li>
+<a href="https://github.com/evanj2357">Evan Johnson</a>
+</li>
+<li>
+<a href="https://github.com/evanasse">evanasse</a>
+</li>
+<li>
+<a href="https://github.com/eyupcanakman">Eyüp Can Akman</a>
+</li>
+<li>
+<a href="https://github.com/fabridamicelli">Fabrizio Damicelli</a>
+</li>
+<li>
+<a href="https://github.com/fpauser">Falk Pauser</a>
+</li>
+<li>
+<a href="https://github.com/fmesteban">Fede Esteban</a>
+</li>
+<li>
+<a href="https://github.com/yerTools">Felix</a>
+</li>
+<li>
+<a href="https://github.com/nandofarias">Fernando Farias</a>
+</li>
+<li>
+<a href="https://github.com/ffigiel">Filip Figiel</a>
+</li>
+<li>
+<a href="https://github.com/folospior">Filip Hoffmann</a>
+</li>
+<li>
+<a href="https://github.com/floriank">Florian Kraft</a>
+</li>
+<li>
+<a href="https://github.com/francishamel">Francis Hamel</a>
+</li>
+<li>
+<a href="https://github.com/Frank-III">frankwang</a>
+</li>
+<li>
+<a href="https://github.com/gvrooyen">G-J van Rooyen</a>
+</li>
+<li>
+<a href="https://github.com/gabriela-sartori">Gabriela Sartori</a>
+</li>
+<li>
+<a href="https://github.com/gavinmorrow">Gavin Morrow</a>
+</li>
+<li>
+<a href="https://github.com/GearsDatapacks">Gears</a>
+</li>
+<li>
+<a href="https://github.com/gahjelle">Geir Arne Hjelle</a>
+</li>
+<li>
+<a href="https://github.com/george-grec">George Grec</a>
+</li>
+<li>
+<a href="https://github.com/giacomocavalieri">Giacomo Cavalieri</a>
+</li>
+<li>
+<a href="https://github.com/ginkogruen">ginkogruen</a>
+</li>
+<li>
+<a href="https://github.com/GioMaz">GioMaz</a>
+</li>
+<li>
+<a href="https://github.com/giovannibonetti">Giovanni Kock Bonetti</a>
+</li>
+<li>
+<a href="https://github.com/GV14982">Graham</a>
+</li>
+<li>
+<a href="https://github.com/YoyoSaur">Grant Everett</a>
+</li>
+<li>
+<a href="https://github.com/nirev">Guilherme de Maio</a>
+</li>
+<li>
+<a href="https://github.com/guillheu">Guillaume Heu</a>
+</li>
+<li>
+<a href="https://github.com/gungun974">Gungun974</a>
+</li>
+<li>
+<a href="https://github.com/kwando">Hannes Nevalainen</a>
+</li>
+<li>
+<a href="https://github.com/oderwat">Hans Raaf</a>
+</li>
+<li>
+<a href="https://github.com/seafoamteal">Hari Mohan</a>
+</li>
+<li>
+<a href="https://github.com/HarryET">Harry Bairstow</a>
+</li>
+<li>
+<a href="https://github.com/hibachrach">Hazel Bachrach</a>
+</li>
+<li>
+<a href="https://github.com/hdahlheim">Henning Dahlheim</a>
+</li>
+<li>
+<a href="https://github.com/tudborg">Henrik Tudborg</a>
+</li>
+<li>
+<a href="https://github.com/henrysdev">Henry Warren</a>
+</li>
+<li>
+<a href="https://liberapay.com/Hizuru3/">Hizuru3</a>
+</li>
+<li>
+<a href="https://github.com/hubertmalkowski">Hubert Małkowski</a>
+</li>
+<li>
+<a href="https://github.com/iainh">Iain H</a>
+</li>
+<li>
+<a href="https://github.com/Ian-GL">Ian González</a>
+</li>
+<li>
+<a href="https://github.com/ianmjones">Ian M. Jones</a>
+</li>
+<li>
+<a href="https://github.com/igordsm">Igor Montagner</a>
+</li>
+<li>
+<a href="https://github.com/inoas">inoas</a>
+</li>
+<li>
+<a href="https://github.com/graphiteisaac">Isaac</a>
+</li>
+<li>
+<a href="https://github.com/isaacharrisholt">Isaac Harris-Holt</a>
+</li>
+<li>
+<a href="https://github.com/imcquee">Isaac McQueen</a>
+</li>
+<li>
+<a href="https://github.com/iskrisis">iskrisis</a>
+</li>
+<li>
+<a href="https://github.com/ivarvong">Ivar Vong</a>
+</li>
+<li>
+<a href="https://github.com/jachin">Jachin Rupe</a>
+</li>
+<li>
+<a href="https://github.com/jakecleary">Jake Cleary</a>
+</li>
+<li>
+<a href="https://github.com/jzwood">Jake Wood</a>
+</li>
+<li>
+<a href="https://github.com/jamesbirtles">James Birtles</a>
+</li>
+<li>
+<a href="https://github.com/jamesmacaulay">James MacAulay</a>
+</li>
+<li>
+<a href="https://github.com/janvhs">Jan Fooken</a>
+</li>
+<li>
+<a href="https://github.com/janpieper">Jan Pieper</a>
+</li>
+<li>
+<a href="https://github.com/monzool">Jan Skriver Sørensen</a>
+</li>
+<li>
+<a href="https://github.com/jasonflorentino">Jason Florentino</a>
+</li>
+<li>
+<a href="https://github.com/hypirion">Jean Niklas L&#39;orange</a>
+</li>
+<li>
+<a href="https://github.com/MightyGoldenOctopus">Jean-Adrien Ducastaing</a>
+</li>
+<li>
+<a href="https://github.com/jlgeering">Jean-Luc Geering</a>
+</li>
+<li>
+<a href="https://github.com/okkdev">Jen Stehlik</a>
+</li>
+<li>
+<a href="https://github.com/shepherdjerred">Jerred Shepherd</a>
+</li>
+<li>
+<a href="https://github.com/jimutt">Jimmy Utterström</a>
+</li>
+<li>
+<a href="https://github.com/hunkyjimpjorps">Jimpjorps™</a>
+</li>
+<li>
+<a href="https://github.com/joeykilpatrick">Joey Kilpatrick</a>
+</li>
+<li>
+<a href="https://github.com/joeytrapp">Joey Trapp</a>
+</li>
+<li>
+<a href="https://github.com/johan-st">Johan Strand</a>
+</li>
+<li>
+<a href="https://github.com/joladev">Johanna Larsson</a>
+</li>
+<li>
+<a href="https://github.com/JohnBjrk">John Björk</a>
+</li>
+<li>
+<a href="https://github.com/jtdowney">John Downey</a>
+</li>
+<li>
+<a href="https://github.com/jrstrunk">John Strunk</a>
+</li>
+<li>
+<a href="https://github.com/xjojorx">Jojor</a>
+</li>
+<li>
+<a href="https://github.com/jmcharter">Jon Charter</a>
+</li>
+<li>
+<a href="https://github.com/jonlambert">Jon Lambert</a>
+</li>
+<li>
+<a href="https://github.com/igern">Jonas E. P</a>
+</li>
+<li>
+<a href="https://github.com/JonasHedEng">Jonas Hedman Engström</a>
+</li>
+<li>
+<a href="https://github.com/maennchen">Jonatan Männchen</a>
+</li>
+<li>
+<a href="https://github.com/hyperpolymath">Jonathan D.A. Jewell</a>
+</li>
+<li>
+<a href="https://github.com/jooaf">jooaf</a>
+</li>
+<li>
+<a href="https://github.com/joseph-lozano">Joseph Lozano</a>
+</li>
+<li>
+<a href="https://github.com/joshocalico">Joshua Steele</a>
+</li>
+<li>
+<a href="https://github.com/czepluch">jstcz</a>
+</li>
+<li>
+<a href="https://github.com/nineluj">Julian Hirn</a>
+</li>
+<li>
+<a href="https://liberapay.com/d2quadra/">Julian Lukwata</a>
+</li>
+<li>
+<a href="https://github.com/schurhammer">Julian Schurhammer</a>
+</li>
+<li>
+<a href="https://github.com/justinlubin">Justin Lubin</a>
+</li>
+<li>
+<a href="https://github.com/Neofox">Jérôme Schaeffer</a>
+</li>
+<li>
+<a href="https://github.com/jorg1piano">Jørgen Andersen</a>
+</li>
+<li>
+<a href="https://github.com/Kamila-P">KamilaP</a>
+</li>
+<li>
+<a href="https://github.com/jkbrinso">Kemp Brinson</a>
+</li>
+<li>
+<a href="https://github.com/keroami">Kero van Gelder</a>
+</li>
+<li>
+<a href="https://github.com/kevinschweikert">Kevin Schweikert</a>
+</li>
+<li>
+<a href="https://github.com/Aurenos">Kile Deal</a>
+</li>
+<li>
+<a href="https://github.com/kirillmorozov">Kirill Morozov</a>
+</li>
+<li>
+<a href="https://github.com/bytesofpie">Kramer Hampton</a>
+</li>
+<li>
+<a href="https://github.com/krig">Kristoffer Grönlund</a>
+</li>
+<li>
+<a href="https://liberapay.com/krig/">Kristoffer Grönlund</a>
+</li>
+<li>
+<a href="https://github.com/krzysztofgb">Krzysztof Gasienica-Bednarz</a>
+</li>
+<li>
+<a href="https://github.com/km-tr">Kuma Taro</a>
+</li>
+<li>
+<a href="https://github.com/jly36963">Landon</a>
+</li>
+<li>
+<a href="https://github.com/leah-u">Leah Ulmschneider</a>
+</li>
+<li>
+<a href="https://github.com/leejarvis">Lee Jarvis</a>
+</li>
+<li>
+<a href="https://github.com/rcoder">Lennon Day-Reynolds</a>
+</li>
+<li>
+<a href="https://github.com/leonqadirie">Leon Qadirie</a>
+</li>
+<li>
+<a href="https://github.com/LeartS">Leonardo Donelli</a>
+</li>
+<li>
+<a href="https://github.com/lexx27">Lexx</a>
+</li>
+<li>
+<a href="https://github.com/defp">lidashuang</a>
+</li>
+<li>
+<a href="https://github.com/lucymcphail">Lucy McPhail</a>
+</li>
+<li>
+<a href="https://github.com/luka-hash">Luka Ivanović</a>
+</li>
+<li>
+<a href="https://github.com/lbjarre">Lukas Bjarre</a>
+</li>
+<li>
+<a href="https://github.com/lamdor">Luke Amdor</a>
+</li>
+<li>
+<a href="https://github.com/manuel-rubio">Manuel Rubio</a>
+</li>
+<li>
+<a href="https://github.com/mvellandi">Mario Vellandi</a>
+</li>
+<li>
+<a href="https://github.com/mariuskalvo">Marius Kalvø</a>
+</li>
+<li>
+<a href="https://github.com/mkdynamic">Mark Dodwell</a>
+</li>
+<li>
+<a href="https://github.com/markholmes">Mark Holmes</a>
+</li>
+<li>
+<a href="https://github.com/markmark206">Mark Markaryan</a>
+</li>
+<li>
+<a href="https://github.com/alterationx10">Mark Rudolph</a>
+</li>
+<li>
+<a href="https://github.com/m4reko">Markus Wesslén</a>
+</li>
+<li>
+<a href="https://github.com/Janiczek">Martin Janiczek</a>
+</li>
+<li>
+<a href="https://github.com/poelstra">Martin Poelstra</a>
+</li>
+<li>
+<a href="https://github.com/rechsteiner">Martin Rechsteiner</a>
+</li>
+<li>
+<a href="https://github.com/mhheise">Matt Heise</a>
+</li>
+<li>
+<a href="https://github.com/m">Matt Mullenweg</a>
+</li>
+<li>
+<a href="https://github.com/matt-savvy">Matt Savoia</a>
+</li>
+<li>
+<a href="https://github.com/mattvanhorn">Matt Van Horn</a>
+</li>
+<li>
+<a href="https://github.com/matthewj-dev">Matthew Jackson</a>
+</li>
+<li>
+<a href="https://github.com/maxwelldb">Max Bridges</a>
+</li>
+<li>
+<a href="https://github.com/maxmcd">Max McDonnell</a>
+</li>
+<li>
+<a href="https://github.com/metame">metame</a>
+</li>
+<li>
+<a href="https://github.com/metatexx">METATEXX GmbH</a>
+</li>
+<li>
+<a href="https://github.com/the-mikedavis">Michael Davis</a>
+</li>
+<li>
+<a href="https://github.com/stunthamster">Michael Duffy</a>
+</li>
+<li>
+<a href="https://github.com/mgruen">Michael G</a>
+</li>
+<li>
+<a href="https://github.com/michaeljones">Michael Jones</a>
+</li>
+<li>
+<a href="https://github.com/monocursive">Michael Mazurczak</a>
+</li>
+<li>
+<a href="https://github.com/tymak">Michal Timko</a>
+</li>
+<li>
+<a href="https://github.com/karlsson">Mikael Karlsson</a>
+</li>
+<li>
+<a href="https://github.com/mroach">Mike Roach</a>
+</li>
+<li>
+<a href="https://liberapay.com/mikej/">Mikey J</a>
+</li>
+<li>
+<a href="https://github.com/MoeDevelops">MoeDev</a>
+</li>
+<li>
+<a href="https://liberapay.com/mhm/">Moin</a>
+</li>
+<li>
+<a href="https://github.com/ngscheurich">N. G. Scheurich</a>
+</li>
+<li>
+<a href="https://github.com/n8nio">n8n - Workflow Automation</a>
+</li>
+<li>
+<a href="https://github.com/nataliethistime">Natalie Rose</a>
+</li>
+<li>
+<a href="https://github.com/natanaelsirqueira">Natanael Sirqueira</a>
+</li>
+<li>
+<a href="https://github.com/nessamurmur">Nessa Jane Marin</a>
+</li>
+<li>
+<a href="https://github.com/nick-leslie">Nick Leslie</a>
+</li>
+<li>
+<a href="https://github.com/NicklasXYZ">Nicklas Sindlev Andersen</a>
+</li>
+<li>
+<a href="https://github.com/NicoVIII">NicoVIII</a>
+</li>
+<li>
+<a href="https://github.com/Resonious">Nigel Baillie</a>
+</li>
+<li>
+<a href="https://github.com/mrniket">Niket Shah</a>
+</li>
+<li>
+Niklas Kirschall
+</li>
+<li>
+<a href="https://github.com/blink1415">Nikolai Steen Kjosnes</a>
+</li>
+<li>
+<a href="https://github.com/Willyboar">Nikolas</a>
+</li>
+<li>
+<a href="https://github.com/ninanomenon">Ninaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</a>
+</li>
+<li>
+<a href="http://www.ninefx.com">NineFX</a>
+</li>
+<li>
+<a href="https://github.com/nkxxll">nkxxll</a>
+</li>
+<li>
+<a href="https://github.com/NNBnh">NNB</a>
+</li>
+<li>
+<a href="https://github.com/Nezteb">Noah Betzen</a>
+</li>
+<li>
+<a href="https://github.com/nomio">Nomio</a>
+</li>
+<li>
+<a href="https://github.com/nshkrdotcom">nshkrdotcom</a>
+</li>
+<li>
+<a href="https://github.com/nunulk">nunulk</a>
+</li>
+<li>
+<a href="https://github.com/osebelin">Olaf Sebelin</a>
+</li>
+<li>
+<a href="https://github.com/OldhamMade">OldhamMade</a>
+</li>
+<li>
+<a href="https://github.com/CanadaHonk">Oliver Medhurst</a>
+</li>
+<li>
+<a href="https://github.com/otosky">Oliver Tosky</a>
+</li>
+<li>
+<a href="https://github.com/ollie-dot-earth">ollie</a>
+</li>
+<li>
+<a href="https://github.com/optizio">Optizio</a>
+</li>
+<li>
+<a href="https://liberapay.com/P./">P.</a>
+</li>
+<li>
+<a href="https://github.com/Davorak">Patrick Wheeler</a>
+</li>
+<li>
+<a href="https://github.com/tamectosphere">Pattadon Sa-ngasri</a>
+</li>
+<li>
+<a href="https://github.com/pguse">Paul Guse</a>
+</li>
+<li>
+<a href="https://github.com/Tulkdan">Pedro Correa</a>
+</li>
+<li>
+<a href="https://github.com/petejodo">Pete Jodo</a>
+</li>
+<li>
+<a href="https://github.com/pvsr">Peter Rice</a>
+</li>
+<li>
+<a href="https://github.com/CrowdHailer">Peter Saxton</a>
+</li>
+<li>
+<a href="https://github.com/philpax">Philpax</a>
+</li>
+<li>
+<a href="https://github.com/qdentity">Qdentity</a>
+</li>
+<li>
+<a href="https://github.com/qexat">qexat</a>
+</li>
+<li>
+<a href="https://github.com/rykawamu">R.Kawamura</a>
+</li>
+<li>
+<a href="https://github.com/raquentin">Race</a>
+</li>
+<li>
+<a href="https://github.com/ramsgitrepo">Ram Prasanth Udhaya Baskar</a>
+</li>
+<li>
+<a href="https://github.com/stoft">Rasmus</a>
+</li>
+<li>
+<a href="https://github.com/chouzar">Raúl Chouza</a>
+</li>
+<li>
+<a href="https://github.com/yoshi-monster">rebecca</a>
+</li>
+<li>
+<a href="https://github.com/redmar">Redmar Kerkhoff</a>
+</li>
+<li>
+<a href="https://github.com/reillysiemens">Reilly Tucker Siemens</a>
+</li>
+<li>
+<a href="https://github.com/renatomassaro">Renato Massaro</a>
+</li>
+<li>
+<a href="https://github.com/renovatorruler">Renovator</a>
+</li>
+<li>
+<a href="https://github.com/richard-viney">Richard Viney</a>
+</li>
+<li>
+<a href="https://github.com/Deepfriedice">Richy McGregor</a>
+</li>
+<li>
+<a href="https://github.com/rico">Rico Leuthold</a>
+</li>
+<li>
+<a href="https://github.com/rinx">Rintaro Okamura</a>
+</li>
+<li>
+<a href="https://github.com/ripta">Ripta Pasay</a>
+</li>
+<li>
+<a href="https://github.com/robertDurst">Rob Durst</a>
+</li>
+<li>
+<a href="https://github.com/TanklesXL">Robert Attard</a>
+</li>
+<li>
+<a href="https://github.com/rellen">Robert Ellen</a>
+</li>
+<li>
+<a href="https://github.com/malkomalko">Robert Malko</a>
+</li>
+<li>
+<a href="https://github.com/Papipo">Rodrigo Álvarez</a>
+</li>
+<li>
+<a href="https://github.com/genericrohan">Rohan</a>
+</li>
+<li>
+<a href="https://github.com/rotabull">Rotabull</a>
+</li>
+<li>
+<a href="https://github.com/reinefjord">Rupus Reinefjord</a>
+</li>
+<li>
+<a href="https://github.com/ustitc">Ruslan Ustitc</a>
+</li>
+<li>
+<a href="https://github.com/rclarey">Russell Clarey</a>
+</li>
+<li>
+<a href="https://github.com/zenspider">Ryan Davis</a>
+</li>
+<li>
+<a href="https://github.com/mooreryan">Ryan Moore</a>
+</li>
+<li>
+<a href="https://github.com/sbergen">Sakari Bergen</a>
+</li>
+<li>
+<a href="https://github.com/samaaron">Sam Aaron</a>
+</li>
+<li>
+<a href="https://github.com/metruzanca">Sam Zanca</a>
+</li>
+<li>
+<a href="https://github.com/bkspace">Sammy Isseyegh</a>
+</li>
+<li>
+<a href="https://github.com/scristobal">Samu</a>
+</li>
+<li>
+<a href="https://github.com/castletaste">Savva</a>
+</li>
+<li>
+<a href="https://github.com/sasa1977">Saša Jurić</a>
+</li>
+<li>
+<a href="https://github.com/scotttrinh">Scott Trinh</a>
+</li>
+<li>
+<a href="https://github.com/scottwey">Scott Wey</a>
+</li>
+<li>
+<a href="https://github.com/star-szr">Scott Zhu Reeves</a>
+</li>
+<li>
+<a href="https://github.com/seancribbs">Sean Cribbs</a>
+</li>
+<li>
+<a href="https://github.com/SeanRoberts">Sean Roberts</a>
+</li>
+<li>
+<a href="https://github.com/sporto">Sebastian Porto</a>
+</li>
+<li>
+<a href="https://github.com/tehprofessor">Seve Salazar</a>
+</li>
+<li>
+<a href="https://github.com/Sgregory42">Sgregory42</a>
+</li>
+<li>
+<a href="https://github.com/codemonkey76">Shane Poppleton</a>
+</li>
+<li>
+<a href="https://github.com/shawndrape">Shawn Drape</a>
+</li>
+<li>
+<a href="https://github.com/shritesh">Shritesh Bhattarai</a>
+</li>
+<li>
+<a href="https://github.com/shxdow">shxdow</a>
+</li>
+<li>
+<a href="https://github.com/sigmasternchen">Sigma</a>
+</li>
+<li>
+<a href="https://github.com/simonewebdesign">simone</a>
+</li>
+<li>
+<a href="https://github.com/rogics">SR</a>
+</li>
+<li>
+<a href="https://github.com/bytesource">Stefan</a>
+</li>
+<li>
+<a href="https://github.com/steinareliassen">Steinar Eliassen</a>
+</li>
+<li>
+<a href="https://github.com/stephanerangaya">Stephane Rangaya</a>
+</li>
+<li>
+<a href="https://github.com/Strandinator">Strandinator</a>
+</li>
+<li>
+<a href="https://github.com/slafs">Sławomir Ehlert</a>
+</li>
+<li>
+<a href="https://github.com/The-Sentience-Company">The Sentience Company</a>
+</li>
+<li>
+<a href="https://github.com/thomaswhyyou">Thomas</a>
+</li>
+<li>
+<a href="https://github.com/tcoopman">Thomas Coopman</a>
+</li>
+<li>
+<a href="https://github.com/trescenzi">Thomas Crescenzi</a>
+</li>
+<li>
+<a href="https://github.com/tmbrwn">Tim Brown</a>
+</li>
+<li>
+<a href="https://github.com/timgluz">Timo Sulg</a>
+</li>
+<li>
+<a href="https://github.com/betabrain">Tobias Ammann</a>
+</li>
+<li>
+<a href="https://github.com/tomekowal">Tomasz Kowal</a>
+</li>
+<li>
+<a href="https://github.com/tommaisey">tommaisey</a>
+</li>
+<li>
+<a href="https://github.com/TristanCacqueray">Tristan de Cacqueray</a>
+</li>
+<li>
+<a href="https://github.com/tsloughter">Tristan Sloughter</a>
+</li>
+<li>
+<a href="https://github.com/tudorluca">Tudor Luca</a>
+</li>
+<li>
+<a href="https://github.com/ygunayer">unknown</a>
+</li>
+<li>
+<a href="https://github.com/upsidedownsweetfood">upsidedowncake</a>
+</li>
+<li>
+<a href="https://github.com/vvzen">Valerio Viperino</a>
+</li>
+<li>
+<a href="https://github.com/bondiano">Vassiliy Kuzenkov</a>
+</li>
+<li>
+<a href="https://github.com/PerpetualPossum">Viv Verner</a>
+</li>
+<li>
+<a href="https://github.com/yelps">Volker Rabe</a>
+</li>
+<li>
+<a href="https://github.com/Whoops">Walton Hoops</a>
+</li>
+<li>
+<a href="https://github.com/willramirezdev">Will Ramirez</a>
+</li>
+<li>
+<a href="https://github.com/wilsonsilva">Wilson Silva</a>
+</li>
+<li>
+<a href="https://github.com/yamen">Yamen Sader</a>
+</li>
+<li>
+<a href="https://github.com/Yasuo-Higano">Yasuo Higano</a>
+</li>
+<li>
+<a href="https://github.com/zenconomist">Zsolt Kreisz</a>
+</li>
+<li>
+<a href="https://github.com/zwubs">ZWubs</a>
+</li>
+<li>
+<a href="https://liberapay.com/~1847917/">~1847917</a>
+</li>
+<li>
+<a href="https://liberapay.com/~1867501/">~1867501</a>
+</li>
+<li>
+<a href="https://github.com/eberfreitas">Éber Freitas Dias</a>
+</li>
+<li>
+<a href="https://github.com/0ngk">音㦡</a>
+</li>
+</ul>
+<div style="text-align: center">
+  <a class="button" href="https://tour.gleam.run/">Try Gleam</a>
+</div>
+</article></div></main><footer class="footer"><div class="content"><div class="first"><a class="logo" href="/"><img alt="Lucy the star, Gleam&#39;s mascot" class="footer-lucy" src="/images/lucy/lucy.svg">Gleam</a></div><ul class="middle"><li><a href="/news">News</a></li><li><a href="https://github.com/gleam-lang">Code</a></li><li><a href="https://discord.gg/Fm8Pwmy">Discord</a></li><li><a href="https://shop.gleam.run/en-gbp">Merch store</a></li><li><a href="https://tour.gleam.run">Language tour</a></li><li><a href="https://playground.gleam.run">Playground</a></li><li><a href="/documentation">Documentation</a></li><li><a href="/sponsor">Sponsor</a></li><li><a href="https://packages.gleam.run/">Packages</a></li><li><a href="https://gleamweekly.com/">Gleam Weekly</a></li><li><a href="/roadmap">Roadmap</a></li><li><a href="/case-studies">Case studies</a></li></ul><ul class="last"><li>© 2026 Louis Pilfold</li><li><a href="https://github.com/gleam-lang/gleam/blob/main/CODE_OF_CONDUCT.md">Code of conduct</a></li></ul></div></footer><script async src="/javascript/main.js"></script></body></html>
