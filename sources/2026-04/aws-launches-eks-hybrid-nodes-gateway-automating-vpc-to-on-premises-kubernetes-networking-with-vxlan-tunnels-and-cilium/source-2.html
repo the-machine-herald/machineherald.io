@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Amazon EKS Hybrid Nodes gateway - Amazon EKS</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="hybrid-nodes-gateway-overview" /><meta name="default_state" content="hybrid-nodes-gateway-overview" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-gateway-overview.html" /><meta name="description" content="Learn about the Amazon EKS Hybrid Nodes gateway, which automates networking between your EKS cluster VPC and Kubernetes pods running on EKS Hybrid Nodes." /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon EKS" /><meta name="guide" content="User Guide" /><meta name="abstract" content="This is official Amazon Web Services (AWS) documentation for Amazon Elastic Kubernetes Service (Amazon EKS). Amazon EKS is a managed service that makes it easy for you to run Kubernetes on AWS without needing to install and operate your own Kubernetes clusters. Kubernetes is an open source system for automating the deployment, scaling, and management of containerized applications." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-gateway-overview.html" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="id-id" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="id" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="de-de" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="de" /><link rel="alternate" href="https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="en-us" /><link rel="alternate" href="https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="en" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="es-es" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="es" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="fr-fr" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="fr" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="it-it" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="it" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="ja-jp" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="ja" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="ko-kr" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="ko" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="pt-br" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="pt" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_cn/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="zh-cn" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_tw/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="zh-tw" /><link rel="alternate" href="https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-gateway-overview.html" hreflang="x-default" /><meta name="feedback-item" content="Amazon EKS" /><meta name="this_doc_product" content="Amazon EKS" /><meta name="this_doc_guide" content="User Guide" /><head xmlns="http://www.w3.org/1999/xhtml"> <script defer="" src="/assets/r/awsdocs-doc-page.2.0.0.js"></script><link href="/assets/r/awsdocs-doc-page.2.0.0.css" rel="stylesheet"/></head>
+<script defer="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'eks'}"></script><meta id="panorama-serviceSubSection" value="User Guide" /><meta id="panorama-serviceConsolePage" value="Amazon EKS Hybrid Nodes gateway" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><p><a href="hybrid-nodes-gateway-overview.md">View a markdown version of this page</a></p><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Amazon EKS Hybrid Nodes gateway - Amazon EKS</title><meta name="pdf" content="/pdfs/eks/latest/userguide/eks-ug.pdf#hybrid-nodes-gateway-overview" /><meta name="github" content="https://github.com/awsdocs/amazon-eks-user-guide/tree/mainline/latest/ug/nodes/hybrid-nodes-gateway-overview.adoc" /><meta name="rss" content="doc-history.rss" /><meta name="forums" content="https://repost.aws/tags/TA4IvCeWI1TE66q4jEj4Z9zg" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Amazon%20EKS&amp;topic_url=https://docs.aws.amazon.com/en_us/eks/latest/userguide/hybrid-nodes-gateway-overview.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/eks/latest/userguide/hybrid-nodes-gateway-overview.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/eks/latest/userguide/hybrid-nodes-gateway-overview.html" /><link rel="alternate" type="text/markdown" href="hybrid-nodes-gateway-overview.md" title="Markdown version" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "Amazon EKS",
+        "item" : "https://docs.aws.amazon.com/eks/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "User Guide",
+        "item" : "https://docs.aws.amazon.com/eks/latest/userguide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Manage compute resources by using nodes",
+        "item" : "https://docs.aws.amazon.com/eks/latest/userguide/eks-compute.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "Amazon EKS Hybrid Nodes overview",
+        "item" : "https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-overview.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 6,
+        "name" : "Amazon EKS Hybrid Nodes gateway",
+        "item" : "https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-overview.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/eks/latest/userguide/eks-ug.pdf#hybrid-nodes-gateway-overview" target="_blank" rel="noopener noreferrer" title="Open PDF"></a><a href="https://github.com/awsdocs/amazon-eks-user-guide/tree/mainline/latest/ug/nodes/hybrid-nodes-gateway-overview.adoc" target="_blank" rel="noopener noreferrer" title="Edit this page on GitHub"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/eks/index.html">Amazon EKS</a><a href="what-is-eks.html">User Guide</a></div><div id="page-toc-src"><a href="#hybrid-nodes-gateway-use-cases">Use cases</a><a href="#hybrid-nodes-gateway-architecture">Architecture</a><a href="#hybrid-nodes-gateway-how-it-works">How it works</a><a href="#hybrid-nodes-gateway-deployment-model">Deployment model</a><a href="#hybrid-nodes-gateway-pricing">Pricing</a><a href="#hybrid-nodes-gateway-region-availability">Region availability</a><a href="#hybrid-nodes-gateway-open-source">Open source</a><a href="#hybrid-nodes-gateway-limitations">Limitations and considerations</a><a href="#hybrid-nodes-gateway-next-steps">Next steps</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><awsui-alert class="awsdocs-page-banner awsui-util-mb-l"><p>
+         <strong>Help improve this page</strong>
+      </p><p>To contribute to this user guide, choose the <strong>Edit this page on GitHub</strong> link that is located in the right pane of every page.</p></awsui-alert><h1 class="topictitle" id="hybrid-nodes-gateway-overview">Amazon EKS Hybrid Nodes gateway</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>The Amazon EKS Hybrid Nodes gateway automates networking between your Amazon EKS cluster VPC and Kubernetes pods running on <a href="https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-overview.html">EKS Hybrid Nodes</a>. The gateway eliminates the need to make on-premises pod networks routable from the VPC or coordinate network infrastructure changes. It creates VXLAN tunnels between EC2-based gateway nodes in your VPC and Cilium-managed hybrid nodes in your on-premises environment, and it automatically maintains VPC route table entries so that traffic reaches the correct gateway instance.</p>
+      <h2 id="hybrid-nodes-gateway-use-cases">Use cases</h2>
+      <p>The Hybrid Nodes gateway enables the following traffic flows between your VPC and on-premises environment:</p>
+      <div class="itemizedlist">
+          
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <strong>Control plane to webhook communication</strong> — The Kubernetes API server can reach webhook endpoints running on hybrid nodes. Without the gateway, webhooks on hybrid nodes are unreachable from the control plane unless the pod CIDRs are made routable in the on-premises environment.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Pod-to-pod traffic across cloud and on-premises</strong> — Pods running on EC2 nodes in the VPC can communicate directly with pods running on hybrid nodes, and vice versa.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>
+                  AWS service connectivity to hybrid pods</strong> — AWS services such as Application Load Balancers, Network Load Balancers, and Amazon Managed Service for Prometheus can reach pods running on hybrid nodes.</p>
+         </li></ul></div>
+    
+      <h2 id="hybrid-nodes-gateway-architecture">Architecture</h2>
+      <p>Two gateway pods run as a Deployment on labeled EC2 nodes. A Kubernetes Lease-based leader election determines which pod is active. Both pods create a VXLAN interface at startup and run a node reconciler that watches <code class="code">CiliumNode</code> objects, so the standby is always ready to forward traffic within 3–5 seconds on failover. Only leader-specific actions (VPC route table updates and <code class="code">CiliumVTEPConfig</code> management) transfer when leadership changes.</p>
+    
+      <h2 id="hybrid-nodes-gateway-how-it-works">How it works</h2>
+      <p>The Hybrid Nodes gateway uses four mechanisms to enable connectivity:</p>
+      <p>
+         <strong>VXLAN tunneling</strong> — The gateway creates a VXLAN interface (<code class="code">hybrid_vxlan0</code>) with VNI 2 on UDP port 8472 (the Cilium default). It establishes a tunnel to each hybrid node by programming FDB entries, ARP entries, and routes on the VXLAN interface. A node controller watches <code class="code">CiliumNode</code> objects and automatically adds or removes tunnels as hybrid nodes join or leave the cluster.</p>
+      <p>
+         <strong>VPC route table management</strong> — When the gateway becomes the leader, it creates or replaces routes in the specified VPC route tables. Each route points a hybrid pod CIDR to the leader’s primary ENI, so VPC traffic destined for hybrid pods is forwarded to the active gateway instance.</p>
+      <p>
+         <strong>Cilium VTEP integration</strong> — The gateway creates a <code class="code">CiliumVTEPConfig</code> custom resource that tells Cilium agents on hybrid nodes where to send VPC-bound traffic. The config contains the leader’s node IP as the tunnel endpoint and the VXLAN interface MAC address. When hybrid pods send traffic to VPC addresses, Cilium encapsulates it in a VXLAN packet and sends it to the gateway.</p>
+      <p>
+         <strong>Leader election</strong> — The gateway uses Kubernetes Lease-based leader election with an active-standby model. Two gateway pods run on separate nodes enforced by pod anti-affinity. Both pods create a VXLAN interface at startup and run a node reconciler that maintains VTEP entries for all hybrid nodes. The leader performs VPC route table updates and Cilium VTEP configuration. If the leader fails, the standby detects the lease expiration, acquires the lease, and runs the leader setup sequence. Expected failover time is approximately 3–5 seconds.</p>
+    
+      <h2 id="hybrid-nodes-gateway-deployment-model">Deployment model</h2>
+      <p>The Hybrid Nodes gateway runs on EC2 instances in your VPC and is deployed using a Helm chart. The gateway supports the following deployment targets:</p>
+      <div class="itemizedlist">
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <strong>EKS Auto Mode</strong> — You create a <code class="code">NodePool</code> and <code class="code">NodeClass</code> that automatically provision gateway nodes with the correct labels, taints, and source/destination check configuration. This is the recommended configuration.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>EKS managed node groups</strong> — You create a dedicated managed node group with the gateway label, taint, and source/destination check disabled, then set <code class="code">autoMode.enabled=false</code> in the Helm values.</p>
+         </li></ul></div>
+      <p>For all deployment targets, at least two nodes are recommended for high availability. For more information, see <a href="./hybrid-nodes-gateway-getting-started.html">Get started with EKS Hybrid Nodes gateway</a>.</p>
+    
+      <h2 id="hybrid-nodes-gateway-pricing">Pricing</h2>
+      <p>There is no additional charge for the Amazon EKS Hybrid Nodes gateway, but you will be charged for the infrastructure costs for running the gateway, including the EC2 instances and EKS Auto Mode management fees if applicable. For more information, see <a href="https://aws.amazon.com/eks/pricing/" rel="noopener noreferrer" target="_blank"><span>Amazon EKS pricing</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.</p>
+    
+      <h2 id="hybrid-nodes-gateway-region-availability">Region availability</h2>
+      <p>The Amazon EKS Hybrid Nodes gateway is available in all AWS Regions where EKS Hybrid Nodes is available, except China Regions. For the current list of supported Regions, see <a href="./hybrid-nodes-overview.html">Amazon EKS Hybrid Nodes overview</a>.</p>
+    
+      <h2 id="hybrid-nodes-gateway-open-source">Open source</h2>
+      <p>The Amazon EKS Hybrid Nodes gateway codebase is open source. You can view the source code, report issues, and contribute at the <a href="https://github.com/aws/eks-hybrid-nodes-gateway" rel="noopener noreferrer" target="_blank"><span>GitHub repository</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.</p>
+    
+      <h2 id="hybrid-nodes-gateway-limitations">Limitations and considerations</h2>
+      <p>Before deploying the Hybrid Nodes gateway, consider the following:</p>
+      <div class="itemizedlist">
+          
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <strong>No traffic encryption</strong> — The VXLAN tunnels created by the gateway do not encrypt traffic. If you require encryption in transit between the VPC and your on-premises environment, use an encrypted transport such as AWS Direct Connect with MACsec or a VPN connection. For more information, see <a href="https://docs.aws.amazon.com/eks/latest/userguide/data-protection.html">Data protection in Amazon EKS</a>.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Single cluster</strong> — Each gateway deployment serves a single EKS cluster. If you have multiple clusters with hybrid nodes, deploy a separate gateway for each cluster.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Cilium VTEP required</strong> — The gateway requires the EKS version of the Cilium CNI with VTEP support enabled on hybrid nodes. Other CNI plugins are not supported.</p>
+         </li></ul></div>
+    
+      <h2 id="hybrid-nodes-gateway-next-steps">Next steps</h2>
+      <div class="itemizedlist">
+          
+          
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <a href="./hybrid-nodes-gateway-getting-started.html">Get started with EKS Hybrid Nodes gateway</a>
+            </p>
+         </li><li class="listitem">
+            <p>
+               <a href="./hybrid-nodes-gateway-configuration.html">Amazon EKS Hybrid Nodes gateway configuration reference</a>
+            </p>
+         </li><li class="listitem">
+            <p>
+               <a href="./hybrid-nodes-gateway-operations.html">Amazon EKS Hybrid Nodes gateway operations</a>
+            </p>
+         </li><li class="listitem">
+            <p>
+               <a href="./hybrid-nodes-gateway-troubleshooting.html">Amazon EKS Hybrid Nodes gateway troubleshooting</a>
+            </p>
+         </li></ul></div>
+   <awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./hybrid-nodes-troubleshooting.html">Troubleshooting</div><div id="next" class="next-link" accesskey="n" href="./hybrid-nodes-gateway-getting-started.html">Get started</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Amazon EKS&amp;topic_url=https://docs.aws.amazon.com/en_us/eks/latest/userguide/hybrid-nodes-gateway-overview.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=Amazon EKS&amp;topic_url=https://docs.aws.amazon.com/en_us/eks/latest/userguide/hybrid-nodes-gateway-overview.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>
