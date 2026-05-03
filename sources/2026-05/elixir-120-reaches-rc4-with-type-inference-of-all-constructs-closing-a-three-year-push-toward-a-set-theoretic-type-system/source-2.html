@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.40.1">
+    <meta name="project" content="Elixir v1.20.0-rc.4">
+
+
+    <title>Gradual set-theoretic types — Elixir v1.20.0-rc.4</title>
+
+    <link rel="stylesheet" href="dist/html-elixir-NHQLCD6Y.css" />
+
+      <link rel="canonical" href="https://hexdocs.pm/elixir/main/gradual-set-theoretic-types.html" />
+
+    <script defer src="dist/sidebar_items-A86196AC.js"></script>
+    <script defer src="docs_config.js"></script>
+    <script defer src="dist/html-Y2MUTVIN.js"></script>
+
+  <script async defer src="https://s.hexdocs.pm/js/script.js"></script><script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init({endpoint:"https://s.hexdocs.pm/api/event"})</script></head>
+  <body>
+    <script>(()=>{var t="ex_doc:settings",e="dark";var o="dark",s="light";var E="sidebar_state",n="closed";var r="sidebar_width";var a="sidebar-open";var i=new URLSearchParams(window.location.search),S=i.get("theme")||JSON.parse(localStorage.getItem(t)||"{}").theme;(S===o||S!==s&&window.matchMedia("(prefers-color-scheme: dark)").matches)&&document.body.classList.add(e);var d=sessionStorage.getItem(E),A=d!==n&&!window.matchMedia(`screen and (max-width: ${768}px)`).matches;document.body.classList.toggle(a,A);var c=sessionStorage.getItem(r);c&&document.body.style.setProperty("--sidebarWidth",`${c}px`);var p=/(Macintosh|iPhone|iPad|iPod)/.test(window.navigator.userAgent);document.documentElement.classList.toggle("apple-os",p);})();
+</script>
+
+<div class="body-wrapper">
+
+<button id="sidebar-menu" class="sidebar-button sidebar-toggle" aria-label="toggle sidebar" aria-controls="sidebar">
+  <i class="ri-menu-line ri-lg" title="Collapse/expand sidebar"></i>
+</button>
+
+<nav id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <div class="sidebar-projectInfo">
+
+        <a href="https://elixir-lang.org/docs.html" class="sidebar-projectImage">
+          <img src="assets/logo.png" alt="Elixir" />
+        </a>
+
+      <div>
+        <a href="https://elixir-lang.org/docs.html" class="sidebar-projectName" translate="no">
+Elixir
+        </a>
+        <div class="sidebar-projectVersion" translate="no">
+          v1.20.0-rc.4
+        </div>
+      </div>
+    </div>
+    <ul id="sidebar-list-nav" class="sidebar-list-nav" role="tablist" data-extras="Pages"></ul>
+  </div>
+</nav>
+
+<output role="status" id="toast"></output>
+
+<main class="content page-extra" id="main" data-type="extras">
+  <div id="content" class="content-inner">
+    <div class="top-search">
+      <div class="search-settings">
+        <form class="search-bar" action="search.html">
+          <label class="search-label">
+            <span class="sr-only">Search documentation of Elixir</span>
+            <div class="search-input-wrapper">
+              <input name="q" type="text" class="search-input" placeholder="Press / to search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+              <button type="button" tabindex="-1" class="search-close-button" aria-hidden="true">
+                <i class="ri-close-line ri-lg" title="Cancel search"></i>
+              </button>
+            </div>
+          </label>
+        </form>
+        <div class="autocomplete">
+        </div>
+        <div class="engine-selector" data-multiple="true">
+          <button type="button" class="engine-button" aria-label="Select search engine" aria-haspopup="true" aria-expanded="false">
+            <i class="ri-search-2-line" aria-hidden="true"></i>
+            <span class="engine-name">Elixir + libraries</span>
+            <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+          </button>
+          <div class="engine-dropdown" hidden role="menu">
+
+              <button type="button"
+                      class="engine-option"
+                      data-engine-url="https://hexdocs.pm/?packages=elixir%3Amain%2Ceex%3Amain%2Cex_unit%3Amain%2Ciex%3Amain%2Clogger%3Amain%2Cmix%3Amain&q="
+                      role="menuitemradio"
+                      aria-checked="true">
+                <span class="name">Elixir + libraries</span>
+                <span class="help">Search Elixir, EEx, ExUnit, IEx, Logger, and Mix</span>
+              </button>
+
+              <button type="button"
+                      class="engine-option"
+                      data-engine-url="search.html?q="
+                      role="menuitemradio"
+                      aria-checked="false">
+                <span class="name">Current project</span>
+                <span class="help">Search only this project</span>
+              </button>
+
+          </div>
+        </div>
+        <button class="icon-settings display-settings">
+          <i class="ri-settings-3-line"></i>
+          <span class="sr-only">Settings</span>
+        </button>
+      </div>
+    </div>
+
+<div id="top-content">
+  <div class="heading-with-actions top-heading">
+    <h1>Gradual set-theoretic types</h1>
+
+<a href="gradual-set-theoretic-types.md" title="Copy Markdown (hold Ctrl/Cmd and click it to open as Markdown)" class="copy-markdown icon-action" rel="help">
+  <i class="ri-markdown-line" aria-hidden="true"></i>
+  <span class="sr-only">Copy Markdown</span>
+</a>
+
+
+      <a href="https://github.com/elixir-lang/elixir/blob/03c123a1492625810e1bb4a8e7b4140f5083ff1c/lib/elixir/pages/references/gradual-set-theoretic-types.md#L1" title="View Source" class="icon-action" rel="help nofollow">
+        <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+        <span class="sr-only">View Source</span>
+      </a>
+
+  </div>
+
+
+<p>Elixir is in the process of incorporating set-theoretic types into the compiler. This document outlines the current stage of our implementation for this Elixir version. Elixir's type system is:</p><ul><li><p><strong>sound</strong> - the inferred and assigned by the type system align with the behaviour of the program</p></li><li><p><strong>gradual</strong> - Elixir's type system includes the <code class="inline">dynamic()</code> type, which can be used when the type of a variable or expression is checked at runtime. However, instead of simply discarding all typing information, Elixir's <code class="inline">dynamic()</code> type works as a range. For example, if you write <code class="inline">dynamic(integer() or binary())</code>, Elixir's type system will still emit violations if none of those types are accepted. Furthermore, in the absence of <code class="inline">dynamic()</code>, Elixir's type system behaves as a static one</p></li><li><p><strong>developer friendly</strong> - the types are described, implemented, and composed using basic set operations: unions, intersections, and negation (hence it is a set-theoretic type system)</p></li></ul><p>The current milestone aims to infer types from existing programs and use them for type checking, enabling the Elixir compiler to find faults and bugs in codebases without requiring changes to existing software. User provided type signatures are planned for future releases. The underlying principles, theory, and roadmap of our work have been outlined in <a rel="nofollow" href="https://arxiv.org/abs/2306.06391">&quot;The Design Principles of the Elixir Type System&quot; by Giuseppe Castagna, Guillaume Duboc, José Valim</a>.</p><h2 id="a-gentle-introduction" class="section-heading"><a href="#a-gentle-introduction" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">A gentle introduction</span></h2><p>Types in Elixir are written using the type named followed by parentheses, such as <code class="inline">integer()</code> or <code class="inline">list(integer())</code>.</p><p>The basic types are:</p><pre><code class="makeup elixir" translate="no"><span class="n">atom</span><span class="p" data-group-id="3047032322-1">(</span><span class="p" data-group-id="3047032322-1">)</span><span class="w">
+</span><span class="n">binary</span><span class="p" data-group-id="3047032322-2">(</span><span class="p" data-group-id="3047032322-2">)</span><span class="w">
+</span><span class="n">bitstring</span><span class="p" data-group-id="3047032322-3">(</span><span class="p" data-group-id="3047032322-3">)</span><span class="w">
+</span><span class="n">empty_list</span><span class="p" data-group-id="3047032322-4">(</span><span class="p" data-group-id="3047032322-4">)</span><span class="w">
+</span><span class="n">integer</span><span class="p" data-group-id="3047032322-5">(</span><span class="p" data-group-id="3047032322-5">)</span><span class="w">
+</span><span class="n">float</span><span class="p" data-group-id="3047032322-6">(</span><span class="p" data-group-id="3047032322-6">)</span><span class="w">
+</span><span class="n">function</span><span class="p" data-group-id="3047032322-7">(</span><span class="p" data-group-id="3047032322-7">)</span><span class="w">
+</span><span class="n">map</span><span class="p" data-group-id="3047032322-8">(</span><span class="p" data-group-id="3047032322-8">)</span><span class="w">
+</span><span class="n">non_empty_list</span><span class="p" data-group-id="3047032322-9">(</span><span class="n">elem_type</span><span class="p">,</span><span class="w"> </span><span class="n">tail_type</span><span class="p" data-group-id="3047032322-9">)</span><span class="w">
+</span><span class="n">pid</span><span class="p" data-group-id="3047032322-10">(</span><span class="p" data-group-id="3047032322-10">)</span><span class="w">
+</span><span class="n">port</span><span class="p" data-group-id="3047032322-11">(</span><span class="p" data-group-id="3047032322-11">)</span><span class="w">
+</span><span class="n">reference</span><span class="p" data-group-id="3047032322-12">(</span><span class="p" data-group-id="3047032322-12">)</span><span class="w">
+</span><span class="n">tuple</span><span class="p" data-group-id="3047032322-13">(</span><span class="p" data-group-id="3047032322-13">)</span></code></pre><p>Many of the types above can also be written more precisely. We will discuss their syntax in the next sections, but here are two examples:</p><ul><li><p>While <code class="inline">atom()</code> represents all atoms, the atom <code class="inline">:ok</code> can also be represented in the type system as <code class="inline">:ok</code></p></li><li><p>While <code class="inline">tuple()</code> represents all tuples, you can specify the type of a two-element tuple where the first element is the atom <code class="inline">:ok</code> and the second is an integer as <code class="inline">{:ok, integer()}</code></p></li></ul><p>There are also three special types: <code class="inline">none()</code> (represents an empty set), <code class="inline">term()</code> (represents all types), <code class="inline">dynamic()</code> (represents a range of the given types).</p><p>Given the types are set-theoretic, we can compose them using unions (<code class="inline">or</code>), intersections (<code class="inline">and</code>), and negations (<code class="inline">not</code>). For example, to say a function returns either atoms or integers, one could write: <code class="inline">atom() or integer()</code>.</p><p>Intersections will find the elements in common between the operands. For example, <code class="inline">atom() and integer()</code>, which in this case is the empty set <code class="inline">none()</code>. You can combine intersections and negations to perform difference, for example, to say that a function expects all atoms, except <code class="inline">nil</code> (which is an atom), you could write: <code class="inline">atom() and not nil</code>.</p><p>You can find a complete reference in the <a href="types-cheat.html">set-theoretic types cheatsheet</a>.</p><h2 id="the-syntax-of-data-types" class="section-heading"><a href="#the-syntax-of-data-types" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">The syntax of data types</span></h2><p>In this section we will cover the syntax of all data types. At the moment, developers will interact with those types mostly through compiler warnings and diagnostics.</p><h3 id="broad-types" class="section-heading"><a href="#broad-types" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Broad types</span></h3><p>These types are broad in that they cannot represent individual elements, only the whole set. For example, the numbers <code class="inline">1</code> and <code class="inline">42</code> are both represented by the type <code class="inline">integer()</code>.</p><p>They are: <code class="inline">binary()</code>, <code class="inline">bitstring()</code>, <code class="inline">integer()</code>, <code class="inline">float()</code>, <code class="inline">pid()</code>, <code class="inline">port()</code>, <code class="inline">reference()</code>.</p><p>The <code class="inline">binary()</code> type is a subtype of the less frequently used <code class="inline">bitstring()</code> type, as binaries are bitstrings where the number of bits is divisible by 8.</p><h3 id="atoms" class="section-heading"><a href="#atoms" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Atoms</span></h3><p>You can represent all atoms as <code class="inline">atom()</code>. You can also represent each individual atom using their literal syntax. For instance, the atom <code class="inline">:foo</code> and <code class="inline">:hello_world</code> are also valid (distinct) types.</p><p><code class="inline">nil</code>, <code class="inline">true</code>, and <code class="inline">false</code> are also atoms and can be written as is. <code class="inline">boolean()</code> is a convenience type alias that represents <code class="inline">true or false</code>.</p><h3 id="tuples" class="section-heading"><a href="#tuples" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Tuples</span></h3><p>You can represent all tuples as <code class="inline">tuple()</code>. Tuples may also be written using the curly brackets syntax, such as <code class="inline">{:ok, binary()}</code>.</p><p>You may use <code class="inline">...</code> at the end of the tuple to imply the overall size of the tuple is unknown. For example, the following tuple has at least two elements: <code class="inline">{:ok, binary(), ...}</code>.</p><h3 id="lists" class="section-heading"><a href="#lists" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Lists</span></h3><p>You can represent all <em>proper</em> lists as <code class="inline">list()</code>, which also includes the empty list.</p><p>You can also specify the type of the list element as argument. For example, <code class="inline">list(integer())</code> represents the values <code class="inline">[]</code> and <code class="inline">[1, 2, 3]</code>, but not <code class="inline">[1, &quot;two&quot;, 3]</code>.</p><p>Internally, Elixir represents the type <code class="inline">list(a)</code> as the union two distinct types, <code class="inline">empty_list()</code> and <code class="inline">not_empty_list(a)</code>. In other words, <code class="inline">list(integer())</code> is equivalent to <code class="inline">empty_list() or non_empty_list(integer())</code>.</p><h4>Improper lists</h4><p>While most developers will simply use <code class="inline">list(a)</code>, the type system can express all different representations of lists in Elixirby passing a second argument to <code class="inline">non_empty_list</code>, which represents the type of the tail.</p><p>A proper list is one where the tail is the empty list itself. The type <code class="inline">non_empty_list(integer())</code> is equivalent to <code class="inline">non_empty_list(integer(), empty_list())</code>.</p><p>If the <code class="inline">tail_type</code> is anything but a list, then we have an improper list. For example, the value <code class="inline">[1, 2 | 3]</code> would have the type <code class="inline">non_empty_list(integer(), integer())</code>.</p><p>If you pass a list type as the tail, then the list type is merged into the element type. For example, <code class="inline">non_empty_list(integer(), list(binary()))</code> is the same as <code class="inline">non_empty_list(integer() or binary(), empty_list())</code>.</p><h3 id="maps" class="section-heading"><a href="#maps" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Maps</span></h3><p>You can represent all maps as <code class="inline">map()</code>.</p><p>Maps may also be written using their literal syntax:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="2226243516-1">%{</span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="2226243516-2">(</span><span class="p" data-group-id="2226243516-2">)</span><span class="p">,</span><span class="w"> </span><span class="ss">age</span><span class="p">:</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="2226243516-3">(</span><span class="p" data-group-id="2226243516-3">)</span><span class="p" data-group-id="2226243516-1">}</span></code></pre><p>which outlines a map with exactly two keys, <code class="inline">:name</code> and <code class="inline">:age</code>, and values of type <code class="inline">binary()</code> and <code class="inline">integer()</code> respectively. We say the map above is &quot;closed&quot;: it only supports the keys explicitly defined. We can also mark a map as &quot;open&quot;, by including <code class="inline">...</code> as its first element:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="9751504405-1">%{</span><span class="n">...</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="9751504405-2">(</span><span class="p" data-group-id="9751504405-2">)</span><span class="p">,</span><span class="w"> </span><span class="ss">age</span><span class="p">:</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="9751504405-3">(</span><span class="p" data-group-id="9751504405-3">)</span><span class="p" data-group-id="9751504405-1">}</span></code></pre><p>The type above says the keys <code class="inline">:name</code> and <code class="inline">:age</code> must exist, with their respective types, but other keys may be present. The <code class="inline">map()</code> type is the same as <code class="inline">%{...}</code>. For the empty map, you may write <code class="inline">%{}</code>, although we recommend using <code class="inline">empty_map()</code> for clarity.</p><h4>Optional keys</h4><p>A key may be marked as optional using the <code class="inline">if_set/1</code> operation on its value type:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="3826162787-1">%{</span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="3826162787-2">(</span><span class="p" data-group-id="3826162787-2">)</span><span class="p">,</span><span class="w"> </span><span class="ss">age</span><span class="p">:</span><span class="w"> </span><span class="n">if_set</span><span class="p" data-group-id="3826162787-3">(</span><span class="n">integer</span><span class="p" data-group-id="3826162787-4">(</span><span class="p" data-group-id="3826162787-4">)</span><span class="p" data-group-id="3826162787-3">)</span><span class="p" data-group-id="3826162787-1">}</span></code></pre><p>is a map that certainly has the <code class="inline">:name</code> key but it may have the <code class="inline">:age</code> key (and if it has such key, its value type is <code class="inline">integer()</code>).</p><p>You can also use <code class="inline">not_set()</code> to denote a key cannot be present:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="2706560572-1">%{</span><span class="n">...</span><span class="p">,</span><span class="w"> </span><span class="ss">age</span><span class="p">:</span><span class="w"> </span><span class="n">not_set</span><span class="p" data-group-id="2706560572-2">(</span><span class="p" data-group-id="2706560572-2">)</span><span class="p" data-group-id="2706560572-1">}</span></code></pre><p>The type above says the map may have any key, except the <code class="inline">:age</code> one. This is, for instance, the type returned by <code class="inline">Map.delete(map, :age)</code>.</p><h4>Domain types</h4><p>In the examples above, all map keys were atoms, but we can also use other types as map keys. For example:</p><pre><code class="makeup elixir" translate="no"><span class="c1"># Closed map</span><span class="w">
+</span><span class="p" data-group-id="9741740286-1">%{</span><span class="n">binary</span><span class="p" data-group-id="9741740286-2">(</span><span class="p" data-group-id="9741740286-2">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">atom</span><span class="p" data-group-id="9741740286-3">(</span><span class="p" data-group-id="9741740286-3">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="9741740286-4">(</span><span class="p" data-group-id="9741740286-4">)</span><span class="p" data-group-id="9741740286-1">}</span><span class="w">
+
+</span><span class="c1"># Open map</span><span class="w">
+</span><span class="p" data-group-id="9741740286-5">%{</span><span class="n">...</span><span class="p">,</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="9741740286-6">(</span><span class="p" data-group-id="9741740286-6">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">atom</span><span class="p" data-group-id="9741740286-7">(</span><span class="p" data-group-id="9741740286-7">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="9741740286-8">(</span><span class="p" data-group-id="9741740286-8">)</span><span class="p" data-group-id="9741740286-5">}</span></code></pre><p>Currently, the type system only tracks the top of each individual type as the domain keys. For example, if you say:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="7406997114-1">%{</span><span class="n">list</span><span class="p" data-group-id="7406997114-2">(</span><span class="n">integer</span><span class="p" data-group-id="7406997114-3">(</span><span class="p" data-group-id="7406997114-3">)</span><span class="p" data-group-id="7406997114-2">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="7406997114-4">(</span><span class="p" data-group-id="7406997114-4">)</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p" data-group-id="7406997114-5">(</span><span class="n">binary</span><span class="p" data-group-id="7406997114-6">(</span><span class="p" data-group-id="7406997114-6">)</span><span class="p" data-group-id="7406997114-5">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="7406997114-7">(</span><span class="p" data-group-id="7406997114-7">)</span><span class="p" data-group-id="7406997114-1">}</span></code></pre><p>That's the same as specifying all lists:</p><pre><code class="makeup elixir" translate="no"><span class="p" data-group-id="3303685382-1">%{</span><span class="n">list</span><span class="p" data-group-id="3303685382-2">(</span><span class="p" data-group-id="3303685382-2">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="3303685382-3">(</span><span class="p" data-group-id="3303685382-3">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="3303685382-4">(</span><span class="p" data-group-id="3303685382-4">)</span><span class="p" data-group-id="3303685382-1">}</span></code></pre><p>The supported domain keys are <code class="inline">atom()</code>, <code class="inline">bitstring()</code>, <code class="inline">binary()</code>, <code class="inline">integer()</code>, <code class="inline">float()</code>, <code class="inline">fun()</code>, <code class="inline">list()</code>, <code class="inline">map()</code>, <code class="inline">pid()</code>, <code class="inline">port()</code>, <code class="inline">reference()</code>, and <code class="inline">tuple()</code>. In the case of maps, the <code class="inline">bitstring()</code> domain stores exclusively keys which are not binary. The ones which are <code class="inline">binary()</code> are stored under the <code class="inline">binary()</code> domain.</p><p>Furthermore, it is important to note that domain keys are, by definition, optional. Whenever you have a <code class="inline">%{integer() =&gt; integer()}</code>and you try to fetch a key, we must assume the key may not exist (after all, it is not possible to store all integers as map keys as they are infinite).</p><h4>Mixed keys</h4><p>It is also possible to mix domain and atom keys. For example, the following map says that all atom keys are of type <code class="inline">binary()</code>, except the <code class="inline">:root</code> key, which has type <code class="inline">integer()</code>:</p><pre><code class="makeup elixir" translate="no"><span class="c1"># Closed map</span><span class="w">
+</span><span class="p" data-group-id="1954118145-1">%{</span><span class="n">atom</span><span class="p" data-group-id="1954118145-2">(</span><span class="p" data-group-id="1954118145-2">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="1954118145-3">(</span><span class="p" data-group-id="1954118145-3">)</span><span class="p">,</span><span class="w"> </span><span class="ss">root</span><span class="p">:</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="1954118145-4">(</span><span class="p" data-group-id="1954118145-4">)</span><span class="p" data-group-id="1954118145-1">}</span><span class="w">
+
+</span><span class="c1"># Open map</span><span class="w">
+</span><span class="p" data-group-id="1954118145-5">%{</span><span class="n">...</span><span class="p">,</span><span class="w"> </span><span class="n">atom</span><span class="p" data-group-id="1954118145-6">(</span><span class="p" data-group-id="1954118145-6">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="n">binary</span><span class="p" data-group-id="1954118145-7">(</span><span class="p" data-group-id="1954118145-7">)</span><span class="p">,</span><span class="w"> </span><span class="ss">root</span><span class="p">:</span><span class="w"> </span><span class="n">integer</span><span class="p" data-group-id="1954118145-8">(</span><span class="p" data-group-id="1954118145-8">)</span><span class="p" data-group-id="1954118145-5">}</span></code></pre><p>The order of the keys is of increasing precision. <code class="inline">:root</code> is more precise than <code class="inline">atom()</code>, therefore it comes later. This mirrors the runtime semantics of maps, where duplicate keys override the value of earlier ones.</p><h3 id="functions" class="section-heading"><a href="#functions" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Functions</span></h3><p>You can represent all functions as <code class="inline">function()</code>.  However, in practice, most functions are represented as arrows. For example, a function that receives an integer and return boolean would be written as <code class="inline">(integer() -&gt; boolean())</code>. A function that receives two integers and return a string (i.e. a binary) would be written as <code class="inline">(integer(), integer() -&gt; binary())</code>.</p><p>When representing functions with multiple clauses, which may take different input types, we use intersections. For example, imagine the following function:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">negate</span><span class="p" data-group-id="1747083554-1">(</span><span class="n">x</span><span class="p" data-group-id="1747083554-1">)</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_integer</span><span class="p" data-group-id="1747083554-2">(</span><span class="n">x</span><span class="p" data-group-id="1747083554-2">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="n">x</span><span class="w">
+</span><span class="kd">def</span><span class="w"> </span><span class="nf">negate</span><span class="p" data-group-id="1747083554-3">(</span><span class="n">x</span><span class="p" data-group-id="1747083554-3">)</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_boolean</span><span class="p" data-group-id="1747083554-4">(</span><span class="n">x</span><span class="p" data-group-id="1747083554-4">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">x</span></code></pre><p>If you give it an integer, it negates it. If you give it a boolean, it negates it.</p><p>We can say this function has the type <code class="inline">(integer() -&gt; integer())</code> because it is capable of receiving an integer and returning an integer. In this case, <code class="inline">(integer() -&gt; integer())</code> is a set that represents all functions that can receive an integer and return an integer. Even though this function can receive other arguments and return other values, it is still part of the <code class="inline">(integer() -&gt; integer())</code> set.</p><p>This function also has the type <code class="inline">(boolean() -&gt; boolean())</code>, because it also receives booleans and returns booleans. If you pass the function above to another function that expects <code class="inline">(boolean() -&gt; boolean())</code>, type checking will succeed. Therefore, we can say the overall type of the function is <code class="inline">(integer() -&gt; integer()) and (boolean() -&gt; boolean())</code>. The intersection means the function belongs to both sets.</p><p>At this point, you may ask, why not a union? As a real-world example, take a t-shirt with green and yellow stripes. We can say the t-shirt belongs to the set of &quot;t-shirts with green color&quot;. We can also say the t-shirt belongs to the set of &quot;t-shirts with yellow color&quot;. Let's see the difference between unions and intersections:</p><ul><li><p><code class="inline">(t_shirts_with_green() or t_shirts_with_yellow())</code> - contains t-shirts with either green or yellow, such as green, green and red, green and yellow, but also only yellow, yellow and red, etc.</p></li><li><p><code class="inline">(t_shirts_with_green() and t_shirts_with_yellow())</code> - contains t-shirts with both green and yellow (and maybe other colors)</p></li></ul><p>Since the t-shirt has both colors, we could say it belongs to the union of green and yellow t-shirts, but doing so would not capture the fact it is both green and yellow. Therefore it is more precise to say it belongs to the intersection of both sets. The same way that a function that goes from <code class="inline">(integer() -&gt; integer())</code> and <code class="inline">(boolean() -&gt; boolean())</code> is also an intersection. In practice, it is not useful to define the union of two functions in Elixir, so the compiler will point you to the right direction if you specify the wrong one.</p><h2 id="the-dynamic-type" class="section-heading"><a href="#the-dynamic-type" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">The <code class="inline">dynamic()</code> type</span></h2><p>Existing Elixir programs do not have type declarations, but we still want to be able to type check them. This is done with the introduction of the <code class="inline">dynamic()</code> type.</p><p>When Elixir sees the following function:</p><pre><code class="makeup elixir" translate="no"><span class="kd">def</span><span class="w"> </span><span class="nf">negate</span><span class="p" data-group-id="1251813930-1">(</span><span class="n">x</span><span class="p" data-group-id="1251813930-1">)</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_integer</span><span class="p" data-group-id="1251813930-2">(</span><span class="n">x</span><span class="p" data-group-id="1251813930-2">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="o">-</span><span class="n">x</span><span class="w">
+</span><span class="kd">def</span><span class="w"> </span><span class="nf">negate</span><span class="p" data-group-id="1251813930-3">(</span><span class="n">x</span><span class="p" data-group-id="1251813930-3">)</span><span class="w"> </span><span class="ow">when</span><span class="w"> </span><span class="n">is_boolean</span><span class="p" data-group-id="1251813930-4">(</span><span class="n">x</span><span class="p" data-group-id="1251813930-4">)</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">x</span></code></pre><p>Elixir type checks it as if the function had the type <code class="inline">(dynamic() -&gt; dynamic())</code>. Then, based on patterns and guards, we can refine the value of the variable <code class="inline">x</code> to be <code class="inline">dynamic() and integer()</code> and <code class="inline">dynamic() and boolean()</code> for each clause respectively. We say <code class="inline">dynamic()</code> is a gradual type, which leads us to <em>gradual set-theoretic types</em>.</p><p>The simplest way to reason about <code class="inline">dynamic()</code> in Elixir is that it is a range of types. If you have a type <code class="inline">atom() or integer()</code>, the underlying code needs to work with both <code class="inline">atom() or integer()</code>. For example, if you call <code class="inline">Integer.to_string(var)</code>, and <code class="inline">var</code> has type <code class="inline">atom() or integer()</code>, the type system will emit a warning, because <a href="Integer.html#to_string/1"><code class="inline">Integer.to_string/1</code></a> does not accept atoms.</p><p>However, by intersecting a type with <code class="inline">dynamic()</code>, we make the type gradual and therefore only a subset of the type needs to be valid. For instance, if you call <code class="inline">Integer.to_string(var)</code>, and <code class="inline">var</code> has type <code class="inline">dynamic() and (atom() or integer())</code>, the type system will not emit a warning, because <a href="Integer.html#to_string/1"><code class="inline">Integer.to_string/1</code></a> works with at least one of the types. For convenience, most programs will write <code class="inline">dynamic(atom() or integer())</code> instead of the intersection. They are equivalent.</p><p>Compared to other gradually typed languages, the <code class="inline">dynamic()</code> type in Elixir is quite powerful: it restricts our program to certain types, via intersections, while still emitting warnings once it is certain the code will fail. This makes <code class="inline">dynamic()</code> an excellent tool for typing existing Elixir code with meaningful warnings.</p><p>If the user provides their own types, and those types are not <code class="inline">dynamic()</code>, then Elixir's type system behaves as a statically typed one. This brings us to one last property of dynamic types in Elixir: dynamic types are always at the root. For example, when you write a tuple of type <code class="inline">{:ok, dynamic()}</code>, Elixir will rewrite it to <code class="inline">dynamic({:ok, term()})</code>. While this has the downside that you cannot make part of a tuple/map/list gradual, only the whole tuple/map/list, it comes with the upside that dynamic is always explicitly at the root, making it harder to accidentally sneak <code class="inline">dynamic()</code> in a statically typed program.</p><h2 id="type-inference" class="section-heading"><a href="#type-inference" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Type inference</span></h2><p>Type inference (or reconstruction) is the ability of a type system to automatically deduce, either partially or fully, the type of an expression at compile time. Type inference may occur at different levels. For example, many programming languages can automatically infer the types of variables, also known &quot;local type inference&quot;, but not all can infer type signatures of functions.</p><p>Inferring type signatures comes with a series of trade-offs:</p><ul><li><p>Speed - type inference algorithms are often more computationally intensive than type checking algorithms.</p></li><li><p>Expressiveness - in any given type system, the constructs that support inference are always a subset of those that can be type-checked. Therefore, if a programming language is restricted to fully reconstructed types, it is less expressive than a solely type checked counterpart.</p></li><li><p>Incremental compilation - type inference complicates incremental compilation. If module A depends on module B, which depends on module C, a change to C may require the type signature in B to be reconstructed, which may then require A to be recomputed (and so on). This dependency chain may require large projects to explicitly add type signatures for stability and compilation efficiency.</p></li><li><p>Cascading errors - when a user accidentally makes type errors or the code has conflicting assumptions, type inference may lead to less clear error messages as the type system tries to reconcile diverging type assumptions across code paths.</p></li></ul><p>On the other hand, type inference offers the benefit of enabling type checking for functions and codebases without requiring the user to add type annotations. To balance these trade-offs, Elixir aims to provide &quot;module type inference&quot;: our goal is to infer the types of functions considering the current module, Elixir's standard library and your dependencies, while calls to modules within the same project are assumed to be <code class="inline">dynamic()</code>. Once types are inferred, then the whole project is type checked considering all modules and all types (inferred or otherwise).</p><p>Type inference in Elixir is best-effort: it doesn't guarantee it will find all possible type incompatibilities, only that it may find bugs where all combinations of a type <em>will</em> fail, even in the absence of explicit type annotations. It is meant to be an efficient routine that brings developers some benefits of static typing without requiring any effort from them.</p><p>In the long term, Elixir developers who want typing guarantees must explicitly add type signatures to their functions (see &quot;Roadmap&quot;). Any function with an explicit type signature will be typed checked against the user-provided annotations, as in other statically typed languages, without performing type inference. In summary, type checking will rely on type signatures and only fallback to inferred types when no signature is available.</p><h2 id="roadmap" class="section-heading"><a href="#roadmap" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Roadmap</span></h2><p>The current milestone is to implement type inference of existing codebases, as well as type checking of all language constructs, without changes to the Elixir language. At this stage, we want to collect feedback on the quality of error messages and performance, and therefore the type system has no user facing API. Full type inference of patterns was released in Elixir v1.18, and complete inference is expected as part of Elixir v1.20.</p><p>If the results are satisfactory, the next milestone will include a mechanism for defining typed structs. Elixir programs frequently pattern match on structs, which reveals information about the struct fields, but it knows nothing about their respective types. By propagating types from structs and their fields throughout the program, we will increase the type system’s ability to find errors while further straining our type system implementation. Proposals including the required changes to the language surface will be sent to the community once we reach this stage.</p><p>The third milestone is to introduce set-theoretic type signatures for functions. Unfortunately, the existing Erlang Typespecs are not precise enough for set-theoretic types and they will be phased out of the language and have their postprocessing moved into a separate library once this stage concludes.</p><h2 id="acknowledgements" class="section-heading"><a href="#acknowledgements" class="hover-link"><i class="ri-link-m" aria-hidden="true"></i></a><span class="text">Acknowledgements</span></h2><p>The type system was made possible thanks to a partnership between <a rel="nofollow" href="https://www.cnrs.fr/">CNRS</a> and <a rel="nofollow" href="https://remote.com/">Remote</a>. The development work is currently sponsored by <a rel="nofollow" href="https://www.fresha.com/">Fresha</a>, and <a rel="nofollow" href="https://tidewave.ai/">Tidewave</a>.</p>
+
+</div>
+
+<div class="bottom-actions" id="bottom-actions">
+  <div class="bottom-actions-item">
+
+      <a href="compatibility-and-deprecations.html" class="bottom-actions-button" rel="prev">
+        <span class="subheader">
+          ← Previous Page
+        </span>
+        <span class="title">
+Compatibility and deprecations
+        </span>
+      </a>
+
+  </div>
+  <div class="bottom-actions-item">
+
+      <a href="library-guidelines.html" class="bottom-actions-button" rel="next">
+        <span class="subheader">
+          Next Page →
+        </span>
+        <span class="title">
+Library guidelines
+        </span>
+      </a>
+
+  </div>
+</div>
+    <footer class="footer">
+
+        <p>
+
+          <span class="line">
+            <button class="a-main footer-button display-quick-switch" title="Go to package docs">
+              Go to package docs
+            </button>
+
+              <a href="llms.txt" target="_blank">
+                View llms.txt
+              </a>
+
+
+              <a href="Elixir.epub">
+                Download ePub version
+              </a>
+
+          </span>
+        </p>
+
+        <p class="built-using">
+          Built using
+          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener nofollow" translate="no">ExDoc</a> (v0.40.1) for the
+
+            <a href="https://elixir-lang.org" title="Elixir" target="_blank" translate="no">Elixir programming language</a>
+
+        </p>
+
+
+    </footer>
+  </div>
+</main>
+</div>
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
+<script>
+  let initialized = false;
+
+  window.addEventListener("exdoc:loaded", () => {
+    if (!initialized) {
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: document.body.className.includes("dark") ? "dark" : "default"
+      });
+      initialized = true;
+    }
+
+    let id = 0;
+    for (const codeEl of document.querySelectorAll("pre code.mermaid")) {
+      const preEl = codeEl.parentElement;
+      const graphDefinition = codeEl.textContent;
+      const graphEl = document.createElement("div");
+      const graphId = "mermaid-graph-" + id++;
+      mermaid.render(graphId, graphDefinition).then(({svg, bindFunctions}) => {
+        graphEl.innerHTML = svg;
+        bindFunctions?.(graphEl);
+        preEl.insertAdjacentElement("afterend", graphEl);
+        preEl.remove();
+      });
+    }
+  });
+</script>
+
+  </body>
+</html>
