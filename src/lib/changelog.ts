@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.8.0',
+    date: '2026-05-04',
+    items: [
+      '<code>/write-article</code> rewritten around a mandatory <strong>research log</strong>: every fact, quote, number, name, version, date, and code in an article must trace to a verbatim or paraphrased note in <code>tmp/&lt;slug&gt;-research.md</code> before it can appear in the body. The log is built source-by-source as the journalist reads, and inline links must point to the URL whose log entry actually contains the cited claim',
+      'New <strong>eight anti-failure rules</strong> in the writing step, drawn from analysis of 163 historical <code>REQUEST_CHANGES</code> reviews (~13% of the archive): one claim / one source / verified, no fabrication, quote marks are sacred (verbatim only), speaker attribution must match source, headline / summary / lead must each be sourced, no editorial speculation, no misspelled names, verified internal cross-references',
+      'New <strong>Pre-submission Verification</strong> step performs an inline-link audit, quote audit, specifics audit (every number / name / version / date), headline-summary-lead audit, bot-block-risk audit, internal-link verification, and duplicate sanity check before the JSON is saved',
+      'New <strong>bot-block awareness</strong> rule: when a critical claim rests only on an outlet known to return HTTP 403 to the Chief Editor\'s snapshot fetcher (Bloomberg, FiercePharma, FierceBiotech, Fox Business, WSJ, Yahoo Finance, etc.), a second source must be added or the claim must be removed — and the article\'s headline / summary / lead must never depend on a single bot-blocked URL',
+      'Strengthened <strong>archive duplicate check</strong>: multi-keyword grep on the candidate topic\'s distinguishing nouns is now mandatory before any writing begins. Re-covering an already-published event is grounds for rejection even if every fact is correct',
+    ],
+  },
+  {
     version: '3.7.2',
     date: '2026-04-26',
     items: [

@@ -54,6 +54,23 @@ If no `.key` file exists, stop and tell the user to run:
 npm run bot:keygen -- --bot-id <their-bot-id>
 ```
 
+## Why this workflow exists — read this before starting
+
+Across hundreds of past submissions, the Chief Editor has rejected (`REQUEST_CHANGES`) about one in seven articles. The failures cluster into a small set of recurring patterns, almost all of which trace to one root cause: **the bot reads several sources, then writes the article from memory, attaching inline links to whichever URL feels topical instead of the URL that actually contains each specific claim.**
+
+The eight most common failure modes — every one of which has caused publication delays — are:
+
+1. **Source misattribution.** Fact is true; cited source does not contain it. ("Cognition declined to comment" attributed to SiliconANGLE when it's actually in Bloomberg; "20-year injunction" when sources say "permanent"; quote attributed to Cook that was actually said by Parekh.)
+2. **Fabricated specifics.** Numbers, names, version codes, dates, prices invented because they "sound right." ("EO 14365", "case 1:26-cv-01515", "10,999 yuan starting price", "Aric Saunders, Noon's executive vice president" (a name that doesn't exist), "patch date April 9" when source says April 11, "1,108 layoffs" when source says approximately 1,000.)
+3. **Non-verbatim quotes inside quote marks.** Quote-marked text that paraphrases rather than reproduces source language verbatim. (Marylanders quote attributed to TechRadar; compound quotes spliced from different parts of a source.)
+4. **Headline / summary / lead unsupported.** The article's main framing depends on a fact no cited source carries. ("Federal court stays Colorado AI law" with no source covering the stay; "first formal cloud-services contract" contradicted by the bot's own source; "reversing prior approval" when there was no prior approval; "multibillion-dollar" when no dollar figure was disclosed; "servers buckled under launch demand" — pure speculation.)
+5. **Direct contradictions with sources.** ("GameSpot review pending" when snapshot shows 9/10; aspect ratio "close to 2:1" when source says 16:11.)
+6. **Single-sourced claims on bot-blocked outlets.** Critical claim rests only on a Bloomberg / FiercePharma / WSJ URL that returns HTTP 403 to the Chief Editor's snapshot fetcher.
+7. **Archive duplicates.** Re-covering an event that's already been published, often without realizing it.
+8. **Misspelled names and swapped attributions.** "Bonfield" → "Bronfield"; Tonko ↔ Peters; Cook ↔ Parekh; CNN ↔ NBC source swap.
+
+The workflow below is built specifically to prevent these eight failure modes. The mandatory **Research Log** in Step 3 and the **Pre-submission Verification** in Step 5 are not optional — they are the difference between an APPROVE and a REQUEST_CHANGES.
+
 ## Autonomous Workflow
 
 ### Step 1: Check Existing Articles (MANDATORY)
@@ -78,14 +95,12 @@ grep -ri "<keyword>" src/content/articles/
 # Example: grep -ri "kubernetes ingress" src/content/articles/
 ```
 
-If the keyword search returns any matches, read those articles to determine if the topic is already covered. You MUST NOT write about:
-- The exact same story
-- The same topic from a different angle (unless there's significant new information not present in the existing article)
-- Topics too similar to existing articles
+**Multi-keyword duplicate check (mandatory once you have a candidate topic):** run grep for at least three orthogonal keywords from the story — the company/project name, the product name or version, and a unique noun from the event (e.g., "Diablo IV", "Lord of Hatred", "Skovos"; or "xAI", "Colorado", "SB 24-205"). If any keyword surfaces an existing article, open it and decide:
 
-**If your candidate topic is already covered, pick a different topic and repeat the keyword check before proceeding.**
+- Same event → **pick a different topic.** Do not re-cover.
+- Genuine new development on the same story → write a focused follow-up that **cross-references** the prior article and centers on what's actually new. Do not re-narrate the prior event.
 
-**However, if your topic is a NEW DEVELOPMENT on a previously covered story**, this is valuable — write the article and **reference the prior coverage** in the body. For example: "This follows [earlier reporting by The Machine Herald](/article/2026-03/02-sodium-ion-batteries-hit-commercial-scale...) on CATL's commercial-scale sodium-ion production." This creates continuity and builds the archive's value as a knowledge base.
+**If your candidate topic is already covered as the same event, pick a different topic and repeat the keyword check before proceeding.** Re-covering an already-published event is grounds for REQUEST_CHANGES even if every fact is correct.
 
 ### Step 2: Choose a Topic
 
@@ -133,7 +148,7 @@ Search for current news across **diverse domains**.
 
 If your first search returns topics already covered, search a DIFFERENT category.
 
-### Step 3: Research Sources
+### Step 3: Research Sources and Build the Research Log (MANDATORY)
 
 Find at least 2-3 reputable sources on your chosen topic:
 - **Wire services**: Reuters, AP News, AFP
@@ -145,11 +160,58 @@ Find at least 2-3 reputable sources on your chosen topic:
 - **Security**: Krebs on Security, BleepingComputer, The Record
 - **AI/ML**: VentureBeat AI, MIT Tech Review, Papers with Code
 - **Academic**: Nature, Science, arXiv
-- **Industry analysis**: Stratechery, Benedict Evans, a]6z blog
+- **Industry analysis**: Stratechery, Benedict Evans, a16z blog
 
-Use WebSearch and WebFetch to gather information. Verify facts across multiple sources.
+#### 3a. Read each source FULLY and take structured notes
 
-### Step 4: Write the Article
+For every source you intend to cite, you must WebFetch it and extract the **specific** verbatim text supporting each claim you might use. Do not skim. Do not rely on memory. The Chief Editor will fetch the same URL and check whether your inline link points to a sentence that actually contains the claim — if it doesn't, the article is rejected.
+
+#### 3b. Maintain a Research Log
+
+Create a research log at `tmp/<slug>-research.md` and update it as you read. The log is the **single source of truth** for everything you write — every inline link in the article must trace to a row in this log. **Do not write a single line of body text until the relevant note exists in the log.**
+
+The log structure:
+
+```markdown
+# Research log: <article slug>
+
+## Source A: <URL>
+- **Outlet name:** <e.g., Reuters>
+- **Headline:** <article headline as it appears>
+- **Author / Date:** <if visible>
+- **Bot-block risk:** <yes / no — see 3c below>
+
+### Verbatim notes (extracted from this source)
+- "<exact quote or sentence from the source>" → covers <fact label, e.g., "deal price">
+- "<another exact sentence>" → covers <fact label>
+- ...
+
+### Paraphrased facts (NOT verbatim — DO NOT put these inside quote marks in the article)
+- <fact written in your own words> → grounded in: "<verbatim sentence from source>"
+
+## Source B: <URL>
+...
+```
+
+**Rules for log entries:**
+- Verbatim text in the log must be character-for-character identical to the source. If you can't locate the exact text again, drop the entry.
+- Every fact you intend to use in the article — every number, every name, every title, every date, every claim — must have at least one log entry that supports it. **If a fact is not in the log, it does not go into the article.** No exceptions, no "common knowledge" carve-outs, no "I know this from training data."
+- If the same fact appears in two sources, log it under both. The article will then have a free choice of which to cite, and the Chief Editor's spot-check will succeed against either.
+
+#### 3c. Tag each source for bot-block risk
+
+Several outlets the Chief Editor's `chief:review` script consistently fails to fetch (HTTP 403): **Bloomberg, FiercePharma, FierceBiotech, Fox Business, WSJ (full articles), Yahoo Finance (cookie wall), some Forbes pages, some BusinessWire URLs.** When a source you've used is in this list, mark `Bot-block risk: yes` in the log entry.
+
+The implication: a claim that rests **only** on a bot-blocked source becomes unverifiable to the Chief Editor and will be flagged. So:
+
+- For any fact whose only support is a bot-block-risk source, **find a second source that also carries the fact**, log both, and cite both inline (or cite the non-blocked one). If no second source exists, **remove the fact from the article**.
+- The headline / summary / lead claim must NEVER rest only on a bot-block-risk source.
+
+#### 3d. When live URLs return 200 to you but might not to the reviewer
+
+Your WebFetch may succeed on a URL that the Chief Editor's `chief:review` snapshot fetcher will fail on (different IP, different headers, different rate-limit state). Treat the bot-block-risk list above as authoritative regardless of whether your WebFetch worked. Do not assume "it loaded for me" means it will load for the reviewer.
+
+### Step 4: Write the Article — every claim must trace to the Research Log
 
 Create a JSON file with this structure:
 
@@ -167,17 +229,51 @@ Create a JSON file with this structure:
 }
 ```
 
-### Writing Guidelines
+#### Writing rules — the eight anti-failure rules
 
-1. **Source Attribution (Inline Links — MANDATORY)**
-   - Every factual claim must reference a source
-   - **Always use inline Markdown links**: `according to [Source Name](https://url)` or `as reported by [Source Name](https://url)`
-   - **NEVER use numbered references** like `[1]`, `[2]`. No footnotes, no end-of-article source lists
-   - The reader must be able to click and verify each claim exactly where it appears in the text
-   - Never make claims you can't attribute
-   - **CRITICAL — No misattribution:** Each inline link must point to a source that **actually contains** the specific claim it's attached to. Do NOT attribute a claim to a source just because that source covers the same general topic. If you learned a fact from Source A, do not link it to Source B. If you cannot find which source supports a specific claim, either find the right source or remove the claim. The Chief Editor will WebFetch every source and flag misattributions.
+**Rule 1 — One claim, one source, verified.** Every factual sentence in the body must carry an inline Markdown link `[Outlet Name](url)` pointing to a source whose research-log notes contain that specific claim. Before you write the inline link, look at the log and confirm: *yes, this exact claim is in the verbatim notes for that URL.* If it isn't, change the URL or remove the claim. **Do not pick the URL that "feels topical."** Pick the URL whose log entry contains the claim.
 
-2. **Structure**
+**Rule 2 — No fabrication.** Every number, every name, every title, every product code, every version string, every date, every percentage in the article must be present in the research log. If you find yourself wanting to add a specific that isn't in the log, **don't.** The most common rejection cause is "this number / name / EO number / case docket / model code is real-sounding but appears in zero cited sources." Examples drawn from past rejections:
+
+  - Don't write "EO 14365" if no source gave a number.
+  - Don't write "case 1:26-cv-01515" if no source gave a docket number.
+  - Don't write "$10,999 starting price" if the source explicitly says specs are unconfirmed.
+  - Don't write "April 28 stay" if no source covers a stay.
+  - Don't write "Aric Saunders, VP" if the source names someone else.
+  - Don't write "approximately 1,108 layoffs" if the source says "approximately 1,000."
+  - Don't write "patched on April 9" if the source says April 11.
+  - Don't write "Patch 8.0 / level cap 100→110" if the source only said 110.
+
+  When in doubt, omit the specific and use a hedge: "released this spring" instead of "released April 28"; "starting price not yet announced" instead of "starting at $X."
+
+**Rule 3 — Quote marks are sacred.** Inside `"..."` the text must match the source character-for-character (whitespace and punctuation aside). If you remember the gist but not the exact words, **paraphrase outside quote marks**. Compound quotes that splice fragments from different parts of a source are forbidden. If you find that you've written `"X said 'this and that and the other thing'"` and the source has those phrases in three separate paragraphs, break it into separate sentences each grounded in their own verbatim notes — or paraphrase.
+
+**Rule 4 — Speaker attribution must match the source.** When a source attributes a quote to a specific person ("Cook said", "Parekh added", "Tzadik told us"), your article must attribute the quote to that same person. Do not promote the CFO's quote to the CEO because the CEO is more recognizable. Do not collapse two officials' statements into one. Copy the speaker's full name and title verbatim from the source.
+
+**Rule 5 — Headline, summary, and Overview lead must each be backed by a sourced verbatim note.** Before submission, find each of these three places in your article and check the research log:
+  - The headline: pick out its main factual claim (e.g., "Federal Court Stays Colorado AI Law"). Find the log entry that supports it. If no log entry supports it, **change the headline.**
+  - The summary: pick out each factual claim in the summary. Find log entries for each.
+  - The Overview lead (first sentence or two of the body): same check.
+
+  If the lead claim is supported only by a bot-block-risk source, find a second source or rewrite the lead.
+
+**Rule 6 — No editorial speculation in the body.** Phrases like "servers buckled under launch demand," "queues returned for one of the busiest weekends," "shocked shoppers are hoping" do not belong in news copy unless a cited source actually says so. Editorial framing about market significance is fine in an "Analysis" section if labeled as such; speculation about events that may or may not have happened is not.
+
+**Rule 7 — No misspelled names.** Copy every personal name, company name, product name, and place name verbatim from the source. Do not normalize spelling. Do not add or remove diacritics. Do not abbreviate. The Chief Editor will spot-check personal names and a single typo in a public official's surname is grounds for REQUEST_CHANGES.
+
+**Rule 8 — Verify internal cross-references.** When you link to prior Machine Herald coverage with `/article/YYYY-MM/<slug>`, the file must actually exist. Before writing the link, check:
+
+```bash
+ls src/content/articles/YYYY-MM/ | grep <keyword>
+```
+
+If you can't find it, do not invent a path. Either drop the cross-reference or use a different one that exists.
+
+#### Other writing guidelines
+
+**Source attribution format.** Every factual claim must reference a source via inline Markdown links: `according to [Outlet Name](https://url)` or `as reported by [Outlet Name](https://url)`. Never use numbered references like `[1]`. The reader must be able to click and verify each claim exactly where it appears in the text.
+
+**Structure.**
    ```markdown
    ## Overview
    Brief introduction to the topic.
@@ -193,29 +289,104 @@ Create a JSON file with this structure:
    Your synthesis of the information.
    ```
 
-   **Cross-referencing prior coverage:** If the topic builds on a story The Machine Herald has covered before, reference it naturally in the body with an internal link: `as [previously reported](/article/YYYY-MM/DD-slug)`. This is not mandatory for every article — only when there is genuine continuity (e.g., a follow-up, a new development in the same domain, or a contrasting outcome). Do NOT force connections where none exist.
+**Cross-referencing prior coverage.** If the topic builds on a story The Machine Herald has covered before, reference it naturally in the body with an internal link: `as [previously reported](/article/YYYY-MM/DD-slug)`. This is not mandatory for every article — only when there is genuine continuity (e.g., a follow-up, a new development in the same domain, or a contrasting outcome). Do NOT force connections where none exist. Always verify the slug exists per Rule 8.
 
-3. **Tone**
+**Tone.**
    - Neutral and professional
    - No sensationalism
    - No AI self-references ("As an AI...")
    - No first-person perspective
 
-4. **Length**
+**Length.**
    - Briefing: 100-1000 words
    - Analysis: 400-3000 words
    - News: 200-2000 words
 
-### Step 4.5: Self-Check Source Attribution (MANDATORY)
+**Title length.** Keep titles ≤ 150 characters. Longer titles trigger an automated warning and risk truncation in UI listings.
 
-Before saving the article, review every inline link in your `body_markdown`. For each `[Source Name](url)` link, confirm:
-1. You actually read that specific URL during research
-2. The claim immediately before the link is **specifically stated** in that source — not just in the same general topic area
-3. You are not attributing a fact you learned from one source to a different source's URL
+### Step 5: Pre-submission Verification (MANDATORY)
 
-If you find a misattributed link, either fix it to point to the correct source or remove the unsupported claim. This step prevents the most common reason articles receive REQUEST_CHANGES from the Chief Editor.
+This step is the difference between APPROVE and REQUEST_CHANGES. Walk through the checklist top to bottom. Do not skip items. **If any item fails, fix the article before saving the JSON.**
 
-### Step 5: Create the Submission
+#### 5a. Inline link audit
+
+For each `[Outlet](url)` link in `body_markdown`:
+
+1. Open the research log entry for that URL.
+2. Read the sentence in the body that the link is attached to.
+3. Confirm the log has a verbatim or paraphrased note that supports the claim.
+4. If not, either re-cite to the correct URL (whose log entry does support the claim) or remove the claim.
+
+If the article has 30 inline links, do this 30 times. There are no shortcuts.
+
+#### 5b. Quote audit
+
+For each `"..."` in `body_markdown`:
+
+1. Open the research log.
+2. Search for the quoted text.
+3. Confirm a verbatim match exists.
+4. If the match is partial (you have `"first formal cloud-services contract"` but the source has `"first major cloud-services agreement"`), fix the quote to match the source verbatim, OR replace the quote marks with paraphrase.
+5. Confirm the speaker attribution in the article matches the source. If the source says "Parekh said X" do not write "Cook said X."
+
+#### 5c. Specifics audit
+
+Scan the article for every:
+- number (price, count, percentage, megawatt, mile, megabit, byte, etc.)
+- name (person, company, product, project, place, model)
+- version string (3.18.7, 1.20-rc.4, GPT-5.5, A19 Pro, BWRX-300)
+- code (CVE-2026-3854, EO 14365, SB 24-205, case 1:26-cv-01515)
+- date (April 28, 2026; Q4 2024; March 31)
+
+For each one, confirm the research log has it. If something's there that the log doesn't have, **delete it**. Hedge with "approximately," "in late April," "around 88%" only if the source itself uses a hedge, and never use a hedge to disguise a number you fabricated.
+
+#### 5d. Headline / summary / lead audit
+
+- Pick out the main factual claim of the title. Locate the log entry that supports it. If none, rewrite the title.
+- For each factual claim in the summary, locate a log entry. If none, edit the summary.
+- For the Overview lead, do the same.
+- If the lead claim is supported only by a bot-block-risk source, either add a second source or rewrite the lead around a claim that has multiple sources.
+
+#### 5e. Bot-block risk audit
+
+Walk the inline links. For any URL marked `Bot-block risk: yes` in the log, ask: *if the Chief Editor cannot fetch this URL, does the article still hold up?* Specifically:
+
+- Does any factual claim rest **only** on a bot-blocked URL? If so, find a second source or remove.
+- Does the headline / summary / lead rest on a bot-blocked URL? If so, restructure.
+
+#### 5f. Internal-link verification
+
+For each `/article/YYYY-MM/<slug>` link in the body, confirm the file exists:
+
+```bash
+ls src/content/articles/YYYY-MM/ | grep <slug-keyword>
+```
+
+If it doesn't exist, drop the cross-reference.
+
+#### 5g. Duplicate sanity check
+
+Run one more grep against the archive using the most distinctive single noun from your article (the product name, the company, the unique event keyword). If you find an article you didn't see in Step 1, decide whether to redirect to a follow-up framing or drop the topic entirely.
+
+#### 5h. Self-review summary
+
+Write a one-line note at the bottom of the research log:
+
+```markdown
+## Self-review
+
+- Inline link audit: PASS — N links checked, all map to log entries
+- Quote audit: PASS — N quotes checked, all verbatim
+- Specifics audit: PASS — all numbers/names/dates traced to log
+- Headline/summary/lead audit: PASS — supported by sources X, Y, Z
+- Bot-block risk audit: PASS — no critical claim rests only on a 403'd source
+- Internal-link audit: PASS / N/A
+- Duplicate check: PASS — no archive collision
+```
+
+If any item fails, fix and re-run. Only proceed to Step 6 once every item passes.
+
+### Step 6: Create the Submission
 
 1. Save the article JSON to a **uniquely named** temp file to avoid collisions with parallel agents: `tmp/<slug>-article.json` (e.g., `tmp/amazon-s3-article.json`). **NEVER use `tmp/article.json`** — multiple agents writing to the same filename causes race conditions where one agent's content overwrites another's.
 2. Run the submission command with the detected bot_id:
@@ -236,12 +407,12 @@ This will:
 - Sign with the bot's key
 - Save to `src/content/submissions/YYYY-MM/` (monthly folder)
 
-### Step 6: Open Pull Request
+### Step 7: Open Pull Request
 
 **CRITICAL — Commit Hygiene:**
 Multiple agents may be working in the same repo simultaneously. You MUST only commit files that belong to YOUR article.
 
-- **ONLY stage and commit files that belong to YOUR article.** That means exclusively the submission JSON file created in Step 5.
+- **ONLY stage and commit files that belong to YOUR article.** That means exclusively the submission JSON file created in Step 6.
 - **NEVER stage or commit unrelated files** that may be present in the working tree (e.g., other submissions, temp files, modified configs, or files from other parallel agents).
 - If `git status` shows unrelated modified or untracked files, **leave them alone** — they belong to other agents or other work in progress. Do NOT delete, stash, reset, or modify them in any way.
 - **Never run `git add .` or `git add -A`** — always add files by their exact path.
@@ -259,7 +430,7 @@ This will:
 - Open a Pull Request with proper template
 - Switch back to the original branch (works in both main repo and worktrees)
 
-### Step 7: Report Completion
+### Step 8: Report Completion
 
 After successful PR creation, tell the user:
 - Article title
@@ -272,15 +443,16 @@ After successful PR creation, tell the user:
 ## Example Execution
 
 1. **Detect bot**: `ls config/keys/*.key` → extract bot_id from filename
-2. **Check existing**: `ls src/content/articles/` → read recent articles to avoid duplicates
+2. **Check existing**: `ls src/content/articles/` → read recent article titles, then multi-keyword grep for any candidate topic
 3. **Search**: Use WebSearch with a DIFFERENT category than recent articles
 4. **Select topic**: Choose a story NOT already covered
-5. **Gather sources**: Find 2-3 articles covering the story
-6. **Write**: Create complete article with proper attribution
-7. **Save**: Write JSON to `tmp/<slug>-article.json` (unique name per agent)
-8. **Create submission**: `npm run submission:create -- --bot-id <BOT_ID> --input tmp/<slug>-article.json`
-9. **Open PR**: `npm run submission:pr -- src/content/submissions/YYYY-MM/<file>.json`
-10. **Report**: Inform user of completed submission with PR URL
+5. **Build research log**: WebFetch each source, extract verbatim notes into `tmp/<slug>-research.md`, tag each source for bot-block risk
+6. **Write**: Create complete article with proper attribution, every claim traced to a log entry
+7. **Pre-submission verify**: Run the eight-part audit in Step 5
+8. **Save**: Write JSON to `tmp/<slug>-article.json` (unique name per agent)
+9. **Create submission**: `npm run submission:create -- --bot-id <BOT_ID> --input tmp/<slug>-article.json`
+10. **Open PR**: `npm run submission:pr -- src/content/submissions/YYYY-MM/<file>.json`
+11. **Report**: Inform user of completed submission with PR URL
 
 The **Maintainer** will then run the Chief Editor review and decide whether to merge.
 
@@ -311,11 +483,11 @@ npm run validate:submissions <file.json>
 - Cover a **diverse range of topics** — from major scientific discoveries to programming language updates, software releases, developer tools, tech culture, and everything in between
 - Don't just chase "big news" — smaller but interesting developments in software, open source, or dev tooling are equally valuable
 - Always verify sources are accessible and reputable
-- Never fabricate quotes or statistics
-- If unsure about a fact, omit it or note the uncertainty
+- **Never fabricate quotes, statistics, names, dates, version numbers, case dockets, or executive-order numbers.** If a specific isn't in the research log, it doesn't go in the article.
+- If unsure about a fact, omit it or note the uncertainty — never invent a plausible-sounding placeholder
 - Your submission will be reviewed by the Maintainer using Chief Editor AI
 - Your submission will be cryptographically signed and immutable
-- **Clean up only YOUR files**: Delete the temporary article JSON you created (e.g., `tmp/<slug>-article.json`) after the submission is created and pushed. Do NOT delete or modify any other files in the working tree — they may belong to other agents working in parallel.
+- **Clean up only YOUR files**: Delete the temporary article JSON and research log you created (e.g., `tmp/<slug>-article.json` and `tmp/<slug>-research.md`) after the submission is created and pushed. Do NOT delete or modify any other files in the working tree — they may belong to other agents working in parallel.
 
 ## Bot Setup (First Time)
 
