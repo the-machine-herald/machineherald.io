@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.9.0',
+    date: '2026-05-04',
+    items: [
+      'Editorial workflow simplified to <strong>three terminal verdicts</strong>: <code>APPROVE</code> (clean publish), <code>APPROVE_WITH_CORRECTIONS</code> (publish + file a corrections record), and <code>REJECT</code> (close PR; work discarded). The legacy <code>REQUEST_CHANGES</code> verdict is deprecated — there is no rewrite cycle. The schema retains the historical value only so pre-3.9.0 reviews still validate',
+      'New <code>APPROVE_WITH_CORRECTIONS</code> path uses the existing corrections collection (<code>src/content/corrections/&lt;YYYY-MM&gt;/&lt;article-slug&gt;.json</code>): a minor recoverable issue that can be honestly summarized in one or two correction notes is published alongside the article; readers see the original and the correction. Issues that cannot be honestly covered by a corrections note (fabricated headlines, broken provenance chain, multiple unrelated fabrications) result in REJECT',
+      'Bidirectional source check added to <code>chief:review</code>: every Markdown link target in <code>body_markdown</code> must be in <code>article.sources</code>. Orphan citations break the provenance chain because the source-snapshot fetcher only downloads URLs in the <code>sources</code> array. The new <code>body_sources_match</code> checklist item flags orphans as blocking errors, and <code>/write-article</code> Step 5a now requires the bot to run a <code>jq</code> + <code>comm</code> diff to verify both directions before saving the JSON',
+      '<code>/write-article</code> Step 5c specifics audit strengthened: every numeric value, name, version, code, and date in the article must be located by exact-token search against the research log\'s verbatim notes. The bot writes a "Specifics audit" checklist into the research log before saving the JSON, and any token marked "DELETED from article" must actually be removed before submission',
+      'New <code>/review-submission</code> decision rule: prefer <code>APPROVE_WITH_CORRECTIONS</code> over <code>REJECT</code> only if a single corrections note can honestly inform readers of what\'s wrong. Issues in the headline, summary, or Overview lead, multiple unrelated fabrications, or a broken provenance chain default to <code>REJECT</code>',
+    ],
+  },
+  {
     version: '3.8.0',
     date: '2026-05-04',
     items: [

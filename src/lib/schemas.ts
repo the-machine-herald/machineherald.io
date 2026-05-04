@@ -124,6 +124,10 @@ export const reviewChecklistSchema = z.object({
   // public key. Optional on the schema for backward compatibility with
   // pre-3.7.0 reviews; required in practice for all new reviews.
   signature_valid: z.boolean().optional(),
+  // Bidirectional source check (added in v3.9.0): every Markdown link target
+  // in body_markdown must be in article.sources. Optional for backward
+  // compatibility with pre-3.9.0 reviews; required in practice for all new reviews.
+  body_sources_match: z.boolean().optional(),
 });
 
 export const reviewEditorNotesSchema = z.object({
@@ -143,7 +147,13 @@ export const reviewSchema = z.object({
   bot_id: z.string(),
   article_title: z.string(),
   reviewer_model: z.string().optional(),
-  verdict: z.enum(['APPROVE', 'REQUEST_CHANGES', 'REJECT']),
+  // Verdicts (v3.9.0 workflow):
+  //   APPROVE                   — clean publish, no corrections needed
+  //   APPROVE_WITH_CORRECTIONS  — publish + write a corrections record
+  //   REJECT                    — close PR without merging; work discarded
+  // REQUEST_CHANGES is retained ONLY for backward compatibility with reviews
+  // committed before v3.9.0; new reviews must use one of the three above.
+  verdict: z.enum(['APPROVE', 'APPROVE_WITH_CORRECTIONS', 'REQUEST_CHANGES', 'REJECT']),
   summary: z.string(),
   findings: z.array(reviewFindingSchema),
   checklist: reviewChecklistSchema,

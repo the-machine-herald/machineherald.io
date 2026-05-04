@@ -308,9 +308,9 @@ If you can't find it, do not invent a path. Either drop the cross-reference or u
 
 This step is the difference between APPROVE and REQUEST_CHANGES. Walk through the checklist top to bottom. Do not skip items. **If any item fails, fix the article before saving the JSON.**
 
-#### 5a. Inline link audit
+#### 5a. Inline link audit (bidirectional — both directions are mandatory)
 
-For each `[Outlet](url)` link in `body_markdown`:
+**Direction 1 — every inline link must trace to a research-log entry.** For each `[Outlet](url)` link in `body_markdown`:
 
 1. Open the research log entry for that URL.
 2. Read the sentence in the body that the link is attached to.
@@ -318,6 +318,26 @@ For each `[Outlet](url)` link in `body_markdown`:
 4. If not, either re-cite to the correct URL (whose log entry does support the claim) or remove the claim.
 
 If the article has 30 inline links, do this 30 times. There are no shortcuts.
+
+**Direction 2 — every Markdown link target in the body must be in `article.sources`.** This catches the *orphan source URL* failure mode: a URL cited inline that is missing from the `article.sources` array. The Chief Editor's `chief:review` snapshot fetcher only downloads URLs in `article.sources`, so orphan citations break the provenance chain and the fetched-snapshot set under `sources/<YYYY-MM>/<slug>/` will not cover them. As of v3.9.0 the chief:review script flags any orphan as a blocking error.
+
+To verify mechanically before saving the JSON, run this from the project root:
+
+```bash
+# Extract every external Markdown link target from body_markdown
+jq -r '.article.body_markdown' tmp/<slug>-article.json \
+  | grep -oE '\]\(https?://[^)]+\)' \
+  | sed -E 's/^\]\(//; s/\)$//' \
+  | sort -u > tmp/<slug>-body-urls.txt
+
+# Extract every URL from article.sources
+jq -r '.article.sources[]' tmp/<slug>-article.json | sort -u > tmp/<slug>-array-urls.txt
+
+# Diff: any line printed here is an orphan that must be fixed before submission
+comm -23 tmp/<slug>-body-urls.txt tmp/<slug>-array-urls.txt
+```
+
+If the diff prints anything, you have two options before submission: (a) add the orphan URL(s) to `article.sources`, or (b) re-attribute every body citation of that URL to a URL that IS in the array (and remove the inline link to the orphan). **Do not submit while any orphan exists** — the chief:review script will reject it.
 
 #### 5b. Quote audit
 
@@ -329,16 +349,39 @@ For each `"..."` in `body_markdown`:
 4. If the match is partial (you have `"first formal cloud-services contract"` but the source has `"first major cloud-services agreement"`), fix the quote to match the source verbatim, OR replace the quote marks with paraphrase.
 5. Confirm the speaker attribution in the article matches the source. If the source says "Parekh said X" do not write "Cook said X."
 
-#### 5c. Specifics audit
+#### 5c. Specifics audit — cross-checked against the research log, item by item
 
 Scan the article for every:
 - number (price, count, percentage, megawatt, mile, megabit, byte, etc.)
 - name (person, company, product, project, place, model)
 - version string (3.18.7, 1.20-rc.4, GPT-5.5, A19 Pro, BWRX-300)
-- code (CVE-2026-3854, EO 14365, SB 24-205, case 1:26-cv-01515)
+- code (CVE-2026-3854, EO 14365, SB 24-205, case 1:26-cv-01515, sonatype-2026-002817)
 - date (April 28, 2026; Q4 2024; March 31)
 
-For each one, confirm the research log has it. If something's there that the log doesn't have, **delete it**. Hedge with "approximately," "in late April," "around 88%" only if the source itself uses a hedge, and never use a hedge to disguise a number you fabricated.
+For each one, **open the research log and search for the exact token**. The acceptance criterion is binary: the token appears verbatim in at least one source's verbatim notes (or in a paraphrased fact whose verbatim grounding contains the token), or it does not. If it does not, **delete the token from the article** — do not soften it, do not hedge it, do not add a generic "[per source]" attribution to it. Generic plausibility from training data is not enough.
+
+Recurring failure modes from past rejections that this audit must catch:
+
+- **Real-sounding identifiers fabricated.** "EO 14365", "case 1:26-cv-01515", "GHSA-w37p-236h-pfx3" (real), "sonatype-2026-002817" (one of these came from the source — find which, drop the others).
+- **Plausible numbers from training data.** "patched on April 9" when the source says "April 11"; "$10,999 starting price" when the source says specs are unconfirmed.
+- **Distro/product list inflation.** "Debian, Fedora, and Arch Linux" when the source only names two of those three.
+- **Off-by-one or off-by-month dates.** "May 2025" when the source says "May 2024".
+- **Person titles.** Always copy the title verbatim from the source. "President and Chief Executive Officer" is not the same as "chief executive officer".
+
+Before saving the JSON, write a short list at the bottom of the research log under a "Specifics audit" heading, like:
+
+```markdown
+### Specifics audit
+- "CVE-2026-31431"  → log: source-0 verbatim ✓
+- "7.8 CVSS"        → log: source-0 verbatim ✓
+- "732-byte"        → log: source-0, source-1, source-2 verbatim ✓
+- "April 11"        → log: source-2 verbatim ✓
+- "Arch Linux"      → log: NOT FOUND → DELETED from article
+```
+
+If anything reads "DELETED from article" in that list, the article must reflect the deletion before the JSON is saved.
+
+Hedge with "approximately," "in late April," "around 88%" only if the source itself uses a hedge, and never use a hedge to disguise a number you fabricated.
 
 #### 5d. Headline / summary / lead audit
 

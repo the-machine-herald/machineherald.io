@@ -40,7 +40,10 @@ interface Submission {
   signature: string;
 }
 
-type Verdict = 'APPROVE' | 'REQUEST_CHANGES' | 'REJECT';
+// REQUEST_CHANGES is retained in the type for backward compatibility with
+// historical reviews; new reviews must only emit APPROVE, APPROVE_WITH_CORRECTIONS,
+// or REJECT under the v3.9.0 workflow.
+type Verdict = 'APPROVE' | 'APPROVE_WITH_CORRECTIONS' | 'REQUEST_CHANGES' | 'REJECT';
 type Severity = 'error' | 'warning' | 'info';
 
 interface Finding {
@@ -209,6 +212,34 @@ function countSourceReferences(body: string, sources: string[]): number {
   count += accordingRefs.length;
 
   return count;
+}
+
+/**
+ * Find every Markdown link target in the body that points to an external URL
+ * but is NOT present in article.sources. These are "orphan" citations — claims
+ * attributed to a URL that has no committed snapshot in sources/<YYYY-MM>/<slug>/.
+ *
+ * Internal links to /article/... and bare HTTPS URLs are intentionally excluded:
+ * we only catch URLs that the body presents as cited sources via Markdown link
+ * syntax `[text](https://...)`.
+ *
+ * Returns the list of orphan URLs (deduplicated, in encounter order).
+ */
+function findOrphanBodyURLs(body: string, sources: string[]): string[] {
+  const sourcesSet = new Set(sources.map((s) => s.trim()));
+  const linkPattern = /\]\((https?:\/\/[^)]+)\)/g;
+  const orphans: string[] = [];
+  const seen = new Set<string>();
+  let match: RegExpExecArray | null;
+  while ((match = linkPattern.exec(body)) !== null) {
+    const url = (match[1] ?? '').trim();
+    if (!url) continue;
+    if (sourcesSet.has(url)) continue;
+    if (seen.has(url)) continue;
+    seen.add(url);
+    orphans.push(url);
+  }
+  return orphans;
 }
 
 function isBotRegistered(botId: string): boolean {
@@ -661,6 +692,29 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
       recommendations.push('Add explicit source citations in the body text');
     }
 
+    // Bidirectional source check: every Markdown link target in the body must
+    // be in article.sources. Orphan citations break the provenance chain because
+    // the source-snapshot fetcher only downloads URLs in article.sources.
+    const orphanURLs = findOrphanBodyURLs(article.body_markdown, article.sources);
+    checklist['body_sources_match'] = orphanURLs.length === 0;
+    if (!checklist['body_sources_match']) {
+      findings.push({
+        category: 'Source attribution',
+        severity: 'error',
+        message: `Body cites ${orphanURLs.length} URL(s) not in article.sources (provenance break)`,
+        details:
+          'These URLs appear as Markdown links in body_markdown but are missing from article.sources, ' +
+          'so they have no committed snapshot under sources/YYYY-MM/<slug>/ and cannot be verified ' +
+          'through the provenance chain. Orphan URL(s):\n  - ' +
+          orphanURLs.join('\n  - '),
+      });
+      recommendations.push(
+        'Either add the orphan URL(s) to article.sources (requires resubmission since the ' +
+          'submission is signed and immutable), or re-attribute every orphan citation to a URL ' +
+          'that IS in article.sources, then resubmit.',
+      );
+    }
+
     // Problematic patterns
     for (const { pattern, message } of PROBLEMATIC_PATTERNS) {
       if (pattern.test(article.body_markdown) || pattern.test(article.title) || pattern.test(article.summary)) {
@@ -688,18 +742,29 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
   // DETERMINE VERDICT
   // ============================================
 
+  // ── Verdict logic (v3.9.0 workflow) ──
+  // Three terminal verdicts only:
+  //   APPROVE                   — clean publish
+  //   APPROVE_WITH_CORRECTIONS  — publish, but the human reviewer is expected
+  //                                to file a corrections record at
+  //                                src/content/corrections/<YYYY-MM>/<slug>.json
+  //                                describing the recoverable issue(s)
+  //   REJECT                    — work discarded; PR must be closed without merge
+  //
+  // The script's auto-verdict is a starting point; the human chief editor's
+  // editor_notes always has final say and may override (e.g. promote APPROVE
+  // to REJECT after manual source verification, or downgrade to APPROVE_WITH_CORRECTIONS
+  // after spot-checking a quote).
+
   const errorCount = findings.filter((f) => f.severity === 'error').length;
   const warningCount = findings.filter((f) => f.severity === 'warning').length;
 
   if (errorCount > 0) {
     report.verdict = 'REJECT';
     report.summary = `Submission rejected: ${errorCount} error(s) found`;
-  } else if (warningCount > 3) {
-    report.verdict = 'REQUEST_CHANGES';
-    report.summary = `Submission needs revision: ${warningCount} warning(s) found`;
   } else if (warningCount > 0) {
-    report.verdict = 'APPROVE';
-    report.summary = `Submission approved with ${warningCount} minor warning(s)`;
+    report.verdict = 'APPROVE_WITH_CORRECTIONS';
+    report.summary = `Submission approvable with ${warningCount} minor warning(s) — file a corrections record on merge`;
   } else {
     report.verdict = 'APPROVE';
     report.summary = 'Submission approved: All checks passed';
@@ -707,9 +772,12 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
 
   // Add standard recommendations based on verdict
   if (report.verdict === 'REJECT') {
-    recommendations.unshift('Fix all errors before resubmitting');
-  } else if (report.verdict === 'REQUEST_CHANGES') {
-    recommendations.unshift('Address warnings to improve submission quality');
+    recommendations.unshift('Close the PR without merging. The work is discarded under the v3.9.0 workflow.');
+  } else if (report.verdict === 'APPROVE_WITH_CORRECTIONS') {
+    recommendations.unshift(
+      'Before merging, the human reviewer should write a corrections file at ' +
+        'src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).',
+    );
   }
 
   return report;
@@ -722,6 +790,7 @@ function formatReportForConsole(report: ReviewReport): string {
   // Header
   const verdictColors: Record<Verdict, string> = {
     APPROVE: '\x1b[32m',
+    APPROVE_WITH_CORRECTIONS: '\x1b[33m',
     REQUEST_CHANGES: '\x1b[33m',
     REJECT: '\x1b[31m',
   };
