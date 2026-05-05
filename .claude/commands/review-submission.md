@@ -137,17 +137,37 @@ Read sources/<YYYY-MM>/<article-slug>/manifest.json
 ```
 
 The manifest's `sources[]` array maps each URL to:
-- `file` — local HTML filename (e.g. `source-0.html`), or `null` if the snapshot failed
+- `file` — local snapshot filename (e.g. `source-0.html.gz`), or `null` if the snapshot failed. **As of v3.10.0 all new and historical snapshots are gzipped** — file extensions end in `.html.gz` and the file is a raw gzip stream (no tar wrapper). Pre-3.10.0 files are migrated; you should not encounter `.html` files in `sources/` anymore.
 - `status_code` — HTTP status when fetched
 - `archive_fallback` — `true` if the snapshot came from Archive.org because the live URL bot-blocked us
 - `error` — populated when the snapshot couldn't be saved
+- `sha256` — sha256 of the **uncompressed** content. To verify integrity, decompress the file and rehash; the hash must match this field.
 
 #### 3c. Read each snapshot and verify
 
 For every entry in the manifest, decide what to read:
 
-- **`file` is set (normal case or `archive_fallback: true`)** → use the Read tool on `sources/<YYYY-MM>/<article-slug>/<file>`. This is the canonical content for review purposes — even when it came from Archive.org, it's the version the provenance chain commits to.
+- **`file` is set (normal case or `archive_fallback: true`)** → the file is a gzipped HTML snapshot at `sources/<YYYY-MM>/<article-slug>/<file>` (the filename ends in `.html.gz`). Decompress with `gunzip -c <file>` (or in Python `gzip.open(<file>, "rt", encoding="utf-8").read()`), then read the resulting HTML. The Read tool cannot directly read `.gz` binary — use Bash with `gunzip -c` for terminal inspection, or a small Python snippet for keyword extraction. This is the canonical content for review purposes — even when it came from Archive.org, it's the version the provenance chain commits to.
 - **`file` is `null` (snapshot failed: 404, 410, network error, persistent paywall)** → flag the source as unverifiable in `editor_notes.source_verification`. Only as a last resort, you MAY WebFetch the live URL to attempt verification, but record explicitly that the snapshot failed and the live URL was used instead.
+
+**Idiom for keyword search across snapshots in a slug:**
+
+```bash
+for f in sources/<YYYY-MM>/<slug>/source-*.html.gz; do
+  echo "=== $f ==="
+  gunzip -c "$f" | grep -ic "<keyword>"
+done
+```
+
+**Idiom for a Python text-extraction (HTML → plain text → keyword search):**
+
+```python
+import gzip, re
+from html.parser import HTMLParser
+# ... TextExtractor class as before ...
+with gzip.open('sources/<YYYY-MM>/<slug>/source-0.html.gz', 'rt', encoding='utf-8') as f:
+    html = f.read()
+```
 
 For each source you read, verify:
 1. **The article content matches the claims made** — find the specific claim in the article and confirm it is supported by the snapshot text

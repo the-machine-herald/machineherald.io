@@ -9,6 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import zlib from 'node:zlib';
 
 // ── Types ───────────────────────────────────────────────────
 
@@ -202,18 +203,19 @@ async function fetchSource(
     const archiveAttempt = await attemptFetch(archiveUrl, url, timeoutMs);
 
     if (archiveAttempt.status_code !== null && archiveAttempt.status_code < 400 && archiveAttempt.body !== null) {
-      const filename = `source-${index}.html`;
+      const filename = `source-${index}.html.gz`;
       const filePath = path.join(outDir, filename);
-      fs.writeFileSync(filePath, archiveAttempt.body, 'utf-8');
-
-      const hash = crypto.createHash('sha256').update(archiveAttempt.body).digest('hex');
+      const utf8Bytes = Buffer.from(archiveAttempt.body, 'utf-8');
+      // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
+      const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
+      fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
 
       return {
         url,
         file: filename,
         status_code: archiveAttempt.status_code,
         content_type: archiveAttempt.content_type,
-        content_length: Buffer.byteLength(archiveAttempt.body, 'utf-8'),
+        content_length: utf8Bytes.length,
         sha256: hash,
         error: null,
         fetched_at: fetchedAt,
@@ -226,18 +228,19 @@ async function fetchSource(
 
   // Save snapshot if we have content
   if (attempt.body !== null) {
-    const filename = `source-${index}.html`;
+    const filename = `source-${index}.html.gz`;
     const filePath = path.join(outDir, filename);
-    fs.writeFileSync(filePath, attempt.body, 'utf-8');
-
-    const hash = crypto.createHash('sha256').update(attempt.body).digest('hex');
+    const utf8Bytes = Buffer.from(attempt.body, 'utf-8');
+    // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
+    const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
+    fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
 
     return {
       url,
       file: filename,
       status_code: attempt.status_code,
       content_type: attempt.content_type,
-      content_length: Buffer.byteLength(attempt.body, 'utf-8'),
+      content_length: utf8Bytes.length,
       sha256: hash,
       error: null,
       fetched_at: fetchedAt,

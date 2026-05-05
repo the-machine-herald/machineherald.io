@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.10.0',
+    date: '2026-05-05',
+    items: [
+      'Source-snapshot HTML files are now <strong>gzipped on disk</strong> as <code>source-N.html.gz</code> (level-9 gzip). Going forward <code>chief:review</code> writes <code>.html.gz</code> directly; reviewers decompress with <code>gunzip -c</code> when reading. The on-disk size of <code>sources/</code> dropped from <strong>1.03 GB → 220 MB</strong> (~80% reduction across 3,517 historical snapshots in 1,007 manifests)',
+      'Manifest <code>sha256</code> field now refers explicitly to the <strong>uncompressed content</strong>, not to the on-disk file. Verifiers must <code>gunzip -c &lt;file&gt;</code> and rehash the result to validate. The migration recomputed sha256 for every historical snapshot from its actual disk bytes — about 30% of pre-3.10.0 manifests carried sha256 values that did not match disk (root cause unclear, likely mid-write race conditions or post-write rewrites); those are now self-consistent',
+      'New one-shot <code>npm run gzip:snapshots</code> script (<code>scripts/gzip_source_snapshots.ts</code>) walks every manifest, gzips referenced files, and updates manifest entries to <code>.html.gz</code>. Idempotent: re-running on already-migrated trees is a no-op. Default is dry-run; pass <code>--apply</code> to write changes',
+      '<code>/review-submission</code> skill updated with <code>gunzip</code>-based read idioms (Bash and Python) for keyword search across snapshots',
+      'Why this matters operationally: parallel <code>/write-article</code> agents create one <code>git worktree add</code> per agent, each cloning the full working tree. Before this change, 20 worktrees needed ~20 GB of disk just for sources. After 3.10.0 the same 20 worktrees fit in ~4.4 GB',
+    ],
+  },
+  {
     version: '3.9.0',
     date: '2026-05-04',
     items: [
