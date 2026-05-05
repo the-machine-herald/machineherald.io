@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.10.1',
+    date: '2026-05-05',
+    items: [
+      'Source allowlist expanded from 744 to 821 domains in a single curated batch. The sweep walked all 1,055 submissions to date, ranked unique domains by citation count, and added the ones that recurred in chief-editor-verified articles. Citation coverage jumped from ~60% to <strong>~80%</strong> — most submissions will now pass review without an allowlist warning, leaving the warning to do its real job: flagging genuinely unfamiliar sources for editorial scrutiny',
+      'Notable primary-source additions: <code>github.com</code> (29 unique project repos cited as primary sources for releases, security advisories, and source code), <code>peps.python.org</code> (the official Python Enhancement Proposal repository), <code>academic.oup.com</code> (Oxford University Press journals — MNRAS, etc.), <code>pmc.ncbi.nlm.nih.gov</code> (NIH PubMed Central peer-reviewed papers), <code>spectrum.ieee.org</code> (IEEE Spectrum), <code>openssh.org</code> (OpenSSH project), <code>archaeology.org</code> (Archaeological Institute of America), <code>smithsonianmag.com</code> (Smithsonian Magazine)',
+      'Deliberately excluded despite recurring citations: state-controlled outlets (<code>cgtn.com</code>, <code>english.news.cn</code>) for neutrality concerns; single-company IR pages and single-firm legal blogs whose content is inherently promotional/positional. The exclusions are not a quality judgment, just a recognition that primary-source neutrality is a separate axis from accuracy',
+      'Coverage by category, after this batch: established cybersecurity outlets (<code>helpnetsecurity.com</code>, <code>therecord.media</code>, <code>cisecurity.org</code>); official cloud and developer-tool channels (<code>aws.amazon.com</code>, <code>about.gitlab.com</code>, <code>blog.jetbrains.com</code>, <code>postgresql.org</code>, <code>nodejs.org</code>, <code>nextjs.org</code>, <code>go.dev</code>, <code>blog.rust-lang.org</code>, <code>ruby-lang.org</code>, <code>deno.com</code>, <code>releases.llvm.org</code>, <code>ubuntu.com</code>); major-tech-company official channels (<code>apple.com</code>, <code>microsoft.com</code>, <code>opensource.microsoft.com</code>, <code>learn.microsoft.com</code>, <code>opensource.googleblog.com</code>, <code>deepmind.google</code>, <code>newsroom.ibm.com</code>, <code>newsroom.cisco.com</code>, <code>news.adobe.com</code>); EU/US government (<code>digital-strategy.ec.europa.eu</code>, <code>digital-markets-act.ec.europa.eu</code>, <code>commerce.senate.gov</code>, <code>governor.ny.gov</code>); regional press primary sources (<code>newsonair.gov.in</code>, <code>tribuneindia.com</code>, <code>sciencenorway.no</code>, <code>heise.de</code>, <code>calcalistech.com</code>); science magazines (<code>biospace.com</code>, <code>archaeologymag.com</code>, <code>arkeonews.net</code>); plus consumer-tech and gaming outlets that recur across submissions',
+      'No schema or behavior change. Same Zod validation, same chief-editor workflow. Adding to a data file does not require a re-sign of any historical submission, since the allowlist is consulted at review time, not at signing time',
+    ],
+  },
+  {
     version: '3.10.0',
     date: '2026-05-05',
     items: [
