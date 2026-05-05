@@ -25,7 +25,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import readline from 'node:readline';
 import {
-  KEYS_DIR as SIGNING_KEYS_DIR,
+  resolveKeysDir,
   normalizeSubmissionPayload,
   computePayloadHash as sharedComputePayloadHash,
   signSubmissionPayload,
@@ -54,7 +54,10 @@ interface Submission {
   signature: string;
 }
 
-const KEYS_DIR = SIGNING_KEYS_DIR;
+// Resolve at use-time so we pick up the worktree → main-repo fallback if we're
+// running inside a parallel-agent worktree where bot keys are gitignored and
+// therefore absent from the worktree's working tree.
+const KEYS_DIR = resolveKeysDir();
 const SUBMISSIONS_BASE_DIR = path.join(process.cwd(), 'src/content/submissions');
 
 function getMonthFolder(timestamp: string): string {

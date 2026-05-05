@@ -21,6 +21,7 @@ export const changelog: ChangelogEntry[] = [
       '<code>/review-submission</code> skill updated with <code>gunzip</code>-based read idioms (Bash and Python) for keyword search across snapshots',
       'Why this matters operationally: parallel <code>/write-article</code> agents create one <code>git worktree add</code> per agent, each cloning the full working tree. Before this change, 20 worktrees needed ~20 GB of disk just for sources. After 3.10.0 the same 20 worktrees fit in ~4.4 GB',
       '<code>/write-article</code> Step 0.5 added: when running inside a git worktree, the agent runs <code>git sparse-checkout init --cone</code> + <code>set src scripts config .claude .githooks .github docs public</code> to drop <code>sources/</code> from its working tree. <code>/write-article</code> never reads source snapshots (only <code>/review-submission</code> does), so the directory is dead weight. Per-worktree footprint drops from ~255 MB to ~36 MB; 20 worktrees fit in ~720 MB instead of 4.4 GB',
+      'New <code>resolveKeysDir()</code> helper in <code>scripts/lib/signing.ts</code>: when running inside a worktree (where <code>config/keys/</code> is absent because keys are gitignored), pipeline scripts now find the main repo via <code>git rev-parse --git-common-dir</code> and load keys from there automatically. Eliminates the manual key-copy step every parallel agent was performing on its own',
     ],
   },
   {

@@ -54,6 +54,12 @@ If no `.key` file exists, stop and tell the user to run:
 npm run bot:keygen -- --bot-id <their-bot-id>
 ```
 
+**Inside a git worktree?** `config/keys/` is gitignored, so the worktree won't have it after `git worktree add`. **Do NOT manually copy the key from the main repo** — `scripts/lib/signing.ts` resolves the keys directory automatically (cwd first, then `git rev-parse --git-common-dir` to find the main repo as fallback). To detect the bot_id from a worktree, list keys in the main repo directly:
+
+```bash
+ls "$(dirname "$(git rev-parse --git-common-dir)")/config/keys/"*.key 2>/dev/null
+```
+
 ## Step 0.5: Shrink the worktree (sparse checkout)
 
 If you are running inside a git worktree (the typical parallel-agent setup), the harness checked out the **entire** repo including `sources/` (~220 MB of historical HTML snapshots). The `/write-article` workflow never reads those snapshots — only `/review-submission` does. Free that disk back so other parallel agents have room.

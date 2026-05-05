@@ -13,6 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execSync } from 'node:child_process';
 
 export interface SubmissionArticle {
   title: string;
@@ -35,6 +36,77 @@ export interface SubmissionLike {
   signature: string;
 }
 
+/**
+ * Resolve the bot keys directory.
+ *
+ * Pipeline scripts run from the project root and find keys at
+ * `<cwd>/config/keys/`. But when an agent runs inside a git worktree
+ * (parallel-agent setup), the worktree shares `.git/` with the main repo
+ * but has its own working tree — and bot keys are .gitignored, so they
+ * never get checked out into the worktree.
+ *
+ * This resolver:
+ *   1. Returns `<cwd>/config/keys` if it exists with files
+ *   2. Otherwise asks git for the shared `.git` directory
+ *      (`git rev-parse --git-common-dir`), derives the main repo root,
+ *      and returns `<main-repo>/config/keys` if THAT exists
+ *   3. Otherwise returns the cwd-relative path so callers see a clear
+ *      "key not found" error pointing at the expected location
+ *
+ * Result is memoised — `git rev-parse` runs at most once per process.
+ */
+let cachedKeysDir: string | null = null;
+
+export function resolveKeysDir(): string {
+  if (cachedKeysDir !== null) return cachedKeysDir;
+
+  const cwdKeys = path.join(process.cwd(), 'config/keys');
+  if (fs.existsSync(cwdKeys)) {
+    // If the directory exists and contains at least one .key or .pub, trust it.
+    try {
+      const entries = fs.readdirSync(cwdKeys);
+      const hasKey = entries.some((e) => e.endsWith('.key') || e.endsWith('.pub'));
+      if (hasKey) {
+        cachedKeysDir = cwdKeys;
+        return cwdKeys;
+      }
+    } catch {
+      // fall through
+    }
+  }
+
+  // Try the main repo via git's shared common dir
+  try {
+    const commonDir = execSync('git rev-parse --git-common-dir', {
+      cwd: process.cwd(),
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    if (commonDir) {
+      const absCommon = path.isAbsolute(commonDir)
+        ? commonDir
+        : path.resolve(process.cwd(), commonDir);
+      const mainRepo = path.dirname(absCommon);
+      const mainKeys = path.join(mainRepo, 'config/keys');
+      if (fs.existsSync(mainKeys)) {
+        cachedKeysDir = mainKeys;
+        return mainKeys;
+      }
+    }
+  } catch {
+    // git not available or not in a repo — fall through
+  }
+
+  // Final fallback: the cwd-relative path (callers will surface the missing-key error)
+  cachedKeysDir = cwdKeys;
+  return cwdKeys;
+}
+
+/**
+ * Default keys directory for callers that haven't explicitly opted in to
+ * `resolveKeysDir()`. Backward-compatible: stays cwd-relative for the main
+ * repo case, but new code should prefer `resolveKeysDir()`.
+ */
 export const KEYS_DIR = path.join(process.cwd(), 'config/keys');
 
 export function normalizeSubmissionPayload(
@@ -78,13 +150,13 @@ export function computePayloadHash(normalizedJson: string): string {
   return `sha256:${digest}`;
 }
 
-export function publicKeyPath(botId: string, keysDir: string = KEYS_DIR): string {
+export function publicKeyPath(botId: string, keysDir: string = resolveKeysDir()): string {
   return path.join(keysDir, `${botId}.pub`);
 }
 
 export function loadBotPublicKey(
   botId: string,
-  keysDir: string = KEYS_DIR,
+  keysDir: string = resolveKeysDir(),
 ): crypto.KeyObject | null {
   const keyPath = publicKeyPath(botId, keysDir);
   if (!fs.existsSync(keyPath)) return null;
@@ -112,7 +184,7 @@ const SIGNATURE_FORMAT = /^ed25519:[A-Za-z0-9+/=]+$/;
 
 export function verifyContributorSignature(
   submission: SubmissionLike,
-  keysDir: string = KEYS_DIR,
+  keysDir: string = resolveKeysDir(),
 ): SignatureVerificationResult {
   const result: SignatureVerificationResult = {
     ok: false,
