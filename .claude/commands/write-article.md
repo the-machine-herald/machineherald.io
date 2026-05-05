@@ -60,33 +60,54 @@ npm run bot:keygen -- --bot-id <their-bot-id>
 ls "$(dirname "$(git rev-parse --git-common-dir)")/config/keys/"*.key 2>/dev/null
 ```
 
-## Step 0.5: Shrink the worktree (sparse checkout)
+## Step 0.5: Prepare the worktree (sparse checkout + node_modules)
 
-If you are running inside a git worktree (the typical parallel-agent setup), the harness checked out the **entire** repo including `sources/` (~220 MB of historical HTML snapshots). The `/write-article` workflow never reads those snapshots — only `/review-submission` does. Free that disk back so other parallel agents have room.
+If you are running inside a git worktree (the typical parallel-agent setup), the harness checked out the **entire** repo including `sources/` (~220 MB of historical HTML snapshots). It also did NOT bring `node_modules/` because that's gitignored — yet you'll need it to run `npm` scripts.
 
 Check first whether you are in a worktree:
 
 ```bash
 git rev-parse --git-dir
 # If output ends with /worktrees/<name>, you're in a worktree.
-# If output is just ".git", you're in the main repo — SKIP this step.
+# If output is just ".git", you're in the main repo — SKIP this entire step.
 ```
 
-If you're in a worktree, configure cone-mode sparse checkout to exclude `sources/`:
+If you're in a worktree, do **both** of the following before any `npm` invocation:
+
+### 5.1 Sparse checkout — drop `sources/` from the working tree
+
+`/write-article` never reads source snapshots (only `/review-submission` does), so `sources/` is dead weight here. Configure cone-mode sparse checkout to exclude it:
 
 ```bash
 git sparse-checkout init --cone
 git sparse-checkout set src scripts config .claude .githooks .github docs public
 ```
 
-This keeps everything you need (article archive, allowlist, scripts, skills, hooks) and removes only `sources/` from the working tree. Verify:
+Verify:
 
 ```bash
 ls sources 2>&1 | head -3   # should print "ls: sources: No such file or directory"
-df -h .                       # confirm freed disk
 ```
 
-**Do NOT run this in the main repo.** The main repo needs `sources/` for `/review-submission` and for the production build.
+This frees ~220 MB and keeps everything you need (article archive, allowlist, scripts, skills, hooks).
+
+### 5.2 Symlink `node_modules/` from the main repo
+
+`node_modules/` is gitignored, so the worktree starts without it. Don't run `npm install` (slow, ~290 MB extra disk per worktree). Instead, symlink to the main repo's existing `node_modules`:
+
+```bash
+# Resolve the main repo path via git's shared common dir (same trick the
+# key-resolver uses; works from any worktree with no hard-coded paths).
+MAIN_REPO=$(cd "$(dirname "$(git rev-parse --git-common-dir)")" && pwd)
+ln -sfn "$MAIN_REPO/node_modules" node_modules
+
+# Verify
+test -d node_modules/.bin && echo "OK: node_modules linked" || echo "FAIL"
+```
+
+After this, `npm run submission:create`, `npm run submission:pr`, etc. work without an install step.
+
+**Do NOT run this in the main repo.** The main repo needs `sources/` for `/review-submission` and for the production build, and already has its own `node_modules/`.
 
 ## Why this workflow exists — read this before starting
 
