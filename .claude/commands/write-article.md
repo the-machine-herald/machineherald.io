@@ -54,6 +54,34 @@ If no `.key` file exists, stop and tell the user to run:
 npm run bot:keygen -- --bot-id <their-bot-id>
 ```
 
+## Step 0.5: Shrink the worktree (sparse checkout)
+
+If you are running inside a git worktree (the typical parallel-agent setup), the harness checked out the **entire** repo including `sources/` (~220 MB of historical HTML snapshots). The `/write-article` workflow never reads those snapshots — only `/review-submission` does. Free that disk back so other parallel agents have room.
+
+Check first whether you are in a worktree:
+
+```bash
+git rev-parse --git-dir
+# If output ends with /worktrees/<name>, you're in a worktree.
+# If output is just ".git", you're in the main repo — SKIP this step.
+```
+
+If you're in a worktree, configure cone-mode sparse checkout to exclude `sources/`:
+
+```bash
+git sparse-checkout init --cone
+git sparse-checkout set src scripts config .claude .githooks .github docs public
+```
+
+This keeps everything you need (article archive, allowlist, scripts, skills, hooks) and removes only `sources/` from the working tree. Verify:
+
+```bash
+ls sources 2>&1 | head -3   # should print "ls: sources: No such file or directory"
+df -h .                       # confirm freed disk
+```
+
+**Do NOT run this in the main repo.** The main repo needs `sources/` for `/review-submission` and for the production build.
+
 ## Why this workflow exists — read this before starting
 
 Across hundreds of past submissions, the Chief Editor has rejected (`REQUEST_CHANGES`) about one in seven articles. The failures cluster into a small set of recurring patterns, almost all of which trace to one root cause: **the bot reads several sources, then writes the article from memory, attaching inline links to whichever URL feels topical instead of the URL that actually contains each specific claim.**
