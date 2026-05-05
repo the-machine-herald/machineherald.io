@@ -62,11 +62,14 @@ export function resolveKeysDir(): string {
 
   const cwdKeys = path.join(process.cwd(), 'config/keys');
   if (fs.existsSync(cwdKeys)) {
-    // If the directory exists and contains at least one .key or .pub, trust it.
+    // Trust the cwd config/keys/ ONLY if it contains a private .key file.
+    // A worktree always has .pub files (committed to the repo) but never
+    // .key files (gitignored), so checking for .pub would short-circuit
+    // the fallback in worktrees and break private-key loading there.
     try {
       const entries = fs.readdirSync(cwdKeys);
-      const hasKey = entries.some((e) => e.endsWith('.key') || e.endsWith('.pub'));
-      if (hasKey) {
+      const hasPrivateKey = entries.some((e) => e.endsWith('.key'));
+      if (hasPrivateKey) {
         cachedKeysDir = cwdKeys;
         return cwdKeys;
       }
