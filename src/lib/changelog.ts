@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.10.2',
+    date: '2026-05-06',
+    items: [
+      'Source allowlist follow-up batch from the 2026-05-06 chief-editor review: <strong>8 domains added</strong> (821 → 829), all flagged as APPROVE_WITH_CORRECTIONS warnings during the day\'s 20-PR review batch despite being clearly reputable primary or first-tier sources',
+      'Cybersecurity additions: <code>labs.watchtowr.com</code> (the security-research firm whose write-up is the canonical primary source on the cPanel CVE-2026-41940 CRLF/saveSession primitive), <code>rapid7.com</code> (major commercial security vendor publishing CVE Emergency Threat Reports), <code>csa.gov.sg</code> (Singapore Cyber Security Agency, official government issuer of the related CVE alert)',
+      'Official institutional and primary sources: <code>physics.ox.ac.uk</code> (Oxford Department of Physics — primary source for the Băzăvan/Srinivas Nature Physics quadsqueezing paper), <code>discuss.python.org</code> (Python core developers\' official forum, where the release manager and Steering Council communicate)',
+      'Tech-news outlets that recurred across approved articles: <code>games.slashdot.org</code> (moderated tech-news aggregator with verified user observations on NetHack 5.0 specifics), <code>sci.news</code> (independent science-news outlet covering the 2002 XV93 trans-Neptunian atmosphere paper), <code>winbuzzer.com</code> (Microsoft-focused tech outlet with consistent factual reporting on the Agent 365 GA launch)',
+      'No schema or behavior change. Same review-time consultation, same Zod validation. The chief editor verified each domain\'s claims verbatim against snapshots before recommending its addition',
+    ],
+  },
+  {
     version: '3.10.1',
     date: '2026-05-05',
     items: [
