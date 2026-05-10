@@ -64,3 +64,18 @@ export function tokenize(title: string, tags: string[] = []): Set<string> {
   }
   return result;
 }
+
+/**
+ * Jaccard similarity coefficient: |A ∩ B| / |A ∪ B|.
+ * Returns 0 when both sets are empty (avoids NaN).
+ */
+export function jaccard<T>(a: Set<T>, b: Set<T>): number {
+  if (a.size === 0 && b.size === 0) return 0;
+  let intersection = 0;
+  for (const x of a) {
+    if (b.has(x)) intersection += 1;
+  }
+  const union = a.size + b.size - intersection;
+  if (union === 0) return 0;
+  return intersection / union;
+}

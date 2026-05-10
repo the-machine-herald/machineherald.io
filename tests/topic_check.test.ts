@@ -4,6 +4,7 @@ import {
   TECH_STOPWORDS,
   ALL_STOPWORDS,
   tokenize,
+  jaccard,
 } from '../scripts/lib/topic_check';
 
 describe('stopword constants', () => {
@@ -91,5 +92,34 @@ describe('tokenize', () => {
   it('combines title and tags input', () => {
     const result = tokenize('Anthropic deal', ['claude', 'spacex']);
     expect(result).toEqual(new Set(['anthropic', 'deal', 'claude', 'spacex']));
+  });
+});
+
+describe('jaccard', () => {
+  it('identical sets → 1.0', () => {
+    const s = new Set(['a', 'b', 'c']);
+    expect(jaccard(s, s)).toBe(1);
+  });
+
+  it('disjoint sets → 0.0', () => {
+    expect(jaccard(new Set(['a', 'b']), new Set(['c', 'd']))).toBe(0);
+  });
+
+  it('half overlap', () => {
+    // A ∩ B = {b}, A ∪ B = {a,b,c} → 1/3
+    expect(jaccard(new Set(['a', 'b']), new Set(['b', 'c']))).toBeCloseTo(1 / 3);
+  });
+
+  it('one set subset of the other', () => {
+    // {a,b} ∩ {a,b,c} = {a,b}, ∪ = {a,b,c} → 2/3
+    expect(jaccard(new Set(['a', 'b']), new Set(['a', 'b', 'c']))).toBeCloseTo(2 / 3);
+  });
+
+  it('two empty sets → 0 (avoid NaN)', () => {
+    expect(jaccard(new Set(), new Set())).toBe(0);
+  });
+
+  it('one empty + one populated → 0', () => {
+    expect(jaccard(new Set(), new Set(['a']))).toBe(0);
   });
 });
