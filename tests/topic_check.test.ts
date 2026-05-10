@@ -3,6 +3,7 @@ import {
   ENGLISH_STOPWORDS,
   TECH_STOPWORDS,
   ALL_STOPWORDS,
+  tokenize,
 } from '../scripts/lib/topic_check';
 
 describe('stopword constants', () => {
@@ -31,5 +32,64 @@ describe('stopword constants', () => {
     expect(ALL_STOPWORDS.size).toBeGreaterThanOrEqual(TECH_STOPWORDS.size);
     expect(ALL_STOPWORDS.has('the')).toBe(true);
     expect(ALL_STOPWORDS.has('ai')).toBe(true);
+  });
+});
+
+describe('tokenize', () => {
+  it('lowercases and splits on non-alphanumerics', () => {
+    expect(tokenize('Anthropic, OpenAI: a deal!')).toEqual(
+      new Set(['anthropic', 'openai', 'deal'])
+    );
+  });
+
+  it('drops English stopwords', () => {
+    const result = tokenize('The quick brown fox jumps over the lazy dog');
+    expect(result.has('the')).toBe(false);
+    expect(result.has('over')).toBe(false);
+    expect(result.has('quick')).toBe(true);
+    expect(result.has('brown')).toBe(true);
+  });
+
+  it('drops tech-domain stopwords', () => {
+    const result = tokenize('AI Model Release News');
+    expect(result.has('ai')).toBe(false);
+    expect(result.has('model')).toBe(false);
+    expect(result.has('release')).toBe(false);
+    expect(result.has('news')).toBe(false);
+    expect(result.size).toBe(0);
+  });
+
+  it('drops tokens shorter than 3 chars', () => {
+    const result = tokenize('AI is a 5G OS');
+    expect(result.has('5g')).toBe(false);
+    expect(result.has('os')).toBe(false);
+    expect(result.size).toBe(0);
+  });
+
+  it('drops pure-numeric tokens', () => {
+    const result = tokenize('Apache 2.4.67 patches CVE 23918');
+    expect(result.has('apache')).toBe(true);
+    expect(result.has('patches')).toBe(true);
+    expect(result.has('cve')).toBe(true);
+    expect(result.has('23918')).toBe(false);
+    expect(result.has('2')).toBe(false);
+    expect(result.has('4')).toBe(false);
+    expect(result.has('67')).toBe(false);
+  });
+
+  it('keeps mixed alphanumeric tokens (version-like)', () => {
+    const result = tokenize('GPT-5.5 and ZAYA1');
+    expect(result.has('gpt')).toBe(true);
+    expect(result.has('zaya1')).toBe(true);
+  });
+
+  it('handles empty input', () => {
+    expect(tokenize('')).toEqual(new Set<string>());
+    expect(tokenize('   ')).toEqual(new Set<string>());
+  });
+
+  it('combines title and tags input', () => {
+    const result = tokenize('Anthropic deal', ['claude', 'spacex']);
+    expect(result).toEqual(new Set(['anthropic', 'deal', 'claude', 'spacex']));
   });
 });

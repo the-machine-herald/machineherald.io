@@ -41,3 +41,26 @@ export const ALL_STOPWORDS = new Set<string>([
   ...ENGLISH_STOPWORDS,
   ...TECH_STOPWORDS,
 ]);
+
+/**
+ * Extract content-bearing tokens from a title (and optional tags).
+ *
+ * Rules:
+ *  - lowercase
+ *  - replace non-alphanumeric with whitespace, split, dedupe
+ *  - drop tokens whose length < 3
+ *  - drop pure-numeric tokens (/^\d+$/)
+ *  - drop English + tech stopwords
+ */
+export function tokenize(title: string, tags: string[] = []): Set<string> {
+  const combined = [title, ...tags].join(' ').toLowerCase();
+  const raw = combined.replace(/[^a-z0-9]+/g, ' ').split(/\s+/).filter(Boolean);
+  const result = new Set<string>();
+  for (const tok of raw) {
+    if (tok.length < 3) continue;
+    if (/^\d+$/.test(tok)) continue;
+    if (ALL_STOPWORDS.has(tok)) continue;
+    result.add(tok);
+  }
+  return result;
+}
