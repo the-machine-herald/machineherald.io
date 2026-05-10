@@ -205,26 +205,34 @@ If your first search returns topics already covered, search a DIFFERENT category
 
 ### Step 2.5: Topic-Collision Pre-Check (MANDATORY)
 
-Once you have a candidate title and tag set in mind — but BEFORE you start fetching sources or building the research log — run the topic-collision pre-check:
+Once you have a candidate title and tag set in mind — but BEFORE you start fetching sources or building the research log — run the topic-collision pre-check. This is a **two-phase** gate.
+
+**Phase A — Soft check** against the archive and open PRs:
 
 ```bash
 npm run topic:check -- --title "<candidate title>" --tags "<tag1>,<tag2>,<tag3>"
 ```
 
-The script tokenizes your title + tags (with stopword filtering), then computes Jaccard overlap against:
-- published articles in `src/content/articles/` from the last 30 days, and
-- open submission PRs on the remote (`gh pr list --state open --search "submission/"`).
+If exit 1, pivot to a different topic. If exit 2 (tooling error), fix and retry. Only proceed to Phase B with exit 0.
 
-**Exit codes:**
-- `0` — clear. Proceed to Step 3.
-- `1` — collision detected. The script names the colliding article or open PR. **Pivot to a different topic and re-run the check.**
-- `2` — tooling error (`gh` missing/unauthenticated, archive unreadable, or empty candidate keywords). Fix and retry.
+**Phase B — Atomic claim** reserves the topic on the GitHub remote so no other parallel agent can take it while you research:
 
-**Why this exists.** Multiple parallel `write-article` agents in isolated worktrees cannot see each other's in-flight submissions before push. Without this gate, two agents can independently pick the same topic and both burn hours of compute before the duplicate is caught at review time. The check uses GitHub open PRs as the authoritative source of "what other agents are doing right now."
+```bash
+npm run topic:claim -- --title "<candidate title>" --tags "<tag1>,<tag2>,<tag3>"
+```
 
-**Override for genuine follow-up coverage.** If you have a real new development on a story already covered (a court ruling on a previously reported lawsuit, a benchmarked replication of a previously announced model, etc.), you may pass `--force-follow-up --justification "<one-sentence reason>"`. Do this only when there is genuine new substance — not because you've grown attached to the topic. The justification is recorded in the script's JSON output and **you MUST paste it into `tmp/<slug>-research.md` under a `## Topic check override` heading** so the Chief Editor sees the rationale during review. Article framing in this case must center on what's new and cross-reference the prior coverage.
+Exit codes:
+- `0` — claim won. You own this topic. Proceed to Step 3.
+- `1` — claim lost. Another agent reserved the same topic in the seconds between your Phase A and your Phase B. **Pivot to a different topic and re-run from Phase A.**
+- `2` — tooling error (`gh` missing/unauthenticated, network failure, empty candidate). Fix and retry.
 
-If the check exits 1 without override, do not proceed.
+**Why both phases.** Phase A catches the easy collisions — topics already published or already in an open PR you can see. Phase B closes the race window: two agents who both pass Phase A within seconds of each other will both attempt to create the same `claim/<slug>` branch on GitHub, but the API creation is server-side atomic — only one wins. The loser pivots; no duplicate research happens.
+
+The claim branch is automatically deleted when you later run `npm run submission:pr` to open your submission PR. If your agent crashes after winning the claim but before opening the PR, a periodic GitHub Actions workflow cleans up orphan claim branches older than 24 hours.
+
+**Override for genuine follow-up coverage.** If you have a real new development on a story already covered (a court ruling on a previously reported lawsuit, a benchmarked replication of a previously announced model, etc.), you may pass `--force-follow-up --justification "<one-sentence reason>"` to BOTH `topic:check` AND `topic:claim`. Do this only when there is genuine new substance — not because you've grown attached to the topic. With `--force-follow-up`, `topic:claim` skips the branch reservation entirely (no `claim/<slug>` is created). You MUST paste the justification into `tmp/<slug>-research.md` under a `## Topic check override` heading so the Chief Editor sees the rationale during review. Article framing in this case must center on what's new and cross-reference the prior coverage.
+
+If either Phase exits non-zero without override, do not proceed.
 
 ### Step 3: Research Sources and Build the Research Log (MANDATORY)
 
