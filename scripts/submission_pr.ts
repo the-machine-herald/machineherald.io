@@ -13,6 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
+import { canonicalSlug } from './lib/topic_check';
 
 interface Submission {
   submission_version: number;
@@ -57,6 +58,34 @@ function slugify(text: string): string {
     .replace(/-+/g, '-')
     .slice(0, 50)
     .trim();
+}
+
+function deleteClaimBranch(submission: Submission): void {
+  const slug = canonicalSlug({
+    title: submission.article.title,
+    tags: submission.article.tags,
+  });
+  if (slug === '') {
+    // Empty candidate — nothing to clean
+    return;
+  }
+  const ref = `claim/${slug}`;
+  console.log(`\nCleaning up atomic claim branch: ${ref}...`);
+  try {
+    execSync(
+      `gh api -X DELETE "repos/$(gh repo view --json nameWithOwner --jq .nameWithOwner)/git/refs/heads/${ref}"`,
+      { encoding: 'utf-8', stdio: 'pipe' },
+    );
+    console.log(`  ✅ Deleted refs/heads/${ref}`);
+  } catch (err) {
+    const stderr = (err as { stderr?: Buffer | string }).stderr;
+    const msg = stderr ? String(stderr) : (err instanceof Error ? err.message : String(err));
+    if (msg.includes('Reference does not exist') || msg.includes('404') || msg.includes('Not Found')) {
+      console.log(`  ℹ️  No claim branch to clean (none was created — possibly no claim or already cleaned)`);
+    } else {
+      console.warn(`  ⚠️  Could not delete claim branch (continuing anyway): ${msg.trim().split('\n').pop()}`);
+    }
+  }
 }
 
 function main() {
@@ -248,8 +277,10 @@ ${submission.article.summary}
 
   console.log('\n✅ Pull Request created successfully!\n');
 
+  deleteClaimBranch(submission);
+
   // Return to the branch we were on before (main in normal repo, worktree branch in worktrees)
-  console.log(`Switching back to ${originalBranch}...`);
+  console.log(`\nSwitching back to ${originalBranch}...`);
   exec(`git checkout ${originalBranch}`);
 
   console.log('\nDone. The PR is ready for Chief Editor review.');
