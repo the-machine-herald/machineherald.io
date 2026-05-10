@@ -5,7 +5,9 @@ import {
   ALL_STOPWORDS,
   tokenize,
   jaccard,
+  scoreCandidate,
 } from '../scripts/lib/topic_check';
+import type { Candidate, ScoreResult } from '../scripts/lib/topic_check';
 
 describe('stopword constants', () => {
   it('English stopwords includes common articles and prepositions', () => {
@@ -121,5 +123,116 @@ describe('jaccard', () => {
 
   it('one empty + one populated → 0', () => {
     expect(jaccard(new Set(), new Set(['a']))).toBe(0);
+  });
+});
+
+describe('scoreCandidate', () => {
+  const candidate: Candidate = {
+    title: 'Anthropic Leases SpaceX Colossus 1 Memphis',
+    tags: ['anthropic', 'spacex'],
+  };
+
+  it('flags a clear collision (Jaccard ≥ threshold)', () => {
+    const corpus = [
+      {
+        type: 'open_pr' as const,
+        ref: 'PR #1192',
+        title: 'Anthropic Leases the Full Capacity of SpaceX Colossus 1 Memphis',
+        tags: [],
+      },
+    ];
+    const result: ScoreResult = scoreCandidate(candidate, corpus, 0.35);
+    expect(result.verdict).toBe('collision');
+    expect(result.max_jaccard).toBeGreaterThanOrEqual(0.35);
+    expect(result.collision_with?.ref).toBe('PR #1192');
+  });
+
+  it('passes when no corpus item exceeds threshold', () => {
+    const corpus = [
+      { type: 'open_pr' as const, ref: 'PR #1186', title: 'Palo Alto Networks PAN-OS', tags: [] },
+      { type: 'published_article' as const, ref: '2026-05/03-zed', title: 'Zed 1.0 ships', tags: [] },
+    ];
+    const result = scoreCandidate(candidate, corpus, 0.35);
+    expect(result.verdict).toBe('clear');
+    expect(result.max_jaccard).toBeLessThan(0.35);
+  });
+
+  it('returns top neighbours sorted descending by Jaccard', () => {
+    const corpus = [
+      { type: 'open_pr' as const, ref: 'PR #100', title: 'Random topic', tags: [] },
+      { type: 'open_pr' as const, ref: 'PR #200', title: 'Anthropic announcement', tags: [] },
+      { type: 'open_pr' as const, ref: 'PR #300', title: 'Anthropic SpaceX deal', tags: [] },
+    ];
+    const result = scoreCandidate(candidate, corpus, 0.99); // high threshold → all clear
+    expect(result.verdict).toBe('clear');
+    expect(result.neighbors.length).toBeGreaterThanOrEqual(2);
+    expect(result.neighbors[0].ref).toBe('PR #300');
+    expect(result.neighbors[0].jaccard).toBeGreaterThanOrEqual(result.neighbors[1].jaccard);
+  });
+
+  it('exposes the candidate keyword set', () => {
+    const result = scoreCandidate(candidate, [], 0.35);
+    expect(result.candidate_keywords).toContain('anthropic');
+    expect(result.candidate_keywords).toContain('spacex');
+    expect(result.candidate_keywords).toContain('colossus');
+    expect(result.candidate_keywords).toContain('memphis');
+    expect(result.candidate_keywords).toContain('leases');
+  });
+
+  it('empty candidate keywords → verdict "empty_candidate"', () => {
+    const result = scoreCandidate({ title: 'AI Model Update News' }, [], 0.35);
+    expect(result.verdict).toBe('empty_candidate');
+  });
+
+  describe('calibration: 2026-05-08 collisions', () => {
+    const cases: Array<[string, string, number]> = [
+      [
+        "Anthropic Leases the Full Capacity of SpaceX's Colossus 1 Data Center, Adding 300 MW and Over 220,000 Nvidia GPUs to the Claude Backend",
+        "Anthropic Buys All of SpaceX's Colossus 1 Capacity in Memphis, Adding 300 Megawatts and 220,000 GPUs to Claude's Inference Fleet",
+        0.35,
+      ],
+      [
+        "OpenAI, AMD, Broadcom, Intel, Microsoft and NVIDIA Release MRC 1.0 to OCP, an Open RDMA Protocol Already Running OpenAI's Largest Training Clusters",
+        "OpenAI, AMD, Broadcom, Intel, Microsoft and Nvidia Publish MRC, an Ethernet-Based Networking Protocol Built for 100,000-GPU AI Clusters",
+        0.35,
+      ],
+      [
+        'Apache patches a double-free in HTTP/2 that crashes workers with two frames and one TCP connection',
+        'Apache Patches CVE-2026-23918, an HTTP/2 Double-Free in mod_http2 That Two Frames Can Turn Into a DoS or RCE',
+        0.35,
+      ],
+      [
+        "Skyroot Aerospace Becomes India's First Space-Tech Unicorn With $60 Million Round Ahead of Vikram-1 Maiden Orbital Launch",
+        "Skyroot Aerospace Closes $60 Million Round and Becomes India's First Space-Tech Unicorn Weeks Before Vikram-1's Maiden Orbital Launch",
+        0.35,
+      ],
+      [
+        'Zyphra Releases ZAYA1-8B, an 8.4B-Parameter MoE Reasoning Model Trained End-to-End on 1,024 AMD MI300X GPUs',
+        'Zyphra Releases ZAYA1-8B, a 760M-Active-Parameter Reasoning MoE Pretrained Entirely on a 1,024-GPU AMD MI300X Cluster',
+        0.35,
+      ],
+    ];
+
+    it.each(cases)('detects collision: "%s" vs "%s"', (primary, duplicate, minJ) => {
+      const corpus = [
+        { type: 'open_pr' as const, ref: 'PR #PRIMARY', title: primary, tags: [] },
+      ];
+      const result = scoreCandidate({ title: duplicate }, corpus, minJ);
+      expect(result.verdict).toBe('collision');
+      expect(result.max_jaccard).toBeGreaterThanOrEqual(minJ);
+    });
+
+    it('does NOT collide unrelated topics', () => {
+      const corpus = [
+        { type: 'open_pr' as const, ref: 'PR #1186', title: 'Palo Alto Networks Discloses CVE-2026-0300, a 9.3 PAN-OS Captive Portal RCE', tags: [] },
+        { type: 'open_pr' as const, ref: 'PR #1187', title: 'Quantum Motion Closes $160 Million Series C', tags: [] },
+      ];
+      const result = scoreCandidate(
+        { title: "Skyroot Aerospace Becomes India's First Space-Tech Unicorn" },
+        corpus,
+        0.35,
+      );
+      expect(result.verdict).toBe('clear');
+    });
   });
 });

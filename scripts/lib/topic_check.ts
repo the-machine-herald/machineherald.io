@@ -79,3 +79,94 @@ export function jaccard<T>(a: Set<T>, b: Set<T>): number {
   if (union === 0) return 0;
   return intersection / union;
 }
+
+export interface Candidate {
+  title: string;
+  tags?: string[];
+}
+
+export type CorpusItemType = 'open_pr' | 'published_article';
+
+export interface CorpusItem {
+  type: CorpusItemType;
+  ref: string;          // e.g. "PR #1192" or "2026-05/08-anthropic-leases-..."
+  title: string;
+  tags?: string[];
+}
+
+export interface Neighbor {
+  type: CorpusItemType;
+  ref: string;
+  title: string;
+  jaccard: number;
+}
+
+export type Verdict = 'clear' | 'collision' | 'empty_candidate';
+
+export interface ScoreResult {
+  verdict: Verdict;
+  max_jaccard: number;
+  threshold: number;
+  collision_with?: Neighbor;
+  neighbors: Neighbor[];      // top 3 by Jaccard, descending
+  candidate_keywords: string[];
+}
+
+const TOP_N_NEIGHBORS = 3;
+
+/**
+ * Score a candidate topic against a corpus of existing items
+ * (open PRs and/or published articles). Returns:
+ *   - verdict: collision if max Jaccard ≥ threshold; clear otherwise
+ *   - empty_candidate if the candidate produces zero content-bearing keywords
+ *   - top-3 neighbors regardless of verdict (for diagnostics)
+ */
+export function scoreCandidate(
+  candidate: Candidate,
+  corpus: CorpusItem[],
+  threshold: number,
+): ScoreResult {
+  const candidateSet = tokenize(candidate.title, candidate.tags ?? []);
+  const candidate_keywords = [...candidateSet].sort();
+
+  if (candidateSet.size === 0) {
+    return {
+      verdict: 'empty_candidate',
+      max_jaccard: 0,
+      threshold,
+      neighbors: [],
+      candidate_keywords,
+    };
+  }
+
+  const scored: Neighbor[] = corpus.map(item => ({
+    type: item.type,
+    ref: item.ref,
+    title: item.title,
+    jaccard: jaccard(candidateSet, tokenize(item.title, item.tags ?? [])),
+  }));
+
+  scored.sort((a, b) => b.jaccard - a.jaccard);
+  const neighbors = scored.slice(0, TOP_N_NEIGHBORS);
+  const top = scored[0];
+  const max_jaccard = top?.jaccard ?? 0;
+
+  if (top && max_jaccard >= threshold) {
+    return {
+      verdict: 'collision',
+      max_jaccard,
+      threshold,
+      collision_with: top,
+      neighbors,
+      candidate_keywords,
+    };
+  }
+
+  return {
+    verdict: 'clear',
+    max_jaccard,
+    threshold,
+    neighbors,
+    candidate_keywords,
+  };
+}
