@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import {
   ENGLISH_STOPWORDS,
   TECH_STOPWORDS,
@@ -6,8 +6,12 @@ import {
   tokenize,
   jaccard,
   scoreCandidate,
+  walkArchive,
 } from '../scripts/lib/topic_check';
 import type { Candidate, ScoreResult } from '../scripts/lib/topic_check';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 
 describe('stopword constants', () => {
   it('English stopwords includes common articles and prepositions', () => {
@@ -234,5 +238,87 @@ describe('scoreCandidate', () => {
       );
       expect(result.verdict).toBe('clear');
     });
+  });
+});
+
+describe('walkArchive', () => {
+  let tmpDir: string;
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'topic-check-archive-'));
+  });
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  function writeArticle(monthFolder: string, slug: string, frontmatter: Record<string, unknown>): void {
+    const dir = path.join(tmpDir, monthFolder);
+    fs.mkdirSync(dir, { recursive: true });
+    const fm = Object.entries(frontmatter)
+      .map(([k, v]) => `${k}: ${typeof v === 'string' ? `"${v}"` : JSON.stringify(v)}`)
+      .join('\n');
+    fs.writeFileSync(
+      path.join(dir, `${slug}.md`),
+      `---\n${fm}\n---\n\n# Body\n`,
+    );
+  }
+
+  it('reads articles within the lookback window', () => {
+    const today = new Date('2026-05-10T00:00:00Z');
+    writeArticle('2026-05', '08-anthropic-colossus', {
+      title: 'Anthropic Leases SpaceX Colossus',
+      date: '2026-05-08',
+      tags: ['anthropic', 'spacex'],
+    });
+    writeArticle('2026-04', '15-old-article', {
+      title: 'Old Article',
+      date: '2026-04-15',
+      tags: ['old'],
+    });
+    writeArticle('2026-01', '01-very-old', {
+      title: 'Very Old',
+      date: '2026-01-01',
+      tags: [],
+    });
+
+    const result = walkArchive(tmpDir, today, 30);
+    expect(result).toHaveLength(2); // 30-day window from 2026-05-10 → back to 2026-04-10
+    const titles = result.map(r => r.title);
+    expect(titles).toContain('Anthropic Leases SpaceX Colossus');
+    expect(titles).toContain('Old Article');
+    expect(titles).not.toContain('Very Old');
+  });
+
+  it('skips files with malformed frontmatter without aborting', () => {
+    fs.mkdirSync(path.join(tmpDir, '2026-05'), { recursive: true });
+    fs.writeFileSync(path.join(tmpDir, '2026-05', '08-broken.md'), 'no-frontmatter-here');
+    writeArticle('2026-05', '08-good', {
+      title: 'Good',
+      date: '2026-05-08',
+      tags: [],
+    });
+
+    const result = walkArchive(tmpDir, new Date('2026-05-10'), 30);
+    expect(result).toHaveLength(1);
+    expect(result[0].title).toBe('Good');
+  });
+
+  it('returns CorpusItem with correct ref shape', () => {
+    writeArticle('2026-05', '08-test-slug', {
+      title: 'Test',
+      date: '2026-05-08',
+      tags: ['t1'],
+    });
+    const result = walkArchive(tmpDir, new Date('2026-05-10'), 30);
+    expect(result[0].type).toBe('published_article');
+    expect(result[0].ref).toBe('2026-05/08-test-slug');
+    expect(result[0].tags).toEqual(['t1']);
+  });
+
+  it('handles missing archive directory gracefully', () => {
+    const missing = path.join(tmpDir, 'does-not-exist');
+    const result = walkArchive(missing, new Date(), 30);
+    expect(result).toEqual([]);
   });
 });

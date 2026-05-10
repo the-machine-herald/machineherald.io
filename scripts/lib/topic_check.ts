@@ -9,6 +9,9 @@
 
 // scripts/lib/topic_check.ts
 
+import fs from 'node:fs';
+import path from 'node:path';
+
 /**
  * Closed-list English stopwords for keyword extraction.
  * Reviewable here rather than hidden inside a regex.
@@ -169,4 +172,96 @@ export function scoreCandidate(
     neighbors,
     candidate_keywords,
   };
+}
+
+interface ArticleFrontmatter {
+  title: string;
+  date: string;
+  tags?: string[];
+}
+
+/**
+ * Parse YAML-like frontmatter from a markdown file.
+ * Supports: `key: "value"`, `key: value`, `key: ["a", "b"]`.
+ * Returns null if no frontmatter or required fields missing.
+ */
+function parseFrontmatter(content: string): ArticleFrontmatter | null {
+  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return null;
+  const body = match[1];
+  const out: Record<string, unknown> = {};
+  for (const line of body.split('\n')) {
+    const m = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*:\s*(.+)$/);
+    if (!m) continue;
+    const [, key, raw] = m;
+    const trimmed = raw.trim();
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      // Array literal: ["a", "b"]
+      try {
+        out[key] = JSON.parse(trimmed);
+      } catch {
+        // skip malformed array
+      }
+    } else if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+      out[key] = trimmed.slice(1, -1);
+    } else {
+      out[key] = trimmed;
+    }
+  }
+  if (typeof out.title !== 'string' || typeof out.date !== 'string') {
+    return null;
+  }
+  return {
+    title: out.title,
+    date: out.date,
+    tags: Array.isArray(out.tags) ? out.tags as string[] : [],
+  };
+}
+
+/**
+ * Walk `<articlesDir>/YYYY-MM/*.md` and return a CorpusItem per article whose
+ * frontmatter `date` is within `lookbackDays` of `now`.
+ *
+ * Tolerates missing dirs and malformed frontmatter (logs to stderr, skips).
+ */
+export function walkArchive(articlesDir: string, now: Date, lookbackDays: number): CorpusItem[] {
+  if (!fs.existsSync(articlesDir)) return [];
+  const cutoff = new Date(now.getTime() - lookbackDays * 24 * 60 * 60 * 1000);
+
+  const monthFolders = fs.readdirSync(articlesDir).filter(name =>
+    /^\d{4}-\d{2}$/.test(name) &&
+    fs.statSync(path.join(articlesDir, name)).isDirectory()
+  );
+
+  const items: CorpusItem[] = [];
+  for (const monthFolder of monthFolders) {
+    const monthDir = path.join(articlesDir, monthFolder);
+    const files = fs.readdirSync(monthDir).filter(f => f.endsWith('.md'));
+    for (const file of files) {
+      const filePath = path.join(monthDir, file);
+      let content: string;
+      try {
+        content = fs.readFileSync(filePath, 'utf-8');
+      } catch (err) {
+        console.error(`[topic-check] could not read ${filePath}: ${err}`);
+        continue;
+      }
+      const fm = parseFrontmatter(content);
+      if (!fm) {
+        console.error(`[topic-check] malformed frontmatter, skipping: ${filePath}`);
+        continue;
+      }
+      const articleDate = new Date(fm.date);
+      if (Number.isNaN(articleDate.getTime())) continue;
+      if (articleDate < cutoff) continue;
+      const slug = file.replace(/\.md$/, '');
+      items.push({
+        type: 'published_article',
+        ref: `${monthFolder}/${slug}`,
+        title: fm.title,
+        tags: fm.tags ?? [],
+      });
+    }
+  }
+  return items;
 }
