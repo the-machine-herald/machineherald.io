@@ -59,7 +59,7 @@ CLI script invoked as `npm run topic:check -- --title "..." [--tags <list>]`.
 | `--lookback-days` | no | `30` | Archive window for collision check |
 | `--force-follow-up` | no | false | Override the block (requires `--justification`) |
 | `--justification` | when `--force-follow-up` | — | Free-text reason; written to telemetry |
-| `--json` | no | false | Emit a single-line JSON result alongside human output |
+| `--json` | no | false | Emit clean JSON to stdout and suppress human output (machine-consumable) |
 
 #### Process
 
@@ -84,7 +84,7 @@ CLI script invoked as `npm run topic:check -- --title "..." [--tags <list>]`.
 
 #### Output
 
-**Human-readable (always):**
+**Human-readable (default, no `--json`):**
 ```
 $ npm run topic:check -- --title "Anthropic Leases SpaceX Colossus 1"
 
@@ -103,7 +103,7 @@ $ npm run topic:check -- --title "Anthropic Leases SpaceX Colossus 1"
        --justification "Why this is not a duplicate"
 ```
 
-**JSON (`--json` flag):**
+**JSON (`--json` flag, replaces human output):**
 ```json
 {
   "verdict": "collision",
