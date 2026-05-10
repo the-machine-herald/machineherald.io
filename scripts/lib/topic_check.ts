@@ -9,6 +9,7 @@
 
 // scripts/lib/topic_check.ts
 
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -172,6 +173,30 @@ export function scoreCandidate(
     neighbors,
     candidate_keywords,
   };
+}
+
+const SLUG_TOP_KEYWORDS = 3;
+const SLUG_HASH_LENGTH = 8;
+
+/**
+ * Deterministic short slug for atomic-claim branch names.
+ *
+ * Two candidates that tokenize to the same keyword set produce the SAME slug.
+ * Format: `<top-N-keywords>-<sha8>` where:
+ *  - top-N is the first N keywords by alphabetical sort
+ *  - sha8 is the first 8 hex chars of sha256(sorted-keywords-joined-by-comma)
+ *
+ * If the candidate produces zero keywords, returns an empty string.
+ */
+export function canonicalSlug(candidate: Candidate): string {
+  const tokens = [...tokenize(candidate.title, candidate.tags ?? [])].sort();
+  if (tokens.length === 0) return '';
+  const top = tokens.slice(0, SLUG_TOP_KEYWORDS).join('-');
+  const sha = crypto.createHash('sha256')
+    .update(tokens.join(','))
+    .digest('hex')
+    .slice(0, SLUG_HASH_LENGTH);
+  return `${top}-${sha}`;
 }
 
 interface ArticleFrontmatter {

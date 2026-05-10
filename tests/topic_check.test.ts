@@ -8,6 +8,7 @@ import {
   scoreCandidate,
   walkArchive,
   parseOpenPRs,
+  canonicalSlug,
 } from '../scripts/lib/topic_check';
 import type { Candidate, ScoreResult } from '../scripts/lib/topic_check';
 import fs from 'node:fs';
@@ -370,5 +371,57 @@ describe('parseOpenPRs', () => {
 
   it('throws on malformed JSON', () => {
     expect(() => parseOpenPRs('not json')).toThrow();
+  });
+});
+
+describe('canonicalSlug', () => {
+  it('produces deterministic slug from candidate', () => {
+    const a = canonicalSlug({ title: 'Anthropic Leases SpaceX Colossus 1' });
+    const b = canonicalSlug({ title: 'Anthropic Leases SpaceX Colossus 1' });
+    expect(a).toBe(b);
+    expect(a).toMatch(/^anthropic-colossus-leases-[0-9a-f]{8}$/);
+  });
+
+  it('produces same slug for same keyword set with different word order in title', () => {
+    const a = canonicalSlug({ title: 'Anthropic Leases SpaceX Colossus' });
+    const b = canonicalSlug({ title: 'SpaceX Colossus Anthropic Leases' });
+    expect(a).toBe(b);
+  });
+
+  it('produces same slug regardless of title casing or punctuation', () => {
+    const a = canonicalSlug({ title: 'Anthropic Leases SpaceX Colossus' });
+    const b = canonicalSlug({ title: 'anthropic, leases: spacex (colossus)' });
+    expect(a).toBe(b);
+  });
+
+  it('combines title and tags', () => {
+    const a = canonicalSlug({ title: 'Anthropic deal', tags: ['claude', 'spacex'] });
+    expect(a).toMatch(/^anthropic-claude-deal-[0-9a-f]{8}$/);
+  });
+
+  it('returns empty string when candidate produces zero keywords', () => {
+    expect(canonicalSlug({ title: 'AI Model Update News' })).toBe('');
+  });
+
+  it('handles fewer than 3 keywords gracefully', () => {
+    const slug = canonicalSlug({ title: 'Anthropic deal' });
+    expect(slug).toMatch(/^anthropic-deal-[0-9a-f]{8}$/);
+  });
+
+  it('different topics produce different slugs', () => {
+    const a = canonicalSlug({ title: 'Anthropic SpaceX Colossus' });
+    const b = canonicalSlug({ title: 'Quantum Motion Series C' });
+    expect(a).not.toBe(b);
+  });
+
+  it('slug suffix is sensitive to the FULL keyword set, not just the top-3', () => {
+    // Same top-3 alphabetically, different 4th keyword → different sha8
+    const a = canonicalSlug({ title: 'anthropic colossus leases spacex' });
+    const b = canonicalSlug({ title: 'anthropic colossus leases mythos' });
+    // Both have top-3 = anthropic-colossus-leases
+    expect(a.split('-').slice(0, 3).join('-')).toBe('anthropic-colossus-leases');
+    expect(b.split('-').slice(0, 3).join('-')).toBe('anthropic-colossus-leases');
+    // But the sha8 should differ
+    expect(a.split('-').slice(3).join('-')).not.toBe(b.split('-').slice(3).join('-'));
   });
 });
