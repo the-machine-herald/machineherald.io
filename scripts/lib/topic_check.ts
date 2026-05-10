@@ -187,13 +187,15 @@ interface ArticleFrontmatter {
  */
 function parseFrontmatter(content: string): ArticleFrontmatter | null {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return null;
-  const body = match[1];
+  if (!match || match[1] === undefined) return null;
+  const body: string = match[1];
   const out: Record<string, unknown> = {};
   for (const line of body.split('\n')) {
     const m = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*:\s*(.+)$/);
     if (!m) continue;
-    const [, key, raw] = m;
+    const key = m[1];
+    const raw = m[2];
+    if (key === undefined || raw === undefined) continue;
     const trimmed = raw.trim();
     if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
       // Array literal: ["a", "b"]

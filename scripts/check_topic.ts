@@ -39,6 +39,15 @@ interface CliArgs {
   json: boolean;
 }
 
+function nextArg(argv: string[], i: number, flag: string): string {
+  const v = argv[i + 1];
+  if (v === undefined) {
+    console.error(`Error: missing value for ${flag}`);
+    process.exit(2);
+  }
+  return v;
+}
+
 function parseArgs(argv: string[]): CliArgs {
   const args: CliArgs = {
     tags: [],
@@ -49,18 +58,23 @@ function parseArgs(argv: string[]): CliArgs {
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
-    if (a === '--title' && argv[i + 1]) {
-      args.title = argv[++i];
-    } else if (a === '--tags' && argv[i + 1]) {
-      args.tags = argv[++i].split(',').map(t => t.trim()).filter(Boolean);
-    } else if (a === '--threshold' && argv[i + 1]) {
-      args.threshold = Number.parseFloat(argv[++i]);
-    } else if (a === '--lookback-days' && argv[i + 1]) {
-      args.lookbackDays = Number.parseInt(argv[++i], 10);
+    if (a === '--title') {
+      args.title = nextArg(argv, i, a);
+      i++;
+    } else if (a === '--tags') {
+      args.tags = nextArg(argv, i, a).split(',').map(t => t.trim()).filter(Boolean);
+      i++;
+    } else if (a === '--threshold') {
+      args.threshold = Number.parseFloat(nextArg(argv, i, a));
+      i++;
+    } else if (a === '--lookback-days') {
+      args.lookbackDays = Number.parseInt(nextArg(argv, i, a), 10);
+      i++;
     } else if (a === '--force-follow-up') {
       args.forceFollowUp = true;
-    } else if (a === '--justification' && argv[i + 1]) {
-      args.justification = argv[++i];
+    } else if (a === '--justification') {
+      args.justification = nextArg(argv, i, a);
+      i++;
     } else if (a === '--json') {
       args.json = true;
     } else if (a === '--help' || a === '-h') {
