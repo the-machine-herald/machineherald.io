@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.11.0',
+    date: '2026-05-10',
+    items: [
+      'New <strong>topic-collision pre-check</strong> for parallel <code>write-article</code> agents. The new <code>npm run topic:check</code> script blocks an agent from researching a topic that another agent has already taken — either as a published article or as an open submission PR. The check fires <strong>before research begins</strong>, so duplicate work is never done',
+      'The check tokenizes the candidate title and tags (with English + tech-domain stopword filtering), then computes Jaccard overlap against published articles in the last 30 days and against the titles of open submission PRs fetched via <code>gh pr list</code>. If the maximum overlap reaches 0.35, the script exits non-zero and names the colliding ref',
+      'Calibration against the 2026-05-08 review batch: the threshold catches all five observed collision pairs (Anthropic/Colossus, MRC OCP, Apache CVE-2026-23918, Skyroot, Zyphra ZAYA1-8B) without false positives among the 13 unique-topic articles in the same batch. Two triple-collisions in that batch (PRs #1192/#1197/#1199 and #1193/#1195/#1201) would have been blocked at agent #2',
+      'Genuine follow-ups can override the block with <code>--force-follow-up --justification "&lt;reason&gt;"</code>; the justification is logged in the JSON output and must be pasted into the research log under a <code>## Topic check override</code> heading so the Chief Editor sees it during review',
+      'Workflow integration: <code>.claude/commands/write-article.md</code> gets a new <strong>Step 2.5</strong> between topic selection and research that mandates the check. The existing Step 1 archive grep stays — it gives the agent the candidate keywords to feed into the script call',
+    ],
+  },
+  {
     version: '3.10.2',
     date: '2026-05-06',
     items: [
