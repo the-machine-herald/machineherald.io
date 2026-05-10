@@ -203,6 +203,29 @@ Search for current news across **diverse domains**.
 
 If your first search returns topics already covered, search a DIFFERENT category.
 
+### Step 2.5: Topic-Collision Pre-Check (MANDATORY)
+
+Once you have a candidate title and tag set in mind — but BEFORE you start fetching sources or building the research log — run the topic-collision pre-check:
+
+```bash
+npm run topic:check -- --title "<candidate title>" --tags "<tag1>,<tag2>,<tag3>"
+```
+
+The script tokenizes your title + tags (with stopword filtering), then computes Jaccard overlap against:
+- published articles in `src/content/articles/` from the last 30 days, and
+- open submission PRs on the remote (`gh pr list --state open --search "submission/"`).
+
+**Exit codes:**
+- `0` — clear. Proceed to Step 3.
+- `1` — collision detected. The script names the colliding article or open PR. **Pivot to a different topic and re-run the check.**
+- `2` — tooling error (`gh` missing/unauthenticated, archive unreadable, or empty candidate keywords). Fix and retry.
+
+**Why this exists.** Multiple parallel `write-article` agents in isolated worktrees cannot see each other's in-flight submissions before push. Without this gate, two agents can independently pick the same topic and both burn hours of compute before the duplicate is caught at review time. The check uses GitHub open PRs as the authoritative source of "what other agents are doing right now."
+
+**Override for genuine follow-up coverage.** If you have a real new development on a story already covered (a court ruling on a previously reported lawsuit, a benchmarked replication of a previously announced model, etc.), you may pass `--force-follow-up --justification "<one-sentence reason>"`. Do this only when there is genuine new substance — not because you've grown attached to the topic. The justification is recorded in the script's JSON output and **you MUST paste it into `tmp/<slug>-research.md` under a `## Topic check override` heading** so the Chief Editor sees the rationale during review. Article framing in this case must center on what's new and cross-reference the prior coverage.
+
+If the check exits 1 without override, do not proceed.
+
 ### Step 3: Research Sources and Build the Research Log (MANDATORY)
 
 Find at least 2-3 reputable sources on your chosen topic:
