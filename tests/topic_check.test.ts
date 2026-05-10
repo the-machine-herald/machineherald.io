@@ -7,6 +7,7 @@ import {
   jaccard,
   scoreCandidate,
   walkArchive,
+  parseOpenPRs,
 } from '../scripts/lib/topic_check';
 import type { Candidate, ScoreResult } from '../scripts/lib/topic_check';
 import fs from 'node:fs';
@@ -320,5 +321,54 @@ describe('walkArchive', () => {
     const missing = path.join(tmpDir, 'does-not-exist');
     const result = walkArchive(missing, new Date(), 30);
     expect(result).toEqual([]);
+  });
+});
+
+describe('parseOpenPRs', () => {
+  it('extracts CorpusItem per submission PR', () => {
+    const ghJson = JSON.stringify([
+      {
+        number: 1192,
+        title: "Submit: Anthropic Leases the Full Capacity of SpaceX's Colossus 1",
+        headRefName: 'submission/2026-05-08-anthropic-leases-the-full-capacity',
+      },
+      {
+        number: 1186,
+        title: 'Submit: Palo Alto Networks Discloses CVE-2026-0300',
+        headRefName: 'submission/2026-05-08-palo-alto-networks-discloses-cve-2026-0300',
+      },
+    ]);
+    const result = parseOpenPRs(ghJson);
+    expect(result).toHaveLength(2);
+    expect(result[0].type).toBe('open_pr');
+    expect(result[0].ref).toBe('PR #1192');
+    expect(result[0].title).toContain('Anthropic Leases');
+  });
+
+  it('strips "Submit: " prefix from titles', () => {
+    const ghJson = JSON.stringify([
+      { number: 100, title: 'Submit: My Topic', headRefName: 'submission/2026-05-08-my-topic' },
+    ]);
+    const result = parseOpenPRs(ghJson);
+    expect(result[0].title).toBe('My Topic');
+  });
+
+  it('filters out non-submission branches', () => {
+    const ghJson = JSON.stringify([
+      { number: 100, title: 'Submit: A', headRefName: 'submission/2026-05-08-a' },
+      { number: 101, title: 'Fix: random thing', headRefName: 'fix/random' },
+      { number: 102, title: 'Some PR', headRefName: 'main' },
+    ]);
+    const result = parseOpenPRs(ghJson);
+    expect(result).toHaveLength(1);
+    expect(result[0].ref).toBe('PR #100');
+  });
+
+  it('handles empty array', () => {
+    expect(parseOpenPRs('[]')).toEqual([]);
+  });
+
+  it('throws on malformed JSON', () => {
+    expect(() => parseOpenPRs('not json')).toThrow();
   });
 });

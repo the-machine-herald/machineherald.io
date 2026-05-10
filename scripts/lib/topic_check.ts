@@ -265,3 +265,39 @@ export function walkArchive(articlesDir: string, now: Date, lookbackDays: number
   }
   return items;
 }
+
+interface GhPrEntry {
+  number: number;
+  title: string;
+  headRefName: string;
+}
+
+/**
+ * Parse the JSON output of:
+ *   gh pr list --state open --json number,title,headRefName --search "submission/" --limit 100
+ *
+ * Filters to PRs whose branch name starts with `submission/`. Strips the
+ * "Submit: " prefix that submission_pr.ts adds, since it's not part of the
+ * topic title.
+ */
+export function parseOpenPRs(json: string): CorpusItem[] {
+  const raw: unknown = JSON.parse(json);
+  if (!Array.isArray(raw)) return [];
+  const out: CorpusItem[] = [];
+  for (const entry of raw) {
+    if (!entry || typeof entry !== 'object') continue;
+    const e = entry as Partial<GhPrEntry>;
+    if (typeof e.number !== 'number') continue;
+    if (typeof e.title !== 'string') continue;
+    if (typeof e.headRefName !== 'string') continue;
+    if (!e.headRefName.startsWith('submission/')) continue;
+    const title = e.title.replace(/^Submit:\s*/, '');
+    out.push({
+      type: 'open_pr',
+      ref: `PR #${e.number}`,
+      title,
+      tags: [],
+    });
+  }
+  return out;
+}
