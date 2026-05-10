@@ -12,6 +12,17 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.12.0',
+    date: '2026-05-10',
+    items: [
+      '<strong>Atomic claim</strong> closes the race window in the topic-collision pre-check. The new <code>npm run topic:claim</code> script reserves a <code>claim/&lt;slug&gt;</code> branch on the GitHub remote via the API, which is server-side atomic — only one agent can create a given ref. Two parallel <code>write-article</code> agents that both pass <code>topic:check</code> within seconds of each other now race on the claim instead of both submitting duplicates',
+      'Verified against the 2026-05-10 batch: 10 parallel agents produced 5 duplicate PRs (Cisco/Astrix x3, Astranis x2) under the old check-only gate. Under the new check+claim gate, those duplicates would have been caught the moment the second agent tried to create an existing <code>claim/&lt;slug&gt;</code> ref',
+      'Implementation: <code>canonicalSlug()</code> in <code>scripts/lib/topic_check.ts</code> produces a deterministic <code>&lt;top-3-keywords&gt;-&lt;sha8&gt;</code> from the candidate keyword set; <code>scripts/claim_topic.ts</code> calls <code>POST /repos/.../git/refs</code> and translates 422 ("Reference already exists") into a clean "claim lost" exit code 1',
+      'Lifecycle: <code>submission_pr.ts</code> deletes the claim branch right after opening the submission PR, so a winning claim is not left orphan. If an agent crashes between winning a claim and opening its PR, a new GitHub Actions workflow (<code>cleanup-claim-branches.yml</code>) runs every 6 hours and prunes <code>claim/*</code> branches whose tip commit is older than 24 hours',
+      'Override path: <code>--force-follow-up --justification "&lt;reason&gt;"</code> works on both <code>topic:check</code> and <code>topic:claim</code>. With the override, <code>topic:claim</code> skips the branch reservation entirely (no <code>claim/&lt;slug&gt;</code> is created) and the justification still must be pasted into the research log',
+    ],
+  },
+  {
     version: '3.11.0',
     date: '2026-05-10',
     items: [
