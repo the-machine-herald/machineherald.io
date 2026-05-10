@@ -1,0 +1,92 @@
+name: Cleanup orphan claim branches
+
+on:
+  schedule:
+    # Every 6 hours, on the hour
+    - cron: '0 */6 * * *'
+  workflow_dispatch:  # also runnable manually from the Actions tab
+
+permissions:
+  contents: write  # needed to delete refs
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List and delete orphan claim branches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # Lookback: 24 hours
+          CUTOFF_EPOCH=$(date -u -d '24 hours ago' +%s 2>/dev/null || date -u -v-24H +%s)
+          echo "Cutoff (UTC epoch): $CUTOFF_EPOCH  ($(date -u -d "@$CUTOFF_EPOCH" 2>/dev/null || date -u -r "$CUTOFF_EPOCH"))"
+
+          # Fetch the list of claim branches. gh api supports pagination via --paginate.
+          # API: GET /repos/{owner}/{repo}/git/matching-refs/heads/claim/
+          # Returns up to 100 by default; --paginate handles more.
+          REFS_JSON=$(gh api --paginate "repos/$REPO/git/matching-refs/heads/claim" 2>/dev/null || echo "[]")
+          COUNT=$(echo "$REFS_JSON" | jq 'length')
+          echo "Found $COUNT claim branch(es) total"
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "Nothing to do."
+            exit 0
+          fi
+
+          # Build array of "ref<TAB>sha" lines so variable increments survive the loop
+          mapfile -t LINES < <(echo "$REFS_JSON" | jq -r '.[] | "\(.ref)\t\(.object.sha)"')
+
+          DELETED=0
+          KEPT=0
+          SKIPPED=0
+
+          for line in "${LINES[@]}"; do
+            REF="${line%%$'\t'*}"
+            SHA="${line##*$'\t'}"
+            BRANCH_NAME="${REF#refs/heads/}"
+
+            # Get the committer timestamp of the SHA
+            COMMIT_DATE=$(gh api "repos/$REPO/git/commits/$SHA" --jq '.committer.date' 2>/dev/null || echo "")
+            if [ -z "$COMMIT_DATE" ]; then
+              echo "WARN: could not read commit for $BRANCH_NAME (SHA $SHA), skipping"
+              SKIPPED=$((SKIPPED + 1))
+              continue
+            fi
+
+            COMMIT_EPOCH=$(date -u -d "$COMMIT_DATE" +%s 2>/dev/null || date -u -j -f "%Y-%m-%dT%H:%M:%SZ" "$COMMIT_DATE" +%s 2>/dev/null || echo "0")
+            if [ "$COMMIT_EPOCH" -eq 0 ]; then
+              echo "WARN: could not parse commit date '$COMMIT_DATE' for $BRANCH_NAME, skipping"
+              SKIPPED=$((SKIPPED + 1))
+              continue
+            fi
+
+            AGE_HOURS=$(( (CUTOFF_EPOCH + 86400 - COMMIT_EPOCH) / 3600 ))
+
+            if [ "$COMMIT_EPOCH" -lt "$CUTOFF_EPOCH" ]; then
+              echo "DELETE $BRANCH_NAME (age ${AGE_HOURS}h, commit $COMMIT_DATE)"
+              if gh api -X DELETE "repos/$REPO/git/$REF" 2>&1; then
+                DELETED=$((DELETED + 1))
+              else
+                echo "WARN: delete failed for $BRANCH_NAME"
+                SKIPPED=$((SKIPPED + 1))
+              fi
+            else
+              echo "KEEP   $BRANCH_NAME (age ${AGE_HOURS}h, commit $COMMIT_DATE)"
+              KEPT=$((KEPT + 1))
+            fi
+          done
+
+          echo ""
+          echo "Summary: deleted=$DELETED kept=$KEPT skipped=$SKIPPED total=${#LINES[@]}"
+
+          echo "## Claim Branch Cleanup" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total claim branches | ${#LINES[@]} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deleted (orphans >24h) | $DELETED |" >> $GITHUB_STEP_SUMMARY
+          echo "| Kept (recent) | $KEPT |" >> $GITHUB_STEP_SUMMARY
+          echo "| Skipped (errors) | $SKIPPED |" >> $GITHUB_STEP_SUMMARY
