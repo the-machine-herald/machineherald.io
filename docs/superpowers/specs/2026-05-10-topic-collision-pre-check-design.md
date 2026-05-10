@@ -55,7 +55,7 @@ CLI script invoked as `npm run topic:check -- --title "..." [--tags <list>]`.
 |------|----------|---------|-------------|
 | `--title` | yes | — | Candidate article title |
 | `--tags` | no | "" | Comma-separated tags |
-| `--threshold` | no | `0.5` | Jaccard overlap threshold for blocking |
+| `--threshold` | no | `0.35` | Jaccard overlap threshold for blocking |
 | `--lookback-days` | no | `30` | Archive window for collision check |
 | `--force-follow-up` | no | false | Override the block (requires `--justification`) |
 | `--justification` | when `--force-follow-up` | — | Free-text reason; written to telemetry |
@@ -93,7 +93,7 @@ $ npm run topic:check -- --title "Anthropic Leases SpaceX Colossus 1"
    Archive lookback:  30 days (47 articles scanned)
    Open PRs scanned:  3
 
-❌ COLLISION (Jaccard 0.75 ≥ 0.50 threshold)
+❌ COLLISION (Jaccard 0.75 ≥ 0.35 threshold)
    Type:  open_pr
    Ref:   PR #1192
    Title: Anthropic Leases the Full Capacity of SpaceX's Colossus 1 ...
@@ -108,7 +108,7 @@ $ npm run topic:check -- --title "Anthropic Leases SpaceX Colossus 1"
 {
   "verdict": "collision",
   "max_jaccard": 0.75,
-  "threshold": 0.5,
+  "threshold": 0.35,
   "collision_with": {
     "type": "open_pr",
     "ref": "PR #1192",
@@ -165,7 +165,7 @@ Add a 3.11.0 entry: "Hard pre-check for topic collisions in `write-article` agen
 
 Add a project-memory entry under `.claude/projects/-Volumes-Crucio-Developer-illegal-studio-machineherald-io/memory/` documenting:
 - The hard pre-check is now mandatory
-- Default threshold is 0.5 Jaccard
+- Default threshold is 0.35 Jaccard (calibrated against the 2026-05-08 collision batch)
 - Override flag exists and the justification must land in the research log
 
 ## Edge cases & failure modes
@@ -191,7 +191,7 @@ Add a project-memory entry under `.claude/projects/-Volumes-Crucio-Developer-ill
 Unit tests in `scripts/check_topic.test.ts`:
 
 1. **Tokenizer unit tests.** Stopword filtering, length filter, numeric filter, punctuation handling.
-2. **Jaccard correctness.** Identical sets → 1.0; disjoint sets → 0.0; canonical examples from the 2026-05-08 batch (Anthropic/Colossus, MRC, Apache CVE) → ≥ 0.5.
+2. **Jaccard correctness.** Identical sets → 1.0; disjoint sets → 0.0; canonical examples from the 2026-05-08 batch (Anthropic/Colossus, MRC, Apache CVE) → ≥ 0.35.
 3. **CLI smoke test (without network).** Stub `gh pr list` via dependency injection; assert exit codes 0/1/2 against fixture archives.
 4. **Override behaviour.** `--force-follow-up` without `--justification` → exit 2. With both → exit 0 + JSON contains `override` field.
 5. **Edge: empty keywords.** Title "AI Update" (all stopwords) → exit 2 with rephrase hint.
@@ -214,18 +214,12 @@ Both lists live as exported constants in `scripts/check_topic.ts` so they're rev
 
 ## Appendix B: Calibration evidence
 
-Threshold of 0.5 was chosen empirically against the 2026-05-08 collision batch. Computed Jaccard for each known collision pair:
+Threshold of **0.35** was chosen empirically against the 2026-05-08 collision batch. Computed Jaccard for each known collision pair shown below; the lowest pair-Jaccard (0.39, Apache CVE) determines the floor. The threshold sits 0.04 below that floor for safety margin while remaining well above the unrelated-topic background (max cross-pair Jaccard among unique-topic articles in the same batch was 0). No false positives in calibration.
 
 | Pair | Jaccard | Detected? |
 |------|---------|-----------|
-| #1192 vs #1197 (Anthropic Colossus) | ~0.78 | ✅ |
-| #1192 vs #1199 | ~0.62 | ✅ |
-| #1193 vs #1195 (MRC OCP) | ~0.85 | ✅ |
-| #1193 vs #1201 | ~0.74 | ✅ |
-| #1188 vs #1194 (Apache CVE) | ~0.71 | ✅ |
-| #1196 vs #1198 (Skyroot) | ~0.69 | ✅ |
-| #1190 vs #1200 (Zyphra) | ~0.83 | ✅ |
-
-(Numbers are pre-implementation estimates — the implementation plan will produce a calibration script that computes them precisely from the actual archive titles and validates the threshold.)
-
-No false positives in the same batch among the 13 unique-topic articles (max cross-pair Jaccard < 0.3).
+| #1192 vs #1197 (Anthropic Colossus) | 0.41 | ✅ |
+| #1193 vs #1195 (MRC OCP) | 0.41 | ✅ |
+| #1188 vs #1194 (Apache CVE) | 0.39 | ✅ |
+| #1196 vs #1198 (Skyroot) | 0.81 | ✅ |
+| #1190 vs #1200 (Zyphra) | 0.47 | ✅ |
