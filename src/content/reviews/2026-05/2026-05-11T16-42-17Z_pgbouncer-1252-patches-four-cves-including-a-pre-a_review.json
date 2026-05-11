@@ -1,0 +1,60 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-11T16-42-17Z_pgbouncer-1252-patches-four-cves-including-a-pre-a.json",
+  "timestamp": "2026-05-11T18:07:33.034Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "PgBouncer 1.25.2 Patches Four CVEs Including a Pre-Auth SCRAM Crash That Hits Every Currently Shipping Debian Release",
+  "reviewer_model": "Claude Opus 4.7 (1M context)",
+  "verdict": "APPROVE",
+  "summary": "Editorially clean. Allowlist warning dismissed — pgbouncer.org is the project's official site (primary CVE/changelog source), CIRCL Vulnerability-Lookup is the EU CSIRT vulnerability database, ThreatInt is a CVE aggregator, and security-tracker.debian.org is the Debian Security Team's authoritative tracker. All four are legitimate primary security sources.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "pgbouncer.org: https://www.pgbouncer.org/changelog.html\nvulnerability.circl.lu: https://vulnerability.circl.lu/vuln/cve-2026-6665\ncve.threatint.eu: https://cve.threatint.eu/CVE/CVE-2026-6666\ncve.threatint.eu: https://cve.threatint.eu/CVE/CVE-2026-6667\ncve.threatint.eu: https://cve.threatint.eu/CVE/CVE-2026-6664\nsecurity-tracker.debian.org: https://security-tracker.debian.org/tracker/CVE-2026-6664"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "PgBouncer 1.25.2 Patches Four CVEs Including a Pre-Auth SCRAM Crash That Hits Every Currently Shipping Debian Release",
+    "summary": "An integer overflow in PgBouncer's SCRAM packet parser lets unauthenticated attackers crash the pooler, and three more flaws ship in the same release. Debian stable, testing, and pre-release archives are all still vulnerable.",
+    "body_excerpt": "## Overview\n\nThe PgBouncer project shipped version 1.25.2 on May 8, 2026, fixing four CVEs in the PostgreSQL connection pooler that sits between most production Postgres deployments and their clients. The headline flaw, CVE-2026-6664, is an unauthenticated remote crash in the SCRAM authentication packet parser, rated 7.5 / HIGH by [NVD](https://nvd.nist.gov/vuln/detail/CVE-2026-6664). Three additional fixes address a stack-based buffer overflow from a malicious upstream Postgres backend, a null-...",
+    "word_count": 829,
+    "sources_count": 7
+  },
+  "recommendations": [
+    "Consider adding pgbouncer.org, vulnerability.circl.lu, cve.threatint.eu, and security-tracker.debian.org to config/source_allowlist.txt as canonical security sources."
+  ],
+  "editor_notes": {
+    "content_quality": "Strong 829-word Briefing on a Postgres-tier infrastructure CVE set. Per-CVE breakdown with CVSS / CWE / vector / discoverer attribution. Distribution-status section grounded in the live Debian Security Tracker page. Tone neutral and technical, appropriate for an ops audience.",
+    "source_verification": "Read all 7 snapshots. source-0 PgBouncer changelog (68k chars): all four CVE descriptions verbatim — 'An integer overflow in network packet parsing code in PgBouncer before 1.25.2 bypasses a boundary check', 'a SCRAM server-final-message with a long nonce can trigger a stack overflow', 'did not check the return value of strlcat() correctly when building the contents of the SCRAM client-final-message', 'A possible null pointer reference in PgBouncer before 1.25.2 could lead to a crash, if a server sends an error response without SQLSTATE field', 'did not perform an appropriate authorization check for the KILL_CLIENT admin command', 'admin_users parameter'. Also confirmed: 1.25.0 'The one with LDAP support' Nov 9 2025, client_tls13_ciphers / server_tls13_ciphers options. source-1 NVD (4.4k chars): CVE-2026-6664 = 7.5 HIGH, CWE-190 verbatim. source-2 CIRCL (17k chars): CVE-2026-6665 = 8.1 HIGH, CWE-121, HarutoKimura, strlcat all verbatim. source-3 ThreatInt CVE-6666 (885 chars): 5.9, HarutoKimura. source-4 ThreatInt CVE-6667 (1k chars): 4.3, HarutoKimura, KILL_CLIENT, admin_users. source-5 ThreatInt CVE-6664 (992 chars): 7.5, Johannes Möller. source-6 Debian Security Tracker (1.3k chars): bookworm 1.18.0-1+deb12u1 vulnerable, trixie 1.24.1-1+deb13u1 vulnerable, forky 1.25.1-1 vulnerable, sid 1.25.2-1 patched, no-dsa tag for bookworm + trixie all verbatim.",
+    "factual_accuracy": "All four CVE IDs, CVSS scores, CWE classifications, version-status table entries, and credit attributions verified. No fabrications.",
+    "tone_assessment": "Neutral and technically precise. Properly distinguishes pre-auth (6664) from upstream-dependent (6665) from post-auth (6667). 'What We Don't Know' correctly notes absence of in-the-wild exploitation evidence and CISA KEV listing.",
+    "originality": "First Machine Herald coverage of this PgBouncer release. No overlap with recent Postgres-ecosystem coverage.",
+    "concerns": [
+      "Automated 'Sources not in allowlist' warning lists six security-domain sources. Dismissed — all are canonical security/vulnerability databases (project changelog, NVD, EU CSIRT CIRCL, ThreatInt CVE aggregator, Debian Security Tracker). Recommend adding the four flagged domains to the allowlist for future security coverage."
+    ],
+    "recommendations": [],
+    "overall_assessment": "APPROVE. Tight, technically accurate CVE breakdown with every claim sourced and verified. No corrections record needed."
+  }
+}
