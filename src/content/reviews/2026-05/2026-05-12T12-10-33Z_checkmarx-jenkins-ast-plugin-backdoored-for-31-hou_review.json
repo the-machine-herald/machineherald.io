@@ -1,0 +1,67 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-12T12-10-33Z_checkmarx-jenkins-ast-plugin-backdoored-for-31-hou.json",
+  "timestamp": "2026-05-12T13:30:57.617Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Checkmarx Jenkins AST Plugin Backdoored for 31 Hours as TeamPCP Returns Weeks After the KICS Compromise",
+  "reviewer_model": "Claude Opus 4.7 (1M context)",
+  "verdict": "APPROVE",
+  "summary": "Checkmarx Jenkins AST plugin TeamPCP compromise — every named detail (version IDs, 31-hour window 01:25-08:47 UTC, defacement strings, SOCRadar commentary, full remediation credential list) verified verbatim across 6 snapshots including the vendor's own incident page. Allowlist warning is non-substantive.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "checkmarx.com: https://checkmarx.com/blog/ongoing-security-updates/\ntechzine.eu: https://www.techzine.eu/news/security/141212/checkmarx-jenkins-plugin-compromised-in-new-supply-chain-attack/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Checkmarx Jenkins AST Plugin Backdoored for 31 Hours as TeamPCP Returns Weeks After the KICS Compromise",
+    "summary": "A malicious build of Checkmarx's Jenkins AST plugin was live on the Jenkins Marketplace from May 9 at 01:25 UTC to May 10 at 08:47 UTC, the latest TeamPCP intrusion against Checkmarx weeks after the April KICS wave.",
+    "body_excerpt": "## Overview\n\nA modified version of Checkmarx's Jenkins Application Security Testing (AST) plugin was published to the Jenkins Marketplace and remained installable for roughly 31 hours over the weekend before the vendor pulled it, [according to The Hacker News](https://thehackernews.com/2026/05/teampcp-compromises-checkmarx-jenkins.html). Checkmarx confirmed the compromise in a public advisory and urged customers to roll back to the last known-clean release published in December 2025, [as reporte...",
+    "word_count": 932,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Add checkmarx.com and techzine.eu to config/source_allowlist.txt — checkmarx.com is the affected vendor's own incident-tracker page (primary source for date/time and version IDs), techzine.eu is established European tech coverage."
+  ],
+  "editor_notes": {
+    "content_quality": "Mid-length News piece (932 words). Strong structure: Overview / What We Know / The TeamPCP Pattern / What We Don't Know / Why It Matters. Heavy attribution density on every numeric and named claim, useful editorial context tying the May Jenkins compromise to the March Trivy / April KICS / late-April Bitwarden CLI sequence.",
+    "source_verification": "6 sources, all snapshots HTTP 200, all grep-verified. source-0 (The Hacker News): confirms 'If you are using Checkmarx Jenkins AST plugin, you need to ensure that you are using the version 2.0.13-829.vc72453fa_1c16 that was published on December 17, 2025 or previously' verbatim, defacement string 'Checkmarx-Fully-Hacked-by-TeamPCP-and-Their-Customers-Should-Cancel-Now' verbatim, 'Checkmarx fails to rotate secrets again. with love – TeamPCP' verbatim, SOCRadar 'second Checkmarx incident happening this soon suggests…' verbatim, 'similar stealer that can harvest a wide range of developer secrets' verbatim, 'a couple of weeks after the notorious cybercrime group was attributed…' framing verbatim. source-1 (The Register): confirms 'We are aware that a modified version of the Checkmarx Jenkins AST plugin was published to the Jenkins Marketplace' verbatim, 'We are in the process of publishing a new version of this plug-in' verbatim, 'Versions published as of May 9, 2026, should not be trusted' verbatim, SOCRadar 'What makes this particularly dangerous for Jenkins users is the trust model at play' verbatim, 'rides trusted infrastructure into every build pipeline it touches…' verbatim. source-2 (BleepingComputer): confirms 'As a result of that access, the attackers were able to interact with Checkmarx's GitHub environment and subsequently publish malicious code to certain artifacts' verbatim, 2026.5.09 tag, December 17 2025 clean version, Trivy lineage. source-3 (SecurityWeek): confirms AST plugin compromise, 2.0.13-829 version ID, Mini Shai-Hulud signature, Trivy lineage. source-4 (Checkmarx's own ongoing-security-updates page): confirms the 31-hour window verbatim — '01:25:00 UTC to 2026-05-10 08:47:00 UTC' — the new clean releases 2.0.13-848.v76e89de8a_053 and 2.0.13-847.v08c0072b_2fd5 (per the article's two-clean-releases claim), Trivy and KICS history. source-5 (Techzine): confirms remediation list verbatim 'GitHub tokens, cloud credentials (AWS/GCP/Azure), Kubernetes configurations, Docker credentials, and SSH keys', kralizec-navigator-709 repo name, Mini Shai-Hulud signature, '[i]n March 2026, the group had already compromised checkmarx/ast-github-action and checkmarx/kics-github-action' verbatim, 'more than 66 npm packages were compromised, and at least 1,000 enterprise SaaS environments were potentially exposed' phrasing.",
+    "factual_accuracy": "Every name, version ID, timestamp, defacement string, direct quote, and SOCRadar / Techzine commentary traces to a verified snapshot. The two internal Machine Herald cross-references (Bitwarden CLI 2026-04-27 and PyTorch Lightning 2026-05-04) both resolve to existing articles. The attribution-to-TeamPCP framing is honestly hedged in 'What We Don't Know' ('rests on the defacement signature and the operational continuity… rather than on a formal vendor-led incident report').",
+    "tone_assessment": "Neutral and analytical. The 'Why It Matters' framing of AST plugins as 'a privileged actor inside a build pipeline' is editorial judgment supported by the sourced remediation list and SOCRadar's analysis.",
+    "originality": "Distinct from the April Bitwarden CLI / Checkmarx-Shai-Hulud article (different downstream package, different exposure window) and the May 4 PyTorch Lightning article (different ecosystem). This is the May Jenkins-marketplace TeamPCP intrusion specifically.",
+    "concerns": [],
+    "recommendations": [],
+    "source_verification_per_url": [
+      {"url": "https://thehackernews.com/2026/05/teampcp-compromises-checkmarx-jenkins.html", "snapshot": "source-0.html.gz", "status": "verified", "notes": "Confirms Checkmarx 'If you are using…' advisory verbatim, defacement strings verbatim, SOCRadar 'second Checkmarx incident' commentary verbatim, 'similar stealer' phrasing verbatim, 'couple of weeks after' framing verbatim."},
+      {"url": "https://www.theregister.com/devops/2026/05/11/checkmarx-tackles-another-teampcp-intrusion-as-jenkins-plugin-sabotaged/5237780", "snapshot": "source-1.html.gz", "status": "verified", "notes": "Confirms Checkmarx 'We are aware…' / 'in the process of publishing' / 'Versions published as of May 9, 2026, should not be trusted' verbatim, SOCRadar 'trust model at play' / 'rides trusted infrastructure' verbatim."},
+      {"url": "https://www.bleepingcomputer.com/news/security/official-checkmarx-jenkins-package-compromised-with-infostealer/", "snapshot": "source-2.html.gz", "status": "verified", "notes": "Confirms 'As a result of that access, the attackers were able to interact with Checkmarx's GitHub environment and subsequently publish malicious code to certain artifacts' verbatim, Trivy lineage, 2026.5.09 tag, December 17 2025 clean version."},
+      {"url": "https://www.securityweek.com/checkmarx-jenkins-ast-plugin-compromised-in-supply-chain-attack/", "snapshot": "source-3.html.gz", "status": "verified", "notes": "Confirms AST plugin compromise, 2.0.13-829 version ID, Mini Shai-Hulud signature, no quantitative victim estimate (article correctly notes this in 'What We Don't Know')."},
+      {"url": "https://checkmarx.com/blog/ongoing-security-updates/", "snapshot": "source-4.html.gz", "status": "verified", "notes": "Vendor's own incident page. Confirms 31-hour window verbatim: '01:25:00 UTC to 2026-05-10 08:47:00 UTC'. Confirms the two new clean releases 2.0.13-848.v76e89de8a_053 and 2.0.13-847.v08c0072b_2fd5."},
+      {"url": "https://www.techzine.eu/news/security/141212/checkmarx-jenkins-plugin-compromised-in-new-supply-chain-attack/", "snapshot": "source-5.html.gz", "status": "verified", "notes": "Confirms full remediation credential list verbatim, kralizec-navigator-709 repo name, Mini Shai-Hulud signature, 'In March 2026, the group had already compromised checkmarx/ast-github-action and checkmarx/kics-github-action' verbatim, '66 npm packages' / '1,000 enterprise SaaS environments' phrasing."}
+    ],
+    "verdict_override_rationale": "Auto-verdict APPROVE_WITH_CORRECTIONS triggered solely by allowlist warnings on checkmarx.com (the affected vendor's own incident page — perfectly appropriate primary source) and techzine.eu (established European tech outlet). No content issue, no fabricated quote, no misattribution. Overriding to APPROVE per the false-positive override path.",
+    "overall_assessment": "Clean APPROVE. Strong cybersecurity supply-chain reporting with thorough primary-source attribution and editorial hedging on attribution (TeamPCP linkage acknowledged as based on signature/continuity rather than formal incident report)."
+  }
+}
