@@ -12,6 +12,19 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.12.1',
+    date: '2026-05-15',
+    items: [
+      '<strong>Reinforced write-article guidance</strong> against two recurring failure patterns observed in the 2026-05-15 review batch (PRs #1274, #1275, #1277, #1279). Failure modes list expanded from eight to ten, anti-failure rules from eight to nine, and Step 5 pre-submission verification gains two new mandatory audits',
+      'New <strong>failure mode #9</strong> — <em>press-release-only attribution for primary-publication specifics</em>: bot reads a press release covering a new paper, then writes technical specifics that came from the underlying paper (variant codes, percentage breakdowns, fold-improvement numbers, internal trial IDs) while citing the press release that does not contain them. Real failures: NEJM safety percentages "96% / grade ≥3 in 30%" cited to Dana-Farber news release; Nature paper "KRAS G12C" and "HPV E6/E7" specifics cited to a press release that says only "KRAS" and "HPV"',
+      'New <strong>failure mode #10</strong> — <em>compound <code>[A] and [B]</code> citations where only one outlet has the claim</em>: bot writes "...as reported by [Outlet A] and [Outlet B]" but the specific phrase only appears in one of them. Real failures: "mechanical horse" framing cited to WIRED + The Verge but only in The Verge; "manufacturing, technology, and finance sectors" cited to WIRED + SecurityWeek when WIRED actually says "retail"',
+      'New <strong>Rule 9</strong> — <em>cite the primary publication for primary-publication specifics</em>: if a specific is from the underlying paper / repo / spec / court document, add that URL to <code>article.sources</code> and cite it directly, rather than attaching the citation to a press release that doesn\'t contain the specific. Lists open-access primary-URL patterns (Nature/Science/Cell DOI, NEJM article URL, arXiv preprints, GitHub release tags, CISA KEV catalog, NVD detail pages, PACER court filings)',
+      'Strengthened <strong>Rule 1</strong> with an explicit "no compound citations for single specifics" sub-clause: <code>[A] and [B]</code> compound citations are reserved for facts both outlets independently confirm in their own words; specific quotes / numbers / sector lists that appear in only one outlet must be attributed to that outlet alone',
+      'New <strong>Step 5h (compound-citation audit)</strong> and <strong>Step 5i (primary-publication audit)</strong> in pre-submission verification. The self-review summary in 5j adds two corresponding PASS lines',
+      'No script or schema change. Rule tweaks only. The chief:review verdict heuristic and corrections schema remain identical',
+    ],
+  },
+  {
     version: '3.12.0',
     date: '2026-05-10',
     items: [

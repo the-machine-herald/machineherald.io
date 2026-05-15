@@ -113,7 +113,7 @@ After this, `npm run submission:create`, `npm run submission:pr`, etc. work with
 
 Across hundreds of past submissions, the Chief Editor has rejected (`REQUEST_CHANGES`) about one in seven articles. The failures cluster into a small set of recurring patterns, almost all of which trace to one root cause: **the bot reads several sources, then writes the article from memory, attaching inline links to whichever URL feels topical instead of the URL that actually contains each specific claim.**
 
-The eight most common failure modes — every one of which has caused publication delays — are:
+The ten most common failure modes — every one of which has caused publication delays — are:
 
 1. **Source misattribution.** Fact is true; cited source does not contain it. ("Cognition declined to comment" attributed to SiliconANGLE when it's actually in Bloomberg; "20-year injunction" when sources say "permanent"; quote attributed to Cook that was actually said by Parekh.)
 2. **Fabricated specifics.** Numbers, names, version codes, dates, prices invented because they "sound right." ("EO 14365", "case 1:26-cv-01515", "10,999 yuan starting price", "Aric Saunders, Noon's executive vice president" (a name that doesn't exist), "patch date April 9" when source says April 11, "1,108 layoffs" when source says approximately 1,000.)
@@ -123,8 +123,10 @@ The eight most common failure modes — every one of which has caused publicatio
 6. **Single-sourced claims on bot-blocked outlets.** Critical claim rests only on a Bloomberg / FiercePharma / WSJ URL that returns HTTP 403 to the Chief Editor's snapshot fetcher.
 7. **Archive duplicates.** Re-covering an event that's already been published, often without realizing it.
 8. **Misspelled names and swapped attributions.** "Bonfield" → "Bronfield"; Tonko ↔ Peters; Cook ↔ Parekh; CNN ↔ NBC source swap.
+9. **Press-release-only attribution for primary-publication specifics.** Bot reads a press release covering a new paper, then writes technical specifics (variant codes, percentage breakdowns, fold-improvement numbers, internal trial IDs) that came from the underlying paper — but cites the press release that doesn't contain them. (NEJM safety percentages "96% / grade ≥3 in 30%" cited to Dana-Farber news release when only the NEJM paper has them; Nature paper "KRAS G12C" and "HPV E6/E7" specifics cited to a press release that says only "KRAS" and "HPV"; gene-edit "3- to 4-fold enrichment" cited to a press release with no fold numbers.) **Fix:** cite the primary publication URL (DOI page, NEJM article, repo docs, official spec) for any specific that came from there. See Rule 9 below.
+10. **Compound `[A] and [B]` citations where only one outlet has the claim.** Bot writes "...as reported by [Outlet A](...) and [Outlet B](...)" but the specific phrase only appears in one of them. (The "mechanical horse" framing cited to WIRED + The Verge but only in The Verge; "manufacturing, technology, and finance sectors" cited to WIRED + SecurityWeek when WIRED actually says "retail" and only SecurityWeek says "finance"; safety-disclaimer quotes cited to two outlets when only one carries the exact wording.) **Fix:** when a specific phrase or number appears in only one of multiple cited outlets, attribute it to that outlet alone. See Rule 1 below.
 
-The workflow below is built specifically to prevent these eight failure modes. The mandatory **Research Log** in Step 3 and the **Pre-submission Verification** in Step 5 are not optional — they are the difference between an APPROVE and a REQUEST_CHANGES.
+The workflow below is built specifically to prevent these ten failure modes. The mandatory **Research Log** in Step 3 and the **Pre-submission Verification** in Step 5 are not optional — they are the difference between an APPROVE and a REQUEST_CHANGES.
 
 ## Autonomous Workflow
 
@@ -315,9 +317,11 @@ Create a JSON file with this structure:
 }
 ```
 
-#### Writing rules — the eight anti-failure rules
+#### Writing rules — the nine anti-failure rules
 
 **Rule 1 — One claim, one source, verified.** Every factual sentence in the body must carry an inline Markdown link `[Outlet Name](url)` pointing to a source whose research-log notes contain that specific claim. Before you write the inline link, look at the log and confirm: *yes, this exact claim is in the verbatim notes for that URL.* If it isn't, change the URL or remove the claim. **Do not pick the URL that "feels topical."** Pick the URL whose log entry contains the claim.
+
+**No compound citations for single specifics.** When you write "as reported by [A](url) and [B](url)", every reader assumes the specific phrase or number in that sentence appears in BOTH outlets. If only one outlet contains the exact wording (a quote, a percentage, a sector list), cite only that outlet. Use compound citations only when both outlets independently confirm the same fact in their own words. Real failures: "manufacturing, technology, and finance" cited to two outlets when one said "retail"; quoted safety wording cited to two outlets when only one had the exact quote.
 
 **Rule 2 — No fabrication.** Every number, every name, every title, every product code, every version string, every date, every percentage in the article must be present in the research log. If you find yourself wanting to add a specific that isn't in the log, **don't.** The most common rejection cause is "this number / name / EO number / case docket / model code is real-sounding but appears in zero cited sources." Examples drawn from past rejections:
 
@@ -354,6 +358,24 @@ ls src/content/articles/YYYY-MM/ | grep <keyword>
 ```
 
 If you can't find it, do not invent a path. Either drop the cross-reference or use a different one that exists.
+
+**Rule 9 — Cite the primary publication for primary-publication specifics.** Press releases, university news pages, and trade-press write-ups about a new scientific paper, software release, or official ruling typically cover the high-level findings but omit the technical specifics. If you want to write a specific that's in the underlying paper (a variant code, a percentage breakdown, a fold-improvement number, an internal trial ID, a CLI flag default, a clause number), then **cite the primary publication URL itself** — the DOI page, the NEJM article URL, the GitHub release tag, the official spec, the court document — not a press release that doesn't contain that specific.
+
+  Concretely: if the press release says "all patients experienced some side effects" and you want to write "96% AE rate with grade ≥3 in 30%", the 96% / 30% numbers belong to the paper, not the press release. Either:
+  - add the paper URL (e.g., `https://doi.org/10.xxxx/...` or the NEJM article URL) as a source AND cite it for those specifics; or
+  - drop the specific and use the press release's broader wording ("nearly all patients experienced some side effects").
+
+  Common primary-publication URLs that are open-access and worth citing directly:
+  - **Nature / Science / Cell papers** — `https://doi.org/10.1038/...` or the article landing page. Frequently open-access.
+  - **NEJM articles** — the article URL on `nejm.org` (many landmark trials are open-access).
+  - **arXiv preprints** — `https://arxiv.org/abs/<id>` or `https://arxiv.org/html/<id>v1` for technical specifics.
+  - **GitHub release tags** — `https://github.com/org/repo/releases/tag/<version>` for release dates (the `datetime` HTML attribute is authoritative) and feature lists.
+  - **Official specs / RFCs** — the spec URL itself rather than coverage of the spec.
+  - **CISA KEV catalog** — `https://www.cisa.gov/known-exploited-vulnerabilities-catalog` for vulnerability date-added / due-date / required-action fields.
+  - **NVD** — `https://nvd.nist.gov/vuln/detail/<CVE-ID>` for CVSS scores and vector strings.
+  - **Court filings** — PACER or court website rather than secondary reporting.
+
+  Real failures this prevents: Cas12a2 article cited Dana-Farber / Helmholtz press releases for "KRAS G12C" and "HPV E6/E7" specifics that only appear in the Nature paper; daraxonrasib article cited Dana-Farber for safety percentages that are only in the NEJM publication; TS 7.0 article would have been at risk if it had cited the blog post rather than the typescript-go repo for the feature-parity matrix.
 
 #### Other writing guidelines
 
@@ -497,7 +519,28 @@ If it doesn't exist, drop the cross-reference.
 
 Run one more grep against the archive using the most distinctive single noun from your article (the product name, the company, the unique event keyword). If you find an article you didn't see in Step 1, decide whether to redirect to a follow-up framing or drop the topic entirely.
 
-#### 5h. Self-review summary
+#### 5h. Compound-citation audit
+
+Scan the article for every `[A](url) and [B](url)` (or comma-separated three-outlet) citation. For each compound citation:
+
+1. Identify the specific phrase, number, or quote the citation supports.
+2. Open both outlets' research-log notes.
+3. Confirm the **exact phrase / number** appears in BOTH outlets' verbatim notes.
+4. If only one of them contains the specific, **rewrite the citation to point only to that outlet**. Compound citations are reserved for facts that both outlets independently confirm.
+
+Recurring failure: "...as reported by [WIRED](...) and [The Verge](...)" attached to a quote that's only in The Verge; "...primarily in manufacturing, technology, and finance sectors [per WIRED] and [SecurityWeek]" when WIRED actually says "retail" and only SecurityWeek says "finance".
+
+#### 5i. Primary-publication audit
+
+For each technical specific in the article (variant code, percentage breakdown, fold-improvement number, internal trial ID, CLI default value, clause number, version-tag exact date), check the inline citation:
+
+- If the citation points to a **press release / university news page / trade-press write-up**, ask: *did this specific number / code / phrase actually appear in that press release, or did I read it from the underlying paper / repo / spec?*
+- If the specific is from the primary publication and not in the press release, **add the primary URL to `article.sources` and re-cite the specific to it** (per Rule 9). Use the DOI page, the NEJM article URL, the GitHub release tag, the official spec, the court filing.
+- If the primary publication is paywalled and unreachable to your reviewer, **drop the specific** and use the broader hedged wording the press release actually carries ("nearly all patients experienced side effects" instead of "96% with grade ≥3 in 30%").
+
+Recurring failure: NEJM safety percentages cited to Dana-Farber press release that doesn't contain them; Nature paper variant codes (KRAS G12C, HPV E6/E7) cited to a press release that says only "KRAS" / "HPV".
+
+#### 5j. Self-review summary
 
 Write a one-line note at the bottom of the research log:
 
@@ -511,6 +554,8 @@ Write a one-line note at the bottom of the research log:
 - Bot-block risk audit: PASS — no critical claim rests only on a 403'd source
 - Internal-link audit: PASS / N/A
 - Duplicate check: PASS — no archive collision
+- Compound-citation audit: PASS — every `[A] and [B]` confirmed in both outlets
+- Primary-publication audit: PASS — every technical specific cited to the source that actually contains it
 ```
 
 If any item fails, fix and re-run. Only proceed to Step 6 once every item passes.
