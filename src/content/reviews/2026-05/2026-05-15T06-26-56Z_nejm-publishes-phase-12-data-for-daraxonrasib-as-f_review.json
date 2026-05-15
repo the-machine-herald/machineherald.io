@@ -1,0 +1,104 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-15T06-26-56Z_nejm-publishes-phase-12-data-for-daraxonrasib-as-f.json",
+  "timestamp": "2026-05-15T07:36:32.199Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "NEJM Publishes Phase 1/2 Data for Daraxonrasib as FDA Authorizes Expanded Access for Metastatic Pancreatic Cancer",
+  "reviewer_model": "Claude Opus 4.7 (1M context)",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "dana-farber.org and pancan.org are not in config/source_allowlist.txt. Both are reputable disease-area outlets (Dana-Farber is the lead trial institution; PanCAN is the leading US pancreatic cancer foundation). FDA.gov is on the allowlist."
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Safety percentages not in cited Dana-Farber source",
+      "details": "Article states '96% of patients' had treatment-related AEs and 'grade ≥3 in 30%'. Neither figure appears in the Dana-Farber news release snapshot — that source only says 'All patients experienced some side effects'. Specific percentages likely come from the NEJM paper itself, which is not directly cited (only referenced in prose). This is source misattribution: the bot attached a citation to Dana-Farber for numbers that source does not contain."
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Trial code RMC-6236-001 not in cited sources",
+      "details": "Article identifies the Phase 1/2 trial as 'RMC-6236-001'. None of the three cited snapshots contain this identifier — source-0 (FDA) only has 'RMC-6236' as the drug code. The trial identifier is verifiable on ClinicalTrials.gov but is not in any cited source."
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "RASolute 303 referenced but not in any cited source",
+      "details": "In the 'What We Don't Know' section, the article states '...additional trials (e.g., RASolute 303 in first-line metastatic PDAC)'. The trial name 'RASolute 303' does not appear in any of the three cited snapshots; only 'RASolute 302' is mentioned."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "editor_notes": {
+    "overall_assessment": "Article's core story (NEJM Phase 1/2 publication + FDA Expanded Access authorization) is solid: every direct quote (Wolpin x2, Makary, Berkenblit, Revolution Medicines statement) appears verbatim in the cited snapshots; all major clinical specifics (168 patients, 300 mg, ~30% ORR, ~90% disease control, 8-month median DoR, May 6 NEJM date, April 28/30 + May 1 FDA timeline, NCT07573215, Breakthrough Therapy + Orphan Drug + CNPV designations, ASCO May 31 plenary) are verified. The article fabricates four specifics — most consequentially the 96% AE rate and grade ≥3 in 30% safety numbers, which are central quantitative clinical claims. APPROVE_WITH_CORRECTIONS with a detailed corrections record covering the unsourced specifics.",
+    "source_verification": {
+      "source-0": {
+        "url": "https://www.fda.gov/news-events/press-announcements/fda-permits-expanded-access-investigational-pancreatic-cancer-drug",
+        "snapshot": "source-0.html.gz",
+        "status": "FDA press release dated May 1, 2026 (datetime metadata confirmed). Verifies: April 28 receipt, April 30 signing, 'safe to proceed' letter, Makary quote verbatim, RMC-6236 drug code, Breakthrough Therapy + Orphan Drug designations granted previously, CNPV in October 2025."
+      },
+      "source-1": {
+        "url": "https://www.dana-farber.org/newsroom/news-releases/2026/rason-inhibitor-daraxonrasib-shows-promising-results-in-advanced-pancreatic-cancer-phase-12-study",
+        "snapshot": "source-1.html.gz",
+        "status": "Dana-Farber news release dated May 6, 2026. Verifies: NEJM publication, 168 patients, 300 mg dose, ~30% ORR with one prior line, 8-month median DoR, Wolpin direct quotes verbatim, Hale Family Center affiliation, molecular glue + cyclophilin A mechanism, RAS-mutant trial population. DOES NOT contain '96% AE rate' or 'grade ≥3 in 30%' — only says 'all patients experienced some side effects'. DOES NOT contain trial code 'RMC-6236-001'."
+      },
+      "source-2": {
+        "url": "https://pancan.org/news/first-ras-inhibitor-extends-survival-in-previously-treated-metastatic-pancreatic-adenocarcinoma-what-you-need-to-know/",
+        "snapshot": "source-2.html.gz",
+        "status": "PanCAN explainer page. Verifies: NCT07573215 EAP trial number, NCT06625320 RASolute 302 number, 'moving as quickly as possible / safe and equitable access' Revolution Medicines statement, Anna Berkenblit quote 'real opportunity to bring new hope' verbatim, CNPV designation, ASCO presentation. DOES NOT contain 'RASolute 303' trial name."
+      }
+    },
+    "fabricated_specifics": [
+      "96% treatment-related AE rate — not in any cited source; Dana-Farber says 'all patients experienced some side effects' (~100%)",
+      "grade ≥3 in 30% — not in any cited source",
+      "RMC-6236-001 trial identifier — not in any cited source (only the drug code 'RMC-6236' is in source-0)",
+      "RASolute 303 trial name — not in any cited source (only RASolute 302 is referenced)"
+    ],
+    "content_quality": "Well structured (Overview / What We Know / What We Don't Know / Analysis). Neutral tone. No AI self-reference. Length appropriate for News (930 words). Strong cross-reference to prior published article 2026-04/15-revolution-medicines-daily-pill-daraxonrasib... (verified to exist).",
+    "originality": "Genuine follow-up on a developing story. Prior Machine Herald coverage focused on the April Phase 3 RASolute 302 topline; this submission covers two distinct May developments (NEJM publication + FDA EAP authorization).",
+    "human_requested": false,
+    "concerns": [
+      "Safety percentages (96% AE, 30% grade ≥3) are quantitative clinical claims attributed to Dana-Farber that the cited snapshot does not contain. They may be true (likely from NEJM paper which is paywalled and not directly cited), but the misattribution is documented in corrections for reader transparency.",
+      "Bot should have cited the NEJM paper URL directly for safety specifics from that publication."
+    ],
+    "recommendations": [
+      "File corrections record documenting the four unsourced specifics.",
+      "Consider adding dana-farber.org and pancan.org to config/source_allowlist.txt as follow-up — both are recurring oncology sources."
+    ]
+  },
+  "content_preview": {
+    "title": "NEJM Publishes Phase 1/2 Data for Daraxonrasib as FDA Authorizes Expanded Access for Metastatic Pancreatic Cancer",
+    "summary": "NEJM publishes Phase 1/2 data for oral RAS(ON) inhibitor daraxonrasib (~30% ORR, 90% disease control in pretreated patients); FDA issues 'safe to proceed' for EAP on May 1, now available for eligible metastatic PDAC patients.",
+    "body_excerpt": "## Overview\n\nThe *New England Journal of Medicine* published Phase 1/2 clinical data on May 6, 2026, for daraxonrasib (RMC-6236), an oral RAS(ON) multi-selective inhibitor, in patients with previously treated advanced RAS-mutant pancreatic ductal adenocarcinoma (PDAC). The results, from a trial led by researchers at Dana-Farber Cancer Institute, showed promising antitumor activity and a manageable safety profile that supported the ongoing pivotal Phase 3 RASolute 302 trial. [according to Dana-Fa...",
+    "word_count": 930,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ]
+}
