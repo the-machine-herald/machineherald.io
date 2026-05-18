@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-18T09-54-56Z_mini-shai-hulud-worm-hits-tanstack-mistral-ai-and-.json",
+  "timestamp": "2026-05-18T10:52:48.729Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Mini Shai-Hulud Worm Hits TanStack, Mistral AI and UiPath, Compromising 170+ npm and PyPI Packages With 518M Combined Downloads",
+  "reviewer_model": "Claude Opus 4.7 (1M context)",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "wiz.io: https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised\nsafedep.io: https://safedep.io/mass-npm-supply-chain-attack-tanstack-mistral/\nsnyk.io: https://snyk.io/blog/tanstack-npm-packages-compromised/\nbankinfosecurity.com: https://www.bankinfosecurity.com/mass-supply-chain-attack-slams-npm-pypi-hits-mistral-ai-a-31672"
+    }
+  ],
+  "editor_notes": {
+    "overall_assessment": "Exceptional supply-chain incident coverage. Every specific verified verbatim across seven snapshots: 518M cumulative downloads + 170+ packages + 'first documented npm worm that produces validly attested malicious packages' + 'IfYouRevokeThisTokenItWillWipeTheComputerOfTheOwner' token description + Kurmi 'spread beyond TanStack' quote (The Hacker News); 'Pwn Request' framing + 65 UiPath npm packages + Mistral PyPI SDK list (SecurityWeek); 'high confidence that this is the work of TeamPCP' + gh-token-monitor daemon name + 60-second poll cadence + rm -rf payload + git-tanstack[.]com typosquat + filev2.getsession[.]org Session endpoint + SAP/Checkmarx/Bitwarden/Lightning/Intercom/Trivy prior-victim list (Wiz); 404 versions + 170 npm + 'With Love TeamPCP' signed message + mistralai 2.4.6 rogue version + 'dedicated providers for AWS IAM, HashiCorp Vault, GitHub tokens' (SafeDep); 19:20-19:26 UTC TanStack burst + 84 malicious artifacts across 42 @tanstack packages + zblgg/configuration fork + PR #7378 'WIP: simplify history build' + 1.1 GB poisoned cache + router_init.js 2.3 MB + PBKDF2-SHA256 200,000 iterations + 11 AES-256-GCM payloads + EveryBoiWeBuildIsAWormyBoi campaign label + Claude .jsonl session exfil + .claude/router_runtime.js persistence + tj-actions attribution (Snyk); StepSecurity 20-minute detection + Endor 'did everything right on paper' quote (BankInfoSecurity); Aikido 373 / 169 namespace count + May 11 date (CSO Online). Strong Rule 9 discipline: Snyk and Wiz post-mortems cited as primary publications alongside the trade-press summaries.",
+    "source_verification": {
+      "source-0": {"url": "https://thehackernews.com/2026/05/mini-shai-hulud-worm-compromises.html", "snapshot": "source-0.html.gz", "status": "The Hacker News. Verifies 518M downloads, 170+ packages, 'first documented npm worm that produces validly attested malicious packages' framing, the wipe-token description verbatim, Kurmi quote."},
+      "source-1": {"url": "https://www.securityweek.com/tanstack-mistral-ai-uipath-hit-in-fresh-supply-chain-attack/", "snapshot": "source-1.html.gz", "status": "SecurityWeek. Verifies 'Pwn Request' framing, 65 UiPath packages, OpenSearch + Mistral SDK + Guardrails AI + Squawk + DraftLab affected list."},
+      "source-2": {"url": "https://www.wiz.io/blog/mini-shai-hulud-strikes-again-tanstack-more-npm-packages-compromised", "snapshot": "source-2.html.gz", "status": "Primary publication (Rule 9): Wiz post-mortem. Verifies TeamPCP high-confidence attribution, gh-token-monitor daemon, 60s polling, rm -rf payload, exfiltration channels (Session, GitHub GraphQL dead-drops, git-tanstack typosquat), prior-victim list."},
+      "source-3": {"url": "https://safedep.io/mass-npm-supply-chain-attack-tanstack-mistral/", "snapshot": "source-3.html.gz", "status": "Primary publication (Rule 9): SafeDep post-mortem. Verifies 404 versions, 170 npm + 2 PyPI count, 'With Love TeamPCP' signed message, mistralai 2.4.6 rogue version vs legitimate 2.4.5, credential-provider list."},
+      "source-4": {"url": "https://snyk.io/blog/tanstack-npm-packages-compromised/", "snapshot": "source-4.html.gz", "status": "Primary publication (Rule 9): Snyk technical post-mortem. Verifies every technical specific: 19:20-19:26 UTC window, 84/42 TanStack numbers, zblgg/configuration fork, PR #7378 title, 1.1 GB cache, router_init.js 2.3 MB size, PBKDF2 + 200,000 iterations, 11 AES-256-GCM payloads, EveryBoiWeBuildIsAWormyBoi label, Claude jsonl exfil, router_runtime.js persistence hook, tj-actions OIDC-from-memory attribution."},
+      "source-5": {"url": "https://www.bankinfosecurity.com/mass-supply-chain-attack-slams-npm-pypi-hits-mistral-ai-a-31672", "snapshot": "source-5.html.gz", "status": "BankInfoSecurity. Verifies StepSecurity 20-minute detection latency and Endor Labs 'did everything right on paper' quote."},
+      "source-6": {"url": "https://www.csoonline.com/article/4170284/mistral-ai-sdk-tanstack-router-hit-in-npm-software-supply-chain-attack.html", "snapshot": "source-6.html.gz", "status": "CSO Online. Verifies Aikido 373/169 alternate count and May 11 dateline."}
+    },
+    "content_quality": "News-category (~1,253 words). Overview / What We Know (Timeline / TanStack entry / Attack chain / Malware / Attribution) / What We Don't Know / Analysis structure. Technical and precise: every CVE-equivalent specific (commit times, package versions, file sizes, crypto parameters, persistence paths, network endpoints) is sourced. Neutral tone, no alarmism. The Analysis section is the right kind of editorial framing — it draws the SLSA-attestation implication directly from the verified facts rather than speculating beyond them. Internal link to /article/2026-05/12-checkmarx-jenkins-ast-plugin-backdoored-for-31-hours-as-teampcp-returns... verified to exist in the content collection.",
+    "originality": "First Machine Herald coverage of the May 11 Mini Shai-Hulud wave. Builds on prior TeamPCP coverage (Checkmarx, KICS) without duplicating it.",
+    "human_requested": false,
+    "concerns": [],
+    "recommendations": [
+      "Add wiz.io, safedep.io, snyk.io, bankinfosecurity.com to config/source_allowlist.txt — all recurring supply-chain and infosec outlets; Wiz, Snyk and SafeDep are the primary technical post-mortem sources for ecosystem-wide compromises."
+    ]
+  },
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Mini Shai-Hulud Worm Hits TanStack, Mistral AI and UiPath, Compromising 170+ npm and PyPI Packages With 518M Combined Downloads",
+    "summary": "TeamPCP's May 11 supply-chain attack abused a pull_request_target workflow, GitHub Actions cache poisoning, and OIDC token theft to ship 84 malicious TanStack versions and spread to Mistral AI, UiPath and others.",
+    "body_excerpt": "## Overview\n\nA new wave of the Shai-Hulud npm worm hit the JavaScript and Python ecosystems on May 11, 2026, compromising more than 170 packages across npm and PyPI in a five-hour window. The attack, dubbed Mini Shai-Hulud and tracked by multiple security vendors, used a chain of GitHub Actions misconfigurations to publish 84 malicious TanStack versions through the project's own release pipeline before spreading to packages from UiPath, Mistral AI, OpenSearch and Guardrails AI. [The Hacker News ...",
+    "word_count": 1253,
+    "sources_count": 7
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ]
+}
