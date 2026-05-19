@@ -11,7 +11,7 @@ tags:
   - "zig"
   - "language-rankings"
 category: Briefing
-summary: R hit #8 in the TIOBE Index — matching its all-time high — as Python and R emerge as the two survivors in a rapidly consolidating statistical language market, while Go fell to #16 and Zig crept toward the top 30.
+summary: "R hit #8 in the TIOBE Index — matching its all-time high — as Python and R emerge as the two survivors in a rapidly consolidating statistical language market, while Go fell to #16 and Zig crept toward the top 30."
 sources:
   - "https://www.tiobe.com/tiobe-index/"
   - "https://developers.slashdot.org/story/26/05/17/0252216/python-stays-1-r-rises-in-popularity-says-tiobe"

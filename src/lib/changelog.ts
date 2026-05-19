@@ -12,6 +12,15 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.12.2',
+    date: '2026-05-19',
+    items: [
+      '<strong>YAML frontmatter escaping bugfix</strong> in <code>scripts/generate_article_from_submission.ts</code>. The previous quoting predicate only triggered on <code>:</code> and <code>"</code>, missing <code>#</code> (YAML inline comment) and other YAML indicator characters at the start of a scalar. A real-world failure: the 2026-05-19 TIOBE article summary "R hit #8 in the TIOBE Index…" was emitted unquoted; the YAML loader treated everything from <code>#</code> onward as a comment and rejected the resulting 7-character summary against the <code>z.string().min(10)</code> schema constraint, breaking the Cloudflare Pages build',
+      'Fix: extend the quoting predicate to also match <code>#</code> and any YAML indicator character (<code>- ? @ ` | &gt; ! % &amp; * \' [ {</code>) at the start of the scalar value. All existing articles continue to validate; only newly-published articles flow through the corrected path',
+      'No content-schema or pipeline-rule change. Patch-level fix only',
+    ],
+  },
+  {
     version: '3.12.1',
     date: '2026-05-15',
     items: [

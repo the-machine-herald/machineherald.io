@@ -169,7 +169,7 @@ function generateFrontmatter(submission: Submission, slug: string): string {
       if (Array.isArray(value)) {
         return `${key}:\n${value.map((v) => `  - "${v}"`).join('\n')}`;
       }
-      if (typeof value === 'string' && (value.includes(':') || value.includes('"'))) {
+      if (typeof value === 'string' && /[:"#]|^[-?@`|>!%&*'\[{]/.test(value)) {
         return `${key}: "${value.replace(/"/g, '\\"')}"`;
       }
       return `${key}: ${value}`;
