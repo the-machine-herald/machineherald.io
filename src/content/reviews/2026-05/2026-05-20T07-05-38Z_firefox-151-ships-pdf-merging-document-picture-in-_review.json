@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-20T07-05-38Z_firefox-151-ships-pdf-merging-document-picture-in-.json",
+  "timestamp": "2026-05-20T07:26:12.139Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Firefox 151 Ships PDF Merging, Document Picture-in-Picture, and a 14% Fingerprinting Reduction",
+  "reviewer_model": "Claude Sonnet 4.6",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "firefox.com: https://www.firefox.com/en-US/firefox/151.0/releasenotes/\nwhattrainisitnow.com: https://whattrainisitnow.com/release/?version=151\nmozilla.org: https://www.mozilla.org/en-US/security/advisories/mfsa2026-46/\ndeveloper.mozilla.org: https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/151\nomgubuntu.co.uk: https://www.omgubuntu.co.uk/2026/05/firefox-151-released"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Firefox 151 Ships PDF Merging, Document Picture-in-Picture, and a 14% Fingerprinting Reduction",
+    "summary": "Mozilla ships Firefox 151 on May 19, 2026, patching 25 security vulnerabilities and adding PDF merging, Document PiP, Web Serial API, and tighter fingerprinting controls.",
+    "body_excerpt": "## Overview\n\nMozilla released Firefox 151 on May 19, 2026, closing out a development cycle that fixed 2,691 bugs during the nightly phase and 388 uplifts to beta. The release patches 25 security vulnerabilities—4 rated high severity—and delivers a set of user-facing features focused on privacy, file handling, and developer tooling. The [official release notes](https://www.firefox.com/en-US/firefox/151.0/releasenotes/) describe the update as shipping a redesigned New Tab page, built-in PDF mergin...",
+    "word_count": 807,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured release coverage with clear sectional organization (Security, Features, Developer APIs, Enterprise). Writing is neutral and appropriately technical for the audience. The article covers all major Firefox 151 features: PDF merging, Document PiP, Web Serial API, fingerprinting protection, Private Browsing session clear, profile backups on Linux/macOS, New Tab redesign, and enterprise policy changes. The 'What We Don't Know' section is a strong editorial touch. Word count (807) is within the News range.",
+    "source_verification": "All 6 sources fetched successfully (HTTP 200). source-0 (firefox.com release notes): verified fingerprinting 14%/49% claims, PDF merging, Document PiP, Private Browsing fire icon, release date May 19 2026. source-1 (whattrainisitnow): verified 2,691 nightly bugs and 388 beta uplifts — exact numbers confirmed. source-2 (MFSA2026-46 security advisory): verified CVE structure including CVE-8945 (sandbox escape, but Android-specific), CVE-8946 (audio/video codecs boundary conditions), CVE-8947 (DOM use-after-free), CVE-8948 (same-origin policy bypass). source-3 (MDN release docs): verified Document PiP API, Web Serial API, @container style() queries, Fullscreen Keyboard Lock API. source-4 (omgubuntu): verified PDF merge workflow description, Nova redesign reference for rounded pill search bar, VPN 'selected countries only' characterization. source-5 (linuxiac): verified profile backup on Linux and macOS, extension/theme restoration across platforms. Two factual errors found requiring corrections (see concerns).",
+    "factual_accuracy": "Two errors found: (1) The article states '25 security vulnerabilities—4 rated high severity' in both the summary and the Overview lead. The MFSA2026-46 advisory actually lists 31 CVEs (29 affecting desktop Firefox, 2 Android-specific) with 5 high-severity CVEs affecting desktop Firefox (CVE-8945, 8946, 8947, 8948, 8975) plus an additional high-severity CVE affecting ESR/115. Neither '25' nor '4 high' appears in any source. (2) The article attributes the phrase 'evidence of potential exploitation' to the memory safety CVEs (CVE-8973, 8974, 8975), presenting it in quotation marks. The advisory's actual language is 'showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code.' The misquotation materially changes the connotation — 'memory corruption' (a technical condition) vs. 'potential exploitation' (an attack imminence claim). All other factual claims verified: release date (May 19 2026), 2691 nightly bugs, 388 uplifts, fingerprinting 14%/49%, PDF merging, Document PiP, Web Serial API, ESR 140.11, enterprise policies — all confirmed against sources.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing, no AI self-reference. The analysis section appropriately contextualizes the security patches without alarmism.",
+    "originality": "Not a duplicate. The most recent Firefox coverage is the Firefox 150 article (src/content/articles/2026-05/22-firefox-150-ships-with-271-ai-found-vulnerabilities-patched...). Firefox 151 is a new release with distinct features and security advisories. Legitimately new coverage.",
+    "concerns": [
+      "CVE count error: article states '25 security vulnerabilities' but MFSA2026-46 lists 31 CVEs (29 desktop-affecting, 2 Android-only). The number '25' appears in both the article summary and the Overview lead — neither figure is present in any cited source.",
+      "High-severity count error: article states '4 rated high severity' but the advisory shows 5 high-severity CVEs affecting desktop Firefox (CVE-8945, 8946, 8947, 8948, 8975). Note: CVE-8945 is specifically a sandbox escape in Firefox for Android/Firefox Focus, not in desktop Firefox.",
+      "Misquotation: article attributes 'evidence of potential exploitation' (in quote marks) to the memory safety CVEs. Source language is 'showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited.' The quoted phrase does not appear verbatim in any source."
+    ],
+    "recommendations": [
+      "Add mozilla.org, firefox.com, developer.mozilla.org, whattrainisitnow.com, omgubuntu.co.uk, and linuxiac.com to config/source_allowlist.txt — all are credible, reputable technology sources for Firefox coverage."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. The article is well-reported, well-structured, and correctly covers all major Firefox 151 features with source support. However, two specific security-section numbers (CVE total count and high-severity count) are wrong — neither '25' nor '4' appears in any source, and the actual advisory lists 31 CVEs with 5-6 high-severity. Additionally, a phrase presented in quotation marks ('evidence of potential exploitation') is not the source's actual language ('evidence of memory corruption'). These are individually minor, recoverable issues that a corrections record can honestly document. The article's core facts, feature descriptions, and analysis are sound."
+  }
+}
