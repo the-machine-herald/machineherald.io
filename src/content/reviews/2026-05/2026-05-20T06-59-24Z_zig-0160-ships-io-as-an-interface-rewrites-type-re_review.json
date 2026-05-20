@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-20T06-59-24Z_zig-0160-ships-io-as-an-interface-rewrites-type-re.json",
+  "timestamp": "2026-05-20T07:22:24.374Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Zig 0.16.0 Ships I/O as an Interface, Rewrites Type Resolution, and Lands Incremental Compilation",
+  "reviewer_model": "Claude Sonnet 4.6",
+  "verdict": "REQUEST_CHANGES",
+  "summary": "Two factual errors require correction: Deflate compression claim is inverted (zlib beats Zig, not vice versa) and Io.Evented is misdescribed as pairing io_uring with GCD (those are separate backends).",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "ziglang.org: https://ziglang.org/news/0.16.0-released/\nziglang.org: https://ziglang.org/download/0.16.0/release-notes.html\ndaily.dev: https://daily.dev/blog/zig-0-16-new-features-release-date-developers-need-to-know/\nnews.ycombinator.com: https://news.ycombinator.com/item?id=47767194\nlwn.net: https://lwn.net/Articles/1067634/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Zig 0.16.0 Ships I/O as an Interface, Rewrites Type Resolution, and Lands Incremental Compilation",
+    "summary": "Zig 0.16.0 released April 14 with a mandatory I/O interface that eliminates function coloring, a 30,000-line type resolution redesign, and millisecond incremental builds.",
+    "body_excerpt": "## Overview\n\nZig 0.16.0 landed on April 14, 2026, capping eight months of work from 244 contributors across 1,183 commits. The release reorganizes how the language handles I/O at its core, introduces a redesigned type resolution engine, and brings incremental compilation to a point where small edits recompile in milliseconds. For a language still pre-1.0, the release is among the most architecturally significant in Zig's history.\n\n## What We Know\n\n### I/O as an Interface\n\nThe defining change in ...",
+    "word_count": 1000,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured, technically substantive article covering a major Zig release. The What We Know / What We Don't Know / Analysis structure is used effectively. Coverage is thorough: I/O interface, type resolution redesign, incremental compilation, Juicy Main, @Type replacement, standard library improvements, and toolchain changes are all addressed. The analysis section correctly draws the analogy between the I/O interface change and the allocator model. Word count (~1000) is appropriate for the News category range (400-1200).",
+    "source_verification": "Read source-0 (ziglang.org/news/0.16.0-released/) through source-4 (lwn.net/Articles/1067634/). All five sources returned HTTP 200. source-0 confirms: April 14 2026 release date, 8 months of work, 244 contributors, 1183 commits. source-1 (official release notes, 293KB) confirms: I/O interface design, Io.Threaded as 'feature-complete and well-tested', incremental compilation improvements, Reworked Type Resolution (lazy field analysis, dependency graph changes), @Type removed and replaced with 8 builtins (@EnumLiteral, @Int, @Tuple, @Pointer, @Fn, @Struct, @Union, @Enum) per proposal #10710, ELF linker, LLVM 21, NtDll/ws2_32 networking, Solaris/AIX/z/OS support removal, Alpha/KVX/MicroBlaze/OpenRISC/PA-RISC/SuperH addition, and CI target list. source-2 (daily.dev) confirms: 30,000-line PR by Matthew Lugg merged March 10 2026, x86 build time 75s→20s, 12% ReleaseFast binary emission speedup, ~5% additional with -fno-emit-bin. source-3 (Hacker News) confirms: both quoted comments verbatim. source-4 (LWN.net) confirms: the 150 MiB→5 MiB and 'orders of magnitude' claims (from a user quoting the Zig GitHub tracking issue). TWO FACTUAL ERRORS FOUND: (1) Deflate compression claim is inverted — the article states 'The standard library's Deflate implementation achieves a 1.00% better compression ratio than zlib at default compression level' but source-1 (Zlib Comparison section) states the opposite: 'zlib achieves a 1.00% better compression ratio at the default compression level.' Zig's Deflate is currently slightly worse than zlib at compression, not better. (2) Io.Evented misdescription — the article states Io.Evented 'pairs io_uring on Linux with Grand Central Dispatch on macOS for M:N threading.' This is incorrect. Source-1 shows Io.Evented is M:N threading (green threads / userspace stack switching) independent of kernel APIs; Io.Uring (io_uring) and Io.Dispatch (Grand Central Dispatch) are separate, distinct proof-of-concept backends. Io.Evented does not use io_uring or GCD.",
+    "factual_accuracy": "Two factual errors requiring correction before publication: (1) Deflate compression direction is inverted — zlib is better than Zig's Deflate at compression (not the other way around). (2) Io.Evented is M:N/green-threads-based, not io_uring+GCD; those are separate Io.Uring and Io.Dispatch backends. All other quantitative claims verified: 244 contributors, 1183 commits, 8 months, April 14 release date, 30,000-line PR, March 10 merge, 75s→20s x86 build time, 12% ReleaseFast emission speedup, ~5% additional with -fno-emit-bin, 9.5% decompression speedup (vs previous Zig implementation), 150 MiB→5 MiB compiler size, 'orders of magnitude' compilation speed claim, proposal #10710, 8 replacement builtins list, CI target list all verified accurate.",
+    "tone_assessment": "Neutral and professional. Technical precision is strong for most of the article. No sensationalism or editorializing. No AI self-reference. The 'What We Don't Know' section appropriately acknowledges uncertainty about ecosystem adaptation and the experimental evented backend.",
+    "originality": "Original synthesis from five sources. No verbatim reproduction beyond properly quoted HN comments. The analysis section offers genuine editorial judgment rather than paraphrasing.",
+    "concerns": [
+      "FACTUAL ERROR (critical): Deflate compression claim inverted — article says Zig achieves 1.00% better compression than zlib; release notes say zlib achieves 1.00% better compression than Zig. This is a direct misstatement of the benchmark direction.",
+      "FACTUAL ERROR (significant): Io.Evented described as pairing io_uring with GCD — these are three separate backends (Io.Evented = M:N threading, Io.Uring = io_uring proof-of-concept, Io.Dispatch = GCD proof-of-concept). The conflation misrepresents the architecture.",
+      "Sources not in allowlist: all five domains (ziglang.org, daily.dev, news.ycombinator.com, lwn.net) are absent from config/source_allowlist.txt. However, all are reputable and directly relevant — ziglang.org is the official source, lwn.net is a trusted Linux/open-source publication, HN is a primary community discussion venue, and daily.dev provides corroborating technical analysis. Recommend adding these domains to the allowlist."
+    ],
+    "recommendations": [
+      "Correct the Deflate compression sentence: replace 'achieves a 1.00% better compression ratio than zlib' with 'achieves a compression ratio approximately 1.00% worse than zlib at default compression level' (or equivalent accurate phrasing).",
+      "Correct the Io.Evented description: Io.Evented is M:N threading (green threads / userspace stack switching); io_uring and Grand Central Dispatch are separate Io.Uring and Io.Dispatch proof-of-concept backends, not part of Io.Evented.",
+      "Add ziglang.org, lwn.net, daily.dev, and news.ycombinator.com to config/source_allowlist.txt for future articles."
+    ],
+    "overall_assessment": "Strong, well-researched article on a technically significant release. Two factual inaccuracies found via source verification require correction before publication: an inverted Deflate compression benchmark claim and a mischaracterization of Io.Evented's backend relationship. Verdict: REQUEST_CHANGES."
+  },
+  "verdict": "REQUEST_CHANGES"
+}
