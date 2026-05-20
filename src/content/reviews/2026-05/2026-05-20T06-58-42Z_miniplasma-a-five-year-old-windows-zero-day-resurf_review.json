@@ -1,0 +1,71 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-20T06-58-42Z_miniplasma-a-five-year-old-windows-zero-day-resurf.json",
+  "timestamp": "2026-05-20T07:22:35.821Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "MiniPlasma: A Five-Year-Old Windows Zero-Day Resurfaces With Working PoC, Granting SYSTEM Privileges on Fully Patched Systems",
+  "reviewer_model": "Claude Sonnet 4.6",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "cybersecuritynews.com: https://cybersecuritynews.com/windows-miniplasma-zero-day/\nnotebookcheck.net: https://www.notebookcheck.net/MiniPlasma-zero-day-gives-SYSTEM-access-on-fully-patched-Windows-11.1299271.0.html\nzero-day-wire-1.ghost.io: https://zero-day-wire-1.ghost.io/chaotic-eclipse-releases-miniplasma-a-five-year-old-windows-zero-day-that-still-grants-system-privileges-on-fully-patched-systems/"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://cybersecuritynews.com/windows-miniplasma-zero-day/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "MiniPlasma: A Five-Year-Old Windows Zero-Day Resurfaces With Working PoC, Granting SYSTEM Privileges on Fully Patched Systems",
+    "summary": "A researcher named Chaotic Eclipse released a working exploit for an unpatched Windows privilege escalation flaw in the Cloud Filter driver, confirmed to grant SYSTEM access on fully patched Windows 11.",
+    "body_excerpt": "## Overview\n\nA security researcher operating under the handle Chaotic Eclipse — whose GitHub profile uses the name Nightmare-Eclipse — published a working proof-of-concept exploit on May 13, 2026, targeting a privilege escalation flaw in the Windows Cloud Files Mini Filter Driver (`cldflt.sys`). The vulnerability, dubbed [MiniPlasma](https://www.bleepingcomputer.com/news/microsoft/new-windows-miniplasma-zero-day-exploit-gives-system-access-poc-released/), allows a standard user account to obtain...",
+    "word_count": 839,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece covering a high-signal cybersecurity story. The article follows a clear What We Know / What We Don't Know / Analysis format with appropriate technical depth for the target audience. Word count (839) is within the News range (400-1200). Technical claims about cldflt.sys, the HsmOsBlockPlaceholderAccess routine, OBJ_FORCE_ACCESS_CHECK, and the race-condition mechanism are accurate per sources. The Analysis section provides useful threat-model context without editorializing.",
+    "source_verification": "Read source-0.html.gz (BleepingComputer), source-1.html.gz (The Hacker News), source-2.html.gz (CyberSecurityNews via Archive.org), source-3.html.gz (NotebookCheck), source-4.html.gz (zero-day-wire-1.ghost.io). All five snapshots fetched successfully (source-2 via Archive.org fallback). Key findings: (1) BleepingComputer (source-0) confirms the exploit was tested and opened a SYSTEM command prompt, confirms CVE-2020-17103 / James Forshaw / September 2020 / December 2020 fix, confirms BlueHammer/RedSun/UnDefend/YellowKey/GreenPlasma disclosure sequence and the 'mopped the floor' protest quote. (2) The Hacker News (source-1) confirms CVE-2025-62221 CVSS 7.8 patched December 2025, confirms James Forshaw/Project Zero, and provides Dormann's actual Mastodon wording ('reliably' opening a 'cmd.exe' prompt). (3) CyberSecurityNews (source-2) confirms OBJ_FORCE_ACCESS_CHECK missing flag, confirms 390+ stars, confirms race condition / RtlOpenCurrentUser mechanism. (4) NotebookCheck (source-3) confirms Microsoft has not commented and quotes Microsoft's 'coordinated vulnerability disclosure' standard position. (5) zero-day-wire (source-4) uses third-person reported speech for Dormann's confirmation — the article places this in direct quotation marks, constituting a paraphrase-as-quote issue (see Findings). Three sources not on allowlist (cybersecuritynews.com, notebookcheck.net, zero-day-wire-1.ghost.io) are legitimate security/tech outlets whose content corroborates claims made by primary sources (BleepingComputer, THN).",
+    "factual_accuracy": "All technical specifics verified: CVE-2020-17103, James Forshaw, September 2020 report, December 2020 fix, cldflt.sys, HsmOsBlockPlaceholderAccess, OBJ_FORCE_ACCESS_CHECK (confirmed source-2), CfAbortHydration undocumented API (confirmed source-0), RtlOpenCurrentUser race condition (confirmed source-2), ThreatLocker registry key IoCs (confirmed source-0), 390+ GitHub stars (confirmed source-2), BlueHammer CVE-2026-33825 / April Patch Tuesday (confirmed source-0), YellowKey BitLocker bypass / Windows 11 + Server 2022/2025 (confirmed source-0), 'sixth disclosure in six weeks' is accurate per count: BlueHammer(1), RedSun(2), UnDefend(3), YellowKey(4), GreenPlasma(5), MiniPlasma(6). CVE-2025-62221 CVSS 7.8 December 2025 confirmed by source-1. The 'protest' quote ('mopped the floor with me and pulled every childish game they could') is verbatim in source-0. One issue: the article presents Will Dormann's confirmation in direct quotation marks but the cited source (source-4) uses indirect/reported speech — this is a paraphrase-as-quote.",
+    "tone_assessment": "Neutral and professional throughout. The article accurately characterizes Chaotic Eclipse's statements as alleged ('alleged the researcher', 'leading the researcher to state', 'the researcher questioned whether') and does not adopt the researcher's framing uncritically. The Analysis section frames the exploit's operational value without sensationalism. No AI self-reference. No editorializing.",
+    "originality": "Not a duplicate. The Machine Herald published prior coverage of the Chaotic Eclipse campaign (BlueHammer, April 25, 2026), but MiniPlasma is a distinct new exploit targeting a different component. The new article adds significant new material about the cldflt.sys driver, the CVE-2020-17103 regression, and the expanded campaign context. Genuinely new story.",
+    "concerns": [
+      "Will Dormann's confirmation is presented in direct quotation marks ('the exploit works reliably on Windows 11 systems running the May 2026 cumulative updates, producing a cmd.exe prompt with full SYSTEM privileges') but the cited source (source-4, zero-day-wire-1.ghost.io) uses third-person reported speech, not a direct quote. Source-1 (The Hacker News) provides closer direct-quote evidence from Dormann's Mastodon post ('reliably' / 'cmd.exe') but the specific phrasing in the article is a paraphrase. This is the recurring paraphrase-as-quote pattern flagged in editorial policy.",
+      "Three sources (cybersecuritynews.com, notebookcheck.net, zero-day-wire-1.ghost.io) are not on the source allowlist. Content is factually corroborated by primary sources but the domains should be evaluated for addition to the allowlist."
+    ],
+    "recommendations": [
+      "File a corrections record noting that the Dormann quote is a paraphrase of source-4 reporting, not a verbatim direct quote from Dormann.",
+      "Consider adding cybersecuritynews.com and notebookcheck.net to config/source_allowlist.txt given their established coverage of security topics."
+    ],
+    "overall_assessment": "High-quality, well-sourced cybersecurity news piece. All technical claims verified across five source snapshots. One recoverable issue: the Will Dormann confirmation is presented as a direct quote but is a paraphrase of third-person reporting. The substance is fully supported by sources (Dormann did confirm the finding, and the characterization is accurate). APPROVE_WITH_CORRECTIONS with a single corrections record documenting the paraphrase-as-quote."
+  }
+}
