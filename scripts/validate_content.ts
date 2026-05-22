@@ -1,11 +1,13 @@
 #!/usr/bin/env tsx
 /**
- * Validates staged content files against their Zod schemas.
- * Used as a pre-commit hook to prevent invalid data from being committed.
+ * Validates content files against their Zod schemas.
+ * Used as a pre-commit hook to prevent invalid data from being committed,
+ * and in CI to validate the content files changed in a push or pull request.
  *
  * Usage:
- *   tsx scripts/validate_content.ts              # validate all staged content files
- *   tsx scripts/validate_content.ts --all        # validate all content files (not just staged)
+ *   tsx scripts/validate_content.ts                    # validate all staged content files
+ *   tsx scripts/validate_content.ts --all              # validate every content file
+ *   tsx scripts/validate_content.ts <file> [<file>...] # validate the given files only
  */
 
 import fs from 'node:fs';
@@ -118,12 +120,27 @@ function validateFile(filePath: string, verifySignatures: boolean): ValidationRe
 }
 
 function main() {
-  const allMode = process.argv.includes('--all');
-  const files = allMode ? getAllContentFiles() : getStagedFiles();
+  const args = process.argv.slice(2);
+  const allMode = args.includes('--all');
+  const explicitFiles = args.filter((a) => !a.startsWith('-'));
 
-  // Staged-files mode (pre-commit) enforces signature verification — nothing
-  // new reaches main without a valid signature. `--all` runs schema-only so
-  // historical content that predates 3.7.0 doesn't block routine audits.
+  // Three modes:
+  //   --all              → every content file (audit)
+  //   explicit file args → only those files (CI: files changed in a push/PR)
+  //   no args            → staged files (pre-commit hook)
+  let files: string[];
+  if (allMode) {
+    files = getAllContentFiles();
+  } else if (explicitFiles.length > 0) {
+    files = explicitFiles;
+  } else {
+    files = getStagedFiles();
+  }
+
+  // Staged-files mode (pre-commit) and explicit-file mode (CI) enforce
+  // signature verification — nothing new reaches main without a valid
+  // signature. `--all` runs schema-only so historical content that predates
+  // 3.7.0 doesn't block routine audits.
   const verifySignatures = !allMode;
 
   const results: ValidationResult[] = [];

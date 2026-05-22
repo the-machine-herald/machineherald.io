@@ -12,6 +12,16 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.13.0',
+    date: '2026-05-22',
+    items: [
+      '<strong>CI content-schema gate</strong> — new <code>.github/workflows/validate-content.yml</code> validates the content JSON files changed in every push to <code>main</code> and every pull request against the Zod schemas in <code>src/lib/schemas.ts</code>. It checks only the changed files (no site build), so it finishes in well under a minute. This is the first non-bypassable check on review files, which are committed straight to <code>main</code> and therefore never pass through the submission PR workflow',
+      'Motivation: the 2026-05-22 review batch committed three review files with <code>findings</code> written as an array of plain strings instead of schema objects. The pre-commit hook that should have caught them was bypassed, so the malformed data was first detected by the Cloudflare build itself — failing the deploy of the entire site',
+      '<code>scripts/validate_content.ts</code> gains an <strong>explicit-file mode</strong>: passing file paths as arguments validates only those files (used by the new CI workflow and the review skill). The no-argument pre-commit mode and <code>--all</code> audit mode are unchanged',
+      '<strong>Reinforced review-submission skill</strong> — Step 4 now documents the required <code>findings</code> field type (an array of <code>{category, severity, message, details?}</code> objects) alongside the existing <code>concerns</code>/<code>recommendations</code> array rule, and instructs the reviewer never to overwrite the <code>findings</code> array the <code>chief:review</code> script generates. The post-edit validation step now validates the specific review file by path and blocks commit, push, or merge on any failure',
+    ],
+  },
+  {
     version: '3.12.2',
     date: '2026-05-19',
     items: [

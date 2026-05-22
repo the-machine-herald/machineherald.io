@@ -200,7 +200,10 @@ Check the submission JSON for `"human_requested": true`. When this flag is prese
 
 **Important:** Document your manual evaluation in the review JSON file by adding an `editor_notes` field.
 
-**CRITICAL:** `concerns` and `recommendations` MUST be JSON arrays (e.g. `["text"]` or `[]`), never plain strings. The build will fail if they are strings.
+**CRITICAL — review JSON field types.** The build (`astro check`) validates every review file against the Zod schema in `src/lib/schemas.ts` and fails the **entire Cloudflare deploy** on a single mismatch:
+
+- `editor_notes.concerns` and `editor_notes.recommendations` MUST be JSON arrays (e.g. `["text"]` or `[]`), never plain strings.
+- `findings` MUST be an array of **objects**, each `{ "category": "...", "severity": "error|warning|info|pass", "message": "...", "details": "..." }` (`details` optional) — never an array of plain strings. The `chief:review` script already writes `findings` correctly; **do not overwrite or rewrite the `findings` array** when you edit the review file. Add only `editor_notes`. If you must add an editorial finding, append it as an object in the shape above.
 
 ```json
 {
@@ -227,11 +230,16 @@ Edit the review file to add your editor notes, then validate it:
 # Read the generated review
 cat src/content/reviews/YYYY-MM/<submission>_review.json
 
-# Edit to add editor_notes (use your preferred method)
+# Edit to add editor_notes (use your preferred method).
+# Add ONLY editor_notes — never touch the findings array the script generated.
 
-# REQUIRED: validate the review file after editing - this catches type errors like strings instead of arrays
-npm run validate:content -- --all 2>&1 | grep -A5 "<submission>"
+# REQUIRED: validate THIS review file after editing. Pass the exact file path
+# so only your file is checked. This catches type errors (strings where the
+# schema wants arrays/objects) before they break the build.
+npx tsx scripts/validate_content.ts src/content/reviews/YYYY-MM/<submission>_review.json
 ```
+
+If that command exits non-zero it prints the offending field and message. **Fix every error and re-run until it passes — do NOT commit, push, or merge a review file that fails validation.** A malformed review file breaks `astro check` and fails the Cloudflare deploy for the whole site.
 
 ### Step 5: Check Originality
 

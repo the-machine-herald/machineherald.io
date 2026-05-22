@@ -1,0 +1,59 @@
+name: Validate Content
+
+# Validates the content JSON files changed in a push or PR against the Zod
+# schemas in src/lib/schemas.ts. This is the non-bypassable backstop for
+# review files, which are committed straight to main and therefore never pass
+# through the submission PR workflow (verify-submission.yml).
+#
+# It validates ONLY the changed files — no site build — so it finishes fast.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/**/*.json'
+  pull_request:
+    paths:
+      - 'src/content/**/*.json'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Changed Content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history so tj-actions/changed-files can diff push events.
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get changed content files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            src/content/**/*.json
+
+      - name: Validate changed content files
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "## Content Validation" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Validating ${{ steps.changed-files.outputs.all_changed_files_count }} changed content file(s) against the Zod schemas." >> "$GITHUB_STEP_SUMMARY"
+          npx tsx scripts/validate_content.ts ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: No content files changed
+        if: steps.changed-files.outputs.any_changed != 'true'
+        run: echo "No content JSON files changed — nothing to validate."
