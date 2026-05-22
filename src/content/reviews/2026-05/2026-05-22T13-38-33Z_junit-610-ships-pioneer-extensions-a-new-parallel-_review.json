@@ -1,0 +1,66 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-22T13-38-33Z_junit-610-ships-pioneer-extensions-a-new-parallel-.json",
+  "timestamp": "2026-05-22T14:42:49.669Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "JUnit 6.1.0 Ships Pioneer Extensions, a New Parallel Executor, and a Compact Module in Its First Minor Release",
+  "reviewer_model": "Claude Sonnet 4.6",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docs.junit.org: https://docs.junit.org/6.1.0/release-notes.html\nmarcphilipp.de: https://marcphilipp.de/blog/2026/01/18/stf-milestone-8-improved-parallel-test-execution/\njunit-pioneer.org: https://junit-pioneer.org/docs/default-locale-timezone/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "JUnit 6.1.0 Ships Pioneer Extensions, a New Parallel Executor, and a Compact Module in Its First Minor Release",
+    "summary": "JUnit 6.1.0, released May 19, absorbs JUnit Pioneer's locale, timezone, and system-property extensions into core while replacing ForkJoinPool with a simpler thread pool for parallel test execution.",
+    "body_excerpt": "## Overview\n\nJUnit 6.1.0 shipped on May 19, 2026, combining Platform 6.1.0, Jupiter 6.1.0, and Vintage 6.1.0 in what the project describes as its first minor update to the 6.x line. The release, available on [GitHub](https://github.com/junit-team/junit-framework/releases/tag/r6.1.0), graduates three sets of popular extensions from the community-driven JUnit Pioneer library into the JUnit core, replaces the framework's parallel test executor with a simpler thread-pool implementation, and introduc...",
+    "word_count": 735,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Briefing covering the JUnit 6.1.0 release comprehensively. Good depth on the parallel executor change and Pioneer extension absorption. Word count (735) fits the Briefing category range. Technical accuracy is high overall.",
+    "source_verification": "All 6 sources were read from local snapshots. source-0.html.gz (docs.junit.org release notes): confirms release date May 19 2026, Pioneer extensions, WorkerThreadPoolHierarchicalTestExecutorService as opt-in, org.junit.start module, memory cleanup mode, @TempDir deletion strategy, AssertionFailedError stack trace pruning, Kotlin inline value class support. source-1.html.gz (GitHub r6.1.0 release): confirms 'JUnit 6.1.0 = Platform 6.1.0 + Jupiter 6.1.0 + Vintage 6.1.0', release date May 19. source-2.html.gz (GitHub main repo): background reference only, no specific claims to verify. source-3.html.gz (InfoQ): confirms JUnit 6.0.0 GA on September 30 2025, Java 17 minimum, Kotlin suspend support, CancellationToken API, --fail-fast, Vintage deprecated. source-4.html.gz (Marc Philipp blog): confirms ForkJoinPool issues (unwanted work-stealing with resource locks, additional threads when tested code uses ForkJoinPool), new implementation as opt-in in 6.1 with potential default in 6.2 if feedback positive. source-5.html.gz (JUnit Pioneer docs): confirms @DefaultLocale and @DefaultTimeZone annotations work at method/class level, inherited from higher-level containers, never run in parallel due to resource locks.",
+    "factual_accuracy": "Core facts confirmed. Two categories of quote issues detected: (1) The article places a paraphrased quote from Marc Philipp's blog in quotation marks — 'unintended thread spawning when tested code also used ForkJoinPool' — but the source says 'the pool used to run tests in parallel would suddenly spawn additional threads', not 'unintended thread spawning'. Similarly 'will be opt-in in JUnit 6.1 with potential default adoption in 6.2, pending user feedback' paraphrases the actual text 'The new implementation will be an opt-in feature in JUnit 6.1...If we receive promising feedback in 6.1, we will switch the default to the new implementation in 6.2'. (2) More seriously, the article attributes to JUnit Pioneer's documentation the verbatim quote: 'all tests annotated with @DefaultLocale, @ReadsDefaultLocale, and WritesDefaultLocale are scheduled in a way that guarantees correctness under mutation of shared global state.' This exact phrasing does not appear anywhere in the Pioneer snapshot. The source says tests 'will never execute in parallel (thanks to resource locks) to guarantee correct test results.' This is a fabricated/paraphrased quote inside quotation marks.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no AI self-reference, no loaded language.",
+    "originality": "No prior JUnit articles in the archive. Topic is new.",
+    "concerns": [
+      "Fabricated quote attributed to JUnit Pioneer documentation: the article places in quotation marks 'all tests annotated with @DefaultLocale, @ReadsDefaultLocale, and WritesDefaultLocale are scheduled in a way that guarantees correctness under mutation of shared global state' but this exact text does not appear in the source (source-5.html.gz). The source says tests 'will never execute in parallel (thanks to resource locks) to guarantee correct test results'.",
+      "Paraphrases inside quote marks from Marc Philipp's blog: 'unintended thread spawning when tested code also used ForkJoinPool' and 'will be opt-in in JUnit 6.1 with potential default adoption in 6.2, pending user feedback' are attributed as direct quotes but are paraphrases of the source text.",
+      "Three source domains (docs.junit.org, marcphilipp.de, junit-pioneer.org) are not in the allowlist; these are authoritative primary sources for this release and should be added."
+    ],
+    "recommendations": [
+      "Add docs.junit.org, marcphilipp.de, and junit-pioneer.org to config/source_allowlist.txt as primary JUnit project sources.",
+      "File corrections record for the fabricated Pioneer documentation quote and the paraphrased Marc Philipp quotes inside quotation marks."
+    ],
+    "overall_assessment": "Substantively accurate and well-reported Briefing on JUnit 6.1.0. The release notes, GitHub tag, InfoQ article, and Marc Philipp blog all confirm the article's main claims. The article is approved with corrections for a fabricated/paraphrased quote attributed to JUnit Pioneer documentation and paraphrased quotes from Marc Philipp's blog placed inside quotation marks — the recurring bot pattern. Core facts are not affected."
+  }
+}
