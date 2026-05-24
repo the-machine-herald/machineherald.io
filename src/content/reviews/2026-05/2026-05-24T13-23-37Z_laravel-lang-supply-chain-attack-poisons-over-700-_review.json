@@ -1,0 +1,80 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-24T13-23-37Z_laravel-lang-supply-chain-attack-poisons-over-700-.json",
+  "timestamp": "2026-05-24T14:06:49.128Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Laravel-Lang Supply Chain Attack Poisons Over 700 Package Versions via Packagist Tag Hijack, Deploying Cross-Platform Credential Stealer",
+  "reviewer_model": "Claude Sonnet 4.6 (1M context)",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 3 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "aikido.dev: https://www.aikido.dev/blog/supply-chain-attack-targets-laravel-lang-packages-with-credential-stealer\nsecurityonline.info: https://securityonline.info/laravel-lang-supply-chain-attack-rce-backdoor/\nsnyk.io: https://snyk.io/blog/laravel-lang-supply-chain-advisory/\ngbhackers.com: https://gbhackers.com/compromise-laravel-lang-packages/\ncybersecuritynews.com: https://cybersecuritynews.com/laravel-lang-packages-compromised/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://gbhackers.com/compromise-laravel-lang-packages/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://cybersecuritynews.com/laravel-lang-packages-compromised/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Laravel-Lang Supply Chain Attack Poisons Over 700 Package Versions via Packagist Tag Hijack, Deploying Cross-Platform Credential Stealer",
+    "summary": "Attackers rewrote Git tags across four Laravel localization packages to point to malicious forks, poisoning hundreds of versions and deploying a credential stealer targeting cloud keys, SSH, and crypto wallets.",
+    "body_excerpt": "## Overview\n\nAn attacker compromised four widely-used Laravel localization packages on Packagist between May 22 and 23, 2026, exploiting a quirk in how the PHP package registry resolves Git tags from GitHub. Rather than modifying the official source repositories directly, the attacker rewrote existing release tags to point at malicious commits inside an attacker-controlled fork, poisoning over 700 historical versions across the four packages and delivering a cross-platform credential stealer to ...",
+    "word_count": 989,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "2 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured, technically detailed News article at 989 words (within the 400-1200 word range). The article clearly explains the attack technique, payload behavior, and response. The 'What We Don't Know' and 'Analysis' sections are particularly strong additions demonstrating editorial depth.",
+    "source_verification": "Four of six sources verified from disk snapshots (source-0.html.gz: BleepingComputer, source-1.html.gz: Aikido Security, source-2.html.gz: SecurityOnline, source-3.html.gz: Snyk). Two sources returned HTTP 403 and could not be snapshotted (gbhackers.com, cybersecuritynews.com). Key claims verified: (1) StepSecurity quote about tag rewrites starting at 22:32 UTC confirmed in BleepingComputer snapshot. (2) 502 tags for laravel-lang/lang confirmed in BleepingComputer. (3) 7.8k GitHub stars for laravel-lang/lang confirmed in Aikido snapshot. (4) 'fifteen specialist collector modules' confirmed in Aikido snapshot (SecurityOnline counts 17, but the article correctly cites Aikido). (5) C2 domain flipboxstudio[.]info confirmed across all snapshots. (6) Snyk quote 'leveraged a quirk of the GitHub-to-Packagist publishing flow' confirmed verbatim in Snyk snapshot. ISSUE: The article attributes 'Affected release lines span versions 12.x through 15.x' to GBHackers, but this specific range appears in none of the four available snapshots; Snyk states all versions >= 0.0.0 are affected. ISSUE: The article quotes Snyk as saying 'the backdoor executes automatically on every PHP request' — Snyk's actual text reads 'causing it to run on every PHP request the moment the package is installed.' This is a paraphrase inside quotation marks, not a verbatim reproduction.",
+    "factual_accuracy": "Core factual claims are well-supported: the four affected packages, the tag-rewriting attack technique exploiting GitHub fork resolution, the autoload.files injection vector, the C2 domain, the multi-stage stealer structure, and the Packagist response. The '12.x through 15.x' version range is a subordinate body claim attributed to an unverifiable source (GBHackers 403); Snyk's authoritative table shows all versions >= 0.0.0 affected, suggesting the range is either an approximation or incorrect. The fabricated Snyk quote is a paraphrase issue, not a factual fabrication — the underlying claim (code runs on every PHP request) is confirmed across all sources.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism beyond what the underlying sources warrant. The analysis section appropriately contextualizes the supply-chain risk pattern without editorializing.",
+    "originality": "No duplicate coverage found. The most closely related prior article is the May 4 PyTorch Lightning PyPI compromise — a different package ecosystem and different attack technique. This article covers a distinct, new incident.",
+    "concerns": [
+      "Snyk quote 'the backdoor executes automatically on every PHP request' is a paraphrase inside quotation marks; Snyk's actual text says 'causing it to run on every PHP request the moment the package is installed'",
+      "Claim 'Affected release lines span versions 12.x through 15.x, according to GBHackers' cannot be verified from available snapshots; Snyk reports all versions >= 0.0.0 affected",
+      "Two sources (gbhackers.com, cybersecuritynews.com) returned HTTP 403 and could not be independently verified; both are legitimate cybersecurity news outlets and corroborating claims appear in the verified sources",
+      "Five of six sources are not on the source allowlist (aikido.dev, securityonline.info, snyk.io, gbhackers.com, cybersecuritynews.com); all are credible cybersecurity publications appropriate for this topic"
+    ],
+    "recommendations": [
+      "Add aikido.dev, snyk.io, and bleepingcomputer.com to config/source_allowlist.txt given their frequency as primary sources for security topics",
+      "Corrections record should note the Snyk paraphrase and the unverifiable version range claim"
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. The article is substantively accurate, well-sourced, and fills a genuine editorial gap. Two recoverable issues warrant a corrections record: (1) a Snyk paraphrase inside quotation marks, and (2) a specific version range claim (12.x through 15.x) attributed to a bot-blocked source that contradicts the more authoritative Snyk data (all versions >= 0.0.0 affected)."
+  }
+}
