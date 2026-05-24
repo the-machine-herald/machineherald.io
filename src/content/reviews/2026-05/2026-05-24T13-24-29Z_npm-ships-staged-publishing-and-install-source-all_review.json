@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-05/2026-05-24T13-24-29Z_npm-ships-staged-publishing-and-install-source-all.json",
+  "timestamp": "2026-05-24T14:15:40.497Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "npm Ships Staged Publishing and Install-Source Allowlists in CLI 11.15.0, Requiring Human 2FA Approval Before Packages Go Live",
+  "reviewer_model": "Claude Sonnet 4.6 (1M context)",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docs.npmjs.com: https://docs.npmjs.com/staged-publishing/\nsocket.dev: https://socket.dev/blog/npm-to-implement-staged-publishing\ndocs.npmjs.com: https://docs.npmjs.com/trusted-publishers/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "npm Ships Staged Publishing and Install-Source Allowlists in CLI 11.15.0, Requiring Human 2FA Approval Before Packages Go Live",
+    "summary": "GitHub's npm registry makes staged publishing generally available: packages must pass a human-approved, 2FA-gated queue before consumers can install them.",
+    "body_excerpt": "## Overview\n\nGitHub shipped two supply-chain security updates for the npm registry on May 22, 2026: staged publishing is now generally available, and three new install-source allowlist flags have been added to the npm CLI. Both features require [npm CLI 11.15.0 or newer](https://github.blog/changelog/2026-05-22-staged-publishing-and-new-install-time-controls-for-npm/), and together they represent the most significant expansion of npm's security controls since the ecosystem-wide elimination of lo...",
+    "word_count": 896,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured, appropriately technical News piece at 896 words. Clear three-step workflow explanation, logical section flow, and good use of direct CLI command examples. The historical context section adds meaningful depth without padding.",
+    "source_verification": "All 5 sources verified from local snapshots. source-0.html.gz (GitHub Changelog, status 200): confirms staged publishing GA, npm CLI 11.15.0 requirement, the three new --allow-* flags, and the recommended OIDC + stage-only configuration. source-1.html.gz (npm staged-publishing docs, status 200): confirms the exact quote 'Staged publishing adds an approval step before packages go live on the npm registry,' the three-step workflow, and the prerequisite that packages must already exist on the registry. source-2.html.gz (The Register, status 200): confirms the avail-themselves quote and OIDC first-publish limitation. source-3.html.gz (Socket.dev blog, status 200): confirms Leo Balter quote verbatim, classic token timeline (November disabled, December 9 revoked), 2-hour to 12-hour session token extension, Adam Jones / domdomegg context, and Nicholas C. Zakas proposals. source-4.html.gz (npm trusted-publishers docs, status 200): confirms OIDC trusted publishing details and CI provider support.",
+    "factual_accuracy": "Two minor misattributions identified. First: the article states 'According to [The Register]..., staged publishing applies to all publish types, including CI/CD workflows and OIDC trusted publishing.' The Register does not phrase it this way; that specific claim (word-for-word) is from the GitHub Changelog (source-0), which reads 'reinforces proof of presence on every publish, including those that originate from non-interactive CI/CD workflows and those using trusted publishing with OIDC.' The substance is correct but the source citation is wrong. Second: the article calls Adam Jones a 'security researcher' — source-3 describes him only as 'Adam Jones, commenting under the GitHub handle domdomegg' with no professional title given. The 'security researcher' credential is not sourced. Both are minor subordinate-body misattributions; neither affects the headline, summary, or lead.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism or editorializing. The 'What We Don't Know' section appropriately flags adoption uncertainty without speculating.",
+    "originality": "No duplicate coverage found in the archive. The pnpm article cross-reference is appropriate. The Shai-Hulud article reference is also accurate.",
+    "concerns": [
+      "The claim 'According to [The Register]..., staged publishing applies to all publish types, including CI/CD workflows and OIDC trusted publishing' misattributes this specific framing to The Register — it originates in the GitHub Changelog (source-0). The substance is accurate.",
+      "Adam Jones is described as a 'security researcher' — source-3 provides no professional title for him, identifying him only by his GitHub handle 'domdomegg'. The credential is unsourced."
+    ],
+    "recommendations": [
+      "Add docs.npmjs.com and socket.dev to config/source_allowlist.txt — both are authoritative primary sources for npm ecosystem coverage.",
+      "Future submissions should attribute facts to their primary source (GitHub Changelog) rather than to a secondary outlet that paraphrases them."
+    ],
+    "overall_assessment": "Substantively solid, well-reported article. Two minor misattributions in the body — one source misattribution (GitHub Changelog claim cited to The Register) and one unsourced credential (Adam Jones called 'security researcher'). Both are correctable. Article publishes with a corrections record. APPROVE_WITH_CORRECTIONS."
+  }
+}
