@@ -9,8 +9,13 @@ import {
   walkArchive,
   parseOpenPRs,
   canonicalSlug,
+  claimStatePath,
+  writeClaimState,
+  readClaimState,
+  clearClaimState,
+  claimSlugsToDelete,
 } from '../scripts/lib/topic_check';
-import type { Candidate, ScoreResult } from '../scripts/lib/topic_check';
+import type { Candidate, ScoreResult, ClaimState } from '../scripts/lib/topic_check';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -423,5 +428,94 @@ describe('canonicalSlug', () => {
     expect(b.split('-').slice(0, 3).join('-')).toBe('anthropic-colossus-leases');
     // But the sha8 should differ
     expect(a.split('-').slice(3).join('-')).not.toBe(b.split('-').slice(3).join('-'));
+  });
+});
+
+describe('claim-state persistence', () => {
+  let dir: string;
+
+  beforeEach(() => {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), 'claim-state-'));
+  });
+
+  afterEach(() => {
+    fs.rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('round-trips a claim state through write/read', () => {
+    const state: ClaimState = {
+      slug: 'foo-bar-baz-deadbeef',
+      ref: 'claim/foo-bar-baz-deadbeef',
+      title: 'Foo Bar Baz Quux',
+      tags: ['foo', 'bar'],
+      repo: 'owner/repo',
+      base_branch: 'main',
+    };
+    writeClaimState(dir, state);
+    expect(fs.existsSync(claimStatePath(dir))).toBe(true);
+    expect(readClaimState(dir)).toEqual(state);
+  });
+
+  it('readClaimState returns null when no state file exists', () => {
+    expect(readClaimState(dir)).toBeNull();
+  });
+
+  it('readClaimState returns null on malformed JSON', () => {
+    fs.writeFileSync(claimStatePath(dir), '{ not valid json', 'utf-8');
+    expect(readClaimState(dir)).toBeNull();
+  });
+
+  it('readClaimState backfills ref/tags when older state omits them', () => {
+    fs.writeFileSync(claimStatePath(dir), JSON.stringify({ slug: 'x-y-z-12345678' }), 'utf-8');
+    const state = readClaimState(dir);
+    expect(state?.slug).toBe('x-y-z-12345678');
+    expect(state?.ref).toBe('claim/x-y-z-12345678');
+    expect(state?.tags).toEqual([]);
+  });
+
+  it('clearClaimState removes the file and is a no-op when absent', () => {
+    writeClaimState(dir, { slug: 's-1234abcd', ref: 'claim/s-1234abcd', title: 't', tags: [] });
+    clearClaimState(dir);
+    expect(fs.existsSync(claimStatePath(dir))).toBe(false);
+    expect(() => clearClaimState(dir)).not.toThrow();
+  });
+});
+
+describe('claimSlugsToDelete', () => {
+  it('returns the submission slug when no persisted claim state exists', () => {
+    const submission: Candidate = { title: 'Hyprland 0.55 Lua Configuration', tags: ['hyprland'] };
+    expect(claimSlugsToDelete(submission, null)).toEqual([canonicalSlug(submission)]);
+  });
+
+  it('includes the PERSISTED claim slug when the title changed between claim and submission', () => {
+    // Agent claimed under one title, then reworded the headline before submitting.
+    const claimed: Candidate = { title: 'God of War Laufey Centers New Chapter on Faye', tags: ['gaming'] };
+    const submitted: Candidate = { title: 'Sony Closes June State of Play With God of War Laufey', tags: ['gaming'] };
+    const claimedSlug = canonicalSlug(claimed);
+    const submittedSlug = canonicalSlug(submitted);
+    // Precondition: the reword genuinely produces a different slug (the bug's trigger).
+    expect(claimedSlug).not.toBe(submittedSlug);
+
+    const state: ClaimState = {
+      slug: claimedSlug,
+      ref: `claim/${claimedSlug}`,
+      title: claimed.title,
+      tags: claimed.tags ?? [],
+    };
+    const slugs = claimSlugsToDelete(submitted, state);
+    // Both the orphan (claimed) and the title-derived slug are scheduled for deletion.
+    expect(slugs).toContain(claimedSlug);
+    expect(slugs).toContain(submittedSlug);
+  });
+
+  it('does not duplicate when the persisted slug equals the submission slug', () => {
+    const c: Candidate = { title: 'Snowflake Commits To AWS', tags: ['cloud'] };
+    const slug = canonicalSlug(c);
+    const state: ClaimState = { slug, ref: `claim/${slug}`, title: c.title, tags: c.tags ?? [] };
+    expect(claimSlugsToDelete(c, state)).toEqual([slug]);
+  });
+
+  it('skips empty slugs (candidate with only stopwords)', () => {
+    expect(claimSlugsToDelete({ title: 'AI Model Update News' }, null)).toEqual([]);
   });
 });

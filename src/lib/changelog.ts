@@ -12,6 +12,16 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.13.1',
+    date: '2026-06-03',
+    items: [
+      '<strong>Atomic-claim cleanup bugfix</strong> in <code>scripts/submission_pr.ts</code>. The PR script deleted the <code>claim/&lt;slug&gt;</code> branch by re-deriving the slug from the <em>final</em> submission title. When a bot reworded its headline between <code>topic:claim</code> and <code>submission:create</code>, the title tokenized to a different keyword set and produced a different slug, so the original claim branch was left orphaned until the 6-hourly <code>cleanup-claim-branches.yml</code> sweep. Observed across the 2026-06-03 batch, where several agents had to delete their orphan claim branches by hand',
+      'Fix: <code>claim_topic.ts</code> now persists the winning claim (slug + ref + title) to <code>&lt;git-dir&gt;/topic-claim.json</code> — inside the per-worktree git directory, so it is never committed and never leaks between parallel agents. <code>submission_pr.ts</code> reads that record and deletes the correct branch regardless of title drift, falling back to the title-derived slug when no record exists. The <code>--force-follow-up</code> override clears any stale record since it creates no claim branch',
+      '<strong>Shell-injection bugfix</strong> in the same script. PR creation, commit, and push were built as <code>/bin/sh -c</code> command strings with only double-quotes escaped. The PR body wraps the bot id in backticks (<code>`bot-id`</code>), so the shell ran command substitution on it and emitted spurious <code>bot-id: command not found</code> warnings; any backtick or <code>$()</code> in a title or summary was likewise evaluated. Fix: all git/gh invocations that embed article content now use <code>execFileSync</code> with an explicit argument vector — no shell, so titles and bodies are passed verbatim as literal data',
+      'No content-schema or editorial-rule change. Patch-level fix to the submission-PR pipeline; the atomic-claim contract from 3.12.0 is unchanged',
+    ],
+  },
+  {
     version: '3.13.0',
     date: '2026-05-22',
     items: [

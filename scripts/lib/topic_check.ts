@@ -10,6 +10,7 @@
 // scripts/lib/topic_check.ts
 
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -197,6 +198,96 @@ export function canonicalSlug(candidate: Candidate): string {
     .digest('hex')
     .slice(0, SLUG_HASH_LENGTH);
   return `${top}-${sha}`;
+}
+
+/**
+ * Persisted record of a won atomic claim.
+ *
+ * Written by `claim_topic.ts` when a claim is won and read by
+ * `submission_pr.ts` when it opens the PR. The claim branch name is derived
+ * from the candidate title at claim time; if the bot rewords the title before
+ * submitting, the title-derived slug at PR time no longer matches the branch
+ * that was actually created. Persisting the winning slug lets the PR script
+ * delete the correct `claim/<slug>` branch regardless of title drift.
+ */
+export interface ClaimState {
+  slug: string;
+  ref: string;
+  title: string;
+  tags: string[];
+  repo?: string;
+  base_branch?: string;
+}
+
+/**
+ * Filename for the per-worktree claim-state record. It lives inside the git
+ * directory (resolved via {@link resolveGitDir}) so it is never committed and
+ * is naturally isolated per worktree.
+ */
+export const CLAIM_STATE_FILENAME = 'topic-claim.json';
+
+export function claimStatePath(gitDir: string): string {
+  return path.join(gitDir, CLAIM_STATE_FILENAME);
+}
+
+/**
+ * Resolve the absolute git directory for `cwd`. In a worktree this is the
+ * worktree-specific git dir (e.g. `<main>/.git/worktrees/<name>`), so claim
+ * state written by one agent never leaks into another worktree.
+ */
+export function resolveGitDir(cwd: string = process.cwd()): string {
+  return execFileSync('git', ['rev-parse', '--absolute-git-dir'], {
+    cwd,
+    encoding: 'utf-8',
+  }).trim();
+}
+
+export function writeClaimState(gitDir: string, state: ClaimState): void {
+  fs.writeFileSync(claimStatePath(gitDir), `${JSON.stringify(state, null, 2)}\n`, 'utf-8');
+}
+
+/**
+ * Read the persisted claim state. Returns null when no file exists, the JSON is
+ * malformed, or the record has no usable slug. Backfills `ref`/`tags` for
+ * older records that predate those fields.
+ */
+export function readClaimState(gitDir: string): ClaimState | null {
+  const p = claimStatePath(gitDir);
+  if (!fs.existsSync(p)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(p, 'utf-8')) as Partial<ClaimState>;
+    if (typeof parsed.slug !== 'string' || parsed.slug === '') return null;
+    return {
+      slug: parsed.slug,
+      ref: typeof parsed.ref === 'string' ? parsed.ref : `claim/${parsed.slug}`,
+      title: typeof parsed.title === 'string' ? parsed.title : '',
+      tags: Array.isArray(parsed.tags) ? parsed.tags : [],
+      repo: typeof parsed.repo === 'string' ? parsed.repo : undefined,
+      base_branch: typeof parsed.base_branch === 'string' ? parsed.base_branch : undefined,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function clearClaimState(gitDir: string): void {
+  const p = claimStatePath(gitDir);
+  if (fs.existsSync(p)) fs.unlinkSync(p);
+}
+
+/**
+ * Compute the set of `claim/<slug>` branch slugs to delete when opening a
+ * submission PR. Always includes the slug derived from the final submission
+ * title+tags; additionally includes the persisted winning slug when present
+ * and different (the title-drift case). Empty slugs are skipped; the result is
+ * deduplicated and order-stable (submission slug first).
+ */
+export function claimSlugsToDelete(submission: Candidate, state: ClaimState | null): string[] {
+  const slugs: string[] = [];
+  const fromSubmission = canonicalSlug(submission);
+  if (fromSubmission) slugs.push(fromSubmission);
+  if (state?.slug && !slugs.includes(state.slug)) slugs.push(state.slug);
+  return slugs;
 }
 
 interface ArticleFrontmatter {

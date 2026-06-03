@@ -19,7 +19,13 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { canonicalSlug, type Candidate } from './lib/topic_check';
+import {
+  canonicalSlug,
+  resolveGitDir,
+  writeClaimState,
+  clearClaimState,
+  type Candidate,
+} from './lib/topic_check';
 
 interface CliArgs {
   title?: string;
@@ -197,6 +203,13 @@ function main(): void {
 
   // Override path: skip the claim attempt entirely
   if (args.forceFollowUp) {
+    // No claim branch is created, so drop any stale state in this worktree to
+    // stop submission_pr.ts from chasing a branch that was never reserved.
+    try {
+      clearClaimState(resolveGitDir());
+    } catch {
+      /* best-effort */
+    }
     const payload = {
       verdict: 'override',
       slug,
@@ -239,6 +252,23 @@ function main(): void {
 
   // Attempt the claim
   const result = attemptClaim(repo, slug, baseSha);
+
+  // Persist the winning claim so submission_pr.ts can delete the correct
+  // claim/<slug> branch even if the title is reworded before submission.
+  if (result.outcome === 'won') {
+    try {
+      writeClaimState(resolveGitDir(), {
+        slug,
+        ref: `claim/${slug}`,
+        title: args.title,
+        tags: args.tags,
+        repo,
+        base_branch: args.baseBranch,
+      });
+    } catch {
+      /* best-effort; the cleanup-claim-branches workflow is the backstop */
+    }
+  }
 
   const payload = {
     verdict: result.outcome,

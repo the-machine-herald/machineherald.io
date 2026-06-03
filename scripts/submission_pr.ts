@@ -12,10 +12,16 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
-import { canonicalSlug } from './lib/topic_check';
+import { execSync, execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import {
+  claimSlugsToDelete,
+  readClaimState,
+  clearClaimState,
+  resolveGitDir,
+} from './lib/topic_check';
 
-interface Submission {
+export interface Submission {
   submission_version: number;
   bot_id: string;
   timestamp: string;
@@ -31,16 +37,24 @@ interface Submission {
   signature: string;
 }
 
-function exec(command: string, options?: { silent?: boolean }): string {
+/**
+ * Run a command via execFileSync with an explicit argument vector — NO shell.
+ * This is the safe path for any command that embeds user-controlled content
+ * (article title, PR body): backticks, `$()`, and quotes are passed as literal
+ * data and never evaluated. (The previous shell-string approach ran command
+ * substitution on backticks in the PR body, e.g. the bot id wrapped in
+ * backticks produced "machineherald-prime: command not found".)
+ */
+function execFileLive(file: string, fileArgs: string[], options?: { silent?: boolean }): string {
   try {
-    const result = execSync(command, {
+    const result = execFileSync(file, fileArgs, {
       encoding: 'utf-8',
       stdio: options?.silent ? 'pipe' : 'inherit',
     });
     return result?.trim() || '';
   } catch (error) {
     if (error instanceof Error && 'stdout' in error) {
-      return (error as { stdout: string }).stdout?.trim() || '';
+      return (error as { stdout?: string }).stdout?.trim() || '';
     }
     throw error;
   }
@@ -61,31 +75,99 @@ function slugify(text: string): string {
 }
 
 function deleteClaimBranch(submission: Submission): void {
-  const slug = canonicalSlug({
-    title: submission.article.title,
-    tags: submission.article.tags,
-  });
-  if (slug === '') {
+  // Resolve persisted claim state (written by claim_topic.ts when the claim was
+  // won). This covers the title-drift case: if the bot reworded its headline
+  // between claiming and submitting, the slug derived from the final title no
+  // longer matches the branch that was actually reserved.
+  let gitDir: string | null = null;
+  try {
+    gitDir = resolveGitDir();
+  } catch {
+    gitDir = null;
+  }
+  const state = gitDir ? readClaimState(gitDir) : null;
+
+  const slugs = claimSlugsToDelete(
+    { title: submission.article.title, tags: submission.article.tags },
+    state,
+  );
+  if (slugs.length === 0) {
     // Empty candidate — nothing to clean
     return;
   }
-  const ref = `claim/${slug}`;
-  console.log(`\nCleaning up atomic claim branch: ${ref}...`);
+
+  let repoName: string;
   try {
-    execSync(
-      `gh api -X DELETE "repos/$(gh repo view --json nameWithOwner --jq .nameWithOwner)/git/refs/heads/${ref}"`,
-      { encoding: 'utf-8', stdio: 'pipe' },
-    );
-    console.log(`  ✅ Deleted refs/heads/${ref}`);
-  } catch (err) {
-    const stderr = (err as { stderr?: Buffer | string }).stderr;
-    const msg = stderr ? String(stderr) : (err instanceof Error ? err.message : String(err));
-    if (msg.includes('Reference does not exist') || msg.includes('404') || msg.includes('Not Found')) {
-      console.log(`  ℹ️  No claim branch to clean (none was created — possibly no claim or already cleaned)`);
-    } else {
-      console.warn(`  ⚠️  Could not delete claim branch (continuing anyway): ${msg.trim().split('\n').pop()}`);
+    repoName = execCapture('gh repo view --json nameWithOwner --jq .nameWithOwner');
+  } catch {
+    console.warn('  ⚠️  Could not resolve repo for claim cleanup (continuing anyway)');
+    return;
+  }
+
+  for (const slug of slugs) {
+    const ref = `claim/${slug}`;
+    console.log(`\nCleaning up atomic claim branch: ${ref}...`);
+    try {
+      execFileLive(
+        'gh',
+        ['api', '-X', 'DELETE', `repos/${repoName}/git/refs/heads/${ref}`],
+        { silent: true },
+      );
+      console.log(`  ✅ Deleted refs/heads/${ref}`);
+    } catch (err) {
+      const stderr = (err as { stderr?: Buffer | string }).stderr;
+      const msg = stderr ? String(stderr) : (err instanceof Error ? err.message : String(err));
+      if (msg.includes('Reference does not exist') || msg.includes('404') || msg.includes('Not Found')) {
+        console.log(`  ℹ️  No branch at refs/heads/${ref} (nothing to clean)`);
+      } else {
+        console.warn(`  ⚠️  Could not delete claim branch (continuing anyway): ${msg.trim().split('\n').pop()}`);
+      }
     }
   }
+
+  // State consumed — remove it so a later run in the same worktree doesn't
+  // re-attempt deletion of an already-cleaned branch.
+  if (gitDir) {
+    try {
+      clearClaimState(gitDir);
+    } catch {
+      /* best-effort */
+    }
+  }
+}
+
+/** Build the PR body. Contains backticks (inline code around the bot id) — it
+ *  MUST be passed to gh via an argument vector, never interpolated into a shell
+ *  command string. */
+export function buildPrBody(submission: Submission): string {
+  const { title, category } = submission.article;
+  const botId = submission.bot_id;
+  const sourcesCount = submission.article.sources.length;
+  return `## Submission
+
+**Title:** ${title}
+**Category:** ${category}
+**Bot:** \`${botId}\`
+**Sources:** ${sourcesCount}
+
+## Summary
+
+${submission.article.summary}
+
+## Checklist
+
+- [ ] Chief Editor review passed
+- [ ] Sources verified
+- [ ] Ready to publish
+
+---
+*Submitted by \`${botId}\`*`;
+}
+
+/** Argument vector for `gh pr create`. Title and body are discrete elements so
+ *  the shell never parses their contents. */
+export function prCreateArgs(title: string, body: string): string[] {
+  return ['pr', 'create', '--title', `Submit: ${title}`, '--body', body];
 }
 
 function main() {
@@ -226,54 +308,38 @@ Requirements:
 
   // Create branch
   console.log('Creating branch...');
-  exec(`git checkout -b ${branchName}`);
+  execFileLive('git', ['checkout', '-b', branchName]);
 
   // Add file
   console.log('Adding submission...');
-  exec(`git add "${relativePath}"`);
+  execFileLive('git', ['add', relativePath]);
 
   // Commit
   console.log('Committing...');
-  exec(`git commit --no-gpg-sign -m "Submit: ${title}"`);
+  execFileLive('git', ['commit', '--no-gpg-sign', '-m', `Submit: ${title}`]);
 
   // Push — use HTTPS via gh auth token to avoid SSH key issues
   console.log('Pushing to remote...');
   try {
     // Try SSH first (faster if key is valid)
-    exec(`git push -u origin ${branchName}`, { silent: true });
+    execFileLive('git', ['push', '-u', 'origin', branchName], { silent: true });
   } catch {
     // Fall back to HTTPS via gh auth token
     console.log('SSH push failed, falling back to HTTPS...');
     const token = execCapture('gh auth token');
-    exec(
-      `git -c url."https://x-access-token:${token}@github.com/".insteadOf="git@github.com:" push -u origin ${branchName}`,
-    );
+    execFileLive('git', [
+      '-c',
+      `url.https://x-access-token:${token}@github.com/.insteadOf=git@github.com:`,
+      'push',
+      '-u',
+      'origin',
+      branchName,
+    ]);
   }
 
   // Create PR
   console.log('Creating Pull Request...');
-
-  const prBody = `## Submission
-
-**Title:** ${title}
-**Category:** ${category}
-**Bot:** \`${botId}\`
-**Sources:** ${sourcesCount}
-
-## Summary
-
-${submission.article.summary}
-
-## Checklist
-
-- [ ] Chief Editor review passed
-- [ ] Sources verified
-- [ ] Ready to publish
-
----
-*Submitted by \`${botId}\`*`;
-
-  exec(`gh pr create --title "Submit: ${title}" --body "${prBody.replace(/"/g, '\\"')}"`);
+  execFileLive('gh', prCreateArgs(title, buildPrBody(submission)));
 
   console.log('\n✅ Pull Request created successfully!\n');
 
@@ -281,9 +347,12 @@ ${submission.article.summary}
 
   // Return to the branch we were on before (main in normal repo, worktree branch in worktrees)
   console.log(`\nSwitching back to ${originalBranch}...`);
-  exec(`git checkout ${originalBranch}`);
+  execFileLive('git', ['checkout', originalBranch]);
 
   console.log('\nDone. The PR is ready for Chief Editor review.');
 }
 
-main();
+// Run only when invoked directly (so the module can be imported by tests).
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  main();
+}
