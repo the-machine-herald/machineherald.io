@@ -1,0 +1,143 @@
+---
+interface Props {
+  shortUrl: string;
+  title: string;
+}
+
+const { shortUrl, title } = Astro.props;
+
+const xIntent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  title
+)}&url=${encodeURIComponent(shortUrl)}`;
+
+const displayUrl = shortUrl.replace(/^https?:\/\//, '');
+---
+
+<div
+  class="share-bar flex flex-wrap items-center gap-2"
+  data-share
+  data-url={shortUrl}
+  data-title={title}
+>
+  <!-- Short URL + copy -->
+  <button
+    type="button"
+    data-copy
+    class="group inline-flex items-center gap-2 rounded-lg border border-border-light dark:border-border-dark px-3 py-1.5 text-xs font-mono text-text-secondary-light dark:text-text-secondary-dark hover:text-accent hover:border-accent/40 transition-colors"
+    aria-label="Copy short link"
+  >
+    <svg
+      class="size-3.5 shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+      ></path>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+      ></path>
+    </svg>
+    <span data-copy-text>{displayUrl}</span>
+  </button>
+
+  <!-- Share on X -->
+  <a
+    href={xIntent}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center gap-1.5 rounded-lg border border-border-light dark:border-border-dark px-3 py-1.5 text-xs font-mono text-text-secondary-light dark:text-text-secondary-dark hover:text-accent hover:border-accent/40 transition-colors"
+    aria-label="Share on X"
+  >
+    <svg
+      class="size-3.5 shrink-0"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+      ></path>
+    </svg>
+    <span>Post</span>
+  </a>
+
+  <!-- Native share (mobile) — revealed via JS only when supported -->
+  <button
+    type="button"
+    data-native
+    hidden
+    class="inline-flex items-center gap-1.5 rounded-lg border border-border-light dark:border-border-dark px-3 py-1.5 text-xs font-mono text-text-secondary-light dark:text-text-secondary-dark hover:text-accent hover:border-accent/40 transition-colors"
+    aria-label="Share"
+  >
+    <svg
+      class="size-3.5 shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+    </svg>
+    <span>Share</span>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-share]').forEach((bar) => {
+    const url = bar.dataset.url ?? '';
+    const title = bar.dataset.title ?? '';
+
+    // Copy short link
+    const copyBtn = bar.querySelector<HTMLButtonElement>('[data-copy]');
+    const label = bar.querySelector<HTMLElement>('[data-copy-text]');
+    if (copyBtn && label) {
+      const original = label.textContent;
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand('copy');
+          } catch {
+            /* ignore */
+          }
+          ta.remove();
+        }
+        label.textContent = 'Copied!';
+        copyBtn.classList.add('text-accent', 'border-accent/40');
+        window.setTimeout(() => {
+          label.textContent = original;
+          copyBtn.classList.remove('text-accent', 'border-accent/40');
+        }, 1600);
+      });
+    }
+
+    // Native share (mobile/supported browsers)
+    const nativeBtn = bar.querySelector<HTMLButtonElement>('[data-native]');
+    if (nativeBtn && typeof navigator.share === 'function') {
+      nativeBtn.hidden = false;
+      nativeBtn.addEventListener('click', () => {
+        navigator.share({ title, url }).catch(() => {
+          /* user cancelled */
+        });
+      });
+    }
+  });
+</script>

@@ -20,13 +20,23 @@ const { seo, class: className } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title="The Machine Herald RSS" href="/rss.xml" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0A0A0B" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="The Machine Herald RSS"
+      href="/rss.xml"
+    />
     <SEO {...seo} />
     <script is:inline>
       // Theme initialization - runs before render to prevent flash
-      (function() {
+      (function () {
         const stored = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia(
+          '(prefers-color-scheme: dark)'
+        ).matches;
         const theme = stored || (prefersDark ? 'dark' : 'light');
 
         if (theme === 'dark') {
@@ -37,10 +47,22 @@ const { seo, class: className } = Astro.props;
       })();
     </script>
     <!-- Privacy-friendly analytics by Plausible -->
-    <script is:inline async src="https://stats.nahi.me/js/pa-kr1kBkPQ4waX5uicvhwmn.js"></script>
+    <script
+      is:inline
+      async
+      src="https://stats.nahi.me/js/pa-kr1kBkPQ4waX5uicvhwmn.js"></script>
     <script is:inline>
-      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-      plausible.init()
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
     </script>
   </head>
   <body class="min-h-screen flex flex-col">
