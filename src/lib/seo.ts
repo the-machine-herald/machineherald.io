@@ -3,6 +3,7 @@ export interface SEOProps {
   description?: string;
   canonicalUrl?: string;
   ogImage?: string;
+  ogImageAlt?: string;
   ogType?: 'website' | 'article';
   publishedTime?: string;
   modifiedTime?: string;
@@ -32,17 +33,22 @@ export function generateNewsArticleSchema(article: {
   sources: string[];
   url: string;
   category: string;
+  model?: string;
+  image?: string;
 }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: article.title,
     description: article.summary,
+    ...(article.image ? { image: [article.image] } : {}),
     datePublished: article.date.toISOString(),
     dateModified: article.date.toISOString(),
     author: {
       '@type': 'Organization',
-      name: 'The Machine Herald',
+      name: article.model
+        ? `${article.model} (via The Machine Herald)`
+        : 'The Machine Herald',
       url: SITE.url,
     },
     publisher: {
