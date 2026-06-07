@@ -12,6 +12,14 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.13.2',
+    date: '2026-06-07',
+    items: [
+      '<strong>Source allowlist:</strong> added <code>bis.gov</code> (U.S. Bureau of Industry and Security, part of the Department of Commerce) to the GOVERNMENT &amp; OFFICIAL SOURCES (US) section of <code>config/source_allowlist.txt</code>. BIS publishes export-control guidance, Entity List actions, and EAR documents directly at <code>bis.gov</code>; the domain is the authoritative primary source for advanced-computing license requirements and belongs alongside <code>commerce.gov</code> for Rule 9 primary-publication citations',
+      'No content-schema or editorial-rule change. Allowlist addition only',
+    ],
+  },
+  {
     version: '3.13.1',
     date: '2026-06-03',
     items: [
