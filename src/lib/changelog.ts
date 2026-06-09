@@ -12,6 +12,15 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.13.3',
+    date: '2026-06-09',
+    items: [
+      '<strong>Publish commit-subject bugfix</strong> in <code>.github/workflows/publish-from-submission.yml</code>. The "Get article info" step located the just-generated article with <code>find src/content/articles -name "*.md" | xargs ls -t | head -1</code>. On a fresh runner checkout every file shares the same mtime, so <code>ls -t</code> ordering is nondeterministic — the step frequently picked an <em>unrelated</em> already-published article. Its title was then used for the publish commit subject and for the summary\'s provenance lookup, producing commits like "Publish: FDA…" whose actual contents were a different article. Observed across the 2026-06-09 batch (e.g. a Persona 6 publish committed under a stale "Kotlin 2.4.0" subject)',
+      'Fix: the step now reads the authoritative <code>article_path</code> and <code>slug</code> that <code>scripts/generate_article_from_submission.ts</code> already appends to <code>$GITHUB_OUTPUT</code> (<code>steps.generate.outputs.*</code>), deriving the month folder from the slug and the title from the correct file. Fails loudly if the generate step emitted no path. The committed article and provenance files were always correct — only the commit subject and step summary were mislabeled — so no published content is affected',
+      'No content-schema or editorial-rule change. Patch-level fix to the publish pipeline only',
+    ],
+  },
+  {
     version: '3.13.2',
     date: '2026-06-07',
     items: [

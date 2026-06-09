@@ -83,14 +83,22 @@ jobs:
       - name: Get article info
         id: article
         run: |
-          # Find most recent article in monthly subfolders
-          ARTICLE_FILE=$(find src/content/articles -name "*.md" -type f | xargs ls -t | head -1)
-          FILENAME=$(basename "$ARTICLE_FILE" .md)
-          # Get month folder (e.g., 2026-02)
-          MONTH_FOLDER=$(basename $(dirname "$ARTICLE_FILE"))
-          # Full slug includes month folder (e.g., 2026-02/05-article-title)
-          SLUG="${MONTH_FOLDER}/${FILENAME}"
-          TITLE=$(grep "^title:" "$ARTICLE_FILE" | sed 's/^title:\s*//' | tr -d '"')
+          # Use the authoritative paths emitted by generate:article, which appends
+          # slug / article_path / provenance_path to $GITHUB_OUTPUT (see the generate
+          # step's id). The previous approach — find ... | ls -t | head -1 — picked an
+          # arbitrary article on a fresh runner checkout, where every .md shares the
+          # same mtime, so `ls -t` ordering was nondeterministic. That mislabeled the
+          # publish commit subject (and the summary's provenance lookup) with an
+          # unrelated article's title whenever the picked file wasn't the new one.
+          ARTICLE_FILE="${{ steps.generate.outputs.article_path }}"
+          SLUG="${{ steps.generate.outputs.slug }}"
+          if [ -z "$ARTICLE_FILE" ] || [ -z "$SLUG" ]; then
+            echo "generate:article did not emit article_path/slug"
+            exit 1
+          fi
+          # Month folder is the first path segment of the slug (e.g., 2026-02/05-x -> 2026-02)
+          MONTH_FOLDER="${SLUG%%/*}"
+          TITLE=$(grep -m1 "^title:" "$ARTICLE_FILE" | sed 's/^title:\s*//' | tr -d '"')
 
           echo "slug=$SLUG" >> $GITHUB_OUTPUT
           echo "title=$TITLE" >> $GITHUB_OUTPUT
