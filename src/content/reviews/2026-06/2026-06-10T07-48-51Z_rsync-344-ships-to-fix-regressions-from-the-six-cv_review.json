@@ -1,0 +1,70 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-10T07-48-51Z_rsync-344-ships-to-fix-regressions-from-the-six-cv.json",
+  "timestamp": "2026-06-10T08:49:23.591Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "rsync 3.4.4 Ships to Fix Regressions From the Six-CVE 3.4.3 Security Release as Tridgell Pledges Expanded Testing",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE",
+  "summary": "Clean submission: all six CVE identifiers, both Tridgell quotes, and every version/date verified verbatim against source snapshots; sole script warnings are off-allowlist canonical primaries (openwall.com, download.samba.org), which are non-blocking.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "openwall.com: https://www.openwall.com/lists/oss-security/2026/05/20/6\ndownload.samba.org: https://download.samba.org/pub/rsync/NEWS"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://download.samba.org/pub/rsync/NEWS"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "rsync 3.4.4 Ships to Fix Regressions From the Six-CVE 3.4.3 Security Release as Tridgell Pledges Expanded Testing",
+    "summary": "rsync 3.4.4, released June 8, repairs regressions introduced by the May 20 security update that patched six CVEs, after a debate over the maintainer's AI-assisted test-suite rewrite.",
+    "body_excerpt": "## Overview\n\nThe rsync project released version 3.4.4 on June 8, 2026, a point release that exists solely to repair regressions introduced by the previous 3.4.3 security update, [according to LWN.net](https://lwn.net/Articles/1076989/). The new version adds no features and instead walks back several behavioral changes that broke working backup setups after 3.4.3 shipped on May 20, [per the project's NEWS file](https://download.samba.org/pub/rsync/NEWS). The sequence — a security release that fix...",
+    "word_count": 864,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (864 words, within the 400-1200 News range). Clear narrative arc: 3.4.4 cleanup release -> the 3.4.3 six-CVE security release that caused it -> what broke -> the targeted fixes -> the AI-code debate -> what's next -> What We Don't Know. Technical depth is appropriate and accurate; CVE descriptions are precise without overstating.",
+    "source_verification": "All 6 source snapshots read from disk and verified. source-0 (LWN, lwn.net/Articles/1076989): confirms 3.4.4 released June 8 2026 as a regression-fix release, rsync 3.5.0 coming with rsync-security@lists.samba.org mailing list and expanded test suite; the Tridgell apology quote 'My apologies for the regressions in the 3.4.3 release and I hope future security updates for rsync will have less issues' is VERBATIM. source-1 (openwall oss-security): ALL SIX CVE identifiers appear verbatim in the subject line and body — CVE-2026-29518, CVE-2026-43617, CVE-2026-43618, CVE-2026-43619, CVE-2026-43620, CVE-2026-45232; 'Affected versions are 3.4.2 and earlier' matches; CVE-2026-43618 (integer overflow, compressed-token decoder, remote memory disclosure to authenticated daemon peer), CVE-2026-43620 (out-of-bounds read in receiver recv_files, remote DoS), CVE-2026-29518 (TOCTOU symlink race, local privesc, use chroot = no), CVE-2026-43619 (symlink races on path-based syscalls) all match their descriptions verbatim; date Wed 20 May 2026 confirms the May 20 release. source-2 (download.samba.org NEWS): the Archive.org fallback captured only a Wayback Machine wrapper page (timestamp 20260530183557, May 30 — predates the June 8 3.4.4 release) with NO actual NEWS content; snapshot effectively failed for the 3.4.4 section. As a last-resort fallback I WebFetched the live NEWS URL, which confirms VERBATIM all four 3.4.4 BUG FIXES the article cites (relative alt-basis --link-dest=../sibling re-anchored at module root on use chroot = no daemon receiver; module-root-absolute path for a path = / module; false 'failed verification -- update discarded' on absolute --partial-dir delta resume; NULL dereference on the delta discard path) and the 8 Jun 2026 release date. source-3 (Linuxiac): the Tridgell vibe-code quote ('I did not just vibe-code \"convert test suite to python\". I'm a software engineer with 40 years experience (yeah, I'm OLD!)...I reviewed every part of it myself and ran through a huge amount of CI time getting it right') is VERBATIM (curly vs straight quotes aside); 'three require non-default daemon configurations, two reachable through a normal pull or authenticated daemon connection' matches; 'valid but uncommon, noting they were not included in the existing test suite or his manual testing' matches; 'backup configurations using daemon mode and incremental transfer options' matches; 'security reports, many generated by AI' matches. source-4 (The Register): 'tridge and claude' attributions since rsync 3.4.1, framework designed by Tridgell himself, Claude alongside OpenAI's Codex and Google's Gemini for 'grunt work', manually reviewed — all match. source-5 (GitHub issue 897): title confirms '\"Invalid argument (22)\" on all file reads when using native protocol' — matches the article's quoted error string.",
+    "factual_accuracy": "No fabrications detected. Every one of the six CVE identifiers appears verbatim in the openwall primary (CVE identifiers are a known top fabrication failure mode — all six verified). No fabricated CVSS scores: the article deliberately states no CVSS numbers (openwall lists them, e.g. CVE-2026-43618 CVSS 8.1, but the article does not cite any, so there is nothing to fabricate or misstate). Versions (3.4.4, 3.4.3, 3.4.2, 3.4.1, 3.5.0), dates (June 8 2026 release, May 20 2026 security release), the mailing list address, and both direct quotes all trace to cited sources.",
+    "tone_assessment": "Neutral and professional. Reports the AI-code controversy without editorializing; presents Tridgell's defense and the objection even-handedly; no sensationalism (the loaded language in The Register headline is not adopted).",
+    "originality": "Original. No prior rsync coverage exists in the archive (grep of src/content/articles and src/content/article-meta returned nothing). Not a duplicate.",
+    "concerns": [
+      "The download.samba.org NEWS snapshot (source-2) is an Archive.org wrapper page that did not capture the actual NEWS content (its Wayback timestamp May 30 predates the June 8 3.4.4 release). The four 3.4.4 fix claims were therefore verified by last-resort live WebFetch of the canonical primary rather than from the committed snapshot. The provenance snapshot for this single source does not itself substantiate those claims, though the live primary does.",
+      "openwall.com and download.samba.org are off the source allowlist. Both are canonical primary sources for this story (the oss-security disclosure list and the official rsync NEWS file) and are non-blocking; consider adding them to config/source_allowlist.txt."
+    ],
+    "recommendations": [
+      "Optionally add openwall.com and download.samba.org to config/source_allowlist.txt as trusted primaries for future security coverage."
+    ],
+    "overall_assessment": "APPROVE. High-quality, accurate News piece. All six CVE identifiers and both Tridgell quotes verified verbatim; all four 3.4.4 fix claims confirmed against the live canonical NEWS file after the archived snapshot proved to be an empty Wayback wrapper. The only script warnings are off-allowlist canonical primaries, which are non-blocking by policy. No content errors warranting a corrections record."
+  }
+}
