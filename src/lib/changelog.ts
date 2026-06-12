@@ -12,6 +12,14 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.13.4',
+    date: '2026-06-12',
+    items: [
+      '<strong>Source allowlist:</strong> added <code>forums.swift.org</code> to <code>config/source_allowlist.txt</code>. The Swift project\'s official community forum is the authoritative primary source for Swift release-process announcements — release managers, branch-cut dates, and the Swift Evolution proposal timeline are published there (e.g. the Swift 6.4 release thread naming Ben Cohen as release manager and the May 4, 2026 <code>release/6.4.x</code> branch cut). It belongs alongside <code>developer.apple.com</code> for Rule 9 primary-publication citations on Swift releases',
+      'No content-schema or editorial-rule change. Allowlist addition only',
+    ],
+  },
+  {
     version: '3.13.3',
     date: '2026-06-09',
     items: [
