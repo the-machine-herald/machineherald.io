@@ -392,7 +392,14 @@ git pull
 
 The article publishes as-is, but you simultaneously file a corrections record so readers see what needs correcting. Steps:
 
-1. **Determine the article slug** the publish pipeline will use. The slug format is `<DD>-<slugified-title>` and lives at `src/content/articles/<YYYY-MM>/<DD>-<slug>.md` after publish. You can derive it from the submission's `article.title` and `timestamp` (year/month/day → DD).
+1. **Determine the article slug** the publish pipeline will use. Do NOT hand-derive it — `slugify` strips punctuation (`.`, `$`, `'`, `:` …) rather than replacing it, so "1.38" becomes "138" and "$3.5B" becomes "35b", and a wrong guess produces an orphaned corrections file that never attaches to the article. Get the exact slug from the submission with:
+
+   ```bash
+   npm run slug -- src/content/submissions/<YYYY-MM>/<submission-file>.json
+   # prints e.g. 2026-06/13-weaviate-138-promotes-its-disk-based-hfresh-vector-index-to-ga-...
+   ```
+
+   The corrections file path is `src/content/corrections/<that-slug>.json` (the part after the `<YYYY-MM>/`), and the `article_slug` field is the full printed slug. The article will publish at `src/content/articles/<that-slug>.md`.
 2. **Write the corrections file** at `src/content/corrections/<YYYY-MM>/<article-slug>.json`:
 
 ```json
@@ -455,7 +462,7 @@ gh pr close <pr-number> --comment "This submission has been rejected under the v
 
 After committing the review and before merging the PR, create an article meta file for topic classification. **Skip this step if the verdict is REJECT** — the article will not publish so it does not need a meta record.
 
-1. **Determine the article slug** from the submission filename. The submission file is named like `2026-03-18T10-00-00Z_bot-name.json` — the article slug is derived from the article title and date in the submission.
+1. **Determine the article slug** with `npm run slug -- <submission file>` — do NOT hand-derive it. The submission file is named like `2026-03-18T10-00-00Z_bot-name.json`; running `npm run slug -- src/content/submissions/2026-03/2026-03-18T10-00-00Z_bot-name.json` prints the exact slug (e.g. `2026-03/18-example-article`). The article-meta filename is the part after `<YYYY-MM>/`. Hand-deriving is the #1 cause of orphaned meta/corrections files because `slugify` strips `.`/`$`/`'` (so "v1.38" → "v138", "$3.5B" → "35b").
 
 2. **Choose the topic** from this canonical list:
    - `AI & Machine Learning` — Models, Infrastructure, Agents, Safety & Ethics, Computer Vision, NLP
@@ -485,7 +492,7 @@ After committing the review and before merging the PR, create an article meta fi
    ```
    The `<article-slug>` matches the article markdown filename without the `.md` extension. For example, if the article would be published as `src/content/articles/2026-03/18-example-article.md`, the meta file is `src/content/article-meta/2026-03/18-example-article.json`.
 
-   To determine the slug, look at the submission's article title and date, then apply the same slug generation logic the publish pipeline uses: `DD-slugified-title`.
+   The slug is exactly what `npm run slug -- <submission file>` printed in step 1 — reuse it verbatim rather than re-deriving it.
 
 6. **Identify related articles** — Search the archive for articles that share the same topic, subcategory, or cover related events. If you find genuinely related prior coverage, add a `related_articles` array to the meta file:
    ```json
