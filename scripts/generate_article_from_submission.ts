@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
+import { generateSlug } from './lib/slug';
 
 interface ArticleContent {
   title: string;
@@ -73,29 +74,6 @@ function getPipelineVersion(): string {
 
 function getPublisherJobId(): string {
   return process.env.GITHUB_RUN_ID || `local-${Date.now()}`;
-}
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim();
-}
-
-function getMonthFolder(timestamp: string): string {
-  const date = new Date(timestamp);
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  return `${year}-${month}`;
-}
-
-function generateSlug(submission: Submission): string {
-  const date = new Date(submission.timestamp);
-  const monthFolder = getMonthFolder(submission.timestamp);
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  return `${monthFolder}/${day}-${slugify(submission.article.title)}`;
 }
 
 function computeSha256(content: string): string {

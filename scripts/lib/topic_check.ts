@@ -392,7 +392,8 @@ interface GhPrEntry {
 
 /**
  * Parse the JSON output of:
- *   gh pr list --state open --json number,title,headRefName --search "submission/" --limit 100
+ *   gh pr list --state open --json number,title,headRefName --limit 200
+ * (filtered to `submission/` branches here; no `--search`, which 401s under some tokens)
  *
  * Filters to PRs whose branch name starts with `submission/`. Strips the
  * "Submit: " prefix that submission_pr.ts adds, since it's not part of the

@@ -5,7 +5,7 @@
  * Hard pre-check invoked by parallel write-article agents BEFORE research begins.
  * Blocks topics that overlap (Jaccard ≥ threshold) with either:
  *  - a published article in `src/content/articles/<YYYY-MM>/` (lookback window)
- *  - an open submission PR (`gh pr list --state open --search "submission/"`)
+ *  - an open submission PR (`gh pr list --state open`, filtered to `submission/` branches)
  *
  * Exit codes:
  *   0  clear (or --force-follow-up override applied)
@@ -112,14 +112,19 @@ Exit codes:
 function fetchOpenPRs(): CorpusItem[] {
   let stdout: string;
   try {
+    // NOTE: do NOT add `--search` here. `gh pr list --search` goes through
+    // GitHub's search API, which returns HTTP 401 under some (SSO/keyring) token
+    // configurations even when the same token can list PRs and create refs.
+    // parseOpenPRs() already filters to `submission/` branches client-side, so
+    // the plain REST list is both sufficient and robust. Limit is generous since
+    // we're fetching all open PRs and filtering locally.
     stdout = execFileSync(
       'gh',
       [
         'pr', 'list',
         '--state', 'open',
         '--json', 'number,title,headRefName',
-        '--search', 'submission/',
-        '--limit', '100',
+        '--limit', '200',
       ],
       { encoding: 'utf-8' },
     );

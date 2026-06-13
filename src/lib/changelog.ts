@@ -12,6 +12,16 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.14.0',
+    date: '2026-06-13',
+    items: [
+      '<strong>topic:check open-PR scan bugfix</strong> in <code>scripts/check_topic.ts</code>. <code>fetchOpenPRs()</code> called <code>gh pr list --state open --search "submission/"</code>; the <code>--search</code> flag routes through GitHub\'s search API, which returns <strong>HTTP 401</strong> under some SSO/keyring token configurations even when the same token can list PRs and create refs. The whole Phase-A soft pre-check was effectively disabled — every parallel <code>write-article</code> agent across the 2026-06-09…06-13 batches hit it and fell back to manual verification (the atomic <code>topic:claim</code> still prevented duplicates, so no collisions slipped through, but the early-warning gate was dead). Fix: drop <code>--search</code> entirely and list open PRs via the plain REST endpoint (limit raised 100→200); <code>parseOpenPRs()</code> already filters to <code>submission/</code> branches client-side, so the server-side search was redundant',
+      '<strong>New <code>npm run slug -- &lt;submission.json&gt;</code> helper</strong> (<code>scripts/print_slug.ts</code>) prints the exact canonical slug the publish pipeline will produce for a submission. The slug derivation (<code>slugify</code>/<code>getMonthFolder</code>/<code>generateSlug</code>) is extracted into a shared <code>scripts/lib/slug.ts</code> — a single source of truth now imported by both <code>generate_article_from_submission.ts</code> and the new CLI (behavior byte-identical; verified against the published archive)',
+      'Motivation: <code>slugify</code> strips punctuation (<code>.</code> <code>$</code> <code>\'</code> <code>:</code> …) rather than replacing it, so "v1.38" → "v138" and "$3.5B" → "35b". Chief-Editor reviews create article-meta and corrections files <em>before</em> the article exists on disk, so reviewers had to predict that collapse by hand — and repeatedly mis-predicted it (the 2026-06-11 California "$3.5 Billion" and 2026-06-12 "Weaviate 1.38" reviews both produced orphaned meta/corrections files that had to be renamed in follow-up commits)',
+      '<strong>review-submission skill updated</strong> (Step 8.5 + the corrections-record step): reviewers now run <code>npm run slug -- &lt;submission file&gt;</code> to obtain the exact slug for naming article-meta and corrections files, instead of re-deriving <code>DD-slugified-title</code> by hand. No change to the slug format itself, so existing article URLs are unaffected',
+    ],
+  },
+  {
     version: '3.13.4',
     date: '2026-06-12',
     items: [
