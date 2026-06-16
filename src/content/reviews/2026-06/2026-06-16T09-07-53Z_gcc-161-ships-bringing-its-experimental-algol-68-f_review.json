@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-16T09-07-53Z_gcc-161-ships-bringing-its-experimental-algol-68-f.json",
+  "timestamp": "2026-06-16T13:39:37.300Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "GCC 16.1 Ships, Bringing Its Experimental Algol 68 Frontend Out of the Trunk With a Driver, a Compiler Proper, and a Runtime",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "gcc.gnu.org: https://gcc.gnu.org/gcc-16/changes.html\ngcc.gnu.org: https://gcc.gnu.org/gcc-16/\nconf.gnu-tools-cauldron.org: https://conf.gnu-tools-cauldron.org/opo25/talk/VMJQCK/\nmail-archive.com: https://www.mail-archive.com/gcc-patches@gcc.gnu.org/msg389156.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "GCC 16.1 Ships, Bringing Its Experimental Algol 68 Frontend Out of the Trunk With a Driver, a Compiler Proper, and a Runtime",
+    "summary": "GCC 16.1 was released April 30 with ga68, an experimental Algol 68 compiler targeting the Revised Report. The shipped frontend bundles a driver, a compiler proper, and a runtime library.",
+    "body_excerpt": "## Overview\n\nThe GNU Compiler Collection has shipped its long-previewed release, and with it the experimental Algol 68 frontend is no longer a development-trunk curiosity but part of a stable toolchain. GCC 16.1 was released on April 30, 2026, carrying `ga68`, an experimental compiler for a language designed in the late 1960s that influenced programming-language theory for decades but never found a durable, widely available implementation. The Machine Herald [previewed GCC 16 in April](/article/...",
+    "word_count": 719,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-structured Briefing (719 words, in range). Headed Overview / What Shipped / Inside the Frontend / What We Don't Know / Analysis. Technical depth is appropriate and the Analysis section stays measured (the trunk-to-stable availability shift) without overclaiming.",
+    "source_verification": "All 6 source snapshots read from disk (gunzip). source-0 (gcc.gnu.org/gcc-16/changes.html): confirms verbatim 'GCC now includes an experimental Algol 68 compiler, ga68', 'It aims to implement the language described by the Revised Report, including all errata approved by the Algol 68 Support subcommittee of IFIP WG2.1', and 'Some GNU extensions and a POSIX prelude are also implemented'. source-1 (gcc.gnu.org/gcc-16/): confirms 'April 30, 2026', 'The GCC developers are pleased to announce the release of GCC 16.1', and 'This release is a major release, containing new features (as well as many other improvements) relative to GCC 15.x'. source-2 (LWN 1070649): confirms April 30 2026 release, 'Version 16.1 of the GNU Compiler Collection (GCC) has been released', and the Algol68 + HTML-diagnostics headline-changes quote verbatim. source-3 (LWN 1003916): confirms Posted January 1 2025, José Marchesi, and 'a GCC front-end for Algol 68, the fascinating, generally poorly understood and often vilified programming language'. source-4 (Cauldron 2025 talk): confirms title 'ga68: the GNU Algol 68 compiler', IFIP Working Group 2.1 design, 'provide a programming language suitable to communicate algorithms, to execute them efficiently on a variety of different computers', 'bring Algol 68 back to the first line of programming where it belongs', and 'a notoriously difficult to implement language'. source-5 (gcc-patches V6 cover letter, mail-archive): confirms component names verbatim ('The compiler driver is called `ga68'. The compiler proper is called `a681'. The run-time library is called `libga68'.'), 'This front-end can compile all of the core language constructs, with only very few exceptions', parallel clauses as the singled-out exception, parser 'borrowed and adapted from Algol 68 Genie', the added modules system for separate compilation, and PATCH V6 00/50 (50 patches). No source supports the 'of Oracle' affiliation attached to Marchesi (see concerns).",
+    "factual_accuracy": "Every load-bearing specific verified: April 30 2026 ship date (gcc.gnu.org primary + corroborated by allowlisted LWN, satisfying Rule 9), ga68/a681/libga68 component names, the 50-patch V6 series, the parallel-clause exclusion, the modules system, and the Genie-derived parser. Bidirectional source check passes — all 6 body URLs are present in article.sources, no orphan/provenance break. No Phoronix or GCC wiki (403) is cited. One unsourced specific: 'José Marchesi of Oracle' — the employer is not in the cited LWN article (to which it is attributed) nor any other source. Recoverable via corrections note.",
+    "tone_assessment": "Neutral and professional. No sensationalism, no AI self-reference. The 'What We Don't Know' section appropriately bounds the claims (experimental status, no timeline, unenumerated unimplemented constructs).",
+    "originality": "Genuine follow-up, not a duplicate. The April 9 piece (2026-04/09-gcc-16-nears-release-...) is a News preview of GCC 16 in its regression-fixing phase covering C++26/contracts/Zen6/C++20-default with Algol 68 as one of many bullets. This Briefing centers on what is new: the actual April 30 2026 release shipping and the ga68 internals (driver/compiler/runtime, V6 cover-letter details, modules system), and explicitly cross-references the April preview (the cited internal slug exists on disk). Follow-up framing centers on new substance rather than re-narrating the preview.",
+    "concerns": [
+      "Off-allowlist domains surfaced as a non-blocking warning: gcc.gnu.org (x2), conf.gnu-tools-cauldron.org, and mail-archive.com. These are the appropriate primary sources for a GCC release (the official changelog/release page, the project's own conference talk, and the gcc-patches mailing-list cover letter). The two load-bearing facts most sensitive to sourcing — the April 30 2026 release and the Algol 68 frontend shipping — are independently corroborated by allowlisted LWN. Documented in the corrections record; allowlist not modified.",
+      "The body states the WIP series was sent 'by José Marchesi of Oracle'. The 'of Oracle' affiliation does not appear in the cited LWN article (to which it is attributed) or in any other cited source. Single, isolated, non-load-bearing specific (it is not in the headline, summary, or lead); honestly summarizable in a corrections note."
+    ],
+    "recommendations": [
+      "Filed a corrections record documenting the off-allowlist primary sources and the unsourced 'of Oracle' affiliation.",
+      "Maintainers may consider adding gcc.gnu.org (and possibly conf.gnu-tools-cauldron.org / mail-archive.com) to the allowlist as recurring primary sources for compiler/toolchain coverage."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. A clean, accurate, well-sourced follow-up Briefing on the GCC 16.1 release and its ga68 Algol 68 frontend. All quotes verbatim and all key specifics verified against the snapshots. Two minor recoverable issues — off-allowlist (but appropriate) primary sources, and an unsourced employer affiliation for Marchesi — are documented in a corrections record. Neither touches the headline, summary, or lead."
+  }
+}
