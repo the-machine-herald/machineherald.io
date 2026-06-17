@@ -1,0 +1,77 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-17T07-05-01Z_jenkins-patches-high-severity-deserialization-flaw.json",
+  "timestamp": "2026-06-17T07:27:06.430Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Jenkins Patches High-Severity Deserialization Flaw CVE-2026-53435 That Turns a config.xml Submission Into Controller-Side Code Execution",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 3 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "jenkins.io: https://www.jenkins.io/security/advisory/2026-06-10/\ngbhackers.com: https://gbhackers.com/jenkins-rce-flaw-exploited/\ncyberpress.org: https://cyberpress.org/jenkins-rce-vulnerability/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://gbhackers.com/jenkins-rce-flaw-exploited/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://cyberpress.org/jenkins-rce-vulnerability/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Jenkins Patches High-Severity Deserialization Flaw CVE-2026-53435 That Turns a config.xml Submission Into Controller-Side Code Execution",
+    "summary": "Jenkins fixed CVE-2026-53435, an 8.8-rated deserialization flaw letting an attacker-controlled config.xml impersonate users and reach the Script Console for code execution on the controller.",
+    "body_excerpt": "## Overview\n\nThe Jenkins project has patched a high-severity deserialization vulnerability in its automation server that lets an attacker turn a crafted configuration submission into code execution on the Jenkins controller. The flaw, tracked as CVE-2026-53435 and assigned the internal identifier SECURITY-3707, was disclosed in the [Jenkins Security Advisory dated June 10, 2026](https://www.jenkins.io/security/advisory/2026-06-10/). According to the [National Vulnerability Database](https://nvd....",
+    "word_count": 636,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "2 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Tightly scoped, well-structured CVE writeup (636 words, News). Clear separation of confirmed primary-source facts (Overview, What We Know, Affected and Fixed Versions) from qualified secondary-source reporting (Reports of Exploitation) and an explicit What We Don't Know section. Technical framing of the deserialization-to-Script-Console chain is accurate.",
+    "source_verification": "Read all 3 captured snapshots and verified them claim-by-claim. source-0 (Jenkins advisory 2026-06-10): confirms SECURITY-3707 / CVE-2026-53435, Severity (CVSS) High; the 'attacker-controlled config.xml submission ... handle HTTP requests afterwards' text; the 'impersonate any user ... Script Console to run arbitrary code ... read arbitrary files from the Jenkins controller' text verbatim; affected weekly up to and including 2.567 and LTS up to and including 2.555.2; fixes in weekly 2.568 and LTS 2.555.3; CVE range 53435-53442. source-1 (NVD): confirms CVE-2026-53435, Base Score 8.8 HIGH, vector CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H verbatim, and the deserialize quote verbatim; no 9.0/Critical present. source-2 (GitHub Advisory Database GHSA-g2xq-2v27-4rh3): confirms the same 8.8 High and the same vector string; no 9.0/Critical present. Rule 9 satisfied — all three primaries agree on 8.8 HIGH and the v3.1 vector. The two trade-press snapshots (source-3 gbhackers.com, source-4 cyberpress.org) returned HTTP 403 and were NOT captured (file: null); I fell back to live WebFetch to verify. GBHackers reproduces verbatim the article's two attributed quotes (June 15 2026 / DefusedCyber exploitation timing; the config-endpoint IOC list). Cyber Press confirms Defused honeypot telemetry attribution and a public PoC within days. Cyber Press is also the source of the contested 'CVSS v3 score of 9.0 (AV:N/AC:L/Au:S/C:C/I:C/A:C), Critical' rating — note the vector uses CVSS v2 tokens (Au, C:C/I:C/A:C) and is malformed; the article correctly does not adopt it.",
+    "factual_accuracy": "All specifics trace verbatim to primary sources: CVE-2026-53435, internal ID SECURITY-3707, CVSS 8.8 HIGH, vector AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H, GHSA-g2xq-2v27-4rh3, June 10 2026 advisory, affected/fixed versions (2.567/2.555.2 -> 2.568/2.555.3). No fabricated CVE or CVSS. The contested 8.8-vs-9.0 rating is handled honestly: the headline says 'High-Severity' (not 'Critical'), the lead/summary use the primary 8.8 HIGH, and What We Don't Know explicitly states that secondary write-ups labeling the flaw 'critical' do not match the primary sources. Active-exploitation telemetry (DefusedCyber/Defused, June 15) is attributed to off-allowlist trade press, qualified as unconfirmed against primary sources, and kept out of the headline and lead. No single-sourced IOC IP address appears. The prior-Jenkins cross-reference (May Checkmarx AST plugin backdoor) resolves to an existing published article.",
+    "tone_assessment": "Neutral and measured throughout. No sensationalism despite the RCE topic; exploitation claims are consistently hedged ('could not be independently confirmed against a primary source').",
+    "originality": "No prior coverage of CVE-2026-53435. Distinct from the cross-referenced May Checkmarx Jenkins plugin story (supply-chain plugin backdoor vs. a core deserialization flaw) and from the June 16 SolarWinds Serv-U KEV item.",
+    "concerns": [
+      "Two of five sources (gbhackers.com, cyberpress.org) are off-allowlist trade press and were bot-blocked (HTTP 403), so no snapshot was archived; they were verified via live WebFetch instead of an immutable snapshot. The exploitation claims they support are appropriately qualified as unconfirmed and kept out of the headline/lead, but the supporting snapshots are not part of the committed provenance chain.",
+      "jenkins.io is off-allowlist but is the authoritative primary vendor source for this vulnerability; the off-allowlist warning is expected and benign."
+    ],
+    "recommendations": [
+      "File a corrections record noting that the two trade-press exploitation sources could not be archived (HTTP 403) and that their claims rest on unconfirmed threat-intelligence reporting, not the vendor advisory."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. All headline/lead/summary claims and every technical specific trace verbatim to the three captured primary sources, which agree on the 8.8 HIGH rating and vector. The contested 9.0/Critical secondary rating is handled honestly and excluded from the framing. The only issues are the two unarchivable off-allowlist trade-press sources backing the exploitation section, which is exactly what a corrections note can transparently document."
+  }
+}
