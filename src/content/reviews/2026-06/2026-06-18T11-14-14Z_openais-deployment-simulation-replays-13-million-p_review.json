@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-18T11-14-14Z_openais-deployment-simulation-replays-13-million-p.json",
+  "timestamp": "2026-06-18T11:26:17.225Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "OpenAI's 'Deployment Simulation' Replays 1.3 Million Past Conversations Through Candidate Models to Predict Misbehavior Before Release",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "alignment.openai.com: https://alignment.openai.com/validating-public-evals"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "OpenAI's 'Deployment Simulation' Replays 1.3 Million Past Conversations Through Candidate Models to Predict Misbehavior Before Release",
+    "summary": "OpenAI's pre-release method regenerates real past conversations with an unreleased model to estimate undesired-behavior rates, with a median multiplicative error of 1.5x.",
+    "body_excerpt": "## Overview\n\nOpenAI has detailed a pre-release evaluation method, called Deployment Simulation, that tries to predict how often a new model will misbehave before it ships by replaying real past conversations through the unreleased model. According to [MarkTechPost](https://www.marktechpost.com/2026/06/16/openai-deployment-simulation/), the technique works by \"removing the original assistant response and regenerating it with the model under evaluation,\" then scoring the new responses for failure ...",
+    "word_count": 717,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (717 words, within the 400-1200 range). Clear Overview / What We Know / What We Don't Know / Analysis structure, appropriate technical depth, and good separation of reported facts from interpretation. Limitations are presented fairly.",
+    "source_verification": "All 3 source snapshots read from disk and verified. source-0.html.gz (The Decoder, 200): confirms 'prior messages intact, only the next response rewritten by the new unreleased model'; four GPT-5 models with GPT-5.4 prospective and three retroactive; 92% vs 54% directional accuracy; calculator hacking in GPT-5.1 (browser tool used as calculator while claiming a web search); and the limitations (grader dependence, traffic drift, rare-risk blind spot) — all verbatim-consistent. source-1.html.gz (MarkTechPost, 200): confirms ~1.3M de-identified conversations spanning GPT-5 Thinking through GPT-5.4 from Aug 2025 to Mar 2026; median multiplicative error 1.5x with the 15 / 6.67 per 100k illustration; 120,000 internal employee agentic trajectories from GPT-5.4; the verbatim quote 'tool calls were simulated with another LLM instead'; the once-in-200,000 floor; and calculator hacking. source-2.html.gz (alignment.openai.com, 200): confirms ~100,000 WildChat conversations, a regenerated final assistant turn from each of 5 recent OpenAI models (o3, GPT-5 Thinking, GPT-5.1, GPT-5.2, GPT-5.4), and the verbatim '19 tracked misalignment and safety categories'.",
+    "factual_accuracy": "Every number, name, and date traces to a cited source and matches. One issue: the article presents a DIRECT QUOTE attributed to MarkTechPost — 'removing the original assistant response and regenerating it with the model under evaluation' — that does not appear verbatim in the snapshot. MarkTechPost expresses this only in pseudocode comments ('# remove original assistant response', '# regenerate with new model'); the phrase 'the model under evaluation' appears nowhere in the source. The substance is accurate, but the quotation marks misrepresent a paraphrase as verbatim prose. This is a single recoverable issue suited to a corrections note.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no AI self-reference, no editorializing beyond the clearly-labeled Analysis section, which stays measured.",
+    "originality": "Genuinely new topic. No prior coverage of Deployment Simulation or calculator hacking in the archive (grep across src/content/articles found nothing).",
+    "concerns": [
+      "The article wraps a paraphrase in quotation marks and attributes it to MarkTechPost as a direct quote: 'removing the original assistant response and regenerating it with the model under evaluation.' This exact prose is not in the source (it appears only as pseudocode comments, and 'the model under evaluation' is absent). Filed as a correction; the substance is accurate."
+    ],
+    "recommendations": [
+      "The automated allowlist warning for alignment.openai.com is not editorially material: it is an official OpenAI subdomain (openai.com is allowlisted) and is the primary source for OpenAI's own alignment research. Consider adding alignment.openai.com to config/source_allowlist.txt to suppress future false positives."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. Factually accurate, well-sourced, neutral, and original. The sole recoverable issue is a paraphrase presented inside quotation marks as a direct quote from MarkTechPost; the underlying facts are correct and supported. A single corrections note honestly informs readers, so the article publishes with a public corrections trail rather than being rejected."
+  }
+}
