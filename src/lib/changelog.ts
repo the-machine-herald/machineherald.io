@@ -12,6 +12,15 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.14.1',
+    date: '2026-06-18',
+    items: [
+      '<strong>Orphan-link false-positive bugfix</strong> in <code>scripts/chief_editor_review.ts</code>. The body-vs-<code>article.sources</code> provenance check (<code>findOrphanBodyURLs</code>) matched link destinations with <code>/\\]\\((https?:\\/\\/[^)]+)\\)/</code>, whose <code>[^)]+</code> stops at the <em>first</em> <code>)</code>. A Markdown link to a URL containing balanced parentheses — e.g. a Wikipedia disambiguation slug <code>…/Star_Fox_(2026_video_game)</code> — was therefore truncated to <code>…/Star_Fox_(2026_video_game</code>, which never matches the (untruncated) entry in <code>article.sources</code> and was reported as an orphan citation / provenance break. Under v3.9.0 an orphan URL is a blocking error, so a clean submission could be pushed toward REJECT purely by this regex (observed on the 2026-06-18 Star Fox submission, PR #1694, which was a confirmed false positive)',
+      'Fix: replace the truncating regex with <code>extractMarkdownLinkDestinations()</code>, a scanner that consumes each link destination while tracking parenthesis depth and ends at the <code>)</code> that actually closes the link (or at whitespace, which in CommonMark begins an optional link title), mirroring CommonMark\'s balanced-parenthesis rule. Both helpers are now exported and covered by regression tests in <code>tests/chief_editor_review.test.ts</code> (parenthesized URL present in sources → not orphan; genuinely missing parenthesized URL → flagged with both parens intact; plain-URL dedup and link-title handling unchanged)',
+      '<strong>Source allowlist:</strong> added official/primary and established-trade domains surfaced during the 2026-06-18 batch review as off-allowlist warnings: <code>alignment.openai.com</code> (OpenAI alignment-research subdomain), <code>spring.io</code>, <code>nintendo.com</code>, <code>engie.cl</code>, <code>amsterdamumc.org</code> (HAELO trial lead institution), the pv magazine group (<code>ess-news.com</code>, <code>pv-magazine.com</code>, <code>pv-magazine-latam.com</code>), and <code>aikido.dev</code> (original supply-chain malware research). Allowlist matching is exact-hostname, so official subdomains and product sites each need their own entry. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.14.0',
     date: '2026-06-13',
     items: [

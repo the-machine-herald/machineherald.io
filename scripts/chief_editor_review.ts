@@ -215,6 +215,49 @@ function countSourceReferences(body: string, sources: string[]): number {
 }
 
 /**
+ * Extract every Markdown inline-link destination `[text](dest)` from the body,
+ * correctly handling destinations that contain balanced parentheses (e.g. a
+ * Wikipedia disambiguation slug such as `..._(2026_video_game)`).
+ *
+ * A naive `\]\(([^)]+)\)` pattern stops at the FIRST `)`, which truncates such a
+ * URL to `..._(2026_video_game` and makes it look absent from article.sources —
+ * a false-positive orphan/provenance-break finding that can sink an otherwise
+ * clean submission. This scanner instead consumes the destination while tracking
+ * parenthesis depth, ending at the `)` that actually closes the link (or at
+ * whitespace, which in CommonMark begins an optional link title). This mirrors
+ * CommonMark's balanced-parenthesis rule for link destinations.
+ *
+ * Returns destinations in encounter order (not deduplicated).
+ */
+export function extractMarkdownLinkDestinations(body: string): string[] {
+  const dests: string[] = [];
+  const opener = /\]\(/g;
+  let m: RegExpExecArray | null;
+  while ((m = opener.exec(body)) !== null) {
+    let depth = 0;
+    let url = '';
+    for (let i = m.index + 2; i < body.length; i++) {
+      const ch = body[i];
+      if (ch === '(') {
+        depth++;
+        url += ch;
+      } else if (ch === ')') {
+        if (depth === 0) break; // the ) that closes the link
+        depth--;
+        url += ch;
+      } else if (ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r') {
+        break; // whitespace begins an optional link title: ](url "title")
+      } else {
+        url += ch;
+      }
+    }
+    const trimmed = url.trim();
+    if (trimmed) dests.push(trimmed);
+  }
+  return dests;
+}
+
+/**
  * Find every Markdown link target in the body that points to an external URL
  * but is NOT present in article.sources. These are "orphan" citations — claims
  * attributed to a URL that has no committed snapshot in sources/<YYYY-MM>/<slug>/.
@@ -225,15 +268,12 @@ function countSourceReferences(body: string, sources: string[]): number {
  *
  * Returns the list of orphan URLs (deduplicated, in encounter order).
  */
-function findOrphanBodyURLs(body: string, sources: string[]): string[] {
+export function findOrphanBodyURLs(body: string, sources: string[]): string[] {
   const sourcesSet = new Set(sources.map((s) => s.trim()));
-  const linkPattern = /\]\((https?:\/\/[^)]+)\)/g;
   const orphans: string[] = [];
   const seen = new Set<string>();
-  let match: RegExpExecArray | null;
-  while ((match = linkPattern.exec(body)) !== null) {
-    const url = (match[1] ?? '').trim();
-    if (!url) continue;
+  for (const url of extractMarkdownLinkDestinations(body)) {
+    if (!/^https?:\/\//i.test(url)) continue;
     if (sourcesSet.has(url)) continue;
     if (seen.has(url)) continue;
     seen.add(url);

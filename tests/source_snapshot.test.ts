@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import crypto from 'node:crypto';
+import zlib from 'node:zlib';
 import { fetchAndSnapshotSources, slugify } from '../scripts/lib/source_snapshot';
 import type { SourceManifest } from '../scripts/lib/source_snapshot';
 
@@ -79,14 +80,13 @@ describe('fetchAndSnapshotSources', () => {
     expect(result.allReachable).toBe(true);
     expect(result.sources).toHaveLength(1);
     expect(result.sources[0]!.status_code).toBe(200);
-    expect(result.sources[0]!.file).toBe('source-0.html');
+    expect(result.sources[0]!.file).toBe('source-0.html.gz');
     expect(result.sources[0]!.error).toBeNull();
 
-    // Verify file on disk
-    const savedHtml = fs.readFileSync(
-      path.join(result.snapshotDir, 'source-0.html'),
-      'utf-8',
-    );
+    // Verify file on disk (snapshots are gzipped; decompress before comparing)
+    const savedHtml = zlib
+      .gunzipSync(fs.readFileSync(path.join(result.snapshotDir, 'source-0.html.gz')))
+      .toString('utf-8');
     expect(savedHtml).toBe(html);
 
     // Verify SHA-256 matches
@@ -219,16 +219,15 @@ describe('fetchAndSnapshotSources', () => {
 
     expect(result.allReachable).toBe(true);
     expect(result.sources).toHaveLength(3);
-    expect(result.sources[0]!.file).toBe('source-0.html');
-    expect(result.sources[1]!.file).toBe('source-1.html');
-    expect(result.sources[2]!.file).toBe('source-2.html');
+    expect(result.sources[0]!.file).toBe('source-0.html.gz');
+    expect(result.sources[1]!.file).toBe('source-1.html.gz');
+    expect(result.sources[2]!.file).toBe('source-2.html.gz');
 
-    // Verify each file is distinct
+    // Verify each file is distinct (snapshots are gzipped; decompress first)
     for (let i = 0; i < 3; i++) {
-      const content = fs.readFileSync(
-        path.join(result.snapshotDir, `source-${i}.html`),
-        'utf-8',
-      );
+      const content = zlib
+        .gunzipSync(fs.readFileSync(path.join(result.snapshotDir, `source-${i}.html.gz`)))
+        .toString('utf-8');
       expect(content).toBe(`<html>${urls[i]}</html>`);
     }
   });
@@ -279,7 +278,7 @@ describe('fetchAndSnapshotSources', () => {
     expect(callCount).toBe(2);
     expect(result.allReachable).toBe(true);
     expect(result.sources[0]!.status_code).toBe(200);
-    expect(result.sources[0]!.file).toBe('source-0.html');
+    expect(result.sources[0]!.file).toBe('source-0.html.gz');
   });
 
   it('falls back to archive.org on persistent 403 and succeeds', async () => {
@@ -304,12 +303,11 @@ describe('fetchAndSnapshotSources', () => {
     expect(result.allReachable).toBe(true);
     expect(result.sources[0]!.archive_fallback).toBe(true);
     expect(result.sources[0]!.archive_url).toContain('web.archive.org');
-    expect(result.sources[0]!.file).toBe('source-0.html');
+    expect(result.sources[0]!.file).toBe('source-0.html.gz');
 
-    const savedHtml = fs.readFileSync(
-      path.join(result.snapshotDir, 'source-0.html'),
-      'utf-8',
-    );
+    const savedHtml = zlib
+      .gunzipSync(fs.readFileSync(path.join(result.snapshotDir, 'source-0.html.gz')))
+      .toString('utf-8');
     expect(savedHtml).toBe('<html>archived</html>');
   });
 
