@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-18T11-20-22Z_linux-71-ships-a-rewritten-in-kernel-ntfs-driver-e.json",
+  "timestamp": "2026-06-18T11:55:47.095Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Linux 7.1 Ships a Rewritten In-Kernel NTFS Driver, Enables Intel FRED by Default, and Retires i486 in a 140,000-Line Cleanup",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "linuxteck.com: https://www.linuxteck.com/linux-kernel-7-1-release/\nit-connect.tech: https://www.it-connect.tech/linux-kernel-7-1-a-new-ntfs-driver-code-cleanup-and-whats-new/\ncomputingforgeeks.com: https://computingforgeeks.com/what-is-new-in-linux-kernel-7-1/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Linux 7.1 Ships a Rewritten In-Kernel NTFS Driver, Enables Intel FRED by Default, and Retires i486 in a 140,000-Line Cleanup",
+    "summary": "Linus Torvalds tagged Linux 7.1 on June 14, 2026, adding a from-scratch in-kernel NTFS driver, switching Intel FRED to opt-out, and deleting roughly 140,000 lines of legacy code.",
+    "body_excerpt": "## Overview\n\nLinus Torvalds tagged the mainline Linux 7.1 kernel on June 14, 2026, according to [ComputingForGeeks](https://computingforgeeks.com/what-is-new-in-linux-kernel-7-1/). The release headlines a from-scratch in-kernel NTFS filesystem driver, flips Intel's Flexible Return and Event Delivery (FRED) mechanism from opt-in to opt-out on supported hardware, and retires the i486 sub-architecture as part of a cleanup that removes roughly 140,000 lines of legacy code, as [reported by IT-Connect...",
+    "word_count": 729,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, well-structured News piece (729 words) on the Linux 7.1 kernel release. Logical section flow: Overview, NTFS driver, FRED default, code cleanup/networking breakage, then security/filesystem/graphics, closing with an honest 'What We Don't Know' section. Technical depth is appropriate and accessible. Every paragraph attributes claims to specific outlets inline.",
+    "source_verification": "I personally read all 5 gzipped snapshots under sources/2026-06/<slug>/ (source-0 through source-4), all fetched at HTTP 200. source-4 (ComputingForGeeks): confirmed 'tagged on June 14, 2026', 12,996 non-merge changesets from 2,011 developers / 342 first-timers, FRED opt-in to opt-out, Core Ultra Series 3 'Panther Lake', 140,000 lines / i486, PCMCIA / ATM / ax25 / ISDN dropped, RISC-V loses execute-in-place, new Landlock UNIX-domain-socket access right — all verbatim. source-1 (The Register): confirmed 326 vs 273 xfstests, Namjae Jeon (exFAT author) modernization timeline, NTFS3/Paragon 'its days are now numbered', NTFS read in 2.1.74 (1997), Paragon donation entered 5.15 in 2021, maintenance problematic within ~six months — all verbatim. source-0 (LinuxTeck): Torvalds quote 'Nothing particularly interesting or scary stands out, which is as it should be' verbatim; FRED redesign of exception/interrupt handling; M486/M486SX/ELAN; exFAT preallocate-without-zeroing; Intel Xe/Arc Battlemage; AMDGPU GCN 1.1 — all confirmed. source-2 (IT-Connect): 110% multi-threaded write gain + faster mounts, UDP Lite removed, IPv6 no longer a loadable module, Landlock socket hook, exFAT fallocate(), M486/M486SX/ELAN — all confirmed. source-3 (Linuxiac): full write support on iomap with delayed allocation and folio conversion, fallocate/idmapped mounts/permissions, ntfsprogs-plus with fsck tools, read-only NTFS and NTFS3 remain in-tree — all confirmed.",
+    "factual_accuracy": "All specifics (dates, changeset counts, xfstest numbers, 110% figure, version numbers, removed configs) trace to cited snapshots and verify exactly. The headline, summary, and Overview lead are each fully sourced. Minor imprecision: the article says Jeon 'started the modernization work around 2021', while The Register places it ~six months after Paragon's driver entered kernel 5.15 in 2021 (i.e. roughly late 2021/early 2022); the article's hedging word 'around' keeps this within supportable bounds and it is not correction-worthy.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing, no AI self-reference. The 'What We Don't Know' section appropriately flags the absence of an NTFS3 removal target and distro-availability detail.",
+    "originality": "No duplicate. The only prior related coverage is Linux 7.0 (April 2026), which this piece correctly cross-references via a working internal link to /article/2026-04/14-linux-70-released-... (verified to resolve to a real published article). This is a genuine new release covering a distinct kernel version.",
+    "internal_link_verification": "The cross-reference to prior Linux 7.0 coverage resolves to a real article: src/content/articles/2026-04/14-linux-70-released-with-stable-rust-support-self-healing-xfs-and-sched_ext-as-torvalds-reflects-on-ai-driven-bug-discovery.md exists on disk. Link target is correct.",
+    "concerns": [
+      "Three of five cited sources are not on config/source_allowlist.txt: linuxteck.com, it-connect.tech, and computingforgeeks.com. All three are real, reachable (HTTP 200), and their cited claims verify verbatim against the snapshots; the two allowlisted sources (theregister.com, linuxiac.com) plus cross-corroboration among all five independently support the lead facts. This is the single warning surfaced by the automated review and is disclosed in the corrections record."
+    ],
+    "recommendations": [
+      "Consider adding linuxteck.com, it-connect.tech, and computingforgeeks.com to config/source_allowlist.txt if they prove to be recurring reputable Linux/tech outlets."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. The article is factually accurate, neutral, well-sourced, and original, with every quote and specific verified verbatim against the committed snapshots and a working internal cross-reference. The only recoverable issue is that three cited outlets fall outside the source allowlist; this is honestly summarized in a corrections record so readers see the provenance caveat alongside the published article."
+  }
+}
