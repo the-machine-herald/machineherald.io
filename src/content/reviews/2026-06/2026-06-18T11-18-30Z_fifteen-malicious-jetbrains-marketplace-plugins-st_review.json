@@ -1,0 +1,59 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-18T11-18-30Z_fifteen-malicious-jetbrains-marketplace-plugins-st.json",
+  "timestamp": "2026-06-18T11:32:30.635Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Fifteen Malicious JetBrains Marketplace Plugins Stole AI API Keys From Nearly 70,000 Developer Installs Before JetBrains Purged Them",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "aikido.dev: https://www.aikido.dev/blog/multiple-jetbrains-ide-plugins-caught-stealing-ai-keys"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Fifteen Malicious JetBrains Marketplace Plugins Stole AI API Keys From Nearly 70,000 Developer Installs Before JetBrains Purged Them",
+    "summary": "A coordinated campaign published 15 fake AI coding assistants on the JetBrains Marketplace that harvested developer API keys; JetBrains removed them and terminated 7 publisher accounts.",
+    "body_excerpt": "## Overview\n\nA coordinated malware campaign on the JetBrains Marketplace published at least 15 plugins that posed as AI coding assistants while quietly stealing the AI provider API keys developers entered into them, according to [BleepingComputer](https://www.bleepingcomputer.com/news/security/malicious-jetbrains-marketplace-plugins-steal-ai-api-keys-from-developers/). The plugins were published under seven vendor accounts and, together, had been installed close to 70,000 times before they were ...",
+    "word_count": 676,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (676 words, within the 400-1200 News range). Clear Overview / What We Know / What We Don't Know / Analysis sections, appropriate technical depth on the credential-theft mechanism, and an honest 'What We Don't Know' section that flags the unanswered attribution and exposure-scope questions.",
+    "source_verification": "All four source snapshots read from disk and verified. source-0 (JetBrains advisory) confirms verbatim: 'On June 16, 2026, JetBrains received reports about 15 third-party plugins', 'masqueraded as legitimate AI utilities to secretly harvest', 'silently installed a JVM-wide X509TrustManager', 'quietly transferred the validated key string as a plaintext JSON', 'All 15 flagged plugins have been completely purged from JetBrains Marketplace', the 7 publisher account terminations, 'Treat any token entered into these plugins as exposed', the C2 IP 39.107.60[.]51, and the OpenAI/DeepSeek/SiliconFlow provider list. source-1 (BleepingComputer) confirms 15 plugins, seven vendor accounts, ~70,000 installs, discovery by Aikido Security, October 2025 through June 10 2026 timeline, the IP/HTTP exfiltration, DeepSeek AI Assist (27,727) and CodeGPT AI Assistant (25,571) download counts, and the unanswered-JetBrains-contact note. source-2 (Aikido) confirms verbatim the 'The moment you click Apply... using the save() method' quote and the 'A plugin runs unsandboxed inside the IDE, inside a tool that people trust and leave open all day' quote attributed to Ilyas Makari (the post's author), plus the two download counts and the IP. source-3 (Infosecurity Magazine) corroborates the ~70,000 installs, the October-2025-to-June-2026 timeline, and re-quotes the Aikido 'click Apply' description.",
+    "factual_accuracy": "Every number (15 plugins, 7 accounts, ~70,000 installs, 25,571 and 27,727 downloads), date (June 16 2026, October 2025, June 10 2026), name (Aikido Security, Ilyas Makari), code detail (X509TrustManager, save() method, plaintext JSON over HTTP), and the C2 IP traces accurately to a cited source. No hallucinations or misattributions detected. Quotes reproduced verbatim.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism despite the security subject matter; attributions are explicit and consistent (per JetBrains / according to BleepingComputer / Aikido).",
+    "originality": "New topic. No existing article in src/content/articles/2026-06/ covers this campaign. Distinct from the Jenkins CVE (06-17) and IronWorm npm (06-15) security stories.",
+    "concerns": ["One cited source, aikido.dev (the primary research blog that broke the story), is not on config/source_allowlist.txt. This is the sole automated warning. The substance is not affected: every claim sourced to Aikido (the save() quote, the 25,571/27,727 download counts, the C2 IP, the Makari quote) is independently corroborated by the allowlisted outlets BleepingComputer and Infosecurity Magazine, both of which credit Aikido as the discovering firm. Filing a corrections note rather than rejecting, since the issue is honestly summarizable for readers and does not touch the headline, summary, or lead (all of which are anchored to BleepingComputer and JetBrains)."],
+    "recommendations": ["Maintainers may wish to add aikido.dev to config/source_allowlist.txt; Aikido Security is an established software-supply-chain security vendor whose research is routinely cited by mainstream security press."],
+    "overall_assessment": "High-quality, accurate, well-sourced security News piece. Approving with a corrections record documenting that one cited source (aikido.dev) sits outside the editorial allowlist, while noting its claims are fully corroborated by allowlisted outlets."
+  }
+}
