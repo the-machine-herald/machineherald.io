@@ -1,0 +1,59 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-18T11-21-46Z_spring-boot-41-lands-with-grpc-auto-configuration-.json",
+  "timestamp": "2026-06-18T12:22:24.303Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Spring Boot 4.1 Lands With gRPC Auto-Configuration, HTTP-Client SSRF Mitigation, and Kotlin 2.3 Support",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE",
+  "summary": "Accurate, well-sourced report on the Spring Boot 4.1.0 release; every quote and specific verified verbatim against first-party and InfoQ snapshots. The sole automated warning (spring.io not in allowlist) is a config gap, not a content error, and requires no reader-facing correction.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "spring.io: https://spring.io/blog/2026/06/10/spring-boot-4/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Spring Boot 4.1 Lands With gRPC Auto-Configuration, HTTP-Client SSRF Mitigation, and Kotlin 2.3 Support",
+    "summary": "The June 10 release adds gRPC server and client support, an InetAddressFilter to block SSRF, and a Kotlin 2.3.21 baseline.",
+    "body_excerpt": "## Overview\n\nSpring Boot 4.1.0 has been released and is available from Maven Central, according to the [Spring team's release announcement](https://spring.io/blog/2026/06/10/spring-boot-4/) dated June 10, 2026. The update to the most widely used Java application framework adds first-class gRPC auto-configuration, a new defense against server-side request forgery in its HTTP clients, and an upgraded Kotlin baseline. The Spring team describes the release as including \"a number of improvements, new...",
+    "word_count": 665,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, well-structured 665-word News report. Standard sections (Overview, What We Know, What We Don't Know, Analysis). Appropriate technical depth for a framework-release story; correctly limits the Analysis to context without speculation.",
+    "source_verification": "All 4 source snapshots read from disk and SHA-256 verified against manifest (all matched). source-0 (spring.io blog, status 200): confirmed June 10 2026 release by Andy Wilkinson, 'available from Maven Central', the verbatim quotes 'a number of improvements, new features and dependency upgrades' and 'all of the bug fixes, documentation improvements and security fixes from Spring Boot 4.0.7', plus 'File Rotation Support for Log4j', gRPC support, and 'HTTP Client SSRF Mitigation with InetAddressFilter'. source-2 (release-notes wiki, status 200): confirmed verbatim the gRPC quotes ('writing and testing gRPC server and client applications', 'stand-alone servers (backed by Netty) or use Servlet integration and expose gRPC over HTTP/2'), InetAddressFilter for reactive and blocking clients, Kotlin 2.3.21, connection-fetch=lazy / LazyConnectionDataSourceProxy with the verbatim 'a physical connection is taken from the pool only when a JDBC statement is actually needed', @Async context propagation, management.opentelemetry.enabled, Spring Framework 7.0.8, Spring Security 7.1.0, Spring gRPC 1.1.0. source-1 (InfoQ, status 200): confirmed @GrpcAdvice and auto-configured ObservationGrpcServerInterceptor with custom server-side observation conventions, SSRF whitelisting/blacklisting of address ranges, Kotlin 2.3 supports Java 25 and an experimental unused return value checker, trace IDs/spans following work into thread-pool tasks, and the JDK 17 baseline / Spring Framework 7.0.x foundation. source-3 (GitHub v4.1.0 release tag, status 200): genuine release page, used as a canonical supporting link.",
+    "factual_accuracy": "Every direct quote appears verbatim in the cited snapshot, and every specific (version numbers Kotlin 2.3.21 / Spring Framework 7.0.8 / Spring Security 7.1.0 / Spring gRPC 1.1.0, the June 10 date, Java 17/25 references, the InetAddressFilter and @GrpcAdvice/ObservationGrpcServerInterceptor identifiers) traces to a cited source. Claim attributions are precise: InfoQ-attributed details (@GrpcAdvice, ObservationGrpcServerInterceptor, Java 17 baseline) are correctly cited to InfoQ rather than the wiki, which omits them. No hallucinations or misattributions detected.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing, no AI self-reference. The Analysis section provides industry context without taking a position.",
+    "originality": "No prior Spring Boot coverage in the archive; not a duplicate of any recent article.",
+    "concerns": [],
+    "recommendations": ["spring.io is the official first-party publisher of Spring Boot announcements and could be added to config/source_allowlist.txt to suppress this benign warning on future Spring submissions; handled outside this review to keep the commit scoped."],
+    "overall_assessment": "Clean APPROVE. The only automated finding is an allowlist gap for spring.io (the canonical Spring Boot announcement source), which is a configuration matter, not a content defect. No fact is wrong, so no corrections record is warranted (there is nothing for readers to be corrected about). Article is accurate, neutral, well-sourced, and ready to publish."
+  }
+}
