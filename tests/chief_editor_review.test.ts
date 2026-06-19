@@ -13,6 +13,7 @@ import {
   reviewSubmission,
   findOrphanBodyURLs,
   extractMarkdownLinkDestinations,
+  PROBLEMATIC_PATTERNS,
 } from '../scripts/chief_editor_review';
 import { fetchAndSnapshotSources } from '../scripts/lib/source_snapshot';
 import type { SnapshotResult, SourceFetchResult } from '../scripts/lib/source_snapshot';
@@ -304,5 +305,27 @@ describe('extractMarkdownLinkDestinations / findOrphanBodyURLs', () => {
   it('stops the destination at a link title and keeps the URL clean', () => {
     const body = '[A](https://a.com/p "the title")';
     expect(extractMarkdownLinkDestinations(body)).toEqual(['https://a.com/p']);
+  });
+});
+
+describe('PROBLEMATIC_PATTERNS — AI self-reference', () => {
+  function hasAiSelfReference(text: string): boolean {
+    return PROBLEMATIC_PATTERNS.some(
+      (p) => p.message === 'Contains AI self-reference' && p.pattern.test(text),
+    );
+  }
+
+  it('flags genuine AI self-references', () => {
+    expect(hasAiSelfReference('As an AI, I cannot verify this.')).toBe(true);
+    expect(hasAiSelfReference("I'm an AI assistant.")).toBe(true);
+    expect(hasAiSelfReference('I am an AI and...')).toBe(true);
+    expect(hasAiSelfReference('As a language model, I...')).toBe(true);
+  });
+
+  it('does NOT flag innocent words that merely start with "ai"', () => {
+    // Regression: the old /as an ai/i matched the substring inside "air-taxi".
+    expect(hasAiSelfReference('Archer was selected as an air-taxi partner.')).toBe(false);
+    expect(hasAiSelfReference('Building as an aircraft maker for decades.')).toBe(false);
+    expect(hasAiSelfReference('regarded as an aid to recovery')).toBe(false);
   });
 });

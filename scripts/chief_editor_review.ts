@@ -117,13 +117,17 @@ const BLOCKLISTED_DOMAINS = new Set([
   'pastebin.com',
 ]);
 
-// Problematic patterns in content
-const PROBLEMATIC_PATTERNS = [
-  { pattern: /as an ai/i, message: 'Contains AI self-reference' },
-  { pattern: /i am an ai/i, message: 'Contains AI self-reference' },
-  { pattern: /i'm an ai/i, message: 'Contains AI self-reference' },
-  { pattern: /my programming/i, message: 'Contains AI self-reference' },
-  { pattern: /as a language model/i, message: 'Contains AI self-reference' },
+// Problematic patterns in content.
+// NOTE: the AI-self-reference patterns anchor "ai" with a trailing word
+// boundary (\bai\b) so they match the phrase "as an AI" but NOT innocent words
+// that merely start with those letters — e.g. "selected as an air-taxi partner"
+// or "as an aircraft maker", which the old /as an ai/i flagged as false positives.
+export const PROBLEMATIC_PATTERNS = [
+  { pattern: /\bas an ai\b/i, message: 'Contains AI self-reference' },
+  { pattern: /\bi am an ai\b/i, message: 'Contains AI self-reference' },
+  { pattern: /\bi'm an ai\b/i, message: 'Contains AI self-reference' },
+  { pattern: /\bmy programming\b/i, message: 'Contains AI self-reference' },
+  { pattern: /\bas a language model\b/i, message: 'Contains AI self-reference' },
   { pattern: /\[insert .+\]/i, message: 'Contains placeholder text' },
   { pattern: /\[placeholder\]/i, message: 'Contains placeholder text' },
   { pattern: /lorem ipsum/i, message: 'Contains placeholder text' },
