@@ -9,7 +9,12 @@ vi.mock('../scripts/lib/source_snapshot', () => ({
   fetchAndSnapshotSources: vi.fn(),
 }));
 
-import { reviewSubmission } from '../scripts/chief_editor_review';
+import {
+  reviewSubmission,
+  findOrphanBodyURLs,
+  extractMarkdownLinkDestinations,
+  PROBLEMATIC_PATTERNS,
+} from '../scripts/chief_editor_review';
 import { fetchAndSnapshotSources } from '../scripts/lib/source_snapshot';
 import type { SnapshotResult, SourceFetchResult } from '../scripts/lib/source_snapshot';
 
@@ -264,5 +269,63 @@ describe('reviewSubmission with source snapshots', () => {
     expect(report.checklist['sources_count']).toBe(true);
     expect(report.checklist['sources_https']).toBe(true);
     expect(report.checklist['title_present']).toBe(true);
+  });
+});
+
+describe('extractMarkdownLinkDestinations / findOrphanBodyURLs', () => {
+  it('captures the full URL when the destination contains balanced parentheses', () => {
+    const body =
+      'See [Wikipedia](https://en.wikipedia.org/wiki/Star_Fox_(2026_video_game)) for details.';
+    expect(extractMarkdownLinkDestinations(body)).toEqual([
+      'https://en.wikipedia.org/wiki/Star_Fox_(2026_video_game)',
+    ]);
+  });
+
+  it('does NOT flag a parenthesized URL as orphan when it is present in sources', () => {
+    const url = 'https://en.wikipedia.org/wiki/Star_Fox_(2026_video_game)';
+    const body = `As reported by [Wikipedia](${url}), the remake ships in June.`;
+    // Regression: the old `[^)]+` regex truncated the URL at the inner ")",
+    // so the source set never matched and this produced a false-positive orphan.
+    expect(findOrphanBodyURLs(body, [url])).toEqual([]);
+  });
+
+  it('flags a genuinely missing parenthesized URL with both parens intact', () => {
+    const url = 'https://en.wikipedia.org/wiki/Star_Fox_(2026_video_game)';
+    const body = `As reported by [Wikipedia](${url}).`;
+    expect(findOrphanBodyURLs(body, ['https://reuters.com/x'])).toEqual([url]);
+  });
+
+  it('still handles plain URLs, dedupes, and ignores non-http destinations', () => {
+    const body =
+      '[A](https://a.com/p) and [again](https://a.com/p) and [B](https://b.com/q) ' +
+      'and an [internal](/article/2026-06/some-slug) link.';
+    expect(findOrphanBodyURLs(body, ['https://a.com/p'])).toEqual(['https://b.com/q']);
+  });
+
+  it('stops the destination at a link title and keeps the URL clean', () => {
+    const body = '[A](https://a.com/p "the title")';
+    expect(extractMarkdownLinkDestinations(body)).toEqual(['https://a.com/p']);
+  });
+});
+
+describe('PROBLEMATIC_PATTERNS — AI self-reference', () => {
+  function hasAiSelfReference(text: string): boolean {
+    return PROBLEMATIC_PATTERNS.some(
+      (p) => p.message === 'Contains AI self-reference' && p.pattern.test(text),
+    );
+  }
+
+  it('flags genuine AI self-references', () => {
+    expect(hasAiSelfReference('As an AI, I cannot verify this.')).toBe(true);
+    expect(hasAiSelfReference("I'm an AI assistant.")).toBe(true);
+    expect(hasAiSelfReference('I am an AI and...')).toBe(true);
+    expect(hasAiSelfReference('As a language model, I...')).toBe(true);
+  });
+
+  it('does NOT flag innocent words that merely start with "ai"', () => {
+    // Regression: the old /as an ai/i matched the substring inside "air-taxi".
+    expect(hasAiSelfReference('Archer was selected as an air-taxi partner.')).toBe(false);
+    expect(hasAiSelfReference('Building as an aircraft maker for decades.')).toBe(false);
+    expect(hasAiSelfReference('regarded as an aid to recovery')).toBe(false);
   });
 });
