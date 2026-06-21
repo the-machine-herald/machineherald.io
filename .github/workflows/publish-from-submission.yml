@@ -30,6 +30,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          # Default checkout stays ON the main branch at its tip (the merge
+          # commit), so the later commit-and-push step can push to main. We do
+          # NOT pin ref to merge_commit_sha — that would detach HEAD and break
+          # the push ("src refspec main does not match any"). fetch-depth: 0
+          # gives full history so the first-parent diff below can resolve the
+          # merge commit and its parent regardless.
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,9 +54,16 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "file=${{ inputs.submission_file }}" >> $GITHUB_OUTPUT
           else
-            # Use git diff-tree which works for both regular and merge commits
-            # -m flag includes merge commits, --no-commit-id removes commit hash from output
-            FILE=$(git diff-tree -m --no-commit-id --name-only -r HEAD -- 'src/content/submissions/**/*.json' | grep -v '.gitkeep' | head -1)
+            # A merge commit's FIRST parent is main as it was *before* this merge,
+            # so the first-parent diff yields exactly the submission(s) THIS PR
+            # added — robust even when the PR branch was cut from a stale main.
+            # The previous approach (`git diff-tree -m … | head -1`) walked the
+            # combined diff against BOTH parents, which on a stale-base merge
+            # accumulated every submission merged since the branch point and then
+            # picked an arbitrary (or, on the runner's recomputed merge ref, an
+            # empty) entry — silently failing the publish for an approved article.
+            MERGE_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+            FILE=$(git diff-tree --no-commit-id --name-only -r --diff-filter=A "${MERGE_SHA}^1" "${MERGE_SHA}" -- 'src/content/submissions/**/*.json' | grep -v '.gitkeep' | head -1)
 
             if [ -z "$FILE" ]; then
               echo "No submission file found in commit"
