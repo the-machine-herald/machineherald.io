@@ -30,10 +30,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # For a merged PR, check out the exact merge commit so the
-          # first-parent diff below resolves against the right history.
-          # For workflow_dispatch, fall back to the dispatched ref (main).
-          ref: ${{ github.event.pull_request.merge_commit_sha || github.ref }}
+          # Default checkout stays ON the main branch at its tip (the merge
+          # commit), so the later commit-and-push step can push to main. We do
+          # NOT pin ref to merge_commit_sha — that would detach HEAD and break
+          # the push ("src refspec main does not match any"). fetch-depth: 0
+          # gives full history so the first-parent diff below can resolve the
+          # merge commit and its parent regardless.
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
