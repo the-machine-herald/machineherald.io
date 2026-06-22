@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-22T08-14-28Z_nodejs-patches-12-cves-in-june-security-release-tw.json",
+  "timestamp": "2026-06-22T08:38:43.899Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Node.js Patches 12 CVEs in June Security Release, Two Rated High, as End-of-Life Node 20 Is Left Without a Fix",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "gbhackers.com: https://gbhackers.com/node-js-releases-security-updates-for-12-vulnerabilities/\ndigitalapplied.com: https://www.digitalapplied.com/blog/nodejs-june-2026-security-releases-cve-patch-guide\nendoflife.date: https://endoflife.date/nodejs"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://gbhackers.com/node-js-releases-security-updates-for-12-vulnerabilities/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Node.js Patches 12 CVEs in June Security Release, Two Rated High, as End-of-Life Node 20 Is Left Without a Fix",
+    "summary": "Node.js shipped v22.23.0, v24.17.0 and v26.3.1 on June 18, fixing 12 CVEs including two high-severity WebCrypto and TLS flaws. Node 20, EOL since April, gets no patch.",
+    "body_excerpt": "## Overview\n\nThe Node.js project shipped a coordinated security release across all three of its supported release lines on June 18, 2026, patching a batch of vulnerabilities that included two high-severity flaws. According to the [Node.js project](https://nodejs.org/en/blog/vulnerability/june-2026-security-releases), the fixes landed in v22.23.0, v24.17.0 and v26.3.1. The update addressed 12 CVEs in total, two of which were rated high severity, as reported by [GBHackers](https://gbhackers.com/no...",
+    "word_count": 566,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (566 words, within the 400-1200 News range) using the Herald's Overview / What We Know / What We Don't Know / Analysis format. Technically accurate, appropriately scoped, neutral framing of both the patch and the EOL-Node-20 angle.",
+    "source_verification": "All 4 source snapshots read from disk and verified. source-0 (nodejs.org official advisory, status 200): confirms the June 18 2026 date; patched versions v22.23.0, v24.17.0, v26.3.1; OpenSSL bump to 3.5.7 on all release lines; CVE-2026-48933 (high) WebCrypto with the exact quote 'can crash the process if the input of subtle.encrypt() is a multiple of 2GiB'; CVE-2026-48618 (high) with the exact 'unicode dot separator handling can lead to tls wildcard-depth authentication bypass...' quote; CVE-2026-48619 ORIGIN-frames OOM quote; CVE-2026-48615 ERR_PROXY_TUNNEL credential-leak quote; CVE-2026-48617 and CVE-2026-48936 Permission Model (advisory explicitly states 48936 'affects one supported release line: Node.js 26', matching the article's '26.x only' claim); and the 'End-of-Life versions are always affected when a security release occurs' quote. The advisory's own per-CVE severity tags total exactly 2 high / 6 medium / 4 low = 12 CVEs, matching the article's breakdown. source-1 (GBHackers, archive.org fallback, status 200): confirms '12 Vulnerabilities, Two Rated High Severity', 'released on June 18, 2026', and the TLS hostname/wildcard bypass description. source-2 (Digital Applied, status 200): confirms '12 CVEs · 2 HIGH', 'Node 20 reached End of Life on April 30, 2026 and gets no official patch', and the verbatim 'zero official mitigation path for these CVEs from the Node.js project itself' quote. source-3 (endoflife.date, status 200): confirms Node 20 EOL 30 Apr 2026, and the upgrade-target EOL dates Node 22 (30 Apr 2027), Node 24 (30 Apr 2028), Node 26 (30 Apr 2029).",
+    "factual_accuracy": "Every number, version string, CVE id, quote, and date traces to a cited source. The 2/6/4 severity split, while attributed to Digital Applied, is independently and authoritatively corroborated by the primary nodejs.org advisory's own CVE listing. The internal cross-reference to the prior Node 26 article (/article/2026-04/21-nodejs-26-arrives-april-22-as-the-last-release-under-the-old-oddeven-model) resolves to an existing published article.",
+    "tone_assessment": "Neutral and professional. The 'more consequential story' framing on the Node 20 EOL angle is editorial but supported by the cited sources and presented without sensationalism.",
+    "originality": "No prior coverage of the Node.js June 2026 security release in the archive. Distinct from other June 2026 CVE articles, which cover unrelated products.",
+    "concerns": ["Three of the four sources (gbhackers.com, digitalapplied.com, endoflife.date) are not on config/source_allowlist.txt, which is why the automated script returned APPROVE_WITH_CORRECTIONS. The domains are reputable and on-topic, and every claim attributed to them is independently corroborated by the official nodejs.org advisory, so the substance is sound; the gap is documented in the corrections record per workflow."],
+    "recommendations": ["Add gbhackers.com, digitalapplied.com, and endoflife.date to config/source_allowlist.txt if they are to be used as recurring sources for security/runtime coverage."],
+    "overall_assessment": "Accurate, well-sourced, original News piece. The only flagged issue is the source-allowlist gap, which is recoverable via a public corrections note since all underlying facts are independently verified against the official advisory. APPROVE_WITH_CORRECTIONS."
+  }
+}
