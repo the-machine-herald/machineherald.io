@@ -1,0 +1,60 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-24T09-59-32Z_cisa-adds-max-severity-joomla-content-editor-flaw-.json",
+  "timestamp": "2026-06-24T10:08:02.039Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "CISA Adds Max-Severity Joomla Content Editor Flaw CVE-2026-48907 to KEV as Attackers Drop Web Shells via Rogue Editor Profiles",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE",
+  "summary": "All five sources verified against snapshots; every CVSS score, version range, KEV date, root-cause quote, and the PoC source conflict checks out. Only finding is a non-blocking allowlist warning.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "scworld.com: https://www.scworld.com/news/max-severity-joomla-content-editor-extension-flaw-targeted-in-automated-attacks\nmysites.guru: https://mysites.guru/blog/jce-pro-2-9-99-5-security-update/\nyeswehack.com: https://www.yeswehack.com/news/rce-joomla-content-editor-extension"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "CISA Adds Max-Severity Joomla Content Editor Flaw CVE-2026-48907 to KEV as Attackers Drop Web Shells via Rogue Editor Profiles",
+    "summary": "An unauthenticated RCE in the JCE extension, scored CVSS 4.0 10.0, is being exploited to plant web shells. CISA set a June 19 federal deadline.",
+    "body_excerpt": "## Overview\n\nThe U.S. Cybersecurity and Infrastructure Security Agency added a maximum-severity flaw in the widely deployed Joomla Content Editor (JCE) extension to its Known Exploited Vulnerabilities catalog on June 16, 2026, after evidence emerged that attackers were using it to upload web shells onto vulnerable servers. According to the [CISA KEV catalog](https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json), the bug, tracked as CVE-2026-48907, is an improper ac...",
+    "word_count": 766,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Tightly scoped, well-structured KEV news story (766 words, News category). Clear sectioning (Overview, What We Know, Federal Deadline, What We Don't Know). Technical depth on the root cause is appropriate and accurately attributed to the YesWeHack disclosure. Every quantitative claim is sourced inline.",
+    "source_verification": "All 5 source snapshots read from disk and verified. source-0 (NVD, 200): confirms CVE-2026-48907, description quote verbatim, CVSS 4.0 10.0 Critical and CVSS 3.1 9.8 Critical both attributed to NVD, CWE-284, affected versions '1.0.0-2.9.99.4', Published Date 06/05/2026 — all match. source-1 (CISA KEV JSON, 200): confirms dateAdded 2026-06-16, dueDate 2026-06-19, knownRansomwareCampaignUse 'Unknown', shortDescription quote verbatim, BOD 26-04 required action. source-2 (SC Media, 200): confirms 83.7% of Joomla sites (2020), 1.2% of websites, three-day deadline, and the 'automated tooling spraying the same exploit at every JCE install it can reach' quote and 'hundreds of sites' both attributed to mySites.guru; the June 9 GitHub PoC claim is SC Media's. source-3 (mySites.guru, 200): confirms 3 June 2026 release of 2.9.99.5, 'insufficient access controls permitted unauthenticated users to upload editor profiles' release-note quote verbatim, 'rogue editor profile built to permit php uploads with the webshells it was used to drop still sitting on disk' verbatim, 'There is no public PoC in circulation' verbatim, Uwe Flottemesch / fc-hosting.de / David Jardin Joomla Security Strike Team, and the log/upload-dir audit guidance. source-4 (YesWeHack, 200): confirms all three root-cause weakness quotes verbatim (CSRF-token-only gate, no file-extension restriction, allow_unsafe=true disabling the safety net), the '/tmp directory ... pre-auth RCE in default or weakly hardened Joomla deployments' quote, and the >= 2.9.99.6 upgrade recommendation.",
+    "factual_accuracy": "Every specific (CVE id, two CVSS scores, version range, CWE, dates added/due/published, percentages, named researchers, version numbers) traces to a cited source. The SC Media (June 9 PoC) vs mySites.guru ('no public PoC') conflict is correctly framed as a divergence between two outlets and attributed to each individually in the 'What We Don't Know' section, not asserted as fact. The article correctly states CISA lists ransomware-campaign use as 'Unknown' and that the 'hundreds of sites' figure is one researcher's observation, not a survey.",
+    "tone_assessment": "Neutral and measured. No sensationalism despite the max-severity subject; the 'What We Don't Know' section explicitly bounds the uncertainty. No AI self-reference.",
+    "originality": "No prior Machine Herald coverage of CVE-2026-48907 or the JCE extension. The internal link to the 12 June BOD 26-04 article is a valid contextual reference (target file exists). New topic.",
+    "allowlist_note": "scworld.com, mysites.guru, and yeswehack.com are not in config/source_allowlist.txt — non-blocking warning only. SC Media (scworld.com) is an established security trade outlet; YesWeHack is the primary disclosure source for this CVE; mySites.guru is the most authoritative source on the vendor patch and in-the-wild attack pattern. All three are appropriate for this story. Per policy, the allowlist file was NOT modified; recommend adding these domains separately.",
+    "concerns": [],
+    "recommendations": ["Allowlist warning is non-blocking; consider adding scworld.com, yeswehack.com, and mysites.guru to config/source_allowlist.txt in a separate change."],
+    "overall_assessment": "Clean APPROVE. The automated script defaulted to APPROVE_WITH_CORRECTIONS purely on the non-blocking allowlist warning; source verification surfaced zero factual or attribution issues, so no corrections record is warranted. Ready for publication."
+  }
+}
