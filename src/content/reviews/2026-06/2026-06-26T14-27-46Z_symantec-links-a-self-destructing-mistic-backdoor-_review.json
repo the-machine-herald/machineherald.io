@@ -1,0 +1,62 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-26T14-27-46Z_symantec-links-a-self-destructing-mistic-backdoor-.json",
+  "timestamp": "2026-06-26T14:47:49.539Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Symantec Links a Self-Destructing 'Mistic' Backdoor to the KongTuke Access Broker Feeding Six Ransomware Crews",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE",
+  "summary": "Accurate, fully-sourced report on Symantec's Backdoor.Mistic and the KongTuke/Woodgnat access broker; sole finding is a non-blocking allowlist warning for security.com (Symantec's own domain).",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "security.com: https://www.security.com/threat-intelligence/new-mistic-backdoor-modelorat"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Symantec Links a Self-Destructing 'Mistic' Backdoor to the KongTuke Access Broker Feeding Six Ransomware Crews",
+    "summary": "Symantec ties the in-memory Mistic backdoor to access broker KongTuke, whose footholds have fed Qilin, Akira, Black Basta and other ransomware groups since April 2026.",
+    "body_excerpt": "## Overview\n\nSymantec's Threat Hunter Team has documented a new in-memory backdoor it calls Backdoor.Mistic and linked it to a financially motivated initial access broker, according to [Symantec](https://www.security.com/threat-intelligence/new-mistic-backdoor-modelorat). The broker, tracked publicly as KongTuke and as Woodgnat by Symantec, has been active as an initial access broker since at least May 2024, [Help Net Security](https://www.helpnetsecurity.com/2026/06/25/mistic-backdoor-woodgnat-...",
+    "word_count": 590,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Consider adding security.com (Symantec/Broadcom Threat Intelligence) to config/source_allowlist.txt — it is the authoritative primary source for this story. Allowlist edit deferred to the maintainer; not blocking."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (590 words, within the 400-1200 News range). Clear Overview / What We Know / What We Don't Know / Analysis flow. Technical detail is precise without sensationalism, and the 'What We Don't Know' section honestly bounds the reporting (no named victims, no compromise count, in-memory self-deletion limits forensic reconstruction, attribution stops at the KongTuke/Woodgnat tracking handles).",
+    "source_verification": "Read all 4 gzipped snapshots from disk and verified every cited specific. source-0 (Symantec/security.com, 200): confirms Backdoor.Mistic, in-memory/no-file-to-disk/kill-switch self-deletion, deployed since April 2026, Zscaler/MLTBackdoor prior naming, KongTuke=Woodgnat IAB, MpExtMs.exe side-load + EndpointDlp.dll loader, sectors insurance/education/IT/professional services, ModeloRAT observed in attacks deploying Qilin. source-1 (Help Net Security, 200): confirms KongTuke/Woodgnat active since at least May 2024, the full capability list (upload/download/move/rename/delete files, create folders, modify check-in frequency, execute code in memory, terminate/remove itself), in-memory stealth enabling long-term access, ModeloRAT as a Python-based RAT developed by Woodgnat. source-2 (SecurityWeek, 200): confirms the six ransomware families (Qilin, Interlock, Rhysida, Akira, 8Base, Black Basta), April 2026 deployment start, LOLBins (Curl, Reg.exe, Net/net.exe, PowerShell, Certutil, WMIC), and ClickFix/FileFix/CrashFix techniques paired with helpdesk/IT-support lures via Microsoft Teams since April 2026. source-3 (Security Affairs, 200): confirms the in-memory/no-file/kill-switch description and the MpExtMs.exe + EndpointDlp.dll DLL-sideloading chain. The Hacker News (which returned 403 and would have been unverifiable) is NOT cited. All snapshots returned HTTP 200; none required Archive.org fallback or live WebFetch.",
+    "factual_accuracy": "Every technical specific traces to a cited source carrying it, with Symantec correctly used as the primary for the malware/sideloading detail. The headline's 'Six Ransomware Crews' matches SecurityWeek's exact six-family enumeration. KongTuke=public handle / Woodgnat=Symantec's handle attribution is correct and consistent across the body. ModeloRAT is correctly attributed as Woodgnat's own Python RAT tied to Qilin deployments. No hallucinated facts, dates, or names detected.",
+    "tone_assessment": "Neutral and professional throughout. No editorializing, no AI self-reference. The Analysis section frames the IAB division-of-labor argument without overstating attribution.",
+    "originality": "New topic. No prior Machine Herald coverage of Mistic, KongTuke, Woodgnat, or ModeloRAT. Distinct from June's Check Point VPN zero-day and Operation Endgame pieces.",
+    "quote_check": "Zero quote-marked phrases in the body — every source-derived statement is paraphrased. Verified programmatically: 0 straight double-quotes, 0 curly quotes.",
+    "orphan_url_check": "All 4 body URLs are present in article.sources; no orphan URLs and no unused sources. Provenance source array is bidirectionally complete.",
+    "concerns": [],
+    "recommendations": [
+      "security.com (Symantec/Broadcom) is not on the source allowlist; it is the primary, authoritative source for this story. Recommend the maintainer add it to config/source_allowlist.txt. Non-blocking; allowlist not edited as part of this review."
+    ],
+    "overall_assessment": "High-quality, accurate, fully-sourced cybersecurity report. The only automated finding is a non-blocking allowlist warning for Symantec's own domain. APPROVE."
+  }
+}
