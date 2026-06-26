@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-26T14-28-02Z_jujutsu-042-switches-to-the-mimalloc-allocator-and.json",
+  "timestamp": "2026-06-26T14:54:41.838Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Jujutsu 0.42 Switches to the mimalloc Allocator and Removes a Batch of Deprecated Commands",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docs.jj-vcs.dev: https://docs.jj-vcs.dev/latest/changelog/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Jujutsu 0.42 Switches to the mimalloc Allocator and Removes a Batch of Deprecated Commands",
+    "summary": "Jujutsu 0.42.0, released June 4, moves to the mimalloc allocator, drops several long-deprecated command options, and adds multi-revision support to jj show.",
+    "body_excerpt": "## Overview\n\nJujutsu, the Git-compatible version control system written in Rust, released version 0.42.0 on June 4, 2026, according to the [Jujutsu changelog](https://docs.jj-vcs.dev/latest/changelog/). The release headlines a switch to the mimalloc memory allocator, removes a batch of command options that had been deprecated over earlier releases, and extends one of the tool's inspection commands to operate on multiple revisions at once.\n\nJujutsu — invoked as `jj` — describes itself as \"A Git-c...",
+    "word_count": 612,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, well-structured News piece (612 words, within the 400-1200 News range). Sections (Overview, What's in 0.42.0, Why the design matters, What's next, What we don't know) are logically ordered and the 'What we don't know' section honestly delimits the scope of the source material.",
+    "source_verification": "All three source snapshots read from disk and verified. source-1.html.gz (raw CHANGELOG.md, status 200): confirms the 0.42.0 section dated 2026-06-04, the mimalloc release-highlight quote verbatim, all removed command options (`jj commit --reset-author`/`--author`, `jj describe --no-edit`/`--edit`/`--reset-author`/`--author`, `jj git push --allow-new`, `jj metaedit --update-committer-timestamp`) verbatim, removed config keys `git.auto-local-bookmark`/`git.push-new-bookmarks`, the evolog '< 0.30' deprecation quote, `jj show` multiple-revisions feature, `jj util backend name`, `edit-invocation-mode`, custom-alias completions, and the 0.41.0 (2026-05-06) / 0.40.0 (2026-04-01) cadence dates. Critically, `jj run` appears under the [Unreleased] section, matching the article's explicit 'unreleased/work-in-progress' framing. source-2.html.gz (GitHub README, status 200): confirms 'A Git-compatible VCS that is both simple and powerful', Martin von Zweigbergk, 'hobby project in late 2019', full-time at Google, 'this is not a supported Google product', 'Jujutsu uses a real commit to represent the working copy', 'never fail because the working copy is dirty', '[t]he operation will succeed', 'The Git backend is fully featured and maintained', and a star count of 29,808 ('29.8k') supporting the 'more than 29,000 stars' claim. source-0.html.gz (docs.jj-vcs.dev changelog, status 200): independently confirms the 0.42.0 version specifics (date, mimalloc, util backend name, edit-invocation-mode, removed config/options, evolog 0.30, 0.41/0.40 dates). The internal cross-reference to the Git 2.54 article (/article/2026-04/22-git-254-...) resolves to an existing published article.",
+    "factual_accuracy": "All version specifics, removed options/config keys, new commands, and biographical/repository facts trace accurately to the cited primary sources (Rule 9 satisfied). The `jj run` feature is correctly presented as unreleased and in-development, not as shipped in 0.42.0. One minor issue: the `jj run` description is placed inside quotation marks ('executing commands over sets of changes with private working copies') but is a paraphrase, not a verbatim quote — the CHANGELOG actually reads 'run a command over a set of changes, each with their own private working copy'. The substance is accurate; only the quote-mark presentation is imprecise. Documented in the corrections record.",
+    "tone_assessment": "Neutral and professional. No sensationalism, no editorializing, no AI self-reference. The headline accurately reflects the release contents.",
+    "originality": "New topic. The only prior Jujutsu mention in the archive is the April 2026 Git 2.54 article (Git borrowing jj ideas), a distinct story; this is the first coverage of the 0.42.0 release. Not a duplicate.",
+    "concerns": [
+      "The `jj run` work-in-progress description is enclosed in quotation marks but paraphrases rather than reproduces the CHANGELOG's [Unreleased] wording verbatim. Substance is accurate; recoverable via a corrections note."
+    ],
+    "recommendations": [
+      "NON-BLOCKING: docs.jj-vcs.dev is not on config/source_allowlist.txt. It is the official Jujutsu documentation domain and the authoritative primary source for this release; the maintainer may wish to add it to the allowlist. Per policy, the allowlist file was not modified during this review.",
+      "Future submissions should reserve quotation marks for verbatim source text and paraphrase outside quotes."
+    ],
+    "overall_assessment": "Accurate, well-sourced, neutral release-coverage News piece. Every cited fact verifies against the primary Jujutsu changelog and README snapshots, with no orphan URLs and a resolving internal cross-reference. The single recoverable issue — a quote-marked paraphrase of the unreleased `jj run` description — is honestly summarizable in a corrections record. Verdict: APPROVE_WITH_CORRECTIONS."
+  }
+}
