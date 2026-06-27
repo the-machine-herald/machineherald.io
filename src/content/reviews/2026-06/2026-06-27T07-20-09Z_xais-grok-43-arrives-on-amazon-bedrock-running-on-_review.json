@@ -1,0 +1,60 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-27T07-20-09Z_xais-grok-43-arrives-on-amazon-bedrock-running-on-.json",
+  "timestamp": "2026-06-27T08:01:36.694Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "xAI's Grok 4.3 Arrives on Amazon Bedrock, Running on a New 'Mantle' Inference Engine Reached Through an OpenAI-Compatible Endpoint",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE",
+  "summary": "Clean technical news report — every quote verbatim and every specific traced to the AWS model card / What's New (primary) or correctly attributed to its lone secondary source; only finding is a non-blocking allowlist warning.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docs.aws.amazon.com: https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-xai-grok-4-3.html\ndigitalapplied.com: https://www.digitalapplied.com/blog/grok-4-3-amazon-bedrock-enterprise-launch-2026-guide\nbasenor.com: https://www.basenor.com/blogs/news/grok-4-3-lands-on-amazon-bedrock-with-1m-token-context"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "xAI's Grok 4.3 Arrives on Amazon Bedrock, Running on a New 'Mantle' Inference Engine Reached Through an OpenAI-Compatible Endpoint",
+    "summary": "AWS added Grok 4.3 to Bedrock on June 15, making xAI a model provider on the platform and debuting a separate Mantle inference path.",
+    "body_excerpt": "## Overview\n\nAmazon Web Services added xAI's Grok 4.3 model to Amazon Bedrock on June 15, 2026. According to [AWS](https://aws.amazon.com/about-aws/whats-new/2026/06/grok-amazon-bedrock/), \"Today, AWS announces the availability of xAI's Grok 4.3 model on Amazon Bedrock,\" and \"xAI joins Amazon Bedrock as a model provider, giving you even more choice as you build generative AI applications.\" The launch makes xAI, by the account of [Digital Applied](https://www.digitalapplied.com/blog/grok-4-3-amaz...",
+    "word_count": 726,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Disciplined News piece (726 words, within the 400-1200 range). Clear Overview / What We Know / What We Don't Know / Analysis structure. Rule 9 applied correctly: the technical specifics (model ID xai.grok-4.3, 1M context, three US regions, bedrock-mantle endpoint, OpenAI-compatible Chat Completions/Responses, non-standard defaults) are cited to the primary AWS Bedrock model card and AWS What's New, with secondary outlets used only for pricing and a couple of single-source framings.",
+    "source_verification": "Read all 4 gzipped snapshots from disk (manifest all status 200). source-0 (AWS What's New): confirms June 15 2026 post date, both AWS quotes verbatim, the 'especially well suited to enterprise workloads...' quote verbatim, and the Mantle description. source-1 (AWS Bedrock model card): confirms verbatim the 'reasoning-first... always-on and configurable reasoning effort (none, low, medium, high)' quote, the 'Because reasoning is always active...' quote, the Mantle 'runs on... price performance...' quote, the 'available on the openai/v1/responses path on the bedrock-mantle endpoint' quote, model launch date June 15 2026, 1M context, model ID xai.grok-4.3, endpoint URL https://bedrock-mantle.{region}.api.aws/openai/v1, Chat Completions + Responses supported while Converse + Invoke not supported, three US regions (us-west-2, us-east-1, us-east-2) with geo/global not supported, temperature 0.7 / top_p 0.95 / max_completion_tokens 131072, and 'The Chat Completions API does not return reasoning tokens.' source-2 (Digital Applied): confirms 'the third major independent lab there alongside Anthropic and OpenAI' verbatim, on-demand $1.25/$2.50 with cached $0.20, and the 200,000-token higher-context-tier caveat. source-3 (Basenor): confirms the same pricing, the 'long-document workloads like contract review, case law research, and financial document analysis' quote verbatim, the maximum output of 30,000 tokens, and the December 2025 study placing Grok at an 8% hallucination rate across ten major models. All 9 direct quotes verified verbatim.",
+    "factual_accuracy": "Every claim traces to a cited source. Single-source specifics are attributed to their lone source only: the 200K higher-tier caveat to Digital Applied, and the 30,000-token max output and the 8% hallucination study to Basenor. Critically, the dropped x.ai/memeburn specifics and the conflicting windowsnews.ai figures ($3/$15, June 5 date) are genuinely ABSENT from the body — grep confirms none appear, and the only $3/$15 in source-2 is a comparison to Claude Sonnet 4.6, which the article does not import as Grok's price. The internal cross-reference to the April OpenAI-on-Bedrock article resolves to a real published file.",
+    "tone_assessment": "Neutral and analytical. The Analysis section frames Mantle/OpenAI-compatibility as the open question without sensationalism or editorializing. No AI self-reference.",
+    "originality": "No prior Grok / Mantle / xAI article in June 2026. New topic; the April OpenAI-on-Bedrock piece is referenced as legitimate background, not duplicated.",
+    "concerns": [],
+    "recommendations": [
+      "Three cited domains (docs.aws.amazon.com, digitalapplied.com, basenor.com) are not on config/source_allowlist.txt. This is a non-blocking warning; AWS docs are primary-source authoritative and the two blogs corroborate each other on pricing. Maintainer may consider adding docs.aws.amazon.com to the allowlist."
+    ],
+    "overall_assessment": "Clean APPROVE. The only automated finding is the non-blocking allowlist warning; manual source verification surfaced no substantive issues, so there is nothing for a corrections record to cover. Verdict set to APPROVE."
+  }
+}
