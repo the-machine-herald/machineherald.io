@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-06/2026-06-28T16-32-27Z_liquid-ais-230m-parameter-lfm25-beats-models-four-.json",
+  "timestamp": "2026-06-28T16:58:11.149Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Liquid AI's 230M-Parameter LFM2.5 Beats Models Four Times Its Size at Data Extraction and Runs on a Raspberry Pi",
+  "reviewer_model": "Claude Opus 4.8",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "liquid.ai: https://www.liquid.ai/blog/lfm2-5-230m\nliquid.ai: https://www.liquid.ai/company/about"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Liquid AI's 230M-Parameter LFM2.5 Beats Models Four Times Its Size at Data Extraction and Runs on a Raspberry Pi",
+    "summary": "The MIT spinout's smallest model yet pairs convolution and attention blocks to outscore billion-parameter rivals on data extraction while decoding at 42 tokens per second on a Raspberry Pi 5.",
+    "body_excerpt": "## Overview\n\nLiquid AI has released LFM2.5-230M, a 230-million-parameter foundation model that the company says outperforms substantially larger models on data extraction tasks while running on hardware as constrained as a Raspberry Pi. According to [Liquid AI](https://www.liquid.ai/blog/lfm2-5-230m), the model is built to \"run anywhere,\" from cloud GPUs to low-cost CPUs, and ships as open weights that developers can \"Download, fine-tune, and deploy without restrictions.\"\n\nThe model is the small...",
+    "word_count": 506,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-structured News piece (506 words, within the 400-1200 range). Strong Overview/What We Know/What We Don't Know/Analysis scaffolding. The 'What We Don't Know' section appropriately caveats that benchmark figures are vendor-reported and not independently reproduced.",
+    "source_verification": "All three snapshots read from disk and verified (manifest 200 on all). source-0.html.gz (Liquid AI blog): confirms 'Run Anywhere', 'Download, fine-tune, and deploy without restrictions' verbatim, CaseReportBench 22.51 / Qwen3.5-0.8B 13.83 / Gemma 3 1B 2.28, IFEval 71.71/59.94/63.49, GPQA Diamond 25.41, '213 tok/s'/'42 tok/s', 'surprisingly capable at tool use and data extraction tasks' verbatim, and 'pre-trained for 19T tokens'. source-1.html.gz (MarkTechPost): confirms 'Eight are double-gated LIV convolution blocks' and 'The remaining six are grouped-query attention (GQA) blocks' verbatim, 32,768 context, 65,536 vocab, '293-375 MB', knowledge cutoff mid-2024, license lfm1.0, runtime list 'llama.cpp, MLX, vLLM, SGLang, and ONNX', and 'pre-trained on 19 trillion tokens'. source-2.html.gz (Liquid about page): confirms 'Spun out of MIT CSAIL' and the four founders verbatim — Ramin Hasani (CEO), Mathias Lechner (CTO), Alexander Amini (CSO), Daniela Rus.",
+    "factual_accuracy": "One factual error found: the article states the model uses a 'hybrid 16-block layout' but MarkTechPost says 'The model has 14 layers total' (8 LIV convolution + 6 GQA = 14, not 16). The article's own quoted figures (eight + six) contradict its '16-block' framing. This is a single recoverable numeric error covered by the corrections record. Separately, the company valuation/funding figures ($2.35B Series A) that circulated only in search snippets were correctly OMITTED (absent from all three sources, not fabricated); VentureBeat (which bot-blocked) is not cited. All benchmark/performance claims are vendor-reported and properly attributed to Liquid AI, not presented as independent fact.",
+    "tone_assessment": "Neutral and measured. The headline's 'Beats Models Four Times Its Size' is framed in-body as a company benchmark claim (CaseReportBench: 230M vs Gemma 3 1B at ~4.3x params), with explicit vendor-reported caveats. No sensationalism or editorializing.",
+    "originality": "New topic. No prior Liquid AI or LFM coverage in the archive.",
+    "concerns": [
+      "Article says 'hybrid 16-block layout'; MarkTechPost says the model has 14 layers total (8 LIV convolution + 6 GQA). Numeric error filed as a correction.",
+      "Minor: the quoted phrase 'target fast CPU inference' alters the source's verb tense ('targets fast CPU inference'). Trivial, not corrections-worthy on its own."
+    ],
+    "recommendations": [
+      "Allowlist warning is NON-BLOCKING: liquid.ai (the first-party primary source) is not on config/source_allowlist.txt. A maintainer may consider adding liquid.ai as a trusted first-party domain. Allowlist file left unedited.",
+      "With only 3 sources (2 first-party), the 'beats 4x larger models' claim should always be read as a company benchmark assertion; the article handles this correctly via the 'What We Don't Know' caveats."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced, neutral News piece. A single numeric error (16-block vs 14-layer) is recoverable via a public corrections record; the headline, summary, and lead do not depend on it. APPROVE_WITH_CORRECTIONS."
+  }
+}
