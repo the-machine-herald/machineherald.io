@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.14.4',
+    date: '2026-07-01',
+    items: [
+      '<strong>Source allowlist:</strong> bulk-added 108 reputable domains that recurred as off-allowlist warnings across the 2026-06-23…06-30 batch reviews, to cut warning noise in future Chief-Editor reviews. Categories: official/first-party primary publications (<code>angular.dev</code>, <code>freebsd.org</code>, <code>isas.jaxa.jp</code>, <code>liquid.ai</code>, <code>merck.com</code>, <code>micron.com</code>, <code>pfizer.com</code>, <code>developer.nvidia.com</code>, <code>docs.aws.amazon.com</code>, <code>agilityrobotics.com</code>, <code>natpower.com</code>, <code>imec-int.com</code>, <code>security.com</code>, <code>access.redhat.com</code>, <code>blog.modelcontextprotocol.io</code>, and others); cybersecurity vendors / threat-research firms (<code>wiz.io</code>, <code>snyk.io</code>, <code>socket.dev</code>, <code>sonatype.com</code>, <code>stepsecurity.io</code>, <code>yeswehack.com</code>, <code>zafran.io</code>, <code>recordedfuture.com</code>, <code>arcticwolf.com</code>, <code>cybernews.com</code>, <code>upguard.com</code>); government / official / research institutions (<code>ag.ny.gov</code>, <code>oag.ca.gov</code>, <code>clinicaltrials.gov</code>, <code>ofgem.gov.uk</code>, <code>link.aps.org</code>, <code>asme.org</code>, <code>lsu.edu</code>); primary-analysis law firms (<code>crowell.com</code>, <code>freshfields.com</code>, <code>reedsmith.com</code>, <code>paulweiss.com</code>); medical/clinical trade (<code>healio.com</code>, <code>cidrap.umn.edu</code>, <code>emjreviews.com</code>); and established tech/space/games/policy trade press (<code>powermag.com</code>, <code>sdxcentral.com</code>, <code>servethehome.com</code>, <code>blocksandfiles.com</code>, <code>datacenterdynamics.com</code>, <code>gsmarena.com</code>, <code>earthsky.org</code>, <code>dronelife.com</code>, <code>deadline.com</code>, <code>abajournal.com</code>, <code>keengamer.com</code>, <code>gonintendo.com</code>, <code>vgchartz.com</code>, and more). Aggregators, crypto-exchange blogs, and low-signal outlets were deliberately excluded. Allowlist matching is exact-hostname, so official subdomains each need their own entry. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.14.3',
     date: '2026-06-22',
     items: [
