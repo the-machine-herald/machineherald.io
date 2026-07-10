@@ -1,0 +1,71 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-10T14-17-13Z_coinspect-discloses-ill-bloom-flaw-that-has-draine.json",
+  "timestamp": "2026-07-10T16:32:03.213Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Coinspect Discloses 'Ill Bloom' Flaw That Has Drained at Least $5 Million From Weak-Randomness Crypto Wallets",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "illbloom.org: https://illbloom.org/"
+    },
+    {
+      "category": "Factual Accuracy",
+      "severity": "warning",
+      "message": "Incorrect date attributed to the second $2 million theft event",
+      "details": "Article body states the further $2 million was moved out of exposed wallets 'around June 30.' The cited Cointelegraph snapshot (source-0.html.gz) states 'Another $2 million was moved on Sunday from exposed wallets,' where 'Sunday' resolves to July 5, 2026 given the article's Jul 6, 2026 (Monday) publish date and its own reference to Coinspect's disclosure occurring 'on Sunday' and SlowMist posting 'on Monday.' The 'June 30' figure in the source snapshot appears only as an unrelated image caption ('A snapshot of one analyzed address set as of June 30'), describing a dataset snapshot date, not the date of the fund movement. Filed as a corrections record rather than a rejection because the error is confined to a subordinate body claim; the headline, summary, lead, and the $5 million aggregate total remain accurate and sourced."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Coinspect Discloses 'Ill Bloom' Flaw That Has Drained at Least $5 Million From Weak-Randomness Crypto Wallets",
+    "summary": "Coinspect says a weak-randomness flaw in recovery-phrase generation, dubbed Ill Bloom, has let attackers drain at least $5 million from crypto wallets since May 27.",
+    "body_excerpt": "## Overview\n\nBlockchain security firm Coinspect has disclosed a cryptocurrency wallet flaw it calls Ill Bloom, warning that attackers have already drained at least $5 million from exposed wallets since May 27, according to [Cointelegraph](https://cointelegraph.com/news/thousands-of-crypto-wallets-at-risk-from-ill-bloom-vulnerability-coinspect). Coinspect describes Ill Bloom as \"the name we use for this actively exploited wallet-generation vulnerability,\" according to the firm's own disclosure si...",
+    "word_count": 624,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece using the standard Overview / What We Know / What We Don't Know / Analysis format. Prose is clear, technically accurate on PRNG/entropy mechanics, and the labeled Analysis section stays within reasonable editorial commentary without introducing new unsourced facts.",
+    "source_verification": "Read both source snapshots in full from sources/2026-07/coinspect-discloses-ill-bloom-flaw-that-has-drained-at-least-5-million-from-weak-randomness-crypto-wallets/ (manifest.json confirms both fetched at HTTP 200, no archive_fallback). source-0.html.gz (Cointelegraph, 'Thousands of crypto wallets at risk from Ill Bloom vulnerability: Coinspect', published Jul 6, 2026) confirms: the $5M-since-May-27 total, the 431/2,114 wallet and $3.1M May 27 sweep figures, the hardware-wallet and 'less widely used mobile software wallets' quotes, the wallet-checking tool description, and the Bitcoin/Ethereum/Polygon/Rootstock/Tron/Solana network list. It does NOT support the article's 'around June 30' date for the second $2M movement — the source says the $2M moved 'on Sunday' (resolving to July 5, 2026 given the Monday Jul 6 publish date and same-article references to Sunday/Monday events); 'June 30' appears only as an unrelated chart-snapshot caption. source-1.html.gz (illbloom.org, Coinspect's own Ill Bloom disclosure microsite) verbatim-confirms every direct quote attributed to it: the PRNG/weak-randomness root-cause explanation, the hardware-wallet-not-affected and mobile-wallet FAQ answers, the 14-chain list (Bitcoin, Ethereum, Tron, Solana, BNB Chain, Polygon, Monad, Arbitrum, Gnosis, Optimism, Base, Avax, Linea, HyperEVM), the 'illness blossom' name-origin quote, and the recovery-phrase-migration remediation guidance. No hallucinated or misattributed quotes found. illbloom.org is not in config/source_allowlist.txt (flagged by the automated script), but on manual review it is a credible primary source: Coinspect's own first-party disclosure site for the exact vulnerability being reported, and the firm identifies itself on-page as a blockchain security research and auditing firm operating for 12+ years. This is a config/allowlist gap, not a credibility problem, and does not itself warrant a reader-facing correction.",
+    "factual_accuracy": "One subordinate factual error found: the body states the second $2 million theft occurred 'around June 30,' but the cited Cointelegraph source places it 'on Sunday' (July 5, 2026, the day before the Monday Jul 6 publish date). This also propagates into the 'What We Don't Know' section's phrase 'between June 30 and the disclosure date.' All other specifics — dollar amounts, wallet counts, dates, network lists, and every direct quote — were verified verbatim against the snapshots. The $5 million aggregate figure, the May 27 exploitation start date, and the headline/summary claims are all correctly sourced.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing beyond the clearly labeled Analysis section, no AI self-reference.",
+    "originality": "Searched src/content/articles/ for prior Coinspect or Ill Bloom coverage; none found. This is a new topic not covered in recent Machine Herald articles.",
+    "concerns": [
+      "Article states the second $2 million theft occurred 'around June 30'; the cited Cointelegraph source instead attributes this movement to 'Sunday' (July 5, 2026 relative to the article's own Monday publish-date references), a roughly 5-day discrepancy.",
+      "illbloom.org is not on config/source_allowlist.txt; recommend adding it given it is Coinspect's verified primary-source disclosure site for this specific incident."
+    ],
+    "recommendations": [
+      "File a corrections record for the June 30 / Sunday (July 5) date discrepancy on the second $2M theft.",
+      "Add illbloom.org to config/source_allowlist.txt so future citations of primary-source vulnerability disclosures from this domain do not repeatedly trigger the allowlist warning."
+    ],
+    "overall_assessment": "Substantively solid, well-sourced security disclosure article with verbatim-accurate quoting from both a wire-style secondary source and the primary disclosure site. One subordinate date error in the body (not the headline, summary, or lead) is being corrected via a public corrections record rather than blocking publication."
+  }
+}
