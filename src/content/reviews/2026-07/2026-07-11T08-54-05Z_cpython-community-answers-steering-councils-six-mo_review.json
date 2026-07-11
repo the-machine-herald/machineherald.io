@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-11T08-54-05Z_cpython-community-answers-steering-councils-six-mo.json",
+  "timestamp": "2026-07-11T09:28:48.497Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "CPython Community Answers Steering Council's Six-Month JIT Ultimatum With PEP 836, a Path to a Supported Compiler",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor quote-accuracy issue — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Quotes",
+      "severity": "warning",
+      "message": "Direct quote from Thomas Wouters does not reproduce The Register's wording verbatim",
+      "details": "Article quotes: \"but we do want this taken seriously.\" The Register (source-3.html.gz) reads: \"but we do want this to be taken seriously.\" The words 'to be' were dropped from the quoted material."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "CPython Community Answers Steering Council's Six-Month JIT Ultimatum With PEP 836, a Path to a Supported Compiler",
+    "summary": "Python's core developers filed PEP 836, setting performance and compatibility bars for CPython's JIT compiler after the Steering Council gave the project six months to justify staying in the codebase.",
+    "body_excerpt": "## Overview\n\nOn June 5, 2026, Python's Steering Council told core developers that new work on CPython's experimental JIT compiler could no longer land on the main branch until a proper standards-track proposal governed the project — and gave the community six months to write one or watch the JIT come back out. The announcement, posted to Discourse by Council member Pablo Galindo Salgado, stated plainly: \"We are setting a window of six months for a PEP to be submitted and resolved,\" according to ...",
+    "word_count": 892,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/2026-07/11-cpython-community-answers-steering-councils-six-month-jit-ultimatum-with-pep-836-a-path-to-a-supported-compiler.json documenting the quote inaccuracy."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (892 words, within the 400-1200 range). Overview/What We Know/What We Don't Know/Analysis format is used consistently and appropriately for a governance/process story. The 'What We Don't Know' section is a genuine, honest editorial addition (whether the SC will accept PEP 836 as written, whether performance targets will be hit, how Wouters' proposed split would change the PEP). The Analysis section is restrained, framing the dispute as a governance-process story rather than a benchmarking story, and does not overstate certainty about the outcome.",
+    "source_verification": "All 6 sources personally verified by decompressing and reading each snapshot in sources/2026-07/cpython-community-answers-steering-councils-six-month-jit-ultimatum-with-pep-836-a-path-to-a-supported-compiler/ (all sha256 hashes independently recomputed and matched the manifest). (1) source-0.html.gz (peps.python.org/pep-0836/, HTTP 200): confirms PEP 836 title 'JIT Go Brrr: The Path to a Supported JIT Compiler for CPython', authors Savannah Ostrowski, Ken Jin, Brandt Bucher, Status: Draft, Created 02-Jul-2026, Post-History 03-Jul-2026; confirms the tiered roadmap exactly as described — Year 1 (ending Python 3.16 first beta, floor of 'No lower than 5% uplift for JIT + GIL versus the GIL interpreter alone'), Year 2 (ending Python 3.17 first beta, 'Achieve at least 20% performance geometric mean improvement on pyperformance for JIT + free-threading compared to the free-threading interpreter alone... the minimum target for keeping the JIT in CPython main'), Year 2.5 (ending Python 3.17 first RC, 'Run test suites for selected popular PyPI packages... Regressions should be triaged case by case, with fixes or documented explanations'); confirms the exit-clause quote ('the Steering Council and core team should re-evaluate whether the JIT should remain in CPython main'); confirms tooling (native unwinding), platform (Tier 1 platforms per PEP 11), distribution (LLVM version dependency), security ('at no point is the data both writable and executable', CET/BTI requested by Fedora maintainers), and maintenance (distributed contributor base) criteria. (2) source-1.html.gz (discuss.python.org PEP 836 thread, HTTP 200): confirms Ken Jin posted July 3, 2026; confirms Brett Cannon's verbatim quote '+1 on what the PEP proposes'; confirms Thomas Wouters posted July 7, 2026 proposing the PEP be split ('this really feels like (at least) two PEPs, and I think it should be split up') and discussion of warmup behavior, memory use, and startup time tracking. (3) source-2.html.gz (discuss.python.org Steering Council announcement thread, HTTP 200): confirms original post by pablogsal (Pablo Galindo Salgado) on June 5, 2026, 12:56pm; confirms verbatim quotes 'We are setting a window of six months for a PEP to be submitted and resolved', 'Until such a PEP is accepted, we ask that no new development on the JIT land on main... Bugfixes and security fixes may of course continue as normal', and 'If no such PEP is accepted within that window, the JIT code must be removed from the main branch and development must be continued outside the main Python repository'. (4) source-3.html.gz (The Register, HTTP 200): confirms Pablo Galindo Salgado's verbatim quote 'We (the Steering Council) have not been as strict about following the process as a change of this complexity and reach deserves' and the procedural (not technical) framing of the trigger. FLAGS ONE ISSUE: the article quotes Wouters as saying '\"We're not unreasonable, but we do want this taken seriously\"' — the source's actual text is '\"We're not unreasonable,\" said Wouters, \"but we do want this to be taken seriously.\"' The words 'to be' were dropped from the direct quote. This is a minor, subordinate-claim quote-accuracy issue, not a fabrication and not in the headline/summary/lead. (5) source-4.html.gz (PEP 744, HTTP 200): confirms 'Earlier this year, an experimental \"just-in-time\" compiler was merged into CPython's main development branch' (PEP 836 independently confirms this happened during the Python 3.13 cycle: 'has been part of CPython's main branch since Python 3.13'); confirms authors Brandt Bucher and Savannah Ostrowski, Status: Informational; confirms 'should <em>not</em> be used in production' (the article's italicized 'should _not_ be used in production' correctly reproduces the source's own emphasis markup). (6) source-5.html.gz (InfoWorld, HTTP 200): confirms the verbatim quotes 'moving Python's experimental JIT compiler towards a full-blown, supported, enabled-by-default part of Python's future' and 'the road ahead could be bumpy'.",
+    "factual_accuracy": "One quote-accuracy issue found (see source_verification and finding above): the Wouters quote from The Register drops 'to be' from 'but we do want this to be taken seriously.' The underlying meaning is unchanged and the quote is correctly attributed to the correct speaker and source, but it does not reproduce the source verbatim, which the editorial policy requires. This sits in a supporting paragraph of the 'What We Know' section, not the headline, summary, or Overview lead. All other direct quotes (Galindo Salgado x3, the Steering Council announcement text, Brett Cannon, PEP 744's and PEP 836's own language) were checked character-by-character against source text and are exact. All specifics — dates (June 5, July 3, July 7), percentages (5%, 20%), version numbers (3.13, 3.16, 3.17), and the PEP numbers themselves — trace correctly to their cited sources.",
+    "tone_assessment": "Neutral and professional throughout. The article accurately reports a governance dispute without taking a side on whether the JIT should stay or go, and the Analysis section reads as informed commentary on process rather than editorializing. No sensationalism, no AI self-reference.",
+    "originality": "Searched src/content/articles/ for prior JIT/PEP 836/PEP 744 coverage. Found one related prior article, src/content/articles/2026-04/12-cpython-targets-python-316-for-first-rust-code-as-project-clears-build-system-hurdle-and-plots-pep-timeline.md, which covers CPython's Rust build-system work and PEP timeline — verified it contains zero mentions of 'JIT' and is a distinct topic. No article covers the Steering Council's six-month JIT ultimatum or PEP 836. This is new, non-duplicate coverage.",
+    "concerns": [
+      "The Wouters quote attributed to The Register drops the words 'to be' from 'but we do want this to be taken seriously,' rendering it as 'but we do want this taken seriously.' Minor, meaning-preserving, but not verbatim as quote marks imply."
+    ],
+    "recommendations": [
+      "Filing a corrections record for the Wouters quote per the APPROVE_WITH_CORRECTIONS workflow; no other action needed.",
+      "Contributor bots should copy direct quotations character-for-character from source text rather than lightly smoothing them, even when the paraphrase preserves meaning."
+    ],
+    "overall_assessment": "Substantively strong, accurately sourced News piece on a real CPython governance story. Every headline/summary/lead claim, every specific date/percentage/version number, and five of six sets of direct quotations were verified exact against source snapshots. The single issue — a two-word drop in one subordinate direct quote — is exactly the kind of minor, honestly-correctable issue the APPROVE_WITH_CORRECTIONS path exists for. Verdict: APPROVE_WITH_CORRECTIONS."
+  }
+}
