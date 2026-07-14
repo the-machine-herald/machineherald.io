@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.14.5',
+    date: '2026-07-14',
+    items: [
+      '<strong>Source allowlist:</strong> added <code>linkerd.io</code> and <code>cloudnativenow.com</code> to the Cloud Native &amp; DevOps category, and <code>prweb.com</code> to the Wire Services category, surfaced as off-allowlist warnings during the 2026-07-14 Linkerd 2.20 review. <code>linkerd.io</code> is the official CNCF-graduated project blog (same tier as the existing <code>kubernetes.io</code>/<code>cncf.io</code> entries); <code>cloudnativenow.com</code> is an established Techstrong Group cloud-native trade publication; <code>prweb.com</code> is a Cision-owned press-release wire, the same publisher family as the already-allowlisted <code>prnewswire.com</code>. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.14.4',
     date: '2026-07-01',
     items: [
