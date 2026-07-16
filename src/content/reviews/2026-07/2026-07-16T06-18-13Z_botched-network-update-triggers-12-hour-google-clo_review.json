@@ -1,0 +1,73 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-16T06-18-13Z_botched-network-update-triggers-12-hour-google-clo.json",
+  "timestamp": "2026-07-16T06:42:39.452Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Botched Network Update Triggers 12-Hour Google Cloud VMware Engine Outage Across Three Regions",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "status.cloud.google.com: https://status.cloud.google.com/incidents/T8gmtofFSTGT5tbhyciF\nthestack.technology: https://www.thestack.technology/google-gcve-stretched-misconfig/\ntechzine.eu: https://www.techzine.eu/news/infrastructure/142899/google-confirms-error-behind-cloud-vmware-engine-outage/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://www.techzine.eu/news/infrastructure/142899/google-confirms-error-behind-cloud-vmware-engine-outage/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Botched Network Update Triggers 12-Hour Google Cloud VMware Engine Outage Across Three Regions",
+    "summary": "A faulty network configuration update severed inter-zone links in Google Cloud VMware Engine stretched clusters across Sydney, Melbourne, and Frankfurt for nearly 12 hours on July 14.",
+    "body_excerpt": "## Overview\n\nA faulty network configuration update disrupted Google Cloud VMware Engine (GCVE) Stretched Cluster environments in Sydney, Melbourne, and Frankfurt for roughly 11 hours and 46 minutes on July 14, 2026, according to [Google Cloud's incident report](https://status.cloud.google.com/incidents/T8gmtofFSTGT5tbhyciF). The outage struck a product Google markets specifically as protection against a single-zone failure, according to [The Stack](https://www.thestack.technology/google-gcve-str...",
+    "word_count": 585,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News-category piece (Overview / What We Know / What We Don't Know / Analysis) at 585 words, within the 400-1200 News range. Neutral, technical tone appropriate for an infrastructure outage story. No AI self-reference or sensationalism.",
+    "source_verification": "All 5 sources personally verified. (1) status.cloud.google.com/incidents/T8gmtofFSTGT5tbhyciF (source-0.html.gz, sha256 confirmed matches manifest) - Google's own incident report confirms incident window 2026-07-14 10:00-21:46 PDT (11h46m), affected locations Sydney (australia-southeast1), Melbourne (australia-southeast2), Frankfurt (europe-west3), the verbatim quote 'A network configuration update was the cause of the inter-zone network disruption' (article drops the source's leading qualifier 'Preliminary analysis indicates that', a minor trim that doesn't change the substance), the rollback-to-last-known-good-value remediation, and the witness-appliance/BGP-session-flapping technical detail. (2) thestack.technology/google-gcve-stretched-misconfig (source-1.html.gz, sha256 confirmed) - paywalled after ~1,900 characters; confirms the 11h46m duration and the verbatim quote about Google not responding to questions on customer counts or recovery time. Does NOT contain, in the accessible snapshot, the specific claim attributed to it in the article's second sentence that VMs 'kept running... but in many cases became unreachable' -- see Concerns. (3) networkworld.com/article/4197290 (source-2.html.gz, sha256 confirmed) - full text confirms regions, witness-appliance/BGP quote (matches Google's own wording), and the Pareekh Jain quotes used in the article (both are verbatim substrings of longer quoted sentences in the source, permissible truncation). Flags one quote-attribution issue with the Neil Shah material -- see Concerns. (4) techzine.eu/news/infrastructure/142899 - local snapshot failed with HTTP 403 (bot-blocked); manifest confirms file: null. Fell back to a live WebFetch of the URL per protocol, which confirmed all claims attributed to Techzine in the article: standard GCVE deployments unaffected, the stretched-cluster explanation, and the quote that 'compute and storage services continued to function and that the virtual machines themselves had not gone down.' (5) sdxcentral.com/news/botched-network-update... (source-4.html.gz, sha256 confirmed) - confirms regions, the verbatim quote 'effectively isolated and left without writable data', the standard-vs-stretched-cluster distinction, and the Analysis section's list of comparable outages (Cloudflare tenant-API/dashboard, Cloudflare database-automation-tool platform outage, Verizon 'at the turn of the year', CrowdStrike/Microsoft) -- all verified present and accurately summarized.",
+    "factual_accuracy": "Core facts (dates, times, duration, regions, root cause, remediation) are corroborated across all 5 sources and Google's own status page. Two issues found, both minor and non-lead: (1) a misattributed claim and (2) a quote presented as direct speech that the source did not present as a direct quote. Neither affects the headline, summary, or lead paragraph's central facts, which are solidly sourced to Google's own incident report.",
+    "tone_assessment": "Neutral throughout. Analyst quotes are clearly attributed as opinion/analysis, not presented as fact. No editorializing language.",
+    "originality": "Checked src/content/articles/2026-07/ for the full month; no existing article covers this GCVE outage or references Google Cloud VMware Engine / GCVE. Genuinely new topic, not a duplicate.",
+    "concerns": [
+      "Misattribution: the Overview's second sentence attributes the claim that VMs 'kept running during the incident but in many cases became unreachable' to The Stack, but The Stack's archived (paywalled) snapshot does not contain this claim in the accessible text. The underlying fact is true and independently confirmed by Techzine ('virtual machines continued running... but became largely inaccessible') and consistent with SDxCentral and Google's own status page, but the specific citation to The Stack for this detail could not be verified. Filing as a corrections record rather than rejecting because the fact itself is accurate and traceable to other cited sources in the same article.",
+      "Quote-marks-on-paraphrase: the article quotes Neil Shah as saying 'a routine internal network update or configuration tweak' that 'introduced routing failure across multiple zones.' In the cited Network World source, this exact wording appears, but as the reporter's indirect/reported description of Shah's comments ('Neil Shah... said the real culprit here is... where a routine internal network update or configuration tweak introduced routing failure across multiple zones.') -- it is not inside quotation marks in the source and is not presented there as Shah's own words. Only the following sentence ('While most of the physical nodes...') is an actual direct quote in the source. The article should not have put quote marks around reported/paraphrased text."
+    ],
+    "recommendations": [
+      "In the corrections record, clarify that the 'VMs kept running but became unreachable' fact is supported by Techzine and Google's status page rather than The Stack specifically.",
+      "In the corrections record, note that the Neil Shah material quoted as 'a routine internal network update or configuration tweak... introduced routing failure across multiple zones' was reported/paraphrased speech in the source, not a direct quotation.",
+      "Consider adding thestack.technology, techzine.eu, and status.cloud.google.com to config/source_allowlist.txt given they were used accurately here (status.cloud.google.com is a first-party Google source and techzine.eu/thestack.technology are established trade outlets)."
+    ],
+    "overall_assessment": "Substantively solid, well-sourced News piece on a real, well-corroborated outage. Two minor, non-lead attribution issues (one misattributed fact, one paraphrase presented as a direct quote) are each individually correctable and do not undermine the headline, summary, or lead. APPROVE_WITH_CORRECTIONS with a two-item corrections record."
+  }
+}
