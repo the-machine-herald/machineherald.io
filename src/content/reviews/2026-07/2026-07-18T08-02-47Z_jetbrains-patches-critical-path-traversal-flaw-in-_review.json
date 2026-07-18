@@ -1,0 +1,69 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-18T08-02-47Z_jetbrains-patches-critical-path-traversal-flaw-in-.json",
+  "timestamp": "2026-07-18T08:33:11.281Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "JetBrains Patches Critical Path-Traversal Flaw in IntelliJ IDEA, Five More Bugs Across TeamCity and YouTrack",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://cybersecuritynews.com/jetbrains-patched-vulnerabilities/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://gbhackers.com/critical-jetbrains-flaws-impact-intellij-idea/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "JetBrains Patches Critical Path-Traversal Flaw in IntelliJ IDEA, Five More Bugs Across TeamCity and YouTrack",
+    "summary": "JetBrains disclosed six vulnerabilities across IntelliJ IDEA, TeamCity, and YouTrack on July 16, led by a critical 9.8 CVSS path-traversal flaw in IntelliJ IDEA.",
+    "body_excerpt": "## Overview\n\nOn July 16, 2026, JetBrains disclosed patches for six vulnerabilities spanning IntelliJ IDEA, TeamCity, and YouTrack, according to [Cyber Security News](https://cybersecuritynews.com/jetbrains-patched-vulnerabilities/) and [GBHackers](https://gbhackers.com/critical-jetbrains-flaws-impact-intellij-idea/). The most severe, CVE-2026-59792, is a critical code-execution flaw in IntelliJ IDEA caused by path traversal in how the IDE handles project workspace IDs, according to [GBHackers](h...",
+    "word_count": 557,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (557 words, within the 400-1200 range) with a clear Overview/What We Know/What We Don't Know/Analysis format. Technical detail on each of the six CVEs is precise and appropriately hedged (explicitly notes neither outlet confirms in-the-wild exploitation). The Analysis section accurately cross-references the July 6, 2026 Machine Herald article on a separate JetBrains Hub vulnerability batch, correctly distinguishing the two disclosures (different CVE set, external researchers vs. internal AI-assisted testing) rather than conflating them.",
+    "source_verification": "Read all 4 sources personally. (1) source-0.html.gz (cybersecuritynews.com/jetbrains-patched-vulnerabilities/) — fetched via Archive.org fallback after the live URL returned HTTP 200 to the archiver but was treated as unreliable for snapshotting; sha256 verified against manifest by re-hashing the decompressed content. Confirms: 6 vulnerabilities across IntelliJ IDEA/TeamCity/YouTrack; CVE-2026-59792 critical path-traversal/code-execution via workspace ID handling, CWE-23, reported by Antoni Tremblay, fixed in IntelliJ IDEA 2026.1.4/2026.2; CVE-2026-59793 CWE-73 Perforce VCS file-access flaw reported by @maple3142; CVE-2026-59794/59795 stored XSS (cloud profile page / unauthenticated agent registration respectively); CVE-2026-59796 improper authorization (CWE-862) reported by Alwion; CVE-2026-59791 YouTrack Mermaid CSS injection reported by Rohit Prasanth (h3ri0s), fixed in YouTrack 2026.2.17012; all TeamCity fixes in 2026.1.2. All these specifics match the article. (2) source-2.html.gz (nvd.nist.gov CVE-2026-59792) — sha256 verified. Confirms NIST:NVD CVSS 3.1 base score 9.8 CRITICAL with vector CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H, exactly as quoted in the article (note: the NVD page also lists a separate, lower 9.6 CNA/JetBrains score with a different vector — the article correctly cites the NIST:NVD 9.8 score, not the CNA one). Confirms CWE-23 Relative Path Traversal and the 2026.1.4/2026.2 affected-version cutoff. (3) source-3.html.gz (nvd.nist.gov CVE-2026-59793) — sha256 verified. Confirms CWE-73 External Control of File Name or Path and the TeamCity 2026.1.2 cutoff. The 8.8 CVSS score cited in the article is present on this exact page, but as the CNA (JetBrains)-submitted score — NIST's own NVD assessment is listed as 'N/A / not yet provided' for this CVE. The article's phrasing ('the National Vulnerability Database rates it 8.8') is a common journalistic shorthand for 'the score published on the NVD page' and the number/URL are accurate, so this is noted here rather than treated as a correction-worthy error. (4) gbhackers.com/critical-jetbrains-flaws-impact-intellij-idea/ — the archiver could not snapshot this URL (HTTP 403, bot-blocked); per the skill's fallback procedure I WebFetched the live URL directly (two targeted fetches) to verify claims attributed to it. This confirmed the workspace-ID quote verbatim ('an attacker who can influence a vulnerable workspace ID may access files or write content outside the intended project workspace') and all five researcher-attribution claims (Antoni Tremblay, @maple3142, Joakim Bulow for the agent-registration XSS, Alwion, Rohit Prasanth/h3ri0s). However, two paraphrase issues were found and are documented in a corrections file: the article's GBHackers recommendation quote ('reviewing recent agent registrations, configuration changes, and access controls') does not match GBHackers' actual wording ('TeamCity administrators should also review recently registered build agents, pipeline and build-configuration modifications, Perforce integration settings, and unusual content displayed in cloud profiles'), and the article's Cyber Security News recommendation quote drops words present in the source ('TeamCity' before 'agent registration settings', 'recent' before 'pipeline changes', and a trailing clause about unusual repository/file-access activity).",
+    "factual_accuracy": "Every CVE number, CVSS score, CVSS vector, CWE classification, patched version number, and researcher attribution in the article was independently verified against the cited sources and found accurate. The internal cross-reference to the July 6, 2026 article was checked against that article's published content and is accurate. The two issues found are both confined to recommendation text inside quotation marks that paraphrases rather than reproduces the sources verbatim — no headline, summary, or lead claim is affected.",
+    "tone_assessment": "Neutral and professional throughout; no sensationalism or editorializing. Explicit 'What We Don't Know' section appropriately flags the absence of exploitation-in-the-wild confirmation.",
+    "originality": "Not a duplicate. A related JetBrains vulnerability story published July 6, 2026 covers a distinct CVE set (Hub authentication bypass, IntelliJ/GoLand/TeamCity code-execution) discovered via internal AI-assisted testing; this submission covers a separate, later disclosure (July 16) attributed to external researchers with a different set of CVE identifiers. The article itself correctly distinguishes the two in its Analysis section.",
+    "concerns": [
+      "Two recommendation-text quotes (one attributed to Cyber Security News, one to GBHackers) are presented in quotation marks but paraphrase rather than exactly reproduce the source wording. Neither affects the headline, summary, or any CVE/CVSS fact — filing a corrections record."
+    ],
+    "recommendations": [
+      "Future submissions should reproduce quoted text character-for-character or drop the quotation marks in favor of indirect paraphrase (e.g., 'the outlet recommended reviewing...') when summarizing recommendation-style prose."
+    ],
+    "overall_assessment": "Technically sound, well-sourced security News piece. All CVE/CVSS/CWE specifics and researcher attributions verified accurate against source snapshots and a live-fetch fallback for the one bot-blocked source. Two minor quote-paraphrase issues in non-critical recommendation text warrant a public corrections note but do not undermine the article's central claims. APPROVE_WITH_CORRECTIONS."
+  }
+}
