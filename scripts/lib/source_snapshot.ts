@@ -1,8 +1,10 @@
 /**
  * Source Snapshot Module
  *
- * Fetches source URLs, saves HTML snapshots to disk, and produces
- * a manifest with per-source metadata (status, hash, content-type).
+ * Fetches source URLs, saves snapshots to disk, and produces a manifest with
+ * per-source metadata (status, hash, content-type). Textual sources (HTML/XML/
+ * JSON) are stored as decoded UTF-8; binary sources (e.g. application/pdf) are
+ * stored as the exact bytes received — never lossily UTF-8-decoded.
  * Used by the chief editor review script and the standalone CLI.
  */
 
@@ -96,6 +98,39 @@ function extractDomain(url: string): string | null {
   }
 }
 
+/**
+ * Whether a response body should be stored as decoded UTF-8 text (honoring the
+ * response charset via res.text()) rather than as raw bytes. Everything that is
+ * not textual — PDFs, images, octet-streams — is stored byte-for-byte, because
+ * res.text() replaces any non-UTF-8 byte with U+FFFD and corrupts binary content
+ * before it is hashed. A null/absent content-type defaults to text, preserving
+ * the module's historical behavior for untyped responses.
+ */
+function isTextualContentType(contentType: string | null): boolean {
+  if (!contentType) return true;
+  const type = contentType.split(';', 1)[0]!.trim().toLowerCase();
+  if (type.startsWith('text/')) return true;
+  if (type.endsWith('+xml') || type.endsWith('+json')) return true;
+  return (
+    type === 'application/xml' ||
+    type === 'application/json' ||
+    type === 'application/javascript' ||
+    type === 'application/ecmascript'
+  );
+}
+
+/**
+ * Snapshot filename extension for a content type. Textual sources keep the
+ * historical `.html.gz` name; PDFs and other binaries get an accurate extension
+ * so reviewers know which tool to open them with.
+ */
+function snapshotExtension(contentType: string | null): string {
+  if (isTextualContentType(contentType)) return 'html';
+  const type = (contentType ?? '').split(';', 1)[0]!.trim().toLowerCase();
+  if (type === 'application/pdf') return 'pdf';
+  return 'bin';
+}
+
 function getMonthFromSubmissionPath(submissionPath: string): string {
   const basename = path.basename(submissionPath, '.json');
   const match = basename.match(/^(\d{4}-\d{2})/);
@@ -110,7 +145,8 @@ interface FetchAttemptResult {
   status_code: number | null;
   content_type: string | null;
   redirected_domain: string | null;
-  body: string | null;
+  /** Exact bytes to persist: decoded UTF-8 for text, raw bytes for binary. */
+  body: Buffer | null;
   error: string | null;
 }
 
@@ -150,7 +186,13 @@ async function attemptFetch(
       };
     }
 
-    const body = await res.text();
+    // Textual sources are stored as decoded UTF-8 (res.text() honors the response
+    // charset); binary sources are stored as the exact bytes received. Reading a
+    // binary body with res.text() would replace every non-UTF-8 byte with U+FFFD,
+    // corrupting the snapshot before it is hashed.
+    const body = isTextualContentType(contentType)
+      ? Buffer.from(await res.text(), 'utf-8')
+      : Buffer.from(await res.arrayBuffer());
     return {
       status_code: statusCode,
       content_type: contentType,
@@ -203,19 +245,19 @@ async function fetchSource(
     const archiveAttempt = await attemptFetch(archiveUrl, url, timeoutMs);
 
     if (archiveAttempt.status_code !== null && archiveAttempt.status_code < 400 && archiveAttempt.body !== null) {
-      const filename = `source-${index}.html.gz`;
+      const filename = `source-${index}.${snapshotExtension(archiveAttempt.content_type)}.gz`;
       const filePath = path.join(outDir, filename);
-      const utf8Bytes = Buffer.from(archiveAttempt.body, 'utf-8');
+      const bytes = archiveAttempt.body;
       // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
-      const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
-      fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
+      const hash = crypto.createHash('sha256').update(bytes).digest('hex');
+      fs.writeFileSync(filePath, zlib.gzipSync(bytes, { level: 9 }));
 
       return {
         url,
         file: filename,
         status_code: archiveAttempt.status_code,
         content_type: archiveAttempt.content_type,
-        content_length: utf8Bytes.length,
+        content_length: bytes.length,
         sha256: hash,
         error: null,
         fetched_at: fetchedAt,
@@ -228,19 +270,19 @@ async function fetchSource(
 
   // Save snapshot if we have content
   if (attempt.body !== null) {
-    const filename = `source-${index}.html.gz`;
+    const filename = `source-${index}.${snapshotExtension(attempt.content_type)}.gz`;
     const filePath = path.join(outDir, filename);
-    const utf8Bytes = Buffer.from(attempt.body, 'utf-8');
+    const bytes = attempt.body;
     // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
-    const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
-    fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
+    const hash = crypto.createHash('sha256').update(bytes).digest('hex');
+    fs.writeFileSync(filePath, zlib.gzipSync(bytes, { level: 9 }));
 
     return {
       url,
       file: filename,
       status_code: attempt.status_code,
       content_type: attempt.content_type,
-      content_length: utf8Bytes.length,
+      content_length: bytes.length,
       sha256: hash,
       error: null,
       fetched_at: fetchedAt,

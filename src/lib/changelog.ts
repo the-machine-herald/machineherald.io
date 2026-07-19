@@ -12,6 +12,14 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.14.7',
+    date: '2026-07-19',
+    items: [
+      '<strong>Binary source-snapshot corruption bugfix</strong> in <code>scripts/lib/source_snapshot.ts</code>. The snapshot fetcher read every response body with <code>res.text()</code> and re-encoded it via <code>Buffer.from(body, \'utf-8\')</code> before hashing. For binary sources — most importantly the primary-source PDFs some articles cite (court filings, SEC/press-release PDFs) — every byte that is not valid UTF-8 was replaced with the U+FFFD replacement character (<code>0xEF 0xBF 0xBD</code>) at the <code>res.text()</code> step, so the committed snapshot was a mangled file from which <code>pdftotext</code>/<code>pypdf</code> extracted zero usable text. Because the corruption happened <em>before</em> the sha256 was computed, the manifest hash still matched the (corrupted) bytes, masking the defect — a Chief Editor verifying the snapshot got a hash-valid but unreadable PDF and had to fall back to a live fetch (observed on the 2026-07-13 Ford/JD-Power review PR #1922 and the 2026-07-19 Google/Sensory antitrust review PR #1978, both citing a court/press PDF)',
+      'Fix: the fetcher now inspects the response <code>Content-Type</code>. Textual sources (<code>text/*</code>, <code>application/xml</code>/<code>+xml</code>, <code>application/json</code>/<code>+json</code>, JavaScript; and untyped responses, preserving prior behavior) are still stored as decoded UTF-8 via <code>res.text()</code>, so HTML snapshots — including non-UTF-8 pages transcoded to UTF-8 — are byte-for-byte unchanged. Binary sources are stored as the exact bytes received via <code>res.arrayBuffer()</code>, and the sha256 is computed over those true bytes, so a verifier\'s decompress-and-rehash check now passes against a genuine, openable file. Applies to both the direct-fetch and archive.org-fallback paths. Snapshot filenames now carry an accurate extension (<code>.pdf.gz</code> for PDFs, <code>.bin.gz</code> for other binaries, <code>.html.gz</code> unchanged for text) so reviewers know which tool to open them with. Covered by regression tests in <code>tests/source_snapshot.test.ts</code> (binary PDF round-trips byte-identically with no U+FFFD, via both direct and archive paths; multi-byte-UTF-8 HTML remains byte-identical). Existing committed snapshots are left untouched; only newly captured sources benefit',
+    ],
+  },
+  {
     version: '3.14.6',
     date: '2026-07-19',
     items: [

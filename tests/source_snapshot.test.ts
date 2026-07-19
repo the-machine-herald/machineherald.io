@@ -35,6 +35,17 @@ function makeResponse(body: string, init?: ResponseInit & { url?: string }): Res
   return res;
 }
 
+function makeBinaryResponse(
+  bytes: Buffer,
+  init?: ResponseInit & { url?: string },
+): Response {
+  const res = new Response(bytes, init);
+  if (init?.url) {
+    Object.defineProperty(res, 'url', { value: init.url });
+  }
+  return res;
+}
+
 // ── slugify ───────────────────────────────────────────────
 
 describe('slugify', () => {
@@ -326,5 +337,111 @@ describe('fetchAndSnapshotSources', () => {
     expect(result.allReachable).toBe(false);
     expect(result.sources[0]!.status_code).toBe(403);
     expect(result.sources[0]!.archive_fallback).toBeUndefined();
+  });
+
+  // A minimal PDF: the second line is a binary marker (0xE2 0xE3 0xCF 0xD3) that
+  // is NOT valid UTF-8. A lossy `res.text()` decode replaces those bytes with the
+  // U+FFFD replacement character (0xEF 0xBF 0xBD), corrupting the snapshot before
+  // it is hashed — the exact defect seen on PR #1922 and PR #1978.
+  const pdfBytes = Buffer.from([
+    0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x37, 0x0a, // %PDF-1.7\n
+    0x25, 0xe2, 0xe3, 0xcf, 0xd3, 0x0a, //                   %âãÏÓ\n (binary marker)
+    0xde, 0xad, 0xbe, 0xef, //                               arbitrary binary bytes
+    0x0a, 0x25, 0x25, 0x45, 0x4f, 0x46, 0x0a, //             \n%%EOF\n
+  ]);
+
+  it('preserves raw bytes for binary (application/pdf) sources without UTF-8 corruption', async () => {
+    mockFetch((url) =>
+      makeBinaryResponse(pdfBytes, {
+        status: 200,
+        headers: { 'Content-Type': 'application/pdf' },
+        url,
+      }),
+    );
+
+    const result = await fetchAndSnapshotSources(
+      ['https://business.cch.com/complaint.pdf'],
+      submissionPath,
+      articleTitle,
+      { baseDir: tmpDir },
+    );
+
+    expect(result.allReachable).toBe(true);
+    expect(result.sources[0]!.status_code).toBe(200);
+    expect(result.sources[0]!.file).toBe('source-0.pdf.gz');
+
+    // Decompress and confirm the stored bytes are byte-for-byte identical to what
+    // the server sent — no U+FFFD replacement characters anywhere.
+    const savedBytes = zlib.gunzipSync(
+      fs.readFileSync(path.join(result.snapshotDir, 'source-0.pdf.gz')),
+    );
+    expect(Buffer.compare(savedBytes, pdfBytes)).toBe(0);
+    expect(savedBytes.includes(Buffer.from([0xef, 0xbf, 0xbd]))).toBe(false);
+
+    // sha256 must be the hash of the true bytes, so a verifier's decompress-and-rehash
+    // check passes against the genuine PDF.
+    const expectedHash = crypto.createHash('sha256').update(pdfBytes).digest('hex');
+    expect(result.sources[0]!.sha256).toBe(expectedHash);
+    expect(result.sources[0]!.content_length).toBe(pdfBytes.length);
+  });
+
+  it('preserves raw bytes for a PDF fetched via the archive.org fallback', async () => {
+    mockFetch((url) => {
+      if (url.startsWith('https://web.archive.org/')) {
+        return makeBinaryResponse(pdfBytes, {
+          status: 200,
+          headers: { 'Content-Type': 'application/pdf' },
+          url,
+        });
+      }
+      return makeResponse('Forbidden', { status: 403, statusText: 'Forbidden', url });
+    });
+
+    const result = await fetchAndSnapshotSources(
+      ['https://paywalled.com/ruling.pdf'],
+      submissionPath,
+      articleTitle,
+      { baseDir: tmpDir, retryDelayMs: 0 },
+    );
+
+    expect(result.allReachable).toBe(true);
+    expect(result.sources[0]!.archive_fallback).toBe(true);
+    expect(result.sources[0]!.file).toBe('source-0.pdf.gz');
+
+    const savedBytes = zlib.gunzipSync(
+      fs.readFileSync(path.join(result.snapshotDir, 'source-0.pdf.gz')),
+    );
+    expect(Buffer.compare(savedBytes, pdfBytes)).toBe(0);
+  });
+
+  it('keeps textual (HTML) snapshots byte-identical to the UTF-8 body (no charset regression)', async () => {
+    // Includes a multi-byte UTF-8 character to prove text bytes survive intact.
+    const html = '<html><body>Résumé — café ☕ 日本語</body></html>';
+
+    mockFetch((url) =>
+      makeResponse(html, {
+        status: 200,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        url,
+      }),
+    );
+
+    const result = await fetchAndSnapshotSources(
+      ['https://example.com/unicode'],
+      submissionPath,
+      articleTitle,
+      { baseDir: tmpDir },
+    );
+
+    expect(result.sources[0]!.file).toBe('source-0.html.gz');
+    const savedHtml = zlib
+      .gunzipSync(fs.readFileSync(path.join(result.snapshotDir, 'source-0.html.gz')))
+      .toString('utf-8');
+    expect(savedHtml).toBe(html);
+    const expectedHash = crypto
+      .createHash('sha256')
+      .update(Buffer.from(html, 'utf-8'))
+      .digest('hex');
+    expect(result.sources[0]!.sha256).toBe(expectedHash);
   });
 });
