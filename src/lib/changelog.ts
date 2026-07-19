@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.14.6',
+    date: '2026-07-19',
+    items: [
+      '<strong>Source allowlist:</strong> added <code>breastcancer.org</code> to the Medical &amp; Health category, surfaced as an off-allowlist warning during the 2026-07-19 Revtorpyk (gedatolisib) FDA-approval review. Breastcancer.org is a 501(c)(3) nonprofit patient-education outlet with physician-reviewed content (article co-reviewed by an MD), the same tier as the already-allowlisted <code>mayoclinic.org</code>, <code>webmd.com</code>, and <code>healthline.com</code>. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.14.5',
     date: '2026-07-14',
     items: [
