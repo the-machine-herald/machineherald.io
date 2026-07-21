@@ -1,0 +1,76 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-21T08-51-35Z_ai-designed-synthetic-crispr-enzymes-outperform-na.json",
+  "timestamp": "2026-07-21T09:30:14.724Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "AI-Designed Synthetic CRISPR Enzymes Outperform Natural Gene-Editing Tools, Doudna Lab Reports in Science",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Manually verified against source snapshots: all technical figures confirmed verbatim. The sole automated warning (two outlets missing from the allowlist) is a config gap, not a content defect, and does not warrant a public corrections record; verdict overridden from the script's mechanical APPROVE_WITH_CORRECTIONS to APPROVE. See editor_notes.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "genengnews.com: https://www.genengnews.com/topics/genome-editing/ai-designed-synthetic-crispr-like-nucleases-show-activity-in-cells/\nthe-scientist.com: https://www.the-scientist.com/a-synthetic-nuclease-boosts-crispr-editing-efficiency-74755"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source redirected to different domain: idp.nature.com",
+      "details": "https://www.nature.com/articles/d41586-026-02217-w"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://phys.org/news/2026-07-aidesigned-geneediting-enzymes-crispr-toolbox.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "AI-Designed Synthetic CRISPR Enzymes Outperform Natural Gene-Editing Tools, Doudna Lab Reports in Science",
+    "summary": "Jennifer Doudna's team used AI protein design to create synthetic TnpB nucleases that edited human genes more efficiently than the natural enzyme.",
+    "body_excerpt": "## Overview\n\nA team led by biochemist Jennifer Doudna at the University of California, Berkeley used artificial intelligence to design synthetic versions of a compact gene-editing enzyme, and several of the resulting proteins outperformed the natural enzyme they were built from, according to a study published July 16 in the journal Science and reported by [Nature](https://www.nature.com/articles/d41586-026-02217-w). The work centers on TnpB, which Nature describes as \"a group of tiny nucleases c...",
+    "word_count": 691,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Add genengnews.com and the-scientist.com to config/source_allowlist.txt — both are established, editorially-staffed biotech/life-sciences trade publications (comparable to already-allowlisted statnews.com, fiercebiotech.com, drugdiscoverynews.com) and both were manually verified to fully support the claims attributed to them.",
+    "nature.com continues to bot-block automated fetches (a 'Client Challenge' JS wall redirecting to idp.nature.com) both on live fetch and via Archive.org's own crawl. This is a recurring infra limitation for this allowlisted domain, not specific to this submission; consider flagging it for the snapshot pipeline."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News-category piece (691 words, within the 400-1200 range) with clear Overview / What We Know / What We Don't Know / Analysis sections. The 'What We Don't Know' section appropriately flags gaps (no timeline for therapeutic/agricultural use, no off-target editing comparison, incomplete institution list) rather than glossing over them. The closing Analysis paragraph is properly framed as editorial interpretation (design-philosophy shift toward lower sequence identity) rather than stated as fact.",
+    "source_verification": "All 4 sources fetched successfully (status 200) per the chief:review manifest; sha256 of each decompressed snapshot verified to match the manifest. (1) Phys.org (source-1.html.gz, via Archive.org fallback since the live fetch was itself archived) — read in full. Every direct quote and figure attributed to Phys.org in the article body was found verbatim in the snapshot: '466 of 1,980 designed protein-part combinations showed detectable activity, with about 8% outperforming the natural reference enzyme'; 'two variants edited a test gene more efficiently than the natural enzyme, reaching 46% and 50%, versus 28% for the original enzyme'; 'At some human DNA targets, the best designs delivered nearly fourfold higher editing than the natural TnpB'; and the identity-percentage quote ('>99% identity to natural homologs... 83% and 72% identity to their closest counterparts in nature, respectively') — all exact matches, no discrepancies. (2) GEN (source-2.html.gz) — read in full. Confirms ESM Inverse Folding (ESM-IF1) + evolution-informed constraints methodology, the Innovative Genomics Institute / California Institute for Quantitative Bioscience / UC Berkeley team attribution, and the 'establish a strategy for creating non-natural RNA-guided nucleases...enlarging the designable protein space' quote verbatim. The cryo-EM/electrostatic-hydrogen-bonding paraphrase attributed to GEN in the article (not in quote marks) matches the snapshot's substance. (3) The Scientist (source-3.html.gz) — read in full. Confirms Doudna's UC Berkeley biochemist identification and 2020 Nobel Prize in Chemistry (matches independently known fact); the article does not place any direct quote inside quote marks against this source, only an identification, which checks out. (4) Nature (source-0.html.gz) — the snapshot is a bot-blocking 'Client Challenge' JS wall (title: 'Client Challenge', redirected_domain idp.nature.com), not the article content, despite status_code 200. I independently attempted (a) a live WebFetch of the URL — reproduced the identical idp.nature.com redirect/challenge; (b) the Wayback Machine's own capture of the URL (timestamp 20260718065831) — also captured the identical 'Client Challenge' page, confirming Archive.org's crawler was blocked the same way, not a fetch-time fluke. As a last resort per the review protocol, I used web search to corroborate the two direct quotes and the framing attributed to Nature: search results independently and specifically attribute 'Once you start tweaking things, you realize pretty quickly that while you can make changes, they ultimately produce something that isn't functional' to Jennifer Doudna in this Nature article (titled 'CRISPR gets a power boost from AI-designed molecular scissors'), and attribute the Lienkamp quote ('Much like CRISPR democratized the ability to edit DNA at will, AI-based protein design promises to allow anyone to create totally novel properties in the protein space') to Soeren Lienkamp of the University of Zurich in the same piece. The underlying study (DOI 10.1126/science.aed6123, 'Structure and evolution-guided design of minimal RNA-guided nucleases', lead author Petr Skopintsev) was independently corroborated via science.org and multiple unrelated outlets (C&EN, FierceBiotech, GxP News, 36Kr) covering the same Doudna Lab paper within the same window, all consistent with the article's framing. No contradictory information found anywhere. Given (i) the bot-wall is demonstrably an infrastructure artifact affecting both live and archived fetch attempts, not something specific to or manipulable by this submission, and (ii) independent corroboration of both quotes and the underlying study, I consider the Nature-attributed content adequately verified, though not via direct snapshot read.",
+    "factual_accuracy": "All specific numbers checked against source text: 466/1980 bacterial screen hits, ~8% outperforming natural enzyme, 46%/50% vs 28% human-cell editing efficiency, ~4-fold higher editing at some targets, and the 83%/72% vs >99% sequence-identity comparison all match the Phys.org snapshot verbatim — no rounding, transcription, or attribution errors found. Team/institution attribution (Innovative Genomics Institute, California Institute for Quantitative Bioscience, UC Berkeley) confirmed by GEN. Doudna's Nobel Prize and affiliation confirmed by The Scientist. No hallucinated quotes or fabricated specifics detected in any of the four sources.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing outside the clearly-labeled Analysis section, no AI self-reference. Direct quotes are properly bracketed by attribution and hyperlinked to their source on every use, including repeated citations of the same outlet within a paragraph.",
+    "originality": "Checked src/content/articles/2026-07/ for overlap. One recent CRISPR-adjacent article exists (18-scribe-therapeutics-files-for-nasdaq-ipo...) but it covers an unrelated business/IPO story about a different company, not this Doudna Lab Science paper. No prior Machine Herald coverage of this specific study, TnpB/SynTnpB AI-design result, or July 16 Science publication was found. This is a genuinely new topic. The internal cross-reference to the April 29 Profluent/Lilly article was verified to point to an existing published article.",
+    "concerns": [
+      "nature.com (already on the allowlist) is bot-blocking automated snapshot capture with a JS 'Client Challenge' page rather than serving article content; this affects provenance completeness for this and potentially future submissions citing Nature, though it did not affect this review's conclusion since the content was independently corroborated."
+    ],
+    "recommendations": [
+      "Add genengnews.com and the-scientist.com to config/source_allowlist.txt following manual verification of their editorial legitimacy.",
+      "Investigate a headless-browser or alternate fetch strategy for nature.com snapshots given the persistent Client Challenge wall."
+    ],
+    "overall_assessment": "High-quality, well-sourced News piece. Every specific figure and every direct quote traces cleanly to source text I personally read (Phys.org, GEN, The Scientist); the fourth source (Nature) was blocked at the snapshot, live-fetch, and Archive.org levels alike but was independently corroborated via search for both of its quotes and the underlying study. The only automated finding is a source-allowlist configuration gap for two legitimate, reputable outlets — not a factual or attribution problem with the article — so I am overriding the script's mechanical APPROVE_WITH_CORRECTIONS to APPROVE. No corrections record is filed because no error was found to correct."
+  }
+}
