@@ -1,0 +1,74 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-23T09-49-52Z_16-year-old-linux-kvm-flaw-januscape-lets-guest-vm.json",
+  "timestamp": "2026-07-23T09:58:00.871Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "16-Year-Old Linux KVM Flaw 'Januscape' Lets Guest VMs Escape to the Host on Intel and AMD Systems",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "tuxcare.com: https://tuxcare.com/blog/januscape-exposes-the-kvm-shadow-paging-bug-that-kept-coming-back/\nthreat-modeling.com: https://threat-modeling.com/cve-2026-53359-januscape-linux-kvm-vm-escape-intel-amd/\nlabs.cloudsecurityalliance.org: https://labs.cloudsecurityalliance.org/research/csa-research-note-januscape-kvm-guest-host-escape-cve-2026-5/\nblog.ovhcloud.com: https://blog.ovhcloud.com/cve-2026-53359-januscape-patching-campaign-lessons-learned-from-remediating-a-kvm-flaw-across-tens-of-thousands-of-machines/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://tuxcare.com/blog/januscape-exposes-the-kvm-shadow-paging-bug-that-kept-coming-back/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "16-Year-Old Linux KVM Flaw 'Januscape' Lets Guest VMs Escape to the Host on Intel and AMD Systems",
+    "summary": "A 16-year-old use-after-free bug in Linux's KVM hypervisor, dubbed Januscape and rated CVSS 8.8, lets malicious VMs escape to the host on both Intel and AMD systems; OVHcloud patched roughly a million VMs across its fleet in an 11-day campaign.",
+    "body_excerpt": "## Overview\n\nA use-after-free vulnerability in the Linux kernel's KVM hypervisor that has existed since 2010 lets a malicious guest virtual machine escape to the host it runs on, affecting both Intel and AMD x86 systems, according to [The Hacker News](https://thehackernews.com/2026/07/16-year-old-linux-kvm-flaw-lets-guest.html) and [Threat-Modeling.com](https://threat-modeling.com/cve-2026-53359-januscape-linux-kvm-vm-escape-intel-amd/). The flaw, tracked as CVE-2026-53359 and nicknamed \"Janusca...",
+    "word_count": 832,
+    "sources_count": 7
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (832 words, within the 400-1200 range) using the Overview / What We Know / What We Don't Know format. Technical explanation of the shadow-MMU use-after-free is accurate and matches the NVD CNA description almost line for line. The article carefully keeps three distinct CVEs straight throughout: CVE-2026-53359 (Januscape, x86 Intel+AMD, this story), CVE-2026-46113 (the x86 companion use-after-free fixed May 28, 2026 that must be patched alongside it), and CVE-2026-46316 (ITScape, a separate ARM64 guest-to-host escape by the same researcher). This is the exact companion-CVE mix-up risk flagged for this review, and the submission gets the attribution right in every instance I checked.",
+    "source_verification": "All 7 cited URLs were checked. 6 of 7 had local gzip snapshots in sources/2026-07/16-year-old-linux-kvm-flaw-januscape-lets-guest-vms-escape-to-the-host-on-intel-and-amd-systems/; I decompressed each with gunzip, re-hashed the decompressed bytes with shasum -a 256, and confirmed every hash matches the sha256 recorded in manifest.json (source-0 thehackernews 24042f75…, source-1 csoonline 87e6f449…, source-3 threat-modeling.com 460d1603…, source-4 CSA 4f77d431…, source-5 NVD e2ba5ccb…, source-6 OVHcloud 2499fa11…) before reading the extracted text. source-2 (tuxcare.com) failed at fetch time with HTTP 403 (file: null in manifest) and has no local snapshot; I fell back to a live WebFetch of the tuxcare.com URL as the skill permits for failed snapshots, and it returned content consistent with the article's use of it. Findings per source: (1) thehackernews.com/.../16-year-old-linux-kvm-flaw-lets-guest.html — confirms CVE-2026-53359/Januscape, researcher Hyunwoo Kim (@v4bel), kvmCTF up to $250,000 for guest-to-host escapes, commit 2032a93d66fa (Aug 2010, kernel 2.6.36), fix commit 81ccda30b4e8 by Paolo Bonzini, the exact stable-version list (7.1.3, 6.18.38, 6.12.95, 6.6.144, 6.1.177, 5.15.211, 5.10.260) released July 4 2026, ITScape as a distinct June-disclosed ARM64 bug, and CVE-2026-46113 as a distinct x86 companion fixed in May 2026 — but THN itself states the primary fix 'merged into mainline on June 19, 2026' (a specific date). (2) csoonline.com/.../16-year-old-kvm-flaw... — confirms Kim dubbed the flaw Januscape, verbatim match for the Kim quote ('With guest-side actions alone... (RCE)'), confirms Google's KVM/Android/Cloud rationale, /dev/kvm world-writable local-privesc-inside-the-guest claim, ITScape 'last month' — but CSO Online states the fix landed 'on June 16' — a different specific date than THN's June 19. This cross-source disagreement is exactly what the article's 'What We Don't Know' paragraph reports ('Reports disagree on the exact calendar day... without a consistent specific date'), so that hedge is accurate and well-judged rather than a gap. (3) threat-modeling.com/... — confirms the 16-year timeline, Intel/AMD cross-platform framing, the verbatim 'up to $250,000 for full guest-to-host escapes' phrase, and that CVSS 3.1 was still 'N/A (pending)' as of July 7, 2026. (4) labs.cloudsecurityalliance.org/... (CSA) — confirms, verbatim, the root-cause quote ('matched candidate pages by memory address alone, without verifying that the page being reused actually matched the tracking role it was being assigned'); confirms CVE-2026-46113 fixed by commit 0cb2af2ea66a landed May 28, 2026 as a companion fix; confirms Red Hat 7.0 ('Important') and SUSE 8.8 (v3.1)/9.3 (v4.0) vendor scores; and explicitly states 'the National Vulnerability Database has not yet published its own CVSS score for CVE-2026-53359' and that the 8.8/9.3 figures are 'vendor-submitted CVSS vectors rather than an NVD analyst score.' (5) nvd.nist.gov/vuln/detail/CVE-2026-53359 — confirms Published Date 07/04/2026 (matches the article's 'same day' claim) and the technical root-cause description (kvm_mmu_get_child_sp() not comparing role) almost verbatim; critically, the NVD page's own CVSS 3.x row reads 'NIST: NVD — Base Score: N/A — NVD assessment not yet provided' and shows 8.8 HIGH only under a separate 'CNA: kernel.org' row — so NVD itself has not assessed the flaw at 8.8; that figure on the page is the kernel.org CNA's self-submitted score, not an NVD analyst score. (6) blog.ovhcloud.com/... — confirms verbatim 'unilateral patching with controlled impact,' 'approximately 20 to 30 hosts out of 6,000 did not come back on their own,' and 'almost 90,000 non-contacted customers' in GRA6; confirms 'tens of thousands of hypervisor host servers' housing 'about one million virtual machines' (article paraphrases slightly as 'tens of thousands of hypervisor hosts' / 'approximately one million virtual machines' while presenting both inside quote marks); confirms the 'follow the sun' approach and an 11-day operation (op begins Wed July 8, 'End of operation (day 11)' lands within the stated July 13-19 window). (7) tuxcare.com/... — snapshot failed (403); live WebFetch fallback returned the exact quote attributed to TuxCare in the article ('A malicious guest can drive KVM into reusing a cached shadow page that no longer matches the mapping being built') verbatim, and confirmed the kvm_mmu_get_child_sp() role-comparison mechanism and that CVE-2026-46113 must also be patched. Two discrepancies found and documented as corrections below: (a) the CVSS 8.8 figure is attributed to NVD as if it were NVD's own score, when NVD's page explicitly marks its own assessment 'not yet provided' and shows 8.8 only as a CNA (kernel.org)-submitted figure — corroborated independently by SUSE's own 8.8 rating, so the number itself is accurate, only the attribution is imprecise; (b) two passages are presented in quotation marks as if verbatim from a cited outlet but are actually close paraphrases not found word-for-word in that outlet's snapshot (CSO Online re: ITScape, and CSA re: 'must be patched alongside'). Both underlying facts are independently confirmed by multiple sources read above.",
+    "factual_accuracy": "Every specific fact I could check against a snapshot or live fallback traced correctly: commit hashes (2032a93d66fa, 81ccda30b4e8, 0cb2af2ea66a), kernel version 2.6.36, the July 4 2026 stable-release list, the May 28 2026 date for CVE-2026-46113, the researcher's name and handle, the kvmCTF bounty figure, the RHEL /dev/kvm world-writable detail, and Red Hat/SUSE vendor CVSS scores. No fabricated names, dates, or code artifacts were found. The two issues below are misattribution/misquotation, not invented facts.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing, no AI self-reference. Hedges appropriately in 'What We Don't Know' rather than picking an artificially precise merge date the sources don't agree on.",
+    "originality": "Checked full src/content/articles/ archive by grep for 'januscape', all four CVE numbers, and 'KVM'. No existing article covers CVE-2026-53359, Januscape, CVE-2026-46113, or CVE-2026-46316. Existing KVM-adjacent articles (KubeVirt 1.8, Linux 7.0 release, Ubuntu 26.04 LTS, a March Qualcomm/Android patch roundup) are unrelated topics. This is a genuinely new story with no overlap.",
+    "concerns": [
+      "Lead/summary attributes CVSS 8.8 to 'the National Vulnerability Database,' but the NVD page itself states its own assessment is 'not yet provided' and displays 8.8 only under a CNA (kernel.org) row; CSA's snapshot explicitly confirms NVD has not published its own score. The number is accurate (SUSE independently rates it 8.8 too) but the attribution implies an NVD analyst score that doesn't exist yet.",
+      "The sentence '\"a separate ARM64 KVM guest-to-host escape vulnerability disclosed by the same researcher in the previous month,\" according to CSO Online' is presented as a verbatim quote but does not appear word-for-word in the CSO Online snapshot (which instead says Hyunwoo 'also disclosed a different KVM guest-to-host escape vulnerability dubbed ITScape (CVE-2026-46316) last month that works on ARM64 architecture'). The underlying fact is correct; only the quotation format is wrong.",
+      "The sentence '\"must be patched alongside CVE-2026-53359\" for complete remediation, according to the Cloud Security Alliance' is presented as a verbatim quote but this exact phrase does not appear in the CSA snapshot, which conveys the same idea in different words across several sentences ('an administrator who confirms that CVE-2026-53359's patch... but misses the companion fix for CVE-2026-46113... remains exposed'). The underlying fact is correct and independently corroborated by the TuxCare fallback fetch; only the quotation format is wrong.",
+      "tuxcare.com source snapshot failed with HTTP 403 (bot-blocked); verified via live WebFetch fallback instead of the committed snapshot, per the skill's last-resort provision."
+    ],
+    "recommendations": [
+      "File a corrections record covering the CVSS/NVD attribution and the two paraphrase-as-quote instances (CSO Online/ITScape, CSA/'must be patched alongside').",
+      "Consider adding thehackernews.com, csoonline.com, tuxcare.com, threat-modeling.com, labs.cloudsecurityalliance.org, nvd.nist.gov, and blog.ovhcloud.com to config/source_allowlist.txt given how frequently reputable security coverage cites them."
+    ],
+    "overall_assessment": "Substantively strong, well-sourced security reporting that correctly disambiguates three easily-confused companion CVEs (53359/46113/46316) and gets nearly every quote, commit hash, date, and number right against the source snapshots. Three minor, honestly-correctable issues (one attribution nuance on the CVSS score, two paraphrases dressed as verbatim quotes) warrant APPROVE_WITH_CORRECTIONS rather than a clean APPROVE, but none touch the headline's or lead's core claim (a 16-year-old KVM use-after-free enables guest-to-host VM escape on Intel and AMD) and none rise to the level of undermining the article's thesis."
+  }
+}
