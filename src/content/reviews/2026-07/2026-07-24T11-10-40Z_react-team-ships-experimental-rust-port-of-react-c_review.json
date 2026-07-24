@@ -1,0 +1,49 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-24T11-10-40Z_react-team-ships-experimental-rust-port-of-react-c.json",
+  "timestamp": "2026-07-24T11:14:47.763Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "React Team Ships Experimental Rust Port of React Compiler, Vercel Reports 20-50% Faster Builds",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "React Team Ships Experimental Rust Port of React Compiler, Vercel Reports 20-50% Faster Builds",
+    "summary": "The React team merged a work-in-progress Rust rewrite of the React Compiler, and Vercel says early Turbopack tests found 20-50% faster compilation.",
+    "body_excerpt": "## Overview\n\nThe React team has merged an experimental Rust rewrite of the React Compiler into the framework's [GitHub repository](https://github.com/facebook/react/pull/36173), replacing the tool's original TypeScript-and-Babel implementation with a native version written for speed. Pull request #36173, opened by React contributor josephsavona, was merged on June 9, 2026, according to [the pull request](https://github.com/facebook/react/pull/36173). Vercel moved quickly to plug the new compiler...",
+    "word_count": 824,
+    "sources_count": 3
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (824 words, within the 400-1200 range) with clear Overview / What We Know / What We Don't Know / Analysis sections. Technical concepts (HIR, CFG, SSA, arena allocation, Babel/OXC/SWC integrations) are explained accessibly without oversimplifying. The 'What We Don't Know' section appropriately flags that the PR's own benchmarks are unvalidated and that no stable release date exists, which is good editorial hygiene for an early-stage engineering announcement.",
+    "source_verification": "All three sources were fetched successfully by chief:review (status 200, no archive_fallback) and I read each gzipped snapshot in full from disk after independently re-computing its sha256 and confirming an exact match against manifest.json (source-0.html.gz -> cdf999cc9e85400f85b47131c66c39b0e71215121e5c608fd3ffade1bee74a48; source-1.html.gz -> b18d6eece78880fb18d1004ecfe91660872a55524a61b43f40d4908fec6c9fec; source-2.html.gz -> dc8d6113ade44c360264fd7620cce8ba5fb2d7a8e5e5f9d4155e306d7ee0af2d). Note: my first decompression pass wrote to a generic scratchpad filename shared with other concurrently-running Chief Editor agents and was silently truncated/clobbered mid-write by a parallel process; I detected this via a byte-count/hash mismatch, re-decompressed to PR-specific filenames, and re-verified sha256 against the manifest before re-reading — the verification below is against the confirmed-correct, full-length snapshots. (1) source-0.html.gz (github.com/facebook/react/pull/36173, 595,830 bytes uncompressed): confirms PR #36173 titled '[compiler] Port React Compiler to Rust', author login 'josephsavona' / displayName 'Joseph Savona', state MERGED, mergedTime/closedTime 2026-06-09T21:53:07Z, createdTime 2026-03-30T20:57:51Z. Every direct quote used in the article was located verbatim in the PR body text, including: 'an experimental, work-in-progress port' (framing used by InfoQ, corroborated independently in the PR's own description), 'prior to testing internally at Meta, to get feedback from partners in parallel with continued development', 'No builds available yet, you'll have to do some hacking if you want to try this.', the full HIR/CFG/SSA architecture paragraph ending '...with the same overall algorithms.', 'arena-like structures', 'The serialization cost is quite high, but the actual transformation logic is ~10x faster, so it's net faster.', '3x faster' (Babel-plugin figure), 'should be even faster' (native OXC/SWC claim), 'Early performance numbers are derived from AI and i haven't spent much time validating the benchmark setup' (verbatim including lowercase 'i'), 'all 1725 fixtures pass in snap when comparing the temporary rust version of the plugin with the main version' (verbatim, matches the article's '1725' with no comma — the PR's own text has no comma; InfoQ's paraphrase renders it '1,725' but the article correctly quotes the PR verbatim rather than InfoQ's rendering), 'after every single pass' (fragment of the correctness-comparison sentence), 'The architecture was heavily guided by humans (me, @josephsavona) but majority coded by AI.' (verbatim), and 'very hands-on in setting the architecture, the testing and verification strategy, incremental migration approach' (verbatim truncation before 'etc.', no material dropped). No misquotes, dropped words, capitalization errors, or pronoun mismatches were found — the contributor's pre-submission quote-fidelity pass appears to have caught everything. (2) source-1.html.gz (nextjs.org/blog/next-16-3-turbopack, 202,792 bytes): confirms the post is dated Monday, June 29 2026 (article:published_time 2026-06-29T20:00:00.000Z) and authored by Andrew Imm (schema.org author field and byline both read 'Andrew Imm'), matching the article's attribution exactly. Verified verbatim: 'the React Compiler has only been available as a Babel transform', 'it could slow down builds while waiting for JS execution resources', 'Recently, the React team published a native Rust port of the compiler, which we were quick to integrate into Turbopack.', and 'Promising early tests against large React apps like v0 showed compilation wins of 20-50%, so we are releasing the native compiler integration as an experimental feature to drive more adoption.' — the '20-50%' figure and its v0/Turbopack framing are exact, and the experimental flag name 'turbopackRustReactCompiler' matches the snapshot exactly, character for character. (3) source-2.html.gz (infoq.com/news/2026/07/meta-react-compiler-rust/, 194,189 bytes): confirms an InfoQ news piece by Daniel Curtis dated Jul 23, 2026 covering the same PR. The article's only claim attributed to InfoQ — that it frames the effort as part of a broader shift toward native-language rewrites of JS tooling alongside SWC, Oxc, and Rspack — is an accurate, non-verbatim paraphrase of InfoQ's own sentence: 'The rewrite also slots into a broader pattern of Rust reaching further into frontend tooling. SWC has migrated to the official Rust compiler, Oxc vendors it as releasable crates, and Rspack 2.1 ships native support.' No quote marks were placed around this paraphrase, correctly. I also cross-checked InfoQ's independent figures (Vercel engineer Andrew Imm's 'over 40%' figure specifically for v0, versus the Next.js blog's own '20 to 50%' range across test apps) — the submission does not conflate these; it sources the 20-50% figure directly and correctly to the Next.js blog itself, which is the primary source for that number, and does not borrow InfoQ's 'over 40%' figure at all. No unresolved fallback to live WebFetch was needed for any of the three sources.",
+    "factual_accuracy": "Every specific fact checked against its cited source: merge date (June 9, 2026), PR author (josephsavona/Joseph Savona), fixture count (1725, exact match to PR wording), performance multipliers (3x Babel plugin, ~10x transformation logic), the 20-50% Turbopack figure and its v0/large-app framing, the blog post date (June 29, 2026) and author (Andrew Imm), and the experimental flag name (turbopackRustReactCompiler). All confirmed accurate and correctly attributed. No hallucinated facts, no fabricated quotes, no misattributions found.",
+    "tone_assessment": "Neutral and measured throughout. Appropriately hedges the 20-50% figure as Vercel's own internal benchmark ('measured against its own applications... may not generalize to every codebase') and flags that the PR's benchmarks are self-reported and not independently validated. No sensationalism, no AI self-reference, no editorializing beyond a fair Analysis section grounded in cited material.",
+    "originality": "Searched src/content/articles/ for prior coverage of React Compiler, the Rust port, or this PR — none found. Related-but-distinct prior coverage exists on adjacent topics (Vite 8's Rolldown Rust bundler, Bun's Zig-to-Rust rewrite, Next.js 16.2 dev-startup speedups) but none overlaps this story's subject (React Compiler's Rust port + Vercel Turbopack integration). This is a genuinely new topic, not a duplicate.",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Clean, well-sourced News submission. All three source snapshots were read in full and hash-verified against the manifest; every direct quote in the article is verbatim against its cited source; the two flagged figures (the 20-50% Turbopack benchmark and the 1,725 fixture count) are both confirmed precisely correct and correctly attributed; there is no orphan source URL; and the topic does not duplicate any existing article. Approving without corrections."
+  }
+}
