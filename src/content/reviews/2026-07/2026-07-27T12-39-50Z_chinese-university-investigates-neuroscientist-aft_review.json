@@ -1,0 +1,88 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-27T12-39-50Z_chinese-university-investigates-neuroscientist-aft.json",
+  "timestamp": "2026-07-27T12:46:49.943Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Chinese University Investigates Neuroscientist After Undisclosed Death of Girl, 6, in Brain-Directed Gene-Editing Trial",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Content verified against sources (two via live re-fetch after snapshot capture failures); one recoverable misattribution found (CHD3 gene name credited to the wrong outlet) — filed as a public correction.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://medicalxpress.com/news/2026-07-death-girl-chinese-gene-trial.html"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source redirected to different domain: idp.nature.com",
+      "details": "https://www.nature.com/articles/s41586-026-10113-6"
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Local snapshot for source-0 (SCMP) contains completely unrelated content despite a 200 status and no error flag in the manifest",
+      "details": "sources/2026-07/chinese-university-investigates-neuroscientist-after-undisclosed-death-of-girl-6-in-brain-directed-gene-editing-trial/source-0.html.gz decompresses to a Wayback Machine capture of a BleepingComputer article titled 'Microsoft blames massive Microsoft 365 outage on maintenance bug' (138 mentions of bleepingcomputer.com, zero mentions of scmp.com or the article topic). This is a pipeline/fetch bug, not a submission defect. Verified via live WebFetch of the actual SCMP URL instead (see editor_notes.source_verification)."
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Local snapshot for source-3 (Nature) is a Cloudflare/JS bot-challenge page, not the paper",
+      "details": "sources/.../source-3.html.gz decompresses to a 305-character 'Client Challenge... JavaScript is disabled' page. Verified paper content via live WebFetch fallback instead (see editor_notes.source_verification)."
+    },
+    {
+      "category": "Content Accuracy",
+      "severity": "warning",
+      "message": "CHD3 gene name misattributed to Medical Xpress",
+      "details": "Body text states 'the gene now widely written as CHD3, according to Medical Xpress' but the Medical Xpress snapshot never mentions 'CHD3' (0 matches on search). The Live Science snapshot does state it explicitly ('caused by mutations in the gene CHD3'). The fact itself is true and independently confirmed (also stated in the Nature paper's abstract), but the citation is to the wrong outlet. Filed as a public correction; verdict APPROVE_WITH_CORRECTIONS."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Chinese University Investigates Neuroscientist After Undisclosed Death of Girl, 6, in Brain-Directed Gene-Editing Trial",
+    "summary": "Shanghai Jiao Tong University is investigating neuroscientist Zilong Qiu after a 6-year-old girl died from a severe immune reaction in an experimental gene-editing trial that went undisclosed.",
+    "body_excerpt": "## Overview\n\nShanghai Jiao Tong University has opened an investigation into one of its own neuroscientists after a six-year-old girl died from a severe immune reaction roughly a week after receiving an experimental, brain-directed gene-editing treatment, according to [SCMP](https://www.scmp.com/news/china/science/article/3361898/chinese-scientist-faces-probe-after-girl-6-dies-following-experimental-gene-therapy). The death, which took place in March 2025, was not disclosed publicly until a repor...",
+    "word_count": 585,
+    "sources_count": 4
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece using the Overview / What We Know / What We Don't Know / Analysis format. Clear, restrained prose; the 'Analysis' section frames the ethical/regulatory tension without editorializing beyond what the sources support.",
+    "source_verification": "All 4 sources were checked. sha256 of every gzipped snapshot was recomputed and matched the manifest exactly (source-0: 1bbb021a..., source-1: a178fafb..., source-2: ddf2f6e8..., source-3: 32ed6315...), confirming no post-fetch tampering of the files as saved. However, decompressing and reading the actual HTML revealed that despite the manifest showing status_code 200 and no 'error' field, two of the four local snapshots do NOT contain the content they claim to: (1) source-0.html.gz (mapped to the SCMP URL) decompresses to a Wayback Machine capture of an unrelated BleepingComputer article about a Microsoft 365 outage (title tag confirms 'Microsoft blames massive Microsoft 365 outage on maintenance bug'; 138 hits for 'bleepingcomputer', zero for 'scmp'). This is a genuine capture failure not flagged by the fetcher. (2) source-3.html.gz (mapped to the Nature URL, which the manifest itself flags as redirected to idp.nature.com) is a 305-character Cloudflare/JS 'Client Challenge' interstitial, not the paper. Per review-submission Step 3b, both were treated as failed snapshots and I fell back to live WebFetch of the original URLs: WebFetch of the SCMP URL confirmed verbatim: the university 'is investigating' Qiu / he 'is under investigation by his university' (supports the headline and lead), the base-editor infused into spinal fluid at Xinhua Hospital, the 7-day timeline to death, and the exact fine figure '24,000 yuan (US$3,500)'. WebFetch of the Nature URL (after following its own idp.nature.com -> nature.com redirect chain) confirmed the exact paper title 'In vivo base editing of Chd3 rescues behavioural abnormalities in mice', that the published text has no mention of any human trial/patient/death, and located the near-verbatim source of the quoted line 'support the clinical applicability of this approach' (paper actually reads 'thereby supporting the clinical applicability of this approach' — trivial tense/word-order smoothing, meaning unchanged, not treated as a hallucinated quote). The two snapshots that DID capture correctly were read in full from disk: source-1.html.gz (Medical Xpress, via Archive.org fallback, archive_fallback:true) — confirms the $800,000+ parents' payment verbatim ('paid more than $800,000 to fund the experiment'), the exact 'died a week later from a severe immune reaction' quote, the 'previously undisclosed death' framing verbatim ('The previously undisclosed death is a fresh blow to China's ambitions...'), and the exact 'Bridging the gap between preclinical research and clinical translation remains a significant challenge' quote from the Nature paper (independently corroborated by the live Nature fetch). It does NOT, however, mention the gene name 'CHD3' anywhere (0 matches) — see concerns. source-2.html.gz (Live Science, direct fetch, full article text) — independently corroborates the syndrome details, the CHD3 gene attribution ('caused by mutations in the gene CHD3'), the $860,000 total cost (consistent with the article's more conservative 'more than $800,000' framing, sourced separately to Medical Xpress), the March 24, 2025 injection date, the 7-day death timeline, the ~$3,600 fine (consistent with SCMP's 24,000 yuan / $3,500 figure; different currency-conversion rounding, not a contradiction), and importantly the detail that the parents' own complaint to the university 'took no action' — this refers to the university's response to the family's earlier complaint and does not contradict SCMP's later reporting (confirmed via live WebFetch) that the university has since opened a formal investigation following the July 23 Science/Retraction Watch report.",
+    "factual_accuracy": "Every specific claim, figure, date, and direct quote in the body was traced to a cited source and confirmed accurate: the 6-year-old's death from a severe immune reaction seven days after a spinal infusion of base-editor-carrying virus, the March 2025 timing, the >$800,000 parental payment, the ~24,000 yuan / $3,500 hospital fine, the university's confirmed investigation of Zilong Qiu, the exact Nature paper title, and the exact 'Bridging the gap...' quote are all verbatim-supported. The one accuracy issue found is a misattribution, not a fabrication: the article credits Medical Xpress for the CHD3 gene name, but Medical Xpress's snapshot never uses that string — the fact is true and appears instead in the Live Science snapshot and independently in the Nature paper's own text. Because the underlying fact is true and verifiable elsewhere, this is recoverable as a public correction rather than grounds for rejection.",
+    "tone_assessment": "Neutral and restrained throughout given the subject matter (death of a minor in an unregulated clinical trial). No sensationalized language, no speculation beyond what sources support, and the piece explicitly separates established facts from open questions ('What We Don't Know'). No AI self-reference.",
+    "originality": "Searched src/content/articles/ for any prior coverage of Zilong Qiu, Shanghai Jiao Tong University, Snijders Blok-Campeau syndrome, Xinhua Hospital, or this specific case — no match found. The archive has extensive gene-editing/CRISPR coverage (e.g. Beam-302 base editing, Intellia's clinical hold after a patient death, various therapy trials) but nothing overlapping this story. Genuinely new topic, not a duplicate.",
+    "human_requested": "human_requested is false in the submission; standard scrutiny level applied (though full source verification was still performed per explicit reviewer instructions).",
+    "concerns": [
+      "Body text attributes the CHD3 gene name to Medical Xpress, but the Medical Xpress snapshot never mentions CHD3; the correct source for that specific fact is the Live Science snapshot (and independently, the Nature paper itself). Filed as a public correction (src/content/corrections/2026-07/<slug>.json).",
+      "Local source snapshots for 2 of 4 sources (SCMP and Nature) did not capture the intended page content despite the manifest reporting a 200 status with no error — this is a snapshot-pipeline reliability issue worth flagging to engineering, though it did not affect the outcome of this review since both were independently re-verified via live WebFetch.",
+      "The quoted phrase 'support the clinical applicability of this approach' is a very close but not 100%-verbatim rendering of the paper's actual text ('thereby supporting the clinical applicability of this approach'); meaning is unchanged so this was not treated as a separate correction, but it is noted for the record."
+    ],
+    "recommendations": [
+      "Consider a follow-up story once Shanghai Jiao Tong University's investigation concludes or if the Nature paper is corrected/retracted, since both are explicitly flagged as open questions in this piece.",
+      "Flag the source-snapshot capture failures (SCMP returning wrong cached content; Nature redirecting to a login/JS-challenge page while still recording status 200) to the pipeline maintainers — the manifest's automated checks did not catch either failure."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced, and appropriately neutral coverage of a serious story involving a minor's death in an unregulated clinical trial. The central claims most likely to be embellishment risk — the 'previously undisclosed' framing and the university investigation status — are both precisely and verbatim supported by the sources (Medical Xpress and SCMP respectively; SCMP verified via live fetch after a local snapshot capture failure). One minor, honestly-correctable misattribution (CHD3 credited to the wrong outlet) does not undermine the headline, lead, or overall thesis. APPROVE_WITH_CORRECTIONS."
+  }
+}
