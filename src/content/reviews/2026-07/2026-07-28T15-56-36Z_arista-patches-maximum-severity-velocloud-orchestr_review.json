@@ -1,0 +1,74 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-28T15-56-36Z_arista-patches-maximum-severity-velocloud-orchestr.json",
+  "timestamp": "2026-07-28T16:12:43.041Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "Arista Patches Maximum-Severity VeloCloud Orchestrator Zero-Day as Attackers Exploit It in the Wild",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "arista.com: https://www.arista.com/en/support/advisories-notices/security-advisory/24364-security-advisory-0144"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://www.bleepingcomputer.com/news/security/arista-patches-velocloud-orchestrator-zero-day-exploited-in-attacks/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Arista Patches Maximum-Severity VeloCloud Orchestrator Zero-Day as Attackers Exploit It in the Wild",
+    "summary": "Arista patched a maximum-severity command injection flaw in VeloCloud Orchestrator that attackers were already exploiting; CISA gave federal agencies until July 30 to fix it.",
+    "body_excerpt": "## Overview\n\nArista Networks has patched a maximum-severity vulnerability in its VeloCloud Orchestrator (VCO) software after confirming attackers were already exploiting it in the wild, according to [Arista's security advisory](https://www.arista.com/en/support/advisories-notices/security-advisory/24364-security-advisory-0144). The flaw, tracked as CVE-2026-16812, may allow a remote attacker to reach privileged internal functionality on the orchestrator host and compromise its confidentiality, i...",
+    "word_count": 396,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-structured News-category piece using the site's standard Overview / What We Know / What We Don't Know format. Neutral, non-sensational tone throughout despite covering a maximum-severity, actively-exploited zero-day. No AI self-reference. Word count is 396, four words under the editorial policy's stated 400-1200 News range; this is trivial (under 1% short) and the automated 'body_length_appropriate' check passed it, so it is noted but not treated as a defect.",
+    "source_verification": "All 4 sources were checked. 3 of 4 had local gzip snapshots on disk under sources/2026-07/arista-patches-maximum-severity-velocloud-orchestrator-zero-day-as-attackers-exploit-it-in-the-wild/ per manifest.json; I decompressed each with gunzip, re-hashed the plaintext with shasum -a 256, confirmed every hash matches the manifest's sha256 field (integrity intact), then read the full extracted text. (1) source-0.html.gz = Arista Security Advisory 0144 (arista.com, HTTP 200): confirms CVE-2026-16812; CVSSv3.1 base score 10.0 (vector AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H) and CVSSv4.0 base score 10.0; CWE-78 OS Command Injection classification; the exact verbatim text of all four Arista quotes used in the article ('may allow a remote attacker to access privileged internal functionality and impact the VCO host', 'successful exploitation may compromise the confidentiality, integrity, and availability of the orchestrator and data managed by the orchestrator', 'was discovered externally and is known to be actively exploited', 'restrict access to the VCO web interface to trusted administrative networks'); the affected-version ranges (5.2.x before 5.2.3.14, 6.1.x before 6.1.3.4, 6.4.x before 6.4.2.4, 7.0.x before 7.0.0.1); the three attacker IPs (8.19.75.217, 206.72.242.124, 206.72.242.162); and that Hosted/Dedicated VCO were already patched and VeloCloud Gateway/Edge are unaffected. (2) source-1.html.gz = NVD detail page for CVE-2026-16812 (nvd.nist.gov, HTTP 200): independently confirms the CVE ID, both CVSS 10.0 scores and vector strings, CWE-78, and critically the CISA KEV record showing 'Date Added: 07/27/2026' and 'Due Date: 07/30/2026' for the 'Arista VeloCloud Orchestrator On-Prem OS Command Injection Vulnerability' — this directly substantiates the article's central July 30 deadline claim precisely as stated (not July 29, not 'end of month', exactly July 30, 2026). (3) source-3.html.gz = The Hacker News article (thehackernews.com, HTTP 200): independently confirms CVE-2026-16812 / CVSS 10.0, quotes Arista's advisory with the same 'may allow a remote attacker to access privileged internal functionality and impact the VCO host' wording, confirms external discovery / active exploitation, and separately states CISA added the flaw to the KEV catalog requiring FCEB agencies to patch 'by July 30, 2026' — a second independent confirmation of the deadline. Source 2 (BleepingComputer, https://www.bleepingcomputer.com/news/security/arista-patches-velocloud-orchestrator-zero-day-exploited-in-attacks/) has file: null in the manifest — the automated fetch was bot-blocked with HTTP 403/Forbidden, so no snapshot exists on disk. Per the skill's fallback rule I performed a live WebFetch of the URL instead (noting explicitly here that this is a live fetch, not a snapshot read). The live page confirms: VCO is 'a centralized management platform used to configure, monitor, and manage VeloCloud SD-WAN deployments and associated edge devices'; exploitation is unauthenticated, requiring only network access to the VCO web interface with no tenant/operator credentials; Hosted/Dedicated deployments were patched before the advisory and are unaffected, and VeloCloud Gateway/Edge are unaffected; CISA ordered FCEB agencies to mitigate 'by Thursday, July 30, 2026' under BOD 22-01 (third independent confirmation of the July 30 deadline); and Arista disclosed neither when the attacks began nor their source/attribution. FINDING: the article presents a direct quote attributed to BleepingComputer — \"a centralized management platform for configuring and monitoring SD-WAN deployments and edge devices\" — inside quotation marks, but BleepingComputer's actual wording is 'a centralized management platform used to configure, monitor, and manage VeloCloud SD-WAN deployments and associated edge devices.' The meaning is preserved but the wording is paraphrased, not verbatim, while presented typographically as a direct quote. This is the one substantive issue found in an otherwise fully-corroborated article.",
+    "factual_accuracy": "CVE-2026-16812, both CVSS 10.0 scores, CWE-78, the four affected-version ranges, the three IOC IP addresses, and the July 30, 2026 CISA KEV deadline are all confirmed verbatim/exactly across the primary vendor advisory, NVD/CISA's own record, and two independent news outlets (The Hacker News snapshot + BleepingComputer live fetch) — triple-corroborated on the deadline specifically, which was flagged for precise verification. No fabricated specifics found. The only issue is the single non-verbatim quote described above.",
+    "tone_assessment": "Neutral and factual; no sensational language, no editorializing, no unwarranted certainty about attacker identity or attack timeline (article correctly flags these as unknown in the 'What We Don't Know' section, matching what the sources actually say).",
+    "originality": "Searched src/content/articles/ for 'velocloud', 'CVE-2026-16812', and 'arista'. No prior coverage of this CVE or the VeloCloud Orchestrator incident exists. The only other Arista-tagged article (2026-07/05-arista-unveils-7060xe7-...) is an unrelated hardware/switch product launch story. This is a genuinely new topic with no duplicate or overlapping coverage.",
+    "concerns": [
+      "One direct quote attributed to BleepingComputer ('a centralized management platform for configuring and monitoring SD-WAN deployments and edge devices') is a paraphrase of the source's actual wording ('a centralized management platform used to configure, monitor, and manage VeloCloud SD-WAN deployments and associated edge devices'), not a verbatim reproduction, despite being presented in quotation marks.",
+      "arista.com is not on config/source_allowlist.txt — an administrative gap, not a credibility concern, since it is the affected vendor's own official security advisory (a primary source).",
+      "BleepingComputer's snapshot failed to save (HTTP 403 bot-block); verification for that source relied on a live WebFetch rather than the committed snapshot."
+    ],
+    "recommendations": [
+      "File a corrections record noting the BleepingComputer quote is a paraphrase, not verbatim, with the source's actual wording for the record.",
+      "Add arista.com (and other major network/security vendor advisory domains) to config/source_allowlist.txt so primary vendor advisories stop tripping the allowlist warning.",
+      "No other changes needed; the article is otherwise ready to publish."
+    ],
+    "overall_assessment": "Substantively strong, well-sourced coverage of an actively-exploited, CISA KEV-listed maximum-severity vulnerability. Every specific number, date, IP address, and version range checks out against primary sources (Arista's own advisory and NVD/CISA's record), and the CISA July 30, 2026 deadline is confirmed identically in three independent sources. The single issue — a paraphrased quote presented as verbatim and attributed to BleepingComputer — is a minor, single, honestly-correctable problem that does not touch the headline, summary, or lead. APPROVE_WITH_CORRECTIONS with a corrections record documenting the quote discrepancy."
+  }
+}
