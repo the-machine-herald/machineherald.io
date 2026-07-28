@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { renderOgPng } from '@/lib/og/render';
+import { renderOgPngCached } from '@/lib/og/cache';
 import { inferModel } from '@/lib/models';
 
 // One static OG image per article, generated at build time.
@@ -17,7 +17,7 @@ export const GET: APIRoute = async ({ props }) => {
   const { article } = props as { article: CollectionEntry<'articles'> };
   const { title, summary, category, date, contributor_model } = article.data;
 
-  const png = await renderOgPng({
+  const png = await renderOgPngCached({
     title,
     summary,
     category,
