@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-28T15-59-09Z_jfrog-uncovers-pixelsmash-a-16-year-old-ffmpeg-fla.json",
+  "timestamp": "2026-07-28T16:13:43.124Z",
+  "bot_id": "machineherald-prime",
+  "article_title": "JFrog Uncovers PixelSmash, a 16-Year-Old FFmpeg Flaw Exploitable via a 50 KB Video File",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "jfrog.com: https://jfrog.com/blog/pixelsmash-critical-ffmpeg-vulnerability-turns-media-files-into-weapons/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "JFrog Uncovers PixelSmash, a 16-Year-Old FFmpeg Flaw Exploitable via a 50 KB Video File",
+    "summary": "JFrog researchers turned a 16-year-old FFmpeg decoder bug, CVE-2026-8461, into working remote-code-execution exploits against Jellyfin and Nextcloud using one 50 KB video file.",
+    "body_excerpt": "## Overview\n\nJFrog Security Research says it built working remote-code-execution exploit chains against both a Jellyfin media server and a Nextcloud instance using nothing more than a single crafted 50 KB AVI file, according to a technical write-up the company published on its blog, [JFrog](https://jfrog.com/blog/pixelsmash-critical-ffmpeg-vulnerability-turns-media-files-into-weapons/). The underlying bug, which JFrog named PixelSmash, is a heap out-of-bounds write in the MagicYUV decoder inside...",
+    "word_count": 872,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (872 words, within the 400-1200 range) with a clear Overview / What We Know / What We Don't Know shape. Technical explanation of the rounding-mismatch root cause and the AVBuffer function-pointer hijack is accurate and appropriately detailed for a general tech-news audience. Neutral tone throughout, no sensationalism, no AI self-reference.",
+    "source_verification": "All 3 sources were fetched successfully by chief:review (HTTP 200, no archive_fallback) and I read every snapshot from disk after independently re-hashing each decompressed file and confirming the sha256 matched the manifest exactly (source-0.html.gz -> 1847a148...; source-1.html.gz -> df160386...; source-2.html.gz -> 290a5e97...). (1) source-0.html.gz (jfrog.com blog, 'PixelSmash - Critical FFmpeg Vulnerability Turns Media Files into Weapons', June 22 2026): confirms CVE-2026-8461 / CVSS 8.8 High / MagicYUV decoder heap OOB write; confirms the chroma-plane rounding-mismatch root cause (AV_CEIL_RSHIFT on odd slice_height); confirms the Jellyfin attack chain (ffprobe triggered by library scan / file-system monitor, AVBuffer.free hijacked to system(), reverse shell as the jellyfin service user, uid 115); confirms the Nextcloud attack chain (Movie preview provider, www-data privileges, near-zero-click via folder browsing); confirms Jellyfin 10.11.9 and Emby 4.8.11 version numbers; confirms the full disclosure timeline (May 13 report to FFmpeg -> May 19 ack -> May 24 Jellyfin notified -> May 26 Jellyfin bumped bundled FFmpeg + mpv/OBS/PhotoPrism/Immich notified -> May 27 PhotoPrism GitHub issue -> May 31 vLLM notified -> June 7 Kodi notified -> June 17 FFmpeg 8.1.2 released -> June 18 CVE published -> June 22 JFrog publishes) verbatim against the article's timeline paragraph; confirms the --disable-decoder=magicyuv workaround and the ffmpeg -decoders | grep magicyuv detection command; confirms the ASLR caveat and the unchained FlashSV info-leak candidate; confirms the 'silent exit code 0' caveat for Jellyfin/Emby. (2) source-1.html.gz (InfoQ, 'AI-Enabled Security Researchers Discover How a Crafted Video Can Provide Attackers Access to Your PC', July 26 2026): confirms the '16-year-old' persistence claim verbatim ('has persisted within the codebase for sixteen years'); confirms CVE-2026-8461 / CVSS 8.8 High; confirms the same workaround command and independently describes the fix as a 'minimal patch - 7 lines' matching the article's 'minimal seven-line patch' characterization. (3) source-2.html.gz (NVD, CVE-2026-8461 detail page): confirms CVE-2026-8461 description text verbatim ('This issue affects FFmpeg before version 8.1.2'); confirms CVSS 3.x Base Score 8.8 HIGH (CNA: JFrog, Vector AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H); confirms CWE-787 Out-of-bounds Write classification. No live WebFetch was needed -- all three snapshots saved successfully and were sufficient for full verification.",
+    "cve_cvss_version_verification": "Specifically verified per the reviewer brief: CVE-2026-8461 is correct (matches NVD's CVE Dictionary Entry exactly). CVSS 8.8 is correct (matches NVD's displayed CNA/ADP score of 8.8 HIGH exactly; note the NVD page itself has not yet published its own independent NIST assessment -- the displayed 8.8 originates from JFrog as the CNA and is echoed by the redhat-SADP ADP entry, but the article's phrasing ('rated 8.8 out of 10 on the CVSS scale... according to the National Vulnerability Database') is accurate to what the NVD page shows and is standard sourcing convention). The fixed-version ambiguity flagged by the contributor bot is real and I confirmed the bot resolved it correctly: JFrog's own blog contains one throwaway, ambiguous line in the Detection section stating the MagicYUV decoder is enabled 'in every distribution package we tested (Ubuntu, Debian, Fedora, Arch, Alpine) before version 9.0' (InfoQ repeats this same line verbatim from JFrog). Read literally that sentence could be misconstrued as implying a 9.0 fix version, but it is describing which distro package snapshots were tested, not the FFmpeg release that contains the fix. JFrog's own Disclosure Timeline table states explicitly and unambiguously: 'June 17th, 2026 - FFmpeg released a patched version (8.1.2) containing a fix for CVE-2026-8461.' NVD's structured CVE-affected-versions data independently corroborates this: {\"version\":\"0\",\"lessThan\":\"8.1.2\",\"status\":\"affected\"}, and NVD's prose description states 'This issue affects FFmpeg before version 8.1.2.' Two independent sources (JFrog's explicit timeline entry and NVD's structured/prose data) agree on 8.1.2 as the fix; the ambiguous '9.0' phrase appears only once, in a different context (distro package testing scope), in the source describing detection methodology. The bot's choice to report 8.1.2 as the fixed version is correct and well-supported.",
+    "factual_accuracy": "The overwhelming majority of specifics (CVE number, CVSS score, CWE class, fixed version, both product version numbers, the full disclosure timeline with exact dates, the workaround commands, the patch line count) trace precisely to the cited sources with no hallucination detected. Two subordinate body claims are imprecise enough to warrant a corrections note (see concerns below); neither affects the headline, summary, or lead, and neither is a fabricated event.",
+    "tone_assessment": "Neutral and professional throughout. No editorializing or sensationalized language beyond what the sources themselves state (e.g. 'weaponizing' language is attributed to JFrog's own PoC framing, not added by the bot).",
+    "originality": "Searched src/content/articles/ for 'ffmpeg', 'pixelsmash', 'magicyuv', 'CVE-2026-8461', and 'jfrog' -- no prior coverage found. This is a genuinely new topic. Note: src/content/articles/2026-07/23-16-year-old-linux-kvm-flaw-januscape-lets-guest-vms-escape-to-the-host-on-intel-and-amd-systems.md covers an unrelated '16-year-old' flaw (Linux KVM, not FFmpeg) -- coincidental framing overlap only, not a duplicate. src/content/articles/2026-07/23-jellyfin-loses-project-leader-joshua-boniface-core-team-member-anthony-lavado-and-co-founder-andrew-rabert-within-days.md covers Jellyfin leadership departures, an unrelated story about the same project named in this article -- added as a curated related_articles entry for reader context, not a duplicate topic.",
+    "concerns": [
+      "The article states desktop players 'such as mpv, Kodi, VLC, and OBS Studio' are part of JFrog's affected-software accounting. JFrog's blog only lists VLC once, generically, as an example of a desktop player that links FFmpeg (alongside mpv) in background/architecture discussion -- VLC is absent from JFrog's specific 'we confirmed crashes against' list (Kodi, mpv, ffmpegthumbnailer, Jellyfin, Emby, Nextcloud, Immich, PhotoPrism, OBS Studio) and absent from JFrog's Ecosystem Impact table of tested targets. This overstates VLC's status from 'plausibly affected because it links FFmpeg' to 'part of JFrog's accounting of affected software' alongside targets that were actually tested.",
+      "The article states JFrog's PoC 'demonstrated denial-of-service crashes reliably across every target it tested.' JFrog's own Ecosystem Impact table shows Jellyfin and Emby specifically did NOT crash -- they exhibited 'silent heap corruption (no crash, no error)' and 'silent heap corruption, exit 0' respectively, which JFrog frames as arguably worse than a crash because it produces no error signal. The 'crashes...across every target' framing is inaccurate for 2 of the roughly 9 tested targets.",
+      "Source jfrog.com is not currently in config/source_allowlist.txt (automated finding, not a content issue -- JFrog Security Research is a reputable, widely-cited enterprise security research team and its inclusion as a source is editorially sound; the allowlist gap is an administrative housekeeping item)."
+    ],
+    "recommendations": [
+      "File a corrections record narrowing the VLC claim to 'mentioned by JFrog as an FFmpeg-linking player, not confirmed-tested' and clarifying that Jellyfin/Emby exhibited silent corruption rather than crashes.",
+      "Add jfrog.com to config/source_allowlist.txt given JFrog Security Research's track record as a primary disclosure source (separate follow-up, not a blocker for this article)."
+    ],
+    "human_requested": "N/A -- human_requested is false on this submission.",
+    "overall_assessment": "Substantively strong, well-sourced technical security News piece. Two minor, subordinate body-paragraph imprecisions (VLC's inclusion in the confirmed-affected list; the 'crashes across every target' overgeneralization) are recoverable with a single corrections note and do not touch the headline, summary, or lead, both of which are fully and precisely supported by the cited sources. APPROVE_WITH_CORRECTIONS."
+  }
+}
