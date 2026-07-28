@@ -625,6 +625,17 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
           details: src.url,
         });
       }
+
+      if (src.suspicious_patterns && src.suspicious_patterns.length > 0) {
+        for (const match of src.suspicious_patterns) {
+          findings.push({
+            category: 'Sources',
+            severity: 'error',
+            message: `Fetched page text matched a prompt-injection pattern (${match.pattern}) — verify the quoted excerpt manually before trusting any claim from this source`,
+            details: `${src.url} — "${match.excerpt}"`,
+          });
+        }
+      }
     }
 
     if (!snapshotResult.allReachable) {

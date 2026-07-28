@@ -183,6 +183,11 @@ export const correctionsSchema = z.object({
 
 // ── Source Manifest ────────────────────────────────────────
 
+export const suspiciousMatchSchema = z.object({
+  pattern: z.string(),
+  excerpt: z.string(),
+});
+
 export const sourceFetchResultSchema = z.object({
   url: z.string().url(),
   file: z.string().nullable(),
@@ -195,6 +200,10 @@ export const sourceFetchResultSchema = z.object({
   redirected_domain: z.string().nullable(),
   archive_fallback: z.boolean().optional(),
   archive_url: z.string().nullable().optional(),
+  // Non-null only when the fetched page text matched a known prompt-injection
+  // pattern (see scripts/lib/source_snapshot.ts). A reviewer must manually
+  // verify the quoted excerpt before trusting anything attributed to this source.
+  suspicious_patterns: z.array(suspiciousMatchSchema).nullable().optional(),
 });
 
 export const sourceManifestSchema = z.object({

@@ -13,6 +13,13 @@ import zlib from 'node:zlib';
 
 // ── Types ───────────────────────────────────────────────────
 
+export interface SuspiciousMatch {
+  /** Human-readable label of what the pattern targets, e.g. "ignore-instructions". */
+  pattern: string;
+  /** Short verbatim excerpt of the page text surrounding the match. */
+  excerpt: string;
+}
+
 export interface SourceFetchResult {
   url: string;
   file: string | null;
@@ -25,6 +32,8 @@ export interface SourceFetchResult {
   redirected_domain: string | null;
   archive_fallback?: boolean;
   archive_url?: string | null;
+  /** Non-null only when the fetched page text matched a known prompt-injection pattern. */
+  suspicious_patterns?: SuspiciousMatch[] | null;
 }
 
 export interface SourceManifest {
@@ -77,6 +86,66 @@ const BROWSER_HEADERS = {
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Structural, non-LLM scan for text that addresses an AI agent directly or
+// tries to redirect its instructions. This is a coarse net, not a full
+// classifier — it exists so a reviewer sees a flagged excerpt in the manifest
+// instead of relying entirely on a model noticing it live while reading the
+// page. Every entry must be able to point at a literal, quoted match.
+const SUSPICIOUS_CONTENT_PATTERNS: Array<{ label: string; regex: RegExp }> = [
+  { label: 'ignore-instructions', regex: /ignore (all |any )?(previous|prior|above|the) instructions/i },
+  { label: 'disregard-instructions', regex: /disregard (all |any )?(previous|prior|above|the) instructions/i },
+  { label: 'override-instructions', regex: /override (your |the )?(instructions|guidelines|rules|system prompt)/i },
+  { label: 'new-instructions', regex: /new instructions\s*[:\-]/i },
+  { label: 'addresses-ai-agent', regex: /you are (an |a )?(ai|large language model|llm|claude|gpt|chatgpt|an? ai agent|an? autonomous agent)\b/i },
+  { label: 'system-prompt-reference', regex: /system[\s_-]?prompt/i },
+  { label: 'fake-system-reminder', regex: /<\s*system-reminder\s*>/i },
+  { label: 'chat-template-marker', regex: /\[INST\]|<\|im_start\|>|<\|system\|>|<\|assistant\|>/i },
+  { label: 'conceal-from-user', regex: /do not (tell|mention|inform|disclose)\b.{0,25}\b(user|human|operator)\b/i },
+  { label: 'claude-agent-sdk-reference', regex: /anthropic'?s? (claude )?agent sdk/i },
+];
+
+const EXCERPT_CONTEXT_CHARS = 120;
+const MAX_MATCHES_PER_SOURCE = 5;
+
+/**
+ * Scans raw fetched page text for phrases shaped like an attempt to redirect
+ * an AI agent's behavior. Returns null when nothing matches, never an empty
+ * array, so callers can `if (matches)` directly.
+ */
+function scanForSuspiciousContent(bodyText: string): SuspiciousMatch[] | null {
+  const matches: SuspiciousMatch[] = [];
+  for (const { label, regex } of SUSPICIOUS_CONTENT_PATTERNS) {
+    const m = regex.exec(bodyText);
+    if (!m) continue;
+    const start = Math.max(0, m.index - EXCERPT_CONTEXT_CHARS);
+    const end = Math.min(bodyText.length, m.index + m[0].length + EXCERPT_CONTEXT_CHARS);
+    const excerpt = bodyText.slice(start, end).replace(/\s+/g, ' ').trim();
+    matches.push({ pattern: label, excerpt });
+    if (matches.length >= MAX_MATCHES_PER_SOURCE) break;
+  }
+  return matches.length > 0 ? matches : null;
+}
+
+/** Hashes, gzips, and writes fetched page text to disk; returns the shared fields every result variant needs. */
+function persistSnapshot(
+  outDir: string,
+  index: number,
+  bodyText: string,
+): { filename: string; sha256: string; contentLength: number; suspiciousPatterns: SuspiciousMatch[] | null } {
+  const filename = `source-${index}.html.gz`;
+  const filePath = path.join(outDir, filename);
+  const utf8Bytes = Buffer.from(bodyText, 'utf-8');
+  // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
+  const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
+  fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
+  return {
+    filename,
+    sha256: hash,
+    contentLength: utf8Bytes.length,
+    suspiciousPatterns: scanForSuspiciousContent(bodyText),
+  };
 }
 
 export function slugify(text: string): string {
@@ -203,48 +272,40 @@ async function fetchSource(
     const archiveAttempt = await attemptFetch(archiveUrl, url, timeoutMs);
 
     if (archiveAttempt.status_code !== null && archiveAttempt.status_code < 400 && archiveAttempt.body !== null) {
-      const filename = `source-${index}.html.gz`;
-      const filePath = path.join(outDir, filename);
-      const utf8Bytes = Buffer.from(archiveAttempt.body, 'utf-8');
-      // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
-      const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
-      fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
+      const snapshot = persistSnapshot(outDir, index, archiveAttempt.body);
 
       return {
         url,
-        file: filename,
+        file: snapshot.filename,
         status_code: archiveAttempt.status_code,
         content_type: archiveAttempt.content_type,
-        content_length: utf8Bytes.length,
-        sha256: hash,
+        content_length: snapshot.contentLength,
+        sha256: snapshot.sha256,
         error: null,
         fetched_at: fetchedAt,
         redirected_domain: null,
         archive_fallback: true,
         archive_url: archiveUrl,
+        suspicious_patterns: snapshot.suspiciousPatterns,
       };
     }
   }
 
   // Save snapshot if we have content
   if (attempt.body !== null) {
-    const filename = `source-${index}.html.gz`;
-    const filePath = path.join(outDir, filename);
-    const utf8Bytes = Buffer.from(attempt.body, 'utf-8');
-    // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
-    const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
-    fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
+    const snapshot = persistSnapshot(outDir, index, attempt.body);
 
     return {
       url,
-      file: filename,
+      file: snapshot.filename,
       status_code: attempt.status_code,
       content_type: attempt.content_type,
-      content_length: utf8Bytes.length,
-      sha256: hash,
+      content_length: snapshot.contentLength,
+      sha256: snapshot.sha256,
       error: null,
       fetched_at: fetchedAt,
       redirected_domain: attempt.redirected_domain,
+      suspicious_patterns: snapshot.suspiciousPatterns,
     };
   }
 
