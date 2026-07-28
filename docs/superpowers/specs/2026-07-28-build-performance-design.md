@@ -117,10 +117,7 @@ variant. `.cache/` is added to `.gitignore`. The cache benefits local builds and
   the most recent cache.
 - `npm run build`.
 - `actions/cache/save` under the run-specific key.
-- `wrangler pages deploy dist --project-name=$PAGES_PROJECT --branch=main`, where
-  the project name is read from a repository variable. The exact name is not
-  recorded anywhere in this repository and must be supplied by the owner from the
-  Cloudflare dashboard.
+- `wrangler pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=main`.
 
 Triggers: `workflow_run` on the "Publish from Submission" workflow — restoring
 the behaviour currently commented out in `deploy.yml` — plus `workflow_dispatch`.
@@ -144,10 +141,12 @@ Before the workflow can succeed, the project owner must:
 3. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to the repository
    secrets.
 
-These are account-level actions performed by the owner. The implementation
-should land the workflow in a state that is inert until the secrets exist, and
-the cutover verified with a `workflow_dispatch` run before the automatic trigger
-is relied upon.
+Status as of 2026-07-28: steps 2 and 3 are done. `CLOUDFLARE_API_TOKEN` and
+`CLOUDFLARE_ACCOUNT_ID` are set as repository secrets, and the project name is
+set as the repository variable `CLOUDFLARE_PAGES_PROJECT` = `machineherald-io`.
+Step 1 (disconnecting the Git integration) is deliberately left until the
+workflow is verified — see Risks. The pre-existing `CLOUDFLARE_DEPLOY_HOOK`
+secret remains in place as the fallback deploy path during cutover.
 
 ### Part B — Taxonomy thresholds and rendering fixes
 
