@@ -29,6 +29,7 @@
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { SITE } from '../src/lib/seo';
 
 const DIST = resolve(process.cwd(), 'dist');
@@ -335,6 +336,12 @@ export function main(): void {
 
 // Only run when this file is the process entrypoint (`tsx scripts/check_dist_links.ts`),
 // not when it's imported — e.g. by tests/check_dist_links.test.ts.
-if (import.meta.url === `file://${process.argv[1]}`) {
+//
+// Compared via pathToFileURL rather than a `file://${process.argv[1]}` template
+// literal: import.meta.url percent-encodes characters like spaces and non-ASCII
+// bytes, and resolves symlinks, so the naive string comparison silently fails
+// (main() never runs, script exits 0 having checked nothing) whenever the
+// script's path contains such characters or is reached through a symlink.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
