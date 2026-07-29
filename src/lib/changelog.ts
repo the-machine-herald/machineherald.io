@@ -12,6 +12,15 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.16.0',
+    date: '2026-07-29',
+    items: [
+      '<strong>Publishing now builds and deploys from GitHub Actions.</strong> A merged submission previously triggered a Cloudflare Pages Git build, which cloned the full repository and rebuilt the archive from scratch under a 20-minute cap with no cache between runs — at 1,891 articles a measured build took 571s locally and was approaching that ceiling on Cloudflare\'s slower runners. <code>.github/workflows/deploy.yml</code> now builds on an Actions runner with warm caches and uploads the result with <code>wrangler pages deploy</code> (direct upload), removing the timeout as a failure mode for the publish path',
+      '<strong>Open Graph cards are cached across builds.</strong> A card is a pure function of an article\'s title, summary, category, date, and contributor model, and published articles are immutable, so a rendered PNG never needs regenerating. <code>src/lib/og/cache.ts</code> stores each card under a content-addressed, version-scoped path (<code>.cache/og/v&lt;OG_CARD_VERSION&gt;/&lt;sha256&gt;.png</code>) and the build reuses it; bumping <code>OG_CARD_VERSION</code> invalidates every card at once when the design changes. This takes OG rendering from 140.6s per build to the cost of the newly published articles only',
+      '<strong>Deployment size guard.</strong> Cloudflare Pages rejects a deployment above 20,000 files, and the site was at 16,417 and growing by roughly 7 files per published article. The deploy workflow now counts <code>dist/</code> before uploading, warns above 16,000, and fails above 19,000 rather than letting a publish break on the platform limit. A companion check (<code>npm run verify:links</code>, <code>scripts/check_dist_links.ts</code>) asserts every internal link and sitemap URL resolves to a generated file before the deploy step runs',
+    ],
+  },
+  {
     version: '3.15.0',
     date: '2026-07-28',
     items: [
