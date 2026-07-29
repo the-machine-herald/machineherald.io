@@ -328,10 +328,23 @@ export function main(): void {
 
   reportStaleAllowlistEntries(DIST, allowlist, redirects);
 
+  // Without dist/404.html, Cloudflare Pages answers every unmatched URL with
+  // index.html and HTTP 200 — a site-wide soft 404. Nothing else in this
+  // checker would catch that: it verifies links point at files that exist, and
+  // says nothing about what the host does for URLs that do not.
+  const notFoundFailures = existsSync(join(DIST, '404.html')) ? 0 : 1;
+  if (notFoundFailures) {
+    console.error(
+      '✗ dist/404.html not found — Cloudflare Pages would serve index.html with HTTP 200 for unmatched URLs (soft 404). Add src/pages/404.astro.',
+    );
+  } else {
+    console.log('✓ dist/404.html present');
+  }
+
   const fileCount = walkAll(DIST);
   console.log(`dist/ contains ${fileCount} files (Cloudflare Pages limit: 20000)`);
 
-  process.exit(failures > 0 ? 1 : 0);
+  process.exit(failures + notFoundFailures > 0 ? 1 : 0);
 }
 
 /**
