@@ -3,23 +3,42 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import AuditCard from '@/components/AuditCard.astro';
 import ReviewCard from '@/components/ReviewCard.astro';
-import { loadProvenance, loadReviewsByTitle } from '@/lib/provenance';
+import { loadProvenance, type ReviewData } from '@/lib/provenance';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
+  const allReviews = await getCollection('reviews');
+
+  // Grouped once here instead of re-scanning all reviews on each of the ~1,900
+  // generated pages, which was quadratic in the size of the archive.
+  const byTitle = new Map<string, ReviewData[]>();
+  for (const review of allReviews) {
+    const existing = byTitle.get(review.data.article_title);
+    if (existing) existing.push(review.data);
+    else byTitle.set(review.data.article_title, [review.data]);
+  }
+  for (const list of byTitle.values()) {
+    list.sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+  }
+
   return articles.map((article) => ({
     params: { slug: article.id },
-    props: { article },
+    props: {
+      article,
+      reviews: byTitle.get(article.data.title) ?? [],
+    },
   }));
 }
 
 interface Props {
   article: CollectionEntry<'articles'>;
+  reviews: ReviewData[];
 }
 
-const { article } = Astro.props;
+const { article, reviews } = Astro.props;
 const provenance = await loadProvenance(article.id);
-const reviews = await loadReviewsByTitle(article.data.title);
 const latestReview = reviews[0] ?? null;
 const hasMultipleReviews = reviews.length > 1;
 ---

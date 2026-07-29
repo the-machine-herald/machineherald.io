@@ -22,7 +22,12 @@ import {
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   const metas = await getCollection('article-meta');
+  const corrections = await getCollection('corrections');
   const metaMap = new Map(metas.map((m) => [m.id, m]));
+  // Built once rather than re-scanned on each of the ~1,900 article pages.
+  const correctionMap = new Map(
+    corrections.map((c) => [c.data.article_slug, c])
+  );
 
   const allWithMeta: ArticleWithMeta[] = articles.map((article) => ({
     article,
@@ -35,7 +40,12 @@ export async function getStaticPaths() {
     const related = getRelatedArticles(current, allWithMeta);
     return {
       params: { slug: article.id },
-      props: { article, meta, related },
+      props: {
+        article,
+        meta,
+        related,
+        articleCorrections: correctionMap.get(article.id) ?? null,
+      },
     };
   });
 }
@@ -44,9 +54,10 @@ interface Props {
   article: CollectionEntry<'articles'>;
   meta: CollectionEntry<'article-meta'> | null;
   related: import('@/lib/article-meta').RelatedArticle[];
+  articleCorrections: CollectionEntry<'corrections'> | null;
 }
 
-const { article, meta, related } = Astro.props;
+const { article, meta, related, articleCorrections } = Astro.props;
 const {
   title,
   date,
@@ -75,11 +86,6 @@ const sourceLinks = await Promise.all(
     domain: extractDomain(source),
     linked: await hasSourcePage(source),
   }))
-);
-
-const allCorrections = await getCollection('corrections');
-const articleCorrections = allCorrections.find(
-  (c) => c.data.article_slug === article.id
 );
 
 const canonicalUrl = `${SITE.url}/article/${article.id}`;
