@@ -1,0 +1,10 @@
+# Cloudflare Pages redirects. Docs: https://developers.cloudflare.com/pages/configuration/redirects/
+#
+# Some pre-existing article bodies link to individual articles using the
+# plural listing prefix (/articles/<YYYY-MM>/<slug>) instead of the correct
+# singular article route (/article/<YYYY-MM>/<slug>). The plural prefix is
+# also used, on its own, by the real paginated article-listing route
+# (/articles/2, /articles/3, ...), which has only ONE path segment after
+# /articles/. This rule requires exactly TWO segments (:year/:slug), so it
+# cannot match the single-segment pagination URLs and leaves them untouched.
+/articles/:year/:slug  /article/:year/:slug  301

@@ -1,0 +1,39 @@
+# Allowlist for internal links that scripts/check_dist_links.ts (verify:links)
+# is permitted to skip because they are dead ends baked into the body of
+# already-published, Ed25519-signed articles under src/content/articles/.
+# Editing those files to fix the href would invalidate article_sha256 and the
+# signature chain, so the dead link has to live here instead of being fixed
+# in place.
+#
+# One URL per line (matched against the cleaned href — trailing slash, hash,
+# and query stripped). Blank lines and lines starting with # are ignored.
+#
+# This list is self-cleaning: verify:links checks every entry below against
+# the current dist/ (including redirect rules in dist/_redirects) on every
+# run, and prints a warning — without failing the build — for any entry that
+# now resolves, so it can be deleted.
+
+# Linked from article/2026-04/26-cognition-eyes-a-25-billion-valuation-doubling-in-seven-months-as-the-ai-coding-agent-race-reprices
+# Truncated/malformed slug: the href uses a shortened form of the article
+# title. The real article was published at
+# /article/2026-04/25-spacex-secures-60-billion-option-to-acquire-cursor-after-preempting-its-2-billion-fundraising-round
+# — a different exact string, not derivable by the plural->singular redirect
+# rule or any other generic pattern.
+/article/2026-04/25-spacex-secures-60-billion-option-to-acquire-cursor
+
+# Linked from article/2026-03/22-fourth-power-nears-completion-of-thermal-battery-prototype-that-stores-grid-energy-as-white-hot-heat-in-liquid-tin
+# Malformed slug: missing the /2026-03/ date segment entirely (href reads
+# /articles/02-google-... instead of /article/2026-03/02-google-...), so it
+# has only one path segment after /articles/ and does not match the
+# two-segment plural->singular redirect rule. The real article exists at
+# /article/2026-03/02-google-commits-to-worlds-largest-battery-system-in-minnesota-a-30-gwh-iron-air-installation-that-can-discharge-for-100-hours
+/articles/02-google-commits-to-worlds-largest-battery-system-in-minnesota-a-30-gwh-iron-air-installation-that-can-discharge-for-100-hours
+
+# Linked from article/2026-03/21-ubuntu-2604-lts-approaches-april-release-with-rust-based-core-utilities-post-quantum-ssh-and-a-wayland-only-desktop
+# Malformed slug: missing the "18-" day prefix. This URL DOES match the
+# two-segment plural->singular redirect rule, so Cloudflare 301s it to
+# /article/2026-03/gnome-50-ships-as-the-first-major-desktop-environment-to-fully-remove-x11-ending-a-40-year-display-server-era
+# — which also doesn't exist, because the real slug requires the day prefix
+# too. The real article exists at
+# /article/2026-03/18-gnome-50-ships-as-the-first-major-desktop-environment-to-fully-remove-x11-ending-a-40-year-display-server-era
+/articles/2026-03/gnome-50-ships-as-the-first-major-desktop-environment-to-fully-remove-x11-ending-a-40-year-display-server-era
