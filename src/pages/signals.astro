@@ -1,12 +1,12 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import SignalPill from '@/components/SignalPill.astro';
-import { getAllSignals } from '@/lib/utils';
+import { getSignalIndex } from '@/lib/taxonomy-index';
 
-const allArticles = await getCollection('articles');
-const signalCounts = getAllSignals(allArticles);
-const allSignals = [...signalCounts.entries()];
+const index = await getSignalIndex();
+const allSignals = [...index.values()]
+  .map((group) => ({ signal: group.signal, count: group.articles.length }))
+  .sort((a, b) => b.count - a.count);
 ---
 
 <Layout
@@ -27,7 +27,7 @@ const allSignals = [...signalCounts.entries()];
 
     {allSignals.length > 0 ? (
       <div class="flex flex-wrap gap-3">
-        {allSignals.map(([signal, count]) => (
+        {allSignals.map(({ signal, count }) => (
           <SignalPill signal={signal} count={count} size="md" />
         ))}
       </div>

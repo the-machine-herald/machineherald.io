@@ -1,53 +1,36 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ArticleCard from '@/components/ArticleCard.astro';
 import Pagination from '@/components/Pagination.astro';
-import { sortByDate, filterPublished, slugify, ARTICLES_PER_PAGE } from '@/lib/utils';
+import { getSignalIndex } from '@/lib/taxonomy-index';
+import { sortByDate, slugify, ARTICLES_PER_PAGE } from '@/lib/utils';
+import type { CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
-  const articles = await getCollection('articles');
-  const publishedArticles = filterPublished(articles);
+  const index = await getSignalIndex();
 
-  // Get all unique signals with their articles
-  const signalMap = new Map<string, { signal: string; articles: typeof publishedArticles }>();
+  const paths: Array<{
+    params: { path: string };
+    props: {
+      signal: string;
+      articles: CollectionEntry<'articles'>[];
+      currentPage: number;
+      totalPages: number;
+      totalArticles: number;
+    };
+  }> = [];
 
-  publishedArticles.forEach((article) => {
-    article.data.tags.forEach((tag) => {
-      const slug = slugify(tag);
-      if (!signalMap.has(slug)) {
-        signalMap.set(slug, { signal: tag, articles: [] });
-      }
-      signalMap.get(slug)!.articles.push(article);
-    });
-  });
-
-  // Generate paths for each signal and its pages
-  const paths: Array<{ params: { path: string }; props: any }> = [];
-
-  signalMap.forEach(({ signal, articles: signalArticles }, slug) => {
-    const sorted = sortByDate(signalArticles);
+  for (const [slug, group] of index) {
+    const sorted = sortByDate(group.articles);
     const totalPages = Math.ceil(sorted.length / ARTICLES_PER_PAGE);
 
-    // Page 1: /signals/signal-name
-    paths.push({
-      params: { path: slug },
-      props: {
-        signal,
-        articles: sorted.slice(0, ARTICLES_PER_PAGE),
-        currentPage: 1,
-        totalPages,
-        totalArticles: sorted.length,
-      },
-    });
-
-    // Pages 2+: /signals/signal-name/2, /signals/signal-name/3, etc.
-    for (let page = 2; page <= totalPages; page++) {
+    for (let page = 1; page <= totalPages; page++) {
       const start = (page - 1) * ARTICLES_PER_PAGE;
       paths.push({
-        params: { path: `${slug}/${page}` },
+        // Page 1 lives at /signals/<slug>, later pages at /signals/<slug>/<n>
+        params: { path: page === 1 ? slug : `${slug}/${page}` },
         props: {
-          signal,
+          signal: group.signal,
           articles: sorted.slice(start, start + ARTICLES_PER_PAGE),
           currentPage: page,
           totalPages,
@@ -55,14 +38,14 @@ export async function getStaticPaths() {
         },
       });
     }
-  });
+  }
 
   return paths;
 }
 
 interface Props {
   signal: string;
-  articles: Awaited<ReturnType<typeof getCollection<'articles'>>>;
+  articles: CollectionEntry<'articles'>[];
   currentPage: number;
   totalPages: number;
   totalArticles: number;

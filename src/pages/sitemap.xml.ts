@@ -1,13 +1,14 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '@/lib/seo';
-import { filterPublished, getAllSignals, slugify, extractDomain } from '@/lib/utils';
+import { filterPublished, extractDomain } from '@/lib/utils';
 import { getArticlesWithMeta, getTopicHierarchy, topicSlug, subcategorySlug } from '@/lib/article-meta';
+import { getSignalIndex } from '@/lib/taxonomy-index';
 
 export const GET: APIRoute = async () => {
   const articles = await getCollection('articles');
   const publishedArticles = filterPublished(articles);
-  const signals = getAllSignals(publishedArticles);
+  const signalIndex = await getSignalIndex();
 
   // Get unique sources (domains)
   const sources = new Set<string>();
@@ -65,11 +66,11 @@ export const GET: APIRoute = async () => {
   </url>`
     )
     .join('')}
-  ${[...signals.keys()]
+  ${[...signalIndex.keys()]
     .map(
-      (signal) => `
+      (slug) => `
   <url>
-    <loc>${SITE.url}/signals/${slugify(signal)}</loc>
+    <loc>${SITE.url}/signals/${slug}</loc>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>`

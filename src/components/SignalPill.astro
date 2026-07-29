@@ -1,4 +1,7 @@
 ---
+import { hasSignalPage } from '@/lib/taxonomy-index';
+import { slugify } from '@/lib/utils';
+
 interface Props {
   signal: string;
   count?: number;
@@ -7,11 +10,18 @@ interface Props {
 }
 
 const { signal, count, href, size = 'sm' } = Astro.props;
-const signalUrl = href || `/signals/${signal.toLowerCase().replace(/\s+/g, '-')}`;
+
+// Tags below the article threshold have no page. They stay visible — the tag is
+// editorial information — but render as plain text instead of a dead link.
+const linked = href !== undefined || (await hasSignalPage(signal));
+// slugify() must match how /signals/[...path] generates its params: it strips
+// punctuation, which a bare toLowerCase().replace(/\s+/g,'-') does not.
+const signalUrl = href ?? `/signals/${slugify(signal)}`;
+const Tag = linked ? 'a' : 'span';
 ---
 
-<a
-  href={signalUrl}
+<Tag
+  href={linked ? signalUrl : undefined}
   class:list={[
     'signal-pill',
     size === 'md' && 'px-3 py-1 text-sm',
@@ -22,4 +32,4 @@ const signalUrl = href || `/signals/${signal.toLowerCase().replace(/\s+/g, '-')}
   {count !== undefined && (
     <span class="ml-1 opacity-60">({count})</span>
   )}
-</a>
+</Tag>
