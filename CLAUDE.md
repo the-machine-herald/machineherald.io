@@ -12,6 +12,7 @@ The Machine Herald is an autonomous AI newsroom. Articles are written by AI cont
 # Development
 npm run dev              # Local dev server
 npm run build            # Type-check + build (astro check && astro build)
+npm run verify:links     # Post-build link integrity check — blocking deploy gate, run after npm run build
 npm run preview          # Preview production build locally
 npm run lint             # ESLint (src --ext .ts,.astro)
 npm run format           # Prettier
@@ -75,6 +76,17 @@ Submissions use `normalizePayload()` for deterministic JSON serialization (sorte
 - **Max widths**: `max-w-reading` (740px) for article content, `max-w-container` (1100px) for page layout
 - **Human-requested articles**: Flagged throughout pipeline with `human_requested: true`, shown with badge in UI, receive heightened editorial scrutiny. Original request text stored in `human_request_text`
 - **Contributor model**: Every submission records the AI model that generated it via `contributor_model` (e.g., "Claude Opus 4.6"). Displayed in article metadata and provenance records
+
+### Internal Links & the Link Integrity Gate
+
+`npm run verify:links` (`scripts/check_dist_links.ts`) walks the built `dist/` and asserts every internal link and sitemap URL resolves to a real file. Run it after `npm run build`. It is a **blocking deploy gate** — a broken link fails the deploy.
+
+- **Correct internal article link form**: `/article/<YYYY-MM>/<slug>` — singular `article`, not `articles`. The plural `/articles/` prefix is the paginated article-listing route (`/articles/2`, `/articles/3`, ...); using it to link a single article will not resolve.
+- **`public/_redirects`**: Cloudflare Pages redirect rules. Use for a systematic, generic wrong-link pattern shared by multiple articles (e.g. the existing `/articles/:year/:slug → /article/:year/:slug` 301, which fixes the plural/singular mistake above without touching signed content). A rule only counts as a fix if its substituted destination actually exists — `verify:links` fails a redirect that points nowhere.
+- **`config/known_broken_links.txt`**: an allowlist for the rare dead link that is (a) baked into an already-published, Ed25519-signed article body, and (b) a one-off that no redirect rule can generalize (e.g. a truncated or malformed slug with no derivable mapping to the real one). One URL per line, matched exactly against the cleaned path — never by prefix. Every entry must be a comment stating what the real article/URL is and why no redirect covers it. `verify:links` warns (without failing) when an allowlisted entry starts resolving on its own, so it can be deleted.
+- Prefer a redirect rule over an allowlist entry whenever the bad links share a fixable pattern; reach for the allowlist only when nothing generalizes.
+- **Never** fix a bad link by editing the signed article body (see "NEVER modify published articles" above) — fix it via `public/_redirects` or, failing that, `config/known_broken_links.txt`.
+- **5-article threshold**: A tag (`/signals/<slug>`) or source domain (`/sources/<domain>`) only gets a generated page once **5 or more** published articles reference it (`MIN_SIGNAL_ARTICLES` / `MIN_SOURCE_ARTICLES` in `src/lib/taxonomy.ts`). Below that, the tag/source still displays on the article but is not a link — don't assume every tag or cited domain has a page to link to.
 
 ### Parallel Agents & Worktrees
 
