@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash, randomBytes } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { OgCardInput } from './render';
 
@@ -34,6 +34,20 @@ export function ogCacheKey(input: OgCardInput): string {
   return createHash('sha256').update(canonical).digest('hex');
 }
 
+/**
+ * Guards the one-time `CACHE_DIR` creation so a cold build's ~1,891 misses pay
+ * for a single `mkdirSync` instead of one per miss. Deliberately not hoisted to
+ * module scope: this module is imported by unit tests that only want the pure
+ * `ogCacheKey`/`OG_CARD_VERSION` exports, and importing it should not have the
+ * side effect of touching the filesystem.
+ */
+let cacheDirReady = false;
+function ensureCacheDir(): void {
+  if (cacheDirReady) return;
+  mkdirSync(CACHE_DIR, { recursive: true });
+  cacheDirReady = true;
+}
+
 export async function renderOgPngCached(input: OgCardInput): Promise<Uint8Array> {
   const file = join(CACHE_DIR, `${ogCacheKey(input)}.png`);
   if (existsSync(file)) {
@@ -45,7 +59,20 @@ export async function renderOgPngCached(input: OgCardInput): Promise<Uint8Array>
   const { renderOgPng } = await import('./render');
   const png = await renderOgPng(input);
 
-  mkdirSync(CACHE_DIR, { recursive: true });
-  writeFileSync(file, png);
+  ensureCacheDir();
+
+  // Write to a per-attempt temp file in the same directory, then rename onto
+  // the final content-addressed path. Rename is atomic within a filesystem, so
+  // a reader (this function's own `existsSync` check above, or any concurrent
+  // build process) only ever observes the complete file or no file at all —
+  // never a truncated one left behind by a build killed mid-write (Ctrl-C,
+  // OOM, SIGKILL). The pid + random suffix keeps concurrent renders of
+  // different cards from colliding on the same temp name.
+  const tmpFile = join(
+    CACHE_DIR,
+    `.tmp-${process.pid}-${randomBytes(8).toString('hex')}.png`,
+  );
+  writeFileSync(tmpFile, png);
+  renameSync(tmpFile, file);
   return png;
 }
