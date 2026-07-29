@@ -10,16 +10,6 @@ on:
     types:
       - completed
 
-# One deploy at a time; a newer commit/publish supersedes an in-flight build.
-# push and workflow_run can both fire for the same underlying commit (a human
-# push that also happens to land right after a bot publish), but they always
-# resolve to the same "build the tip of main" outcome (see the Checkout step
-# below), so collapsing them into one concurrency group and letting the later
-# run cancel the earlier one is correct, not lossy.
-concurrency:
-  group: deploy
-  cancel-in-progress: true
-
 permissions:
   contents: read
 
@@ -27,7 +17,10 @@ jobs:
   deploy:
     name: Build and Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
+    concurrency:
+      group: deploy
+      cancel-in-progress: true
     # workflow_dispatch and push always pass this check (no conclusion field
     # to gate on). workflow_run only proceeds when the triggering "Publish
     # from Submission" run actually succeeded, so a failed/cancelled publish
