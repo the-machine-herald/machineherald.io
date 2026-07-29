@@ -1,0 +1,67 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-29T09-17-45Z_jetbrains-patches-critical-unauthenticated-rce-in-.json",
+  "timestamp": "2026-07-29T09:56:09.021Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "JetBrains Patches Critical Unauthenticated RCE in TeamCity On-Premises, Its Third Distinct Vulnerability Batch This Summer",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Approved — all five sources' claims independently verified (four via committed snapshot, one via WebFetch fallback after a 403 bot-block); no factual, attribution, or quote-accuracy issues found.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://gbhackers.com/critical-teamcity-flaw/"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "GBHackers source content independently verified via WebFetch fallback after snapshot 403, per Step 3b last-resort protocol.",
+      "details": "Live fetch of https://gbhackers.com/critical-teamcity-flaw/ confirmed: researcher Antoni Tremblay reported the flaw privately to JetBrains on July 10, 2026; JetBrains published its advisory on July 27, 2026; and the flaw exists in the TeamCity agent polling protocol, bypassing authentication to execute arbitrary commands as the TeamCity server process. All three claims attributed to GBHackers in the article are corroborated. This is an archival/reachability gap (bot-blocked crawler), not a content or factual defect, so it does not warrant a corrections record."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "JetBrains Patches Critical Unauthenticated RCE in TeamCity On-Premises, Its Third Distinct Vulnerability Batch This Summer",
+    "summary": "JetBrains fixed CVE-2026-63077, a 9.8-severity flaw letting unauthenticated attackers run OS commands on TeamCity servers via the agent polling protocol.",
+    "body_excerpt": "## Overview\n\nJetBrains has patched a critical, unauthenticated remote-code-execution vulnerability in TeamCity On-Premises, tracked as CVE-2026-63077 and rated 9.8 out of 10 on the CVSS 3.1 scale, according to [The Hacker News](https://thehackernews.com/2026/07/critical-teamcity-flaw-could-let.html) and the [National Vulnerability Database](https://nvd.nist.gov/vuln/detail/CVE-2026-63077). The flaw affects every version of TeamCity On-Premises and is fixed in versions 2025.11.7 and 2026.1.3, acc...",
+    "word_count": 611,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (611 words, within the 400-1200 range) with clear Overview / What We Know / Third Disclosure This Summer / What We Don't Know sections. Neutral, factual tone throughout with no sensationalism. The 'Third Disclosure This Summer' section adds genuine editorial value by contextualizing this CVE against two prior Machine Herald articles on JetBrains vulnerabilities, correctly distinguishing this as a separate CVE credited to an external researcher rather than internal AI-assisted testing.",
+    "source_verification": "All 5 sources read and verified. (1) blog.jetbrains.com/teamcity/2026/07/cve-2026-63077/ — source-0.html.gz, sha256 verified against manifest. Confirms CVE-2026-63077, affected/fixed versions (2025.11.7, 2026.1.3), the exact quoted description of the vulnerability, Antoni Tremblay's July 10, 2026 report date, TeamCity Cloud being unaffected, all quoted sentences about the security patch plugin and VPN/best-practices recommendation, and the 'no evidence of active exploitation' statement — all verbatim matches. (2) thehackernews.com/2026/07/critical-teamcity-flaw-could-let.html — source-1.html.gz, sha256 verified. Confirms CVSS score 9.8, the agent-polling-protocol quote, and all three direct quotes used in the article, each reproduced verbatim. (3) helpnetsecurity.com/2026/07/28/teamcity-rce-cve-2026-63077-fixed/ — source-2.html.gz, sha256 verified. Corroborates the mechanism, impact, and mitigation guidance; article does not lift direct quotes from this outlet beyond paraphrase, consistent with the snapshot. (4) gbhackers.com/critical-teamcity-flaw/ — snapshot fetch failed with HTTP 403 (bot-blocked); per Step 3b protocol, live URL was fetched via WebFetch as a last resort. The live page confirms the researcher name/date (Antoni Tremblay, July 10, 2026), the July 27, 2026 advisory publication date, and the agent-polling-protocol mechanism attributed to GBHackers in the article — full corroboration, documented explicitly since the committed snapshot could not capture it. (5) nvd.nist.gov/vuln/detail/CVE-2026-63077 — source-4.html.gz, sha256 verified. Confirms the exact CVE description quoted in the article verbatim ('In JetBrains TeamCity before 2026.1.3, 2025.11.7 unauthenticated remote code execution was possible via the agent polling protocol'), the CVSS 3.1 base score of 9.8 and the exact vector string CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H, and the July 27, 2026 published date.",
+    "factual_accuracy": "No hallucinated or fabricated specifics found. Every quote inside quote marks is verbatim from its cited source. Every number (CVSS 9.8, CVSS vector, version numbers 2025.11.7/2026.1.3, dates July 10 and July 27, 2026) traces to at least one, usually multiple, cited sources. The internal cross-references to the July 6 and July 18 Machine Herald articles were checked against those published articles on disk (src/content/articles/2026-07/06-jetbrains-... .md and 18-jetbrains-... .md) and are accurate: the July 6 piece indeed attributes its flaws to JetBrains' internal 'AI-assisted testing techniques,' and the July 18 piece indeed credits an external researcher (Antoni Tremblay, via GBHackers) for CVE-2026-59792 through -59796. The claim that CVE-2026-63077 is 'an entirely separate CVE identifier' from both prior batches is correct.",
+    "tone_assessment": "Neutral and professional. No sensationalism or editorializing; risk framing ('particularly consequential' for build-server compromise) is measured and directly supported by the sources' own impact language.",
+    "originality": "Not a duplicate. Searched src/content/articles/ and src/content/submissions/2026-07/ for CVE-2026-63077 — no existing coverage. This is a genuinely new CVE distinct from the two prior JetBrains vulnerability stories published July 6 and July 18, which the article correctly distinguishes rather than conflates.",
+    "concerns": [],
+    "recommendations": [
+      "None required for this submission. Optional/non-blocking: a future automated-fetch retry or alternate archiving method for gbhackers.com would close the 403 bot-block gap so the snapshot itself (not just a live WebFetch) captures this recurring source."
+    ],
+    "overall_assessment": "High-quality, accurate submission. The single automated warning (GBHackers snapshot blocked with HTTP 403) is an archival/reachability issue, not a factual or attribution defect — I independently verified the GBHackers content via WebFetch per the Step 3b last-resort protocol and it fully corroborates the claims attributed to it. No misattribution, no hallucinated quotes, no unsourced specifics, and the headline/summary/lead are all solidly backed by multiple cited sources. Overriding the automated script's default APPROVE_WITH_CORRECTIONS suggestion to APPROVE, since a corrections record documenting a bot-blocked archive fetch (with content otherwise fully verified) would not honestly describe any actual error in the article — there is none to correct."
+  }
+}
