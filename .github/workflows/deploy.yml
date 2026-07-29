@@ -1,14 +1,10 @@
 name: Build and Deploy
 
+# Deploys are deliberately manual: nothing publishes to production until
+# someone runs this workflow. Cloudflare's own automatic Git deployments are
+# paused on the Pages project, so this is the only path to production.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-  workflow_run:
-    workflows: ["Publish from Submission"]
-    types:
-      - completed
 
 permissions:
   contents: read
@@ -21,18 +17,12 @@ jobs:
     concurrency:
       group: deploy
       cancel-in-progress: true
-    # workflow_dispatch and push always pass this check (no conclusion field
-    # to gate on). workflow_run only proceeds when the triggering "Publish
-    # from Submission" run actually succeeded, so a failed/cancelled publish
-    # doesn't deploy a half-generated article.
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Always build the current tip of main. A workflow_run event carries
-          # the triggering commit, but the publish job pushes to main after it,
-          # so the triggering sha can already be stale.
+          # Always build the current tip of main, whatever the dispatch was
+          # started from.
           ref: main
           fetch-depth: 1
 
