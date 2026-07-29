@@ -22,9 +22,17 @@
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { SITE } from '../src/lib/seo';
 
 const DIST = resolve(process.cwd(), 'dist');
-const SITE_ORIGIN = 'https://machineherald.io';
+/**
+ * The origin sitemap <loc> entries are prefixed with. Derived from the same
+ * SITE.url that src/pages/sitemap.xml.ts uses to build those entries, so this
+ * check and the sitemap generator can never drift apart into two different
+ * hardcoded values — if SITE.url ever changes (trailing slash, www., a
+ * staging origin), both sides move together automatically.
+ */
+const SITE_ORIGIN = SITE.url;
 const ALLOWLIST_PATH = resolve(process.cwd(), 'config/known_broken_links.txt');
 
 const HREF_RE = /href="(\/[^"]*)"/g;
@@ -193,12 +201,28 @@ function main(): void {
 
   const brokenSitemap = new Map<string, Set<string>>();
   const sitemapPath = join(DIST, 'sitemap.xml');
+  let sitemapChecked = 0;
   if (existsSync(sitemapPath)) {
     const xml = readFileSync(sitemapPath, 'utf-8');
     for (const match of xml.matchAll(LOC_RE)) {
       const loc = match[1]!;
-      const url = loc.startsWith(SITE_ORIGIN) ? loc.slice(SITE_ORIGIN.length) : loc;
-      if (!url.startsWith('/')) continue;
+      let url: string;
+      if (loc.startsWith(SITE_ORIGIN)) {
+        url = loc.slice(SITE_ORIGIN.length);
+      } else if (loc.startsWith('/')) {
+        url = loc;
+      } else {
+        // Neither origin-relative nor prefixed with the expected origin:
+        // SITE_ORIGIN and the sitemap have drifted apart. Fail loud and name
+        // the URL instead of silently `continue`-ing past it — a skip here is
+        // how this check used to report success while verifying nothing.
+        brokenSitemap.set(
+          loc,
+          new Set([`sitemap.xml (origin mismatch: expected prefix "${SITE_ORIGIN}")`]),
+        );
+        continue;
+      }
+      sitemapChecked++;
       if (resolves(url, redirects)) continue;
       if (allowlist.has(cleanUrlPath(url))) continue;
       brokenSitemap.set(url, new Set(['sitemap.xml']));
@@ -207,9 +231,24 @@ function main(): void {
     console.error('✗ dist/sitemap.xml not found');
     process.exit(1);
   }
+  console.log(
+    `Checked ${sitemapChecked} sitemap <loc> entries against dist/ (expected origin: ${SITE_ORIGIN})`,
+  );
 
-  const failures =
-    report('internal links', brokenLinks) + report('sitemap URLs', brokenSitemap);
+  let sitemapFailures: number;
+  if (sitemapChecked === 0) {
+    // report() alone can't distinguish "checked N, 0 broken" from "checked
+    // nothing" — a sitemap that yields no checkable URLs must never be
+    // reported as a pass, so that assertion has to live here.
+    console.error(
+      '✗ sitemap URLs: 0 <loc> entries were checkable — a sitemap that verifies nothing is a failure, not a pass',
+    );
+    sitemapFailures = brokenSitemap.size > 0 ? report('sitemap URLs', brokenSitemap) : 1;
+  } else {
+    sitemapFailures = report('sitemap URLs', brokenSitemap);
+  }
+
+  const failures = report('internal links', brokenLinks) + sitemapFailures;
 
   reportStaleAllowlistEntries(allowlist, redirects);
 
