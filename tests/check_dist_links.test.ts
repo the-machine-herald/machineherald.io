@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, symlinkSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import {
   parseRedirects,
   matchRedirect,
@@ -9,6 +10,7 @@ import {
   resolves,
   checkUrl,
   checkSitemapUrls,
+  isMainModule,
   type RedirectRule,
 } from '../scripts/check_dist_links';
 
@@ -130,5 +132,57 @@ describe('checkSitemapUrls — origin mismatch (Finding 2 regression)', () => {
     const result = checkSitemapUrls(xml, dist, 'https://machineherald.io', [], new Set());
     expect(result.checked).toBe(0);
     expect(result.broken.size).toBe(0);
+  });
+});
+
+describe('isMainModule — entrypoint guard', () => {
+  it('is true when argv1 and the module URL refer to the same real file', () => {
+    const scriptPath = join(dist, 'entry.ts');
+    writeFileSync(scriptPath, '');
+    // Node sets import.meta.url to the fully resolved (symlink-free) real
+    // path of the entrypoint, so tests simulate it via realpathSync too —
+    // dist itself can sit under a symlinked temp dir (e.g. macOS /tmp ->
+    // /private/tmp), so a plain pathToFileURL(scriptPath) would not
+    // faithfully reproduce what Node actually hands the running script.
+    const moduleUrl = pathToFileURL(realpathSync(scriptPath)).href;
+    expect(isMainModule(scriptPath, moduleUrl)).toBe(true);
+  });
+
+  it('is false when argv1 is a different file than the module URL', () => {
+    const scriptPath = join(dist, 'entry.ts');
+    const otherPath = join(dist, 'other.ts');
+    writeFileSync(scriptPath, '');
+    writeFileSync(otherPath, '');
+    expect(isMainModule(otherPath, pathToFileURL(scriptPath).href)).toBe(false);
+  });
+
+  it('is false when argv1 is undefined', () => {
+    expect(isMainModule(undefined, 'file:///anything')).toBe(false);
+  });
+
+  it('is false, not throwing, when argv1 names a path that does not exist', () => {
+    expect(() => isMainModule(join(dist, 'does-not-exist.ts'), 'file:///anything')).not.toThrow();
+    expect(isMainModule(join(dist, 'does-not-exist.ts'), 'file:///anything')).toBe(false);
+  });
+
+  it('is true when argv1 is reached through a symlinked directory (the regression case)', () => {
+    // Reproduces the failure the reviewer measured: invoking the script
+    // through a symlinked directory left both the old naive-string guard and
+    // the pathToFileURL-only guard returning false, because import.meta.url
+    // is Node's already-resolved real path while argv1 stays the symlink
+    // path. realpathSync(argv1) is what makes the two sides comparable.
+    const realDir = join(dist, 'real-dir');
+    const linkDir = join(dist, 'linked-dir');
+    mkdirSync(realDir);
+    const scriptPath = join(realDir, 'entry.ts');
+    writeFileSync(scriptPath, '');
+    symlinkSync(realDir, linkDir);
+
+    const argv1ViaSymlink = join(linkDir, 'entry.ts');
+    // What Node would set import.meta.url to: the fully resolved real path
+    // (realpath'd, same reasoning as the test above).
+    const moduleUrl = pathToFileURL(realpathSync(scriptPath)).href;
+
+    expect(isMainModule(argv1ViaSymlink, moduleUrl)).toBe(true);
   });
 });

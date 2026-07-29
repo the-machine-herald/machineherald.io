@@ -27,7 +27,7 @@
  *
  * Usage: npm run build && npm run verify:links
  */
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, realpathSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { SITE } from '../src/lib/seo';
@@ -334,14 +334,48 @@ export function main(): void {
   process.exit(failures > 0 ? 1 : 0);
 }
 
-// Only run when this file is the process entrypoint (`tsx scripts/check_dist_links.ts`),
-// not when it's imported — e.g. by tests/check_dist_links.test.ts.
-//
-// Compared via pathToFileURL rather than a `file://${process.argv[1]}` template
-// literal: import.meta.url percent-encodes characters like spaces and non-ASCII
-// bytes, and resolves symlinks, so the naive string comparison silently fails
-// (main() never runs, script exits 0 having checked nothing) whenever the
-// script's path contains such characters or is reached through a symlink.
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+/**
+ * True when this module is being executed directly as the process entrypoint
+ * (`tsx scripts/check_dist_links.ts`), false when it's merely imported — e.g.
+ * by tests/check_dist_links.test.ts.
+ *
+ * Comparing via pathToFileURL(realpathSync(argv1)) rather than a naive
+ * `file://${argv1}` template literal, or pathToFileURL(argv1) alone, handles
+ * two distinct ways the raw strings can diverge even for a genuine direct
+ * invocation:
+ *  - pathToFileURL percent-encodes characters like spaces and non-ASCII
+ *    bytes, which a raw template literal does not.
+ *  - Node resolves symlinks when constructing import.meta.url, but argv[1]
+ *    is left as whatever path the process was launched with. Reached through
+ *    a symlinked directory (e.g. a symlinked checkout), argv[1] stays the
+ *    symlink path while import.meta.url is already the real path, so even
+ *    the percent-encoding-only fix (pathToFileURL(argv1) with no realpath)
+ *    still compares unequal and silently skips main(). realpathSync(argv1)
+ *    resolves the symlink on our side too, so both sides land on the same
+ *    real path and the comparison succeeds.
+ *
+ * A missing argv[1] (defensive; not expected under a normal node/tsx launch)
+ * or a realpathSync failure (argv[1] naming a path that doesn't exist on
+ * disk) both fall back to `false` rather than throwing. That's the safe
+ * default, not a silent pass: a script that is genuinely being executed
+ * directly was, by construction, loaded from a real file, so argv[1] always
+ * realpath's successfully in that case. The only way to reach the catch is a
+ * state that can't be a legitimate direct invocation to begin with (argv[1]
+ * absent, or naming a file that no longer exists) — so declining to run
+ * main() there doesn't skip a real check, it just doesn't misfire one for an
+ * import or other indirect execution context.
+ */
+export function isMainModule(argv1: string | undefined, moduleUrl: string): boolean {
+  if (!argv1) return false;
+  let realArgv1: string;
+  try {
+    realArgv1 = realpathSync(argv1);
+  } catch {
+    return false;
+  }
+  return moduleUrl === pathToFileURL(realArgv1).href;
+}
+
+if (isMainModule(process.argv[1], import.meta.url)) {
   main();
 }

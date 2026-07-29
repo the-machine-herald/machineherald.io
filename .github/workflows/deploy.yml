@@ -2,12 +2,20 @@ name: Build and Deploy
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   workflow_run:
     workflows: ["Publish from Submission"]
     types:
       - completed
 
-# One deploy at a time; a newer publish supersedes an in-flight build.
+# One deploy at a time; a newer commit/publish supersedes an in-flight build.
+# push and workflow_run can both fire for the same underlying commit (a human
+# push that also happens to land right after a bot publish), but they always
+# resolve to the same "build the tip of main" outcome (see the Checkout step
+# below), so collapsing them into one concurrency group and letting the later
+# run cancel the earlier one is correct, not lossy.
 concurrency:
   group: deploy
   cancel-in-progress: true
@@ -19,7 +27,12 @@ jobs:
   deploy:
     name: Build and Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    timeout-minutes: 20
+    # workflow_dispatch and push always pass this check (no conclusion field
+    # to gate on). workflow_run only proceeds when the triggering "Publish
+    # from Submission" run actually succeeded, so a failed/cancelled publish
+    # doesn't deploy a half-generated article.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,29 +52,60 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Restore build caches
+      # Two separate cache entries, restored (and later saved) after `npm ci`
+      # — npm ci wipes node_modules, so restoring the content-layer store
+      # before it would just throw the restored data away.
+      #
+      # - .cache/og: rendered OG cards. Content-addressed and self-invalidating
+      #   via OG_CARD_VERSION (src/lib/og/cache.ts), so it needs no
+      #   config-based key — any sha is a valid cache hit for it.
+      # - node_modules/.astro: the Astro content-layer store that lets `astro
+      #   build` skip re-rendering markdown that hasn't changed. This is the
+      #   directory Astro's build actually reads/writes (see report for
+      #   node_modules/.astro/data-store.json vs .astro/data-store.json
+      #   evidence) — NOT the repo-root .astro/ directory, which build never
+      #   touches. Because the store persists rendered.html, it MUST be
+      #   invalidated whenever rendering config changes (e.g. a
+      #   markdown.shikiConfig.theme edit in astro.config.mjs, or an
+      #   astro/@astrojs/mdx upgrade via package-lock.json) — otherwise a
+      #   restore-keys prefix match would keep serving stale HTML forever.
+      #   Hashing both files into the key AND the restore-keys prefix means a
+      #   config change can never fall back to a pre-change entry.
+      - name: Restore OG card cache
         uses: actions/cache/restore@v4
         with:
-          # .cache/og holds rendered OG cards (content-addressed, immutable).
-          # .astro holds the content-layer store, which lets Astro skip
-          # re-processing markdown that has not changed.
-          path: |
-            .cache/og
-            .astro
-          key: build-${{ github.sha }}-${{ github.run_id }}
+          path: .cache/og
+          key: og-${{ github.sha }}
           restore-keys: |
-            build-
+            og-
+
+      - name: Restore Astro content-layer cache
+        uses: actions/cache/restore@v4
+        with:
+          path: node_modules/.astro
+          key: astro-store-${{ hashFiles('astro.config.mjs', 'package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            astro-store-${{ hashFiles('astro.config.mjs', 'package-lock.json') }}-
 
       - name: Build
         run: npm run build
 
-      - name: Save build caches
+      # Keyed on the sha (not run_id) so a re-run of the same commit hits the
+      # exact key on restore next time instead of every run minting a new
+      # ~248 MB entry that nothing will ever match again. actions/cache/save
+      # warns rather than fails on a duplicate key, so re-saving the same sha
+      # (e.g. a manual re-dispatch) is harmless.
+      - name: Save OG card cache
         uses: actions/cache/save@v4
         with:
-          path: |
-            .cache/og
-            .astro
-          key: build-${{ github.sha }}-${{ github.run_id }}
+          path: .cache/og
+          key: og-${{ github.sha }}
+
+      - name: Save Astro content-layer cache
+        uses: actions/cache/save@v4
+        with:
+          path: node_modules/.astro
+          key: astro-store-${{ hashFiles('astro.config.mjs', 'package-lock.json') }}-${{ github.sha }}
 
       - name: Check deployment file count
         run: |
@@ -74,7 +118,7 @@ jobs:
             echo "::error::dist has $COUNT files, at the 20,000 Cloudflare Pages ceiling. Raise the taxonomy thresholds in src/lib/taxonomy.ts."
             exit 1
           fi
-          if [ "$COUNT" -gt 16000 ]; then
+          if [ "$COUNT" -gt 13000 ]; then
             echo "::warning::dist has $COUNT files, approaching the 20,000 Cloudflare Pages ceiling."
           fi
 
