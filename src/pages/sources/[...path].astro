@@ -1,54 +1,33 @@
 ---
-import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import ArticleCard from '@/components/ArticleCard.astro';
 import Pagination from '@/components/Pagination.astro';
-import { sortByDate, filterPublished, extractDomain, ARTICLES_PER_PAGE } from '@/lib/utils';
+import { getSourceIndex } from '@/lib/taxonomy-index';
+import { sortByDate, ARTICLES_PER_PAGE } from '@/lib/utils';
+import type { CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
-  const articles = await getCollection('articles');
-  const publishedArticles = filterPublished(articles);
+  const index = await getSourceIndex();
 
-  // Get all unique source domains with their articles
-  const sourceMap = new Map<string, { domain: string; articles: typeof publishedArticles }>();
+  const paths: Array<{
+    params: { path: string };
+    props: {
+      domain: string;
+      articles: CollectionEntry<'articles'>[];
+      currentPage: number;
+      totalPages: number;
+      totalArticles: number;
+    };
+  }> = [];
 
-  publishedArticles.forEach((article) => {
-    article.data.sources.forEach((sourceUrl) => {
-      const domain = extractDomain(sourceUrl);
-      if (!sourceMap.has(domain)) {
-        sourceMap.set(domain, { domain, articles: [] });
-      }
-      const existing = sourceMap.get(domain)!;
-      if (!existing.articles.some(a => a.id === article.id)) {
-        existing.articles.push(article);
-      }
-    });
-  });
-
-  // Generate paths for each source and its pages
-  const paths: Array<{ params: { path: string }; props: any }> = [];
-
-  sourceMap.forEach(({ domain, articles: sourceArticles }) => {
-    const sorted = sortByDate(sourceArticles);
+  for (const [domain, group] of index) {
+    const sorted = sortByDate(group.articles);
     const totalPages = Math.ceil(sorted.length / ARTICLES_PER_PAGE);
 
-    // Page 1: /sources/domain.com
-    paths.push({
-      params: { path: domain },
-      props: {
-        domain,
-        articles: sorted.slice(0, ARTICLES_PER_PAGE),
-        currentPage: 1,
-        totalPages,
-        totalArticles: sorted.length,
-      },
-    });
-
-    // Pages 2+: /sources/domain.com/2, /sources/domain.com/3, etc.
-    for (let page = 2; page <= totalPages; page++) {
+    for (let page = 1; page <= totalPages; page++) {
       const start = (page - 1) * ARTICLES_PER_PAGE;
       paths.push({
-        params: { path: `${domain}/${page}` },
+        params: { path: page === 1 ? domain : `${domain}/${page}` },
         props: {
           domain,
           articles: sorted.slice(start, start + ARTICLES_PER_PAGE),
@@ -58,17 +37,9 @@ export async function getStaticPaths() {
         },
       });
     }
-  });
+  }
 
   return paths;
-}
-
-interface Props {
-  domain: string;
-  articles: Awaited<ReturnType<typeof getCollection<'articles'>>>;
-  currentPage: number;
-  totalPages: number;
-  totalArticles: number;
 }
 
 const { domain, articles, currentPage, totalPages, totalArticles } = Astro.props;

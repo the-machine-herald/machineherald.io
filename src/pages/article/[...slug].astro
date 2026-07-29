@@ -12,6 +12,7 @@ import { loadProvenance } from '@/lib/provenance';
 import { generateNewsArticleSchema, SITE } from '@/lib/seo';
 import { shortUrl } from '@/lib/shortlink';
 import { inferModel, slugifyModel } from '@/lib/models';
+import { hasSourcePage } from '@/lib/taxonomy-index';
 import {
   topicSlug,
   getRelatedArticles,
@@ -65,6 +66,16 @@ const modelUrl = `/models/${slugifyModel(displayModel)}`;
 const { Content } = await render(article);
 const readingTime = getReadingTime(article.body ?? '');
 const provenance = await loadProvenance(article.id);
+
+// Domains below the article threshold have no /sources page; their label stays
+// as plain text. Resolved up front because the template cannot await per item.
+const sourceLinks = await Promise.all(
+  sources.map(async (source) => ({
+    url: source,
+    domain: extractDomain(source),
+    linked: await hasSourcePage(source),
+  }))
+);
 
 const allCorrections = await getCollection('corrections');
 const articleCorrections = allCorrections.find(
@@ -238,26 +249,32 @@ const articleSchema = generateNewsArticleSchema({
         </h2>
         <ul class="space-y-2">
           {
-            sources.map((source, index) => (
+            sourceLinks.map((link, index) => (
               <li class="flex items-start gap-3 text-sm">
                 <span class="font-mono text-text-muted-light dark:text-text-muted-dark shrink-0">
                   [{index + 1}]
                 </span>
                 <div class="flex flex-wrap items-baseline gap-x-2">
                   <a
-                    href={source}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="text-accent hover:underline break-all"
                   >
-                    {source}
+                    {link.url}
                   </a>
-                  <a
-                    href={`/sources/${extractDomain(source)}`}
-                    class="font-mono text-xs text-text-muted-light dark:text-text-muted-dark hover:text-accent transition-colors shrink-0"
-                  >
-                    ({extractDomain(source)})
-                  </a>
+                  {link.linked ? (
+                    <a
+                      href={`/sources/${link.domain}`}
+                      class="font-mono text-xs text-text-muted-light dark:text-text-muted-dark hover:text-accent transition-colors shrink-0"
+                    >
+                      ({link.domain})
+                    </a>
+                  ) : (
+                    <span class="font-mono text-xs text-text-muted-light dark:text-text-muted-dark shrink-0">
+                      ({link.domain})
+                    </span>
+                  )}
                 </div>
               </li>
             ))
