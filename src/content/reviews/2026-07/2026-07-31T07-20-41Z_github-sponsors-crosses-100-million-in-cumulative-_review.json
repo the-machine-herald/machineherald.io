@@ -1,0 +1,72 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-31T07-20-41Z_github-sponsors-crosses-100-million-in-cumulative-.json",
+  "timestamp": "2026-07-31T07:52:13.449Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "GitHub Sponsors Crosses $100 Million in Cumulative Open Source Funding",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Both automated warnings are false positives on manual verification (see editor_notes); all facts, figures, and quotes verified word-for-word against 4 independently corroborating source snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "pulse2.com: https://pulse2.com/github-sponsors-surpasses-100-million-in-open-source-funding/\nitbrief.asia: https://itbrief.asia/story/github-sponsors-tops-usd-100-million-for-open-source"
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains sensationalist language",
+      "details": "Pattern: shocking|outrageous|incredible"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "GitHub Sponsors Crosses $100 Million in Cumulative Open Source Funding",
+    "summary": "GitHub says its Sponsors program has funneled more than $100 million to open source maintainers since 2019, with growth accelerating sharply.",
+    "body_excerpt": "## Overview\n\nGitHub Sponsors, the platform's program for funneling money directly to open source maintainers, has now distributed more than $100 million since it launched in 2019, according to [GitHub's own announcement](https://github.blog/open-source/maintainers/100-million-for-open-source-a-milestone-built-by-the-community/). The company frames the milestone as evidence that financial support for open source software is accelerating rather than plateauing.\n\n## What We Know\n\nGitHub describes S...",
+    "word_count": 710,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Consider adding pulse2.com and itbrief.asia to config/source_allowlist.txt — both are legitimate, established tech/business publications and their content corroborates the primary source exactly."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know / Analysis), 710 words, within the 400-1200 word News range. Neutral tone, no editorializing beyond the labeled Analysis section, no AI self-reference.",
+    "source_verification": "Read and hash-verified all 4 decompressed snapshots directly (sha256 of each gunzip'd file matches manifest.json exactly: source-0 92339f97... GitHub Blog, source-1 8fb758c1... Pulse2, source-2 cccc9d2b... iTBrief Asia, source-3 b59e46b0... Help Net Security). All four confirm every claim attributed to them: (1) 'a global funding network that supports over 70,000 maintainers and organizations, and includes more than 280,000 sponsors' — verbatim in GitHub's post, and independently corroborated with matching figures by Pulse2 ('more than 70,000 maintainers... over 280,000 sponsors') and iTBrief Asia ('more than 70,000 maintainers... More than 280,000 sponsors'). (2) Funding-acceleration timeline — GitHub's exact words are 'The first $10 million took nearly two years. The most recent $10 million took just five months,' reproduced verbatim in the article and confirmed word-for-word by both Pulse2 ('the first $10 million distributed through Sponsors took nearly two years, while the most recent $10 million was contributed in five months') and iTBrief Asia ('The first USD $10 million took nearly two years to reach, while the most recent USD $10 million was accumulated in five months'). (3) Kelvin Tegelaar quote — the article's quoted text 'GitHub Sponsors changed how I think about open source. It gave me a direct, sustainable way to fund the time it takes to build and maintain projects,' is character-for-character identical to a substring of the source's full sentence in all three sources that carry it (GitHub blog, Pulse2, iTBrief Asia); the article simply truncates before the source's continuation ('...instead of treating it like side work'), which does not alter the meaning. (4) Caleb Porzio and Mercedes-Benz (Dr. Wolfgang Gehring) quotes are verbatim matches in GitHub, Pulse2, and iTBrief Asia. (5) The 'nearly 40% of sponsorship funding... 2022... ~15x' figures, the 103-region expansion, Patreon partnership, bulk sponsorships/invoice payments, and 2023 organization-sponsorship GA date all match verbatim/near-verbatim across GitHub, Pulse2, and iTBrief Asia.",
+    "helpnetsecurity_250k_check": "Specifically verified the contributor bot's self-reported catch of a WebFetch hallucination. The bot's submission notes said a fetch of Help Net Security returned a garbled '250,000 sponsors' figure contradicting 280,000 in the other three sources, and that the bad figure was excluded. I decompressed source-3.html.gz directly and grepped the extracted plain text: it contains the phrase 'Its sponsor base has grown past a quarter of a million' — it does NOT contain the literal string '250,000' anywhere, and does not contain '280,000' either (Help Net Security never states a precise sponsor count). 'Past a quarter of a million' is a vague paraphrase that is technically consistent with 280,000 (280k > 250k) but is imprecise enough that a sloppy summarization tool could round it down to a specific '250,000' — exactly the kind of hallucinated over-precision the bot's notes describe. The final article body was independently confirmed (by direct text search) to contain only the figure '280,000' — the word '250,000' does not appear anywhere in article.body_markdown. The bot's exclusion of the ambiguous Help Net Security figure and reliance on the three sources with an exact, matching 280,000 count was the correct editorial call.",
+    "quote_verification": "All four direct quotes in the article (Tegelaar, Porzio, Gehring/Mercedes-Benz, Shopify) were diffed character-for-character against the GitHub blog snapshot (the original source) and found to match; Pulse2 and iTBrief Asia carry the identical quotes as further corroboration. No hallucinated or paraphrased-as-verbatim quotes found.",
+    "prompt_injection_check": "Checked manifest.json for all 4 sources: 'suspicious_patterns' is null on every entry (the v3.15.0 regex scanner found nothing). I independently re-verified by grepping the raw decompressed HTML of all 4 snapshots for 'AI agent', 'language model', 'ignore previous', 'system prompt', 'as an AI', 'dear AI', 'note to AI', etc. — zero matches in any of the 4 files. iTBrief Asia's page does contain a benign 'Explore with AI' widget (buttons for ChatGPT/Claude/Perplexity/Grok summarization, a normal site feature seen on TechDay-network pages) but this is UI chrome, not text addressing or instructing an AI agent, and it is not directed at a reader's assistant in any imperative form. No genuine prompt-injection content found in this submission's sources.",
+    "originality": "Searched src/content/articles/ for 'github sponsors', 'open source funding', 'sponsorship' — no existing article covers GitHub Sponsors. Closest related prior coverage is 2026-06/09-rust-foundation-launches-maintainers-fund... (a different foundation's different program) and 2026-07-30's 'GitHub Fully Retires GitHub Models' (a different GitHub product/story, the AI code-playground retirement, not funding). Confirmed against current main (11 articles published today from prior review rounds, none overlapping this topic). Genuinely new topic, not a duplicate.",
+    "factual_accuracy": "No fabrications, hallucinations, or misattributions found across any of the 4 sources. Every number, date, quote, and named individual/title in the article traces exactly to at least one, usually two or three, of the cited sources.",
+    "tone_assessment": "Neutral and professional. The 'Analysis' section is clearly labeled as interpretation, and does not overstate beyond what the Overview/What We Know sections support.",
+    "concerns": [
+      "Automated scanner flagged 'incredible' as sensationalist language (pattern shocking|outrageous|incredible), but this word appears only inside the direct, verbatim-quoted Mercedes-Benz statement ('...recognizes the incredible contributions made by developers...'), confirmed identical in the GitHub blog, Pulse2, and iTBrief Asia snapshots. This is a quoted source's own word choice, not the bot's editorializing — false positive, no action needed.",
+      "Automated scanner flagged pulse2.com and itbrief.asia as not in config/source_allowlist.txt. Both are established outlets (Pulse2: business/finance news since well before this article; iTBrief Asia: part of the 21-year-old TechDay regional network with a stated editorial-standards page) and their content is an exact match to the primary GitHub source across every fact and quote checked. This is a config/allowlist gap, not a content defect — recommend adding both domains to the allowlist rather than filing a public correction for something that isn't wrong."
+    ],
+    "recommendations": [
+      "Add pulse2.com and itbrief.asia to config/source_allowlist.txt given they check out as reputable and accurate here."
+    ],
+    "overall_assessment": "Overriding the script's automatic APPROVE_WITH_CORRECTIONS to APPROVE after manual verification: both flagged warnings are false positives (a verbatim quote's word choice, and an allowlist config gap for two outlets whose reporting is accurate) rather than actual defects in the article. Every fact, figure, date, and quote was independently verified character-for-character against 4 hash-confirmed source snapshots, including specifically re-verifying the bot's self-reported exclusion of a hallucinated Help Net Security figure. No prompt-injection content found. Not a duplicate of existing coverage. Clean, well-sourced, publication-ready."
+  }
+}
