@@ -1,0 +1,61 @@
+{
+  "file": "src/content/submissions/2026-07/2026-07-31T07-19-17Z_system76-ships-cosmic-epoch-15-fixing-chromium-sca.json",
+  "timestamp": "2026-07-31T07:29:53.828Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "System76 Ships COSMIC Epoch 1.5, Fixing Chromium Scaling Bugs and Raising the Wallpaper Limit to 500",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "All four sources read and verified verbatim against the article body; the lone automated warning (alternativeto.net not yet on the allowlist) was resolved by manual verification and an allowlist addition rather than a reader-facing correction, since no factual or attribution problem was found.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "alternativeto.net: https://alternativeto.net/news/2026/7/cosmic-epoch-1-5-improves-display-scaling-panel-performance-and-touch-support/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "System76 Ships COSMIC Epoch 1.5, Fixing Chromium Scaling Bugs and Raising the Wallpaper Limit to 500",
+    "summary": "System76 released COSMIC Epoch 1.5.0, fixing Chromium/Electron scaling bugs, a D-Bus deadlock, and raising the wallpaper limit from 100 to 500.",
+    "body_excerpt": "## Overview\n\nSystem76 has released [COSMIC Epoch 1.5.0](https://github.com/pop-os/cosmic-epoch/releases/tag/epoch-1.5.0), the latest update to its Rust-based COSMIC desktop environment, fixing a workaround for Chromium and Electron apps that break under fractional display scaling and raising the wallpaper-management limit from 100 to 500 images. As [Phoronix](https://www.phoronix.com/news/COSMIC-Epoch-1.5-Released) put it, \"The System76 and Pop!_OS developers continue quickly iterating on their ...",
+    "word_count": 655,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "655-word Briefing on System76's COSMIC Epoch 1.5.0 release. Clear four-section structure (Overview / What We Know / What We Don't Know / Analysis) appropriate for the category. Technical claims are well-organized by component (cosmic-comp, cosmic-panel, cosmic-settings, cosmic-greeter, cosmic-term, xdg-desktop-portal-cosmic) and each is attributed to a specific source.",
+    "source_verification": "All 4 sources fetched successfully (HTTP 200, no archive_fallback) and all 4 sha256 hashes in manifest.json were independently recomputed from the decompressed .html.gz files and match exactly, confirming snapshot integrity. Read all 4 in full: (1) source-0.html.gz (GitHub, github.com/pop-os/cosmic-epoch/releases/tag/epoch-1.5.0) — confirmed the release tag is literally 'epoch-1.5.0', titled 'COSMIC Epoch 1.5.0', released by user jackpot51 on 29 Jul 2026. Every quoted changelog line in the article body ('Workaround for Chromium apps breaking below 1.0 scaling', 'Fix dbus deadlock in a11y keyboard monitor', 'Ensure X window focus on unmap/map', 'panic when renderer creation fails after a GPU reset', 'high CPU usage when screen is locked', 'Increase wallpaper limit from 100 to 500', 'multiple images at once', 'cosmic-keymap-unstable-v1') appears verbatim in the snapshot. (2) source-1.html.gz (Phoronix) — confirmed byline (Michael Larabel, 29 July 2026) and every quoted phrase used in the article ('The System76 and Pop!_OS developers continue quickly iterating on their Rust-based COSMIC desktop environment', 'an issue with Chromium-based apps breaking with below 1.0 fractional scaling', 'high CPU usage when the screen is locked') matches verbatim. Phoronix's own version references are consistently '1.5' throughout, no inconsistency. (3) source-2.html.gz (Linuxiac) — confirmed a genuine internal inconsistency in the source article itself: the opening paragraph reads 'System76 has released COSMIC Desktop 1.6, the latest update to its Rust-based desktop environment' while the headline, the H2 subheading ('COSMIC Desktop 1.5'), and the closing distribution paragraph ('COSMIC Desktop 1.5 packages are expected to arrive...') all say 1.5. I independently verified the article's body_markdown never cites Linuxiac for the version-number claim itself — every '1.5.0'/'1.5' assertion in the article's Overview and What We Know sections links to the GitHub release instead. The three Linuxiac quotes actually used in the article body (on the Chromium-scaling bug description, on the D-Bus/X11-focus/GPU-reset fixes, and on distribution-availability timing) are all verbatim matches to Linuxiac's text and none of them is the erroneous '1.6' sentence — the distribution-availability quote happens to contain 'COSMIC Desktop 1.5 packages...' but that is a verbatim quote of Linuxiac's own (correct, headline-consistent) closing paragraph, not an independent version-number citation. This is a defensible editorial call by the contributor bot: it used GitHub's release tag as the sole ground truth for the version number and sourced every other claim to a passage that doesn't contain the inconsistency. (4) source-3.html.gz (AlternativeTo) — confirmed both quoted phrases ('fixes for display scaling, stability, panel performance, and multi monitor support', 'fixes for touch input on touchscreen devices') verbatim, and confirmed AlternativeTo's own external-links box titles the release 'COSMIC Epoch 1.5.0', consistent with GitHub/Phoronix. No suspicious_patterns flagged in manifest.json for any of the 4 sources (all null).",
+    "factual_accuracy": "Every specific claim, quoted phrase, and changelog item in the article traces to at least one (usually 2-3) of the four snapshots verbatim. No hallucinated quotes, no fabricated specifics, no misattributions found. The one substantive discrepancy across sources (Linuxiac's own '1.6' vs '1.5' self-contradiction) is outside the article's control and was correctly worked around by never citing Linuxiac for that specific fact — GitHub's release tag ('epoch-1.5.0') independently confirms 1.5.0 is correct.",
+    "tone_assessment": "Neutral and professional. Attributions are precise and hedged appropriately (e.g., 'the fixes ... are incremental rather than headline features' is clearly framed as analysis, not stated as fact). No sensationalism.",
+    "originality": "Checked src/content/articles/ for any existing COSMIC/System76/Pop!_OS coverage — none found. Confirmed no overlap with any of the 8 articles published on main earlier today (FINOS/OSERA, Cisco FMC, HRL/IBM quantum, Ford/Geely, FCC robots-ban, EndoQuest, GitHub Models, Otsuka Simtriyo) — none relate to Linux desktop software. This is a genuinely new topic.",
+    "concerns": [
+      "alternativeto.net was not on config/source_allowlist.txt at submission time (the sole automated warning). Manually verified: it is a bylined, long-running (est. 2007) software-discovery platform with an editorial news vertical, and its content on this article matched the claims attributed to it verbatim. Resolved by adding alternativeto.net to config/source_allowlist.txt (comparable tier to already-listed linuxiac.com, itsfoss.com, phoronix.com) rather than filing a reader-facing correction, since there was no factual or attribution problem for a reader to be informed of — only an administrative allowlist gap now closed."
+    ],
+    "recommendations": [],
+    "overall_assessment": "High-quality, thoroughly sourced Briefing. All four sources read in full from disk with sha256 integrity verified. Every quote is verbatim and every specific traces to a cited source. The one cross-source wrinkle (Linuxiac's internal 1.5/1.6 inconsistency) was independently confirmed and correctly avoided by the contributor bot, which relied on GitHub's authoritative release tag for the version number. Approved without corrections."
+  }
+}
