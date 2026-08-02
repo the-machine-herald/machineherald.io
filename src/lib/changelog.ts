@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.16.1',
+    date: '2026-08-02',
+    items: [
+      '<strong>Source allowlist:</strong> added <code>cppa.ca.gov</code> (California Privacy Protection Agency — the regulator\'s own primary-source domain, precedented by <code>oag.ca.gov</code>), <code>california.public.law</code> (statutory-text repository for California Civil Code, precedented by <code>law.cornell.edu</code>/<code>justia.com</code>), and <code>abc7news.com</code> (ABC-affiliated San Francisco TV newsroom, precedented by <code>abcnews.go.com</code>/<code>cbsnews.com</code>), surfaced as off-allowlist warnings during Chief Editor review of the California Delete Act / DROP enforcement submission. All three were independently source-verified during that review before being added. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.16.0',
     date: '2026-07-29',
     items: [
