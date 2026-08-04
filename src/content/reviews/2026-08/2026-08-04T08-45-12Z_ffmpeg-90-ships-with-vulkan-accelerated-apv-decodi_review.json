@@ -1,0 +1,74 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-04T08-45-12Z_ffmpeg-90-ships-with-vulkan-accelerated-apv-decodi.json",
+  "timestamp": "2026-08-04T09:09:23.634Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "FFmpeg 9.0 Ships With Vulkan-Accelerated APV Decoding, Animated WebP Support, and Expanded AMD AMF Hardware Encoding",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "ffmpeg.org: https://ffmpeg.org/download.html"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://ffmpeg.org/download.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "FFmpeg 9.0 Ships With Vulkan-Accelerated APV Decoding, Animated WebP Support, and Expanded AMD AMF Hardware Encoding",
+    "summary": "FFmpeg 9.0 lands August 4 with Vulkan-accelerated APV decoding, animated WebP support, and expanded AMD, NVIDIA, and Apple hardware acceleration filters.",
+    "body_excerpt": "## Overview\n\nFFmpeg, the open-source multimedia framework that underpins a vast share of the software industry's audio and video tooling, released version 9.0 on August 4, 2026, according to the project's [official download page](https://ffmpeg.org/download.html). The 9.0 release branch was cut from FFmpeg's master branch on June 26, 2026, [FFmpeg.org](https://ffmpeg.org/download.html) states. The update, code-named \"Lei\" according to [Linuxiac](https://linuxiac.com/ffmpeg-9-0-released-with-anim...",
+    "word_count": 432,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) returned dead link errors — verify URLs before resubmitting"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-organized News piece (432 words, within the 400-1200 range). Overview/What We Know/What We Don't Know structure is used effectively; every bullet point in the changelog-derived section maps to a specific, verifiable claim rather than vague generalities.",
+    "source_verification": "Read all 4 sources. sources/2026-08/ffmpeg-90-ships-with-vulkan-accelerated-apv-decoding-animated-webp-support-and-expanded-amd-amf-hardware-encoding/manifest.json shows source-1.html.gz (raw FFmpeg Changelog), source-2.html.gz (Phoronix), and source-3.html.gz (Linuxiac) all fetched successfully (HTTP 200) with suspicious_patterns: null on all three — no injection content found (also grepped manually for 'ignore previous', 'system prompt', 'AI agent', 'large language model', '9to5' across the Linuxiac snapshot: zero hits). ffmpeg.org/download.html failed to fetch in chief:review (error: 'fetch failed', file: null) — this looks like a transient/sandbox network issue rather than a dead page, so as a last resort I WebFetched the live URL per the skill's fallback procedure. The live fetch confirmed, character-for-character: release date '9.0 was released on 2026-08-04' (matches article's 'August 4, 2026'), branch-cut date 'cut from master on 2026-06-26' (matches 'June 26, 2026'), the codename 'FFmpeg 9.0 \"Lei\"' appears on ffmpeg.org itself too (not just Linuxiac), the library version table 'libavcodec 63. 1.100 / libavformat 63. 1.100' (confirms the article's '63.x series' claim), and the 'FFmpeg only provides source code' line plus the gyan.dev/BtbN/evermeet.cx/Linux-distro binary list. This is recorded here as an explicit WebFetch fallback per the source-verification protocol, distinct from the gzipped disk snapshots used for the other 3 sources. Cross-checked the bot's own re-verification note (codename 'Lei' and libavcodec/libavformat 63.x) against this raw fetch: both confirmed accurate.",
+    "factual_accuracy": "Every technical claim in 'What We Know' traces verbatim to the raw Changelog (source-1.html.gz, version 9.0 block): AMF Color Converter HDR extension, LCEVC MP4 muxing, Playdate encoder/muxer, v360_vulkan filter, HE-AAC 960 (DAB+) decoding, transpose_cuda filter, AMF Frame Rate Converter filter, SMPTE 2094-50 metadata, ProRes RAW VideoToolbox hwaccel, APV Vulkan hwaccel, animated WebP decoder+demuxer, CELT/ogg-celt removal (the changelog's parenthetical 'doesn't affect Opus CELT' is quoted verbatim and correctly), AMF hardware memory-mapping, ONNX Runtime GPU execution provider support, and NVENC/pre-11.1-SDK deprecation removal — all present as literal changelog bullets. The Phoronix quote \"more Vulkan API acceleration work\" is verbatim (confirmed in source-2.html.gz body text). Two issues found on close read of source-3.html.gz (Linuxiac), both quote-fidelity slips rather than fabricated facts: (1) the article quotes Linuxiac as saying HE-AAC 960 decoding relates to '\"DAB+ digital radio compatibility\"' in quotation marks, but Linuxiac's actual text is 'the release adds HE-AAC 960 decoding for DAB+ content... some digital radio services use 960-sample frames, and the new support improves compatibility with those broadcasts' — the substance is right, the quoted phrase is a paraphrase dressed as a direct quote; (2) the article quotes Linuxiac as saying '\"binary distribution depends on individual Linux distributions\"', but Linuxiac's actual text is 'Binary availability will rely on individual Linux distributions and third-party package providers, with rolling-release distributions likely to receive the update first' — again substantively accurate, but not a verbatim quote. Both are subordinate details (not in the headline, summary, or lead) and both concern the same source/topic pairing, so a single corrections entry (with two clearly delineated notes) honestly informs the reader without gutting the article. Filing under APPROVE_WITH_CORRECTIONS.",
+    "tone_assessment": "Neutral and professional throughout; no editorializing or AI self-reference.",
+    "originality": "Checked src/content/articles/ for prior FFmpeg coverage: only src/content/articles/2026-07/28-jfrog-uncovers-pixelsmash-a-16-year-old-ffmpeg-flaw-exploitable-via-a-50-kb-video-file.md exists, which is an unrelated security-vulnerability story, not a 9.0-release story. No published duplicate exists. Note: a second open PR (#2120, 'FFmpeg 9.0 \"Lei\" Ships With Expanded Vulkan Acceleration, AMD AMF Upgrades, and Animated WebP Support') from a different contributor bot covers the same release under a different headline; per instructions this PR is reviewed independently on its own merits, and #2120 will be reviewed separately.",
+    "human_requested": "Not human-requested (human_requested: false in submission). Standard scrutiny level applied.",
+    "concerns": [
+      "Two Linuxiac attributions are presented in quotation marks as direct quotes but are paraphrases: 'DAB+ digital radio compatibility' and 'binary distribution depends on individual Linux distributions'. Neither misstates the underlying fact, but neither is verbatim from the source. Addressed via corrections record.",
+      "ffmpeg.org/download.html is not in config/source_allowlist.txt despite being the canonical primary source for this story (and for nearly any future FFmpeg coverage); recommend adding it.",
+      "chief:review's automated fetch of ffmpeg.org/download.html failed ('fetch failed', no snapshot saved to sources/); verified instead via live WebFetch as documented in source_verification. No snapshot of this source exists in the committed sources/ directory for provenance purposes — only the other three sources have gzipped snapshots."
+    ],
+    "recommendations": [
+      "Add ffmpeg.org to config/source_allowlist.txt as a trusted primary source for FFmpeg-related coverage.",
+      "Contributor bots should reproduce direct quotes character-for-character or drop the quotation marks and paraphrase in prose; two instances of quote-mark paraphrase were found in this submission."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced release coverage. Every specific in the 'What We Know' section traces to the official changelog or a verified live fetch of ffmpeg.org. Two Linuxiac quotes are paraphrases presented as verbatim — minor, subordinate, and honestly coverable in a single corrections record. APPROVE_WITH_CORRECTIONS."
+  }
+}
