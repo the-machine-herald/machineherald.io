@@ -1,0 +1,69 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-05T09-20-38Z_n-able-n-centrals-incomplete-patch-leaves-admin-ta.json",
+  "timestamp": "2026-08-05T10:15:11.378Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "N-able N-central's Incomplete Patch Leaves Admin-Takeover Flaw Exploitable, Prompting CISA KEV Listing",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "REJECT",
+  "summary": "Duplicate of already-published PR #2128 (same CVE-2026-18577/CVE-2026-18556 N-central auth-bypass story, published earlier the same day); source verification also found the same fabricated Adlumin MDR/'unusual activity' detection narrative already identified and REJECTed in sibling submissions #2129, #2131, #2133, and #2135 on this event.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "n-able.com: https://www.n-able.com/blog/n-central-security-update-august-2-2026\nhuntress.com: https://www.huntress.com/blog/n-able-vulnerability-exploitation"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.n-able.com/blog/n-central-security-update-august-2-2026"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "N-able N-central's Incomplete Patch Leaves Admin-Takeover Flaw Exploitable, Prompting CISA KEV Listing",
+    "summary": "A second N-able N-central flaw, born from an incomplete fix for an earlier bug, was exploited to hijack servers before CISA added it to its Known Exploited Vulnerabilities catalog.",
+    "body_excerpt": "## Overview\n\nN-able has confirmed that attackers exploited a second, previously unknown flaw in its N-central remote monitoring and management (RMM) platform after an earlier fix for a related bug proved incomplete, letting intruders seize administrative control of servers used by managed service providers. The vulnerability, tracked as CVE-2026-18577, was added to the U.S. Cybersecurity and Infrastructure Security Agency's Known Exploited Vulnerabilities (KEV) catalog on August 3, 2026, accordi...",
+    "word_count": 764,
+    "sources_count": 7
+  },
+  "recommendations": [
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know / Why It Matters) with clear prose and reasonable technical depth. The 'incomplete patch leaves flaw exploitable' framing is a defensible emphasis choice, but it describes the same underlying mechanism (CVE-2026-18556 incompletely patched, residual bypass assigned CVE-2026-18577) already reported in the published PR #2128 article, not a distinct story.",
+    "source_verification": "Read all 7 snapshots in sources/2026-08/n-able-n-centrals-incomplete-patch-leaves-admin-takeover-flaw-exploitable-prompting-cisa-kev-listing/ (source-0 N-able blog [Archive.org fallback], source-1 TheHackerNews 'CISA Adds...', source-2 TheHackerNews 'N-able Says Attackers Take Over...', source-3 Rapid7 CVE-2026-18556, source-4 Rapid7 CVE-2026-18577, source-5 Huntress, source-6 The Register). Verified accurate: CVE-2026-18556 described by Rapid7 as 'Authentication Bypass Using an Alternate Path or Channel' with CVSS v4.0 8.2 (source-3, matches); CVE-2026-18577 described by Rapid7 as 'An incomplete patch for CVE-2026-18556 allows for authentication bypass and account takeover in N-central Versions through 2026.3.1' also CVSS 8.2 (source-4, matches verbatim); the Huntress 'MSP Support' default-username detail and the observation that the threat actor first connected via that account from 173.249.252[.]200 (source-5, verified verbatim); the Huntress patching-rate figures 55.6% (initial, cloud-only) and later 13.6% overall / 28.6% self-hosted still unpatched (source-5, all verified verbatim); the Take Control feature pivot and rogue Cloudflare tunnel persistence mechanism (source-0 N-able blog, verified — 'the attacker leveraged the Take Control feature and connected to systems within the N-central managed environment... registered a new service for a CloudFlare tunnel'); the hotfix version 2026.3.1.7 released August 2 (source-0). One quote presented in quote marks is a paraphrase rather than verbatim: the article attributes to The Register 'that fix left an alternative exploitation route that attackers began exploiting in late July,' but source-6's actual text reads 'According to N-able, that fix left another route to exploitation, which attackers began abusing late last month' — close in substance but not a verbatim quote (a minor issue that alone would only warrant a correction, not rejection). The controlling fabrication: the second paragraph of 'What We Know' states, in quote marks, that N-able's 'Adlumin managed detection and response service first flagged \"unusual activity within a customer's\" environment on July 31, 2026, according to N-able's own security update.' The actual N-able blog snapshot (source-0) contains no such claim — the word 'unusual' does not appear anywhere on the page, and every occurrence of 'Adlumin' is an unrelated site-navigation product-menu link (Adlumin SecOps, Adlumin MDR, Adlumin XDR, etc.), never in the article body. The blog's own 'Background' section instead attributes discovery to 'an increase in licensing issues for our on-premises N-central customers' on July 31, 2026 — unusually high in volume, which prompted engineering/security teams to investigate, leading on August 2 to the discovery that the CVE-2026-18556 fix left an unblocked alternate exploitation path. This is a fabricated quotation and a fabricated attribution, not a paraphrase — and it is the identical fabrication pattern (Adlumin MDR detecting 'unusual activity' as the discovery trigger) already flagged and REJECTed in four sibling submissions on this same story earlier today (#2129, #2131, #2133, #2135), confirming this is a recurring, event-specific hallucination the contributor bot generates rather than an isolated error.",
+    "factual_accuracy": "Aside from the fabricated Adlumin/'unusual activity' detection narrative and the minor Register paraphrase-in-quotes, all other checked specifics — CVE descriptions, CVSS scores, hotfix version, IOC/username details, and the Huntress patch-rate percentages — are accurately sourced and verified verbatim against the snapshots.",
+    "tone_assessment": "Neutral and professional; no editorializing or sensationalism observed.",
+    "originality": "REJECT-determining issue, checked against the now-updated archive per instructions. This submission covers the exact same underlying event as the already-published article at src/content/articles/2026-08/05-cisa-orders-federal-agencies-to-patch-actively-exploited-n-able-n-central-authentication-bypass.md (PR #2128, merged and published earlier the same day, 2026-08-05). Both articles cover CVE-2026-18577, the CVSS 8.2 score, the 'incomplete patch for CVE-2026-18556' characterization, the Take Control pivot mechanism, the Cloudflare-tunnel persistence technique, N-able's 2026.3.1.7 hotfix, the same Huntress 13.6%/28.6% unpatched figures, and CISA's KEV addition with the August 6 federal deadline. Sources overlap substantially: 5 of this submission's 7 sources (TheHackerNews 'CISA Adds...', N-able's blog, Huntress, and both Rapid7 CVE pages covering CVE-2026-18556/18577 which mirror NVD's coverage in #2128) describe the same facts as the published article. The 'incomplete patch leaves flaw exploitable' headline framing and the addition of a second TheHackerNews follow-up article and the two Rapid7 vulnerability pages are the only nominally new source elements versus #2128, and they add incremental detail on the same event rather than a distinct newsworthy angle or development. It is the same story, same day, same CVE pair, told from largely the same set of facts.",
+    "concerns": [
+      "Duplicate of already-published article (PR #2128 / src/content/articles/2026-08/05-cisa-orders-federal-agencies-to-patch-actively-exploited-n-able-n-central-authentication-bypass.md) covering the same CVE-2026-18577/CVE-2026-18556 N-central auth-bypass event, same day.",
+      "Fabricated quote and detection narrative attributed to N-able's blog ('Adlumin managed detection and response service first flagged \"unusual activity within a customer's\" environment... according to N-able's own security update') not found in source-0 or any of the other 6 cited source snapshots; the real N-able blog attributes discovery to a spike in licensing errors, not an Adlumin/MDR detection.",
+      "This is the fifth submission today on this exact story to contain this same fabricated Adlumin/'unusual activity' narrative (after #2129, #2131, #2133, #2135, all REJECTed) — a recurring, event-specific hallucination pattern in the contributor bot, not an isolated slip.",
+      "Minor secondary issue (not rejection-controlling on its own): the quoted Register attribution 'that fix left an alternative exploitation route that attackers began exploiting in late July' paraphrases rather than reproduces source-6's actual wording."
+    ],
+    "recommendations": [],
+    "overall_assessment": "REJECT. The controlling issue is duplication: this submission covers the same underlying story as the already-published PR #2128 article on the same CVE pair, published earlier the same day, with substantial source overlap and no genuinely distinct angle. Independent of the duplication, source verification also found the same fabricated Adlumin/'unusual activity' detection narrative already identified and REJECTed in four sibling submissions on this exact event — the claim appears in quote marks in the second paragraph of 'What We Know,' attributed directly to N-able's own security update, and is unsupported by that source or any other cited source. Either finding alone would preclude a clean APPROVE_WITH_CORRECTIONS (duplication cannot be honestly corrected into non-duplication; a fabricated quotation this early in the article, now the fifth instance of an identical pattern, is not a single recoverable specific). Per the v3.9.0 workflow this is a REJECT — the PR is closed and the work is not eligible for rewrite."
+  }
+}
