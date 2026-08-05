@@ -1,0 +1,89 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-05T09-19-16Z_cisa-adds-n-able-n-central-flaw-to-kev-catalog-as-.json",
+  "timestamp": "2026-08-05T09:56:28.662Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "CISA Adds N-able N-central Flaw to KEV Catalog as Attackers Exploit an Incomplete Patch to Reach MSP Client Networks",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "REJECT",
+  "summary": "Chief Editor override: fabricated Adlumin MDR detection quote (same fabrication pattern as sibling PRs #2129/#2131) plus full duplication of already-published article #2128 covering the identical CVE-2026-18577/CVE-2026-18556 KEV story.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "n-able.com: https://www.n-able.com/blog/n-central-security-update-august-2-2026\nhuntress.com: https://www.huntress.com/blog/n-able-vulnerability-exploitation"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.bleepingcomputer.com/news/security/n-able-warns-of-n-central-auth-bypass-flaw-exploited-in-attacks/"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.n-able.com/blog/n-central-security-update-august-2-2026"
+    },
+    {
+      "category": "Factual Accuracy",
+      "severity": "error",
+      "message": "Fabricated quote misattributing incident detection to Adlumin MDR",
+      "details": "Article body ('What We Know' section) states: 'N-able says its Adlumin MDR service first caught the activity. \"On July 31, 2026, N‑able's Adlumin MDR solution detected unusual activity within a customer's environment,\" the company wrote in a security update' and cites https://www.n-able.com/blog/n-central-security-update-august-2-2026. The actual snapshot (sources/2026-08/.../source-4.html.gz) 'Background' section reads verbatim: 'On July 31, 2026, N‑able saw an increase in licensing issues for our on-premises N‑central customers. Licensing issues are not uncommon, but the volume was high and the engineering and security teams were engaged.' There is no mention of Adlumin, MDR, or 'unusual activity' anywhere in the actual narrative of the source post (the only 'Adlumin' hits in the snapshot are site-navigation/product-menu boilerplate, not the incident writeup). The quoted sentence attributed to N-able does not exist in the source — it is fabricated. This is the same fabricated Adlumin/zero-day-detection narrative previously identified and rejected in sibling submissions PR #2129 and PR #2131 covering the same event."
+    },
+    {
+      "category": "Originality",
+      "severity": "error",
+      "message": "Duplicate of already-published article covering the same event",
+      "details": "src/content/articles/2026-08/05-cisa-orders-federal-agencies-to-patch-actively-exploited-n-able-n-central-authentication-bypass.md (PR #2128, reviewed and merged earlier the same day) already covers CISA's KEV addition of CVE-2026-18577/CVE-2026-18556, the August 6 federal patch deadline, the incomplete-patch mechanism, Huntress's 13.6%/28.6% unpatched-server figures, the Take Control feature abuse, Cloudflare tunnel persistence, the svchost.exe/'Cloudflared' IOCs, and N-able's hotfix 2026.3.1.7. PR #2133 covers the identical underlying event with heavy source overlap (thehackernews.com, huntress.com, n-able.com, nvd.nist.gov shared between both) and no materially new angle — it adds Finland's NCSC advisory and a TheNextWeb citation, but these are incremental details on the same story, not a distinct newsworthy angle."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "CISA Adds N-able N-central Flaw to KEV Catalog as Attackers Exploit an Incomplete Patch to Reach MSP Client Networks",
+    "summary": "An incomplete fix for an N-central authentication bypass let attackers seize admin access and pivot into managed endpoints before a hotfix landed.",
+    "body_excerpt": "## Overview\n\nThe U.S. Cybersecurity and Infrastructure Security Agency added a flaw in N-able's N-central remote monitoring and management platform to its Known Exploited Vulnerabilities catalog on Monday, August 3, after attackers exploited an incomplete patch to gain administrative control of servers used by managed service providers to oversee client networks, according to [The Hacker News](https://thehackernews.com/2026/08/cisa-adds-exploited-n-able-n-central.html). Federal Civilian Executiv...",
+    "word_count": 776,
+    "sources_count": 9
+  },
+  "recommendations": [
+    "Consider adding n-able.com and huntress.com to config/source_allowlist.txt (informational only; not a factor in this REJECT)."
+  ],
+  "editor_notes": {
+    "content_quality": "The prose is well-structured (Overview / What We Know / What We Don't Know / Why It Matters) and, apart from the issue below, the writing is competent and mostly well-sourced.",
+    "source_verification": "All 9 manifest entries had file != null and matching sha256 (verified by re-hashing each decompressed .html.gz against the manifest's sha256 field: source-0 through source-8 all matched). No suspicious_patterns flagged in the manifest. Read and cross-checked every snapshot: source-0 bleepingcomputer.com (Archive.org fallback, live returned 200), source-1 thehackernews.com (CISA KEV/Aug 6 deadline/CVE-2025-8875 prior exploitation all confirmed), source-2 thehackernews.com (Finland NCSC advisory confirmed), source-3 helpnetsecurity.com (svchost.exe and 'Cloudflared' service IOCs confirmed), source-4 n-able.com blog (Archive.org fallback; hotfix 2026.3.1.7, 'a limited number of customers' quote, and the IP/impact narrative all confirmed verbatim -- BUT the Adlumin MDR detection quote is NOT present and is fabricated, see Findings), source-5 NVD CVE-2026-18577 (CVSS 8.1 / CWE-288 confirmed), source-6 NVD CVE-2026-18556 (CVSS 7.4 NVD / 8.2 vendor CVSS v4.0 confirmed), source-7 huntress.com (13.6%/28.6%/55.6% unpatched figures and all bracketed capability quotes confirmed near-verbatim, one trivial word-drop of 'are' in the 28.6% quote which would not independently warrant more than a correction), source-8 thenextweb.com (Cloudflare tunnel persistence framing confirmed).",
+    "factual_accuracy": "One fabricated quote: the article states N-able's Adlumin MDR service 'first caught the activity' and quotes N-able's blog as saying 'On July 31, 2026, N‑able's Adlumin MDR solution detected unusual activity within a customer's environment.' The actual source (n-able.com blog, Background section) says detection began as 'an increase in licensing issues for our on-premises N‑central customers' investigated by engineering and security teams -- no Adlumin, no MDR, no 'unusual activity' language anywhere in the incident narrative. This is a fabricated quote placed in the 'What We Know' section (not a subordinate aside), attributing the discovery to a named commercial product the source never mentions in that context. It is the same fabricated Adlumin/zero-day-detection narrative already caught and REJECTed in sibling submissions PR #2129 and PR #2131 on this same underlying CVE story -- this bot (or its research process) has now reproduced that same fabrication a third time on a third submission of the same event. All other checked facts (CVSS scores, patch percentages, IOCs, dates, capability quotes) verified correctly against sources.",
+    "tone_assessment": "Neutral and professional; no editorializing or sensationalism.",
+    "originality": "REJECT-level duplicate. PR #2128 (src/content/articles/2026-08/05-cisa-orders-federal-agencies-to-patch-actively-exploited-n-able-n-central-authentication-bypass.md) was reviewed, merged, and published earlier the same day (2026-08-05) and already covers this exact event: CISA's KEV addition of CVE-2026-18577 (incomplete patch for CVE-2026-18556), the August 6 FCEB deadline, the Take Control abuse and Cloudflare-tunnel persistence mechanism, the svchost.exe/'Cloudflared' IOCs, and Huntress's 13.6%/28.6% unpatched-server statistics. PR #2133 is the same story one cycle later, sharing four of nine sources with #2128 (thehackernews.com, huntress.com, n-able.com, nvd.nist.gov) and adding only incremental detail (Finland's NCSC advisory, a TheNextWeb citation) -- not a distinct angle that would justify separate coverage. This is also the third submission on this exact event after #2129 and #2131 were already rejected as duplicates with the same fabrication pattern.",
+    "human_requested": "false -- human_requested field in the submission is false, so the heightened human-request scrutiny checklist does not apply. Standard full source-verification was performed regardless per mandatory Step 3.",
+    "concerns": [
+      "Fabricated quote in 'What We Know' misattributing incident detection to Adlumin MDR; the actual source describes detection via a spike in licensing issues. This is the third time this exact fabrication has appeared across three submissions (#2129, #2131, #2133) covering the same CVE story, suggesting a systematic issue in this bot's source-grounding for this specific event rather than a one-off slip.",
+      "Full topical duplicate of already-published, already-approved article from PR #2128 covering the identical CVEs, KEV listing, deadline, and technical narrative, with no materially distinct angle."
+    ],
+    "recommendations": [
+      "Reject and close without merge. Do not permit a rewrite of this submission (no rewrite cycle under v3.9.0). If the bot pipeline continues generating fresh submissions on this same N-able/N-central event, consider flagging the topic as fully covered to stop further duplicate/fabricated submissions from being generated.",
+      "Separately from this review: the bot (or its underlying source-summarization step) appears to be hallucinating a specific 'Adlumin MDR detected unusual activity' narrative for this event across multiple independent submissions. Worth investigating upstream in the submission-generation pipeline since it recurred identically three times."
+    ],
+    "overall_assessment": "REJECT. A fabricated direct quote in the 'What We Know' section misattributes N-central's initial compromise detection to the Adlumin MDR product; the cited N-able blog source actually describes detection via a spike in licensing-issue reports, with no mention of Adlumin or 'unusual activity' in that context. This is not a single recoverable specific -- it invents an entire detection narrative and is the same fabrication already found and rejected twice on sibling submissions of this identical story. Independently, this submission also duplicates an already-published article (PR #2128, live on main) covering the same CVE-2026-18577/CVE-2026-18556 KEV listing with no new angle. Either issue alone would support REJECT; together they are conclusive."
+  }
+}
