@@ -1,0 +1,66 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-07T15-49-46Z_go-127-release-candidate-2-patches-symlink-and-tls.json",
+  "timestamp": "2026-08-07T16:11:41.085Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Go 1.27 Release Candidate 2 Patches Symlink and TLS Privacy Flaws While Adding Generic Methods",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "groups.google.com: https://groups.google.com/g/golang-announce/c/Cu9HkstbtpA\ngroups.google.com: https://groups.google.com/g/golang-announce/c/VsULGdWUvJM\npkg.go.dev: https://pkg.go.dev/vuln/GO-2026-4970\npkg.go.dev: https://pkg.go.dev/vuln/GO-2026-5856"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Go 1.27 Release Candidate 2 Patches Symlink and TLS Privacy Flaws While Adding Generic Methods",
+    "summary": "Go 1.27's second release candidate fixes an os.Root symlink escape and a crypto/tls Encrypted Client Hello privacy leak, alongside the language's first generic methods.",
+    "body_excerpt": "## Overview\n\nThe Go team shipped go1.27rc2, the second release candidate for Go 1.27, on July 7, 2026, bundling two security fixes with the language's first implementation of generic methods, according to the [golang-announce mailing list](https://groups.google.com/g/golang-announce/c/VsULGdWUvJM). The draft [Go 1.27 release notes](https://go.dev/doc/go1.27) state that \"Go 1.27 is not yet released. These are work-in-progress release notes. Go 1.27 is expected to be released in August 2026.\" The ...",
+    "word_count": 712,
+    "sources_count": 7
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-organized News piece (712 words, within the 400-1200 range) with clear section structure (Overview, Two Security Fixes, Generic Methods Arrive, Other Additions, What We Don't Know). Technical claims are precise and specific (CVE IDs, affected version ranges, code snippets, install commands) rather than vague.",
+    "source_verification": "All 7 source snapshots were read in full from the gzipped local snapshots (no live WebFetch needed; all 7 fetched with HTTP 200 and no suspicious_patterns). source-0.html.gz (go.dev/doc/go1.27, draft release notes): confirmed verbatim the 'not yet released... expected to be released in August 2026' line, the generic-methods description and interface-method limitation, and every 'Other Additions' claim (crypto/mldsa, encoding/json/v2 function names, uuid package, simd/GOEXPERIMENT=simd, goroutineleak profile, the <80-byte/~1%/30% allocation-performance figures, and the macOS 13 Ventura baseline) — all verbatim matches. source-1.html.gz (golang-announce, RC1, Jun 18 2026): confirmed the RC1 date and the verbatim 'try your production load tests and unit tests with the new version' quote, signed 'Dmitri and Cherry for the Go team' — article correctly attributes this signature only to the RC1 post, not RC2 (RC2 is separately signed 'Junyang and David', which the article does not misattribute). source-2.html.gz (golang-announce, RC2, Jul 7 2026, flagged [security]): confirmed the RC2 date, '2 security fixes' framing, the go1.27rc2 install command, and the underlying CVE narratives — but found two direct quotes in the article body that paraphrase this source rather than reproduce it verbatim (see Findings/concerns below). source-3.html.gz (GitHub issue #79005, CVE-2026-39822): confirmed the verbatim 'root.Open(\"symlink/\")...' example quote and the Mundur/M0nd0R credit. source-4.html.gz (GitHub issue #79282, CVE-2026-42505): confirmed the Coia Prant/rbqvq credit and the underlying ECH leak mechanism. source-5.html.gz (pkg.go.dev vuln GO-2026-4970): confirmed the quoted symlink-escape description (article's quote drops a duplicated 'the' typo present in the source's 'the a path' — a trivial, meaning-preserving grammar correction, not a fidelity concern) and the exact affected-version ranges (before go1.25.12 / go1.26.0-0 before go1.26.5 / go1.27.0-0 before go1.27.0-rc.2) and Mundur credit. source-6.html.gz (pkg.go.dev vuln GO-2026-5856): confirmed the ECH quote verbatim ('Handshakes which used Encrypted Client Hello could be de-anonymized by a passive network observer due to a disclosure of pre-shared key identities in the unencrypted client hello.') and the identical affected-version ranges and Coia Prant credit, verifying the article's claim that both vulnerabilities share the same three version ranges. The internal link to /article/2026-03/12-go-approves-generic-methods-after-years-of-resistance-targeting-go-127 resolves to an existing published article. No orphan sources: all 7 array URLs are cited in the body and vice versa (automated 'sources_referenced'/'body_sources_match' both passed).",
+    "factual_accuracy": "All specifics (CVE numbers, GitHub issue numbers, GO-vuln-DB IDs, affected-version ranges, dates, reporter credits, install commands, feature descriptions) trace correctly to their cited sources. Two issues found, both quote-fidelity rather than fact-fabrication: (1) the article quotes the golang-announce RC2 post as saying '\"openat(fd, path, O_NOFOLLOW) follows symlinks when the path ends in /, which the Root implementation failed to account for\"' — the source's actual (two-sentence) wording is 'On Unix, openat(fd, path, O_NOFOLLOW) will follow symlinks in path when path ends in a /. Root failed to account for this behavior, permitting paths with a trailing / to escape.' The article condenses and reworks this into a single sentence presented as a direct quote. (2) the article quotes the same post describing the ECH leak as '\"allowing network observers to de-anonymize the hostname of the server, even when ECH was being used\"' — the source's actual text is 'allowing a passive network observer who can collect handshakes to de-anonymize the hostname of the server, even when ECH was being used,' with 'a passive network observer who can collect handshakes' shortened to 'network observers.' In both cases the underlying facts (the technical cause, the privacy impact) are accurately conveyed — only the quotation-mark fidelity is off. Neither misquote appears in the headline, summary, or Overview lead paragraph; both are in the 'Two Security Fixes' body section. This is a narrow, single-source, meaning-preserving fidelity issue, not a fabrication and not a pattern spanning unrelated facts, so it is recoverable with a corrections note rather than requiring rejection.",
+    "tone_assessment": "Neutral, professional, technically precise throughout. No sensationalism, no editorializing, no AI self-reference. Appropriately hedges unresolved facts in the 'What We Don't Know' section.",
+    "originality": "Searched src/content/articles/2026-07 and 2026-08 for prior Go 1.27 RC coverage; found none. This is a genuinely new topic — no published article covers go1.27rc2 or these two CVEs. Related prior coverage exists (Go 1.26 GC and generic-methods-proposal articles) but this is a distinct, later news event (the generic-methods article is correctly cited as prior coverage via an internal link, not treated as this story).",
+    "allowlist_note": "The automated script's only structural finding was 'Sources not in allowlist' for groups.google.com (2 URLs) and pkg.go.dev (2 URLs). Having read all four snapshots, these are legitimate primary/official sources: groups.google.com/g/golang-announce is the Go project's own official security/release announcement list (matches go.dev's own referenced advisory links), and pkg.go.dev is the Go team's official package/vulnerability database (an extension of the already-allowlisted go.dev). Adding pkg.go.dev to config/source_allowlist.txt as a single-purpose official Go domain. Not blanket-allowlisting groups.google.com, since Google Groups hosts arbitrary third-party mailing lists of any quality and the allowlist matches on bare hostname, not path — future submissions citing other Google Groups threads should still be individually reviewed. This allowlist gap is a bookkeeping issue, not a factual problem for readers, so it is not itself grounds for a corrections-file entry.",
+    "human_requested_review": "Not applicable — human_requested is false for this submission.",
+    "concerns": [
+      "Two direct quotes in the 'Two Security Fixes' section paraphrase the golang-announce RC2 post rather than reproducing it verbatim, while presented inside quotation marks as exact quotes. Facts conveyed remain accurate; filing a corrections record."
+    ],
+    "recommendations": [
+      "Bot should copy quoted passages from source snapshots verbatim (or truncate with ellipses) rather than lightly paraphrasing text inside quotation marks.",
+      "Added pkg.go.dev to config/source_allowlist.txt as an official Go project domain."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced, neutral News piece on a genuinely new topic. Every specific (CVEs, version ranges, credits, feature descriptions) checks out against the source snapshots. Two quotation-mark passages paraphrase rather than exactly reproduce their source and warrant a public corrections note; nothing here touches the headline, summary, or lead, and no misinformation was introduced. Verdict: APPROVE_WITH_CORRECTIONS."
+  }
+}
