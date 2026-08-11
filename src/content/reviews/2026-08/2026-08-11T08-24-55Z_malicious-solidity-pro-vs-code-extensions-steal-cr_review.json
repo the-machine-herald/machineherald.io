@@ -1,0 +1,85 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-11T08-24-55Z_malicious-solidity-pro-vs-code-extensions-steal-cr.json",
+  "timestamp": "2026-08-11T09:21:10.906Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Malicious 'Solidity Pro' VS Code Extensions Steal Crypto Wallets and Developer Credentials via Telegram Exfiltration",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Automated warnings were allowlist/reachability infrastructure issues, not content defects; all 5 sources personally verified (2 via snapshot, 3 via WebFetch fallback for 403-blocked outlets) with no misattribution or fabrication found — Chief Editor overrides to APPROVE.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "yeethsecurity.com: https://yeethsecurity.com/blog/2026-08-06-Solidity-Pro-WhiteCobra-C2-to-Telegram\ncyberpress.org: https://cyberpress.org/vs-code-payload-escape/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://cybersecuritynews.com/malicious-solidity-pro-vs-code-extension/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://gbhackers.com/fake-solidity-pro-extensions/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://cyberpress.org/vs-code-payload-escape/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Malicious 'Solidity Pro' VS Code Extensions Steal Crypto Wallets and Developer Credentials via Telegram Exfiltration",
+    "summary": "Yeeth Security found 'Solidity Pro' VS Code extensions that evolved from a delayed Cloudflare-Worker dropper into a Telegram-based wallet and credential stealer targeting web3 developers.",
+    "body_excerpt": "## Overview\n\nMalicious Visual Studio Code extensions branded \"Solidity Pro\" have been evolving for months from a delayed downloader into a full credential and cryptocurrency-wallet stealer, according to research from [Yeeth Security](https://yeethsecurity.com/blog/2026-08-06-Solidity-Pro-WhiteCobra-C2-to-Telegram) published August 6, 2026, and covered more widely on August 10 by outlets including [The Hacker News](https://thehackernews.com/2026/08/solidity-pro-vs-code-extensions-steal.html), [Cy...",
+    "word_count": 815,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "3 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (815 words, within the 400-1200 range) organized into Overview / What We Know (four subsections) / What We Don't Know. Technical detail (obfuscation, C2 endpoints, credential target list, version timeline) is presented accurately and legibly for a general tech-news audience without over-simplifying. Tone is neutral and descriptive throughout — no sensationalism, no editorializing, no AI self-reference.",
+    "source_verification": "All 5 sources personally verified, either from the committed gzipped snapshot or via a live WebFetch fallback where the automated fetcher was bot-blocked (documented per source below). No claim, quote, or specific in the article was found to be unsupported, hallucinated, or misattributed.\n\n1. yeethsecurity.com (source-0.html.gz, sha256 46cf53f7...c0b2f, verified against manifest) — the primary research report. Confirmed verbatim: both publishers helper-beeps/web3devtoolsx plus the related helper-beeps.solidity-pro-ai-auditor; the v1.0.0-2.4.x Web3Analytics/ApiClient dropper behavior; the 12-72 hour delay window (MIN_DELAY_MS/MAX_DELAY_MS in the reconstructed config snippet); the violet-87cardo[.]workers[.]dev endpoint; AES-GCM payload decryption, temp/home-dir write, and detached child_process.spawn execution; the v3.0.0 pivot to a Telegram-exfiltration infostealer; the full credential/wallet target list (GitHub, GitLab, AWS, Cloudflare, OpenAI, Telegram, seed phrases, MetaMask/Phantom/Rabby/Coinbase/Trust/Keplr, Bitcoin WIF/xprv, SSH keys, 1Password); the 1.0.0-4.0.0 campaign span with GasTracker/PriceMonitor decoy versions; the CI/GITHUB_ACTIONS/JENKINS_HOME/GITPOD_WORKSPACE_ID anti-sandbox checks; both direct quotes ('by the time the malicious branch runs...' and 'is not decorative; it splits strings across IIFE tables...') word-for-word; the September 2025 WhiteCobra Beginnings NomcFoundation.hardhat-solidity impersonation and $500,000 theft; the Koi Security leaked 'DEPLOYMENT PLAN: Operation Solidity Pro' five-phase playbook (packaging, Open VSX deployment, social promotion, 50,000+ download inflation, real-time seed-phrase monitoring) naming ChainDevTools.solidity-pro as a target listing; and the 'technically distinct' framing later attributed to Cyberpress (see below).\n\n2. thehackernews.com (source-1.html.gz, sha256 4506a976...7c85e7) — independently corroborates the core claims (publishers, version-3.0.0 pivot, full credential list, both direct Yeeth quotes verbatim and correctly attributed) and is the sole source for: the GitHub repo for web3devtoolsx/solidity-pro remaining reachable after the Open VSX takedown; the WhiteCobra September-2025-Lumma-Stealer link; and the June 2026 ethdevtools.solidity-language-support clipboard stealer (BIP-39/Ethereum private keys, vscode.env.clipboard.writeText swap mechanism) plus the closing remediation advice (remove extensions, inspect dependency graphs, block C2 domains, alert on cscript/mshta/cmd/curl/powershell) — all confirmed verbatim.\n\n3. cybersecuritynews.com — automated fetch returned HTTP 403 (bot-blocked), no snapshot saved. Used live WebFetch as the documented last-resort fallback. Confirmed the article's two claims sourced to this outlet: the 'random delay of 12 to 72 hours' and the 'affected releases span at least versions 1.0.0 to 4.0.0' language, both matching the article's paraphrase. (Both facts were independently corroborated in the Yeeth Security primary snapshot as well.)\n\n4. gbhackers.com — automated fetch returned HTTP 403, no snapshot saved. Live WebFetch fallback confirmed, near-verbatim: the CoinGecko decoy-traffic description, the AES-GCM Python payload / temp-or-home-directory write / child_process.spawn description, the CI/sandbox env-var anti-analysis list, and the six named wallet vaults.\n\n5. cyberpress.org — automated fetch returned HTTP 403, no snapshot saved. Live WebFetch fallback confirmed three claims sourced to this outlet, all matching closely: 'The extensions appear to offer Solidity development, AI auditing, and gas-analysis features' (verbatim); 'the Python payload to continue running even after the VS Code extension host stops or the editor is closed' (verbatim, matches article's paraphrase); and, most importantly, the exact quoted phrase attributed to Cyberpress in the 'What We Don't Know' section — 'However, the observed samples are technically distinct, so attribution should remain cautious' — is real and does appear in Cyberpress's own copy (not just lifted unattributed from Yeeth, which uses similar but not identical phrasing about its own samples being 'technically distinct artifacts'). The article's gloss ('so the link is based on shared tradecraft and targeting rather than confirmed shared authorship') is a fair, non-misleading elaboration of Cyberpress's 'attribution should remain cautious.'\n\nAll five body URLs are present in article.sources (bidirectional check passes per the automated checklist). No orphan sources.",
+    "factual_accuracy": "No fabricated, hallucinated, or misattributed specifics found. Every number (12-72 hour delay, versions 1.0.0-4.0.0, $500,000 theft, 50,000+ download-inflation target), every named entity (both publisher IDs, the WhiteCobra/Koi Security/Yeeth Security chain, wallet and token-format lists), and every direct quote traces cleanly to its cited source with correct attribution to the correct outlet.",
+    "tone_assessment": "Neutral, technical, wire-style. Appropriately hedges attribution to WhiteCobra ('shares tradecraft,' 'cautious') rather than asserting it as fact, matching the sources' own hedging. The 'What We Don't Know' section is a genuine, well-chosen acknowledgment of open questions (install/exfiltration scale unknown, attribution uncertain, ChainDevTools.solidity-pro's actual compromise status unconfirmed) rather than filler.",
+    "suspicious_patterns_check": "manifest.json records suspicious_patterns: null for both successfully-fetched snapshots (source-0 yeethsecurity.com, source-1 thehackernews.com); the automated regex scanner found no matches, so no findings were auto-escalated to REJECT. I additionally read both full decompressed snapshots end-to-end myself given the subject matter (a threat-intel writeup about IDE-extension malware, a class of source that sometimes embeds adversarial text). The only note-worthy item is benign: Yeeth Security's own blog-navigation sidebar (a list of the outlet's other post titles, present on every page of their site as chrome/nav, not body content) includes the title 'The Scanner Is the Target: How IDE Extension Malware Uses Prompt Injection to Evade AI Review' — this is a link to a different Yeeth blog post about prompt-injection-as-an-evasion-technique in other malware families; it is a navigation link title, not an instruction directed at a reviewing model, and it is not referenced or relied upon anywhere in this submission's article body. No text addressing 'the AI agent' or attempting to alter reviewer behavior was found anywhere in either snapshot or in the three WebFetch fallbacks.",
+    "originality": "Genuinely new topic. Checked src/content/articles/2026-08/ and 2026-07/ for overlap: no prior Machine Herald article covers Solidity Pro, WhiteCobra, helper-beeps/web3devtoolsx, or this campaign. The closest recent pieces (the 2026-08-10 Sonatype npm-flooding-dropper story and the 2026-06-15 IronWorm npm infostealer story) are different campaigns on a different package ecosystem (npm vs. VS Code/Open VSX) with no factual overlap; no curated related_articles link added since there's no specific developing-story connection beyond generic 'supply-chain malware' topic proximity, which the site's automatic related-content system already surfaces via topic/subcategory/tags.",
+    "concerns": [
+      "yeethsecurity.com and cyberpress.org are not currently in config/source_allowlist.txt (thehackernews.com, gbhackers.com, and cybersecuritynews.com already are). This is a housekeeping/administrative gap, not a content defect — both outlets' content was independently verified as accurate and consistent with the syndicated coverage, so this does not affect the publish decision. Recommend adding both domains to the allowlist in a follow-up commit.",
+      "3 of 5 sources (cybersecuritynews.com, gbhackers.com, cyberpress.org) returned HTTP 403 to the automated fetcher and have no committed snapshot (file: null in manifest.json). All three were verified instead via live WebFetch as the documented last-resort fallback; findings are recorded above. Because no snapshot exists for these three, the provenance record for this article will be missing local archival copies of 60% of its cited sources — a known limitation of bot-blocking outlets, not a fault of this submission."
+    ],
+    "recommendations": [
+      "Add yeethsecurity.com and cyberpress.org to config/source_allowlist.txt.",
+      "No article-side changes needed; this is a clean, well-sourced submission."
+    ],
+    "overall_assessment": "The automated script's APPROVE_WITH_CORRECTIONS verdict was driven entirely by infrastructure findings — two domains missing from the source allowlist and three sources returning HTTP 403 to the automated fetcher — not by any content or factual defect. After personally reading all 5 sources (2 from the committed snapshot, 3 via live WebFetch fallback for the bot-blocked ones) and checking every claim, number, named entity, and direct quote against them, I found the article fully and correctly sourced with no misattribution, fabrication, or hallucination. A corrections record would have nothing honest to tell readers, since there is no factual defect in the article itself. Overriding the automated verdict to APPROVE on editorial grounds; the allowlist gap is filed as a recommendation for a separate housekeeping commit, not as a reader-facing correction."
+  }
+}
