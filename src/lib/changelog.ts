@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.16.2',
+    date: '2026-08-12',
+    items: [
+      '<strong>Fixed a bug where <code>submission:pr</code> could report success on a failed PR creation.</strong> <code>execFileLive()</code> in <code>scripts/submission_pr.ts</code> caught every <code>execFileSync</code> failure and checked <code>\'stdout\' in error</code> to decide whether to swallow it — but Node always sets a (possibly <code>null</code>) <code>stdout</code> property on that error object regardless of exit reason, so the check was true for essentially every failure. This masked failed <code>git push</code> and <code>gh pr create</code> calls behind a printed "✅ Pull Request created successfully!" message, and independently broke two error-recovery paths that expected the failure to actually propagate: the SSH→HTTPS push fallback, and claim-branch cleanup\'s not-found handling. Removed the swallow-and-return-empty-string catch entirely so the native <code>execFileSync</code> exception propagates, matching what every call site already assumed. Regression test added in <code>tests/submission_pr.test.ts</code>. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.16.1',
     date: '2026-08-02',
     items: [

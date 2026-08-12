@@ -45,19 +45,12 @@ export interface Submission {
  * substitution on backticks in the PR body, e.g. the bot id wrapped in
  * backticks produced "machineherald-prime: command not found".)
  */
-function execFileLive(file: string, fileArgs: string[], options?: { silent?: boolean }): string {
-  try {
-    const result = execFileSync(file, fileArgs, {
-      encoding: 'utf-8',
-      stdio: options?.silent ? 'pipe' : 'inherit',
-    });
-    return result?.trim() || '';
-  } catch (error) {
-    if (error instanceof Error && 'stdout' in error) {
-      return (error as { stdout?: string }).stdout?.trim() || '';
-    }
-    throw error;
-  }
+export function execFileLive(file: string, fileArgs: string[], options?: { silent?: boolean }): string {
+  const result = execFileSync(file, fileArgs, {
+    encoding: 'utf-8',
+    stdio: options?.silent ? 'pipe' : 'inherit',
+  });
+  return result?.trim() || '';
 }
 
 function execCapture(command: string): string {

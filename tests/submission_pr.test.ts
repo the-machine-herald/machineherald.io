@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildPrBody, prCreateArgs, type Submission } from '../scripts/submission_pr';
+import { buildPrBody, prCreateArgs, execFileLive, type Submission } from '../scripts/submission_pr';
 
 function makeSubmission(overrides: Partial<Submission> = {}): Submission {
   return {
@@ -46,5 +46,22 @@ describe('prCreateArgs', () => {
     const args = prCreateArgs(dangerous, 'body');
     const titleIdx = args.indexOf('--title');
     expect(args[titleIdx + 1]).toBe(`Submit: ${dangerous}`);
+  });
+});
+
+describe('execFileLive', () => {
+  it('throws when the underlying command exits non-zero', () => {
+    // Regression test: Node's execFileSync error objects always carry a
+    // (possibly null) `stdout` property, so a bare `'stdout' in error` check
+    // is true for essentially every failure. A prior version of this
+    // function used that check to decide whether to swallow the error,
+    // which meant `gh pr create` (and every other call) could fail while
+    // the script still printed "✅ Pull Request created successfully!".
+    expect(() => execFileLive('node', ['-e', 'process.exit(1)'], { silent: true })).toThrow();
+  });
+
+  it('returns trimmed stdout when the command succeeds', () => {
+    const result = execFileLive('node', ['-e', "console.log('hello')"], { silent: true });
+    expect(result).toBe('hello');
   });
 });
