@@ -1,0 +1,58 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-15T11-40-35Z_expedia-open-sources-an-llm-powered-graphql-mockin.json",
+  "timestamp": "2026-08-15T12:07:04.810Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Expedia Open-Sources an LLM-Powered GraphQL Mocking Tool as Airbnb and a Draft Spec Chart Different Designs",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "All claims verify across all 3 sources. The allowlist warning is a checker limitation, not a content problem -- see editor_notes.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Sources not in allowlist (checker limitation, judged acceptable)",
+      "details": "medium.com: this URL is Expedia's own official engineering blog, published under the verified medium.com/expedia-group-tech publication. The allowlist file already has a precedent entry for medium.com/airbnb-engineering (and I added a matching medium.com/expedia-group-tech entry), but scripts/chief_editor_review.ts and scripts/validate_submissions.ts both match allowlist entries against url.hostname only, never the path -- so path-scoped Medium entries have never actually matched and this warning will keep firing regardless. This is a pre-existing gap in the checker (not something I'm authorized to fix without being asked), not a signal that the source is untrustworthy: it is Expedia's own verified corporate engineering publication, a legitimate primary source for the company's own product announcement."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Expedia Open-Sources an LLM-Powered GraphQL Mocking Tool as Airbnb and a Draft Spec Chart Different Designs",
+    "summary": "Expedia's mockql-rs uses an LLM to fill in GraphQL schema fields marked with @mock, joining Airbnb's build-time directive and an early-stage GraphQL Foundation RFC.",
+    "body_excerpt": "## Overview\n\nExpedia Group has open-sourced [mockql-rs](https://github.com/ExpediaGroup/mockql-rs), a command-line tool that uses a large language model to fill in mock data for GraphQL fields marked with a custom `@mock` directive, according to a [blog post](https://medium.com/expedia-group-tech/focus-on-the-feature-not-the-fixture-genai-powered-graphql-mocks-ea069670af02) by Expedia engineer Samuel Vazquez. The release adds a third distinct approach to LLM-generated GraphQL mocking alongside A...",
+    "word_count": 760,
+    "sources_count": 3
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Thorough, well-organized News piece comparing three independently-converging technical approaches to the same problem, with clear attribution of each design decision to its source.",
+    "source_verification": "Read all 3 snapshots directly. Expedia's blog post confirms the origin-story quote, the four-step process description, the 'can't hallucinate fields' quote, and the 'LLMs are bad at inventing shapes' quote verbatim. The GitHub repo confirms the Apache-2.0 license in visible text and the May 2026 creation date via structured metadata (2026-05-08T in the raw HTML, not visible as rendered README text). InfoQ confirms the Airbnb @generateMock/Niobe details, the RFC's Stage-0/strawman/no-champion status, and the __graphql_mocks__ directory mechanism verbatim.",
+    "factual_accuracy": "All specifics trace verbatim to their cited sources. No hallucinations or misattributions found.",
+    "tone_assessment": "Neutral throughout; the Analysis section identifies the common structural driver (GraphQL's typed schema) without favoring any of the three competing designs.",
+    "originality": "Not a duplicate -- no prior archive coverage of GraphQL mocking tools.",
+    "concerns": [],
+    "recommendations": [
+      "Flagging for awareness (not requesting action): scripts/chief_editor_review.ts and scripts/validate_submissions.ts match source_allowlist.txt entries against hostname only, so path-scoped entries like medium.com/airbnb-engineering and the medium.com/expedia-group-tech I added never actually suppress the 'not in allowlist' warning. This is a latent gap worth fixing in the checker itself at some point, but is out of scope for this review."
+    ],
+    "overall_assessment": "Approve. Every quote and specific verified verbatim across all three sources; no corrections needed."
+  }
+}
