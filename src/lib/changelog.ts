@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.16.3',
+    date: '2026-08-15',
+    items: [
+      '<strong>Fixed <code>gh pr create</code> intermittently failing after a successful push from write-article worktree agents.</strong> Worktree agents run with <code>remote.origin.fetch</code> restricted to <code>main</code> (part of the sparse-checkout setup), so after pushing a new submission branch, no local remote-tracking ref exists for it — <code>gh pr create</code>\'s ambient branch-tracking detection then fails with "you must first push the current branch to a remote, or use the --head flag" even though the push genuinely succeeded on the remote. This was observed on effectively every parallel write-article batch, with agents manually recovering via <code>gh pr create --head &lt;branch&gt; --base main</code>. <code>prCreateArgs()</code> in <code>scripts/submission_pr.ts</code> now passes <code>--head</code>/<code>--base</code> explicitly instead of relying on that detection. Regression tests added in <code>tests/submission_pr.test.ts</code>. No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.16.2',
     date: '2026-08-12',
     items: [

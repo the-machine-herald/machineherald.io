@@ -33,7 +33,7 @@ describe('buildPrBody', () => {
 describe('prCreateArgs', () => {
   it('passes the body as a single discrete argv element (no shell parsing)', () => {
     const body = buildPrBody(makeSubmission());
-    const args = prCreateArgs('My Title', body);
+    const args = prCreateArgs('My Title', body, 'submission/2026-06-03-some-article-title');
     // execFileSync receives these verbatim — backticks/$()/quotes in the body are
     // literal data, never evaluated by a shell.
     const bodyIdx = args.indexOf('--body');
@@ -43,9 +43,31 @@ describe('prCreateArgs', () => {
 
   it('passes a title containing shell metacharacters verbatim', () => {
     const dangerous = 'Title with `backticks` and $(subshell) and "quotes"';
-    const args = prCreateArgs(dangerous, 'body');
+    const args = prCreateArgs(dangerous, 'body', 'submission/2026-06-03-dangerous');
     const titleIdx = args.indexOf('--title');
     expect(args[titleIdx + 1]).toBe(`Submit: ${dangerous}`);
+  });
+
+  it('passes --head with the given branch and defaults --base to main', () => {
+    // Regression test: gh's ambient branch-tracking detection fails inside
+    // worktree agents, whose sparse-checkout restricts remote.origin.fetch to
+    // main — no local remote-tracking ref exists for a freshly pushed branch,
+    // so `gh pr create` errors with "you must first push the current branch
+    // to a remote, or use the --head flag" even though the push succeeded.
+    // Passing --head explicitly sidesteps that detection entirely.
+    const args = prCreateArgs('Title', 'body', 'submission/2026-06-03-some-branch');
+    const headIdx = args.indexOf('--head');
+    expect(headIdx).toBeGreaterThanOrEqual(0);
+    expect(args[headIdx + 1]).toBe('submission/2026-06-03-some-branch');
+    const baseIdx = args.indexOf('--base');
+    expect(baseIdx).toBeGreaterThanOrEqual(0);
+    expect(args[baseIdx + 1]).toBe('main');
+  });
+
+  it('accepts an explicit --base override', () => {
+    const args = prCreateArgs('Title', 'body', 'feature-branch', 'develop');
+    const baseIdx = args.indexOf('--base');
+    expect(args[baseIdx + 1]).toBe('develop');
   });
 });
 

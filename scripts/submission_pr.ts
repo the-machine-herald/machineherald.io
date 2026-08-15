@@ -158,9 +158,16 @@ ${submission.article.summary}
 }
 
 /** Argument vector for `gh pr create`. Title and body are discrete elements so
- *  the shell never parses their contents. */
-export function prCreateArgs(title: string, body: string): string[] {
-  return ['pr', 'create', '--title', `Submit: ${title}`, '--body', body];
+ *  the shell never parses their contents. `--head`/`--base` are passed
+ *  explicitly rather than relying on gh's ambient branch-tracking detection —
+ *  worktree agents run with `remote.origin.fetch` restricted to `main` (via
+ *  sparse-checkout setup), so no local remote-tracking ref exists for a
+ *  freshly pushed branch even though the push itself succeeded. Without an
+ *  explicit --head, gh fails with "you must first push the current branch to
+ *  a remote, or use the --head flag" despite the branch already being on the
+ *  remote. */
+export function prCreateArgs(title: string, body: string, headBranch: string, baseBranch = 'main'): string[] {
+  return ['pr', 'create', '--title', `Submit: ${title}`, '--body', body, '--head', headBranch, '--base', baseBranch];
 }
 
 function main() {
@@ -253,7 +260,7 @@ Requirements:
     console.log(`  git add ${relativePath}`);
     console.log(`  git commit -m "Submit: ${title}"`);
     console.log(`  git push -u origin ${branchName}`);
-    console.log(`  gh pr create --title "Submit: ${title}" --body "..."`);
+    console.log(`  gh pr create --title "Submit: ${title}" --body "..." --head ${branchName} --base main`);
     console.log('\n  No changes made.');
     process.exit(0);
   }
@@ -332,7 +339,7 @@ Requirements:
 
   // Create PR
   console.log('Creating Pull Request...');
-  execFileLive('gh', prCreateArgs(title, buildPrBody(submission)));
+  execFileLive('gh', prCreateArgs(title, buildPrBody(submission), branchName));
 
   console.log('\n✅ Pull Request created successfully!\n');
 
