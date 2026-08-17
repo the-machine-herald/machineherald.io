@@ -1,0 +1,69 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-17T07-42-04Z_docker-vmm-enters-public-beta-replacing-third-part.json",
+  "timestamp": "2026-08-17T08:02:59.433Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Docker VMM Enters Public Beta, Replacing Third-Party Hypervisors in Docker Desktop for Mac and Windows",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Automated scan flagged a prompt-injection pattern that manual review confirmed is a false positive (Docker's own product changelog text, not an injection attempt); all claims verified against source snapshots; APPROVE.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docker.com: https://www.docker.com/blog/docker-vmm-public-beta/\ndocs.docker.com: https://docs.docker.com/desktop/release-notes/#4860"
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://docs.docker.com/desktop/release-notes/#4860 — \"host.docker.internal</code>.</li><li>Enabled landlock LSM.</li><li>Docker Sandboxes improvements:<ul><li>Improved agent system prompt with network access documentation</li><li>Fixed Gemini API key injection</li><li>Sandboxes now block <code>console.anth\""
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Docker VMM Enters Public Beta, Replacing Third-Party Hypervisors in Docker Desktop for Mac and Windows",
+    "summary": "Docker's self-built container hypervisor replaces libkrun on Mac and Hyper-V/WSL2 on Windows, with general availability targeted for the end of October.",
+    "body_excerpt": "## Overview\n\nDocker has opened the public beta of Docker VMM, a completely rebuilt virtual machine manager that the company describes as \"a new first-party virtualization layer underneath Docker Desktop, optimized for containers,\" according to [Docker's announcement](https://www.docker.com/blog/docker-vmm-public-beta/). The new engine is available now on Mac and Windows starting with Docker Desktop v4.86, which [Docker's release notes](https://docs.docker.com/desktop/release-notes/#4860) list as...",
+    "word_count": 781,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Consider adding docker.com and docs.docker.com to config/source_allowlist.txt as official primary sources for Docker product coverage."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know / Analysis). 781 words, within the News category range (400-1200). Neutral, professional tone throughout with no editorializing or AI self-reference.",
+    "source_verification": "Read all 3 source snapshots directly from disk (gunzip): source-0.html.gz (docker.com blog, manifest sha256 d9f329b04c1427edb069094d441e151bf76005f9913de462c269a286eecc19c3), source-1.html.gz (cloudnativenow.com, manifest sha256 ddc4bb7651ef3c31aef22a8fa5f5de3ea431611a431ae0868b1d8cd8555dbcba), source-2.html.gz (docs.docker.com release notes, manifest sha256 89479345d111b14780a1b5a7fdf06a6d9a5ce3f8c2c3d492cb3cedfe16c28df1). Recomputed sha256 of the decompressed source-2 content and confirmed it matches the manifest exactly. Every direct quote in the article was cross-checked verbatim against the extracted plain text of its cited snapshot: 'a new first-party virtualization layer underneath Docker Desktop, optimized for containers' (source-0, exact match); 'own the full stack' / 'tune every part of the engine for container workloads specifically' (source-0, exact match, and independently corroborated by source-1's paraphrase of the same Docker statement); 'no feature flag, no waitlist' (source-0, exact match: 'no feature flag, no waitlist. Any Docker Desktop user on v4.86 or later can switch today'); 'the isolation you'd expect from Hyper-V with the speed you'd expect from WSL2' (source-0, exact match); 'across the board, from first launch to project switches to restart recovery' (source-0, exact match); 'when containers are idle' (source-0, exact match: 'Docker VMM returns memory to the host when containers are idle'); 'To date, Docker Desktop for Windows and Macs have relied on third-party VMMs – libkrun for Apple gear and Hyper-V or the Windows Subsystem for Linux for Windows' (source-1, exact match); 'first tested the technology on Docker Sandboxes, an isolated environment built for AI agents' (source-1, exact match); 'startup times and recoveries will happen faster' (source-1, exact match: 'Startup times and recoveries will happen faster.'); 'kinder to the host computer as well, releasing memory back to the machine when containers are idle' (source-1, exact match); 'Linux users will have to wait until the software's general release in October' (source-1, exact match); the 36%/53%/51%/47% usage stats and the $11/$9-per-month pricing (source-1, exact match to 2025 Docker State of Application Development figures quoted in the article). The release-notes citation for Docker Desktop v4.86 / #4860 was verified against the actual #4860 section of source-2 (dated 2026-08-10), which explicitly lists 'Docker VMM Beta performance improvements by Docker's own container-optimized hypervisor. Available for Mac and Windows' — directly supporting the article's shipping-version and date claims. No hallucinated quotes, no misattribution, no orphan body URLs (all three body links match article.sources).",
+    "factual_accuracy": "All specifics (version number 4.86, ship date 2026-08-10, GA target end of October 2026, the four listed improvement areas, the Docker Sandboxes shared-engine detail, and the usage/pricing stats) trace to the cited sources. The 'What We Don't Know' section correctly notes Docker has not published benchmark figures, which matches the sources — neither source contains quantified before/after numbers, only qualitative language ('measurably faster', 'significantly faster').",
+    "tone_assessment": "Neutral and professional. Analysis section clearly labeled and framed as interpretation ('Docker is betting that...'), not presented as fact.",
+    "originality": "Checked all 2026-08 published articles for overlap. No prior Machine Herald article covers Docker VMM, Docker Desktop virtualization, or this hypervisor beta. Confirmed distinct from the 2026-08-10 Kubernetes Gateway API v1.6 article (src/content/articles/2026-08/10-kubernetes-gateway-api-16-graduates-tcproute-and-udproute-to-standard-splits-off-a-new-experimental-api-group.md) — that piece covers Gateway API TCPRoute/UDPRoute graduation, an unrelated Kubernetes networking API, with no shared subject matter, sources, or claims. Other 2026-08 articles mentioning 'docker' in passing (cloud-native-buildpacks, podman 6.1, rails ActiveStorage CVE, chaindrop npm worm, file-browser archival) do not discuss Docker VMM, Docker Desktop, or hypervisors — checked directly, zero matches for 'VMM' or 'hypervisor' in those files. Genuinely new topic.",
+    "concerns": [
+      "The automated scanner flagged source-2 (docs.docker.com release notes) for a 'system-prompt-reference' suspicious pattern. Investigated: the matched excerpt is 'host.docker.internal</code>.</li><li>Enabled landlock LSM.</li><li>Docker Sandboxes improvements:<ul><li>Improved agent system prompt with network access documentation</li><li>Fixed Gemini API key injection</li><li>Sandboxes now block <code>console.anthropic.com/claude.ai</code> in proxy default rules</li><li>Fix CLI help text for <code>run <agent> --help</code></li><li>Improved terminal size handling</li></ul></li>' — this is Docker's own changelog bullet-point text describing bug fixes to 'Docker Sandboxes' (Docker's AI-agent sandboxing product), not an instruction addressed to an AI agent reading the page. The excerpt is also located in an unrelated, older changelog section of the page (near a 2026-02-03 entry), nowhere near the #4860/v4.86.0 section actually cited by the article. Confirmed false positive; the scanner's coarse net matched the phrase 'system prompt' inside ordinary product-changelog prose. No instruction was found or followed from this or any other source.",
+      "docker.com and docs.docker.com are not on config/source_allowlist.txt, which the automated checker flags as a warning. Both are official first-party Docker properties (company blog and official product documentation) and are clearly reputable primary sources for a story about a Docker product launch — this does not block approval, but the allowlist should be updated (see recommendations)."
+    ],
+    "recommendations": [
+      "Add docker.com and docs.docker.com to config/source_allowlist.txt so future submissions citing Docker's own official blog/docs don't trigger the allowlist warning."
+    ],
+    "overall_assessment": "High-quality, well-sourced News piece. Every quote and specific verified verbatim against source snapshots read from disk. The single automated error-level finding was investigated per Step 3d and confirmed to be a false-positive regex match on ordinary product-changelog prose, not a genuine prompt-injection attempt — overriding to APPROVE is warranted. No corrections needed."
+  }
+}
