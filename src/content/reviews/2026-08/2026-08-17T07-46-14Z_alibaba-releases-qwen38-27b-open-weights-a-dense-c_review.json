@@ -1,0 +1,75 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-17T07-46-14Z_alibaba-releases-qwen38-27b-open-weights-a-dense-c.json",
+  "timestamp": "2026-08-17T08:39:57.166Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Alibaba Releases Qwen3.8-27B Open Weights, a Dense Coding Model That Beats Claude Opus 4.6 Max on Two Benchmarks",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Chief Editor override: auto-REJECT trigger was a false-positive prompt-injection match (Qwen tool-calling chat template boilerplate, not directed at the reviewing agent). Headline benchmark comparison verified verbatim against the source. One subordinate body claim about besting Qwen3.7-Plus \"across all four tests\" is factually wrong on one of the four (GPQA Diamond) — filed as a correction.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (conceal-from-user) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://huggingface.co/Qwen/Qwen3.8-27B — \"t NOT after\\\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\\\n&lt;/IMPORTANT>' }}\\n {%- if messages[0].role == 'system' %}\\n {%- set content = rende\""
+    },
+    {
+      "category": "Editorial Override",
+      "severity": "info",
+      "message": "Auto-REJECT trigger (conceal-from-user pattern) manually verified and determined to be a false positive.",
+      "details": "Opened sources/2026-08/alibaba-releases-qwen38-27b-open-weights-a-dense-coding-model-that-beats-claude-opus-46-max-on-two-benchmarks/source-0.html.gz (sha256 e1e5eaa6c395997df73541048868788bd2b0748ff3166fb58d67f918227806a7, matches manifest) and located the flagged excerpt in full context. It is part of the Qwen3.8-27B tokenizer's chat_template Jinja source, rendered inline on the Hugging Face model card page, that instructs the *deployed model itself* how to format tool calls: literal text '<tool_call>\\n<function=example_function_name>...<IMPORTANT>\\nReminder:\\n- Function calls MUST follow the specified format...- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\n</IMPORTANT>'. This is standard Qwen tool-use chat-template boilerplate describing runtime behavior for downstream deployments of the model — it is not an instruction addressed to, or capable of manipulating, the reviewing AI agent. No other suspicious_patterns entries were present for either source. Overriding the auto-REJECT accordingly."
+    },
+    {
+      "category": "Factual Accuracy",
+      "severity": "warning",
+      "message": "Body claim that Qwen3.8-27B outscores Qwen3.7-Plus 'across all four tests' is incorrect for one of the four.",
+      "details": "Article text: 'The model card also shows Qwen3.8-27B improving on its predecessors across all four tests, outscoring both Qwen3.6-27B and the closed-weight Qwen3.7-Plus.' Parsed the full benchmark table from source-0.html.gz: on GPQA Diamond, Qwen3.7-Plus scores 90.3 versus Qwen3.8-27B's 89.2 — Qwen3.7-Plus is actually ahead. Qwen3.8-27B does lead Qwen3.6-27B on all four tests (Terminal Bench 2.1: 73.0 vs 63.4; SWE-bench Pro: 61.7 vs 53.5; GPQA Diamond: 89.2 vs 87.8; LiveCodeBench v6: 90.3 vs 83.9) and leads Qwen3.7-Plus on three of four (Terminal Bench 2.1: 73.0 vs 64.0; SWE-bench Pro: 61.7 vs 57.6; LiveCodeBench v6: 90.3 vs 89.6), but not on GPQA Diamond. This is a subordinate body claim, not part of the headline/summary/lead (which concerns the Opus 4.6 Max comparison and is independently verified accurate). Filed as a corrections record rather than a rejection."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Alibaba Releases Qwen3.8-27B Open Weights, a Dense Coding Model That Beats Claude Opus 4.6 Max on Two Benchmarks",
+    "summary": "Alibaba's Qwen team shipped Qwen3.8-27B as Apache 2.0 open weights, the on-premise checkpoint promised alongside Qwen3.8-Max, with coding benchmarks that top Claude Opus 4.6 Max on two of four tests.",
+    "body_excerpt": "## Overview\n\nAlibaba's Qwen team released Qwen3.8-27B as open weights on Hugging Face on August 16, 2026, according to [heise online](https://www.heise.de/en/news/Trying-out-local-AI-This-is-what-Qwen3-8-27B-can-do-11415348.html). The 27-billion-parameter dense model is the smaller, on-premise-oriented checkpoint that Alibaba had signaled would follow its flagship [Qwen3.8-Max release](/article/2026-08/07-alibaba-unveils-qwen38-max-a-24-trillion-parameter-model-marking-a-return-to-open-weight-fl...",
+    "word_count": 556,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Close the PR without merging. The work is discarded under the v3.9.0 workflow."
+  ],
+  "editor_notes": {
+    "content_quality": "Clean News-category structure (Overview / What We Know / What We Don't Know / Background), 556 words, within the 400-1200 range. Neutral, non-sensational tone despite a comparative headline. Appropriately hedges the self-reported benchmark figures in 'What We Don't Know.'",
+    "source_verification": "Read both source snapshots in full from disk after verifying sha256 integrity against the manifest (source-0.html.gz e1e5eaa6c395997df73541048868788bd2b0748ff3166fb58d67f918227806a7 for huggingface.co/Qwen/Qwen3.8-27B; source-1.html.gz b65e6c6defcc54b677bdcc5214d77ac5f7bd32214b5b134b3c5dfc2f3e7a24a4 for heise.de). No WebFetch fallback was needed — both snapshots returned 200 and were complete. huggingface.co/Qwen/Qwen3.8-27B: confirmed Apache 2.0 license (cardData.license: apache-2.0), native/extensible context length '262,144 natively and extensible up to 1,000,000 tokens' verbatim, the quoted phrase 'delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks' verbatim, the reasoning-effort quote 'for complex tasks demanding thorough analysis' verbatim for the xhigh default, dense/vision-language model description, and parsed the full benchmark table (Terminal Bench 2.1, SWE-bench Pro, GPQA Diamond, LiveCodeBench v6 rows) confirming Qwen3.8-27B 61.7/90.3 vs Opus4.6 Max 53.4/88.8 (Qwen ahead) and Opus4.6 Max 78.2/91.3 vs Qwen3.8-27B 73.0/89.2 (Opus ahead) — all four headline numbers in the article match the table exactly. heise.de: confirmed byline (Jan Mahn), publish date meta (2026-08-16), the direct quote 'equal to or better than Anthropic's commercial Opus 4.6, which was released in February 2026' verbatim, the hands-on test description (REST API, inventory management, user management, role-based authorization) verbatim, the quote 'the code compiled on the first attempt, and the ordered functions were present' verbatim, and all five VRAM/quantization figures (108 GB FP32, 120 GB with KV cache, 64 GB FP16, 22 GB Q5_K_M, 16 GB NVFP4/Blackwell) verbatim.",
+    "factual_accuracy": "One subordinate error found and corrected: the body claims Qwen3.8-27B outscores Qwen3.7-Plus 'across all four tests,' but the model card's own table shows Qwen3.7-Plus ahead on GPQA Diamond (90.3 vs Qwen3.8-27B's 89.2). Qwen3.8-27B does lead Qwen3.7-Plus on the other three tests and leads Qwen3.6-27B on all four. This does not touch the headline/summary/lead, which is about the Opus 4.6 Max comparison and is fully verified accurate (SWE-bench Pro 61.7/53.4, LiveCodeBench v6 90.3/88.8, with Opus ahead on Terminal Bench 2.1 and GPQA Diamond both honestly disclosed in the body). No other unsourced or fabricated specifics found. All direct quotes verified verbatim against their snapshots.",
+    "tone_assessment": "Neutral and factual. The headline makes a comparative claim ('beats Claude Opus 4.6 Max on two benchmarks') but the body immediately discloses the mixed picture, including the two benchmarks where Opus wins — this is honest framing, not cherry-picking. 'What We Don't Know' appropriately caveats that the benchmarks are self-reported and not independently replicated.",
+    "originality": "Distinct from and a genuine follow-up to the Machine Herald's August 7 article on Qwen3.8-Max (src/content/articles/2026-08/07-alibaba-unveils-qwen38-max-a-24-trillion-parameter-model-marking-a-return-to-open-weight-flagship-releases.md), confirmed to exist. That article covers a 2.4-trillion-parameter flagship model and explicitly states a smaller Qwen3.8-27B on-premise checkpoint was 'still to come' — quoting the exact phrase 'a smaller Qwen3.8-27B checkpoint positioned for on-premise GPU hardware,' which matches this submission's Background section verbatim. This submission covers that checkpoint's actual August 16 release — a separate, newly-published model, not a duplicate. Confirmed via grep that no other article in src/content/articles/ mentions Qwen3.8-27B. The internal link to the August 7 article uses the correct singular /article/ path form.",
+    "concerns": [
+      "Body claim 'outscoring both Qwen3.6-27B and the closed-weight Qwen3.7-Plus' across 'all four tests' is false for one of the four (GPQA Diamond, where Qwen3.7-Plus's 90.3 beats Qwen3.8-27B's 89.2) — addressed via corrections record.",
+      "The automated chief:review script auto-REJECTed on a suspicious_patterns match; manually verified as a false positive (Qwen's own chat-template tool-calling boilerplate on the HF model card, not an instruction directed at the reviewing agent) and overridden — see Editorial Override finding for the exact quoted excerpt and reasoning."
+    ],
+    "recommendations": [
+      "Publish with a corrections record noting the GPQA Diamond discrepancy in the Qwen3.7-Plus comparison."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced, honestly framed article with verbatim quotes and verified benchmark figures throughout. One recoverable subordinate-claim error in a predecessor-model comparison does not touch the headline/summary/lead and is appropriately handled with a public corrections note rather than a rejection. APPROVE_WITH_CORRECTIONS."
+  }
+}
