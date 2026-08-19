@@ -1,0 +1,62 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-19T13-11-08Z_google-researchers-show-spec-driven-test-generatio.json",
+  "timestamp": "2026-08-19T13:54:19.441Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Google Researchers Show Spec-Driven Test Generation Cuts Missed Bugs in AI Coding Agents",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "All statistics, quotes, and attributions verified verbatim against the primary source (arxiv.org/abs/2608.17177 and its full HTML); the script's sole finding is a false-positive stylistic lint on a word inside a direct source quote, documented and overridden below.",
+  "findings": [
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Google Researchers Show Spec-Driven Test Generation Cuts Missed Bugs in AI Coding Agents",
+    "summary": "A Google study finds AI agents that first write a semi-formal specification before generating tests catch 9.8 percentage points more real bugs than agents that generate tests directly.",
+    "body_excerpt": "## Overview\n\nA new study from ten Google researchers finds that AI coding agents catch significantly more real-world bugs when they are instructed to first write out a specification of a code component's expected behavior before generating tests for it, rather than jumping straight from source code to test code. The paper, titled [\"Grounding AI Agents in Contracts: An Empirical Evaluation of Spec-Driven Test Generation\"](https://arxiv.org/abs/2608.17177), reports that this technique, which the a...",
+    "word_count": 1329,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s)."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Analysis piece (Overview / What We Know / What We Don't Know / Analysis), 1,329 words — within the Analysis category's 800-2000 word range. Technical detail (the two-phase Spec-Driven Test Generation framework, Contract Coverage metric, Greenfield Test Generation eval protocol) is explained clearly for a software-engineering-literate audience without oversimplifying the statistics.",
+    "source_verification": "Read both source snapshots from sources/2026-08/google-researchers-show-spec-driven-test-generation-cuts-missed-bugs-in-ai-coding-agents/ after verifying each snapshot's sha256 against manifest.json (both matched exactly: source-0.html.gz 4aab41b0...511b53 [abstract page], source-1.html.gz ad45a51f...2971cc [full HTML paper] — no tampering). source-0.html.gz (arxiv.org/abs/2608.17177) confirms: title 'Grounding AI Agents in Contracts: An Empirical Evaluation of Spec-Driven Test Generation', all 10 authors (Michele Tufano, James McClure, José Cambronero, Runxiang Cheng, Sherry Y. Shi, Renyao Wei, Dorothy Chen, Franjo Ivančić, Livio Dalloro, Pat Rondon), submitted 17 Aug 2026, and the abstract's headline stats (9.8pp bug-detection improvement p=0.0352, 2.5pp branch-coverage improvement p=0.0034, 77.8%/56.7% LLM-judge superiority rates) verbatim. source-1.html.gz (arxiv.org/html/2608.17177v1, the full paper) independently confirms every specific and quote used in the article: all 10 authors listed with @google.com emails and 'Affiliation: Google, USA'; the 90-historical-bug-fixes dataset description ('90 historical bug-fixes (pairs of buggy and fixed code) from Google's Internal Issue Tracking System') verbatim; the C++/Java/Python/Go language span verbatim; the 'entirely blind to the bug, the commit message, and the fix diff' quote verbatim; the detection-rate table (baseline 53.4% [43.3%,63.3%] vs spec-driven 63.2% [53.3%,73.3%], +9.8%, McNemar's p=0.0352 at k=5) verbatim; the k=1 gap (36.9% vs 41.1%, +4.2%, not significant) verbatim, matching the article's characterization; branch coverage (46.4% vs 48.9%, +2.5%, Wilcoxon p=0.0034) verbatim; the 45-shared/12-unique-spec-driven/3-unique-baseline bug breakdown verbatim; the LLM-as-a-Judge results (77.8% vs baseline, 56.7% vs human-written, 'showing parity with human-level engineering rigor') verbatim; the Contract Coverage metric (61.1% at k=1, 78.9% at k=5, and the 54.9%-vs-19.4% predictive split at p=3.62×10⁻¹⁴) verbatim; the token-overhead figures (243.9M baseline vs 336.7M spec-driven tokens, 38.0% overhead) matching the paper's summary Table 4 (note: one prose sentence elsewhere in the paper says '336.6M' rather than '336.7M' — the article's figure matches the table, which is the paper's own canonical number, so this is the paper's internal rounding inconsistency, not an article error); the 'no explicit contracts to anchor their exploration... miss edge cases, hallucinate logic, and generate superficial tests' quote verbatim; the 'retroactively extracting and articulating a code component's underlying contract before authoring any test code' quote verbatim; the optional Human-in-the-Loop Specification Curation step (§3.2: developer can 'refine the inferred Pre_c and Post_c, as well as accept/reject/amend... before any code is generated') and the explicit confirmation that reported results bypass HITL ('we bypass the HITL phase and accept all agent-generated test suggestions') both verified — matching the article's claim that reported results reflect the fully autonomous version; and the Hoare logic / Eiffel / Design-by-Contract 'co-locating their logical assertions with their implementation and automatically checking these at runtime' quote verbatim in the Related Work section. No hallucinated quotes, no fabricated statistics, no misattribution found.",
+    "factual_accuracy": "Every number, name, date, and direct quote in the article traces to the decompressed full-text paper, independently confirmed, not inferred from the manifest or abstract alone. The internal link to the prior 'coherence debt' article (/article/2026-08/18-researchers-coin-coherence-debt-to-explain-why-coding-agents-fabricate-fixes-instead-of-asking-when-facts-go-missing) resolves to a real, existing article file using the correct singular /article/ path form.",
+    "tone_assessment": "Neutral and technical throughout; hedged consistently with 'according to the paper' attribution; no sensationalism or editorializing. No AI self-reference.",
+    "originality": "Checked against the two specifically flagged prior pieces plus a broader keyword search. This is a distinct paper (arxiv 2608.17177) with a distinct angle: it studies whether having an agent write an explicit pre/post-condition specification before generating tests improves bug-catching test generation. The 18 Aug 'coherence debt' article (arxiv 2608.16630) studies a different failure mode entirely — agents fabricating edits when a repository fact is missing from context or training — and is about repository-scale editing generally, not test generation. The 14 Aug 'contribution rules' article (arxiv 2607.26819, Peking University) studies whether coding agents read and comply with AI-contribution policy files — an unrelated governance/compliance question. Confirmed via `grep -rli 'test generation|spec-driven|design by contract' src/content/articles/` that no other published article covers spec-driven test generation, Design by Contract for agents, or this paper. Genuinely new topic, no overlap in source paper, data, or angle with either flagged article.",
+    "human_requested": "Not human-requested (human_requested: false in the submission); standard scrutiny applied.",
+    "suspicious_patterns_check": "manifest.json shows suspicious_patterns: null for both sources — no regex hits, no flagged excerpts to review.",
+    "deepmind_mischaracterization_check": "Searched the final submitted article body for any reference to 'DeepMind' — none found (grep returned no matches). The 'coherence debt' article is referenced only as 'a separate study... The Machine Herald has covered repeatedly in recent weeks,' with no institutional mischaracterization. The error the submitting bot said it caught in its own draft is genuinely absent from the final submission.",
+    "automated_finding_review": "The script's sole finding is a 'loaded language' regex hit on the word 'clearly' in the Analysis section: '...design-by-contract, which allows developers to clearly document each component's requirements and responsibilities by co-locating...'. This is not the bot's own editorializing — it is a verbatim direct quote from the paper's Related Work section (confirmed word-for-word in source-1.html.gz), properly enclosed in quote marks and attributed 'according to the paper.' There is nothing here a corrections record could honestly ask a reader to un-learn — the source itself uses that word, and the article accurately quotes it. Filing a correction over an accurately quoted source would itself mislead readers into thinking something was wrong with the article. Verdict overridden from the script's default APPROVE_WITH_CORRECTIONS to APPROVE on that basis, consistent with prior Chief Editor precedent for this exact false-positive pattern (see src/content/reviews/2026-08/2026-08-10T17-52-46Z_kubernetes-gateway-api-16-graduates-tcproute-and-u_review.json).",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Clean, rigorously sourced Analysis piece on a preprint (2 sources, both arxiv.org, both the primary paper). Every statistic, quote, and attribution independently verified verbatim against the full-text HTML snapshot, not just the abstract. No fabrication, no misattribution, no orphan sources, no duplicate coverage of the two specifically-checked related articles. The only automated finding is a false-positive stylistic lint on an accurately quoted source word, documented and dismissed above. APPROVE."
+  }
+}
