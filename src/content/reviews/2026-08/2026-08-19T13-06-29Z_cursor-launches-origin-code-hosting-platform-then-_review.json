@@ -1,0 +1,62 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-19T13-06-29Z_cursor-launches-origin-code-hosting-platform-then-.json",
+  "timestamp": "2026-08-19T13:22:30.673Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Cursor Launches Origin Code-Hosting Platform, Then Watches a Six-Hour GitHub Outage Hit It on Day One",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "All four sources personally verified against decompressed snapshots; every quote, figure, and date traces correctly to its cited source. The sole automated finding (three domains absent from config/source_allowlist.txt) was reviewed and overridden — see editor_notes.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "cursor.com: https://cursor.com/changelog/origin-code-hosting\nstatus.cursor.com: https://status.cursor.com/incidents/l9h9vrd726jv\nleaddev.com: https://leaddev.com/software-quality/whats-gone-wrong-at-github"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Cursor Launches Origin Code-Hosting Platform, Then Watches a Six-Hour GitHub Outage Hit It on Day One",
+    "summary": "Cursor's new GitHub-rival hosting platform went into beta the same day a six-hour GitHub outage knocked out the feature it depends on.",
+    "body_excerpt": "## Overview\n\nCursor, the AI coding-tool maker that officially became part of SpaceX earlier this month, began rolling out Origin, a new code-hosting platform designed to compete with GitHub, in early beta on paid plans starting August 17, according to [Cursor's own changelog](https://cursor.com/changelog/origin-code-hosting). Hours after the launch, Cursor's status page reported that Origin itself was degraded by a GitHub-side outage, according to [Cursor's incident report](https://status.cursor...",
+    "word_count": 668,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Consider adding cursor.com, status.cursor.com, and leaddev.com to config/source_allowlist.txt so future submissions citing these legitimate, reputable sources don't trip the same allowlist warning."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (668 words, within the 400-1200 range) following the standard Overview / What We Know / What We Don't Know / Analysis format. Neutral, factual tone throughout; no sensationalism or editorializing. Direct quotes are set off correctly and every specific (dates, times, UTC timestamps, percentages, incident counts) is attributed inline to a named, linked source.",
+    "source_verification": "All 4 sources fetched successfully (HTTP 200, no archive_fallback) and personally read from their decompressed local snapshots after confirming each file's sha256 matched the manifest (source-0 through source-3, all four hashes verified with `gunzip -c | sha256sum`). source-0.html.gz (cursor.com changelog, dated Aug 17, 2026): confirms Origin's beta launch date, paid-plan-only rollout with enterprise opt-out, the 'Your GitHub repos can sit alongside...' quote verbatim, the 'source of truth for anything started there' phrase verbatim, and the Vercel/Depot/Buildkite integrations. source-1.html.gz (TechCrunch, Lucas Ropek, Aug 18, 2026 3:14 PM PDT): confirms the 'On the same day... nearly 20% error rate worldwide' passage verbatim (article opens the quote one clause later than the source's 'Indeed, on the same day...', a standard mid-sentence quotation trim, not a misquote), the 180-million-developers/2007-founded/2012-Microsoft-acquisition figures verbatim, and TechCrunch's own looser paraphrase ('the platform has suffered 257 outages over the past year, a recent analysis by LeadDev states') which the article correctly bypasses in favor of citing LeadDev directly for the precise 257/48/57 breakdown. source-2.html.gz (Cursor status page, incident l9h9vrd726jv): confirms the exact incident title, the 14:34 UTC 'Investigating' post attributing the issue to 'a GitHub degradation reported in GitHub's status page' (quoted verbatim in the article), the 20:40 UTC resolution post, and the affected-components list ('Automations, Review Agents, Cloud Agents, and Origin') including Origin. Note: the status page does NOT itself state a '20% error rate' figure anywhere — that figure comes only from the TechCrunch source, and the article correctly attributes it to TechCrunch ('TechCrunch reported'), not to Cursor's status page. I flag this explicitly because a reviewer could mistakenly assume the error-rate figure was status-page-sourced; it is not, and the article does not claim it is. source-3.html.gz (LeadDev, Charles Humble, May 7, 2026): confirms the 257-incidents/48-major-outages figure for May 2025-April 2026, the 57 Actions outages figure, and the 'triggered a visible exodus of high-profile users' quote, all verbatim. The 257/48/57 figures and the exodus quote are correctly cited to LeadDev directly in the article body, not routed through TechCrunch's looser secondhand paraphrase, satisfying the requested cross-check. No suspicious_patterns were flagged on any of the 4 manifest entries (all null); no prompt-injection review was necessary.",
+    "factual_accuracy": "No hallucinated quotes, no fabricated specifics, no misattribution found across any of the four sources. The internal link to the prior Machine Herald article ('the acquisition that closed on August 14') resolves to src/content/articles/2026-08/17-spacex-closes-60-billion-acquisition-of-cursor-completing-the-deal-it-struck-in-june.md, which I read in full: its Overview states the deal 'becoming effective on August 14, 2026, according to The Next Web' and its What We Know section quotes The Next Web saying the acquisition 'became effective on 14 August, two months after the binding agreement.' That prior article's own cited TechCrunch source is dated August 15 (URL: techcrunch.com/2026/08/15/...), one day after the effective date reported by The Next Web — i.e. TechCrunch's publish-date timing could read as implying an Aug 15 close, which the prior MH article already resolved in favor of the Aug 14 effective date sourced to The Next Web. This submission's 'closed on August 14' claim is therefore consistent with, and correctly derived from, the prior published article — confirmed, not just asserted.",
+    "tone_assessment": "Neutral and professional. Framing avoids taking a side in the Cursor-vs-GitHub narrative; the Analysis section explicitly notes the irony/dependency (Origin itself was hit by the outage) without editorializing beyond what the sources support.",
+    "originality": "Searched src/content/articles/2026-08/ for prior coverage of 'cursor', 'origin', and GitHub outages. No existing article covers the Origin platform launch or the August 17 outage. Two prior GitHub-outage articles exist (07-github-actions-outage-spans-over-eight-hours... and 13-github-copilot-makes-kimi-k3-generally-available-after-a-same-day-pause...) but both cover distinct, separately-dated incidents (an Aug 7 eight-hour Actions outage and an Aug 13 Actions incident) with no overlap with this Aug 17 event. Genuinely new topic and angle.",
+    "concerns": [
+      "The automated script's sole finding — cursor.com, status.cursor.com, and leaddev.com are absent from config/source_allowlist.txt — triggered a default APPROVE_WITH_CORRECTIONS. I reviewed and override this: cursor.com and status.cursor.com are Cursor's own official changelog and status page, i.e. primary sources for claims about Cursor's own product and its own incident, matching the existing allowlist pattern for other companies' official blogs/status pages (e.g. blog.mozilla.org, blogs.nvidia.com, warp.dev, modular.com). leaddev.com is a reputable engineering-leadership publication (author Charles Humble is former InfoQ editor-in-chief; infoq.com is already allowlisted) cited by TechCrunch itself as the originating analysis. This is a source_allowlist.txt maintenance gap, not a factual or attribution defect in the article, so it does not warrant a reader-facing corrections record."
+    ],
+    "recommendations": [
+      "Add cursor.com, status.cursor.com, and leaddev.com to config/source_allowlist.txt (left as a follow-up, not bundled into this review commit, to avoid touching a shared config file mid-way through a batch of parallel reviews)."
+    ],
+    "overall_assessment": "High-quality, thoroughly sourced submission. Every quote is verbatim, every figure traces to its named source, the cross-reference to the prior SpaceX/Cursor acquisition article is accurate, and the 257/48-outage figures are correctly cited to LeadDev directly rather than TechCrunch's looser paraphrase. APPROVE outright; the only automated flag was a source-allowlist config gap that I verified does not reflect a content problem."
+  }
+}
