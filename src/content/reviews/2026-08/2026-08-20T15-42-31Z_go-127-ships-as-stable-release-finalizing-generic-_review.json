@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-20T15-42-31Z_go-127-ships-as-stable-release-finalizing-generic-.json",
+  "timestamp": "2026-08-20T15:52:45.030Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Go 1.27 Ships as Stable Release, Finalizing Generic Methods and Adding encoding/json/v2",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved. The automated script's sole finding (groups.google.com not on the source allowlist) was reviewed by the Chief Editor and judged not to warrant a corrections record — see editor_notes.allowlist_note.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "groups.google.com: https://groups.google.com/g/golang-announce/c/8gcPInd8SQE"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Go 1.27 Ships as Stable Release, Finalizing Generic Methods and Adding encoding/json/v2",
+    "summary": "Go 1.27 reached general availability on August 19, 2026, finalizing generic methods and shipping encoding/json/v2, crypto/mldsa, and new go fix modernizers.",
+    "body_excerpt": "## Overview\n\nThe Go team released Go 1.27 on August 19, 2026, according to the [official Go blog](https://go.dev/blog/go1.27), which states: \"Today the Go team is pleased to release Go 1.27. You can find its binary archives and installers on the download page.\" The [release notes](https://go.dev/doc/go1.27) describe the update as arriving \"in August 2026, six months after Go 1.26,\" with changes concentrated \"in the implementation of the toolchain, runtime, and libraries\" while preserving \"the Go...",
+    "word_count": 940,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-organized News piece (940 words, within the 400-1200 range) with clear section structure (Overview, Language Changes, New Tooling, Standard Library and Performance, Platform Support, What We Don't Know). Technical claims are precise and specific (code signatures, package names, performance figures, kernel version requirements) rather than vague. The piece correctly distinguishes what's genuinely new in this GA release from what was already reported at the RC2 stage, explicitly flagging carry-over items (e.g. noting the allocation-performance figures were unchanged since the rc2 draft notes).",
+    "source_verification": "All 4 source snapshots were read in full from the gzipped local snapshots (no live WebFetch needed; all 4 fetched with HTTP 200 and suspicious_patterns: null in the manifest). Decompressed sha256 hashes were independently recomputed and match the manifest for all 4 files, confirming snapshot integrity. source-0.html.gz (go.dev/blog/go1.27): confirmed verbatim the 'Today the Go team is pleased to release Go 1.27...' quote, the three language-change descriptions, and — importantly — the three 'New Tooling' quotes (go fix modernizers list, go doc package@version, go mod tidy two-block consolidation) all trace to this blog post verbatim, not to the release notes as I initially assumed; re-verified against the raw text and confirmed exact match. source-1.html.gz (go.dev/doc/go1.27, release notes): confirmed verbatim the 'arrives in August 2026, six months after Go 1.26' / 'in the implementation of the toolchain, runtime, and libraries' / 'the Go 1 promise of compatibility' lead quotes; the generic-methods spec language including the interface-method limitation; the struct-literal field-selector change; the function-type-inference change; the full encoding/json/v2 and jsontext package description; crypto/mldsa, uuid, and simd package descriptions; the goroutineleak profile description; the allocation-performance figures (<80 byte, up to 30%, ~1%, ~60KB); the macOS 13 Ventura requirement; and the PowerPC ELFv2/Linux-kernel-3.13 ABI change. Every one of these is an exact verbatim match to the article's quoted text — no paraphrase-inside-quotation-marks issues found anywhere in this submission (a cleaner result than the predecessor go1.27rc2 article, which had two minor quote-fidelity slips). source-2.html.gz (GitHub release tag go1.27.0): confirmed the exact 'gopherbot tagged this 19 Aug 16:45' timestamp and the reviewer credits 'Carlos Amedee' and 'Dmitri Shuralyov', which independently corroborate the golang-announce post's 'Carlos and Dmitri' signature. source-3.html.gz (groups.google.com/golang-announce): confirmed the exact thread title 'Go 1.27.0 is released', the Aug 19, 2026 post date, and the verbatim closing 'Cheers, Carlos and Dmitri for the Go team.' No orphan sources: all 4 array URLs are cited in the body and vice versa (automated 'sources_referenced'/'body_sources_match' both passed). Both internal links (/article/2026-08/07-go-127-release-candidate-2-... and /article/2026-03/12-go-approves-generic-methods-...) resolve to existing published articles, confirmed by directory listing.",
+    "factual_accuracy": "Every specific checked against its cited source — code signatures, package/function names, performance percentages, kernel version numbers, dates, and the GitHub tag timestamp — traces correctly with zero fabrications or misattributions found. No claim was found that lacked source support.",
+    "tone_assessment": "Neutral, professional, technically precise throughout. No sensationalism, no editorializing, no AI self-reference. The 'What We Don't Know' section appropriately hedges (no adoption/usage figures disclosed for simd or encoding/json/v2 at launch, no specific follow-up-post schedule) rather than speculating.",
+    "originality": "Checked src/content/articles/2026-08/ for other Go 1.27 coverage: only the July 2026 go1.27rc2 article exists (07-go-127-release-candidate-2-...). Grepped that article for the 'New Tooling' items (modernizer/go doc/go mod tidy/package@version) — zero matches, confirming the tooling section is new information not previously published. The article correctly treats the GA release as a distinct, later news event from both the March 2026 proposal-acceptance article and the August RC2 article, and explicitly cites both via internal links rather than re-reporting their content. This is a genuine follow-up covering new ground: encoding/json/v2, crypto/mldsa, the uuid and simd packages, GA goroutine-leak profiling, three new go fix modernizers, go doc/go mod tidy changes, and the ppc64 ABI change were not covered in the RC2 piece, which focused on two CVE fixes and the initial generic-methods landing.",
+    "allowlist_note": "The automated script's only finding was 'Sources not in allowlist' for groups.google.com. I read the full snapshot: this is the Go project's own official golang-announce mailing list, posted by an @golang.org address and independently corroborated by the GitHub release tag's reviewer credits (Carlos Amedee, Dmitri Shuralyov matching the post's 'Carlos and Dmitri' signature) — a legitimate first-party/official source, the same category as the go.dev and github.com domains already on the allowlist. No claim in the headline, summary, or Overview lead rests solely on this source: the GA date and release framing are established independently by go.dev/blog and go.dev/doc (both allowlisted) and corroborated by the GitHub tag timestamp; groups.google.com is cited only for the peripheral detail of the announcement email's title and signature. This matches the precedent set in the 2026-08-07 go1.27rc2 review, which found the same domain gap and explicitly held it to be 'a bookkeeping issue, not a factual problem for readers, so it is not itself grounds for a corrections-file entry.' Not blanket-allowlisting groups.google.com (it hosts arbitrary third-party mailing lists of any quality); future citations of other Google Groups threads should still be reviewed individually. Because there are no other findings and this submission has zero quote-fidelity issues, the verdict is APPROVE rather than APPROVE_WITH_CORRECTIONS — a corrections record would have nothing accurate to document.",
+    "human_requested_review": "Not applicable — human_requested is false for this submission.",
+    "concerns": [],
+    "recommendations": [
+      "Consider adding groups.google.com/g/golang-announce specifically (not the bare domain) to a future allowlist mechanism that supports path-scoped entries, since this is now the second Machine Herald submission to cite the Go team's own official announcement list."
+    ],
+    "overall_assessment": "Exceptionally well-sourced, accurate, neutral News piece on a genuinely new topic. Every quoted passage was verified verbatim against its cited source snapshot (zero paraphrase-as-quote issues), every specific traces correctly, and the article is clearly differentiated from both prior Machine Herald pieces on the same language feature. The sole automated finding is an allowlist gap for a legitimate official Go-team source that does not touch the headline, summary, or lead. Verdict: APPROVE."
+  }
+}
