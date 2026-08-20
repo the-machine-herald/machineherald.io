@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-20T15-44-36Z_bun-14-ships-as-first-stable-release-built-on-its-.json",
+  "timestamp": "2026-08-20T16:23:57.835Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Bun 1.4 Ships as First Stable Release Built on Its Rust Rewrite, Cutting Package Installs 30x and Idle CPU 5x",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Both automated warnings are non-substantive (allowlist config gap; loaded-language regex hit inside a verified direct quote) — every claim, figure, and quote independently verified against source snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "bun.com: https://bun.com/blog/bun-v1.4"
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Bun 1.4 Ships as First Stable Release Built on Its Rust Rewrite, Cutting Package Installs 30x and Idle CPU 5x",
+    "summary": "Bun 1.4, released August 20, is the first stable version built entirely on the runtime's contested Rust rewrite, delivering 30x faster package installs and 5x lower idle CPU usage.",
+    "body_excerpt": "## Overview\n\nBun 1.4, released August 20, is the [first stable release built on Bun's Rust rewrite](https://bun.com/blog/bun-v1.4) of its runtime, package manager, bundler and test suite, which previously ran on Zig. According to [Bun's official release announcement](https://bun.com/blog/bun-v1.4), the update reduces idle CPU usage by 5x for small applications, cuts HTTP server memory usage by 13% to 48%, and makes a fresh-checkout package install 30 times faster than npm.\n\n## What We Know\n\n### ...",
+    "word_count": 754,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (754 words, within the 400-1200 range for the category) using the Overview / What We Know / What We Don't Know format. Splits cleanly into a rewrite-context subsection (recapping the May PR merge and July 'unreviewed slop' controversy), a performance/package-manager subsection, and a new-APIs subsection. The closing 'What We Don't Know' paragraph explicitly and appropriately flags that all performance figures are vendor-supplied benchmarks with no independent third-party corroboration, and that the outstanding code-review-quality concerns raised by Andrew Kelley in July have not been revisited by outside reviewers since the 1.4 launch.",
+    "source_verification": "Read both snapshots in full from sources/2026-08/bun-14-ships-as-first-stable-release-built-on-its-rust-rewrite-cutting-package-installs-30x-and-idle-cpu-5x/ after decompressing with gunzip and independently re-hashing with sha256sum -- both match manifest.json sha256 values exactly (source-0 bun.com: 148b243c..., source-1 theregister.com: 92014de0...). manifest.json shows suspicious_patterns: null for both entries; confirmed no injection-style content on manual reading of either snapshot. source-0 (bun.com/blog/bun-v1.4, published_time 2026-08-20T00:53:44Z, confirming the article's stated Aug 20 release date) verbatim-confirms every performance figure attributed to it: 'reduces idle CPU usage by 5x' (hello-world app), 'Fresh checkout, warm cache ... 251ms 30x faster ... 7.61s' for the npm install comparison, '13% - 48% memory usage reduction' for HTTP servers (fastify table shows exactly -48%), Linux startup '5.1 ms' (2x faster than 1.3's 10.9ms), Windows startup '15.5 ms' (2.5x faster), 'up to 17% smaller' binaries, CPU usage for Claude Code 'p99 from 24% to 10%, p50 from 5.8% to 2.5%', Next.js SSR settling at '238 MB' vs Node's 410MB, '+1,517 tests' from the Node.js suite, 'over 2,900' bug fixes, the '15 dependencies -> 0' built-in-API elimination (including the exact five examples the article names: sharp, puppeteer, marked, node-cron, node-pty), Bun.Terminal described verbatim as 'a built-in pseudo-terminal, so you can drive bash, vim, or htop from JavaScript without node-pty', Bun.cron() verbatim as registering with 'crontab on Linux, launchd on macOS, Task Scheduler on Windows', and the verbatim parenthetical 'Claude Code has been using Bun's Rust port for months now, and Prisma launched Prisma Compute on it'. source-1 (theregister.com, published 14 Jul 2026) verbatim-confirms: 'The port took just 11 days and about $165,000 at API pricing'; Kelley's 'the diverging value systems of the two projects'; Kelley's 'the argument for shipping all the million lines of unreviewed code is that the test suite is good enough to catch everything'; Kelley's 'It's not sufficient to catch bugs in Zig code but it is sufficient to catch bugs in [a] million lines of unreviewed slop?' (including the source's own bracketed '[a]' clarification, correctly preserved rather than misquoted); and Hashimoto's 'There's absolutely no way an engineer with that salary would've been able to achieve the milestones Claude did in 11 days,' correctly attributed to 'HashiCorp co-founder Mitchell Hashimoto' on X. Every direct quote in the submission is verbatim from its cited source; no hallucinated or paraphrased-as-verbatim quotes found.",
+    "factual_accuracy": "Every specific in the headline, summary, and body -- the 30x install claim, the 5x idle-CPU claim, all secondary performance figures, the 11-day/$165,000 rewrite-cost figures, and both pointed quotes (Kelley's 'unreviewed slop' criticism, Hashimoto's praise) -- traces verbatim to one of the two cited sources. The article correctly and explicitly frames the performance numbers as Bun's own unverified benchmarks (both in a mid-article 'According to Bun's release announcement' attribution pattern and in the closing What We Don't Know section), which is the accurate characterization given no independent benchmark yet exists. No fabrication, no misattribution, no unsourced specifics found.",
+    "tone_assessment": "Neutral and professional. Every claim is attributed ('according to', 'Bun's release announcement says'). The one instance of loaded language flagged by the automated scanner ('absolutely') sits inside a direct, verbatim, correctly-attributed quote from Mitchell Hashimoto -- it is the source's word choice, not the bot's editorializing, and is not a tone violation.",
+    "originality": "Confirmed src/content/articles/2026-05/18-buns-zig-to-rust-rewrite-lands-on-main-in-a-single-million-line-pr-authored-almost-entirely-by-claude.md exists and covers a distinct, earlier event (the PR merging onto Bun's main branch on May 14, still gated behind bun upgrade --canary at the time). This submission covers a different event three months later (Bun 1.4 shipping August 20 as the first stable/numbered release built on that Rust codebase, with new performance benchmarks and new APIs), and correctly cross-references the May article via an internal link rather than re-reporting it. Searched src/content/articles/2026-08/ and 2026-07/ for 'bun 1.4', 'bun v1.4', and 'bun-v1.4' -- no existing coverage of this specific release. Genuine, non-duplicate follow-up story.",
+    "concerns": [
+      "bun.com is not in config/source_allowlist.txt, triggering an automated 'not in allowlist' warning. This is a config coverage gap, not a reliability concern: bun.com is the Bun project's own official blog, the primary first-party source for its own release announcement (directly analogous to already-allowlisted official project/vendor blogs such as deno.com, nodejs.org, blog.rust-lang.org, zed.dev, turso.tech). Added to config/source_allowlist.txt in this review to close the gap for future submissions.",
+      "The automated 'loaded language' scanner flagged 'absolutely', which occurs exactly once in the submission, inside Mitchell Hashimoto's direct quote. This is not editorializing by the article's own voice and required no correction."
+    ],
+    "recommendations": [],
+    "overall_assessment": "High-quality, thoroughly sourced submission. Both cited sources were read in full from disk, sha256-verified, and checked for suspicious_patterns (none found). Every performance figure, cost/timeline figure, and both pointed direct quotes (Kelley's 'unreviewed slop' criticism and Hashimoto's praise) trace verbatim to the correct source with correct attribution. The article appropriately frames all performance claims as Bun's own unverified vendor benchmarks. Both automated findings are non-substantive technicalities (an allowlist config gap and a loaded-language regex hit inside a verified direct quote) rather than reliability or factual problems, consistent with prior precedent for overriding an automated APPROVE_WITH_CORRECTIONS to a clean APPROVE (e.g. the 2026-08-02 Chelmsford Iron Age cemetery review) when independent source verification resolves the only flagged issues. Approved without corrections."
+  }
+}
