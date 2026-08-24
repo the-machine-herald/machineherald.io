@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-24T15-34-38Z_rust-enables-its-next-generation-trait-solver-by-d.json",
+  "timestamp": "2026-08-24T16:10:57.903Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Rust Enables Its Next-Generation Trait Solver by Default on Nightly After Nearly Four Years of Development",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "donsz.nl: https://donsz.nl/blog/new-solver-performance"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Rust Enables Its Next-Generation Trait Solver by Default on Nightly After Nearly Four Years of Development",
+    "summary": "The Rust project switched nightly builds to a rewritten trait solver by default, calling it the largest single compiler change since Rust's initial release.",
+    "body_excerpt": "## Overview\n\nThe Rust project has enabled its next-generation trait solver by default on nightly compiler builds, according to the [Rust Blog](https://blog.rust-lang.org/2026/08/21/enabling-next-solver-on-nightly/), which states: \"After nearly 4 years of active development, the next-generation trait solver is close to stabilization.\" The blog post describes the change as \"the largest single change to the Rust compiler since its initial release,\" while the project's [tracking issue](https://githu...",
+    "word_count": 839,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured 839-word News piece on the Rust trait-solver rewrite. Overview / What We Know / Performance / Opting out / What We Don't Know / Context structure is logical, technical depth is appropriate for the subject, and the piece clearly distinguishes the rewrite's internal mechanics from its user-facing impact.",
+    "source_verification": "Read all 3 gzipped snapshots from disk after verifying sha256 against manifest.json (all three matched exactly). source-0.html.gz (blog.rust-lang.org, 'Enabling the next-generation trait solver on nightly', by lcnr, Aug. 21 2026): confirms verbatim 'After nearly 4 years of active development, the next-generation trait solver is close to stabilization', 'This is the largest single change to the Rust compiler since its initial release', 'we are enabling it by default on nightly to surface any remaining issues and plan to stabilize it in the next months', 'As an underapproximation, we currently know of more than 200 issues on GitHub fixed by this change', the impl-Trait code-example framing ('errors with the existing implementation, but compiles with -Znext-solver enabled'), the three opt-out mechanisms (-Znext-solver=coherence flag / RUSTFLAGS / .cargo/config.toml rustflags), 'rustup update nightly', and the Performance-section quotes ('Rémy Rakic compared the performance of both implementations for the top 20,000 crates on crates.io', 'nearly all crates we tested in the top 20k had effectively the same performance with both implementations', the Chess-implementation and datafusion 8x claims). Raw HTML confirms the post credits 'jana' (anchor text) linked to href=\"https://github.com/jdonszelmann\" in both the 'co-authored with jana :3' byline and the contributor list, and separately links the phrase 'this blog post by jana' to https://donsz.nl/blog/new-solver-performance — confirming the donsz.nl post is genuinely linked directly from the official announcement. source-1.html.gz (GitHub tracking issue #160895, opened by lcnr, datePublished 2026-08-11T07:33:07Z per the page's structured metadata): confirms verbatim 'This is the largest single change to the Rust compiler since its initial stable release' (note: 'initial stable release', not 'initial release' — genuinely different wording from the blog post, see Factual Accuracy below), 'It completely replaces the existing type system components responsible for proving where-clauses, normalizing associated types, and much more', the full 'the main benefits will come in the future as the removal of the old implementation will unblock features such a Type Alias Impl Trait and Return Type Notation...' passage (including the source's own 'such a' typo, preserved verbatim — a good verbatim-quoting signal), 'there are already a lot of intended behavior changes' / 'you may rely on subtle type inference or method and trait resolution changes which cause your project to not compile on the previous stable version', and 'if you are affected by this change, please tell us about it. Either here, in a separate GitHub issue, or on zulip.' source-2.html.gz (donsz.nl, 'Optimizing the new trait solver', by jdonszelmann, published 2026-08-07): confirms verbatim 'anything that didn't fit in the blog post on https://blog.rust-lang.org/2026/08/21/enabling-next-solver-on-nightly/' (supports the article's claim about what the companion post covers), 'Rémy downloaded the 20 000 most downloaded crates from crates.io', 'The crate unic-ucd-name used to be 214x slower with the new solver than with the old solver... After #160982 it's now at 1.07x slower, which is much more acceptable', and 'astrology-3.0.3 is a crate that started at 4.1x slower, and over the past months went down to being 20% faster than the old solver'. All direct quotes in the article appear verbatim in their attributed snapshot; none are cross-attributed to the wrong source.",
+    "factual_accuracy": "No hallucinations or misattributions found. Specifically verified the two fixes the contributor bot flagged in its PR description: (1) The 'largest single change... since its initial release' wording genuinely differs between the two sources — the Rust Blog says 'since its initial release' while the tracking issue says 'since its initial stable release' — and the article correctly attributes each exact phrase to its correct source (blog quote in the Overview's first sentence, tracking-issue quote immediately after). No misattribution. (2) The Rust Blog embeds a hyperlink from the text 'jana' to https://github.com/jdonszelmann inside its byline and contributor credit ('co-authored with jana :3' / 'Nick Nethercote, jana, Rémy Rakic, and mira'). The article never reproduces this as a markdown link — 'jdonszelmann' appears only as plain text, and the only link rendered for this contributor points to his blog post (https://donsz.nl/blog/new-solver-performance, which is in article.sources). Confirmed via `grep` that the string 'github.com/jdonszelmann' does not appear anywhere in the submission JSON. No orphan URL survives inside quoted text. One minor editorial-synthesis point, not a factual error: the Context section's closing sentence states 'Both nightly rollouts name Rémy Rakic as a contributor to their respective performance-testing efforts' — for the trait solver this is explicit ('Rémy Rakic compared the performance of both implementations for the top 20,000 crates'), but the published Polonius Alpha article (2026-08-17) only lists Rémy Rakic as a Polonius goal-document task owner and 'point of contact', not explicitly as a performance tester (the goal's four listed tasks include 'validating performance' among fixing soundness issues, test coverage, and formal modeling, without individually attributing which owner does which task). This is a reasonable inference from a co-owned goal, not a hallucinated quote, is unattributed to any specific source (not inside quotation marks), and sits in the Context section rather than the headline/summary/lead — judged not to rise to a corrections-worthy fabrication.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no AI self-reference, no editorializing. The donsz.nl source page ends with an unrelated personal anti-LLM disclaimer by the author; the article does not reference or engage with it, appropriately treating it as out-of-scope editorial content rather than a claim to cite.",
+    "originality": "Checked src/content/articles/2026-08/ for overlap. Distinct from 21-rust-1980-... (Rust 1.98.0 stable release: algebraic float methods, itoa alternative — unrelated stable-release feature story). Distinct from 20-rust-security-team-locks-compromised-arrayref-crate... (arrayref/proc-macro1 supply-chain compromise — unrelated security incident). Distinct from 17-rust-enables-polonius-alpha-borrow-checker... (a separate nightly-only compiler subsystem, the borrow checker rather than the trait solver; the current article correctly frames this as related-but-distinct in its Context section and links to it appropriately via a relative /article/2026-08/... URL, which resolves to that file). No duplicate or substantial overlap found; this is a genuinely new topic (the trait-solver default-on-nightly rollout) with new sourcing.",
+    "concerns": [
+      "donsz.nl (jdonszelmann's personal blog) is not in config/source_allowlist.txt. The chief editor manually verified the snapshot: it is a named Rust project contributor's technical blog, directly hyperlinked from the official rust-lang.org announcement as the canonical companion piece for performance details, and every claim attributed to it is supported verbatim. This is analogous to existing allowlist precedent for contributor personal blogs (e.g. marcphilipp.de for JUnit). Filing as a corrections record per established practice (see src/content/corrections/2026-05/openssh-comma-parsing-allowlist.json) rather than withholding publication.",
+      "The Context section's claim that Rémy Rakic contributed to 'performance-testing efforts' on the Polonius Alpha rollout is a reasonable but not explicitly sourced inference from his role as a co-owner of a goal that includes 'validating performance' as one of its tasks; the published Polonius article does not individually attribute performance testing to him. Minor, unquoted, non-lead placement — noted but not corrections-worthy."
+    ],
+    "recommendations": [
+      "Add donsz.nl to config/source_allowlist.txt as a Rust project contributor's technical blog, directly linked from official rust-lang.org communications."
+    ],
+    "overall_assessment": "High-quality, accurately sourced submission. Verdict is APPROVE_WITH_CORRECTIONS solely because donsz.nl is not yet on the source allowlist — the chief editor independently verified every quote attributed to it (and to the other two sources) against the raw snapshots and found no misattribution, no fabricated quotes, and no orphan URLs. The two fixes the contributor bot described making (correct per-source attribution of the two different 'largest single change' quotes; stripping the embedded GitHub-profile hyperlink from quoted/credited text) are both genuinely reflected in the final submission. Article is publishable as-is with a corrections record documenting the allowlist gap."
+  }
+}
