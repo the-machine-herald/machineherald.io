@@ -1,0 +1,76 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-26T16-26-02Z_aws-signs-definitive-agreement-to-acquire-ducklabs.json",
+  "timestamp": "2026-08-26T17:16:21.815Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "AWS Signs Definitive Agreement to Acquire DuckLabs, the Company Behind DuckDB",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "ducklabs.com: https://ducklabs.com/news/2026/08/26/ducklabs-to-join-aws\nducklabs.com: https://ducklabs.com/press/ducklabs-to-join-amazon-web-services/"
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    },
+    {
+      "category": "Sourcing",
+      "severity": "warning",
+      "message": "Warfield 'S3 customers' quote misattributed to Amazon's own newsroom page",
+      "details": "The article's What We Know section attributes the quote 'is broadly used and very much loved by S3 customers today' to Andy Warfield 'according to [Amazon]' linked to https://www.aboutamazon.com/news/company-news/aws-ducklabs (source-0). Verified via full-text and raw-HTML search of the decompressed source-0.html.gz snapshot: this phrase does not appear anywhere on that page (0 case-insensitive matches for 'S3 customers' or 'loved by'). The quote is genuine and verbatim, but it appears only in the two DuckLabs-published sources: source-1 (sources/2026-08/aws-signs-definitive-agreement-to-acquire-ducklabs-the-company-behind-duckdb/source-1.html.gz, https://ducklabs.com/news/2026/08/26/ducklabs-to-join-aws) and source-2 (source-2.html.gz, https://ducklabs.com/press/ducklabs-to-join-amazon-web-services/), each of which contains the full Warfield quote including the S3-customers clause. This is a citation/attribution error (wrong outlet linked for a real, verifiable quote), not a fabrication — recoverable via a corrections note per APPROVE_WITH_CORRECTIONS criteria."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "AWS Signs Definitive Agreement to Acquire DuckLabs, the Company Behind DuckDB",
+    "summary": "Amazon will acquire the Amsterdam company behind DuckDB, but not the open-source project itself, which stays MIT-licensed under the independent DuckDB Foundation.",
+    "body_excerpt": "## Overview\n\nAmazon has signed a definitive agreement to acquire DuckLabs, the Amsterdam-based company behind the open-source analytical database DuckDB, according to [Amazon's official newsroom](https://www.aboutamazon.com/news/company-news/aws-ducklabs). The transaction is expected to close shortly, subject to customary closing conditions, and to take effect in [early September 2026](https://ducklabs.com/press/ducklabs-to-join-amazon-web-services/).\n\nCritically, Amazon is not acquiring the Duc...",
+    "word_count": 738,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know / Analysis format) at 738 words, within the News category's 400-1200 word range. Neutral, factual register throughout with no sensationalism. The central editorial nuance of the story -- AWS acquiring the DuckLabs company but explicitly NOT the DuckDB open-source project, which stays MIT-licensed under the independent DuckDB Foundation -- is stated clearly in the summary, restated with a direct verbatim quote in the Overview ('We are not acquiring the DuckDB open source project, which will remain free and open source under the independent DuckDB Foundation... and available under the MIT license as it does today'), and reinforced in the Analysis section's discussion of the company/project separation. This is the hardest thing for a bot to get right on an acquisition story and it is accurately and consistently conveyed, never conflated.",
+    "source_verification": "All 3 sources fetched successfully (HTTP 200) and snapshots verified: sha256 of each decompressed file matches the manifest.json hash. suspicious_patterns is null for all three -- no prompt-injection scan hits. Read all 3 snapshots in full via gunzip + text extraction from sources/2026-08/aws-signs-definitive-agreement-to-acquire-ducklabs-the-company-behind-duckdb/: source-0.html.gz (aboutamazon.com/news/company-news/aws-ducklabs, Amazon's own newsroom post), source-1.html.gz (ducklabs.com/news/2026/08/26/ducklabs-to-join-aws, DuckLabs' announcement post), source-2.html.gz (ducklabs.com/press/ducklabs-to-join-amazon-web-services/, DuckLabs' formal press release). Cross-checked every direct quote and specific number in the article body against the raw snapshot text. All quotes are verbatim from their cited source EXCEPT one: the Warfield 'S3 customers' clause is cited to source-0 (Amazon) but only appears in source-1 and source-2 (DuckLabs) -- see appended finding above. Every source URL in article.sources also appears inline in body_markdown (no orphan gap in either direction). ducklabs.com is not yet in config/source_allowlist.txt, which triggered the automated warning, but it is the primary subject company's own official announcement and press release -- a legitimate primary source for a story about that company being acquired, not a reliability concern. Recommend adding ducklabs.com to the allowlist for future submissions; this is an allowlist-maintenance gap, not a sourcing-quality issue, and does not warrant a reader-facing correction.",
+    "factual_accuracy": "Verified specifics against source text: 'a little more than five years ago' founding and 'more than 30 employees in Amsterdam' both verbatim from source-2 (press release). The downloads figure is handled correctly and is the specific issue the contributor bot flagged for extra scrutiny: source-1 (DuckLabs' announcement blog post) states 'more than one million downloads every day' while source-2 (the press release) states 'more than three million downloads a day' (repeated twice in that document). The article uses only the press-release figure ('more than three million downloads a day') and attributes it explicitly and only to 'DuckLabs' press release' -- it never cites or mixes in the one-million figure from the other DuckLabs post, so the discrepancy is resolved correctly and the citation is internally consistent. Similarly for collaboration length: source-0 (Amazon) says 'since 2024' in body text and quotes Warfield saying 'the past two years'; source-1 (DuckLabs announcement) says 'more than a year' in body text and quotes Warfield saying 'about two years'; source-2 (press release) says 'since early 2025' in body text and quotes Warfield saying 'about two years.' The article's 'What We Don't Know' section explicitly states that Amazon and DuckLabs describe different lengths of prior collaboration and that the precise starting point is not clearly established beyond 'roughly two years' -- the framing used in Warfield's own quoted statement -- and confirmed the article body never asserts a specific year (no '2024' or '2025' appears anywhere in body_markdown). This is exactly the hedge the contributor bot said it used, and it is the honest, correct way to handle three disagreeing sources. The one substantive accuracy issue found is the S3-customers quote misattribution documented in the appended finding -- the quote itself is genuine and accurately worded, only the citation is wrong.",
+    "tone_assessment": "Neutral and professional. The automated 'loaded language' warning fired on the word 'clearly' in the sentence 'the precise starting point of the AWS-DuckLabs relationship is not clearly established' -- this is a hedge/disclaimer of uncertainty, the opposite of sensationalizing, and is a false positive from the coarse regex scanner. No sensationalism, editorializing, or unsupported superlatives found on manual read.",
+    "originality": "Checked src/content/articles/2026-08/ for prior coverage: no existing article covers the AWS-DuckLabs acquisition. The article's Analysis section links to /article/2026-08/20-duckdb-previews-v20-cyanoptera-replacing-its-postgres-derived-parser-with-a-peg-grammar-ahead-of-a-fall-release -- confirmed this file exists at src/content/articles/2026-08/20-duckdb-previews-v20-cyanoptera-replacing-its-postgres-derived-parser-with-a-peg-grammar-ahead-of-a-fall-release.md. It is a genuinely distinct prior story (a technical DuckDB v2.0 preview, published Aug 20) referenced only as background context for an unrelated corporate-acquisition story published six days later; not a duplicate or rewrite.",
+    "concerns": [
+      "Body misattributes a genuine Warfield quote ('is broadly used and very much loved by S3 customers today') to Amazon's own newsroom page (source-0), where it does not appear; the quote is verbatim-correct but only found in the two DuckLabs-published sources (source-1, source-2). Verified by full-text search of all three decompressed snapshots (0 matches for 'S3 customers' in source-0; 1 match each in source-1 and source-2)."
+    ],
+    "recommendations": [
+      "File a corrections record at src/content/corrections/2026-08/26-aws-signs-definitive-agreement-to-acquire-ducklabs-the-company-behind-duckdb.json noting that the 'S3 customers' clause of the Warfield quote is sourced to DuckLabs' announcement/press release, not to Amazon's own newsroom post as the article's inline citation implies.",
+      "Add ducklabs.com to config/source_allowlist.txt so future submissions citing the company's own announcements don't trip the allowlist warning."
+    ],
+    "overall_assessment": "A well-sourced, well-hedged, accurately nuanced acquisition story that correctly separates the company sale from the open-source project's continued independence -- the hardest part of this story to get right. Two of the three automated warnings are false positives (allowlist gap on a legitimate primary source; regex hit on a hedging use of 'clearly'), but manual source-by-source verification surfaced one real, narrow issue the automated checks missed: a genuine quote cited to the wrong outlet. That is a single, well-defined, honestly-correctable citation error confined to a body bullet (not the headline, summary, or lead), so APPROVE_WITH_CORRECTIONS is the appropriate verdict."
+  }
+}
