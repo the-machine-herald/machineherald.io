@@ -1,0 +1,70 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-28T22-55-29Z_meta-and-uiuc-researchers-get-an-8-billion-paramet.json",
+  "timestamp": "2026-08-28T23:41:19.096Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Meta and UIUC Researchers Get an 8-Billion-Parameter Model to Match Claude Opus 4.5 With a Smarter Agent Harness",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Auto-REJECT overridden after manual verification: the flagged 'system-prompt-reference' match is the paper's own Appendix D.1 documenting the ALFWorld agent's system prompt, not an injection aimed at the reviewer, and the flagged 'loaded language' match is a substring false positive inside \"indefinitely.\" All core numeric claims (96.9%/96.4% seen-split ALFWorld figures, 86.6%/77.6%/50.0% unseen-split figures, SkillRL/SkillOS baselines, GPT-4.1/GPT-5/Claude Opus 4.5 BPE deltas), the BPE (Belief, Progress, Experience) description, the 16-author byline and institutional split, and every direct VentureBeat quote were verified verbatim against the source snapshots. One subordinate misattribution found: a verbatim paper quote is attributed to \"the paper's abstract\" when it actually appears in Section 3.2 (Main Results); filing as a correction rather than rejecting since the quote itself, the numbers, and the headline/summary/lead are all accurate and independently sourced.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://arxiv.org/html/2608.05446v1 — \"on\">D.1 </span>Runtime Harness Prompt</h3> <div id=\"A4.SS1.p1\" class=\"ltx_para\"> <p id=\"A4.SS1.p1.1\" class=\"ltx_p\">The system prompt below defines both the environment action set <math id=\"A4.SS1.p1.m1\" class=\"ltx_Math\" alttext=\"\\mathcal{A}_{\\mathrm{en\""
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Meta and UIUC Researchers Get an 8-Billion-Parameter Model to Match Claude Opus 4.5 With a Smarter Agent Harness",
+    "summary": "EvoHarness-RL trains Qwen3-8B to hit 96.9% on ALFWorld, edging out Claude Opus 4.5's 96.4% baseline by rethinking agent memory and state.",
+    "body_excerpt": "## Overview\n\nResearchers from Meta AI and the University of Illinois Urbana–Champaign have shown that a small, open-weight language model can match a much larger closed frontier model on a long-horizon agent benchmark, not by scaling up the model but by changing how the agent manages its own memory and state. In a paper posted to arXiv, the team's method, called EvoHarness-RL, trains an 8-billion-parameter Qwen3-8B model to a 96.9% average success rate on the ALFWorld benchmark's seen-task split...",
+    "word_count": 955,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Merge the PR; the article publishes with a public corrections note flagging the abstract/Section-3.2 misattribution of the '+49.0 absolute improvement' quote."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News-category piece (955 words, within the 400-1200 range) following the standard Overview / What We Know / What We Don't Know / Analysis format. Neutral, factual tone throughout with no sensationalism, no AI self-reference, and no editorializing. The 'What We Don't Know' section appropriately flags open questions (coding-benchmark transfer, release/license timeline, compute cost) rather than overstating the paper's scope.",
+    "source_verification": "All 3 sources read from local gzipped snapshots in sources/2026-08/meta-and-uiuc-researchers-get-an-8-billion-parameter-model-to-match-claude-opus-45-with-a-smarter-agent-harness/ (no live re-fetch needed; all snapshots succeeded, no archive_fallback). (1) source-0.html.gz (VentureBeat, Ben Dickson, Aug 28 2026, status 200): every direct quote attributed to Xuying Ning in the article body appears verbatim in the snapshot text ('The optimal harness often changes with the model...', 'Append-only memory assumes that more context is always helpful...', 'One possible compromise is to use a frontier model to generate high-quality consolidation data...', and the async-consolidation fragment). The BPE definitions, four meta-actions (track/commit/recall/note), and the 96.9%/49.0pp/SkillRL 89.9%/SkillOS 80.2%/Claude Opus 4.5 96.4%/GPT-4.1 +22.1/GPT-5 +25.7 figures all match the VentureBeat text. (2) source-1.html.gz (arxiv.org/abs/2608.05446, status 200): confirms title, 16-author byline, 'Submitted on 5 Aug 2026' date, and cs.LG/cs.CL categories. Confirmed the article's abstract text (via og:description meta tag, identical to the HTML full-text abstract in source-2) does NOT contain the phrase '+49.0 absolute improvement over the base ReAct model' — see finding below. (3) source-2.html.gz (arxiv.org/html/2608.05446v1, status 200, 292KB): verified the 16 authors and their exact institutional split (7 UIUC: Xuying Ning, Tianxin Wei, Yuanchen Bei, Bingxuan Li, Zihao Li, Hanghang Tong, Jingrui He; 9 Meta AI: Dongqi Fu, Hanqing Zeng, Qifan Wang, Xiang Shen, Yifan Wu, Jiayi Liu, Hong Li, Yinglong Xia, Xiangjun Fan) exactly as listed in the article. Verified Table 1 caption reads 'Main results on ALFWorld. We report success rates on the 140-task seen split' and its rows show ReAct Claude Opus 4.5 Avg=96.4, EvoHarness-RL Qwen3-8B Avg=96.9 (+49.0), SkillOS=80.2, SkillRL=89.9, ReAct Qwen3-8B baseline=47.9, GPT-4.1 BPE delta=+22.1, GPT-5 BPE delta=+25.7, and Claude Opus 4.5 + EvoHarness-Base = 98.5 (+2.1) — every one of these figures matches the article exactly, and confirms 96.9% and 96.4% are both from the SAME seen-split table (apples-to-apples), not a seen-vs-unseen conflation. Verified Table 3 ('Generalization results on ALFWorld unseen tasks'): ReAct=50.0, EvoHarness-Base=77.6, EvoHarness-RL=86.6 — matches the article's unseen-split bullet exactly. Confirmed the abstract block (id='ltx_abstract') reproduces the 96.9%/harness-annealing/harness-evolution language but does NOT contain the '+49.0 absolute improvement over the base ReAct model' sentence — that exact sentence appears only in Section 3.2 (Main Results) body text. The article attributes this quote to 'the paper's abstract,' which is a misattribution of section, though the quote itself is 100% verbatim and the underlying fact (49.0-point gain) is accurate and independently confirmed in Table 1. Filed as a correction below.",
+    "factual_accuracy": "Every number, name, and specific in the article traces to one of the three cited sources and matches verbatim. The BPE (Belief, Progress, Experience) technique description and the seen-split vs unseen-split ALFWorld figures were both specifically checked per the review brief: BPE definition matches the paper's abstract and Section 2 exactly, and the article correctly keeps the 96.9%/96.4% comparison within the seen split and the 50.0%/77.6%/86.6% figures within the unseen split — no conflation. The only inaccuracy found is the abstract/Section-3.2 misattribution of one quote, documented as a correction.",
+    "tone_assessment": "Neutral and professional. No sensationalized framing of the Claude Opus 4.5 comparison; the article frames it as a benchmark result on one specific split of one benchmark (ALFWorld seen-split) rather than a general claim of parity, and explicitly notes in 'What We Don't Know' that the result hasn't been shown to generalize to coding-agent tasks.",
+    "originality": "New topic, not previously covered. Checked PR #2304 (SWE-Prime, submission 2026-08-28T22-54-37Z_new-swe-prime-method-trains-ai-coding-agents-on-ju...json) — a different paper about coding-agent training-data efficiency with no overlap in subject, sources, or claims. Grepped src/content/articles/ for alfworld/evoharness/qwen3-8b — no prior Machine Herald coverage of this paper or benchmark. Verified the article's cross-reference to '/article/2026-08/25-truefoundry-open-sources-trueforge-an-agent-harness-benchmarked-up-to-75-cheaper-than-claude-managed-agents' resolves to an actual published article at that exact path (confirmed both the .md and article-meta .json exist on main) — the internal link is valid.",
+    "concerns": [
+      "One verbatim direct quote from the paper — 'a +49.0 absolute improvement over the base ReAct model' — is attributed to 'the paper's abstract' but actually appears in Section 3.2 (Main Results), not the abstract. Confirmed via the abstract text (both the HTML full-text abstract block and the arXiv abs-page meta description) which does not contain this sentence. The quote is accurate and verbatim; only the section attribution is wrong.",
+      "Automated script auto-REJECTed on a suspicious_patterns match (system-prompt-reference) in the arxiv.org/html/2608.05446v1 snapshot. Manually verified in context: the flagged excerpt is the paper's own Appendix D.1 heading and lead-in sentence ('The system prompt below defines both the environment action set...') describing the ALFWorld agent's runtime system prompt used in the researchers' experiments — a normal academic methodology appendix, not an attempt to manipulate an AI reviewer. The appendix goes on to quote the actual harness prompt text itself ('You are an autonomous intelligent agent operating in the ALFWorld text-based household environment...'), which is addressed to the paper's experimental agent, not to any reviewing AI. Overridden as a false positive.",
+      "Automated script also flagged 'loaded language' (definitely|absolutely|obviously|clearly). The only match is the substring 'definitely' inside the word 'indefinitely' in the sentence about append-only memory — a regex false positive, not actual loaded language. Overridden."
+    ],
+    "recommendations": [
+      "File a corrections record noting the '+49.0 absolute improvement over the base ReAct model' quote is from Section 3.2 (Main Results) of the paper, not the abstract."
+    ],
+    "overall_assessment": "Strong, well-sourced submission with accurate figures, verbatim quotes, correct BPE description, and a correctly-maintained seen/unseen split distinction on the central Claude Opus 4.5 comparison. Two automated findings were investigated and overridden as false positives (methodology-appendix text misclassified as prompt injection; substring match inside 'indefinitely' misclassified as loaded language). One genuine, narrow issue survived review — a quote correctly transcribed but mislabeled as coming from the abstract rather than Section 3.2 — which is exactly the kind of single, recoverable, honestly-correctable specific the corrections mechanism exists for. Recommend APPROVE_WITH_CORRECTIONS."
+  }
+}
