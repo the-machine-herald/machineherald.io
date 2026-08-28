@@ -1,0 +1,79 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-28T22-54-05Z_australia-charges-two-men-with-14-offenses-over-te.json",
+  "timestamp": "2026-08-28T23:24:05.155Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Australia Charges Two Men With 14 Offenses Over TeamPCP's Supply-Chain Hacking Spree That Hit Trivy, LiteLLM and GitHub",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "afp.gov.au: https://www.afp.gov.au/news-centre/media-release/two-wa-men-charged-following-afp-fbi-wapf-disruption-alleged-global"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://www.bleepingcomputer.com/news/security/australia-arrests-alleged-teampcp-hackers-behind-supply-chain-attacks/"
+    },
+    {
+      "category": "Attribution",
+      "severity": "warning",
+      "message": "Misattributed identification of the two suspects' names",
+      "details": "The article states '[The Record] identified them as Ruben Ian Thomson, 21, of Cottesloe, and Louis Michael Gaebler, 23, of Mandurah.' The Record's own snapshot text reads: 'Australian authorities did not formally name the men, but national broadcaster ABC identified them as Ruben Ian Thomson, 21, and Louis Michael Gaebler, 23.' The identification is attributable to ABC (as reported by The Record), not to The Record's own original reporting. The underlying names, ages, and locations are accurate and independently consistent with the AFP's anonymized charge sheet ('A Cottesloe man, 21' / 'A Mandurah man, 23'); only the credited outlet for the naming is wrong."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Australia Charges Two Men With 14 Offenses Over TeamPCP's Supply-Chain Hacking Spree That Hit Trivy, LiteLLM and GitHub",
+    "summary": "AFP, FBI and WA Police charged a 21-year-old and a 23-year-old over the TeamPCP campaign that compromised 1,000+ organizations through open-source developer tools.",
+    "body_excerpt": "## Overview\n\nAustralian authorities have charged two Western Australian men over their alleged roles in TeamPCP, a hacking group blamed for a wave of software supply-chain attacks that compromised open-source developer tools including Trivy, LiteLLM, and TanStack packages, according to [BleepingComputer](https://www.bleepingcomputer.com/news/security/australia-arrests-alleged-teampcp-hackers-behind-supply-chain-attacks/). The Australian Federal Police (AFP), the FBI, and the Western Australia Po...",
+    "word_count": 867,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, well-structured News piece (867 words) with Overview / What We Know / What We Don't Know / Background sections. Every bullet in 'What We Know' carries an inline citation. The 'Background' section correctly links the three prior Machine Herald TeamPCP articles (March 24, March 28, May 12 2026), giving readers continuity without re-narrating the earlier compromises.",
+    "source_verification": "Read all 3 cited sources. (1) sources/2026-08/.../source-1.html.gz (AFP press release, sha256 verified against manifest, read in full via decompressed plain-text extraction): confirms investigation start (April 2026), search warrants executed 26 Aug 2026 at Cottesloe/Hamilton Hill/Mandurah properties, the anonymized 'Cottesloe man, 21' charged with 1 possess-data + 4 unauthorised-modification + 1 supply-data + 1 fail-to-comply-3LA + 1 proceeds-of-crime count (8 total) and 'Mandurah man, 23' charged with 1 possess-data + 4 unauthorised-modification + 1 supply-data (6 total, 14 combined) — matches the article's charge breakdown exactly. All three quoted officials (AFP Cdr Marshall, FBI AD Leatherman, WAPF A/Cdr Foley) verified verbatim against this snapshot. (2) sources/2026-08/.../source-2.html.gz (The Record, sha256 verified, read in full): confirms Thomson/Gaebler names, ages, suburbs, 8/6 charge split, and the 56/26/82-year maximum-sentence figures verbatim — BUT the snapshot attributes the actual naming to 'national broadcaster ABC,' not to The Record itself; see attribution finding above. (3) BleepingComputer snapshot fetch failed (HTTP 403, bot-blocked, file: null in manifest) — used a live WebFetch of the same URL as the documented last-resort fallback. The fetch confirmed the 'loose-knit collective' quote, the full attack-target list (Trivy, LiteLLM, Telnyx, SAP, TanStack, European Commission, Mistral AI, OpenAI, GitHub), the 1,000+ orgs/500,000 credentials/300GB figures, the cryptocurrency-payment and device-seizure language, the Flare/Krebs 'reused aliases' investigation mention, the 'further arrests not ruled out' quote, and the Aug 26/27 2026 dates — all match the article's claims with no discrepancies found.",
+    "factual_accuracy": "Charge counts verified two ways: directly against the AFP's live press release text (8 for the Cottesloe man / Thomson, 6 for the Mandurah man / Gaebler, 14 combined) and via independent sentencing-math cross-check against The Record's reported maximums — 3+5x4+3+10+20 = 56 years (Thomson) and 3+5x4+3 = 26 years (Gaebler), summing to the reported 82-year combined maximum. Both checks confirm 'eight charges' is correct; a full-text search of the submitted body_markdown found zero occurrences of 'seven charges,' confirming the submitting bot's claimed earlier inconsistency (a stale re-fetch reading 'seven') did not leak into the final article. Checked for the Krebs on Security specifics the submitting bot said it excluded as unstable ('George Prepakis'/'Cybercats', a '$20,000' earnings figure, a '2,500+ organizations' figure) — none of these strings appear anywhere in the article body; the Flare/Krebs reference that does appear is a generic, source-consistent one line attributed to BleepingComputer. One misattribution found and documented below (ABC vs. The Record as the identifying outlet) — a subordinate claim, not the headline/summary/lead, and the underlying facts it conveys are independently verified as accurate.",
+    "tone_assessment": "Neutral throughout; no editorializing or sensational language. Charges are consistently described as 'alleged' / 'faces' rather than presented as established guilt.",
+    "originality": "Confirmed the three prior Machine Herald TeamPCP articles referenced in 'Background' exist at their linked paths (src/content/articles/2026-03/24-trivy-supply-chain-attack-escalates-..., src/content/articles/2026-03/28-teampcp-supply-chain-attack-reaches-litellm-..., src/content/articles/2026-05/12-checkmarx-jenkins-ast-plugin-backdoored-...). This submission covers a genuinely new development — law-enforcement charges against two named individuals — not a re-narration of the earlier technical-compromise coverage. Searched src/content/articles/2026-08/ for any existing coverage of this arrest/charges story; found none, so no duplicate risk.",
+    "concerns": [
+      "The article credits '[The Record] identified them as Ruben Ian Thomson...and Louis Michael Gaebler...' but The Record's own text says 'national broadcaster ABC identified them.' The names/ages/locations themselves are accurate; only the credited outlet for the identification is wrong. Filed as a corrections record.",
+      "afp.gov.au is not yet present in config/source_allowlist.txt (automated warning). It is an official government law-enforcement press release and reads as a reputable primary source; recommend adding the domain to the allowlist rather than treating this as a content problem.",
+      "The BleepingComputer snapshot could not be archived (HTTP 403, bot-blocked). Content was verified via a live WebFetch as the documented last-resort fallback; no discrepancies were found, but the provenance record will show a null snapshot file for that source."
+    ],
+    "recommendations": [
+      "File a corrections record for the ABC/Record attribution issue per APPROVE_WITH_CORRECTIONS process.",
+      "Add afp.gov.au (and similar official law-enforcement press-release domains) to config/source_allowlist.txt so future AFP-sourced submissions don't trip the allowlist warning."
+    ],
+    "overall_assessment": "Well-sourced, accurate report on a genuine new development in an ongoing story the outlet has tracked since March 2026. Charge counts, ages, locations, and sentencing math were independently verified against the AFP's live press release and cross-checked against The Record's sentencing figures, both confirming the resolution of the submitting bot's earlier '7 vs 8 charges' concern. One subordinate misattribution (crediting The Record rather than ABC for identifying the suspects) is addressed with an accompanying corrections record; nothing else warrants withholding publication. Verdict: APPROVE_WITH_CORRECTIONS."
+  }
+}
