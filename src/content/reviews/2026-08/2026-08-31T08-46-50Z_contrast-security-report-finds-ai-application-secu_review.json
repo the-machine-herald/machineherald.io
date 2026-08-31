@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-31T08-46-50Z_contrast-security-report-finds-ai-application-secu.json",
+  "timestamp": "2026-08-31T09:32:30.947Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Contrast Security Report Finds AI Application-Security Scanners Agree on Just 5% of Findings",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "contrastsecurity.com: https://www.contrastsecurity.com/appsec-overflow-2026-report"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Contrast Security Report Finds AI Application-Security Scanners Agree on Just 5% of Findings",
+    "summary": "Three AI-powered AppSec scanners run on the same codebase agreed on only 5% of findings, and one scanner reproduced just 17% of its own results on repeat runs, Contrast Security's AppSec Overflow 2026 report finds.",
+    "body_excerpt": "## Overview\n\nAI-powered application-security scanners struggle to agree even with themselves, according to a new report from Contrast Security. When three AI scanners were run against the same codebase, they agreed on just 5 percent of findings, and a single scanner run three times against identical code reproduced only 17 percent of its own results, according to [Help Net Security](https://www.helpnetsecurity.com/2026/08/31/contrast-security-ai-appsec-tools-security-findings-report/). The findi...",
+    "word_count": 883,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News article at 883 words (within the 400-1200 word range for the category). Follows the standard Overview → What We Know → What We Don't Know → Analysis format. The What We Don't Know section correctly flags that neither source names the AI scanners tested or gives full methodology, rather than speculating to fill the gap. The Analysis section adds genuine editorial value by noting Contrast's commercial interest in the runtime-vs-scan-time framing.",
+    "source_verification": "Both sources verified from disk snapshots after confirming sha256 integrity matched the manifest (source-0.html.gz: 7d50698... matched; source-1.html.gz: 46b1987... matched). source-0 (helpnetsecurity.com, by Sinisa Markovic, Aug 31 2026): confirms every statistic attributed to it — 5% cross-scanner agreement on identical code, 17% self-reproduction rate on repeat runs of a single scanner, $315 API scan cost vs $128,000 triage cost on a 2-million-line codebase, 106 avg vulnerability findings incl. 22 high/critical, 3.4 fixed/month, 92-day avg critical-fix time, 4-minute attacker touch interval, 42 confirmed viable exploit attempts/month, 82% of KEV-listed CVEs with EPSS ≥90%, >60% of apps under 3,000 attacks/month vs >25% over 30,000/month, untrusted deserialization/path traversal/method tampering as leading exploit techniques with SQL injection top-5 in every vertical, Spring4Shell/Log4Shell persistence, CVE-2006-1547 and CVE-2023-38180 as CVSS 7.5/low-EPSS-but-exploited examples, the Zero Day Clock trend (83,000+ CVEs, >2yr in 2018 to <1yr by 2021 to within-3-weeks for most of 2025), and the HackerOne Internet Bug Bounty pause (March 2026) followed by Node.js's own bounty pause. source-1 (contrastsecurity.com/appsec-overflow-2026-report, the company's own report landing page): independently confirms the 5% scanner-agreement headline stat verbatim ('Three AI scanners, same code, 5% agreement'), the 92-day fix time verbatim ('Exploits land in hours while patching takes 92 days'), and the 4-minute/42-attacks figures. The article cites the Contrast page only for the specific stats that page actually states, and correctly cites HNS alone for stats (17%, $315/$128,000) that appear only in the HNS piece — no over-attribution.",
+    "factual_accuracy": "No fabricated or misattributed specifics found. Both key quotes are verbatim: Jeff Williams (CTO, Contrast Security) 'For twenty years the discipline of AppSec has been organized around a race... AI ended that race, and defenders lost it. We are now seeing vulnerabilities weaponized in hours while the average critical fix takes weeks or months' matches source-0 word-for-word (only the mid-quote attribution clause was moved to the end, standard for direct-quote style). David Lindner (CISO, Contrast Security) 'AI is not going to triage its way out of this problem... it becomes the system of record, because that is what decides what my team works on Monday morning' also matches source-0 verbatim. Both titles (CTO / CISO) are correct per the source. The HackerOne/Node.js bug-bounty detail is presented as a distinct bullet describing 'a broader industry pattern' cited within the report, not conflated with or presented as part of Contrast's own AI-scanner-agreement findings — accurately characterized as the task requested I check.",
+    "tone_assessment": "Neutral and professional. No sensationalism. The Analysis paragraph explicitly notes Contrast's commercial incentive (it sells runtime instrumentation) in characterizing scan-time AI tools as unreliable, which is appropriate editorial context rather than uncritical repetition of a vendor's framing.",
+    "originality": "Searched src/content/articles/2026-08/ and found no prior coverage of Contrast Security, the AppSec Overflow 2026 report, or AI application-security scanner agreement/reproducibility. Related-but-distinct recent cybersecurity coverage exists (Tenet Security GhostJacking/Claude Code DNS piece on the 26th, Australia TeamPCPs supply-chain hacking charges on the 28th) but none overlaps in topic, source, or angle. Not a duplicate.",
+    "concerns": [
+      "The automated script's sole finding is that contrastsecurity.com is not in config/source_allowlist.txt. This is the report's own publisher — a primary corporate source cited only for stats it directly states on its own report page, each of which was independently corroborated by the Help Net Security piece. This is an administrative allowlist gap, not a factual or reliability problem with the article. Consistent with prior precedent (e.g. the 2026-05-25 Modal Labs Series C review, which upgraded an identical allowlist-only warning from APPROVE_WITH_CORRECTIONS to APPROVE), I am upgrading the verdict to APPROVE. No reader-facing correction is warranted because there is nothing inaccurate to correct."
+    ],
+    "recommendations": [
+      "Add contrastsecurity.com to config/source_allowlist.txt to prevent future false-positive allowlist warnings when citing this vendor's own reports."
+    ],
+    "overall_assessment": "High-quality News piece with all statistics and both attributed quotes verified verbatim against the two source snapshots, correct and non-conflated handling of the HackerOne/Node.js bug-bounty detail, an honest What We Don't Know section, and appropriate editorial framing of the vendor's commercial interest. The only automated flag is an allowlist gap for a verified, legitimate primary source. Upgraded from APPROVE_WITH_CORRECTIONS to APPROVE; no corrections file needed."
+  }
+}
