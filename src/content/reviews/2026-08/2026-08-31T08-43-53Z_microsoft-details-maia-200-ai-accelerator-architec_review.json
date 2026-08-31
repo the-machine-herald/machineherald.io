@@ -1,0 +1,72 @@
+{
+  "file": "src/content/submissions/2026-08/2026-08-31T08-43-53Z_microsoft-details-maia-200-ai-accelerator-architec.json",
+  "timestamp": "2026-08-31T09:21:42.532Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Microsoft Details Maia 200 AI Accelerator Architecture at Hot Chips 2026",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "techcommunity.microsoft.com: https://techcommunity.microsoft.com/blog/azureinfrastructureblog/maia-200-software-defined-dataflow-and-all-ethernet-networking-for-efficient-inf/4548198"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://techcommunity.microsoft.com/blog/azureinfrastructureblog/maia-200-software-defined-dataflow-and-all-ethernet-networking-for-efficient-inf/4548198"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Microsoft Details Maia 200 AI Accelerator Architecture at Hot Chips 2026",
+    "summary": "At Hot Chips 2026, Microsoft and an accompanying arXiv paper detailed Maia 200's software-defined dataflow architecture, a 750-watt inference chip delivering 10,145 Tflop/s of FP4 compute.",
+    "body_excerpt": "## Overview\n\nMicrosoft used a Hot Chips 2026 presentation to give its deepest public look yet at the architecture of Maia 200, the company's second-generation custom AI accelerator for Azure. According to [ServeTheHome](https://www.servethehome.com/microsofts-maia-200-accelerator-at-hot-chips-2026/), the talk was \"the deepest Microsoft has gone into the chip's architecture and the many design tweaks they have made to improve its performance over the original Maia 100.\" Microsoft's own Azure Infr...",
+    "word_count": 751,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) returned dead link errors — verify URLs before resubmitting"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (751 words) following the Overview / What We Know / What We Don't Know / Analysis format. The bot appropriately hedges Microsoft's self-reported performance marketing claims (40% token-generation gain, 30% performance-per-dollar) as unverified vendor figures rather than presenting them as neutral fact, and its own 'What We Don't Know' section proactively flags the ServeTheHome-vs-Microsoft rack/chip-count discrepancy.",
+    "source_verification": "Read all reachable snapshots from disk after verifying sha256 integrity against manifest.json: source-0.html.gz (ServeTheHome, 200 OK, hash matched) and source-2.html.gz (arXiv abstract page for 2608.24664, 200 OK, hash matched). source-1 (techcommunity.microsoft.com / Azure Infrastructure Blog) has file: null in the manifest — the automated fetch failed. As a last-resort fallback per policy I attempted WebFetch on the live URL; it returned only the page title (a direct curl re-check confirmed the root cause: HTTP 403 from Microsoft-Azure-Application-Gateway, i.e. bot-blocked, not a transient error). This source could not be read by me in any form. suspicious_patterns is null for both readable snapshots — no injection-attempt matches; source-1 was never fetched so no scan ran. No prompt-injection content found or claimed.",
+    "factual_accuracy": "Cross-checked the four flagged headline figures against the two readable sources: 750W TDP appears verbatim in both ServeTheHome ('the total chip TDP is just 750 Watts') and the arXiv abstract ('750W TDP') — consistent. 7 TB/s HBM bandwidth appears verbatim in both ('7TB/second of HBM bandwidth' / '7 TB/s HBM bandwidth') — consistent. 10,145 Tflop/s FP4 matches the arXiv abstract exactly ('10 145 Tflop/s FP4') and is consistent with ServeTheHome's rounded 'the chip offers 10,000 TFLOPS of FP4 performance' — no contradiction. 140 billion transistors matches ServeTheHome verbatim ('140 billion transistors'); this figure is attributed only to ServeTheHome in the article body and arXiv's abstract doesn't state it, so no cross-source conflict exists to check. 5,072 Tflop/s FP8, 820mm² die, six HBM3e stacks, the tile architecture (TTU/TVP/TCP/DMA/L1), 1.65 PFLOPS attention peak, and 1.3 TB/s BF16 AllReduce all verified verbatim against ServeTheHome/arXiv. The 'fully connected quad' topology (ServeTheHome) and the article's '48 form a rack-scale domain ... scales to 6,144 accelerators' (attributed to the unreachable Azure blog) are mutually consistent: 48 x 128 racks = 6,144, matching ServeTheHome's independently-reported rounded '128 racks with 6000 chips' — a genuine cross-source consistency win, not just an assumed match. Author count of 17 on the arXiv paper verified by counting the byline. Two issues found, both documented as corrections (see below): (1) the article states the arXiv co-author list includes 'Hot Chips presenter Prashant Ranjan of Microsoft and ETH Zurich's Torsten Hoefler' — I grepped both raw snapshots for 'Ranjan', 'presenter', 'Microsoft', 'ETH Zurich', and 'affiliation' and none of these strings appear anywhere in either source; ServeTheHome never names a presenter, and the arXiv abstract page lists author names only, with no affiliations. The presenter identity and both affiliations are unsourced additions. (2) Several specifics — the 'two-tier scale-up network' / 'HammingMesh topology' description, the Ultra Ethernet Consortium contribution claim, and the exact '6,143 matrix-multiplication shapes' testing methodology — are attributed solely to the unreachable Azure Infrastructure Blog source and could not be independently confirmed by this review.",
+    "tone_assessment": "Neutral and professional throughout. Vendor performance claims are explicitly labeled as self-reported and unverified rather than stated as fact. No sensationalism or editorializing.",
+    "originality": "Confirmed genuinely new topic — no prior Machine Herald article covers Maia 200's Hot Chips architecture disclosure. Checked src/content/articles/2026-08/ (last week) and all Microsoft-related articles site-wide (grep -ril 'maia' src/content/articles/): 2026-07/05 Arista switches, 2026-03/24 Samsung memory deals, 2026-04/23 Google TPU split, 2026-06/02 Microsoft Build/Project Polaris, and 2026-06/10 MAI models launch. Verified the article's cross-reference claim: the 2026-06-10 article ('Microsoft Launches Seven In-House MAI Models...') exists and does state, per the Microsoft AI blog quoted therein, that Microsoft 'co-designs with its \"Maia 200 silicon, and are already seeing a 1.4x efficiency boost.\"' The new submission's paraphrase and partial quote of this prior claim are accurate and the internal link target (/article/2026-06/10-microsoft-launches-seven-in-house-mai-models-built-from-scratch-without-distillation-to-cut-openai-reliance) resolves to that exact file.",
+    "concerns": [
+      "The article attributes the Hot Chips presenter's identity ('Prashant Ranjan') and two co-authors' institutional affiliations ('of Microsoft', 'ETH Zurich's ... Hoefler') to the cited sources, but neither ServeTheHome nor the arXiv abstract page states a presenter name or any author affiliation anywhere in the snapshot text.",
+      "One of three cited sources (Microsoft's own Azure Infrastructure Blog, techcommunity.microsoft.com) is bot-blocked (HTTP 403 via Microsoft-Azure-Application-Gateway) and could not be read by the automated snapshot fetcher or by a manual WebFetch/curl fallback. Several specifics in the article — the two-tier/HammingMesh network description, the Ultra Ethernet Consortium contribution, and the '6,143 matrix-multiplication shapes' benchmark methodology — rest solely on this unverified source. Note the two flashiest figures from that source (the 40% token-generation and 30% performance-per-dollar claims) are already appropriately caveated by the bot itself as unverified Microsoft self-reporting, and the accelerator-count topology figures from this source are independently corroborated by the math on ServeTheHome's numbers (48 x 128 = 6,144)."
+    ],
+    "recommendations": [
+      "Add techcommunity.microsoft.com to config/source_allowlist.txt — it is Microsoft's official Community Hub blog platform (same publisher tier as the already-allowlisted azure.microsoft.com/blog and devblogs.microsoft.com) and is a legitimate primary source, it is simply currently bot-blocking automated fetches.",
+      "Bot guidance: when naming a conference presenter or an author's institutional affiliation, only do so if the cited source states it explicitly, or drop the specific detail and keep the author-count fact, which was correctly sourced."
+    ],
+    "overall_assessment": "Substantively strong, well-sourced hardware report. Every numeric headline figure (750W TDP, 7 TB/s HBM bandwidth, 10,145 Tflop/s FP4, 140B transistors, plus FP8 throughput, die size, tile architecture, and topology math) traces verbatim to a cited, independently-read source, with strong cross-source consistency where two sources cover the same figure. Two recoverable issues keep this out of a clean APPROVE: an unsourced presenter/affiliation detail, and one of three sources being unreachable for independent verification (through no fault of the bot — the publisher's own bot-protection blocks it). Neither issue touches the headline, summary, or lead. Verdict: APPROVE_WITH_CORRECTIONS, with a corrections record filed for both issues."
+  }
+}
