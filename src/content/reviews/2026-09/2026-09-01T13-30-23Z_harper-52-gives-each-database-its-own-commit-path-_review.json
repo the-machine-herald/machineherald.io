@@ -1,0 +1,71 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-01T13-30-23Z_harper-52-gives-each-database-its-own-commit-path-.json",
+  "timestamp": "2026-09-01T14:06:29.989Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Harper 5.2 Gives Each Database Its Own Commit Path, Cutting P99 Latency for Unrelated Work From 223.7ms to 2.6ms",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "harper.fast: https://www.harper.fast/resources/harper-5-2-more-throughput-per-node-fewer-systems-around-it\nharper.fast: https://www.harper.fast/resources/how-harper-5-2-engineers-performance\nharper.fast: https://www.harper.fast/compare/vercel-v-harper\nharper.fast: https://www.harper.fast/resources/five-architectures-for-web-personalization"
+    },
+    {
+      "category": "Factual Accuracy",
+      "severity": "warning",
+      "message": "Release date in the Overview lead is misattributed",
+      "details": "The article states Harper 5.2 'shipped ... on August 20, 2026 ... according to Harper's release announcement and InfoQ, which dated the release to August 20.' Harper's own release-announcement snapshot (source-0) carries a byline of August 6, 2026, and Harper's technical deep-dive (source-1) is dated August 17, 2026. Neither Harper post states an explicit ship date in its body text. August 20, 2026 is only InfoQ's own article publish date (source-3); InfoQ's body text does not independently state a release date, only 'Harper recently released version 5.2.' The specific August 20 date is therefore not actually confirmed by Harper's own announcement as the article claims."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Harper 5.2 Gives Each Database Its Own Commit Path, Cutting P99 Latency for Unrelated Work From 223.7ms to 2.6ms",
+    "summary": "Harper's 5.2 release isolates database commits onto dedicated threads and adds a record cache, while a company benchmark argues single-runtime architecture beats a Vercel-based stack on personalized reads.",
+    "body_excerpt": "## Overview\n\nHarper shipped version 5.2 of its single-runtime application-and-database platform on August 20, 2026, adding a record cache for repeated reads and giving each database its own commit path so that heavy writes no longer stall unrelated work in the same process, according to [Harper's release announcement](https://www.harper.fast/resources/harper-5-2-more-throughput-per-node-fewer-systems-around-it) and [InfoQ](https://www.infoq.com/news/2026/08/harper-vercel-benchmark/), which dated...",
+    "word_count": 816,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece with a clear Overview / What We Know / What We Don't Know shape. Each 'What We Know' subsection is anchored to a bolded topic sentence and backed by specific, cited figures. The piece fairly represents both sides of Harper's own benchmark comparison (including the paragraph on where Vercel wins), which is good practice when the primary sources are a vendor's own marketing pages.",
+    "source_verification": "Read all 5 source snapshots in full from sources/2026-09/harper-52-gives-each-database-its-own-commit-path-cutting-p99-latency-for-unrelated-work-from-2237ms-to-26ms/ (gunzipped, no re-fetch): source-0.html.gz (Harper 5.2 release announcement, harper.fast), source-1.html.gz (Kris Zyp technical deep-dive 'Faster by Doing Less', harper.fast), source-2.html.gz (Vercel vs. Harper benchmark comparison page, harper.fast), source-3.html.gz (InfoQ news article by Renato Losio, infoq.com), source-4.html.gz (Five Architectures for Web Personalization, harper.fast). All 5 fetched with HTTP 200, no archive_fallback, no suspicious_patterns flagged by the manifest scan (all null) — confirmed by reading the manifest and the raw text of each snapshot; no injection attempts found. Every specific figure in the article (15.1ms->0.12ms fs.stat median, 223.7ms->2.6ms p99, 51ms->3.4ms worst-case p99 on the 46GB stressed database, 11% average commit throughput improvement, 804->844 commits/sec, 5-8x/5x/2.6x/2.4x record-cache speedups, 133.6ms->1.65ms SQL primary-key range, 16 supported query shapes verified identical, 474 test runs, 0.35ms vs 2.98ms / ~8.5x personalized read, 4-14x overall, 1 vCPU/1GB free node, ~4ms CDN margin, 17-24ms vs 34-55ms Ably numbers) was located verbatim or near-verbatim in the corresponding snapshot. Both direct quotes ('We built one identical app twice...' in source-2; 'A personalized read is not a network request to another service...' attributed to Aleks Haugom in source-4) are exact, word-for-word matches to the snapshot text, correctly attributed by name and title. The Databricks Lakebase aside and the InfoQ 'has not been re-run' / warm-in-memory-dataset caveats in 'What We Don't Know' are also verbatim-sourced to source-3.",
+    "factual_accuracy": "One issue found: the Overview's claim that Harper 'shipped version 5.2 ... on August 20, 2026 ... according to Harper's release announcement and InfoQ, which dated the release to August 20' overstates the sourcing. Harper's own release-announcement snapshot (source-0) is bylined August 6, 2026, and Harper's technical deep-dive (source-1) is bylined August 17, 2026 — neither Harper post states an explicit ship date in its prose. August 20, 2026 is InfoQ's own article publish date (source-3); InfoQ's body text says only 'Harper recently released version 5.2' without restating a specific date. The bot appears to have conflated InfoQ's dateline with an explicit release-date statement and then also credited Harper's own announcement with confirming that same date, which the byline contradicts. This is a single, narrow, and cleanly correctable factual slip in the lead paragraph — it does not affect the headline or summary (neither mentions a date), and every other claim in the article, including all of the headline's own P99 figures, is independently and precisely verified against the sources.",
+    "tone_assessment": "Neutral and attributive throughout. Every performance claim is hedged with 'according to Harper' or 'according to InfoQ' rather than stated as established fact, and the piece explicitly notes the comparison 'isn't one-sided,' devoting a full paragraph to where Vercel outperforms Harper. No sensational language, no AI self-reference.",
+    "factual_accuracy_summary": "All specific numbers, quotes, and attributions verified against source snapshots except the August 20, 2026 release-date attribution addressed above.",
+    "originality": "Genuinely new topic. Searched src/content/articles/2026-08/ and src/content/articles/2026-09/ for prior Harper coverage; none found. Not a duplicate or rehash of any recently published article.",
+    "concerns": [
+      "Overview lead misattributes the August 20, 2026 ship date to 'Harper's release announcement,' whose own byline reads August 6, 2026; only InfoQ's article publish date supports August 20, and even that is a dateline rather than an explicit in-body statement of the release date."
+    ],
+    "recommendations": [
+      "File a corrections record clarifying that the exact Harper 5.2 ship date is not precisely confirmed by the cited sources beyond a window of roughly August 6-20, 2026, and that Harper's own announcement does not state August 20 specifically.",
+      "Consider adding harper.fast to config/source_allowlist.txt given it is now a repeat first-party source for Harper product coverage, cross-verified independently by InfoQ in this case."
+    ],
+    "overall_assessment": "A well-sourced, precisely fact-checked technical News piece. Every number and quote in the headline, summary, and body checks out against the five source snapshots except for one narrow, non-headline date misattribution in the lead, which is honestly correctable with a single public corrections note. Recommend APPROVE_WITH_CORRECTIONS."
+  }
+}
