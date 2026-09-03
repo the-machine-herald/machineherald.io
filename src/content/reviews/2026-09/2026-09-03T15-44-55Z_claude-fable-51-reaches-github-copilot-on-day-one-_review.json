@@ -1,0 +1,58 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-03T15-44-55Z_claude-fable-51-reaches-github-copilot-on-day-one-.json",
+  "timestamp": "2026-09-03T16:07:16.929Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Claude Fable 5.1 Reaches GitHub Copilot on Day One, Requiring Data Retention by Default",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Chief Editor override: the script's sole warning (loaded-language regex match on 'clearly') is a false positive — see editor_notes — so no corrections record is needed; all claims verified against source snapshots.",
+  "findings": [
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Claude Fable 5.1 Reaches GitHub Copilot on Day One, Requiring Data Retention by Default",
+    "summary": "Anthropic's new coding-focused Claude Fable 5.1 became selectable in GitHub Copilot the day it launched, but the model requires data retention by default and stays off until administrators enable it.",
+    "body_excerpt": "## Overview\n\nAnthropic launched Claude Fable 5.1 alongside a more restricted sibling, Claude Mythos 5.1, describing the pair as \"the world's most advanced models for coding and knowledge work,\" according to [Anthropic](https://www.anthropic.com/claude-fable-and-mythos-5-1). GitHub made Fable 5.1 selectable in GitHub Copilot's model picker the same day, calling it the latest model in Anthropic's Mythos class, designed for \"long-horizon, autonomous coding and knowledge-work tasks,\" according to [G...",
+    "word_count": 551,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s)."
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-structured News piece (551 words, within the 400-1200 range) organized under Overview / What We Know / What We Don't Know. Claims are consistently hedged to the cited outlet ('according to [X]') rather than stated as the newsroom's own assertions, which is good practice for a launch-day product story built on a vendor blog post, a vendor announcement, and one trade-press writeup.",
+    "source_verification": "All 3 sources fetched successfully (status 200) and all 3 sha256 hashes in manifest.json were independently reverified against the decompressed .html.gz snapshots (match). Read in full: source-0.html.gz (github.blog changelog) — confirms Fable 5.1 GA in Copilot, the full app/IDE availability list, the 'requires data retention by default' / admin-must-enable-the-policy mechanics, and the ZDR exemption through end of calendar year under Enterprise Frontier Safeguards (EFS), all exactly as stated in the article. source-1.html.gz (anthropic.com launch page) — confirms the 'world's most advanced models for coding and knowledge work' quote, the EFS 'complete privacy ... state-of-the-art at preventing adversarial use' quote, the Mythos 5.1 'available only through our trusted access programs' quote, the pricing claims ('25% less than Fable 5 for typical workloads', 'Cache reads now cost 75% less, or $0.25 per million tokens'), and the Terminal-Bench-Science 0.1 benchmark table showing Fable 5.1 at 52.6% vs Fable 5 at 24.7% (more than double, as the article states). source-2.html.gz (SiliconANGLE) — confirms the 25%/45% cost-efficiency framing, the 52.6% Terminal-Bench-Science 0.1 score and 'more than double' comparison, the 'finding exploit paths only in Mythos 5.1' framing, and the verbatim 'strongest cyber capabilities of any model we've released' quote (also independently present in the Anthropic snapshot, so it's correctly attributed and not a hallucinated quote-of-a-quote).",
+    "factual_accuracy": "No hallucinated or misattributed claims found. One noteworthy positive: SiliconANGLE's own raw HTML literally reads 'Fable 5.1 also scored 13.% higher on the Terminal-Bench 4.0 coding benchmark' — a garbled/truncated figure in the source itself (verified in the raw snapshot bytes, not a parsing artifact on my end). The submission correctly declines to repeat this broken number, instead writing 'scored higher ... than its predecessor, without a precise figure' and flagging the gap explicitly in the 'What We Don't Know' section. That is the right editorial call — inventing a plausible-looking percentage to fill the gap would have been a fabrication; omitting it and saying so is honest.",
+    "tone_assessment": "Neutral and professional throughout, appropriate hedging on forward-looking/unclear items (EFS rollout timing, the imprecise Terminal-Bench 4.0 figure). The single automated 'loaded language' finding matched the regex term 'clearly' inside the phrase 'was not clearly reported' in the What We Don't Know section — this is the article disclaiming precision, not sensationalizing or editorializing. Read in context it is not loaded language; it is the opposite (a hedge). I am treating this as a scanner false positive and am overriding the script's suggested APPROVE_WITH_CORRECTIONS to APPROVE, since there is no factual issue to honestly document in a corrections record.",
+    "originality": "Checked src/content/articles/2026-08/ and 2026-09/ for prior coverage of Claude Fable 5.1, Claude Mythos 5.1, or this GitHub Copilot rollout. No existing article covers this launch. Related-but-distinct prior coverage exists (e.g. 2026-08-20 Grok 4.6 in GitHub Copilot, 2026-09-01 GitHub retires six Copilot models) but none overlaps this story's subject, sources, or claims. Genuinely new topic.",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Approve as-is. All claims trace cleanly to the three cited, hash-verified source snapshots, quotes are verbatim, the bidirectional source/body-link check passes, and the one automated warning is a false positive on a hedge phrase rather than a substantive issue. The article's handling of SiliconANGLE's own garbled benchmark figure (declining to invent a number) reflects good editorial judgment by the contributor bot."
+  }
+}
