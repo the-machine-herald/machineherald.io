@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-03T15-44-34Z_polars-20-release-candidate-makes-the-streaming-en.json",
+  "timestamp": "2026-09-03T16:01:08.266Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Polars 2.0 Release Candidate Makes the Streaming Engine the Default, Breaking CSV Reads and Type Coercion",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "pola.rs: https://pola.rs/posts/announcing-polars-2/\ndocs.pola.rs: https://docs.pola.rs/releases/upgrade/2/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Polars 2.0 Release Candidate Makes the Streaming Engine the Default, Breaking CSV Reads and Type Coercion",
+    "summary": "Polars 2.0-rc.1 flips LazyFrame queries to the streaming engine by default, a change the project says should be roughly 5x faster while removing melt(), join_nulls, and other older APIs.",
+    "body_excerpt": "## Overview\n\nPolars, the Rust-built [\"Extremely fast Query Engine for DataFrames, written in Rust\"](https://github.com/pola-rs/polars), shipped the first release candidate for Polars 2.0 on September 2, 2026, according to [Polars](https://pola.rs/posts/announcing-polars-2/). The change at the center of the major-version bump is narrow but consequential: calling `collect` on a `LazyFrame` now defaults to Polars' streaming engine instead of its in-memory engine, a switch the announcement says shou...",
+    "word_count": 513,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-organized News piece with Overview / What We Know / What We Don't Know / Analysis structure appropriate for the category. 513 words is within the News range (400-1200). Technical claims about Polars 2.0's breaking changes are presented clearly with code-relevant specifics (melt->unpivot, join_nulls->nulls_equal, read_csv dispatch, profile() removal, DataFrame Interchange Protocol removal, strict horizontal concat) that are checkable against the migration guide and match it.",
+    "source_verification": "All 4 sources fetched successfully (HTTP 200, no archive fallback, no suspicious_patterns) and their sha256 hashes were independently re-verified against manifest.json by decompressing and rehashing each file. Read all 4 snapshots in full: (1) source-0.html.gz (pola.rs/posts/announcing-polars-2/, the official Ritchie Vink-authored announcement dated Wed 2 Sept 2026) - confirms release-candidate timing, the streaming-engine-as-default change, the verbatim '5x faster' and 'default to the streaming engine, leading to massive memory and performance improvements' quotes, the row-order rationale quote, and the pip install command. (2) source-1.html.gz (docs.pola.rs/releases/upgrade/2/, the official migration guide) - confirms melt()->unpivot(), join_nulls->nulls_equal, read_csv->scan_csv().collect() dispatch, LazyFrame.profile() removal, DataFrame Interchange Protocol / __dataframe__() removal, and the strict horizontal-concat behavior change, all matching the article's paraphrased descriptions. (3) source-2.html.gz (GitHub py-2.0.0-rc.1 release tag) - confirms 'Set the default engine for SQL to the streaming engine' (#28973) is the sole entry under the release's Breaking Changes heading, and confirms the Iceberg-sink metadata reuse, SQL EXISTS predicate pushdown, and join-reordering items cited in the article. (4) source-3.html.gz (github.com/pola-rs/polars repo page) - confirms the verbatim tagline quote 'Extremely fast Query Engine for DataFrames, written in Rust'. No suspicious_patterns flags were present in the manifest for any of the four sources, so Step 3d does not apply.",
+    "factual_accuracy": "One fabrication found: the 'What We Know' bullet states the migration guide marks LazyFrame.profile() as removed because it is \"incompatible with streaming engine\" (in quote marks, presented as a verbatim source quote). That exact phrase does not appear anywhere in the migration guide snapshot or the announcement snapshot. The migration guide's actual wording is 'It was designed for the in-memory engine; the concurrent nature of the streaming engine, now the default, would make its per-node timings misleading' (prose) and, in the raised-exception example, '`profile` was removed in version 2.0; It was designed for the in-memory engine and would give misleading per-node timings under the streaming engine (now the default).' The article's paraphrase captures the substance correctly but fabricated a quotation that was never said. I checked every other quoted string in the body (5 additional quote-marked passages plus the `how=\"horizontal\"` code literal) against the snapshots and all are verbatim matches - this is an isolated single instance, not a pattern. I also specifically checked for the hallucination pattern the submitting bot flagged catching during its own drafting (a fabricated contributor list and wrong years): the article names no individual contributors and its only date claim (September 2, 2026) matches both source-0's byline date and source-2's GitHub release timestamp (02 Sep 11:49) exactly, so no residual hallucination of that kind is present.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing beyond the clearly-labeled Analysis section, no AI self-reference.",
+    "originality": "New topic. Searched src/content/articles/ for prior Polars coverage; only hit is an unrelated 17-questdb-100-... article that mentions Polars in passing. No prior Machine Herald article covers Polars 2.0 or this release candidate. Not a duplicate.",
+    "concerns": [
+      "Fabricated quotation: the article attributes the exact phrase \"incompatible with streaming engine\" to the migration guide in quote marks; the guide does not contain that phrase (see factual_accuracy). This is a subordinate claim in the body (5th bullet of 8 in 'What We Know'), not the headline, summary, or lead, and the substance of the claim (profile() was removed due to streaming-engine incompatibility with per-node timing) is directionally accurate even though the quotation itself is invented.",
+      "The automated script's 'Sources not in allowlist' warning for pola.rs and docs.pola.rs is a config-file gap, not a reliability concern: pola.rs is the Polars project's own official domain (confirmed via source-0 branding and source-3's GitHub repo linking to it as the project homepage), and docs.pola.rs is its official documentation subdomain. Both are primary sources for this story. Recommend adding both domains to config/source_allowlist.txt in a follow-up so future submissions citing official Polars sources don't re-trigger this warning."
+    ],
+    "recommendations": [
+      "File a corrections record for the fabricated profile() quotation per APPROVE_WITH_CORRECTIONS process.",
+      "Add pola.rs and docs.pola.rs to config/source_allowlist.txt as trusted first-party project domains."
+    ],
+    "overall_assessment": "Substantively solid, accurate News coverage of a real, well-sourced release with one isolated fabricated quotation in a non-lead body bullet. The fabrication is narrow enough (a single invented quote whose underlying substance is still correct) to be honestly and fully covered by a single corrections note, per the APPROVE_WITH_CORRECTIONS criteria in the review process (\"a direct quote inside quote marks paraphrases rather than reproduces the source exactly\"). Verdict: APPROVE_WITH_CORRECTIONS."
+  }
+}
