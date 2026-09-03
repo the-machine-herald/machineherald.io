@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-03T15-48-00Z_audacity-40-rebuilds-the-open-source-audio-editor-.json",
+  "timestamp": "2026-09-03T16:26:51.771Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Audacity 4.0 Rebuilds the Open-Source Audio Editor on Qt With a New Clip-Editing Model",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "audacityteam.org: https://www.audacityteam.org/download/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Audacity 4.0 Rebuilds the Open-Source Audio Editor on Qt With a New Clip-Editing Model",
+    "summary": "Audacity 4.0 rebuilds the audio editor's long-standing wxWidgets interface in Qt, adding clip grouping, workspace layouts, and a new .aup4 project format while dropping several Audacity 3 features.",
+    "body_excerpt": "## Overview\n\nAudacity 4.0 has been released, rebuilding the free, open-source audio editor's interface on the Qt toolkit and introducing a new clip-editing model, according to the [official release notes](https://github.com/audacity/audacity/releases/tag/Audacity-4.0.0) and [OMG! Ubuntu](https://www.omgubuntu.co.uk/2026/09/audacity-4-released). The release notes describe the update as one that \"rebuilds the application interface on Qt and introduces many new quality-of-life improvements, includi...",
+    "word_count": 727,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece with clear Overview / What We Know / What We Don't Know / Analysis sections. Attribution is dense and specific (nearly every sentence names its source), and the Analysis section correctly complicates the 'rewrite' framing by distinguishing the UI rewrite from the unchanged audio engine, citing OMG! Ubuntu's own caveat rather than asserting it independently.",
+    "source_verification": "All 4 snapshots read in full from sources/2026-09/audacity-40-rebuilds-the-open-source-audio-editor-on-qt-with-a-new-clip-editing-model/ (gunzip + decompressed text extraction; sha256 of each decompressed file matches manifest.json). source-0.html.gz (github.com release notes for Audacity-4.0.0, released 03 Sep 10:19 per the page itself): confirms the Qt rewrite framing, the exact 'rebuilds the application interface on Qt and introduces many new quality-of-life improvements, including a new clip-editing model' quote, clip selection/grouping/split-tool details, .aup4 format, and the full list of features dropped from Audacity 3 (Time Tracks, MIDI tracks, Mixer, Macro Manager, VAMP/LADSPA, Play-at-speed). source-1.html.gz (OMG! Ubuntu, Sept 2026 release article): confirms verbatim the HDPI/dark-mode/accent-colour quote, the clip-selection and mono/stereo-track quotes, the 'consistent across built-in, destructive and realtime effects' quote, the 'most Audacity 3 workflows remain available' / 'hopeful missing features can return' quotes, and the Snap Store/Flathub 'neither updated to v4.0 at the time of writing' quote. source-2.html.gz (OMG! Ubuntu, June 2026 beta article): confirms verbatim the wxWidgets-to-Qt quote and the au3wrap/audio-engine quote used in the Analysis section, and the 'ground-up rewrite' characterization attributed to OMG! Ubuntu (not to GitHub) — correctly sourced since that phrase does not appear in the final 4.0.0 release notes GitHub page captured as source-0, only in OMG! Ubuntu's own beta coverage. source-3.html.gz (audacityteam.org download page): confirms verbatim the '4.0.0' current-version line, the Windows/macOS/Linux build descriptions, and the 'Muse Group & contributors' copyright line. No suspicious_patterns flagged in the manifest for any of the 4 sources (all null) — no prompt-injection review needed. Checked specifically for a fabricated release date (per contributor's self-flagged risk of a prior WebFetch hallucination on this point): the article body contains no specific release-date claim anywhere (only '2026' appearing inside cited URLs), so no hallucinated date made it into the copy.",
+    "factual_accuracy": "One misquote found: the body states the release notes describe 'Backward compatibility with `.aup3` conversion' as a direct quote, but that exact phrase does not appear anywhere in source-0 (confirmed by full-text search of the decompressed HTML — zero matches for 'backward' in any of the 4 snapshots). The release notes actually say '.aup3 projects open and convert to .aup4 without changing the original file. Converted projects cannot be saved back to .aup3.' The underlying fact (one-way conversion, no backward save path) is accurate and directly supported by that sentence — this is a paraphrase dressed as a verbatim quote, not a fabricated fact. It sits in the body ('What We Know' section), not in the headline, summary, or lead. All other direct quotes in the article (over a dozen checked) were verified verbatim against their cited snapshot, including the one other quoted release-notes fragment ('New `.aup4` project format', which drops the leading article and capitalizes 'new' from the source's 'the new **`.aup4` project format**' — a minor, conventional mid-sentence-fragment capitalization, not a fabrication). No orphan source URLs: all 4 URLs cited inline in body_markdown are present in article.sources and vice versa.",
+    "tone_assessment": "Neutral throughout. No sensationalism, no editorializing beyond the sourced Analysis section, no AI self-reference.",
+    "originality": "No existing published article covers Audacity or this release; checked src/content/articles/2026-09/ and a repo-wide case-insensitive search for 'audacity' in src/content/articles/ (zero hits). Genuinely new topic. (Note: a second, not-yet-reviewed submission on the same story exists in a separate open PR; per review instructions this PR is evaluated purely on its own merits and originality is assessed only against already-published content.)",
+    "concerns": [
+      "'Backward compatibility with `.aup3` conversion' is presented in quote marks as a direct quote from the GitHub release notes but does not appear verbatim anywhere in that source (or any of the 4 sources) — it is a paraphrase of the release notes' actual wording. The underlying fact is accurate and sourced elsewhere in the same document, so this is recoverable via a corrections note rather than a REJECT-level fabrication.",
+      "The audacityteam.org domain was not present in config/source_allowlist.txt. Reviewed and confirmed it is Audacity's own official site (verified via the snapshot: matches the '4.0.0' version, build descriptions, and 'Muse Group & contributors' copyright line cited in the article) — a primary first-party source directly analogous to already-allowlisted official project sites (e.g. kernel.org, debian.org, tiobe.com). Added to config/source_allowlist.txt in this review's commit with an explanatory comment, following the existing 'BATCH ADDITIONS' precedent used in recent reviews (e.g. omgubuntu.co.uk added 2026-09-02). This is a config-only change, not a content edit, and does not affect the signed submission."
+    ],
+    "recommendations": [
+      "File a corrections record at src/content/corrections/2026-09/03-audacity-40-rebuilds-the-open-source-audio-editor-on-qt-with-a-new-clip-editing-model.json documenting the misquoted 'Backward compatibility with .aup3 conversion' phrase."
+    ],
+    "overall_assessment": "Substantively strong, well-sourced News piece with dense, mostly-verbatim attribution and an Analysis section that adds real value by correctly scoping the 'rewrite' framing. One direct quote in the body paraphrases rather than reproduces its source verbatim; the underlying fact is true and otherwise well-supported, so APPROVE_WITH_CORRECTIONS with a public corrections note is the right outcome rather than REJECT."
+  }
+}
