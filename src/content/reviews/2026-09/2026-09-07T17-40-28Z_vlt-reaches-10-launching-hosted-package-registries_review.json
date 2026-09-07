@@ -1,0 +1,66 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-07T17-40-28Z_vlt-reaches-10-launching-hosted-package-registries.json",
+  "timestamp": "2026-09-07T18:08:07.220Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "vlt Reaches 1.0, Launching Hosted Package Registries as a Security-First npm Replacement",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "vlt.io: https://www.vlt.io/blog/1-0\nnews.ycombinator.com: https://news.ycombinator.com/item?id=49172251"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "vlt Reaches 1.0, Launching Hosted Package Registries as a Security-First npm Replacement",
+    "summary": "vlt, a JavaScript package manager built by npm's original developers, ships 1.0 with hosted registries that block malware and phased installs that stop scripts from running automatically.",
+    "body_excerpt": "## Overview\n\nvlt, a JavaScript package manager built by npm's original developers, has [shipped version 1.0](https://www.vlt.io/blog/1-0) alongside general availability of hosted package registries and ecosystem mirrors. According to [the announcement](https://www.vlt.io/blog/1-0), the release positions vlt as \"an end-to-end platform for developers, their teams and agents to ship faster, safer, and more reliably,\" built as a drop-in replacement for npm.\n\n## What We Know\n\n- The vlt client can \"ru...",
+    "word_count": 647,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-organized News piece using the standard Overview / What We Know / What We Don't Know / Context structure. 647 words, within the 400-1200 News range. Prose is clear and appropriately technical for a developer-tooling launch story. The 'What We Don't Know' section appropriately flags that the 38%-faster and malware-flagging figures are company-reported and unverified by third parties.",
+    "source_verification": "All 5 sources fetched successfully (HTTP 200, no suspicious_patterns) and personally read from the gzipped snapshots in sources/2026-09/vlt-reaches-10-launching-hosted-package-registries-as-a-security-first-npm-replacement/: (1) source-0.html.gz (vlt.io/blog/1-0) - read in full via text extraction; confirms the platform positioning quote, phased-install (vlt install/vlt build) split, the 60+/~30 selector counts and full selector list including :host(local) and the example query, Catalogs, OIDC trusted publishing (GitHub Actions automatic, GitLab/CircleCI with supplied token), the malware-feed/OSV ingestion quote, the 275k-flagged/25%-still-available figures, and the 38%-faster claim - all verbatim as quoted in the article. (2) source-1.html.gz (InfoQ) - read in full; confirms the drop-in-replacement framing, the install/build split, the selector count and Socket integration, the 275k/quarter-installable figures, and the 38%-faster claim, but two quotes attributed to InfoQ are NOT verbatim (see concerns). (3) source-2.html.gz (Hacker News thread) - read in full; confirms 55 points / 20 comments, and confirms the founder-attributed quote ('vlt helps engineering teams build JavaScript software faster, reduce supply chain risk, and lower infrastructure costs (via. API perf / payload optimizations)') is a verbatim comment by user clarke78, who later self-identifies in the same thread with 'Founder here - thanks for the vote of confidence!' — supporting the article's 'commenter identifying as the company's founder' framing. (4) source-3.html.gz (GitHub repo) - read in full; confirms BSD-2-Clause-Patent license designation. (5) source-4.html.gz (raw LICENSE file) - read in full; confirms 'Copyright (c) vlt technology, Inc.' verbatim. Two of five sources (vlt.io, news.ycombinator.com) are not on config/source_allowlist.txt; both were manually verified as legitimate primary sources (the company's own product announcement and the linked public discussion thread) and every claim attributed to them checks out against the snapshot text.",
+    "factual_accuracy": "Every specific number, quote, and attribution in the 'What We Know' section traces to a cited, personally-read source snapshot, with two exceptions: two quotes attributed to InfoQ paraphrase rather than reproduce InfoQ's exact wording (see concerns). The substance of both claims is accurate; only the exact wording inside the quote marks differs from the source.",
+    "tone_assessment": "Neutral and factual throughout. No sensationalism, no unsupported editorializing. Appropriately hedges company-sourced performance/security claims as unverified by outside parties.",
+    "originality": "No existing published article covers vlt or vlt 1.0 (checked src/content/articles/ and src/content/reviews/2026-09/ — the only other package-manager story this month, the 2026-09-03 pnpm 12 piece, is about a different tool and is correctly cited only for general ecosystem context, not conflated with this story). This is a genuinely new topic.",
+    "concerns": [
+      "Bullet 2 quotes InfoQ as writing that vlt build \"runs scripts only for trusted packages,\" but InfoQ's actual text reads: \"vlt build then runs scripts only for the packages you trust, skipping anything flagged as malware by default.\" The quoted phrase paraphrases rather than reproduces InfoQ's wording verbatim.",
+      "Bullet 5 quotes InfoQ describing reviewers as noting \"a quarter remain installable on npm,\" but InfoQ's actual text reads: \"having flagged more than 275,000 package versions, a quarter of which reviewers note are still installable on npm.\" Again, the quoted phrase paraphrases rather than reproduces InfoQ's exact wording. The underlying fact (a quarter of flagged packages remain installable) is accurate and matches vlt.io's own figures.",
+      "Two of five cited sources (vlt.io, news.ycombinator.com) are not in config/source_allowlist.txt."
+    ],
+    "recommendations": [
+      "Bot should be reminded that text inside quote marks must be copied verbatim from the source, even when paraphrasing would convey the same meaning — the fix is to either quote the source's exact words or drop the quote marks and paraphrase in the reporter's own voice.",
+      "Consider adding vlt.io and news.ycombinator.com to config/source_allowlist.txt as recurring legitimate primary-source domains (company blog for own-product announcements; HN as a public discussion record), consistent with prior allowlist-gap corrections filed for similar company-blog/GitHub/forum sources."
+    ],
+    "overall_assessment": "Substantively solid, well-sourced launch story with no fabricated facts and no issues in the headline, summary, or lead. Two subordinate quotes attributed to InfoQ paraphrase rather than reproduce the source verbatim, and two sources sit outside the curated allowlist despite being verified legitimate primary sources. Both issues are minor, recoverable, and can be honestly disclosed in a single corrections record without gutting the article's substance — APPROVE_WITH_CORRECTIONS."
+  }
+}
