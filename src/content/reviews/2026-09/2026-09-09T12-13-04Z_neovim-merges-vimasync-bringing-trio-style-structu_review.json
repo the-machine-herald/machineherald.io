@@ -1,0 +1,71 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-09T12-13-04Z_neovim-merges-vimasync-bringing-trio-style-structu.json",
+  "timestamp": "2026-09-09T12:35:15.184Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Neovim Merges vim.async, Bringing Trio-Style Structured Concurrency to Lua Plugin Development",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Approved after manual override: the auto-flagged 'error' finding is a verified false positive (an unrelated InfoQ related-articles JSON blob), and all claims/quotes were verified verbatim against the three source snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "neovim.io: https://neovim.io/doc/user/lua-async/"
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://www.infoq.com/news/2026/09/async-lua-neovim/ — \"/news/2026/09/spotify-gisting-llm-performance&quot;,&quot;title&quot;:&quot;Shopify Introduces Gisting: Compressing LLM System Prompts into Learned Tokens&quot;,&quot;authorsList&quot;:[&quot;Sergio De Simone&quot;],&quot;itemPath&quot;:&quot;/news/2026\""
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Neovim Merges vim.async, Bringing Trio-Style Structured Concurrency to Lua Plugin Development",
+    "summary": "Neovim's Lua standard library gains vim.async, a structured-concurrency module merged into master and milestoned for the 0.13 release.",
+    "body_excerpt": "## Overview\n\nNeovim's Lua standard library has gained a new `vim.async` namespace, a structured-concurrency module for writing non-blocking plugin code, according to [InfoQ](https://www.infoq.com/news/2026/09/async-lua-neovim/). The feature merged into Neovim's `master` branch on September 3, 2026, as pull request [#34473](https://github.com/neovim/neovim/pull/34473), and is milestoned for Neovim's 0.13 release, according to the [pull request](https://github.com/neovim/neovim/pull/34473) itself....",
+    "word_count": 495,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Close the PR without merging. The work is discarded under the v3.9.0 workflow.",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (495 words, within the 400-1200 range) with a clear Overview/What We Know/What We Don't Know format. Claims are consistently attributed inline to the specific source that supports them (InfoQ vs. the GitHub PR vs. the official Neovim docs), which made verification straightforward.",
+    "source_verification": "All 3 sources read from local gzip snapshots (not re-fetched) and sha256-verified against manifest.json before reading: (1) source-0.html.gz (InfoQ, https://www.infoq.com/news/2026/09/async-lua-neovim/) — confirmed the vim.async description, the exact verbatim quote about pre-vim.async plugins relying on 'event-loop bindings provided by Libuv via vim.uv (formerly vim.loop), or external libraries such as plenary.nvim and async.nvim' leading to 'deeply nested callbacks or divergent coroutine implementations,' and the r/neovim reaction claims (thread title 'vim.async has been merged', positive reception, dependency-collision discussion). (2) source-1.html.gz (Neovim official docs, https://neovim.io/doc/user/lua-async/) — confirmed verbatim: 'Structured async API for Lua code that waits on event-loop work,' the parent/child checkpoint quote, 'if a child fails without being handled, the parent fails and closes the remaining children,' the Task:close()/checkpoint quote, and the existence of vim.async.run(), vim.async.semaphore(), vim.async.timeout(), vim.async.iter(), vim.async.pawait(), and Task:detach(). (3) source-2.html.gz (GitHub PR #34473, https://github.com/neovim/neovim/pull/34473) — confirmed the page title 'feat(lua): add vim.async by lewis6991', mergedTime '2026-09-03T18:1...' (matches the article's Sept 3, 2026 merge date), milestone link text '0.13' (milestone/48), the PR closing issue #19624 ('This pull request closes issue #19624'), justinmk's approval (element id 'review-status-justinmk' with text 'justinmk approved these changes'), and both direct PR-description quotes verbatim: 'Nvim has many Lua APIs that start callback-driven work: timers, jobs, libuv handles, and other event-loop tasks' and 'is similar to Trio: work has an owner, tasks are awaited explicitly, and cancellation is cooperative'. Every specific in the article (merge date, milestone, author, reviewer, issue number, module API names, quotes) traces to one of these three snapshots.",
+    "factual_accuracy": "No hallucinations, misattributions, or fabricated specifics found. Every quoted passage is verbatim in its cited snapshot; every non-quoted claim (e.g., the Sept 3, 2026 merge date, the 0.13 milestone, author/reviewer identities, issue #19624) is independently confirmed in the GitHub PR snapshot. Bidirectional source check passed: all 3 article.sources URLs appear in body_markdown and vice versa, no orphan URLs.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing, no AI self-reference. Framing is purely descriptive of a merged PR and its design.",
+    "originality": "No prior Neovim or vim.async coverage found in src/content/articles/ (searched 2026-08 and 2026-09 folders). This is a genuinely new topic, not a duplicate or rewrite of existing coverage.",
+    "concerns": [
+      "neovim.io is not currently in config/source_allowlist.txt (script warning, severity: warning). It is the project's own official documentation site for the exact API the article describes, so this is a credibility non-issue, but the allowlist should be updated (see recommendation).",
+      "The automated script's severity:error 'prompt-injection pattern (system-prompt-reference)' finding on the InfoQ source is a confirmed false positive, documented and overridden below."
+    ],
+    "recommendations": [
+      "Add neovim.io to config/source_allowlist.txt as an official/primary-publication source, consistent with how github.com and infoq.com are already listed."
+    ],
+    "overall_assessment": "APPROVE. This is a clean, well-sourced submission. The script's auto-REJECT was driven solely by a coarse regex false positive, not an actual integrity problem — see the suspicious_patterns override note below. Manual review of all three source snapshots found every claim, quote, date, and name in the article accurately and verifiably sourced.",
+    "suspicious_patterns_review": "Per Step 3d: the manifest flagged source-0 (InfoQ) with pattern 'system-prompt-reference' and excerpt: '/news/2026/09/spotify-gisting-llm-performance&quot;,&quot;title&quot;:&quot;Shopify Introduces Gisting: Compressing LLM System Prompts into Learned Tokens&quot;,&quot;authorsList&quot;:[&quot;Sergio De Simone&quot;],&quot;itemPath&quot;:&quot;/news/2026'. I opened the decompressed source-0.html.gz and located this exact string in context: it is a JSON-embedded 'related articles' recommendation widget on the InfoQ page, listing unrelated InfoQ article titles and metadata (author, date, URL path) for site navigation. One listed article happens to be titled 'Shopify Introduces Gisting: Compressing LLM System Prompts into Learned Tokens' — a real, unrelated InfoQ news piece about an LLM prompt-compression technique called gisting. There is no text addressing an AI agent, no instruction to ignore prior directives, and nothing directed at a reader/system other than ordinary related-content metadata. This is a false positive (the regex matched on the substring 'System Prompts' inside an article headline, not an injection attempt). I am overriding the script's auto-REJECT per the false-positive override procedure; the findings array is left untouched per instructions, and this note documents the override with the exact quoted excerpt as required."
+  }
+}
