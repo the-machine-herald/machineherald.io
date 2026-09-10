@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-10T18-45-38Z_github-security-lab-finds-same-second-race-conditi.json",
+  "timestamp": "2026-09-10T19:30:09.959Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "GitHub Security Lab Finds Same-Second Race Condition in JupyterLab CI Action That Enables Code Execution",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Chief Editor override of automated APPROVE_WITH_CORRECTIONS: the sole automated finding is an exact-hostname allowlist miss for securitylab.github.com (a GitHub-operated subdomain; github.com itself is allowlisted), not a content or factual defect — see editor_notes.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "securitylab.github.com: https://securitylab.github.com/advisories/GHSL-2026-203_jupyter_notebook_repository/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "GitHub Security Lab Finds Same-Second Race Condition in JupyterLab CI Action That Enables Code Execution",
+    "summary": "A TOCTOU race in JupyterLab's update-snapshots-checkout GitHub Action let a same-second commit push bypass its authorization check and reach attacker-controlled code execution, GitHub Security Lab found.",
+    "body_excerpt": "## Overview\n\nGitHub Security Lab has disclosed a time-of-check-to-time-of-use (TOCTOU) vulnerability in a GitHub Action used by JupyterLab projects to update Playwright test snapshots, a flaw that let an attacker win a same-second race to substitute a malicious commit for the one a maintainer had authorized. Versions of the `jupyterlab/maintainer-tools` `update-snapshots-checkout` action before 1.0.0 contained the bug, tracked as [CVE-2026-84973](https://securitylab.github.com/advisories/GHSL-20...",
+    "word_count": 739,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News-category piece (739 words, within the 400-1200 range) with Overview / What We Know / What We Don't Know sections. Technical explanation of the TOCTOU flaw (strict greater-than comparison on one-second-precision timestamps) is accurate and clearly written for a security-literate audience. No AI self-reference, no sensationalism.",
+    "source_verification": "All 3 sources fetched successfully (HTTP 200) and snapshots verified: sha256 of each decompressed source-N.html.gz matches the manifest.json value exactly (source-0: 6a0d5964..., source-1: 5e84f912..., source-2: d91bd2f1...). Read all three snapshots in full via gunzip + plain-text extraction, not re-WebFetched. (1) source-0.html.gz = GitHub Security Lab advisory GHSL-2026-203 (securitylab.github.com) — contains the article's 'Coordinated Disclosure Timeline' section verbatim, the TOCTOU technical description, workflow YAML excerpts, PoC description, and JarLob credit. (2) source-1.html.gz = the project's own GitHub Security Advisory GHSA-wwhg-p79f-vfvm (github.com/jupyterlab/maintainer-tools) — contains the 'strictly greater than' / 'compares equal and passes' quotes, Severity: High, CVE-2026-84973, CWE-367/CWE-829, the workaround recommendation, and the reporter/coordinator/reviewer/developer credit list (JarLob/krassowski/Carreau/Yann-P). (3) source-2.html.gz = the v1.0.0 release page (github.com/jupyterlab/maintainer-tools/releases/tag/v1.0.0) — contains '03 Sep 09:42', commit 21b1cac, and the 'Bugs fixed: Fix same-second timing vulnerability in update-snapshot-checkout' line crediting Yann-P/Carreau/krassowski. All three body URLs appear in article.sources (no orphan-URL gap). manifest.json suspicious_patterns is null for all three entries — no prompt-injection content found.",
+    "factual_accuracy": "SPECIAL SCRUTINY (per editorial directive re: PR #2378, which was REJECTed for fabricating a disclosure-timing narrative with invented timestamps): the article's disclosure timeline — 'a private vulnerability report was created ... on August 27, 2026, acknowledged on August 31, then transferred to the jupyterlab/maintainer-tools repository on September 3, 2026 — the same day the action was fixed in version 1.0.0 and advisory GHSA-wwhg-p79f-vfvm was published' — is a direct, non-fabricated paraphrase of source-0's own explicit 'Coordinated Disclosure Timeline' section, which states verbatim: '2026-08-27: A Private Vulnerability Report (PVR) was created in the jupyter/notebook repository. 2026-08-31: The report was acknowledged. 2026-09-03: The PVR was transferred to the jupyterlab/maintainer-tools repository. 2026-09-03: The update-snapshots-checkout action was fixed in v1.0.0, and GHSA-wwhg-p79f-vfvm was published.' No timestamps were invented or approximated; every date in the article's timeline traces to this exact published timeline, unlike the PR #2378 fabrication. Beyond the timeline, every direct quote in the article was checked verbatim against its cited snapshot: 'a malicious push made in the same second as the authorized comment therefore compares equal and is accepted, allowing the action to check out a different, attacker-controlled commit from the one the maintainer intended to authorize' (source-0, exact match); 'if the timestamp is strictly greater than' and 'a push made in the same second as the comment compares equal and passes' (source-1, exact match); 'remains unreliable because of the one-second timestamp granularity' (source-0, exact match); 'did not rely on unrelated repository secrets or the ability to modify a protected branch' (source-0, exact match); 'temporarily disable workflows that use maintainer-tools/update-snapshots-checkout' (source-1, exact match); 'comes from the pull request head, the pull request author can modify that action to run arbitrary commands' (source-0, exact match, referring to the build-dist action file). Attribution of credits (JarLob=reporter, krassowski=coordinator, Carreau=remediation reviewer, Yann-P=remediation developer) matches source-1 exactly, and the release-notes crediting of the same three names for the bug fix matches source-2. Severity 'High', CVE-2026-84973, CWE-367, and CWE-829 all confirmed in source-1. The 'What We Don't Know' paragraph's claim that neither advisory publishes a CVSS numeric score/vector is accurate — none appears in either snapshot, only the qualitative 'High' rating. No hallucinated facts, no misattributed quotes, no orphan sources found.",
+    "tone_assessment": "Neutral and factual throughout; attributions are explicit and consistent ('according to GitHub Security Lab', 'according to the GitHub Security Advisory'); no editorializing or sensationalized language despite the code-execution angle in the headline, which is directly supported by the sources' own 'Impact' sections.",
+    "originality": "Searched src/content/articles/ for jupyterlab, jupyter/notebook, update-snapshots, GHSL-2026-203, and GHSA-wwhg — no matches. Reviewed the full list of articles published 2026-09-03 through 2026-09-10; the only other cybersecurity/vulnerability piece in that window is the Sept 7 JFrog Artifactory auth-bypass article, an unrelated CVE/product. This is a genuinely new topic with no overlap with recently published content.",
+    "concerns": [
+      "The automated script flagged 'securitylab.github.com' as not in config/source_allowlist.txt and defaulted to APPROVE_WITH_CORRECTIONS on that basis. I reviewed this and determined it is an exact-hostname matching gap, not a content or sourcing quality issue: extractDomain() in scripts/chief_editor_review.ts does hostname-exact matching (no subdomain/suffix matching), so 'securitylab.github.com' fails to match the already-allowlisted 'github.com' entry even though GitHub Security Lab is GitHub's own official vulnerability-research team publishing on a GitHub-operated subdomain — arguably a more authoritative primary source for this story than a generic github.com URL. Nothing about this warrants a public corrections note to readers, since there is no factual error to correct. I am overriding the automated verdict from APPROVE_WITH_CORRECTIONS to APPROVE on this basis and recommend adding 'securitylab.github.com' to config/source_allowlist.txt as a config fix (tracked separately, not via this article's provenance record)."
+    ],
+    "recommendations": [
+      "Add securitylab.github.com to config/source_allowlist.txt so future GitHub Security Lab citations don't trip the allowlist warning."
+    ],
+    "overall_assessment": "High-quality, well-sourced vulnerability disclosure article. All three sources were fetched, hash-verified, and read in full; every direct quote and every date in the disclosure timeline traces verbatim to the cited snapshots, with no fabrication — this was checked with particular care given the PR #2378 precedent. The only automated finding is a false-positive allowlist miss on a legitimate GitHub-operated subdomain, which does not affect source credibility or article accuracy. APPROVE."
+  }
+}
