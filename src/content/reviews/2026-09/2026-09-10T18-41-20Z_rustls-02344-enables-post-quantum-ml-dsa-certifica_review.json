@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-10T18-41-20Z_rustls-02344-enables-post-quantum-ml-dsa-certifica.json",
+  "timestamp": "2026-09-10T18:59:57.428Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Rustls 0.23.44 Enables Post-Quantum ML-DSA Certificates by Default in AWS-LC-RS Provider",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "csrc.nist.gov: https://csrc.nist.gov/pubs/fips/204/final"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Rustls 0.23.44 Enables Post-Quantum ML-DSA Certificates by Default in AWS-LC-RS Provider",
+    "summary": "Rustls's September 7 release turns on NIST-standardized ML-DSA post-quantum certificates by default for the aws-lc-rs provider, plus a KeyLogFile permissions fix and an ECH certificate-verification fix.",
+    "body_excerpt": "## Overview\n\nRustls, described by [Phoronix](https://www.phoronix.com/news/Rustls-0.23.44-Released) as \"the modern TLS library implementation written in the Rust programming language,\" published version 0.23.44 on September 7, 2026, according to [the project's GitHub release](https://github.com/rustls/rustls/releases/tag/v/0.23.44). The release notes state: \"Support for post-quantum secure ML-DSA certificates is now enabled by default in the aws-lc-rs crypto provider,\" according to [the GitHub r...",
+    "word_count": 320,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Tight 320-word Briefing on Rustls 0.23.44, well within the 100-1000 word range for this category. Standard Overview / What We Know / What We Don't Know structure. Every bullet in 'What We Know' is individually sourced and attributed; the 'What We Don't Know' section appropriately flags that downstream aws-lc-rs adoption and a timeline for extending ML-DSA to other crypto providers are not established by any of the three sources.",
+    "source_verification": "All three sources verified by reading gunzip'd snapshots from disk (sha256 of each decompressed file matches manifest.json). source-0.html.gz (GitHub release page, rustls/rustls v/0.23.44): confirms release was published by djc on '07 Sep 09:27' (matches article's September 7, 2026), confirms verbatim quote 'Support for post-quantum secure ML-DSA certificates is now enabled by default in the aws-lc-rs crypto provider. ML-DSA certificates are not supported in the public web PKI, but they can be used with private certificate hierarchies.', confirms PR #3249 '[0.23] Enable ML-DSA by default' by @djc, PR #3210 '[0.23] Create SSLKEYLOGFILE with owner-only permissions' by @djc (matches article's KeyLogFile quote 'now creates files that are restricted to being read only by the owner'), PR #3236 '0.23: verify server certificate against correct name on ECH rejection' by @ctz, and PR #3239 (README link fix) by @Erik-Sovereign. All PR numbers, authors, and quoted fragments verified verbatim (article drops the '[0.23]'/'0.23:' version-tag prefixes from PR titles when quoting, which is an acceptable, non-substantive trim). source-1.html.gz (Phoronix, Michael Larabel, dated '7 September 2026'): confirms the quoted description 'the modern TLS library implementation written in the Rust programming language', confirms the ML-DSA-by-default headline and the KeyLogFile owner-only-permissions change, consistent with the GitHub release. source-2.html.gz (NIST CSRC, FIPS 204 final): confirms document title 'Module-Lattice-Based Digital Signature Standard' and the verbatim quote 'ML-DSA is believed to be secure, even against adversaries in possession of a large-scale quantum computer.' However, the article's other FIPS 204 quote — '\"ML-DSA is a set of algorithms that can be used to generate and verify digital signatures\"' — is NOT verbatim. The source's actual sentence is 'This standard specifies ML-DSA, a set of algorithms that can be used to generate and verify digital signatures.' The article restructured this appositive into a standalone declarative sentence and presented it inside quote marks as if verbatim. The underlying fact (ML-DSA is a set of algorithms for generating/verifying digital signatures, per NIST) is accurate and supported by the source — only the exact wording inside the quote marks is altered. This is a single, subordinate misquote (not in the headline, summary, or lead) and is addressed via a corrections record rather than blocking publication.",
+    "factual_accuracy": "All specific claims (version number 0.23.44, release date September 7 2026, PR numbers 3249/3210/3236/3239, author handles djc/ctz/Erik-Sovereign, the FIPS 204 designation, and the technical descriptions of the ML-DSA, KeyLogFile, and ECH changes) trace to the cited sources and were independently verified against the snapshots. No fabricated specifics found. One misquote identified (see source_verification) — a paraphrase presented as a direct NIST quote — which is accurate in substance but not verbatim in wording.",
+    "tone_assessment": "Neutral and factual throughout. No sensationalism, no editorializing, no AI self-reference. Appropriate hedging in the 'What We Don't Know' section.",
+    "originality": "Searched src/content/articles/ for 'rustls', 'ML-DSA', and 'post-quantum' — no existing article covers this release or this library. A prior article (2026-05-28, Red Hat Enterprise Linux 10.2/9.8) discusses ML-KEM/ML-DSA post-quantum support in a different product entirely (RHEL, not Rustls) and is not duplicative. This is a genuinely new topic.",
+    "concerns": [
+      "One FIPS 204 quote in the 'What We Know' section ('ML-DSA is a set of algorithms that can be used to generate and verify digital signatures') paraphrases rather than reproduces NIST's actual sentence ('This standard specifies ML-DSA, a set of algorithms that can be used to generate and verify digital signatures.') while presenting it inside quote marks as verbatim. The underlying fact is accurate and NIST-sourced; only the exact wording is altered. Addressed via a corrections record.",
+      "The automated script flagged csrc.nist.gov as 'not in allowlist'. This is a false positive for editorial trust purposes: nist.gov is already in config/source_allowlist.txt as a trusted government domain, and csrc.nist.gov (NIST's Computer Security Resource Center) is NIST's own official publication host for FIPS standards — the canonical primary source for FIPS 204. This follows the same precedent as the 2026-05-28 Red Hat review, where allowlist-only gaps for clearly reputable sources were approved outright rather than treated as a sourcing defect. Not treated as a corrections-worthy issue; recommend adding csrc.nist.gov (and nvd.nist.gov-style CSRC subdomains generally) to config/source_allowlist.txt as a housekeeping follow-up."
+    ],
+    "recommendations": [
+      "File a corrections record for the non-verbatim FIPS 204 quote per APPROVE_WITH_CORRECTIONS process.",
+      "Add csrc.nist.gov to config/source_allowlist.txt to prevent recurring false-positive allowlist warnings for NIST's standards-publication subdomain."
+    ],
+    "overall_assessment": "Accurate, well-sourced, appropriately hedged Briefing on a real Rustls release. All PR numbers, authors, dates, and technical claims verified against source snapshots. The only defect is a single subordinate misquote of NIST's FIPS 204 abstract (accurate in substance, imprecise in exact wording) — not in the headline, summary, or lead. This qualifies for APPROVE_WITH_CORRECTIONS: the article publishes as-is with a public corrections record documenting the precise NIST wording. The automated 'not in allowlist' warning for csrc.nist.gov is not independently correction-worthy given nist.gov's existing trusted status."
+  }
+}
