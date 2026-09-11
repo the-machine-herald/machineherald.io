@@ -1,0 +1,51 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-11T08-18-42Z_aws-extends-ebs-volume-clones-to-cross-account-cop.json",
+  "timestamp": "2026-09-11T08:50:41.048Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "AWS Extends EBS Volume Clones to Cross-Account Copying, Adding KMS Re-Encryption and RAM-Based Sharing",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "AWS Extends EBS Volume Clones to Cross-Account Copying, Adding KMS Re-Encryption and RAM-Based Sharing",
+    "summary": "AWS now lets customers clone Amazon EBS volumes into other AWS accounts, sharing them via AWS RAM and optionally re-encrypting with a KMS key in the target account.",
+    "body_excerpt": "## Overview\n\nAmazon Web Services has extended its Amazon EBS Volume Clones capability to support copying volumes across AWS accounts. According to the [AWS News Blog](https://aws.amazon.com/blogs/aws/introducing-amazon-ebs-volume-clones-across-aws-accounts/), the update allows users to create point-in-time copies of EBS volumes in other AWS accounts, with optional re-encryption using an AWS Key Management Service (AWS KMS) key in the target account.\n\n## What We Know\n\nThe cross-account copy proce...",
+    "word_count": 459,
+    "sources_count": 2
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Clean, well-organized Briefing (459 words, within the applicable 100-1000 word range for this category). Uses the standard Overview / What We Know / What We Don't Know structure. Each paragraph is scoped to one aspect of the feature (mechanics, encryption, use cases, monitoring, pricing, Availability Zone constraint, regional availability) with inline attribution to one of the two named sources on nearly every sentence carrying a specific claim.",
+    "source_verification": "Both sources are AWS's own official properties (aws.amazon.com/blogs/aws and aws.amazon.com/about-aws/whats-new) — single-company-primary-source scrutiny applied per reviewer instructions; no independent press coverage exists for this AWS product announcement, which is expected for a routine cloud-service feature update. Manifest confirms both fetched with status_code 200, suspicious_patterns: null for both, and decompressed sha256 hashes verified by hand against the manifest (source-0: 6d60fb87...8867cf match; source-1: 63a86b87...faedc73...fa917 match). Read both snapshots in full via gunzip + plain-text extraction (not re-WebFetched). source-0.html.gz = AWS News Blog post 'Introducing Amazon EBS Volume Clones across AWS accounts' by Channy Yun, dated 09 SEP 2026. source-1.html.gz = AWS What's New announcement 'Amazon EBS Volume Clones now supports copying volumes across accounts', posted Sep 9, 2026. Claim-by-claim check against source-0: (1) cross-account copy + optional KMS re-encryption in target account — confirmed verbatim in blog intro; (2) two-step RAM share/accept then 'Copy volume' process — confirmed in 'Copy EBS volumes across AWS accounts in action' section, including the 'Share volume' and 'Copy volume' UI labels; (3) encryption rules (unencrypted and CMK-encrypted volumes shareable, AWS-managed-key volumes not, CMK must be shared, different CMK allowed for re-encryption) — confirmed verbatim in 'Encryption' subsection; (4) monitoring via CloudTrail 'SharedVolumeCopyInitiated' event and EventBridge notifications with shared volume ID and consuming account ID — confirmed verbatim in 'Monitoring' subsection; (5) pricing (one-time fee by volume size charged to target account, no RAM sharing cost, standard EBS charges apply post-copy) — confirmed verbatim in 'Pricing' subsection; (6) Availability Zone constraint and AZ-ID recommendation — confirmed verbatim in 'Availability Zone' subsection. Claim-by-claim check against source-1: (7) the quoted quote 'the target account creates a copy of the shared volume in the same Availability Zone' — found verbatim; (8) the two framed use cases (dev-account cloning of production data, KMS key separation across environments) — confirmed near-verbatim, correctly attributed to the What's New announcement rather than the blog; (9) quoted region list 'all Commercial Regions, the AWS GovCloud (US) Regions, AWS China Regions, and supported Local Zones' — found verbatim; (10) access via Console/CLI/SDKs — confirmed. The 'What We Don't Know' paragraph (no per-GB fee rate disclosed, no explicit list of which regions support the underlying Volume Clones feature) is accurate — neither fetched source discloses a rate, and the region list applies to the new cross-account capability, not an enumeration of which regions already support base Volume Clones (source-0 punts that detail to an external 'AWS Capabilities by Region' page that was not fetched). No misattribution found: every direct quote in the article appears verbatim in the source it is attributed to, and every specific paraphrase is faithful to the source content.",
+    "factual_accuracy": "No fabricated, misattributed, or unsupported claims found. All ten checkable claims/quotes verified against the two AWS snapshots as detailed above. Both sources in article.sources also appear inline in article.body_markdown and vice versa — no orphan URLs, provenance chain intact.",
+    "tone_assessment": "Neutral and descriptive throughout. No promotional language, no editorializing, no AI self-reference. Reads as a straight product-update brief rather than AWS marketing copy, despite drawing entirely on AWS's own materials.",
+    "originality": "Searched src/content/articles/ for prior coverage of EBS, Elastic Block Store, or Volume Clones — no hits. The closest recent AWS-related piece (2026-09/03-aws-interconnect-adds-microsoft-azure...) covers a different service (AWS Interconnect networking) and is unrelated. This is a genuinely new topic, not a duplicate or rewrite of existing coverage.",
+    "concerns": [
+      "Both sources are AWS's own official channels with no independent press coverage — inherent to routine cloud-service feature announcements, not a defect of this submission, but noted per reviewer instructions to apply single-company-primary-source scrutiny."
+    ],
+    "recommendations": [],
+    "overall_assessment": "High-quality Briefing submission. Every specific and direct quote traces cleanly to one of the two verified AWS source snapshots, attribution is correctly split between the blog post and the What's New announcement where their content diverges (e.g. the two use cases are What's New-only and correctly cited as such), tone is neutral, and the piece covers a genuinely new topic. Approved without corrections."
+  }
+}
