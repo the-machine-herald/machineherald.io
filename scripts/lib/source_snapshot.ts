@@ -128,23 +128,45 @@ function scanForSuspiciousContent(bodyText: string): SuspiciousMatch[] | null {
   return matches.length > 0 ? matches : null;
 }
 
-/** Hashes, gzips, and writes fetched page text to disk; returns the shared fields every result variant needs. */
+// Content-Type prefixes/values treated as text — safe to UTF-8-decode for the
+// suspicious-content regex scan. Anything else (PDFs, images, etc.) is kept
+// as opaque binary so its bytes are never routed through a text decoder.
+const TEXTUAL_CONTENT_TYPE_RE =
+  /^(text\/|application\/(json|xml|xhtml\+xml|javascript|x-javascript|ld\+json))/i;
+
+function isTextualContentType(contentType: string | null): boolean {
+  // No header at all is unusual but historically meant HTML in practice;
+  // keep scanning in that case rather than silently skipping it.
+  if (!contentType) return true;
+  return TEXTUAL_CONTENT_TYPE_RE.test(contentType);
+}
+
+/**
+ * Hashes, gzips, and writes the fetched response body to disk exactly as
+ * received. `body` must be the raw bytes from the network — never a string
+ * that has already been through a UTF-8 decode, since that step is lossy for
+ * non-text content (e.g. a PDF) and would permanently corrupt it before it's
+ * ever hashed or compressed.
+ */
 function persistSnapshot(
   outDir: string,
   index: number,
-  bodyText: string,
+  body: Buffer,
+  contentType: string | null,
 ): { filename: string; sha256: string; contentLength: number; suspiciousPatterns: SuspiciousMatch[] | null } {
   const filename = `source-${index}.html.gz`;
   const filePath = path.join(outDir, filename);
-  const utf8Bytes = Buffer.from(bodyText, 'utf-8');
   // sha256 is of the uncompressed content, so verifiers decompress and rehash to check.
-  const hash = crypto.createHash('sha256').update(utf8Bytes).digest('hex');
-  fs.writeFileSync(filePath, zlib.gzipSync(utf8Bytes, { level: 9 }));
+  const hash = crypto.createHash('sha256').update(body).digest('hex');
+  fs.writeFileSync(filePath, zlib.gzipSync(body, { level: 9 }));
+  const suspiciousPatterns = isTextualContentType(contentType)
+    ? scanForSuspiciousContent(body.toString('utf-8'))
+    : null;
   return {
     filename,
     sha256: hash,
-    contentLength: utf8Bytes.length,
-    suspiciousPatterns: scanForSuspiciousContent(bodyText),
+    contentLength: body.length,
+    suspiciousPatterns,
   };
 }
 
@@ -179,7 +201,7 @@ interface FetchAttemptResult {
   status_code: number | null;
   content_type: string | null;
   redirected_domain: string | null;
-  body: string | null;
+  body: Buffer | null;
   error: string | null;
 }
 
@@ -219,7 +241,10 @@ async function attemptFetch(
       };
     }
 
-    const body = await res.text();
+    // Read raw bytes, not text — decoding to a string here would corrupt
+    // any non-UTF-8 or binary response (e.g. a PDF) before it's ever hashed
+    // or written to disk.
+    const body = Buffer.from(await res.arrayBuffer());
     return {
       status_code: statusCode,
       content_type: contentType,
@@ -272,7 +297,7 @@ async function fetchSource(
     const archiveAttempt = await attemptFetch(archiveUrl, url, timeoutMs);
 
     if (archiveAttempt.status_code !== null && archiveAttempt.status_code < 400 && archiveAttempt.body !== null) {
-      const snapshot = persistSnapshot(outDir, index, archiveAttempt.body);
+      const snapshot = persistSnapshot(outDir, index, archiveAttempt.body, archiveAttempt.content_type);
 
       return {
         url,
@@ -293,7 +318,7 @@ async function fetchSource(
 
   // Save snapshot if we have content
   if (attempt.body !== null) {
-    const snapshot = persistSnapshot(outDir, index, attempt.body);
+    const snapshot = persistSnapshot(outDir, index, attempt.body, attempt.content_type);
 
     return {
       url,

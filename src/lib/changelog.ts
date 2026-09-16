@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.16.4',
+    date: '2026-09-16',
+    items: [
+      '<strong>Fixed source snapshots silently corrupting binary content (e.g. PDFs).</strong> <code>attemptFetch()</code> in <code>scripts/lib/source_snapshot.ts</code> read every fetched response with <code>res.text()</code> regardless of <code>Content-Type</code>, which UTF-8-decodes the bytes and replaces any invalid sequence with U+FFFD — for a binary file like a PDF this silently mangled the content before it was ever hashed or gzipped (observed case: a 53,497-byte PDF became a 95,391-byte corrupted snapshot that <code>pdftotext</code>/<code>qpdf</code> could no longer parse, discovered during the 2026-09-11 OpenAI/Buckmaster review when the Chief Editor had to fall back to a live re-fetch to verify quotes). The fetch now reads <code>res.arrayBuffer()</code> and threads a raw <code>Buffer</code> straight through to <code>persistSnapshot()</code>, which hashes and gzips those exact bytes with no decode/re-encode step in between — so the stored <code>sha256</code> in <code>manifest.json</code> now reflects the true origin-server bytes for every content type, not just HTML. The suspicious-content regex scan now only runs against content whose <code>Content-Type</code> is text-like (<code>text/*</code>, <code>application/json</code>, <code>application/xml</code>, <code>application/xhtml+xml</code>, etc.); it&rsquo;s skipped for binary bodies rather than scanning U+FFFD noise. Regression tests added in <code>tests/source_snapshot.test.ts</code> (byte-for-byte PDF preservation, hash-of-original-bytes, and confirming text/charset content still scans normally). No content-schema or editorial-rule change',
+    ],
+  },
+  {
     version: '3.16.3',
     date: '2026-08-15',
     items: [
