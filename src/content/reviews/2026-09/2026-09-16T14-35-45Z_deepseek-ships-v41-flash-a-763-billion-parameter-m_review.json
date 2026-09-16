@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-16T14-35-45Z_deepseek-ships-v41-flash-a-763-billion-parameter-m.json",
+  "timestamp": "2026-09-16T15:13:59.782Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "DeepSeek Ships V4.1-Flash, a 763-Billion-Parameter Model That Cuts KV-Cache Memory to a Quarter of Its Predecessor's",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "api-docs.deepseek.com: https://api-docs.deepseek.com/quick_start/pricing"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "DeepSeek Ships V4.1-Flash, a 763-Billion-Parameter Model That Cuts KV-Cache Memory to a Quarter of Its Predecessor's",
+    "summary": "DeepSeek's new V4.1-Flash model grows to 763 billion total parameters but cuts key-value cache memory to about a quarter of its predecessor's footprint, while undercutting rival API pricing.",
+    "body_excerpt": "## Overview\n\nDeepSeek unveiled an updated version of its cost-optimized Flash model on Thursday, according to [The Register](https://www.theregister.com/ai-and-ml/2026/09/11/deepseeks-new-model-sets-a-template-for-powerful-llms-that-run-lean/5295715). The new DeepSeek-V4.1-Flash grew substantially larger than its predecessor while its developers say new attention and caching techniques cut the memory needed to serve long conversations, as reported by [VentureBeat](https://venturebeat.com/technol...",
+    "word_count": 846,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece with a clear Overview / What We Know / What We Don't Know format. Technical claims (MoE backbone size, Engram/N-gram conditional-memory module, Causal Encoder-Decoder architecture, KV-cache bytes-per-token, GPU memory math, pricing tiers, benchmark scores) are dense but each is individually attributed to a named outlet or DeepSeek's own model card, and the piece is transparent about which figures are DeepSeek's own self-reported benchmarks versus independently verified facts.",
+    "source_verification": "Read all 4 source snapshots in full (gunzip'd from sources/2026-09/deepseek-ships-v41-flash-a-763-billion-parameter-model-that-cuts-kv-cache-memory-to-a-quarter-of-its-predecessors/), verified sha256 of each decompressed file against manifest.json (all 4 matched), and confirmed all 4 fetched with status_code 200 and suspicious_patterns: null. (1) source-0.html.gz (VentureBeat) — confirmed the 552B backbone figure, 196B Engram module, 8B/16B prefill/decode activation split, 890 bytes/token KV cache (~1/4 of V4-Flash), full off-peak/peak pricing table ($0.003/$0.15/$0.60 off-peak, $0.006/$0.30/$1.20 peak) and peak-window hours (Mon-Fri 01:00-04:00 and 06:00-10:00 UTC), rival pricing comparisons (GPT-5.6 Sol, Claude Opus 5, Kimi K3), MIT license claim, the DeepSWE/CyberGym/AutomationBench/Terminal-Bench/GPQA/SEC-Bench benchmark figures, the 284B/13B V4-Flash predecessor figures, the OpenDesign third-party quote ('a narrow third-party workload, not a general model evaluation') verbatim, the robustness-limitation quote ('could cause capability degradation in untested edge cases') verbatim, and the Hacker News commentary paraphrases. All confirmed accurate as attributed. (2) source-1.html.gz (The Register) — confirmed the 763-billion-parameter total figure ('At 763 billion parameters, the point release is more than 2.5x the size of the model it replaces'), the 196B N-gram/Engram figure, the 13%-25% KV-cache-of-predecessor figure and 'four to eight times as many users' quote verbatim, the 763GB/567GB FP8 GPU-memory figures verbatim, the Gemma Per-Layer-Embedding comparison, and the Alibaba Qwen 3.8-Flash-Next (180B backbone, 51B N-gram pool) industry-parallel paragraph. All confirmed accurate as attributed. (3) source-2.html.gz (Hugging Face model card) — this is the primary technical source and independently corroborates the 552B backbone, 196B Engram module, 40-layer (20+20) Causal Encoder-Decoder split, 8B/16B activation split, and 890-bytes/token KV cache figures cited from VentureBeat. The page's own 'Safetensors Model size' field reads '763B params', directly corroborating the total-parameter figure used in the headline (552B backbone + 196B Engram + ~15B in vision encoder/projector/embeddings not broken out elsewhere = 763B total, per DeepSeek's own auto-computed safetensors size) rather than being a bot fabrication. The full evaluation tables here independently confirm every benchmark number in the article's Benchmarks bullet (DeepSWE v1.1: Opus-5.0 74.0, GPT-5.6 Sol 73.0, DS-V4.1-Flash 74.2; CyberGym DS-V4.1-Flash 88.1; AutomationBench DS-V4.1-Flash 54.8; Terminal-Bench 3.0 Opus-5.0 43.3 vs DS-V4.1-Flash 30.0; Terminal-Bench 4.0 Opus-5.0 51.8 vs DS-V4.1-Flash 31.2; GPQA Diamond and SEC-Bench Pro both led by GPT-5.6 Sol) and the V4-Flash-Base predecessor row (284B backbone / 13B activated). (4) source-3.html.gz (DeepSeek API pricing docs) — confirmed the exact off-peak/peak pricing figures used in the Pricing bullet verbatim against the live 'Models & Pricing' table. However, this same page directly contradicts a separate claim in the article's Migration bullet: the article states, per VentureBeat's Sept. 10 report, that 'starting September 14, calls to deepseek-v4-pro will also route to V4.1-Flash until a future V4.1-Pro model arrives.' The pricing page fetched for this review (Sept. 16, after the Sept. 14 date) states in footnote (2) on the deepseek-v4-pro row: 'In response to user demand, we have decided to continue providing API services for DeepSeek V4 Pro after September 14, 2026, with the billing method remaining unchanged.' DeepSeek reversed the announced V4-Pro retirement between VentureBeat's Sept. 10 report and the Sept. 16 submission date. This is a genuine factual issue, not a bot fabrication — the claim was accurately attributed to VentureBeat's reporting at the time, but is now superseded by DeepSeek's own current documentation (which the bot cited as source #4 for pricing but apparently did not cross-check for the migration claim).",
+    "factual_accuracy": "Every specific in the article — the 763B total parameter count, 552B backbone, 196B Engram module, 890 bytes/token KV cache, 763GB/567GB GPU memory figures, all pricing tiers, all benchmark scores, the 284B/13B predecessor figures, and all direct quotes inside quote marks — was independently verified against the underlying snapshots and traces to a cited source. No hallucinated quotes or misattributions found. One subordinate claim (the deepseek-v4-pro migration date/plan) is accurately attributed to VentureBeat's reporting but has since been superseded by DeepSeek's own current pricing documentation, which the article does not reflect. This is the one issue driving the APPROVE_WITH_CORRECTIONS verdict.",
+    "tone_assessment": "Neutral and professional throughout. The piece properly separates DeepSeek's own claims/self-reported benchmarks from independently verifiable facts, includes a substantial 'What We Don't Know' section covering unverified benchmarks, a narrow third-party claim, DeepSeek's own acknowledged robustness limits, and skeptical developer reactions — this is good editorial practice for a vendor-benchmark-heavy release story.",
+    "originality": "Searched src/content/articles/2026-09/ and 2026-08/ for DeepSeek coverage. Found only tangential mentions (an Aug 14 article on DeepSeek Harness/V4-Pro's original release, and a Sept 7 Tencent HY4 article that cites DeepSeek V4-Pro only as a benchmark comparison point). No prior article covers the V4.1-Flash release specifically. This is a genuinely new topic, not a duplicate.",
+    "concerns": [
+      "The Migration bullet states, per VentureBeat's Sept. 10 report, that DeepSeek would route 'deepseek-v4-pro' API calls to V4.1-Flash starting September 14, 2026. DeepSeek's own pricing documentation, current as of this Sept. 16 review, shows the company reversed that plan and continues serving V4-Pro after Sept. 14 with unchanged billing. The article does not reflect this reversal, even though the same pricing page is cited elsewhere in the article as source #4.",
+      "The 'Sources not in allowlist' warning flagged by the automated script (api-docs.deepseek.com) is not a credibility concern — it is DeepSeek's own official API documentation, a primary source for the pricing figures it is cited for. This is a config gap, not a sourcing quality issue."
+    ],
+    "recommendations": [
+      "File a corrections record documenting that DeepSeek reversed its planned Sept. 14 deepseek-v4-pro-to-V4.1-Flash routing change, per DeepSeek's own current pricing documentation.",
+      "Add api-docs.deepseek.com to config/source_allowlist.txt given it is DeepSeek's own official API/pricing documentation and was used correctly as a primary source in this submission."
+    ],
+    "overall_assessment": "A well-sourced, well-organized News piece on a legitimate, non-duplicate release. All headline, summary, and lead figures (763B parameters, KV-cache reduction, pricing) are independently corroborated across multiple sources including DeepSeek's own model card and pricing docs. The single issue found is a subordinate claim in the body (the deepseek-v4-pro migration timeline) that was accurately reported at the time by VentureBeat but has since been superseded by DeepSeek's own current documentation. This is exactly the kind of single, honestly-correctable subordinate issue APPROVE_WITH_CORRECTIONS is designed for — it does not touch the headline, summary, or lead, and a single corrections note fully informs readers. Verdict: APPROVE_WITH_CORRECTIONS."
+  }
+}
