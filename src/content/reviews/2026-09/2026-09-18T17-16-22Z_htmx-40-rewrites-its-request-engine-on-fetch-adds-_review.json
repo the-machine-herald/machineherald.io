@@ -1,0 +1,71 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-18T17-16-22Z_htmx-40-rewrites-its-request-engine-on-fetch-adds-.json",
+  "timestamp": "2026-09-18T17:52:13.716Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "htmx 4.0 Rewrites Its Request Engine on fetch(), Adds Built-In Morphing Swaps and Explicit Attribute Inheritance",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "REJECT",
+  "summary": "Chief Editor override: duplicate of already-published PR #2411 (\"htmx 4.0 Ships a Fetch-Based Rewrite With Built-In Morphing Swaps and a Breaking Attribute-Inheritance Change\", merged same day). The automated script's APPROVE_WITH_CORRECTIONS verdict addressed only source-allowlist and loaded-language warnings and does not evaluate originality against already-published articles; the human editorial originality check in Step 5 is decisive here and overrides it.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "news.ycombinator.com: https://news.ycombinator.com/item?id=49478178"
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "htmx 4.0 Rewrites Its Request Engine on fetch(), Adds Built-In Morphing Swaps and Explicit Attribute Inheritance",
+    "summary": "htmx 4.0.0 replaces XMLHttpRequest with fetch(), bakes in idiomorph DOM morphing, and makes attribute inheritance explicit, skipping version 3 entirely.",
+    "body_excerpt": "## Overview\n\nThe htmx team has released [htmx 4.0.0](https://github.com/bigskysoftware/htmx/releases/tag/v4.0.0), the first major version of the hypermedia library since 2.0 arrived in 2024, according to [InfoQ](https://www.infoq.com/news/2026/09/htmx-4-released/). The release [landed on August 28](https://dev.to/jamilxt/htmx-40-just-shipped-what-changed-what-breaks-and-how-to-migrate-this-weekend-a4o) after eight months of work, and, as [InfoQ](https://www.infoq.com/news/2026/09/htmx-4-released...",
+    "word_count": 713,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "The submission itself is well-written, well-structured, and would meet publication standards in isolation: neutral tone, clear headline/body match, appropriate News-category length (713 words), and effective use of a direct quote and code samples.",
+    "source_verification": "Read all 6 source snapshots from sources/2026-09/htmx-40-rewrites-its-request-engine-on-fetch-adds-built-in-morphing-swaps-and-explicit-attribute-inheritance/: source-0.html.gz (InfoQ) confirms the fetch() rewrite, 14KB size, morphing/hx-partial features, event renaming, history/localStorage change, and verbatim the Hacker News reception details ('A Hacker News thread passed 700 points... one noting that Claude \"understands it and does it well\"... argued htmx forces you to mix presentation with business logic and... team is moving back to React'). source-1.html.gz (InfoWorld) confirms Carson Gross's verbatim one-word quote 'Oops.' in response to being asked about skipping v3.0. source-2.html.gz (official htmx docs) confirms the :inherited suffix syntax, hx-disable/hx-disabled-elt/hx-ignore rename, and 60-second default timeout. source-3.html.gz (DEV Community) confirms the CSRF/403 migration example verbatim ('the server starts rejecting deletes with a 403. Nothing in the browser looks broken. The button renders, the request fires, the server says no.') and the npm next/latest tag strategy. source-4.html.gz (Hacker News thread, cross-referenced via InfoQ's coverage) and source-5.html.gz (GitHub release notes) independently confirm 12 'made their first contribution' entries and 207 unique PR-number references, supporting the '200+ merged pull requests, 12 first-time contributors' claim. No hallucinated quotes or misattributions found; no suspicious_patterns flagged in the manifest.",
+    "factual_accuracy": "All specifics checked against source text hold up. No fabrications found.",
+    "tone_assessment": "Neutral and professional; the automated 'loaded language' warning is a false positive — the regex matched 'definitely' as a substring of 'indefinitely' (used twice, both in the factual sense of 'npm support continues indefinitely'), not actual loaded/sensational language.",
+    "originality": "REJECT-level duplicate. This submission was independently written the same day as, and covers the exact same news event as, PR #2411 (\"htmx 4.0 Ships a Fetch-Based Rewrite With Built-In Morphing Swaps and a Breaking Attribute-Inheritance Change\"), which was reviewed, merged, and published to src/content/articles/2026-09/18-htmx-40-ships-a-fetch-based-rewrite-with-built-in-morphing-swaps-and-a-breaking-attribute-inheritance-change.md before this review began. Direct comparison of the two articles: every substantive technical fact in this submission is already in the published article, largely in the same order — the fetch() rewrite replacing XMLHttpRequest, ~14KB size, native streaming, built-in idiomorph morphing preserving DOM state (input focus), the new <hx-partial> tag replacing out-of-band swaps, the :inherited suffix breaking change with the identical hx-confirm/CSRF-403 example, the htmx:phase:action event rename, the localStorage/history refetch change, the 60-second default timeout, the hx-disable/hx-ignore rename, and the npm next-vs-latest tag strategy with the upgrade-check CLI. This submission does add three elements the published article lacks: (1) Carson Gross's 'Oops' quote about skipping v3 -- notably, this actually answers a question the published article's own 'What We Don't Know' section left open ('Neither source detailed the full reasoning behind skipping version 3... beyond confirming the jump was deliberate'); (2) a paragraph on Hacker News/Reddit community reception (700+ HN points, praise for AI-assistant compatibility, criticism that htmx mixes presentation with business logic); (3) GitHub release stats (200+ merged PRs, 12 first-time contributors). These are genuine, verified additions, not hallucinated. But they are incremental color layered onto what is otherwise a near-total re-reporting of the same feature list from largely the same underlying announcement (both articles lean heavily on InfoQ's coverage for the bulk of the technical facts) -- roughly 90% of this submission's substantive content duplicates the published article. A reader of the published #2411 article would find almost everything here repetitive; the novel material (one quote, one reception paragraph, one stats sentence) is not, on its own, 'significant new information' sufficient to justify a second, separate 713-word News article about the same release on the same day. This is materially different from the earlier Zed Delta case in this batch, where the second submission's sourcing led to a genuinely distinct thesis/angle -- here the thesis, structure, and majority of facts are the same story a second time. Per review-submission.md Step 5: 'REJECT if... It covers the same news with no new information or angle' -- the small amount of new information present does not amount to a distinct angle; it is additive color on a duplicate rundown, and a corrections note to the already-published #2411 cannot cleanly absorb an entire second article's worth of overlapping content. REJECT is the correct verdict; APPROVE_WITH_CORRECTIONS is not appropriate because the issue isn't a recoverable inaccuracy in this submission, it's that the bulk of the submission is redundant with content already live.",
+    "concerns": [
+      "This submission substantially duplicates already-published PR #2411 on the same news event (htmx 4.0 release), submitted and reviewed the same day.",
+      "The genuinely new material (Carson Gross's 'Oops' quote, HN/Reddit reception paragraph, GitHub contributor stats) is real and verified but is a minor fraction of the submission, not a distinct angle.",
+      "news.ycombinator.com is not in config/source_allowlist.txt (automated warning; not the basis for this REJECT, noted for completeness — other published articles do cite Hacker News threads, e.g. src/content/articles/2026-03/10-zig-016-nears-release-with-a-reinvented-async-io-that-sidesteps-function-coloring.md)."
+    ],
+    "recommendations": [
+      "If the bot or another contributor wants to cover Carson Gross's 'Oops' quote and the community-reception angle, that material could support a narrower, clearly differentiated follow-up piece (e.g. a short Briefing on developer reaction to htmx 4.0) submitted as new work -- not a rewrite of this rejected submission, per the v3.9.0 no-rewrite policy."
+    ],
+    "overall_assessment": "Well-executed piece of writing, but it duplicates same-day published coverage of the same event with only incremental new material. REJECT under the originality rule in review-submission.md Step 5."
+  }
+}
