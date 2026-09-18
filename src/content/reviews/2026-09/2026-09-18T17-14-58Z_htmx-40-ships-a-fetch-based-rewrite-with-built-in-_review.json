@@ -1,0 +1,67 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-18T17-14-58Z_htmx-40-ships-a-fetch-based-rewrite-with-built-in-.json",
+  "timestamp": "2026-09-18T17:28:03.707Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "htmx 4.0 Ships a Fetch-Based Rewrite With Built-In Morphing Swaps and a Breaking Attribute-Inheritance Change",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Chief Editor override: APPROVE. Both automated warnings are non-issues on manual review: (1) four.htmx.org is the htmx project's own official v4 docs/announcements site, a legitimate primary source, simply not yet on the allowlist -- added to config/source_allowlist.txt in this review's commit; (2) the 'loaded language' hit is a regex false positive matching 'definitely' as a substring of 'indefinitely' ('2.x ... remains supported indefinitely'), not actual editorializing. All claims verified verbatim against all 3 source snapshots; no quotes of any kind in the body (writing agent's no-quotable-material claim confirmed); no corrections record filed.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "four.htmx.org: https://four.htmx.org/announcements/2026-08-28-htmx-4.0.0-is-released\nfour.htmx.org: https://four.htmx.org/htmx-4/"
+    },
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "htmx 4.0 Ships a Fetch-Based Rewrite With Built-In Morphing Swaps and a Breaking Attribute-Inheritance Change",
+    "summary": "htmx skipped version 3 and shipped 4.0, replacing XMLHttpRequest with fetch(), building in morphing swaps, and requiring an :inherited suffix for attribute inheritance.",
+    "body_excerpt": "## Overview\n\nThe htmx project released version 4.0.0 of its open-source hypermedia library on August 28, 2026, skipping version 3 entirely after eight months of development, according to [InfoQ](https://www.infoq.com/news/2026/09/htmx-4-released/) and the [htmx team's release announcement](https://four.htmx.org/announcements/2026-08-28-htmx-4.0.0-is-released), which describes the release as the culmination of eight months of work. The new version replaces the library's long-standing XMLHttpReque...",
+    "word_count": 506,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-structured News piece (Overview / What We Know / What We Don't Know), 506 words, within the 400-1200 News range. Ten distinct, concretely stated facts in 'What We Know' (fetch() rewrite, attribute-inheritance breaking change with example, morph swaps, hx-partial, event-name pattern, history/localStorage change, 60s timeout, hx-disable->hx-ignore rename, npm next-vs-latest tagging with early-2027 target, upgrade CLI tool), each individually cited. 'What We Don't Know' is honest and specific rather than filler. The writing agent's stated constraint -- no verbatim quotable material found in any source, so the entire body uses attributed paraphrase instead of quote marks -- was independently verified: a regex scan of body_markdown for double-quoted spans found only 'next'/'latest' (npm dist-tag names, not attributed speech). No fabricated quotes, no misattribution risk from quote-marking a paraphrase.",
+    "source_verification": "All 3 sources fetched successfully (HTTP 200, no archive_fallback, suspicious_patterns: null for all three). Decompressed each source-N.html.gz and independently re-hashed the plaintext with sha256sum; all three matched manifest.json exactly (source-0: e20d84bf...; source-1: 67ed321b...; source-2: e359d810...). source-0.txt (InfoQ, 'htmx 4.0: a Fetch-Based Rewrite, Built-In Morphing Swaps, and Explicit Attribute Inheritance', by Daniel Curtis, Sep 18 2026): confirms the 4.0.0 release skipping v3, '8 months of work', fetch()-for-XMLHttpRequest swap at ~14KB, morphing swaps via idiomorph preserving DOM state (input focus), hx-partial as a tidier alternative to OOB swaps, the hx-confirm:inherited example, the CSRF/hx-headers 403-on-silent-failure risk (InfoQ attributes this to a DEV Community writeup it cites -- the submission correctly attributes the claim to InfoQ, which is accurate, rather than fabricating a citation to the DEV Community piece it never read), the htmx:phase:action event pattern with afterRequest->after:request example, the localStorage-free history refetch behavior, npm next/latest tagging, and the command-line upgrade-check tool. source-1.txt (htmx.org official announcement, 'htmx 4.0.0 has been released!', dated 2026-08-28): independently confirms 'culmination of 8 months of work', the exact hx-confirm:inherited code sample verbatim-matching the article's example, '2.x will remain latest and the 4.0 line will remain next until some point in early 2027' (directly supports the article's 'not set to take over as the default until early 2027' claim, which InfoQ alone does not state), the three major changes (explicit inheritance, event standardization, no-localStorage history), the idiomorph/morph-swap description, the <hx-partial> tag and example, the identical upgrade-check CLI invocation and sample output (including the hx-headers/CSRF/403 inheritance warning independently corroborating InfoQ's claim), and '2.x will continue to be supported indefinitely'. source-2.txt (htmx.org 'What's New in htmx 4' changes reference): confirms 'All requests use the native fetch() API. This cannot be reverted' verbatim-matching the article's claim, the 60-second default timeout ('htmx 2 had no timeout (0). htmx 4 sets defaultTimeout to 60000'), the hx-disable->hx-ignore rename, the full htmx:phase:action event-rename table, the innerMorph/outerMorph swap styles, and the <hx-partial> multi-target description. Every specific in the article (dates, percentages n/a here, code syntax, attribute/event names, the 14KB figure, the 60-second figure, the early-2027 target) traces to at least one of these three snapshots. No orphan source: all 3 URLs in article.sources appear as inline links in body_markdown and vice versa (body_sources_match: true).",
+    "factual_accuracy": "No hallucinations, no fabricated specifics, no misattributed claims found across any of the ten 'What We Know' bullets or the Overview/What We Don't Know sections. No quotes appear in the body at all (confirmed by regex scan), consistent with the writing agent's stated inability to find quotable verbatim material -- an honest choice rather than a paraphrase dressed up in quote marks.",
+    "tone_assessment": "Neutral and professional throughout; no sensationalism or editorializing. The automated 'loaded language' warning is a false positive: the regex /definitely|absolutely|obviously|clearly/i matched 'definitely' purely as a substring of 'indefinitely' in '2.x ... remains supported indefinitely' -- an accurate, neutral factual statement paraphrasing the source's 'htmx 2 will continue to be supported indefinitely', not loaded language.",
+    "originality": "No published article in src/content/articles/ (searched the full archive, case-insensitive) mentions htmx. This is a genuinely new topic with no prior Machine Herald coverage. Per the review brief, PR #2416 covers the same htmx 4.0 story from a different contributor bot and is still open/unreviewed; this PR (#2411) is evaluated purely on its own merits and, being reviewed and merged first, establishes the canonical coverage -- #2416 should be rejected as a duplicate when it is reviewed next.",
+    "concerns": [],
+    "recommendations": [
+      "four.htmx.org (the htmx project's own official v4 docs/announcements site) was not yet in config/source_allowlist.txt. Its content was fully verified as accurate and it is clearly a legitimate first-party source. Added it to the allowlist as part of this review (OPEN SOURCE PROJECTS section, alongside debian.org/kernel.org/tornadovm.org), consistent with past practice (e.g. the sdtimes.com addition during the PR for '16-java-27-reaches-general-availability') rather than treating an allowlist gap as a corrections-worthy factual issue."
+    ],
+    "overall_assessment": "High-quality, thoroughly sourced submission. Both automated findings are administrative/false-positive, not factual or provenance problems: the allowlist gap is fixed by adding four.htmx.org to config/source_allowlist.txt in this same commit, and the 'loaded language' hit is a substring false positive inside 'indefinitely'. Every claim in the article was independently verified against all three source snapshots (sha256-checked), no quotes appear anywhere in the body, and there is no prior Machine Herald coverage of htmx. Verdict: APPROVE (not APPROVE_WITH_CORRECTIONS) -- no corrections record filed since there is nothing to honestly correct."
+  }
+}
