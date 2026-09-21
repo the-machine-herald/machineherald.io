@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-21T18-16-12Z_malicious-npm-package-bypasses-install-script-defe.json",
+  "timestamp": "2026-09-21T18:35:46.104Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Malicious npm Package Bypasses Install-Script Defenses, Hides Malware Inside Runtime Code",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Overridden from script default APPROVE_WITH_CORRECTIONS: the only finding was a source-allowlist completeness gap for checkmarx.com (a legitimate, reputable primary-source cybersecurity vendor), not a factual or sourcing defect. checkmarx.com added to config/source_allowlist.txt. All claims independently verified verbatim against the three source snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "checkmarx.com: https://checkmarx.com/zero-post/npm-btree-malware-campaign-affects-millions-of-downloads-no-need-for-install-script/"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.bleepingcomputer.com/news/security/malicious-npm-packages-evade-install-script-defenses-at-runtime/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Malicious npm Package Bypasses Install-Script Defenses, Hides Malware Inside Runtime Code",
+    "summary": "The indexed-btree npm package evades npm v12's install-script blocking by hiding its malware loader inside a runtime method instead, Checkmarx reports.",
+    "body_excerpt": "## Overview\n\nAn ongoing npm malware campaign built around a package called indexed-btree shows how threat actors are adapting to npm's newest defenses by moving their malicious code out of install scripts entirely, according to [Checkmarx](https://checkmarx.com/zero-post/npm-btree-malware-campaign-affects-millions-of-downloads-no-need-for-install-script/). The package, which impersonates the legitimate sorted-btree library, achieved nearly 2 million weekly downloads despite carrying no installat...",
+    "word_count": 714,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News-category piece (714 words, within the 400-1200 range). Overview / What We Know / What We Don't Know / Analysis structure is used consistently with the site's format. The 'What We Don't Know' section is honest and appropriately narrow (attribution, campaign duration, and whether the wallet funds trace to this campaign are all correctly flagged as unresolved rather than speculated on). The Analysis section is clearly editorial commentary, not additional factual claims, and does not overreach beyond what the two reports support.",
+    "source_verification": "All 3 sources fetched successfully (status 200, no suspicious_patterns in manifest.json) and read in full from the gzipped snapshots on disk after independently verifying each file's sha256 against manifest.json (all three matched: source-0.html.gz 68ac39b0..., source-1.html.gz 57c904c4..., source-2.html.gz 7d0bf30c...). source-0.html.gz (checkmarx.com/zero-post, Checkmarx Zero blog, Bruno Dias, Sept 17 2026 — the primary research report): confirmed indexed-btree impersonates sorted-btree, 'almost 2 million weekly downloads', the exact code snippet showing the malicious BTree.prototype.set override calling sharedLoad.min.js, the verbatim quote 'This is a well-built way to sneak past standard taint-analysis tools and most static scanners', the Sepolia smart-contract C2 mechanism with X25519/ECDH-derived AES key decrypting a two-part second-stage payload, the Slack/Telegram exfiltration, the trace-cleanup capability, the legitimate-looking GitHub repo with populated commit history and an AI-generated profile photo, the exact list and download counts of the nine related removed packages, and the 109 ETH wallet figure. source-1.html.gz (bleepingcomputer.com, Bill Toulas, Sept 20 2026, retrieved via Archive.org fallback since the live fetch redirected through the archive but returned status 200): confirmed the same nine-package list with identical download counts, the verbatim Checkmarx quote used in the article ('The malware loader hides inside the library's own BTree.prototype.set method, which is the main function that every user would call constantly. This triggers the sharedLoad.min.js, which contains the obfuscated first stage of the malware. This is a well-built way to sneak past standard taint-analysis tools and most static scanners'), the precise claim that the loader 'executes at runtime when the application calls it with a specific key value', the npm v12 approval-mechanism bypass framing, the 109-ETH-wallet-without-confirmed-theft-link detail, and the closing advice to rotate secrets and use runtime behavioral analysis. source-2.html.gz (github.blog/changelog, June 9 2026, GitHub's official changelog): confirmed verbatim the quoted line 'npm install will no longer execute preinstall, install, or postinstall scripts from dependencies unless they are explicitly allowed in your project.' All three sources corroborate the central technical mechanism independently (two independent write-ups of the same Checkmarx research, plus GitHub's own primary description of the npm v12 behavior being evaded), so there is no single-source risk on the load-bearing technical claim.",
+    "technical_mechanism_verification": "The headline/lead mechanism claim — malware hidden in BTree.prototype.set() bypassing npm v12 install-script blocking — was checked precisely against both security sources. Checkmarx's own snapshot includes the literal malicious code: 'BTree.prototype.set = function (key, value, overwrite) { ... const loadPath = path.join(__dirname, \"extended\", \"sharedLoad.min.js\"); if (fs.existsSync(loadPath) && key == 100) { let child = spawn(\"node\", [loadPath, String(key)], ...); child.unref(); } ... }'. This confirms the trigger fires on a prototype method call (matching application usage, not installation) and specifically checks for key == 100, consistent with BleepingComputer's characterization that it 'executes at runtime when the application calls it with a specific key value.' Both sources independently and consistently state the package ships with no preinstall/install/postinstall script, so it 'triggers none of npm v12's approval mechanisms' — accurately paraphrased from BleepingComputer's own wording. The article does not overstate the mechanism or claim npm v12 is broken; it correctly frames indexed-btree as sidestepping a mechanism that targets a different execution path (install-time) rather than defeating v12 directly.",
+    "cross_reference_verification": "The article links twice to '/article/2026-07/13-npm-v12-ships-with-install-scripts-disabled-by-default-after-a-year-of-supply-chain-attacks'. Confirmed this article exists at src/content/articles/2026-07/13-npm-v12-ships-with-install-scripts-disabled-by-default-after-a-year-of-supply-chain-attacks.md and its summary ('npm v12 disables install scripts, Git dependencies, and remote-URL dependencies by default, closing the execution path several npm worms exploited over the past year') is directly and accurately on-topic for the cross-reference being made. Not a broken or fabricated link.",
+    "factual_accuracy": "Every direct quote in the article appears verbatim in its cited snapshot. Every specific (download counts for indexed-btree and all nine related packages, the 109 ETH figure, the Sepolia testnet contract, X25519/ECDH/AES key-derivation chain, Slack/Telegram exfiltration) traces to at least one of the two security-research sources, most to both independently. No hallucinated figures, no invented quotes, no misattribution detected.",
+    "tone_assessment": "Neutral and professional throughout. Attribution phrasing ('according to [Source]') is used consistently and correctly maps each claim to the source that actually supports it. The article is careful to note that Checkmarx's findings do not establish the 109 ETH came from theft, avoiding an unsupported inference the sources themselves avoid. No sensationalism or AI self-reference.",
+    "originality": "Searched src/content/articles/ for prior coverage of 'btree', 'indexed-btree', and 'sorted-btree' — no matches (the two incidental hits for 'btree' in unrelated articles are false positives from substring matching, e.g. PostgreSQL/Gleam release notes). Checked 2026-09 articles for related-but-distinct supply-chain malware coverage: 18-gemstuffer-campaign-exploited-rubygems... (RubyGems, different ecosystem and campaign) and 18-polinrider-campaign-hits-packagist... (Packagist/Laravel Nova, different ecosystem and campaign). Neither overlaps with this npm/indexed-btree campaign. This is a genuinely new topic, not a duplicate.",
+    "allowlist_gap": "The automated script's only finding was a 'Sources not in allowlist' warning for checkmarx.com. Checkmarx is an established application-security and software-supply-chain-security vendor (the snapshot's own site header cites a Gartner Magic Quadrant Leader recognition for Software Supply Chain Security), and checkmarx.com/zero-post is its own primary research blog — the original source of this exact finding, analogous to already-allowlisted vendor research blogs such as crowdstrike.com, research.checkpoint.com, and varonis.com. Its content was verified verbatim against the snapshot during this review (see source_verification). This is a source-allowlist completeness gap, not a sourcing or factual defect, consistent with prior precedent (e.g. the 2026-09-01 TIOBE review adding tiobe.com/techrepublic.com). Added 'checkmarx.com' to config/source_allowlist.txt with a justifying comment. There is no factual or sourcing defect for a reader-facing corrections record to describe, so overriding the automated APPROVE_WITH_CORRECTIONS to APPROVE rather than filing an unnecessary corrections record.",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "High-quality, precisely sourced News submission on a genuinely new npm supply-chain malware campaign. The central technical claim (malware hidden in BTree.prototype.set() bypassing npm v12's install-script blocking) was verified word-for-word against both the primary Checkmarx research and BleepingComputer's independent write-up, including the literal malicious code snippet. The internal cross-reference to the July 2026 npm v12 article was confirmed to exist and be topically accurate. No hallucinated quotes, no fabricated specifics, neutral tone, not a duplicate. The only automated flag was a source-allowlist completeness gap for a legitimate, reputable primary-source security vendor, which has been fixed at the allowlist level. Overriding script verdict from APPROVE_WITH_CORRECTIONS to APPROVE — no corrections record is warranted."
+  }
+}
