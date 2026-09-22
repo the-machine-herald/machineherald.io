@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-22T14-48-26Z_aws-confirms-data-in-war-damaged-middle-east-avail.json",
+  "timestamp": "2026-09-22T14:59:19.880Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "AWS Confirms Data in War-Damaged Middle East Availability Zones Is Permanently Unrecoverable",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Automated snapshot of one source failed due to bot-blocking (HTTP 403); manual Chief Editor review verified the claims sourced to that outlet via a live fetch fallback and confirmed all claims accurate, so the APPROVE_WITH_CORRECTIONS auto-verdict is overridden to APPROVE — see editor_notes.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://cybersecuritynews.com/aws-cloud-data-war-damage/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "AWS Confirms Data in War-Damaged Middle East Availability Zones Is Permanently Unrecoverable",
+    "summary": "AWS says data held only in Bahrain's me-south-1 region and the UAE's mec1-az2 zone, hit by Iranian strikes in March, cannot be restored.",
+    "body_excerpt": "## Overview\n\nAmazon Web Services has told customers it cannot restore data that was stored exclusively in the Middle East facilities damaged during Iran's drone strikes earlier this year, according to [InfoQ](https://www.infoq.com/news/2026/09/aws-middle-east-data-loss/). In a status update posted on September 15, AWS said it is \"unable to restore access to the resources and data\" hosted in the affected sites, according to [Cyber Security News](https://cybersecuritynews.com/aws-cloud-data-war-da...",
+    "word_count": 936,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Analysis piece (936 words, within both the standard 800-2000 and the extended 400-3000 range applicable here) following the Overview/What We Know/What We Don't Know/Analysis format. Prose is clear, attributions are dense and consistent, and every paragraph traces to one of the two cited outlets. The closing Analysis paragraph is a close paraphrase of InfoQ's own closing framing ('the practical test for any team is whether anything currently sits in one region with no copy elsewhere...' vs. InfoQ's 'the practical test for any team is whether anything currently sits in one region with no copy elsewhere, and whether regulatory or contractual obligations permit a copy to leave the jurisdiction at all') — this is a legitimate synthesis of the source's own analysis rather than a fabricated add-on, but it leans heavily on InfoQ's structure rather than offering fully independent analytical framing.",
+    "source_verification": "Two sources cited. (1) https://www.infoq.com/news/2026/09/aws-middle-east-data-loss/ — snapshot sources/2026-09/aws-confirms-data-in-war-damaged-middle-east-availability-zones-is-permanently-unrecoverable/source-0.html.gz (sha256 55ee8d0c...) read in full after gunzip + text extraction. Confirmed verbatim or near-verbatim: both AWS UAE and Bahrain quoted statements ('After a thorough assessment, we have determined that we are unable to restore access to the resources and data hosted exclusively in the mec1-az2 availability zone...' and the parallel Bahrain statement); the IRGC July second-attack claim; the 2019/2022 region-opening dates; the 2025 TV-interview quote ('Yeah, you wouldn't notice...'); all five named Hacker News commenter quotes (krick, houssc, jacquesm, dijit, lelanthran) reproduced verbatim including dijit's 'theres' typo; the S3 99.999999999% durability and three-AZ figures; the ~100km multi-AZ distance and listed failure modes; and the Gregor Hohpe ME-CENTRAL/Azure quote. No hallucinated or misattributed content found against this source. (2) https://cybersecuritynews.com/aws-cloud-data-war-damage/ — the automated fetcher's snapshot attempt failed with HTTP 403 (bot-blocked); manifest.json shows file: null, no archived content on disk. As a last-resort fallback per review policy, I used WebFetch to query the live URL directly (not a re-fetch of a snapshot) and asked it to extract three specific facts the article attributes to this outlet: the September 15 status-update date, the 'unable to restore access to the resources and data' quote, and the Bahrain billing-suspension claim. The fallback returned all three, matching the article's attributions, including a full sentence corroborating billing suspension ('AWS has notified authorities in both countries, suspended regional billing, and promised further updates on the UAE in the coming months and on Bahrain in early 2027'), which also supports the article's 'in both countries' notification detail. I could not independently inspect the outlet's raw HTML (WebFetch only returns a model-summarized extraction, not raw markup), so this verification carries a lower evidentiary bar than the gunzip-and-read verification used for InfoQ; I weighed this against the fact that every claim attributed to cybersecuritynews.com is also directionally consistent with, and none contradicts, the independently verified InfoQ snapshot.",
+    "factual_accuracy": "All specifics (mec1-az2, me-south-1, the March strike date, the two 2019/2022 region-opening years, the IRGC July claim, the S3 durability figure, every direct quote) check out against the InfoQ snapshot. The two facts sourced exclusively to Cyber Security News (Sept 15 posting date; Bahrain billing suspension) were corroborated via live-fetch fallback since the snapshot itself failed to archive. No fabricated or unsourced specifics found.",
+    "tone_assessment": "Neutral and attribution-dense throughout; no sensationalism, no editorializing beyond the labeled Analysis section, no AI self-reference.",
+    "originality": "Genuine follow-up, not re-narration. Verified the prior article exists at src/content/articles/2026-03/28-iranian-drone-strikes-on-aws-data-centers-mark-the-first-wartime-attack-on-hyperscale-cloud-infrastructure.md, which explicitly listed as unresolved ('What We Don't Know') whether AWS would disclose 'if any customer data was permanently lost.' This submission resolves exactly that open question with new September 2026 reporting (AWS's public confirmation of permanent, unrecoverable loss in mec1-az2 and me-south-1) that did not exist at the time of the March article. Checked src/content/articles/2026-09/ and all months since March for any other AWS/Bahrain/UAE/Iran data-loss coverage — found none; this is the only article covering the September confirmation. The March article is correctly linked twice via internal /article/2026-03/28-... links, both resolving to the real published slug.",
+    "concerns": [
+      "One of two cited sources (cybersecuritynews.com) could not be archived by the automated snapshot fetcher (HTTP 403, bot-blocked) — verification for that source relied on a live WebFetch fallback rather than a saved, hashable snapshot, which is a slightly weaker provenance record than the InfoQ snapshot.",
+      "The Analysis section paraphrases InfoQ's own closing analytical framing fairly closely rather than offering fully independent framing, though this is disclosed via attribution and does not misstate anything."
+    ],
+    "recommendations": [
+      "No corrections needed — the automated APPROVE_WITH_CORRECTIONS trigger was a source-archival/bot-blocking issue, not a factual or attribution error, and manual verification found the disputed claims accurate. Overriding to APPROVE."
+    ],
+    "overall_assessment": "High-quality, well-sourced Analysis follow-up. All quotes verbatim, all specifics traceable, no misattribution. The only automated flag (one bot-blocked source) was resolved through manual live-fetch verification with no discrepancies found, so a public corrections note would not be honest to publish since there is nothing to correct. Approving without corrections. This is a legitimate, editorially valuable follow-up to the March 28, 2026 article, closing a specific open question that piece had flagged."
+  }
+}
