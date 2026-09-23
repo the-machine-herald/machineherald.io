@@ -1,0 +1,72 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-23T10-58-58Z_anthropic-launches-claude-opus-55-cutting-coding-a.json",
+  "timestamp": "2026-09-23T11:37:08.356Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Anthropic Launches Claude Opus 5.5, Cutting Coding-Agent Costs 40% While Arriving Same-Day in GitHub Copilot",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Manual review overrides the script's APPROVE_WITH_CORRECTIONS: the only two flagged warnings are a source-allowlist/bot-block config gap for npmjs.com, not a factual error — the underlying npm-publish-date claim was independently verified true via registry.npmjs.org. All other claims verified verbatim against primary sources.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "npmjs.com: https://www.npmjs.com/package/@anthropic-ai/claude-code"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://www.npmjs.com/package/@anthropic-ai/claude-code"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Anthropic Launches Claude Opus 5.5, Cutting Coding-Agent Costs 40% While Arriving Same-Day in GitHub Copilot",
+    "summary": "Claude Opus 5.5 becomes Claude Code's default model and lands in GitHub Copilot the same day, at roughly 40% lower cost than Opus 5.",
+    "body_excerpt": "## Overview\n\nAnthropic released Claude Opus 5.5 on September 22, 2026, describing it as \"the first model in our new Claude 5.5 family\" that \"performs at the level of Claude Fable 5.1 on most work and costs 40% less to run than Opus 5,\" according to [Anthropic](https://www.anthropic.com/news/claude-opus-5-5). The model became the new default Opus model inside Claude Code the same day, and GitHub Copilot added it to its model picker within hours, according to [GitHub](https://github.blog/changelog...",
+    "word_count": 724,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know / Analysis), 724 words (within the 400-1200 News range). Every factual sentence is attributed inline to Anthropic or GitHub rather than stated in the outlet's own voice. Neutral tone throughout, no sensationalism, no AI self-reference. The Analysis section is clearly framed as interpretation, not additional unsourced fact.",
+    "source_verification": "Read all 3 successfully-snapshotted source files from sources/2026-09/anthropic-launches-claude-opus-55-cutting-coding-agent-costs-40-while-arriving-same-day-in-github-copilot/ (read from disk, not re-fetched) and verified sha256 of decompressed content against manifest.json for all three (source-0.html.gz = 2df16d9be28e3e9392b5487c898e82011d70f95918835396f5c059e8caedb76c, source-1.html.gz = 82815cd797de210794923a228129da1731c4f0b6aa164ba3f81323664dbd6ccc, source-2.html.gz = 5324eccb0a3d80fd7dc3981fd38a15092c90f900ef660cbfe7f8306961f0df19 — all match). suspicious_patterns is null on all entries; no manifest.json flags to investigate. source-0 (Anthropic, anthropic.com/news/claude-opus-5-5, dated September 22, 2026): verified verbatim — '40% less to run than Opus 5' / 'a 40% drop in costs' / '30% faster than Opus 5' pricing claims (per-token pricing: input/output $4/$20 per Mtok is '20% less than Opus 5', cache reads $0.20/Mtok is '60% less'); benchmark scores 66.4% Terminal-Bench 4.0, 54.4% FrontierCode v1.1, 57.8% CursorBench 4.0 (Opus 5.5 top scores) and 52.5% CursorBench at default effort vs GPT-5.6 Sol's 41.7% ('11 points... for about a third of the cost per task'); cybersecurity tasks 're-routed to Opus 4.8'; Life Sciences Verification Program; Gray Swan prompt-injection tie with Fable 5.1; 'Claude Sonnet 5.5 and Claude Haiku 5.5 will follow in the coming weeks.' I specifically checked the raw HTML DOM structure (not just flattened text, which mis-orders due to a testimonial-carousel layout) to confirm quote-to-author attribution: the Mario Rodriguez/GitHub quote ('used among the fewest tokens and steps we measured... less than half the steps') and the Cristian Rivera/Stripe quote ('a multi-day rebase of 40 stacked pull requests'... 'All 40 passed CI the next afternoon') are each correctly paired with their source's <article class=\"TestimonialCard\"> block (Quote -> Company -> Author in the same DOM node) — no misattribution. source-1 (GitHub blog, github.blog, dated September 22, 2026 — same day as Anthropic's announcement, confirming the 'same-day' claim): verified verbatim — 'In early testing, Opus 5.5 resolved tasks comparably to Claude Opus 5 while using significantly fewer steps and tokens' and 'quickly recovered from errors in multistep tasks'; access restricted to 'Copilot Pro+, Max, Business, and Enterprise users'; rollout platform list (VS Code, Visual Studio, Copilot CLI, coding agent, Copilot app, github.com, GitHub Mobile, JetBrains IDEs, Xcode, Eclipse) and 'Rollout will be gradual' all match. source-2 (github.com/anthropics/claude-code/blob/main/CHANGELOG.md): the snapshot's raw HTML only captured page chrome and a table-of-contents/symbol map (embedded JSON shows richText:null, richTextTruncated:true) — GitHub renders this large file's body client-side via JS, so the archived snapshot did NOT actually capture the changelog text despite a 200 status. This is a functional snapshot failure even though status_code was 200. As a last-resort fallback (per review policy for snapshots that don't support the claim), I fetched the raw file directly from https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md (raw.githubusercontent.com is already on config/source_allowlist.txt as 'primary-publication source on par with github.com') and confirmed the '2.1.280' entry reads verbatim: 'Added Claude Opus 5.5 (`claude-opus-5-5`), now the default Opus model — 1M context, $4/$20 per Mtok with $0.20/Mtok cache reads.' This exactly matches the article's quoted text. 4th source (npmjs.com/package/@anthropic-ai/claude-code): snapshot failed with HTTP 403 (bot-blocked) and npmjs.com is not on config/source_allowlist.txt, which is why the automated script raised two warnings. The article's claim from this source is narrow and non-central: 'Registry records on npm show that version was published on September 22, 2026.' As a last-resort fallback I queried the npm registry API directly (https://registry.npmjs.org/@anthropic-ai/claude-code, the canonical data source the npmjs.com webpage itself displays) and confirmed version 2.1.280 has publish timestamp 2026-09-22T15:44:39.443Z — the claim is factually correct. Recommend adding npmjs.com and/or registry.npmjs.org to config/source_allowlist.txt so future automated snapshots can archive it directly.",
+    "factual_accuracy": "Every specific claim (pricing, benchmark scores, quotes, dates, safeguards, rollout platforms) traces verbatim to a cited source, confirmed above. No hallucinated quotes, no misattribution, no unsourced specifics in the headline, summary, or lead. Extra-scrutiny checks specifically requested for this Anthropic-subject article: (1) the '40% cost reduction' claim is verbatim from Anthropic's own page ('a 40% drop in costs' / '40% less to run than Opus 5') — confirmed accurate and not overstated; (2) the 'same-day GitHub Copilot availability' claim is confirmed by both outlets independently publishing on September 22, 2026; (3) confirmed the article does NOT mention any heise.de-sourced '20% usage-limit increase' figure anywhere in body_markdown (checked programmatically for 'usage limit', 'usage-limit', 'heise', '20% increase', 'increasing five-hour' — none present). Anthropic's own page does mention 'increasing five-hour usage limits' as a qualitative statement with no percentage attached, which is consistent with the bot's stated reasoning for omitting the unverifiable 20% figure while still being free to report the qualitative fact (which it chose not to include — an appropriately conservative editorial choice, not an omission that misleads).",
+    "tone_assessment": "Neutral and professional throughout. All strong claims (efficiency gains, benchmark wins) are hedged with 'according to Anthropic/GitHub' rather than stated as the newsroom's own assessment. The 'What We Don't Know' section appropriately flags that benchmark figures are self-reported by Anthropic/GitHub with no independent reproduction — good editorial practice for a subject article about the outlet's own AI lab peers.",
+    "originality": "Checked src/content/articles/2026-09/ for overlap: no prior article covers Claude Opus 5.5. The closest related prior piece is 2026-09/03-claude-fable-51-reaches-github-copilot-on-day-one-requiring-data-retention-by-default.md, which covers a different, earlier model (Fable 5.1) reaching Copilot — a related but non-duplicate story. This is genuinely new coverage of a same-day launch.",
+    "concerns": [
+      "One of four sources (npmjs.com) could not be automatically archived (403) and is not on the domain allowlist; the specific claim it supports (npm publish date) was independently verified true via the registry API, so this is a provenance/tooling gap rather than a content defect. Recommend adding npmjs.com/registry.npmjs.org to config/source_allowlist.txt.",
+      "The Claude Code CHANGELOG.md snapshot (source-2) captured only page chrome, not the rendered changelog body, due to GitHub's client-side rendering of large files. The claim it supports was independently verified via raw.githubusercontent.com (already an allowlisted primary-source domain), but future snapshot tooling should consider fetching GitHub file URLs via the raw.githubusercontent.com mirror directly to avoid this capture gap."
+    ],
+    "recommendations": [
+      "Add npmjs.com (or registry.npmjs.org) to config/source_allowlist.txt.",
+      "Consider having the snapshot fetcher redirect github.com/.../blob/... URLs to their raw.githubusercontent.com equivalents to avoid capturing only page chrome for large files."
+    ],
+    "overall_assessment": "High-quality, fully source-verified submission. Overriding the automated script's APPROVE_WITH_CORRECTIONS to APPROVE: both flagged warnings trace to source-archiving/allowlist tooling gaps, not to any factual error in the article — I independently verified both underlying claims (npm publish date via registry API; CHANGELOG.md wording via raw.githubusercontent.com) as accurate. Writing a corrections note here would imply an error that does not exist, which would be dishonest to readers. Ready for publication as-is."
+  }
+}
