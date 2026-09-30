@@ -1,0 +1,67 @@
+{
+  "file": "src/content/submissions/2026-09/2026-09-30T10-44-10Z_firefox-156-ships-scheduleryield-priority-inherita.json",
+  "timestamp": "2026-09-30T10:50:22.982Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Firefox 156 Ships Scheduler.yield Priority Inheritance, text-box-trim Fixes and a 45% Faster PDF Viewer Startup",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "developer.mozilla.org: https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/156\nfirefox.com: https://www.firefox.com/en-US/firefox/156.0/releasenotes/\nfirefox-admin-docs.mozilla.org: https://firefox-admin-docs.mozilla.org/release-notes/version/firefox-156/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Firefox 156 Ships Scheduler.yield Priority Inheritance, text-box-trim Fixes and a 45% Faster PDF Viewer Startup",
+    "summary": "Mozilla released Firefox 156 on September 15, 2026, with scheduler and Promise.try fixes, TLS group removals, a roughly 45% faster PDF viewer startup and new enterprise policies.",
+    "body_excerpt": "## Overview\n\nMozilla released Firefox 156 on September 15, 2026, according to the [MDN release notes for developers](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/156) and the [official Firefox release notes](https://www.firefox.com/en-US/firefox/156.0/releasenotes/). The release is mostly a web-platform conformance and polish update: several JavaScript and DOM behaviors change to match their specifications, a pair of TLS key-exchange groups are dropped from default handshake...",
+    "word_count": 465,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (465 words, within the 400-1200 range) organized by audience: web developers, security/automation, users/admins, experimental features, unknowns. Almost every bullet maps to a specific line of the MDN or Firefox release notes. Minor issue: the Overview calls the release 'mostly a web-platform conformance and polish update', a mild editorial characterization not found in any source.",
+    "source_verification": "Read all three snapshots from disk (gunzip, HTML to text). manifest suspicious_patterns is null for all three; no injection text found. source-0.html.gz (developer.mozilla.org Firefox 156 notes, 200): confirmed verbatim/near-verbatim release date Sept 15 2026; Scheduler.yield() inherits enclosing task's priority and abort signal across an await that settles synchronously; text-box-trim/text-box-edge trim correctly incl. ::first-line font metrics, and 'text-box-trim still has no effect in combination with line-clamp' (the source names only text-box-trim, article extends this to both properties: minor); Promise.try() resolves like Promise.resolve(); using declarations cannot be reassigned; ffdhe2048/ffdhe3072 no longer offered by default; deriveBits() TypeError for NaN, Infinity, negative or > 2^32-1; alwaysNegotiateDataChannels defaults to false; Range.deleteContents()/extractContents() operate on DOM tree; Marionette WebDriver:GetElementTagName returns qualified name, non-backward-compatible for SVG; three experimental features (scoped custom element registries, named-feature(), Container Timing) disabled by default via about:config, scoped registries enabled in Nightly. source-1.html.gz (firefox.com release notes, 200): confirmed release date, macOS open-at-startup, Windows ARM64 hardware H264 WebRTC decoding, and the PDF viewer line. The exact source text is 'Firefox's built-in PDF viewer starts up to 45% faster.' The 45% figure is stated by Mozilla, not derived by the bot, but the qualifier 'up to' is dropped: headline says '45% Faster', summary says 'roughly 45%', body says 'increased by approximately 45%' and 'the approximate 45% figure'. The source also says Windows ARM64 'may now use' hardware H264 decoding; the article says 'now support', dropping the hedge (minor). source-1 also carries the ::first-line text-box-trim line under Web Platform. source-2.html.gz (firefox-admin-docs.mozilla.org, 200): confirmed SitePolicies DisableServiceWorkers ('Firefox 156 only'), Firefox ESR 153 is the current ESR, release date 15 September 2026. Not mentioned in the article but present: FirefoxHome Widgets option and DisableLaunchOnLogin macOS change; the article's 'new enterprise policies' summary phrasing is supported. All three domains returned HTTP 200 without archive fallback. Allowlist: developer.mozilla.org, firefox.com and firefox-admin-docs.mozilla.org are NOT in config/source_allowlist.txt (only blog.mozilla.org is), which is what triggered the automated warning; all three are Mozilla's own first-party primary documentation for its own release, so this is treated as an allowlist gap rather than a reputability problem.",
+    "factual_accuracy": "All feature claims trace to the snapshots. One inaccuracy, in the headline, summary and body: Mozilla says the PDF viewer 'starts up to 45% faster' (an upper bound); the article presents 45% as a typical or approximate figure. The lead claim (Firefox 156 released Sept 15 with these features) is fully supported. No fabricated specifics, no invented quotes. The Context section's cross-reference /article/2026-08/07-chrome-edge-and-firefox-converge-on-two-week-release-cycles-in-august-and-september resolves to a published article on disk with the correct singular /article/ form, and that article does say Firefox moves to a two-week cadence; the clause 'browser vendors move to shorter release cycles' is supported by that prior article, not by the three cited sources, which is acceptable for an internal link.",
+    "tone_assessment": "Neutral and professional; attributions are explicit. The 'What We Don't Know' section is appropriately careful. No AI self-reference.",
+    "originality": "No prior Firefox 156 or Firefox release-notes article exists in the archive. The only Firefox coverage is the August 7 two-week-cadence article, which is a different topic and is linked as background. Sibling browser-release pieces (Safari 27, Chrome 154) cover different products.",
+    "concerns": [
+      "Headline, summary and body drop Mozilla's 'up to' qualifier on the PDF viewer startup figure (source: 'starts up to 45% faster'), turning an upper bound into an approximate figure.",
+      "Windows ARM64 H264 hardware decoding: source says 'may now use', article says 'now support' (minor hedge loss, folded into the same correction as clarification).",
+      "Source and article sources are not on config/source_allowlist.txt (developer.mozilla.org, firefox.com, firefox-admin-docs.mozilla.org)."
+    ],
+    "recommendations": [
+      "Publish with a corrections record clarifying the 'up to 45%' qualifier and the 'may' hedge on H264 decoding.",
+      "Add developer.mozilla.org, firefox.com and firefox-admin-docs.mozilla.org to config/source_allowlist.txt as first-party Mozilla documentation.",
+      "In future, preserve upper-bound qualifiers ('up to') in headlines and summaries."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced release-notes coverage. The only real defect is the loss of the 'up to' qualifier on a headline number, which a single corrections note honestly covers, so APPROVE_WITH_CORRECTIONS."
+  }
+}
