@@ -1,0 +1,78 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-01T08-04-26Z_openssl-patches-14-vulnerabilities-in-403-and-back.json",
+  "timestamp": "2026-10-01T08:27:39.289Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "OpenSSL Patches 14 Vulnerabilities in 4.0.3 and Backports, Led by a High-Severity DTLS Heap Disclosure Flaw",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Approved after manual source verification; advisory-sourced facts verified verbatim. Two source-handling warnings reviewed and judged non-blocking.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "securityboulevard.com: https://securityboulevard.com/2026/09/openssl-fixes-dtls-out-of-bounds-read-in-security-updates/"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://cybersecuritynews.com/openssl-leak-server-memory/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://securityboulevard.com/2026/09/openssl-fixes-dtls-out-of-bounds-read-in-security-updates/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "OpenSSL Patches 14 Vulnerabilities in 4.0.3 and Backports, Led by a High-Severity DTLS Heap Disclosure Flaw",
+    "summary": "OpenSSL's 29 September 2026 advisory covers 14 CVEs, one High-severity DTLS flaw that can leak heap memory, one Moderate and 12 Low; fixes ship in 4.0.3, 3.6.5, 3.5.9 and 3.4.8.",
+    "body_excerpt": "## Overview\n\nThe OpenSSL Project published a security advisory dated 29 September 2026 that [lists 14 CVEs](https://openssl-library.org/news/secadv/20260929.txt): one rated High, one rated Moderate and twelve rated Low. The High-severity issue, CVE-2026-84782, is an out-of-bounds read in the library's DTLS handshake retransmission logic. According to the [advisory](https://openssl-library.org/news/secadv/20260929.txt), it can \"disclose a heap memory to the peer as plaintext handshake data\" or cr...",
+    "word_count": 828,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News article (828 words, within 400-1200). Primary-source driven: CVE list, severities, versions, credits and dates come from the OpenSSL advisory. Neutral tone, no AI self-reference. Analysis section is restrained and explicitly defers to the advisory on severity counts.",
+    "source_verification": "Read source-0.html.gz (openssl-library.org secadv 20260929.txt, text/plain, 200) in full. Confirmed: dated 29th September 2026; exactly 14 CVEs: one High (CVE-2026-84782, CWE-125, DTLS retransmission from stale buffer offset), one Moderate (CVE-2026-84783, use-after-free in X.509 extension cache, OpenSSL 4.0 only; 3.6/3.5/3.4/3.0/1.1.1/1.0.2 not affected) and twelve Low (CVE-2026-35189, 35191, 42772, 54872, 54873, 54875, 72897, 75804, 75805, 75806, 77696, 84784) - all IDs match the article. Fixed versions 4.0.3, 3.6.5, 3.5.9, 3.4.8; premium-only 3.0.23, 1.1.1zj, 1.0.2zs - match. Vulnerable branches for 84782 (4.0, 3.6, 3.5, 3.4, 3.0, 1.1.1, 1.0.2), FIPS outside boundary, reported 17 August 2026 by Laurent Gaffie (secorizon.com), fix by Ryan Hooper - match. 84783 credits (Tim Becker Xint.io 27 Aug; aydinmercan public report 31 Aug; fix Bob Beck) match. Low examples verified: 75804 ~100MB vs 768 KiB; 84784 ~400MB; 35189 ~100 KiB cert limit / several hundred MiB; 54872/54875/77696 timing side-channels; 42772 reported 29 June 2026 by Opal Wright (Trail of Bits) 'in collaboration with OpenAI'; 72897 reported 25 June 2026 by Filipe Casal (Trail of Bits) in collaboration with OpenAI plus Brandon Luo, Luigino Camastra (Aisle Research), Bhargava Shastry. Quote 'disclose a heap memory to the peer as plaintext handshake data' and 'Only currently supported releases have been analysed. OpenSSL 3.1, 3.2 and 3.3 are out of support and have not been analysed.' are verbatim. Read source-1.html.gz (cybersecuritynews.com via Archive.org fallback, capture 30 Sep 2026): confirms 29 Sept 2026 disclosure, 4.0.3/3.6.5/3.5.9/3.4.8, the sentence 'OpenSSL 4.0.3 also addresses 13 additional vulnerabilities affecting X.509 processing, QUIC, CMP, DTLS, SM2, and elliptic-curve operations', and the inventory/bundled-library advice; article attributes these correctly. Security Boulevard (source index 2): snapshot failed (HTTP 403, file null, no archive). As a last resort I used WebFetch on the live URL, which returned verbatim: 'It was the only vulnerability in the advisory rated High.'; 'OpenSSL 3.0 reached its public end of life Sept. 7'; 'the 3.5 LTS line, which is supported through April 8, 2030'; 'The advisory does not say whether the vulnerability has been exploited in the wild or how difficult it would be to trigger.' All match the article's attributed claims; WebFetch is LLM-mediated and this verification is therefore weaker than a snapshot, but the claims are secondary, attributed, and non-load-bearing for headline/summary/lead (which rest on the advisory). The article's statement that 3.0 'no longer receives publicly available security fixes' is attributed to Security Boulevard and is consistent with the advisory listing 3.0.23 as premium-only.",
+    "factual_accuracy": "All CVE IDs, severities, counts (1 High / 1 Moderate / 12 Low), affected and fixed versions, credits and dates trace verbatim to the advisory. The article contains no Securityonline-style '5 High, 5 Medium, 4 Low' counts and no CVSS scores (grep-verified); nothing from the secondary outlets contradicts or goes beyond the advisory without attribution. The only count from a secondary outlet (13 additional vulnerabilities) is attributed to Cyber Security News and equals 14 minus 1, consistent with the advisory. Note: Cyber Security News says the 'most severe vulnerability corrected in each is rated High' - not repeated in the article.",
+    "tone_assessment": "Neutral and professional; no sensationalism.",
+    "originality": "Checked src/content/articles/2026-09 and 2026-10: OpenSSL appears only incidentally (Node.js 26.9, systemd 262 OpenSSL 4 support). No prior coverage of this advisory. New topic.",
+    "suspicious_patterns": "manifest suspicious_patterns is null for both fetched snapshots; no injection text observed. Security Boulevard has no manifest scan (403).",
+    "concerns": [
+      "securityboulevard.com is not in config/source_allowlist.txt (openssl-library.org and cybersecuritynews.com are). It is a tertiary/secondary source used only for attributed context (End-of-life date, LTS date, only-High statement, exploitation caveat); the headline, summary and lead rest on the allowlisted primary advisory, so this is not blocking.",
+      "Security Boulevard snapshot unavailable (403); verified via WebFetch fallback only. Consider adding the domain to the allowlist or using an archivable source in future."
+    ],
+    "recommendations": [
+      "Consider adding securityboulevard.com to the allowlist after policy review."
+    ],
+    "overall_assessment": "Accurate, well-sourced advisory-based article. No factual errors found; no corrections needed. Approved."
+  }
+}
