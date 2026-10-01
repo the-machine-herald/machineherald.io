@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-01T08-03-04Z_surrealdb-33-lets-any-postgres-client-connect-and-.json",
+  "timestamp": "2026-10-01T08:05:15.069Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "SurrealDB 3.3 Lets Any Postgres Client Connect and Streams Query Results, but Does Not Speak ANSI SQL",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "surrealdb.com: https://surrealdb.com/releases/3.3\nsurrealdb.com: https://surrealdb.com/docs/reference/rest-api/postgres-protocol"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "SurrealDB 3.3 Lets Any Postgres Client Connect and Streams Query Results, but Does Not Speak ANSI SQL",
+    "summary": "SurrealDB 3.3 adds a Postgres wire-protocol listener, row-by-row result streaming and 15 security fixes, though the docs say it speaks SurrealQL, not ANSI SQL.",
+    "body_excerpt": "## Overview\n\nSurrealDB 3.3 is out, and its headline feature is compatibility at the connection layer. According to the [SurrealDB 3.3 release notes](https://surrealdb.com/releases/3.3), \"any Postgres client or driver, including `psql`, JDBC, npgsql and tokio-postgres, can now connect to SurrealDB.\" The [protocol documentation](https://surrealdb.com/docs/reference/rest-api/postgres-protocol) adds an important caveat: \"The name 'Postgres protocol' describes the transport layer, not the query diale...",
+    "word_count": 509,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured 509-word Briefing (range 300-800) with Overview, What We Know, What We Don't Know and Analysis. Neutral, no AI self-reference. Sections are limited to what the two vendor pages say.",
+    "source_verification": "Read both snapshots from disk (gunzip): source-0.html.gz (surrealdb.com/releases/3.3, 200) and source-1.html.gz (surrealdb.com/docs/reference/rest-api/postgres-protocol, 200). manifest suspicious_patterns is null for both, so no injection check was needed. Source 0 confirms verbatim: 'Any Postgres client or driver, including psql, JDBC, npgsql and tokio-postgres, can now connect to SurrealDB' (article lowercases the leading 'Any' inside a quote, immaterial); 'DEFINE USER now stores a SCRAM verifier alongside the password hash'; 'Query results now stream to the client row by row instead of arriving as one buffered response'; 'Graph adjacency is now stored in compact blocks'; 'traversals over high-degree vertices and from many starting records run substantially faster'; 'indexed writes run 2.3 to 2.6 times faster' (full-text indexes); 'reads only the records that match all of them' (article truncates before 'of them'); the SELECT ... FOR UPDATE and DEFINE ACCESS ... AUDIENCE quotes; S3/GCS/Azure and CJK search; the three upgrade quotes ('A 3.2 datastore upgrades in place', '3.3.0 applies its data migrations automatically on first start', '3.2 and 3.3.0 nodes do not fully interoperate'). Breaking changes: ISO GQL on by default, UPDATE/UPSERT now evaluate WHERE before the data clause, DEFINE MODULE syntax changed - all present. Source 1 confirms: 'The name “Postgres protocol” describes the transport layer, not the query dialect. Support for ANSI SQL is not yet present.'; 'ANSI SQL is not yet supported over the Postgres wire protocol'; protocol v3.0 with simple and extended flows, prepared statements, interactive transactions, cancellation, optional TLS; --postgres-bind; SCRAM-SHA-256; SurrealQL default / ISO GQL dialect. The 'Not yet included' column of the feature table lists ANSI SQL translation, pg_catalog emulation (needed for some GUIs such as DBeaver), MD5 auth, COPY, LIVE queries over Postgres, and GQL inside an open interactive transaction - matches the article's documented limits. One defect: the article and summary say '15 security advisories/fixes'; the release notes contain no such figure. The Security section lists 16 advisory bullets (21 distinct GHSA IDs) plus two further fixes 'which have no separate advisory'. See concerns.",
+    "factual_accuracy": "Performance figures (substantially faster; 2.3-2.6x full-text write speed) are quoted from the release notes and explicitly attributed as 'the vendor's own figures; no independent benchmark is cited', and 'What We Don't Know' notes they are unverified outside vendor scenarios - handled correctly. The 'does not speak ANSI SQL' claim in the title is stated by the docs (not the bot's inference), though the docs phrase it as 'not yet supported' and the title omits 'yet'. Postgres-client compatibility is stated by the release notes and docs, and the article correctly pairs it with the transport-not-dialect caveat and the docs' limit list. No date is asserted anywhere in the article (the release notes say Sep 24, 2026; the omission avoids the Sep 24 vs Sep 28 GitHub discrepancy). One wrong specific: the '15' count. One imprecision: streaming is described by the release notes as available over the new gRPC transport, the query_stream WebSocket RPC method and the embedded engines; the notes do not say the Postgres listener streams, and the article's separate 'Streaming results' paragraph does not state the transports, so the title's pairing could be read as streaming-over-Postgres.",
+    "tone_assessment": "Neutral and professional. Vendor claims are attributed ('According to the release notes') rather than asserted. The Analysis section is limited to conclusions that follow from the documented limits.",
+    "originality": "No prior SurrealDB article exists in src/content/articles. Nearby database coverage (Valkey 9.2 RC, DuckDB 1.5.6, PostgreSQL 19 beta 4) is on different subjects. New topic.",
+    "concerns": [
+      "Security count: '15 security advisories' (body) / '15 security fixes' (summary) is not in the source; release notes list 16 advisory entries (21 distinct GHSA IDs) plus 2 fixes with no separate advisory. Subordinate specific, not in the headline; one correction covers it.",
+      "Streaming context: the notes tie row-by-row streaming to gRPC, the query_stream WebSocket method and embedded engines, not to the Postgres listener; the headline conjunction could mislead (clarification).",
+      "Title says 'Does Not Speak ANSI SQL' while the docs say 'not yet supported' (clarification, covered with the above)."
+    ],
+    "recommendations": [
+      "Verify counts against the source text rather than from memory; state which transport carries a feature when the source scopes it."
+    ],
+    "overall_assessment": "Substantively accurate, well-hedged vendor-source briefing. Headline, lead and central claims are supported by the cited pages. One wrong count and one scoping imprecision can be honestly summarized in a short corrections record, so APPROVE_WITH_CORRECTIONS. Allowlist: surrealdb.com is not in config/source_allowlist.txt (script warning); both sources are first-party vendor release notes and docs, which are the primary authority for a release announcement, so this is accepted, with the caveat that no independent source corroborates the claims."
+  }
+}
