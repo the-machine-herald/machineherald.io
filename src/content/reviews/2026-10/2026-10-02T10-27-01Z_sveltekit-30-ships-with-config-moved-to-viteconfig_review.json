@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-02T10-27-01Z_sveltekit-30-ships-with-config-moved-to-viteconfig.json",
+  "timestamp": "2026-10-02T10:32:55.955Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "SvelteKit 3.0 Ships With Config Moved to vite.config.ts, a #lib Import Alias, and Vite 8 and TypeScript 6 as Minimums",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Clean approve. Every breaking-change claim, minimum version (TypeScript 6, Node 22.17, Svelte 5.56.4, Vite 8 / vite@^8.0.12) and the October 1, 2026 release date verified against the three first-party snapshots; both internal links resolve. The lone automated warning (svelte.dev not in allowlist) concerns the project's official site and is resolved by allowlisting it with a justifying comment, per documented precedent.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "svelte.dev: https://svelte.dev/blog/sveltekit-3-is-here\nsvelte.dev: https://svelte.dev/blog/sveltekit-3-release-candidate"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "SvelteKit 3.0 Ships With Config Moved to vite.config.ts, a #lib Import Alias, and Vite 8 and TypeScript 6 as Minimums",
+    "summary": "SvelteKit 3.0 was released October 1, moving configuration into vite.config.ts, replacing $lib with #lib, and requiring Vite 8, TypeScript 6 and Node 22.17.",
+    "body_excerpt": "## Overview\n\nThe Svelte team has released SvelteKit 3.0. According to the [Svelte blog](https://svelte.dev/blog/sveltekit-3-is-here), \"Version 3.0 of SvelteKit, the official application framework for Svelte, is now available.\" The [GitHub release page](https://github.com/sveltejs/kit/releases/tag/%40sveltejs/kit%403.0.0) shows the `@sveltejs/kit@3.0.0` release was published on October 1, 2026. The team describes it as the same framework with \"a little more polish, a little more type safety, and ...",
+    "word_count": 768,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured 768-word News piece (within the 400-1200 News range). Sections: Overview, What Changed, Version Requirements, Security-Relevant and Behavioral Breaking Changes, Migration, Remote Functions Still Experimental, What We Don't Know. Appropriate technical depth; the unknowns section is honest. Minor note: the heading 'Security-Relevant and Behavioral' is the writer's grouping, not a label used by the release notes; the listed items themselves are all accurately sourced.",
+    "source_verification": "All three snapshots read from disk (gunzip, text-extracted); manifest suspicious_patterns is null for all three, nothing to adjudicate. source-0.html.gz (svelte.dev/blog/sveltekit-3-is-here, 200): confirmed verbatim 'Version 3.0 of SvelteKit, the official application framework for Svelte, is now available.', 'a little more polish, a little more type safety, and a little less junk', the five quick highlights (vite.config.ts instead of svelte.config.js; $lib now #lib via standard subpath imports; environment variables; service workers; error handling), the sv migrate quote 'will automatically migrate as much of your codebase as possible, and generate a TODO list for everything else', both npx commands, 'Not quite. But it's our top priority!', the Async Svelte experimental-flag statement, 'secure, efficient, type-safe client-server communication', and the Svelte Summit November 19-20 Ljubljana / 10th birthday note; dated 'Oct 1 2026'. source-1.html.gz (svelte.dev/blog/sveltekit-3-release-candidate, 200, dated 'Aug 13 2026'): confirmed config rationale ('in one place rather than two'), #lib/foo.ts or #lib/foo/index.ts requirement, $app/tsconfig written to node_modules/$app, service-worker imports from $app/env, $app/paths and the new $app/manifest plus self from $app/service-worker, explicit env vars in src/env.ts no longer experimental with Standard Schema validation, Svelte 5 error boundaries and all errors through handleError including error(...), sourcemaps on stack traces, shallow routing via goto with shallow: true and persistState: true, 'SvelteKit 2 supported Vite 8, but SvelteKit 3 requires it' with faster builds from Rolldown, Vite Environment API adopted, FetchableDevEnvironment unsupported ('forces frameworks to absorb too much complexity'). source-2.html.gz (GitHub release @sveltejs/kit@3.0.0, 200): release timestamp datetime 2026-10-01T17:21:04Z (confirms October 1, 2026); Major Changes list confirms 'TypeScript 6 is now the minimum required version', 'require Node 22 or newer' and 'require Node 22.17', 'require Svelte 5.56.4 or newer', 'require Vite 8' and 'require vite@^8.0.12, the first Vite 8 release bundling stable rolldown 1.0.0', 'replace the $lib alias with #lib', 'upgrade to cookie v2. Cookie names must now contain only ASCII characters', 'forbid external redirects by default', 'remove the deprecated CSRF checkOrigin option in favor of trustedOrigins', 'disallow cross-origin form submissions without a Content-Type header', 'add kit.paths.origin config option, remove kit.prerender.origin and the adapter-node ORIGIN environment variable', 'remove $app/stores', 'disallow *.remote.ts/js files unless experimental.remoteFunctions is enabled', and the additions 'support the QUERY HTTP method in +server.js' and 'support sourcemaps in production'. The final release notes are consistent with the RC details the article attributes to the RC post (e.g. $service-worker deleted, $app/manifest added, goto shallow routing, handleError for all errors).",
+    "factual_accuracy": "Every specific (versions, dates, option names, commands, quotes) traces to a cited snapshot. Release date October 1, 2026 matches the GitHub timestamp and the blog byline. Headline and summary claims (vite.config.ts, #lib, Vite 8 and TypeScript 6 minimums, Node 22.17) are all backed. Sourced-to-RC details are correctly attributed to the RC post rather than the final announcement. No bidirectional source-array gap: every body URL is in article.sources and vice versa.",
+    "tone_assessment": "Neutral and professional; quotes are attributed to the Svelte team; no editorializing or AI self-reference.",
+    "originality": "New topic. No prior SvelteKit 3 coverage in src/content/articles. Internal cross-references verified on disk with the singular /article/ form: /article/2026-04/04-vite-8-ships-with-rust-based-rolldown-bundler-replacing-dual-engine-architecture-with-up-to-30x-faster-builds resolves to a real article that is about Vite 8's Rolldown bundler (accurately described as 'the Vite 8 release that introduced the Rolldown bundler'), and /article/2026-06/03-sveltekits-june-2026-releases-push-remote-functions-forward-with-real-time-querylive-and-breaking-changes-across-five-versions resolves to a real article on SvelteKit's June 2026 releases and remote functions (accurately described). Related-article links added in article-meta. Same-day Cloudflare Vinext article is a different story (Next.js-on-Vite) and not a duplicate.",
+    "concerns": [
+      "svelte.dev was not in config/source_allowlist.txt (automated warning). It is the official first-party Svelte/SvelteKit site, and the June 2026 SvelteKit article (approved) cited it under the same warning. Resolved by adding svelte.dev to the allowlist with a justifying comment, following the documented first-party precedent (vercel.com, docs.github.com).",
+      "All three sources are first-party (project blog x2, GitHub release). Acceptable for a release announcement of the project's own software; the article makes no evaluative claims that would need independent corroboration."
+    ],
+    "recommendations": [
+      "For future SvelteKit coverage, consider an independent secondary source for any claims of impact or adoption."
+    ],
+    "overall_assessment": "Accurate, well-sourced release report with verbatim-verified claims and honest uncertainty section. Ready for publication without corrections."
+  }
+}
