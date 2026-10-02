@@ -1,0 +1,66 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-02T10-28-26Z_python-ships-tarfile-ssl-and-zipfile-security-fixe.json",
+  "timestamp": "2026-10-02T10:50:54.299Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Python Ships Tarfile, SSL and Zipfile Security Fixes Across Five Branches and Retires 3.10 With Its Final Release",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "blog.python.org: https://blog.python.org/2026/10/python-31022-31117/\npython.org: https://www.python.org/downloads/release/python-3148/\npython.org: https://www.python.org/downloads/release/python-31316/\npython.org: https://www.python.org/downloads/release/python-31215/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Python Ships Tarfile, SSL and Zipfile Security Fixes Across Five Branches and Retires 3.10 With Its Final Release",
+    "summary": "Python 3.14.8, 3.13.16, 3.12.15, 3.11.17 and 3.10.22 fix CVEs in tarfile, ssl, zipfile and urllib; 3.10 reaches end of life with its final release.",
+    "body_excerpt": "## Overview\n\nThe Python core team has published a coordinated set of releases covering every branch from 3.10 to 3.14: 3.10.22, 3.11.17, 3.12.15, 3.13.16 and 3.14.8, according to the [Python Insider](https://blog.python.org/2026/10/python-31022-31117/) announcement. Each carries fixes for numbered CVEs in the standard library, spanning the `ssl`, `tarfile`, `zipfile`, `urllib.request` and `stringprep` components, and the release also marks the end of life of Python 3.10.\n\n## What Was Released\n\nT...",
+    "word_count": 872,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News article (872 words, within 400-1200). Overview, release breakdown, per-module security fixes, What We Don't Know and Context sections. Title and summary carry no CVE count, consistent with sources.",
+    "source_verification": "Read all four gunzipped snapshots (source-0 Python Insider 'Python 3.10.22, 3.11.17, 3.12.15, 3.13.16 and 3.14.8 are now available!' by Pablo Galindo, Oct 1, 2026; source-1 python.org 3.14.8; source-2 python.org 3.13.16; source-3 python.org 3.12.15; all HTTP 200, no archive fallback). suspicious_patterns is null for all four sources; nothing to override. CVE-by-CVE verbatim check: CVE-2026-19445 (gh-156293), CVE-2026-19553 (gh-156793), CVE-2026-82049 (gh-157190), CVE-2026-15310 (gh-156002), CVE-2026-19672 (gh-155999), CVE-2026-15806 (gh-155694), CVE-2026-17084 (gh-155292) appear on the 3.14.8, 3.13.16 and 3.12.15 pages and in the announcement's 'Security content in all five releases'; all IDs and gh numbers in the article match. CVE-2026-87910 (gh-157265) is NOT on the 3.14.8 page; it is listed on the 3.13.16 page and the 3.12.15 page and, per the announcement, for 3.10.22, 3.11.17, 3.12.15 and 3.13.16. So the python.org 3.14.8 page lists 7 CVEs, and the 3.13.16 and 3.12.15 pages each list 8. No source supports a count of 10; the article states no total count. Modules (tarfile extraction filters, ssl, zipfile, urllib.request HTTPPasswordMgr, stringprep/IDNA) match source wording. Quotes verified verbatim: 'an expedited security release and the eighth maintenance release of 3.14' (python.org; Release date Sept. 30, 2026; around 354 bugfixes, 142 contributors since 3.14.7), 'a maintenance release' (Insider), 'the last full maintenance release of 3.13', 'After five years, the series has reached end of life and will receive no further security updates', 'plan your upgrade to a supported version', the tarfile/zipfile/urllib quotes, and the 3.12.15 page's 'tarfile hardlink fallback ignores custom extraction filter rejection via None' and 3.14.8's 'Use-after-free of a server-side SSLContext when sni_callback switches contexts'. The article reports BOTH the 3.14.8 characterizations (python.org 'expedited security release' vs Insider 'maintenance release') without picking one. 3.10.22 is described as final 3.10 release/end of life exactly as the Insider post says; the sources give no specific EOL calendar date and the article invents none. Claims on 3.11.17 (source-only, security-fix-only until October 2027, no installers since 3.11.9) and 3.10.22 (source-only, no installers since 3.10.11) rest solely on the Python Insider announcement and are correctly attributed to it; 3.12.15 'until October 2028' matches both Insider and python.org. 3.13.16 'around 290 bugfixes since 3.13.15' matches. OpenSSL 3.5.9 / 3.0.21 -> 3.5 LTS and libexpat 2.8.5 details match. One inaccuracy found: see concerns.",
+    "factual_accuracy": "All CVE IDs, branch versions and dates verbatim-accurate. One error: the 'Security Fixes' intro says the 3.13.16 and 3.12.15 pages 'list the same seven, with 3.12.15 adding an eighth'. In fact the 3.13.16 page also lists the eighth, CVE-2026-87910 (gh-157265). The article's own later text (via the Insider post) lists 3.13.16 among the versions with that fix, so the sentence is internally inconsistent. Not in headline/summary/lead; single recoverable issue.",
+    "tone_assessment": "Neutral and professional; no editorializing. The What We Don't Know section appropriately notes absence of severity scores/exploitation data and the unexplained 'expedited' timing.",
+    "originality": "No prior Machine Herald article covers the Sept 30/Oct 1 2026 Python security release batch. Related prior coverage (Python 3.15 RC article at 2026-08/10-python-315-enters-release-candidate-phase-...) exists and the in-body cross-reference link resolves to that published article. Not a duplicate.",
+    "concerns": [
+      "Allowlist: python.org and blog.python.org are not in config/source_allowlist.txt (only realpython.com, peps.python.org, discuss.python.org are). They are the official primary publishers of these releases, so the warning is accepted as an allowlist-only gap; recommend adding python.org and blog.python.org.",
+      "Correction needed: article says 3.12.15 alone adds an eighth CVE beyond the seven on the 3.14.8 page; 3.13.16 also lists CVE-2026-87910.",
+      "Python 3.15 'separate track' framing in Context is general background not drawn from the four sources; harmless and linked to prior coverage."
+    ],
+    "recommendations": [
+      "Add python.org and blog.python.org to config/source_allowlist.txt.",
+      "When comparing per-branch CVE lists, state the branches precisely."
+    ],
+    "overall_assessment": "Accurate, well-sourced, appropriately hedged coverage with a single minor per-branch misstatement that a short correction cleanly covers. APPROVE_WITH_CORRECTIONS."
+  }
+}
