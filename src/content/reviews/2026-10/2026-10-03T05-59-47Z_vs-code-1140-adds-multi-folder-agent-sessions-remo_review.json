@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-03T05-59-47Z_vs-code-1140-adds-multi-folder-agent-sessions-remo.json",
+  "timestamp": "2026-10-03T06:19:20.054Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "VS Code 1.140 Adds Multi-Folder Agent Sessions, Remote Delegation Tools and Symlinked Dependencies for Git Worktrees",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Substantively accurate, verbatim-sourced article; one inaccurate \"What We Don't Know\" statement and omitted preview/experimental labels warrant a corrections record. Auto-REJECT from scanner overridden as false positive.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (claude-agent-sdk-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://code.visualstudio.com/blogs/2026/08/26/agent-host-architecture — \"itHub Copilot SDK</a>, which manages its runtime as a child process.</li> <li>The <strong>Claude harness</strong> loads Anthropic's Claude Agent SDK. Its adapter maps sessions, tools, permissions, and subagents into AHP while retaining features such as slash commands\""
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "VS Code 1.140 Adds Multi-Folder Agent Sessions, Remote Delegation Tools and Symlinked Dependencies for Git Worktrees",
+    "summary": "Visual Studio Code 1.140, released September 30, adds a Copilot harness on an agent host process, multi-folder sessions, remote delegation tools, HydraFusion model orchestration and a worktree symlink setting.",
+    "body_excerpt": "## Overview\n\nVisual Studio Code 1.140 was [released on September 30, 2026](https://code.visualstudio.com/updates/v1_140), according to the project's release notes. The notes say the update \"expands agent workflows, improves worktree reuse, and adds enterprise AI controls.\" The release is tagged [1.140.0 on GitHub](https://github.com/microsoft/vscode/releases/tag/1.140.0), where it was published on September 30 at 22:00 UTC.\n\nThe changes continue VS Code's shift toward agent-centric workflows tha...",
+    "word_count": 605,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Close the PR without merging. The work is discarded under the v3.9.0 workflow."
+  ],
+  "editor_notes": {
+    "content_quality": "Clear structure (Overview, What Is New, What We Don't Know, Analysis), 605 words, within the News range of 400-1200. Appropriately hedged as vendor-only coverage.",
+    "source_verification": "Read all three gunzipped snapshots from disk (source-0.html.gz release notes, 25.9k chars of text containing the full 1.140 content, status 200; source-1.html.gz GitHub 1.140.0 release page; source-2.html.gz VS Code blog post of Aug 26). source-0: every quoted string confirmed verbatim: 'expands agent workflows, improves worktree reuse, and adds enterprise AI controls'; 'The Copilot harness adds exciting new agent functionality to VS Code while keeping the way you work familiar'; 'The harness runs in a dedicated agent host process based on the Agent Host Protocol (AHP)'; 'HydraFusion is an adaptive model orchestration system that chooses the models and workflow for each coding task'; 'Multi-folder sessions let you coordinate related work across repositories or isolated worktrees in one session'; 'Discover hosts, models, resource capacities, and session load'; 'Administrators can set the default tier for the Auto model with the autoTier managed setting' (values efficiency, balance, intelligence confirmed). The git.worktreeSymlinkFolders quote is verbatim apart from an interleaved 'Open in VS Code' UI link label that the article omits. Release date 'Released September 30, 2026' confirmed in page text. Tool names list_agent_hosts, create_remote_session, get_remote_session, send_remote_message; settings chat.experimental.persistentProgress, github.copilot.chat.otel.captureIdentity, .mcp.json choice, 'each chat can use its own folder or worktree without changes leaking between chats' all confirmed. source-1 (GitHub): 'Yoyokrazy released this 30 Sep 22:00', datetime 2026-09-30T22:00:22Z, tag 1.140.0 confirmed; supports the 22:00 UTC claim. source-2 (blog): byline 'August 26, 2026 by Rob Lourens, Connor Peet, and Brigit Murtaugh' confirmed; quotes 'a self-contained process that owns agent sessions' and 'the open Agent Host Protocol (AHP) for connecting hosts and clients' verbatim; the post is cited only for background on the agent host, as intended. suspicious_patterns: source-2 flagged 'claude-agent-sdk-reference' with excerpt \"The <strong>Claude harness</strong> loads Anthropic's Claude Agent SDK. Its adapter maps sessions, tools, permissions, and subagents into AHP while retaining features such as slash commands\". In context this is a technical description of one of the agent host's harnesses in a Microsoft engineering blog; it addresses no AI agent and gives no instruction. False positive; auto-REJECT overridden. No other page contained injection-like text. Hosts code.visualstudio.com and github.com are in config/source_allowlist.txt. The 1.123 cross-reference resolves to src/content/articles/2026-06/09-vs-code-1123-syncs-agent-sessions-to-github-and-adds-a-chronicle-command-pushing-the-editor-toward-persistent-ai-workflows.md.",
+    "factual_accuracy": "Names (HydraFusion, Agent Host Protocol, autoTier, git.worktreeSymlinkFolders) and the September 30 date are all accurate. Two imprecisions: (1) the 'What We Don't Know' section says the notes do not state whether HydraFusion is generally available to all Copilot plans, but the notes label it '(Research Preview)' and say 'Eligible users with preview features enabled can select HydraFusion in the model picker'; (2) the notes label multi-folder sessions, remote delegation (tools off by default, Agents window only), worktree symlinks and persistent progress as '(Experimental)', which the article does not state. Both are recoverable with a corrections record. The headline and lead are fully supported.",
+    "tone_assessment": "Neutral. Vendor claims for HydraFusion are framed as 'stated aim' and the article states that no independent coverage exists.",
+    "originality": "Checked src/content/articles/2026-09 and 2026-10. The 1.139 article (Sept 23: Dev Container sessions, session-list speedups, compact view, word wrap indicators) covers different features; the 1.140 article does not repeat its content. No other article covers HydraFusion, multi-folder sessions, remote delegation tools or worktreeSymlinkFolders.",
+    "concerns": [
+      "Preview/experimental status of the headline features is omitted, and the 'What We Don't Know' passage about HydraFusion availability is partly contradicted by the release notes.",
+      "Headline presents features without the Experimental/Research Preview qualifier."
+    ],
+    "recommendations": [
+      "State maturity labels (Experimental, Research Preview) as given in vendor release notes.",
+      "Re-read the source before listing something as unknown."
+    ],
+    "overall_assessment": "Well sourced, verbatim quotes, correct date and names, genuinely new topic. Minor recoverable issues covered by a short corrections record; approve with corrections."
+  }
+}
