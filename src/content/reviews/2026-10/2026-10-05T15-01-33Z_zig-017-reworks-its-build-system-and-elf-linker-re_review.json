@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-05T15-01-33Z_zig-017-reworks-its-build-system-and-elf-linker-re.json",
+  "timestamp": "2026-10-05T15:15:13.745Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Zig 0.17 Reworks Its Build System and ELF Linker, Removes Array Multiplication Syntax and Breaks ZLS",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Script verdict APPROVE_WITH_CORRECTIONS was driven solely by the not-in-allowlist warning for ziglang.org (the Zig Software Foundation's official site); overridden to APPROVE after full manual source verification and allowlisting ziglang.org per svelte.dev / f-droid.org first-party precedent.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "ziglang.org: https://ziglang.org/download/0.17.0/release-notes.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Zig 0.17 Reworks Its Build System and ELF Linker, Removes Array Multiplication Syntax and Breaks ZLS",
+    "summary": "Zig 0.17 separates the build maker and configurer processes, adds a Build Server Protocol and enables incremental compilation on x86_64-linux, while removing several language features.",
+    "body_excerpt": "## Overview\n\nThe Zig programming language has released version 0.17, with a reworked build system, a new Build Server Protocol and an enhanced ELF linker, according to [LWN.net](https://lwn.net/Articles/1098412/), which posted its report on October 3, 2026. The [official release notes](https://ziglang.org/download/0.17.0/release-notes.html) describe \"5 months of work: changes from 206 different contributors, spread among 925 commits.\"\n\n## What We Know\n\n### Build system\n\n- **Maker and configurer ...",
+    "word_count": 697,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured 697-word News piece (within the 400-1200 range): Overview, What We Know (build system; incremental compilation and ELF linker; language changes; stdlib/toolchain), What We Don't Know, short labeled Analysis. Technical depth appropriate; breaking changes are the point of the story and are presented precisely and with source attribution.",
+    "source_verification": "Both snapshots read from disk (gunzip, HTML-to-text extraction); manifest suspicious_patterns is null for both, nothing to adjudicate. A grep for 'ignore'/'AI agent'/'assistant'/'do not tell' in source-0 found only std.ascii.indexOfIgnoreCase API names and an unrelated sample string, no addressing of an AI. source-0.html.gz (ziglang.org/download/0.17.0/release-notes.html, 200, ~80k chars of text; the full long page was captured and contains every cited section): confirmed verbatim '5 months of work : changes from 206 different contributors, spread among 925 commits'; 'Array multiplication syntax ( a ** b ) has been removed in favor of @splat' (with before/after samples); 'void{} is no longer valid syntax. Use {} instead'; errdefer |err| capture removed; 'i0 is no longer an allowed primitive integer type' and 'any uses of it can almost certainly be transparently replaced with u0'; @divCeil 'performs integer division rounded toward positive infinity'; @bitCast section including verbatim 'this change has the potential to break existing code without triggering a compile error'; '@cImport was deprecated in Zig 0.16.0 and is now removed' and 'std.Build.Step.TranslateC is deprecated in favor of an explicit package dependency on official ZSF translate-c package'; 'accepting around 25 and rejecting around 125', '23 undecided language proposals remain open on the Codeberg issue tracker, and 61 ... on the legacy GitHub issue tracker'; 'zig build now runs projects' build.zig code in a separate executable than the one that performs Package Management and executes the build graph'; 'The maker executable remains unmodified when build.zig script is edited, and therefore only needs to be built exactly once'; 'The prior way of satisfying this use case by forking the build runner is no longer supported'; cache 'switches to a binary format, saving roughly 25% on file size'; 'All package management functionality has been moved out of the Compiler and into the Build System'; 'when --listen=- is passed, the build system serves a protocol that allows connected clients to monitor and control the build graph as it executes ... intended to be consumed by third-party tooling such as IDEs'; ZLS: 'the separation of maker process and configurer process is a breaking change that prevents the ZLS project from working with 0.17.0. Although some progress was made to restore functionality in this release cycle, Zig team and ZLS team are still working together to enhance the build server protocol further to the point that ZLS can not only restore functionality, but surpass the power...' (so the ZLS claim is the project's own statement, not the writer's inference; the article quotes it exactly and attributes it to the release notes); incremental compilation 'now possible for most projects targeting x86_64-linux ... -fincremental --watch'; ELF linker list (Full x86_64 support, Full SPARC64 support, Shared library generation, DWARF debug information, etc.), 'not quite reached feature parity ... remains disabled by default ... capable in practice of building the vast majority of Zig projects targeting x86_64-linux', 'we hope to fully eliminate the legacy ELF linker'; std.heap.DebugAllocator replaced by thread-safe allocator (named SafeAllocator in the notes) with DebugAllocator and std.heap.Check deprecated; LLVM 22.1.8; loop vectorization workaround remains enabled; 'Zig 0.18.0 will upgrade to LLVM 23'. source-1.html.gz (lwn.net/Articles/1098412/, 200): 'Zig 0.17 released', 'Posted October 3, 2026 by jzb', 'Version 0.17 of the Zig programming language has been released', same 206 contributors / 925 commits figure, Build System reworked including Build Server Protocol, ELF Linker enhanced so that incremental compilation is expected to work for everyone on x86_64-linux. LWN does not mention ZLS; the article correctly attributes all ZLS statements to the release notes only. Release version (0.17) and LWN date (October 3, 2026) verified.",
+    "factual_accuracy": "All specifics trace to the cited snapshots. Minor nuance, not an error: the notes say the new ELF linker remains disabled by default in general but, as in 0.16.0, is enabled by default for the incremental-compilation x86_64-linux case; the article states 'remains disabled by default' without that exception. @divCeil is an addition listed under 'removals and changes', which is acceptable framing. Compatibility claims are hedged ('most projects', 'vast majority') exactly as in the source; nothing is presented as universal. The title's 'Breaks ZLS' is backed by the release notes' own wording that the change 'prevents the ZLS project from working with 0.17.0'; the article also carries the notes' qualifier that the teams are working to restore functionality and gives no date. The statement that the release notes 'describe' the 5 months/206/925 figures is accurate (also in LWN).",
+    "tone_assessment": "Neutral and professional; no sensationalism. The closing Analysis section is clearly labeled and its inference (pre-1.0 pattern of breaking changes; remaining open proposals; ZLS gap) is mild and grounded in cited facts.",
+    "originality": "No Zig 0.17 or ZLS coverage exists in src/content/articles/2026-10 (searched by filename and content); earlier Zig mentions in Aug-Sep 2026 articles are tangential (CachyOS Shelly rewrite, Bun, etc.). New topic.",
+    "concerns": [
+      "ziglang.org was not on config/source_allowlist.txt; resolved by adding it as the Zig Software Foundation's official first-party project site, with a justifying comment, following the svelte.dev and f-droid.org precedents. lwn.net is already allowlisted.",
+      "Minor omission: new ELF linker is enabled by default for the incremental-compilation x86_64-linux case; not material."
+    ],
+    "recommendations": [
+      "When summarizing 'disabled by default' flags, note documented exceptions."
+    ],
+    "overall_assessment": "Accurate, well-attributed News article on a major release; every claim, quote and number verified against the snapshots. The title's ZLS claim is directly supported by the project's own release notes. No corrections needed. APPROVE."
+  }
+}
