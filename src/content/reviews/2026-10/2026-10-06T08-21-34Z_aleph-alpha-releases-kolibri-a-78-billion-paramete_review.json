@@ -1,0 +1,70 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-06T08-21-34Z_aleph-alpha-releases-kolibri-a-78-billion-paramete.json",
+  "timestamp": "2026-10-06T09:01:28.309Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Aleph Alpha Releases Kolibri, a 78-Billion-Parameter Apache 2.0 German-English MoE Model With 3.46 Billion Active Parameters",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Approved by Chief Editor after manual review: all figures verified against both snapshots; the automated REJECT came from a false-positive injection pattern match (model card text about a reasoning-effort sentence in the system prompt).",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "aleph-alpha.com: https://aleph-alpha.com/downloads/tech-report.pdf"
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://huggingface.co/Aleph-Alpha/Kolibri-1 — \"e>medium</code> or <code>high</code> reasoning effort, which the chat template requests through a fixed sentence in the system prompt. In SFT, we assigned reasoning effort labels based on observed dataset-specific reasoning length statistics and judged\""
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Aleph Alpha Releases Kolibri, a 78-Billion-Parameter Apache 2.0 German-English MoE Model With 3.46 Billion Active Parameters",
+    "summary": "Aleph Alpha published Kolibri on Hugging Face on October 3 under Apache 2.0; its own tech report puts the model on the quality-versus-serving-cost Pareto frontier.",
+    "body_excerpt": "## Overview\n\nAleph Alpha released Kolibri, an open-weight mixture-of-experts reasoning model focused on German and English, with a release date of 3rd of October 2026, according to its [Hugging Face model card](https://huggingface.co/Aleph-Alpha/Kolibri-1). The weights are licensed under Apache 2.0. The company's [technical report](https://aleph-alpha.com/downloads/tech-report.pdf) describes Kolibri as a 78.1-billion-parameter model of which 3.46 billion parameters, or 4.4 %, are active per toke...",
+    "word_count": 691,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Close the PR without merging. The work is discarded under the v3.9.0 workflow.",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "A 691-word News article (range 400-1200) with Overview / What We Know / What We Don't Know / Analysis structure. Specifications are attributed per bullet to the model card or the technical report; all benchmark figures are explicitly framed as Aleph Alpha's own evaluations (Overview: 'All benchmark figures below come from Aleph Alpha's own evaluations. No independent replication had been located'; Reported results: 'The technical report says that among the open models Aleph Alpha evaluated...'; the Analysis closes with 'depends on third-party testing'). The article never states 'outperforms X' as independent fact. Tone is neutral. No AI self-reference.",
+    "source_verification": "Read both snapshots from disk. manifest.json: both status 200, no archive fallback. source-0.html.gz is the Hugging Face model card page (HTML, 525,968 bytes uncompressed). source-1.html.gz is a genuine PDF: gunzip yields a stream beginning '%PDF-1.5', 3,465,511 bytes, matching the manifest content_type application/pdf and content_length; pdftotext extracted 11,468 lines (189 pages; title 'Kolibri: A Sovereign European Model on the Pareto Frontier'). So the writer's local pdftotext extraction is corroborated by the archived snapshot itself; no figure is unverifiable. MODEL CARD (source-0) confirms: 'Architecture Mixture-of-Experts', 'Total parameters 78B ( 78,103,074,560 )', 'Active parameters / token 3.46B ( 3,457,573,120 )', 'Languages German, English', 'Context length 1,048,576 tokens ; we recommend <=262,144 tokens for serving efficiency and complex tasks', 'License Apache 2.0', 'Release Date 3rd of October 2026', 'Knowledge cutoff EN: June 18, 2026, DE: June 18, 2026', 'Model memory footprint: ~78 GB (FP8 weights). Minimum: 2x A100 80 GB, 2x H100 SXM5, 1x H200, 1x B200 or 1x B300', reasoning_effort values low/medium/high and 'You can disable thinking altogether by setting reasoning_effort to none', pre-training 'Trained on 20T tokens ... (~62.5% English, ~23.9% German, ~13.6% code)', '3.44T in mid-training and 201B for long-context extension', '768 NVIDIA B200 ... Time: 21 days (511h, 392k GPUh)', 'FLOPS: 6.4e23', 'Energy consumption 9.5x10^2 MWh (estimated)', 'Aleph Alpha is a signatory of the EU GPAI Code of Practice', 'Supporting two languages rather than many is a deliberate choice of depth over breadth', and 'The trade-off is memory: the full model must be held in memory even though only part ... active at any time'. The title's specs (78B, Apache 2.0, German-English, MoE, 3.46B active) all match the card. TECH REPORT (source-1) confirms: 'English-German Mixture-of-Experts transformer with 78.1B total parameters and 3.46B active parameters per token, released as open weights under the Apache 2.0 licence'; 'of which 3.46B, or 4.4 %, are active per token'; 'Training spans 24T tokens across pre-training, mid-training, and long-context extension'; 'Teams in Germany developed Kolibri end to end and train it on infrastructure in Germany and Finland'; 'RL on more than 1.2M internally curated tasks, which cover reasoning, tool use, instruction following, code, and retrieval'; 'among the open models evaluated in this report, it lies on the Pareto frontier of quality and serving cost in English and German' (Figure 1 covers base and post-trained models); post-training table row 'Overall (EN) 75.5 ... Overall (DE) 70.8'; AIME 2026 96.0, GPQA Diamond 84.3; 'SWE-Bench Verified 66.4'; SFT-to-RL table 'SFT 92.7 92.1 79.8 ... RL 96.9 96.0 84.3' (AIME 2026 92.1->96.0, GPQA Diamond 79.8->84.3); 'AA-Omniscience Non-Hallucination Rate (public set) 44.0 15.0' with Kolibri and Kolibri Origin as the first two columns; 'train the model to abstain when the provided context does not support an answer'; 'Organisations in public administration, industry, and aerospace process sensitive data under regulation'. Release-date conflict: the 10 March 2026 Aleph Alpha blog post is not cited in article.sources or the body, and no '10 March'/March 2026 date appears in either snapshot; the 3 October date comes from the cited model card's 'Release Date 3rd of October 2026' field. SUSPICIOUS_PATTERNS (Step 3d): source-0 matched 'system-prompt-reference' with the excerpt 'e>medium</code> or <code>high</code> reasoning effort, which the chat template requests through a fixed sentence in the system prompt. In SFT, we assigned reasoning effort labels based on observed dataset-specific reasoning length statistics and judged'. Read in context in the decompressed snapshot: it is the model card's own description of how the chat template maps reasoning effort to a sentence in the system prompt during training. It addresses no AI agent reader, issues no instruction and asks for nothing to be withheld. False positive; no instruction acted on. source-1 suspicious_patterns is null.",
+    "factual_accuracy": "Every specific in the headline, summary, lead and body traces to one of the two snapshots and is attributed to the correct one (model card for hardware, licence, languages, release date, 20T/3.44T/201B token split, GPU-hours, FLOPS, energy; tech report for 78.1B/3.46B/4.4%, 24T, Pareto frontier, benchmarks, 1.2M RL tasks, abstention). The 20T (model card, pre-training only) versus 24T (tech report, all stages) figures are presented separately and consistently (20T + 3.44T + 201B is about 23.6T, within the report's rounded 24T). The summary's claim that Aleph Alpha published Kolibri on Hugging Face on October 3 rests on the card's Release Date field. No hallucinated quotes (the body has no direct quotes).",
+    "tone_assessment": "Neutral and professional. Vendor claims are attributed ('the company's technical report describes', 'Aleph Alpha's own evaluations'); the What We Don't Know section states the absence of independent reproduction and adoption data.",
+    "originality": "No existing article covers Aleph Alpha or Kolibri (grep over src/content/articles); recent October articles cover other topics. New topic.",
+    "concerns": [
+      "aleph-alpha.com is not on config/source_allowlist.txt (warning in automated findings). Resolved by adding it to the allowlist with a first-party justification comment, per the reka.ai and svelte.dev precedent. Valid only for Aleph Alpha's statements about its own products; its benchmark claims are vendor claims and must be attributed, which this article does.",
+      "The automated REJECT was driven solely by the system-prompt-reference false positive on the model card, adjudicated above."
+    ],
+    "recommendations": [
+      "Future bot submissions on vendor tech reports should keep the explicit 'self-reported' framing used here."
+    ],
+    "overall_assessment": "Clean, well-attributed, fully verified. APPROVE."
+  }
+}
