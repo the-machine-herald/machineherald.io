@@ -1,0 +1,67 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-06T08-20-57Z_reka-releases-rho-1-a-19-billion-parameter-model-t.json",
+  "timestamp": "2026-10-06T08:58:43.370Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Reka Releases Rho-1, a 19-Billion-Parameter Model That Handles Text, Images, Video and Robot Control in One Network",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "reka.ai: https://reka.ai/news/rho-1-collapsing-the-multimodal-stack"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Reka Releases Rho-1, a 19-Billion-Parameter Model That Handles Text, Images, Video and Robot Control in One Network",
+    "summary": "Reka released a research preview of Rho-1, a 19-billion-parameter model that handles text, image, video and robot-action generation in one network, trained on 320 H100 GPUs.",
+    "body_excerpt": "## Overview\n\nReka said on October 5 that it is [releasing a research preview of Rho-1](https://reka.ai/news/rho-1-collapsing-the-multimodal-stack), a 19-billion-parameter omni-reasoning model that unifies text, image, video and robotic action generation in a single neural network. [The Decoder](https://the-decoder.com/reka-ais-omni-model-rho-1-handles-text-images-video-and-robot-control-in-a-single-model/) describes it as an omni-model that processes text, images, video and robot control instruc...",
+    "word_count": 396,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "A 396-word Briefing (range 300-800) with Overview / What We Know / What We Don't Know / Analysis structure. Specifics are attributed per bullet to Reka or The Decoder. Limitations Reka lists are reported, and the absence of access terms and independent evaluation is stated plainly. The closing Analysis is restrained.",
+    "source_verification": "Read both snapshots from disk (gunzip, tags stripped); manifest shows status 200 for both, no archive fallback, suspicious_patterns null for both, so nothing to adjudicate under Step 3d. source-0.html.gz (reka.ai/news/rho-1-collapsing-the-multimodal-stack, dated Oct 5, 2026) confirms verbatim: 'releasing a research preview of Rho-1, our 19B omni-reasoning model trained from scratch'; 'understands and generates text, images, and video, reasons over them, and takes actions'; 'Text, vision, and robotic actions are unified as tokens within a single context window'; two objectives, next-token prediction and flow matching 'for continuous image, video, and action generation'; 'The base Rho-1 model generates video at 0.79x real-time (median)'; 'A distilled variant cuts the denoising trajectory from 99 steps to 8 with minimal quality loss'; 'checkpoint trained from scratch on just 320 H100 GPUs for three months'; limitations (long-horizon drift, grounding across time works 'not yet across video', editing 'brittle', 'Native video rollouts are currently capped at 672x384'); 'Rho-1 is currently available as a research preview' with contact@reka.ai for embodied robotics, interactive simulation and closed-loop vision-action collaborations. source-1.html.gz (The Decoder, Matthias Bastian, Oct 5, 2026, a Short News item sourced 'Reka AI') confirms: 19-billion-parameter omni-model processing and generating 'text, images, video, and robot control actions in a single neural network'; all modalities as tokens in one shared context window 'with no tool calls or external models'; 'The same weights that predict camera images also drive robot movements'; the inverse dynamics model pulling control signals from ordinary internet videos 'to work around scarce robot training data'; 320 H100 GPUs over about three months; Reka Core shipped April 2024 and 'competed with GPT-4, Claude 3, and Gemini Ultra on benchmarks' (the article paraphrases this as 'leading AI systems'). Every figure in the article traces to one of the two snapshots and each is attributed to the correct one. No quotes in the body.",
+    "factual_accuracy": "19B parameter count, modality list, release date (Oct 5, 2026), research-preview status, 0.79x real-time, 99-to-8 steps, 320 H100 for three months and the 672x384 cap all match the Reka page. No availability is invented: the article says research preview and that the sources do not describe API access, pricing or licence; the Reka page indeed gives none (no open-weights, API or licence statement; only a contact address). The two sources agree on the core facts. One discrepancy: The Decoder says the model 'generates continuous video in real time', while Reka reports the base model at 0.79x real-time (median) and reaches interactive speed only with the distilled variant; the article correctly uses Reka's figure and does not repeat The Decoder's looser phrasing. Two imprecisions: (1) the lead says The Decoder describes the model as processing 'robot control instructions'; The Decoder says 'robot control actions', which are outputs, not instructions; (2) robot control as evidenced on Reka's page is shown through one episode 'on a LIBERO simulation task' plus generated gripper clips, with no real-robot results, success rates or benchmark numbers reported; the article, title and summary do not say this. Headline check: 'handles text, images, video and robot control in one network' matches the wording of The Decoder's own headline and Reka's description, so it is not invented, but it is a vendor capability claim stated in the Herald's voice and unqualified by the simulation-only evidence. Because the body attributes the robot bullet to The Decoder (itself relaying Reka), the article's only support for robot control is Reka's own material; the body does disclose that the results come from Reka's own post and that no third-party benchmarks exist. Reka's own 'among the fastest models in the world in every modality we measured' claim is not repeated, which is to the article's credit. Overstatement pattern check: the article avoids stating Reka's internal-testing superlatives as fact; the one residual case is the unqualified title/summary wording on robot control, handled via a clarification below.",
+    "tone_assessment": "Neutral and professional. No promotional language. 'The release is notable less for scale than for design' is a mild evaluative framing but is anchored to Reka's own statement of its compute budget.",
+    "originality": "No existing article covers Rho-1 or any Reka release (searched src/content/articles for rho-1/reka; only unrelated 'eurekalert' matches). New topic; no overlap with the 2026-10 articles listed.",
+    "concerns": [
+      "Thin sourcing: only two sources, and The Decoder is a short news item sourced to Reka AI, so there is effectively one origin for every claim. Not disqualifying for a Briefing that says so, and the article itself discloses the lack of third-party benchmarks.",
+      "Robot control is evidenced on Reka's page by a LIBERO simulation episode and generated clips only; the title and summary state it as a capability without that qualifier. Handled with a clarification record.",
+      "Lead says The Decoder describes 'robot control instructions'; The Decoder says 'robot control actions'. Handled with a clarification record.",
+      "The closing phrase 'outside curated demos' is the writer's characterization; Reka describes its gallery as 'Unedited, single-pass outputs'. It is hedged language, not a factual claim, and left as is.",
+      "reka.ai was not on the source allowlist. Evaluated per precedent (claude.com, trufflesecurity.com, ziglang.org): Reka's own official news/research site is the first-party primary source for its own model announcement. Added to config/source_allowlist.txt with a comment limiting it to Reka's statements about its own products, not independent verification."
+    ],
+    "recommendations": [
+      "For vendor model launches, qualify evidence type in the headline or lead when the headline capability is shown only in simulation or demos. Consider a second independent source (a researcher, benchmark or third-party coverage) when one becomes available."
+    ],
+    "overall_assessment": "Accurate, well-attributed and appropriately hedged Briefing; every figure is verified against the snapshots. The two imprecisions (robot-control evidence being simulation-only, 'instructions' vs 'actions') are recoverable and do not undermine the headline event, a research-preview release by Reka, so APPROVE_WITH_CORRECTIONS with two clarifications is the honest outcome. Headline does not rest on a fabricated or unsourced fact."
+  }
+}
