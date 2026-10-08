@@ -1,0 +1,57 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-08T10-22-53Z_github-copilot-local-sandboxing-reaches-general-av.json",
+  "timestamp": "2026-10-08T10:46:16.309Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "GitHub Copilot Local Sandboxing Reaches General Availability as the CLI Adds Ollama Model Discovery and Microsoft Details a 53GB Local Coder",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "GitHub Copilot Local Sandboxing Reaches General Availability as the CLI Adds Ollama Model Discovery and Microsoft Details a 53GB Local Coder",
+    "summary": "GitHub made Copilot local sandboxing generally available, added local Ollama model discovery to its CLI, and Microsoft detailed a 53GB on-device MAI Code 1.1 Flash.",
+    "body_excerpt": "## Overview\n\nGitHub said on October 7 that local sandboxing for Copilot is now generally available, according to a [GitHub Changelog post](https://github.blog/changelog/2026-10-07-local-sandboxing-for-github-copilot-now-generally-available). The same day, GitHub added a way to pick local Ollama models inside the Copilot CLI, per a [separate changelog entry](https://github.blog/changelog/2026-10-07-discover-local-models-in-github-copilot-cli), and Microsoft described an on-device coding model tha...",
+    "word_count": 798,
+    "sources_count": 3
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "News, 798 words (range 400-1200), title 140 chars (cap 150). Clear Overview / What We Know / What We Don't Know structure. Vendor claims are attributed throughout (GitHub says, Microsoft writes/reports/says). Benchmark figures are explicitly labelled as Microsoft's own, tested October 5, 2026. No defects in length or title.",
+    "source_verification": "Read all three gzipped snapshots (status 200, no archive fallback, suspicious_patterns null for all three). source-0.html.gz (GitHub changelog, Oct 7, local sandboxing GA): confirms GA in Copilot CLI, the Copilot app and VS Code sessions using Agent Host; MXC translating a common policy into native OS controls on Windows, macOS and Linux; the file/directory, internet, local network, Git credential and GitHub CLI credential controls; local MCP and language servers 'where supported'; enterprise-managed settings that developers cannot weaken; policies apply regardless of model; included at no additional cost. All confirmed. source-1.html.gz (GitHub changelog, Oct 7, local models in CLI): confirms CLI version 1.0.94-0, /model discovery from a running local Ollama instance, discovery does not auto-add, review of provider and endpoint, the two UI labels 'Add and use for this session' and 'Add without switching' (both verbatim), Ollama and model must already be installed, tool calling and streaming required, local model does not enable offline mode or disable telemetry, COPILOT_OFFLINE=true, remote provider can still receive prompts and code context even in offline mode, and 'announcing intelligent routing with local models ... stay tuned for availability'. All confirmed. source-2.html.gz (Microsoft Command Line blog, 2026.10.07, authored by Patrick Nikoletich of GitHub and Stuart Schaefer of Microsoft Windows): confirms local version of MAI Code 1.1 Flash, MoE with 137 billion total and 6.8 billion active parameters, quantization plus speculative decoding, 53GB and 80% reduction versus the Bfloat16 cloud variant, benchmark table (SWE-Bench Verified 72.6% vs 70.80% quantized; Terminal-Bench 2.1 62.9% vs 66.29% quantized), Tested October 5, 2026, peak memory 75.5GB at 256k, 923.5 and 769.8 tokens/s at 64k and 128k, Surface Laptop Ultra built around NVIDIA RTX Spark with up to 128 GB unified memory, Auto orchestration 'coming by the end of the month', explicit selection via Windows ML provider or OpenAI-compatible local endpoints across CLI, app and VS Code, MXC described as an open-source library from the Windows team, BaseContainer tier of ProcessContainer on Windows / Seatbelt on macOS / bubblewrap on Linux, shell commands and by default local MCP and language servers inside the process boundary, built-in file tools inside Copilot with policy checks but not OS-enforced child-process isolation, remote MCP servers outside the local sandbox. All confirmed. The September 23 public-preview cross-reference was checked against the published article 2026-09/25-github-copilot-app-adds-local-sandboxing-off-by-default-to-contain-unintended-agent-commands, which cites the September 23, 2026 changelog and describes public preview; the internal link resolves (file exists, correct /article/YYYY-MM/slug form). Prompt-injection scan: no manifest hits, and a manual keyword grep of all three snapshots found no text addressed to an AI agent.",
+    "factual_accuracy": "Every number, name, version, date and quote traces to a snapshot. The 53GB, 80%, 137B/6.8B, benchmark, memory and throughput figures are attributed to Microsoft (the post is on Microsoft's Command Line blog; one co-author is a GitHub Distinguished PM, which the article does not mention but does not contradict). MXC naming differs slightly between sources ('Microsoft eXecution Container' on GitHub's changelog, 'Microsoft Execution Containers' on the Microsoft post); the article uses GitHub's wording and attributes it to GitHub. The article correctly separates GitHub-sourced facts (GA scope, Ollama discovery) from Microsoft-sourced facts (model, benchmarks, MXC backends).",
+    "tone_assessment": "Neutral and professional. No promotional language; the What We Don't Know section tempers vendor claims.",
+    "originality": "New development. The Sept 25 article covered the app-only preview; this covers GA across CLI, app and VS Code Agent Host plus two new items. The Oct 5 (computer use) and Oct 6 (dynamic workflows) Copilot articles cover different features. Not a duplicate.",
+    "concerns": [
+      "Title combines three separate announcements. Checked for cross-source merging: the title assigns GA and Ollama discovery to GitHub/the CLI and the 53GB local coder to Microsoft in a separate clause, which matches the sources; it does not claim the 53GB model ships as part of the sandboxing GA or the Ollama flow. Acceptable.",
+      "Minor over-inference in What We Don't Know: 'from a single test run on one date'. The Microsoft post says 'Tested October 5, 2026' but does not state the number of runs. Not material to headline, summary or lead; does not warrant a corrections record, but noted.",
+      "Microsoft's footnote says the figures reflect decode throughput for a synthetic code-generation workload, which sits oddly beside accuracy benchmarks; the article reports the accuracy figures as Microsoft's own and omits the GPT OSS 120B comparison column (32.0% and 23.6%). The omission does not distort any reported claim.",
+      "Allowlist: both source domains (github.blog and commandline.microsoft.com) are already in config/source_allowlist.txt; no additions needed, and platform.claude.com was not duplicated."
+    ],
+    "recommendations": [
+      "Avoid asserting the number of test runs when the source gives only a test date.",
+      "Consider noting that the Microsoft post is co-authored by a GitHub product manager when attributing it to Microsoft."
+    ],
+    "overall_assessment": "Accurate, well-attributed News article whose headline, summary and lead are each supported by cited sources and whose quotes are verbatim. No integrity, length, title, allowlist or injection defects. APPROVE."
+  }
+}
