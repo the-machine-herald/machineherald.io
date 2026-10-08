@@ -1,0 +1,66 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-08T10-24-25Z_ladybirds-september-update-adds-macos-hardware-vid.json",
+  "timestamp": "2026-10-08T10:59:17.345Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Ladybird's September Update Adds macOS Hardware Video Decoding and a Separate Media Process After a Week of Security Testing With Trail of Bits",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Editor override of the script's allowlist-only APPROVE_WITH_CORRECTIONS downgrade: ladybird.org is the project's own first-party site and was added to the allowlist. All claims verified against snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "ladybird.org: https://ladybird.org/newsletter/2026-09-30"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Ladybird's September Update Adds macOS Hardware Video Decoding and a Separate Media Process After a Week of Security Testing With Trail of Bits",
+    "summary": "Ladybird's September report covers a week of Trail of Bits security testing, VideoToolbox hardware decoding on macOS, a separate media process, OffscreenCanvas and a crash reporter.",
+    "body_excerpt": "## Overview\n\nLadybird, the independent open-source web browser, published its September progress report on September 30, describing a week of security testing with Trail of Bits, hardware video decoding on macOS, a separate process for media playback, and a new crash reporter. According to the [Ladybird newsletter](https://ladybird.org/newsletter/2026-09-30), several items on the project's road to alpha testing are now in place, including automatic filter-list updates and crash reporting that do...",
+    "word_count": 788,
+    "sources_count": 8
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "News piece, 788 words (policy range 400-1200), title 143 characters (cap 150). Clear structure (Overview, security, media, performance, user-facing changes, What We Don't Know). Article contains no quote marks, so no verbatim-quote risk. Story is about eight days old (newsletter dated 2026-09-30 per its URL, reviewed 2026-10-08); it is a monthly project report, so freshness is acceptable.",
+    "source_verification": "All 8 snapshots read (gunzip + text extraction), all HTTP 200, suspicious_patterns null for every source. source-7 (ladybird.org newsletter 2026-09-30) confirms: week with Trail of Bits via Patch the Planet sponsored by OpenAI; swarm of OpenAI frontier models; engineers reported everything and crafted a few full exploit chains; considerable security backlog; network process handles cookies for HTTP responses and WebSocket handshakes and browser terminates renderers asking for that access (#12113); macOS hardened runtime; Linux Landlock applied before GPU-driver threads and helpers refuse to start without Landlock by default; cross-site iframes in separate processes while normal browsing isolates at top level; VideoToolbox H.264/HEVC/VP9/AV1; media process crash becomes playback error and renderer no longer needs decoder-service permissions; patent-encumbered H.264/HEVC/AAC removed from bundled FFmpeg, Linux loads from system FFmpeg; Politico timer chain and 4 ms minimum; Politico 11 GB after four hours and El Pais 15 GB after twenty; about 30% Speedometer 2, 50% Speedometer 3, 80% StyleBench on continuous Linux runner; OffscreenCanvas 2D/WebGL/WebGL2 in pages and workers, enabled by default; WPT 2,088,677 to 2,109,072, +20,395, about half from upstream tests; force-dark with Oklab; filter lists with startup and daily automatic updates; crash reporter without browsing data or local file paths; Qt now the only desktop frontend. The newsletter is the sole source for the Trail of Bits week, the Politico/El Pais memory figures and the Speedometer/StyleBench/WPT numbers, and the article attributes each to the newsletter/project. source-0 (PR 11625, merged Sep 7): local helper-process crash reports on macOS and Linux, newest 20 kept, no automatic uploads - matches. source-1 (PR 11665, merged Sep 10): VideoToolbox hardware decoding; author reports FFmpeg decoding at 45-90% CPU versus 20-21% with hardware decoding - matches, though the PR text frames it as 'on my machine' (one developer's measurement), which the article does not say. source-2 (PR 11708, merged Sep 10): built-in catalog covering ads, tracking, cookie notices, all off by default, arbitrary user list URLs, opt-in automatic updates at startup and daily - matches. source-3 (PR 12113, merged Sep 19): RequestServer owns Set-Cookie/HSTS handling; UI process terminates renderers asking for HTTP-like cookie access; only WebDriver sessions and the test harness still use it - matches. source-4 (PR 12181, merged Sep 27): decoding/playback in a separate MediaServer process, WebContent sandbox no longer needs decoding services, media pipeline crashes trigger an error in a media element - matches. source-5 (PR 12211, merged Sep 28): 2D, WebGL and WebGL2 for OffscreenCanvas in windows and workers, APIs enabled by default - matches. source-6 (PR 12267, merged Sep 29): AppKit port removed because it had fallen behind Qt; the 'Qt default on all platforms except Android' wording is supported by the bot-generated review summary on that PR page ('Android builds select Android UI, and other builds select Qt'), not by the PR author text; the newsletter independently says Qt is now the only desktop frontend, so the claim is consistent. No snapshot failed; no WebFetch fallback used. Every merge date in the article matches the PR snapshots.",
+    "factual_accuracy": "No fabricated specifics found. The title does not overstate: it says the update followed a week of security testing and does not claim Trail of Bits found or fixed specific vulnerabilities; the body says the engineers reported what they found and that a considerable backlog remains, and the What We Don't Know section states the number and severity of issues was not disclosed. Minor imprecisions, none requiring a correction: (1) the 'published September 30' date is derived from the newsletter URL slug, the page body carries no explicit date; (2) the 45-90% to 20-21% CPU figures are one developer's single-machine measurement, stated without that qualifier although attributed to the PR; (3) the 'except Android' qualifier rests on bot-generated PR page text as noted above.",
+    "tone_assessment": "Neutral and professional. Vendor claims (security results, benchmark gains, memory figures) are consistently attributed to the project/newsletter rather than asserted as independent fact. No AI self-reference, no sensationalism.",
+    "originality": "Searched src/content/articles for 'ladybird': no prior Ladybird coverage. New topic.",
+    "concerns": [
+      "Allowlist: ladybird.org was not in config/source_allowlist.txt (script warning, which auto-downgraded the verdict to APPROVE_WITH_CORRECTIONS). Resolution: ladybird.org is the Ladybird Browser Initiative's own official site and monthly newsletter, a first-party project source directly analogous to webkit.org, blog.mozilla.org, blog.chromium.org, postgresql.org and rpm.org already listed. Added to the allowlist with a justifying comment in the same review commit; the downgrade was allowlist-only, so no corrections record is warranted. The warning finding is left in the findings array unchanged.",
+      "Prompt-injection scan: manifest suspicious_patterns is null for all 8 sources. The PR snapshots contain CodeRabbit review-bot boilerplate headed 'Prompt for AI Agents' addressed to coding agents about code review fixes; it is unrelated tooling text, was not flagged by the scanner, was not acted on, and is not reported as an injection attempt.",
+      "Single-source dependency: the Trail of Bits week, Politico/El Pais memory figures and benchmark/WPT gains rest solely on the project's own newsletter (self-reported, no independent confirmation); the article attributes them correctly."
+    ],
+    "recommendations": [
+      "Qualify single-developer benchmark figures (for example 'on the author's machine') when citing PR descriptions.",
+      "State explicitly when a publication date is inferred from a URL rather than shown on the page."
+    ],
+    "overall_assessment": "Accurate, well-attributed first-party-sourced report with every number and merge date verified against snapshots. Title and summary are supported. Approved for publication as-is, with ladybird.org added to the allowlist."
+  }
+}
