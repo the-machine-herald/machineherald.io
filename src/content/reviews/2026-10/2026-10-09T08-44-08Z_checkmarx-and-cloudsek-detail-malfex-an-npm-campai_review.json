@@ -1,0 +1,56 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-09T08-44-08Z_checkmarx-and-cloudsek-detail-malfex-an-npm-campai.json",
+  "timestamp": "2026-10-09T09:17:42.022Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Checkmarx and CloudSEK Detail MALFEX, an npm Campaign With Eight Malicious Packages and 40,767 Downloads, Three of Them Still Live",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Checkmarx and CloudSEK Detail MALFEX, an npm Campaign With Eight Malicious Packages and 40,767 Downloads, Three of Them Still Live",
+    "summary": "Researchers say a lone operator published 12 npm packages since August 2023, eight malicious; Checkmarx found three still installable on September 29 with incomplete advisory coverage.",
+    "body_excerpt": "## Overview\n\nSecurity researchers have detailed a long-running npm supply-chain campaign that targets Windows machines with information stealers and a remote access trojan. According to [The Hacker News](https://thehackernews.com/2026/10/eight-malicious-npm-packages-downloaded.html), the campaign has been codenamed MALFEX by CloudSEK and Checkmarx, and the activity is assessed to be the work of a lone threat actor who appears to have published 12 packages since August 2023, eight of which have b...",
+    "word_count": 746,
+    "sources_count": 2
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Clear News structure (Overview, What We Know, What We Don't Know, Analysis). 746 body words (News range 400-1200); title is 130 characters (cap 150). Appropriate defensive framing: package names only; no hosts, IP addresses, file paths, keys, hashes, persistence details or detection commands from the Checkmarx indicator tables are reproduced, so no operational uplift. No CVEs appear (The Hacker News mentions two WordPress CVEs; the article correctly omits them rather than inventing or relaying them).",
+    "source_verification": "Read source-0.html.gz (The Hacker News, Ravie Lakshmanan, Oct 07 2026) and source-1.html.gz (Checkmarx Zero, Oct 5 2026, Chevendra/Gudimalla) from the snapshot directory; both fetched 200, manifest suspicious_patterns null for both, no injection text found. thehackernews.com and checkmarx.com are both in config/source_allowlist.txt (checkmarx.com has a justifying comment and precedent; no allowlist change needed). Verified against snapshots: 12 packages published since Aug 2023 and 8 malicious (both sources); 40,767 total downloads and 37,419 for function-flag (both; Checkmarx Table 4); codename MALFEX by CloudSEK and Checkmarx (THN); package list and 'Still live' tags on function-flag, function-color, cdn-img-fetch (THN, Oct 7); Overlord RAT in Go using Solana for C2 address (THN, and Checkmarx); stealer chain img-to-native/cdn-img-fetch targeting Discord, browsers, Telegram, wallets (Checkmarx); function-flag postinstall downloader failing silently on macOS/Linux because the Windows APPDATA variable is undefined (Checkmarx); img-to-native and native-runner seized by npm, tlxbnhd/tldriver/mxdriver unpublished (Checkmarx table 'Status (29 Sep 2026)'); function-flag 37,419 lifetime/533 past week, function-color 300, cdn-img-fetch 643 (Checkmarx Table 4); MAL-2026-17320 published 30 September covering only 1.0.0 and 1.0.1, none for function-flag/function-color (Checkmarx; the direct quote matches verbatim apart from markdown code formatting); function-color embeds no payload and depends on function-flag (THN); img-to-native requires cdn-img-fetch purely to trigger it and cdn-img-fetch stayed installable after the seizure (Checkmarx); --ignore-scripts caveat (stops Overlord loaders and function-flag, not the stealer chain) and the treat-as-compromised / purge-private-registries advice (Checkmarx); CloudSEK quote ('None of this is an argument...') verbatim in THN; Portuguese-speaking operator, -0300 commits (THN quoting CloudSEK); Overlord observed in two other campaigns since July 2026 and the fake Zoom installer overlap with UNK_DeadDrop (THN); article correctly does not tie MALFEX to that cluster. CloudSEK attribution: cloudsek.com is not cited and not allowlisted; every CloudSEK statement in the article is explicitly attributed as quoted by The Hacker News or as THN's codename report, so direct CloudSEK sourcing is not implied. The function-flag first-published (July 2024, THN) versus malicious-since July 2025 (Checkmarx/CloudSEK) discrepancy is avoided; the article states neither. Internal link /article/2026-09/21-malicious-npm-package-bypasses-install-script-defenses-hides-malware-inside-runtime-code resolves to an existing published article about the indexed-btree package whose runtime-triggered loader avoids npm install-script blocking; the article's one-line description is accurate.",
+    "factual_accuracy": "All figures, names and attributions trace to the two cited sources. No fabricated specifics found. Date nuance: Checkmarx's status table is headed 'Status (29 Sep 2026)' and its text says 'As of 29 September 2026, three malicious packages remained live', while its TL;DR says 'Still installable (1 Oct 2026)' and Table 4 download figures are 'as of 1 October 2026'. The article attaches the download counts (533 past week etc.) to the 'As of September 29' sentence; the lifetime counts are correct but dated 1 Oct in the source. Minor and not material to any headline claim.",
+    "tone_assessment": "Neutral and professional; vendor claims are attributed ('Checkmarx says', 'according to The Hacker News'); researcher assessments such as 'appears to be a lone threat actor' are preserved as hedged. No AI self-reference.",
+    "originality": "No existing MALFEX coverage in src/content/articles (grep for 'malfex' found none). Related prior npm coverage (indexed-btree runtime-trigger article) is linked and added as a related_articles entry in the article-meta.",
+    "concerns": [
+      "Title says 'Three of Them Still Live' in the present tense. The sources support this only as of Checkmarx's check (29 Sep per text and table, 1 Oct per its TL;DR) and The Hacker News's 'Still live' tags on Oct 7, which may be repeated from Checkmarx rather than independently re-checked. Today is Oct 9. The body and summary are properly dated ('Checkmarx found three still installable on September 29'; 'when it published on October 7'; 'What We Don't Know' notes status may have changed), so the title is a recorded concern rather than a correctable error.",
+      "Checkmarx dates its snapshot inconsistently (29 Sep vs 1 Oct); the article uses 29 Sep and pairs it with 1 Oct download counts without distinguishing them.",
+      "The title credits CloudSEK, but CloudSEK's work is reached only second-hand through The Hacker News (codename co-attribution and one quote); the article is transparent about this in the body."
+    ],
+    "recommendations": [
+      "Future submissions: pair present-tense liveness in titles with the observation date, and distinguish multiple dates within one source.",
+      "cloudsek.com not added to the allowlist because the article does not cite it; evaluate it if a future submission cites CloudSEK directly."
+    ],
+    "overall_assessment": "Accurate, well-attributed, defensively framed coverage with every specific traceable to the two cited allowlisted sources. Concerns are limited to title tense and a date nuance and do not warrant a corrections record. APPROVE."
+  }
+}
