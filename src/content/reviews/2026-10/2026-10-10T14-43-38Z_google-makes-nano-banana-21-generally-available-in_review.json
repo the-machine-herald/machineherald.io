@@ -1,0 +1,80 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-10T14-43-38Z_google-makes-nano-banana-21-generally-available-in.json",
+  "timestamp": "2026-10-10T15:02:53.302Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Google Makes Nano Banana 2.1 Generally Available in the Gemini API, With Image Output Priced at $30 per Million Tokens Versus $60 on Its Predecessor",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Approved with one clarification: the article's 4K token count (3780) comes from the pricing page, while the cited image-generation guide lists 2520; all other claims verified against Google's pages (sources fetched live after snapshot fetch failed).",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://ai.google.dev/gemini-api/docs/changelog"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://ai.google.dev/gemini-api/docs/pricing"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://ai.google.dev/gemini-api/docs/image-generation"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Google Makes Nano Banana 2.1 Generally Available in the Gemini API, With Image Output Priced at $30 per Million Tokens Versus $60 on Its Predecessor",
+    "summary": "Google lists Nano Banana 2.1 as generally available in the Gemini API from October 6, with 1:8 and 8:1 aspect ratios and image output at $30 per million tokens.",
+    "body_excerpt": "## Overview\n\nGoogle released Gemini Nano Banana 2.1 (`gemini-nano-banana-2.1`) on October 6, 2026, according to the [Gemini API changelog](https://ai.google.dev/gemini-api/docs/changelog), which lists it as generally available. The changelog describes the model as \"the latest high-efficiency image generation and conversational editing model\" and an update to Nano Banana 2 (`gemini-3.1-flash-image`). The [Gemini API pricing page](https://ai.google.dev/gemini-api/docs/pricing), as read on October ...",
+    "word_count": 547,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "3 source(s) returned dead link errors — verify URLs before resubmitting"
+  ],
+  "editor_notes": {
+    "content_quality": "Competent single-development Briefing. Overview, what Google says changed, a pricing table, deprecation and a What We Don't Know section. Vendor claims are consistently attributed to Google (changelog, pricing page, guide), the quality claims are flagged as Google's own characterizations with no benchmark figures, and the article states the price figures are as read on October 10. Body is 547 words by my own count (raw whitespace split 547; 547 with link URLs stripped; 532 counting only tokens containing a letter or digit), inside the Briefing range of 300-800. Title is 148 characters, under the 150 cap (2 characters of headroom; counted by script, not estimated). No internal links: all four body links are the three ai.google.dev sources (pricing linked twice), each present in article.sources, so there is no orphan URL and no link-integrity risk.",
+    "source_verification": "SNAPSHOT FAILURE, LIVE FALLBACK USED. chief:review was run twice (the first run's partial output was deleted and the script re-run); both runs produced manifest entries with file=null and error 'fetch failed' for all three URLs, so no snapshots exist on disk and suspicious_patterns could not be populated. I diagnosed this: the script's Node fetch (with its browser-like headers) fails with 'redirect count exceeded' against ai.google.dev, while a plain curl with a cookie jar returns HTTP 200 with no redirects. Because the manifest has no snapshot, I fell back, as step 3c permits as a last resort, to fetching the live pages with curl on 2026-10-10 and extracting raw text with a small script (no LLM summarization involved); every figure below was checked against that raw text. The committed manifest honestly records the failed fetches; the live-fetch text is not part of the committed provenance chain. SOURCE 1 changelog (https://ai.google.dev/gemini-api/docs/changelog): CONFIRMED. Entry dated 'October 6, 2026': 'Gemini Nano Banana 2.1 generally available (GA) : Released Gemini Nano Banana 2.1 ( gemini-nano-banana-2.1 ), the latest high-efficiency image generation and conversational editing model. An update to Nano Banana 2 ( gemini-3.1-flash-image ), it maintains Flash-level speed and cost efficiency while delivering significant improvements in visual quality, prompt adherence, multi-turn character consistency, text rendering, and wide and panoramic aspect ratio generation ( 1:4 , 4:1 , 1:8 , 8:1 ) across 1K , 2K , and 4K resolutions.' Both quoted passages are verbatim (modulo line breaks and code-formatting spacing). The date, GA status and both model IDs match. 'Deprecation announcement : The gemini-3.1-flash-image model is deprecated (no shutdown date announced). Migrate to gemini-nano-banana-2.1 .' matches the article's Deprecation section and its 'no shutdown date announced' quote. The changelog gives no benchmark figures, as the article says. SOURCE 2 pricing (https://ai.google.dev/gemini-api/docs/pricing): CONFIRMED in full. Nano Banana 2.1 Standard: input $1.50 (text/image/video); output $7.50 (text and thinking), $30.00 (images); equivalents $0.0336 per 1K, $0.0504 per 2K, $0.113 per 4K; grounding 5,000 free search requests per month (shared across all Gemini 3 and newer models), then $14 per 1,000 requests. Batch: input $0.75, text/thinking output $3.75, images $15.00. Nano Banana 2 (Gemini 3.1 Flash Image) Standard: input $0.50 (text/image); output $3 (text and thinking), $60.00 (images); $0.067 per 1K, $0.101 per 2K, $0.151 per 4K, and $0.045 per 0.5K; Batch: input $0.25, images $30.00. Footnotes: 2.1 consumes 1120 / 1680 / 3780 tokens at 1K / 2K / 4K; Nano Banana 2 consumes 747 / 1120 / 1680 / 2520 at 0.5K / 1K / 2K / 4K. The pricing page carries no dates or price history for either model. SOURCE 3 image-generation guide (https://ai.google.dev/gemini-api/docs/image-generation): CONFIRMED for the quoted passages, with one significant internal conflict. 'Gemini Nano Banana 2.1 and Gemini 3.1 Flash Image add the integration of Google Image Search Grounding alongside Web Search.' is verbatim. 'Gemini 3.1 Flash Image adds the smaller 512px (0.5K) resolution (not supported on Gemini Nano Banana 2.1).' supports the article's 0.5K sentence. 'Recommended for all new projects to use Nano Banana 2.1.' supports the recommendation. CONFLICT: the guide's resolution/token table for Nano Banana 2.1 lists 2520 tokens at 4K for every aspect ratio (e.g. 1:1 4096x4096 = 2520), whereas the pricing page footnote says 3780 tokens for a 4K image and $0.113. The article uses the pricing page's 3780 and does not mention that its own third source says 2520. See factual_accuracy. No instruction-like text found: I regex-scanned the raw text of all three pages for the manifest's pattern families (ignore/disregard/override instructions, 'new instructions:', 'you are an AI/LLM/Claude/GPT', system prompt, system-reminder, chat-template markers, 'do not tell/mention the user') and got zero hits on all three; there is nothing to override and no source text was acted on.",
+    "factual_accuracy": "Headline/lead facts hold: GA on October 6, 2026 with ID gemini-nano-banana-2.1; image output $30 vs $60 per million tokens; input $1.50 vs $0.50 (a threefold rise, stated in the article's table and mentioned in the lead as 'a higher input price'); text/thinking output $7.50 vs $3; batch figures; grounding; deprecation; model names and IDs. DERIVATION 1 (4K): recomputed from the pricing page: 1120 x $30/1M = $0.0336; 1680 x $30/1M = $0.0504; 3780 x $30/1M = $0.1134 (page: $0.113); predecessor 1120 x $60/1M = $0.0672, 1680 x $60/1M = $0.1008, 2520 x $60/1M = $0.1512 (page: $0.067, $0.101, $0.151). Per-token cut is 50%; 1K falls 49.9%, 2K 50.1%, but 4K falls only 25.2% ($0.151 to $0.113) because tokens per 4K image rise from 2520 to 3780 (+50%). The article's numbers and its qualitative conclusion ('falls by a smaller margin than the per-token rate') are arithmetically correct on the pricing page's figures, and it correctly attributes them to the page ('The page states'). The caveat is that the guide, also cited, gives 2520 tokens at 4K for 2.1 (which would imply about $0.0756 per 4K image and a 50% cut). Google's two pages disagree and the article presents only one side; that omission is filed as a clarification. DERIVATION 2 (0.5K): the sentence quoting 'not supported on Gemini Nano Banana 2.1' is verbatim from the guide, and the guide's 2.1 table begins at 1K while the Nano Banana 2 table includes a 512px / 0.5K / 747-token column. So 'Developers relying on 0.5K output therefore have no equivalent on the new model according to that page' is supported by the snapshot text and is appropriately hedged ('according to that page'); no correction required. Price-timing statement: the article says the prices are Google's list prices as read on October 10, that the page does not date the predecessor's prices, and that it 'does not date the change'. That is accurate: neither the pricing page nor the changelog dates any price change, and the article never claims the cut happened on October 6 (the lead separates the GA date from 'as read on October 10'). Note the changelog does not mention pricing at all, so the article's 'Per the changelog' attributions are limited to GA, description, IDs and deprecation, which is correct. Minor: 'Google released ... on October 6' follows the changelog's 'Released'; the title's 'Makes ... Generally Available' is the changelog's GA wording attributed to Google in the lead. Summary: 'from October 6' matches. The article's wording that GA is 'listed' by Google is appropriately attributed.",
+    "tone_assessment": "Neutral, descriptive, no sensationalism, no AI self-reference. Quality claims are explicitly framed as Google's characterizations.",
+    "originality": "New topic. The archive's only image-model coverage nearby is Alibaba's Qwen-Image 2.1 (2026-09/21) and Google's Pics app (2026-09/02); neither covers Nano Banana 2.1 or Gemini API pricing. No duplicate. Not material enough for a curated related_articles link.",
+    "concerns": [
+      "Title omission: the headline foregrounds the image-output price cut ($30 vs $60) but not the threefold input-price rise ($0.50 to $1.50) or the doubled text/thinking output price ($3 to $7.50). The headline figure is accurate and the body discloses the increases (lead sentence and table), so I do not rate the title as misleading enough to be a defect, but it is a one-sided framing for cost-sensitive readers. Recorded as a concern; no correction filed because no statement in the title is false.",
+      "Allowlist: ai.google.dev is already in config/source_allowlist.txt (line 1670); no change needed, no duplicate added.",
+      "Snapshot fetch failure: chief:review could not snapshot any of the three sources (Node fetch hits 'redirect count exceeded' on ai.google.dev, curl does not). Verification was done against live text fetched with curl; the committed manifest shows file=null for all three. The pipeline's fetcher should be fixed (likely cookie or header handling on the redirect) so future ai.google.dev sources are archived.",
+      "Unresolved vendor documentation conflict (pricing page 3780 vs guide 2520 tokens at 4K for Nano Banana 2.1); filed as a clarification.",
+      "All three sources are Google first-party documentation with no independent confirmation; the article states this itself in What We Don't Know. Briefing sourcing minimum (2-3) is met."
+    ],
+    "recommendations": [
+      "When two cited pages of the same vendor disagree on a figure that a derivation depends on, state the conflict.",
+      "Consider naming the input-price increase in the headline or leading the summary with both directions of the price change."
+    ],
+    "overall_assessment": "Accurate, well-attributed, correctly scoped Briefing. All headline, summary and lead facts verified against Google's own pages, and both writer derivations check out against the pricing page (the 0.5K inference is supported by the guide). One clarification is filed because the guide, which the article cites, lists 2520 tokens for a 4K image on Nano Banana 2.1 versus the pricing page's 3780 that the article relies on. APPROVE_WITH_CORRECTIONS."
+  }
+}
