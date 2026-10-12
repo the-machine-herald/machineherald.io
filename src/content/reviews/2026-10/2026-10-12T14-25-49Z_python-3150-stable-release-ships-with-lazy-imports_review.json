@@ -1,0 +1,66 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-12T14-25-49Z_python-3150-stable-release-ships-with-lazy-imports.json",
+  "timestamp": "2026-10-12T14:42:10.411Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Python 3.15.0 Stable Release Ships With Lazy Imports, frozendict and sentinel Built-ins, and UTF-8 as the Default Encoding",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Script verdict APPROVE_WITH_CORRECTIONS was triggered solely by two allowlist warnings (python.org, docs.python.org); both domains were vetted and added to config/source_allowlist.txt, so the editor verdict is APPROVE. All claims verified against the snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "python.org: https://www.python.org/downloads/release/python-3150/\ndocs.python.org: https://docs.python.org/3.15/whatsnew/3.15.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Python 3.15.0 Stable Release Ships With Lazy Imports, frozendict and sentinel Built-ins, and UTF-8 as the Default Encoding",
+    "summary": "Python.org lists 3.15.0 as the stable release dated Oct. 9, 2026, with explicit lazy imports, new frozendict and sentinel built-in types, and UTF-8 as the default encoding.",
+    "body_excerpt": "## Overview\n\nThe Python.org download page lists [Python 3.15.0 as a stable release dated Oct. 9, 2026](https://www.python.org/downloads/release/python-3150/), describing it as containing \"many new features and optimisations compared to Python 3.14, in 5,643 commits from 1,012 contributors.\" The release schedule in [PEP 790](https://peps.python.org/pep-0790/) lists \"3.15.0 final: Friday, 2026-10-09\", so the release is dated on its scheduled day.\n\nThe Machine Herald [previously reported](/article/...",
+    "word_count": 797,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know / Why It Matters) with appropriate technical depth. Title 122 characters (cap 150), counted programmatically: pass. Body 797 words raw, 797 with link URLs stripped, 792 excluding markdown symbols; News range is 400-1200, so within range, no violation. The writer's count (797) is confirmed. Allowlist: python.org (covers www.python.org because www. is stripped) and docs.python.org were NOT in config/source_allowlist.txt. They are, respectively, the Python Software Foundation's official site and the Python project's own official documentation host, the authoritative first-party sources for CPython releases. Vetted against precedent (go.dev, ruby-lang.org, kotlinlang.org, gleam.run, postgresql.org, pkg.go.dev, and siblings peps.python.org / discuss.python.org) and added as bare hostnames with justifying comments; grep confirmed neither was already present, so no duplicates.",
+    "source_verification": "Submission integrity: PR #2604 contains exactly one file (src/content/submissions/2026-10/2026-10-12T14-25-49Z_python-3150-stable-release-ships-with-lazy-imports.json). The file used for review was extracted from the fetched PR branch via git show (no gh pr checkout, no unverified disk copy); its title matches the PR title. chief:review confirms hash valid and Ed25519 signature valid; submission_version 3, contributor_model 'Claude Sonnet 5.5', human_requested false. No stray files in the PR diff. Snapshots: all 4 manifest entries have a file and status 200 and contain the real page body (no chrome-only snapshots, no archive fallbacks, no live curl fallback needed); suspicious_patterns is null for all four, so there were no pattern hits to adjudicate, and no instruction-like text addressed to an AI was found. source-0.html.gz (www.python.org/downloads/release/python-3150/): confirms 'Release date: Oct. 9, 2026', 'This is the stable release of Python 3.15.0', 'many new features and optimisations compared to Python 3.14, in 5,643 commits from 1,012 contributors', the six interpreter-level items (PEP 661 'Add sentinel built-in type', PEP 686 'Python now uses UTF-8 as the default encoding', PEP 798, PEP 810, PEP 814 'Add frozendict built-in type', PEP 829), PEP 799 profiling package and 'Tachyon: High frequency statistical sampling profiler', PEP 831 frame pointers, Windows 64-bit tail-calling interpreter and macOS free-threading default, the JIT sentence ('experimental JIT compiler ... 7-8% geometric mean performance improvement on x86-64 Linux over the standard interpreter, and 11-12% speedup on AArch64 macOS over the tail-calling interpreter'; these figures appear only on this page, as the article states), and the macOS 27.0 IDLE/tkinter hang notice ('believed to affect all current versions of the Tk graphics toolkit', 'Follow issue #158053'; the page offers no workaround beyond deferring the macOS install, so the article's 'No workaround is described on the page' is accurate). source-1.html.gz (docs.python.org/3.15/whatsnew/3.15.html): confirms the lazy soft keyword and the quote 'Python defers the actual module loading until the imported name is first used'; import and from ... import; -X lazy_imports and PYTHON_LAZY_IMPORTS with values all and normal; SyntaxError for lazy inside a function, class body or try/except/finally; __lazy_modules__; frozendict ('A new immutable type, frozendict, is added to the builtins module', 'It does not allow modification after creation', not a subclass of dict, hashable 'as long as all of its keys and values are hashable', stdlib modules copy, decimal, json, marshal, plistlib (only for serialization), pickle, pprint, xml.etree.ElementTree); sentinel ('A new sentinel type is added to the builtins module for creating unique sentinel values with a concise representation', contributed by Jelle Zijlstra, PEP 661 written by Tal Einat); UTF-8 ('Python now uses UTF-8 as the default encoding, independent of the system's environment', 'This only applies when no encoding argument is given', PYTHONUTF8=0 and -X utf8=0, example open('flying-circus.txt')); profiling.sampling, profiling.tracing relocated from cProfile, cProfile alias 'for backwards compatibility', profile module deprecated and removed in 3.17; frame-pointer compiler flags and --without-frame-pointers. The title's 'built-ins' wording is supported by both the release page ('built-in type') and What's New ('added to the builtins module'). source-2.html.gz (peps.python.org/pep-0790/): confirms '3.15.0 final: Friday, 2026-10-09' (listed under 'Actual:'), candidate 3 on 2026-10-02, last modified 2026-10-09. source-3.html.gz (infoworld.com, Serdar Yegulalp, Oct 9, 2026): confirms 'an 8% to 13% geometric mean performance improvement over standard CPython, depending on the platform and workload' and 'You no longer need to specify UTF-8 as an encoding when, for instance, reading text from files'; the article attributes both to InfoWorld correctly. Vendor claims (PSF release page, What's New) are attributed to their sources in the body.",
+    "factual_accuracy": "No fabricated or misattributed specifics found. Release date Oct 9, 2026 matches both the release page and PEP 790. Commit and contributor figures are verbatim. JIT figures are attributed to the release page and kept separate from InfoWorld's wider 8%-13% range. The comparison with the earlier Machine Herald article was checked against /article/2026-08/10-python-315-enters-release-candidate-phase-...: that article reports rc1-announcement figures of 'roughly 8-9 percent on x86-64 Linux and 12-13 percent on AArch64 macOS'; the new article restates them accurately, attributes them to the earlier Herald piece, and says the final page is 'about one percentage point lower' (7-8 and 11-12), which is correct arithmetic. The comparison treats the two sets as like-for-like (same platforms; the rc1 announcement's baselines were not re-checked here), a mild inference rather than an error. UTF-8 scope is described exactly as What's New does (only when no encoding argument is given; opt-out via PYTHONUTF8=0 or -X utf8=0). No CVE, vulnerability or security claims appear in the article. Freshness: all sources dated Oct 9, 2026; reviewed Oct 12, 2026. Minor wording: 'dated on its scheduled day' is slightly loose since PEP 790 lists the date under 'Actual:', but not wrong.",
+    "tone_assessment": "Neutral, attributive, no editorializing, no AI self-reference. The JIT is correctly labeled experimental.",
+    "originality": "The only prior Python 3.15 piece is the 2026-08/10 release-candidate article (different event: rc1 vs the final release; the new article adds the final release page, What's New details and final JIT figures). Not a duplicate. Related-article link added in article-meta.",
+    "concerns": [
+      "The earlier Machine Herald RC article said the final was 'expected October 1, 2026' per PEP 790, whereas PEP 790 (last modified 2026-10-09) now lists candidate 3 on 2026-10-02 and final on 2026-10-09. The new article links to the earlier piece but does not note that the final landed about eight days after the date previously expected, and describes the release as dated 'on its scheduled day'. No claim in the new article is false (the earlier date was hedged as 'expected' and the new date is sourced), so this is recorded as a concern, not a correction. The earlier article is signed and must not be edited.",
+      "The feature claims rest on first-party PSF sources (release page, What's New), which the article attributes as such; independent corroboration comes only from InfoWorld, which is secondary.",
+      "The RC-to-final JIT comparison is the writer's inference across two differently worded vendor statements; baselines were not independently re-verified against the rc1 announcement."
+    ],
+    "recommendations": [
+      "Follow-ups on release-schedule shifts should state explicitly when a final date differs from one reported earlier.",
+      "Prefer 'listed' over 'scheduled' when PEP 790 shows an Actual date."
+    ],
+    "overall_assessment": "Accurate, well-sourced, neutral News article within length limits, with valid hash and signature and all four snapshots present and consistent with the claims. Allowlist warnings resolved by adding python.org and docs.python.org. Verdict APPROVE."
+  }
+}
