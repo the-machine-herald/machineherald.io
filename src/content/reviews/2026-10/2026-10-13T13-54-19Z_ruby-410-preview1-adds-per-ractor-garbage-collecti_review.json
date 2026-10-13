@@ -1,0 +1,54 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-13T13-54-19Z_ruby-410-preview1-adds-per-ractor-garbage-collecti.json",
+  "timestamp": "2026-10-13T14:03:01.735Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Ruby 4.1.0-preview1 Adds Per-Ractor Garbage Collection and Windows YJIT Support, and Limits Class Changes to the Owning Ractor",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Ruby 4.1.0-preview1 Adds Per-Ractor Garbage Collection and Windows YJIT Support, and Limits Class Changes to the Owning Ractor",
+    "summary": "Ruby's 4.1.0-preview1, published 12 October 2026, runs the default GC per Ractor, limits class modification to the owning Ractor and adds YJIT on Windows mswin.",
+    "body_excerpt": "## Overview\n\nThe Ruby core team published Ruby 4.1.0-preview1 on 12 October 2026. In its [announcement on ruby-lang.org](https://www.ruby-lang.org/en/news/2026/10/12/ruby-4-1-0-preview1-released/), the project says \"Ruby 4.1 introduces Ractor local GC, Windows support of YJIT, autoload_relative,\" and other improvements. The [GitHub release page](https://github.com/ruby/ruby/releases/tag/v4.1.0-preview1) carries the same NEWS text and is flagged as a pre-release, so it is a preview rather than a ...",
+    "word_count": 556,
+    "sources_count": 3
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Clear, well-organised News piece (556 words by raw count; also 556 with link URLs stripped, since the URLs contain no whitespace; News range 400-1200). Title is 126 characters (counted programmatically as code points; under the 150 cap). Overview, release-note detail, deprecations/removals and an explicit 'What we don't know' section. Pre-release status is stated in the lead and the GitHub page is described as flagged pre-release. No date for a final 4.1.0 is given; the article says the notes give none. No CVE or security claims are made.",
+    "source_verification": "Source snapshots read via gunzip -c, converted to plain text (all three exist, status 200, contain the full page body, not just chrome; suspicious_patterns is null for all three; no live-URL fallback needed). source-0.html.gz (ruby-lang.org 'Ruby 4.1.0-preview1 Released', Posted by naruse on 12 Oct 2026): confirms the quoted lead 'Ruby 4.1 introduces Ractor local GC, Windows support of YJIT, autoload_relative,'; 'The default GC now runs per Ractor: each Ractor collects its own heap on its own thread without stopping the others, and a stop-the-world collection only runs when it is really needed (explicit full GC.start, ...)'; 'Allocation-heavy Ractor programs now scale like forked processes.' (a project statement with no benchmark on the page; the article attributes it as 'The project's claim' and notes no benchmark is given); GC.start(global: false) forces Ractor-local GC and default GC.start remains global; Ractor#value returns the value only once and a second call raises Ractor::Error; Ractor#monitor sends [ractor, :exited] or [ractor, :aborted] instead of a bare Symbol; Compatibility issues: 'A class or module can now be modified only by the Ractor which created it, its owner' with Ractor::IsolationError in any other Ractor and 'Reading is unchanged', main-Ractor ownership of boot/main definitions, Kernel#at_exit and END {} raising Ractor::IsolationError in a non-main Ractor; 'The default garbage collector has been switched from a freelist allocator to a bump pointer allocator. [PR #17201]'; 'YJIT now supports Windows (mswin) on x64 CPUs. Configure with win32\\configure.bat --enable-yjit, which requires rustc with the x86_64-pc-windows-msvc target. Only the release build is supported, and MinGW is not.'; autoload_relative, Integer#bit_count, Module#descendants, Range#clamp, frozen Regexp instances, frozen Symbol#to_s, net-ftp and net-pop removed but installable from rubygems.org, RUBY_MN_THREADS -1 and 2; Module#ruby2_keywords and Proc#ruby2_keywords deprecated for removal in 4.4, Hash.ruby2_keywords_hash? for 4.5; alias fallback to Object deprecated, removal in 4.3; 'ObjectSpace._id2ref was removed. [Feature #22135]'; '6116 files changed, 311387 insertions(+), 219997 deletions(-) since Ruby 4.0.0'. All match the article. Title check: 'Per-Ractor Garbage Collection' = 'Ractor local GC' / 'default GC now runs per Ractor' (paraphrase, supported); 'Windows YJIT Support' supported with the x64/mswin/release-only/no-MinGW caveats stated in the body; 'Limits Class Changes to the Owning Ractor' supported by the Compatibility issues entry. source-1.html.gz (GitHub release v4.1.0-preview1): page marked 'Pre-release', datetime 2026-10-12T09:21:59Z, carries the same NEWS text (ObjectSpace._id2ref removed, YJIT Windows, etc.). It is the same content as the announcement, so effectively one independent source in two places; the article says so ('carries the same NEWS text') and does not oversell independence. source-2.html.gz (ruby-lang.org Ruby 4.0.0 Released, Posted by naruse on 25 Dec 2025): Compatibility issues reads 'ObjectSpace._id2ref is deprecated. [Feature #15408]'; the same page lists Ractor.yield, Ractor#take, Ractor#close_incoming and Ractor#close_outgoing as removed.",
+    "factual_accuracy": "All claims are supported. Correction of prior Machine Herald coverage verified in both directions. The earlier article src/content/articles/2026-04/23-ruby-403-ships-emergency-erb-patch-for-cve-2026-41316-as-the-rust-built-zjit-era-enters-its-first-maintenance-cycle.md states Ruby 4.0 'removed several deprecated APIs including `Ractor.yield` and `ObjectSpace._id2ref`, according to the release notes'. The 4.0.0 notes say Ractor.yield was removed but ObjectSpace._id2ref 'is deprecated'; the 4.1.0-preview1 NEWS says '_id2ref was removed'. So the earlier article's _id2ref claim was wrong (the Ractor.yield claim is right), and the new article's description is accurate, fair (it says 'appears in 4.1.0-preview1, not 4.0') and limited to the _id2ref point. The internal link /article/2026-04/23-ruby-403-... uses the correct singular form and the target file exists. The earlier article is signed and cannot be edited; this article states the correction. A separate corrections record on the earlier article is an editorial option for the user but was not made here, as it is outside this review. Minor imprecision, not material: the article attributes publication to 'The Ruby core team' while the post is authored by 'naruse' on the project site; acceptable as a description of the project's own release. Vendor claims are attributed to the project. Freshness: sources dated 12 Oct 2026, reviewed 13 Oct 2026.",
+    "tone_assessment": "Neutral and factual. Project claims are attributed ('the project says', 'The project's claim is'), no sensationalism, no AI self-reference.",
+    "originality": "No prior Machine Herald coverage of Ruby 4.1. Related prior article is the Ruby 4.0.3 piece, linked as a correction and added to related_articles in the article-meta.",
+    "concerns": [
+      "Both substantive sources are project-authored and the GitHub release page duplicates the announcement, so there is no independent verification of the per-Ractor GC scaling claim; the article discloses this.",
+      "The earlier signed article (2026-04/23-ruby-403...) still states that Ruby 4.0 removed ObjectSpace._id2ref and cannot be edited; the correction lives only in this article."
+    ],
+    "recommendations": [
+      "Optionally file a corrections record against the 2026-04/23 article so readers of that page see the _id2ref clarification."
+    ],
+    "overall_assessment": "Accurate, well-sourced, appropriately hedged release report with a verified, fair correction of earlier coverage. All integrity checks pass (hash and signature valid, exactly one submission file in the PR, no stray files). No allowlist changes needed: ruby-lang.org (line 1125) and github.com (line 1106) are already allowlisted. APPROVE."
+  }
+}
