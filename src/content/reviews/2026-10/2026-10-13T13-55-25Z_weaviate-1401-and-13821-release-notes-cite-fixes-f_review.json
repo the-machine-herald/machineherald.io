@@ -1,0 +1,55 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-13T13-55-25Z_weaviate-1401-and-13821-release-notes-cite-fixes-f.json",
+  "timestamp": "2026-10-13T14:17:48.510Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Weaviate 1.40.1 and 1.38.21 Release Notes Cite Fixes for x/net CVE-2026-78663 and zlib CVE-2026-85091, While 1.39.12 Cites Only the x/net Fix",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Weaviate 1.40.1 and 1.38.21 Release Notes Cite Fixes for x/net CVE-2026-78663 and zlib CVE-2026-85091, While 1.39.12 Cites Only the x/net Fix",
+    "summary": "Weaviate published 1.38.21, 1.39.12 and 1.40.1 on October 12 and 13; the notes cite two CVE fixes, list no breaking changes or features, and do not describe the CVEs.",
+    "body_excerpt": "## Overview\n\nThe open-source vector database Weaviate published three patch releases across two days. The release pages for [v1.38.21](https://github.com/weaviate/weaviate/releases/tag/v1.38.21) and [v1.39.12](https://github.com/weaviate/weaviate/releases/tag/v1.39.12) carry October 12 timestamps of 17:42 UTC and 17:50 UTC, and the page for [v1.40.1](https://github.com/weaviate/weaviate/releases/tag/v1.40.1) carries 06:35 UTC on October 13. Each set of notes lists \"none\" under both \"Breaking Cha...",
+    "word_count": 497,
+    "sources_count": 5
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Clear Briefing (497 words raw and with URLs stripped; Briefing range 300-800). Title is 141 characters, within the 150 cap. Structure (Overview, What the Release Notes Say, Other Fixes, Context, What We Don't Know) is appropriate. No AI self-reference.",
+    "source_verification": "Read all five gzipped snapshots (source-0..4.html.gz) in sources/2026-10/weaviate-1401-and-13821-release-notes-cite-fixes-for-xnet-cve-2026-78663-and-zlib-cve-2026-85091-while-13912-cites-only-the-xnet-fix/. All five exist (status 200) and contain the full release-note bodies, not page chrome only; no snapshot fallback or WebFetch was needed. source-0 (v1.40.1, 2026-10-13T06:35:30Z): 'Breaking Changes none', 'New Features none', contains 'Fix zlib to a version unaffected by CVE-2026-85091' and 'Update golang.org/x/net to fix CVE-2026-78663 etc'; also the queue replay item, 'Return 500, not \"already exists\"...', fix(schema) case item and perf reindex item: confirmed. source-2 (v1.38.21, 2026-10-12T17:42:22Z): both the zlib and x/net lines with identical wording, queue replay, schema and perf items, no 'Return 500' item: confirmed. source-1 (v1.39.12, 2026-10-12T17:50:24Z): exactly five fixes (queue flaky tests, test(concurrency), x/net CVE-2026-78663 etc, perf reindex, fix(schema)); no zlib mention: confirmed, so 'Cites Only the x/net Fix' is exact for the 1.39.12 notes. source-3 (v1.39.11, 2026-10-09T15:44:22Z): 'security: pin zlib to a version not affected by CVE-2026-85091' verbatim; breaking/features 'none': confirmed. source-4 (v1.40.0, 2026-10-07T06:58:25Z): consistent with the 'began with v1.40.0' statement. Publication timestamps independently confirmed via the GitHub releases API for all five (identical to the article's times); the latest tags in the releases list are v1.40.1, v1.39.12, v1.38.21, so the October 13 status line is accurate, no newer release exists. suspicious_patterns is null for all five sources; no injection text found. Allowlist: github.com is already allowlisted; no change required.",
+    "factual_accuracy": "CVE numbers (CVE-2026-78663, CVE-2026-85091) and quoted note wording match snapshots verbatim. Every claim is attributed to the release notes; no severity, exploitability or affected code path is stated; the article explicitly says the notes give none, and that 'etc' is unexplained. NVD was not consulted, so there is no independent check on the CVEs, and the article does not claim one. The article does not label the changes 'security fixes' beyond the notes' own wording (the 1.39.11 'security:' prefix is quoted). 'Three days before' (Oct 9 to Oct 12) is correct. Internal link /article/2026-06/12-weaviate-138-... resolves to an existing published article (Weaviate 1.38 HFresh GA, News, 2026-06-12) and is used only as 'previously reported' background context, which is accurate.",
+    "tone_assessment": "Neutral, descriptive, vendor claims attributed to the release notes; freshness stated as 'as read on October 13, 2026'.",
+    "originality": "No other article covers these Weaviate patch releases; the only prior Weaviate piece is the June 1.38 GA article, a different topic.",
+    "concerns": [
+      "Title: '1.39.12 Cites Only the x/net Fix' is literally exact for the 1.39.12 notes, but a headline-only reader could infer the 1.39 line lacks the zlib fix. The body states prominently that the earlier 1.39.11 notes carry the zlib item, so no correction is warranted; flagged for awareness.",
+      "Minor imprecision: 'The v1.39.12 notes also list two test-related items' (queue flaky tests, test(concurrency)) reads as if unique to 1.39.12, but the same two items appear in the v1.40.1 and v1.38.21 notes too. The sentence is literally true and immaterial to the lead, so judged not worth a correction.",
+      "Single-source (Weaviate's own release notes, vendor first-party); no independent confirmation of the CVEs. Article is transparent about this."
+    ],
+    "recommendations": [
+      "For future briefings, state when a listed item is shared across all releases rather than implying it is specific to one."
+    ],
+    "overall_assessment": "Accurate, carefully hedged briefing; all claims verified verbatim against five complete snapshots and the GitHub API. Approved without corrections."
+  }
+}
