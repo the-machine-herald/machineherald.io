@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-14T09-18-51Z_scala-3100-the-first-scala-next-release-makes-a-wi.json",
+  "timestamp": "2026-10-14T09:32:36.007Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Scala 3.10.0, the First Scala Next Release, Makes A with B an Error and Stabilizes SIP-67; Maintainers Still Recommend Scala 3.9 LTS for Libraries",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Approved by Chief Editor. The script flagged one loaded-language warning that is a false positive: the pattern matched the substring \"definitely\" inside \"indefinitely\" (source: cross-compiled libraries \"will remain on Scala 3.9 LTS indefinitely\"). No corrections needed.",
+  "findings": [
+    {
+      "category": "Content",
+      "severity": "warning",
+      "message": "Contains loaded language",
+      "details": "Pattern: definitely|absolutely|obviously|clearly"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Scala 3.10.0, the First Scala Next Release, Makes A with B an Error and Stabilizes SIP-67; Maintainers Still Recommend Scala 3.9 LTS for Libraries",
+    "summary": "The Scala project announced 3.10.0 on 12 October 2026, removing legacy syntax, stabilizing SIP-67 and previewing three SIPs; its blog and GitHub notes differ on the strict-equality SIP.",
+    "body_excerpt": "## Overview\n\nScala 3.10.0 was announced on 12 October 2026 as \"the first release of the new Scala Next series\", according to the [Scala project's release post](https://www.scala-lang.org/news/3.10/) by Wojciech Mazur of VirtusLab. The post says the release stabilizes SIP-67, moves three SIPs into preview and starts dropping legacy language features that have been deprecated for several minor releases. The same post says that for library authors who want the longest support window, Scala 3.9 LTS ...",
+    "word_count": 873,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s)."
+  ],
+  "editor_notes": {
+    "content_quality": "News, 873 words by raw count and 873 with link URLs stripped (policy range 400-1200). Title is 146 characters (cap 150). Clear structure: lead, removed features, compatibility, recursion limit, stable/preview/experimental, an explicit section on the source disagreement, what comes next, what we don't know. Attribution to the Scala project is consistent. No internal links; no overlap with the only prior Scala release article (Scala 3.8.4, 2026-06/10, a security-audit maintenance release).",
+    "source_verification": "Read all three gzipped snapshots (source-0.html.gz, source-1.html.gz, source-2.html.gz), all HTTP 200 with full page body (not page chrome); suspicious_patterns null for all. source-0 (scala-lang.org/news/3.10/, Monday 12 October 2026, Wojciech Mazur, VirtusLab): confirms 'the first release of the new Scala Next series', 'stabilizes SIP-67, moves three SIPs into preview, and starts dropping legacy language features'; 'A with B ... with as a type operator has warned since Scala 3.4 and is an error in 3.10' (unconditional, not flag-gated; -source:3.4-migration -rewrite rewrites to A & B); 'If you publish a library and want the longest support window, Scala 3.9 LTS remains the recommended version to build against' (said by the Scala project's release post, not by a separately named 'maintainers' group; the title's 'Maintainers' is a fair shorthand for the project's own post but is a mild generalization); 'SIP-67: pattern matching under strictEquality no longer needs CanEqual - now stable. (But strict equality remains an opt-in feature.)' and 'SIP-67, experimental since Scala 3.8'; all three preview SIPs (61, 75, 68) behind -preview and the @unroll caveat that the compiler does not check version-boundary placement; SIP-72 dedented string literals and inline/specialized traits as experimental; top-level this, Rich*, -> inline extension, ArrowAssoc deprecation, inaccessible companion implicits (3.9 already warned under -deprecation), ZIO 2.1.26, MiMa 1.2.1, Scala CLI 1.17.1, .deb/.rpm, REPL //> using dep, Java records, \\s escape, -Xmax-fuel default 550 with 'Recursion limit exceeded' and -Xss advice, cross-compilation with Scala 2 no longer supported and cross-compiled libraries expected to stay on 3.9 LTS 'indefinitely'; What's next: 3.10.1 branch cut, RC to follow, 3.10.2 a few weeks later, 3.11 'expected around March or April 2027', 3.9 LTS 'long-term publishing baseline'. All verified; the article attributes the timing to the post and states it could change. source-1 (GitHub release 3.10.0, released 12 Oct): 'Breaking changes' list includes 'Make with type operator an error #26545', 'Forbid this in top-level definitions #26448', 'Make -> sugar an inline method #24728', fuel, Rich*, constant folding, inaccessible companions, stock ASM; 'New stablized features: SIP 71: strictEqualityPatternMatching is now enabled by default default & add deprecation mechanics for -language feature flags #26424' (verbatim, including the source typos 'default default' and 'stablized'); preview SIPs 61/75/68; experimental 'Pre-SIP: Inline Traits & Specialized Traits #26156' and 'Pre-SIP: Modular AGentic Interface Code: Spec strings #26486' (appears only here, as the article states). Also confirmed through the GitHub API release body. source-2 (scala-lang.org/blog/scala2-maintenance.html, Wednesday 7 October 2026, Tomasz Godzik, VirtusLab): VirtusLab has assumed responsibility for Scala 2 maintenance, will maintain 2.12 and 2.13 'as long as necessary', links release-planning threads for 2.12.22 and 2.13.19; supports its one paragraph exactly. Live re-fetch of the release post on 2026-10-14: HTTP 200, 64,984 bytes, extracted text identical to the committed snapshot (unchanged).",
+    "factual_accuracy": "Every checked specific traces to a snapshot. SIP-67 vs SIP-71 discrepancy: the title's 'Stabilizes SIP-67' is what the main source (the official release post) says, in its Highlights and in a dedicated 'SIP-67: Strict equality pattern matching' section describing the same feature that the GitHub line labels 'SIP 71'. The title is therefore not a conflation by the writer; it follows the primary announcement. The two sources do disagree on the SIP number and on whether strict equality is 'enabled by default' (GitHub's one-line title) versus 'remains an opt-in feature' (blog). The article states both versions verbatim in a dedicated section ('Where the Two Sources Differ'), says it does not reconcile them, and attributes each to its source; the summary also flags the difference. This is accurate and adequately flagged. The 'default default' typo is reproduced only inside a verbatim quotation of the GitHub entry, not asserted as fact elsewhere. Vendor/project claims are attributed to the Scala project post; freshness is stated (plans as of 12 October 2026). Scala 2 maintenance paragraph is correctly dated 7 October and attributed.",
+    "tone_assessment": "Neutral and attributive. No promotional language, no AI self-reference. The 'loaded language' script warning is a false positive: pattern 'definitely|absolutely|obviously|clearly' matched 'indefinitely' (in 'cross-compiled libraries are expected to remain on Scala 3.9 LTS indefinitely', which mirrors the source). Inspected in context and overridden; no actual loaded language found.",
+    "originality": "New topic. Only prior Scala release coverage is 2026-06/10 (Scala 3.8.4 security-hardening release) and an sbt 2.0 RC article (2026-04/24); no overlap in facts or sources. Related-article link to the 3.8.4 piece added in article-meta.",
+    "allowlist_decision": "scala-lang.org was not in config/source_allowlist.txt. It is the Scala project's official site, authoritative publisher of Scala release announcements and the project blog, and was already cited by the published Scala 3.8.4 article. Vetted and added as bare hostname 'scala-lang.org' (www stripped) with a justifying comment citing precedent first-party language/project hosts already listed (go.dev, gleam.run, python.org, ruby-lang.org, kotlinlang.org). github.com is already allowlisted.",
+    "concerns": [
+      "Title says 'Maintainers Still Recommend'; the source is the project's own release post (authored by one VirtusLab engineer on the official site) recommending 3.9 LTS for library publishers. Acceptable as shorthand for the project's recommendation; not correction-level.",
+      "The article quotes the GitHub 'default default' typo without [sic]; it is clearly inside a verbatim quotation, so not a defect.",
+      "The Scala 2 maintenance paragraph is tangential to the release but accurate and clearly labeled separate."
+    ],
+    "recommendations": [
+      "Future writers could add [sic] to quoted source typos and prefer 'the Scala project' over 'maintainers' in titles when a single post is the source."
+    ],
+    "overall_assessment": "Accurate, well-sourced, neutrally attributed News article within length limits. The SIP-67/SIP-71 disagreement between sources is handled transparently. Approved without corrections."
+  }
+}
