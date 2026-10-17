@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-17T11-17-54Z_torvalds-posts-first-llm-assisted-linux-kernel-pat.json",
+  "timestamp": "2026-10-17T11:38:09.663Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Torvalds Posts First LLM-Assisted Linux Kernel Patch Series, Ten Folio Patches Claiming an Order-of-Magnitude Read Speedup",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docs.kernel.org: https://docs.kernel.org/process/coding-assistants.html\ndocs.kernel.org: https://docs.kernel.org/process/generated-content.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Torvalds Posts First LLM-Assisted Linux Kernel Patch Series, Ten Folio Patches Claiming an Order-of-Magnitude Read Speedup",
+    "summary": "Linus Torvalds posted ten LLM-assisted folio-lookup patches for review; reviewers found a race condition, and kernel docs already require Assisted-by tags and human sign-offs.",
+    "body_excerpt": "## Overview\n\nLinus Torvalds has posted a patch series developed with a large language model, according to [LWN.net](https://lwn.net/Articles/1100449/). LWN reports that at the recently concluded Maintainers Summit, Torvalds said he had been using a large language model to work on a patch series addressing a longstanding problem, and that he has now posted the series for review. LWN published its report on October 14, 2026, under the headline \"Linus Torvalds's first LLM-assisted patch series.\"\n\n#...",
+    "word_count": 522,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Compact, well-structured Briefing (522 words, within the 300-800 range) with Overview, What We Know, rules, What We Don't Know and Context sections. Claims about Linus Torvalds are limited to what LWN reports: that he said at the Maintainers Summit he had been using an LLM on a patch series for a longstanding problem and that he posted it for review. No motives are inferred and no direct quote is attributed to Torvalds beyond LWN's block quote.",
+    "source_verification": "Read all three snapshots (source-0/1/2.html.gz, manifest status 200, no suspicious_patterns) and re-fetched all three live with curl: sizes byte-identical to snapshots (6151, 16595, 16631), so no drift. source-0 LWN (lwn.net/Articles/1100449/, 'Linus Torvalds's first LLM-assisted patch series', posted October 14, 2026 by corbet): full text is publicly readable without login or subscription (a Briefs item; only comment display is suppressed for anonymous users due to scraper load). Confirmed verbatim: 'fairly short series of ten patches', 'noticing when folios are hot', 'delay releasing this folio until after a RCU period' (article paraphrases this as delaying release until after an RCU period), 'No refcount taking needed for the fastpath', 'an order-of-magnitude speedup for a read()-heavy benchmark', 'identified a race condition', 'further work will be needed'; Maintainers Summit and 'posted that series for review' also confirmed. The LWN text does not attribute the block quote to a source (it is presumably the cover letter, but LWN does not say so) and does not name the model, amount generated or any Assisted-by tag, so the article's What We Don't Know section is accurate. source-1 docs.kernel.org/process/coding-assistants.html: 'AI agents MUST NOT add Signed-off-by tags' verbatim; only humans can legally certify the DCO; human submitter responsible for reviewing AI-generated code and 'Taking full responsibility for the contribution'; 'Contributions should include an Assisted-by tag in the following format: Assisted-by: LLM [TOOL1] [TOOL2]' with the tool entries optional; 'All code must be compatible with GPL-2.0-only'. All confirmed. source-2 docs.kernel.org/process/generated-content.html: 'reviewer and maintainer bandwidth is a scarce resource', 'If in doubt, choose transparency and assume these guidelines apply to your contribution', 'expect additional scrutiny in proportion to how much of it was generated', and the maintainer-discretion options (treat like any other, reject outright, special treatment such as extra scrutiny) all confirmed. The lore.kernel.org posting (not cited) is behind an Anubis proof-of-work challenge and could not be read; nothing in the article depends on it. Phoronix not consulted. Internal links /article/2026-07/31-gcc-... and /article/2026-08/06-rust-project-... use the correct singular form and both files exist.",
+    "factual_accuracy": "All specifics trace to the cited sources. Three imprecisions are filed as a corrections record. (1) The summary says kernel docs 'already require Assisted-by tags'; the docs say contributions 'should include' one (the MUST NOT applies to AI agents adding Signed-off-by). (2) The headline 'First' is LWN's characterization of Torvalds's own first LLM-assisted series; the title can be read as the first in the kernel, which no source establishes. The body attributes the headline to LWN correctly. (3) The quoted passage is called a 'series description' although LWN gives it as an unattributed block quote, and the speedup is LWN's statement of the result rather than a Torvalds quote. None of these affects the substance, and the body text is accurate and appropriately hedged ('According to LWN', 'applies to that benchmark, not to kernel workloads in general').",
+    "tone_assessment": "Neutral and professional; no editorializing and no AI self-reference. The 'permits AI assistance with disclosure and human accountability' summary in Context is a fair reading of the two documents, not a claim about Torvalds's intent.",
+    "originality": "New topic. Related prior coverage (GCC AI policy, Rust LLM policy, COSMIC AI-contribution ban, 2026-10/09) is complementary, not duplicative; related_articles added to the meta file.",
+    "allowlist": "The automated warning was docs.kernel.org not being allowlisted (exact bare-hostname matching; kernel.org does not cover the subdomain). lwn.net is already listed. Added docs.kernel.org to config/source_allowlist.txt with a justification comment (official in-tree kernel documentation, first-party for kernel contribution rules, same precedent as prometheus.io and bazel.build). The chief:review output above was generated before this edit and still shows the warning.",
+    "docs_drift_note": "The docs snapshot is labelled 7.3.0-rc7 (development tree). Wording may change in later releases; claims are attributed to the docs as read on 2026-10-17.",
+    "concerns": [
+      "Summary overstates 'require' for the Assisted-by tag (docs say 'should').",
+      "Headline 'First' could be read as first in the kernel rather than Torvalds's first; LWN's framing supports only the latter.",
+      "Only one news source (LWN); the primary posting on lore.kernel.org could not be read."
+    ],
+    "recommendations": [
+      "Distinguish 'should' from 'MUST' in summaries of policy documents.",
+      "When a headline adopts an outlet's 'first', make clear whose first it is."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS. Substantively accurate and well-hedged Briefing on a named real person: every statement about what Torvalds said and did traces to LWN, and all quotes are verbatim. Minor wording imprecisions in the summary, headline scope and quote labelling are covered by a short corrections record."
+  }
+}
