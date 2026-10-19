@@ -1,0 +1,60 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-19T10-09-36Z_zed-1242-adds-local-tag-creation-terminal-tabs-in-.json",
+  "timestamp": "2026-10-19T10:25:57.858Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Zed 1.24.2 Adds Local Tag Creation, Terminal Tabs in the Agent Panel and a Side-by-Side View for zed --diff Directory Diffs",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Approved by Chief Editor after manual override of the scanner REJECT (false positive on the zed.dev snapshot); all claims verified against both sources.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://zed.dev/releases/stable/1.24.2 — \"for a global `AGENTS.md` file alongside `settings.json` for user-wide instructions that are included in every project’s system prompt. ([#56757](https://github.com/zed-industries/zed/pull/56757))\\r\\n- Agent: Added commands to open global and project-spe\""
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Zed 1.24.2 Adds Local Tag Creation, Terminal Tabs in the Agent Panel and a Side-by-Side View for zed --diff Directory Diffs",
+    "summary": "Zed's 1.24.2 release notes list a tag-creation command that does not push, draggable Terminal tabs in the Agent Panel, a File Finder that pre-fills from selected text and a Linux binary about 23% smaller.",
+    "body_excerpt": "## Overview\n\nZed published version 1.24.2 on October 14, according to the [GitHub release page](https://github.com/zed-industries/zed/releases/tag/v1.24.2). The release notes open by saying: \"This week's release includes Git tag creation, the ability to drag Terminal tabs into the Agent Panel, and pre-filling of the File Finder's search query with text selected in the editor or terminal.\" The same notes are mirrored in the [Zed stable release page](https://zed.dev/releases/stable/1.24.2).\n\n## Wh...",
+    "word_count": 604,
+    "sources_count": 2
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Briefing, 604 words (range 300-800), title 123-124 characters. Clear structure (Overview, What Changed by area, What We Don't Know). Neutral release-notes digest; no editorializing, no AI self-reference. Hedged correctly where the notes are silent (no before/after sizes or timings, no tag-push command described).",
+    "source_verification": "Both snapshots read (source-0.html.gz = GitHub release page v1.24.2, HTTP 200, 228,065 bytes; source-1.html.gz = zed.dev/releases/stable/1.24.2, HTTP 200, 1,358,812 bytes). Snapshot sanity check: source-0 renders the full v1.24.2 release body; source-1 is the zed.dev releases index with 1.24.2 selected, the 1.24.2 notes embedded in the page payload (and notes of other versions, including 1.25.0, also present). Because source-1 is a large multi-version payload I additionally re-fetched the live release via the GitHub API (gh api repos/zed-industries/zed/releases/tags/v1.24.2: tag v1.24.2, published_at 2026-10-14T16:43:09Z, not draft, not prerelease) and compared. The raw body confirms verbatim: (1) intro sentence \"This week's release includes Git tag creation, the ability to drag Terminal tabs into the Agent Panel, and pre-filling of the File Finder's search query with text selected in the editor or terminal.\"; (2) \"Tags are not pushed automatically.\" (end of the entry: \"Added a `git: create tag at head` command and a `Create Tag…` context menu action in Git history and Git Graph to create local tags on commits.\"); (3) the exact Linux entry \"Reduced the Linux release binary size by about 23% on x86_64.\" (#65169), so the 23% refers to the Linux release binary size (a reduction), x86_64 only, not performance/speed; the article's phrase 'a Linux release binary \"about 23% on x86_64\" smaller' is a verbatim fragment and the What We Don't Know bullet correctly scopes it to the x86_64 Linux binary. The summary says 'a Linux binary about 23% smaller' without the x86_64 qualifier (minor imprecision, body is accurate; not correction-worthy). All three quoted strings also appear verbatim in the zed.dev snapshot (intro, tags sentence, 23% sentence). Other claims individually confirmed against the GitHub body and the zed.dev copy: Agent Panel Terminal tab drag (#60582); Bedrock configurable tool use/images/thinking; improved memory/CPU in long agent threads; side-by-side view for directory diffs opened with `zed --diff` (#64967); gitiles provider enabling permalinks and navigation from the Git blame diff view; self-hosted Gerrit permalinks; Git Panel file counts; collapsible commit editor via git_panel.commit_editor and collapsible Git Graph commit details; Git Graph refs moved into the graph; multi-file Git Panel actions; File Finder prefill and file_finder.prefill_query_from_selection; debugger type-based value colors; Go package-level test gutter button; extension.toml language-server defaults; Markdown Show Source, markdown_preview.heading_font_weight, mermaid_font_family; natural-sort column filter (2 before 10); extension_suggestions; multi-cursor perf, project search over misclassified binary files, startup time (no figures given, as the article says); .env now uses Env language; two crash fixes (inlay-hint request pending; multibyte-character syntax parsing); emoji/symbol/non-Latin fonts rendering as empty boxes on Linux. Date: October 14 confirmed by the GitHub published_at (2026-10-14T16:43:09Z) and relative-time elements in the snapshot. Contributor credits (thanks lines) exist in the release notes, but the article names no individuals, so there is no attribution risk. All body URLs (the two source URLs) are in article.sources and vice versa; no orphan URLs. Source independence: both sources are first-party (zed.dev release page is the same release notes as the GitHub release published by the same project), so they are NOT independent corroboration; the zed.dev page is a mirror. This is acceptable for a release-notes Briefing that attributes every claim to 'the notes' and makes no independent performance or security claim. Allowlist: zed.dev is already on config/source_allowlist.txt (exact hostname, line 2327, added 2026-08-12), github.com is allowlisted; no allowlist edit needed. Suspicious-pattern scan: the manifest flags zed.dev (pattern 'system-prompt-reference') with excerpt: \"for a global `AGENTS.md` file alongside `settings.json` for user-wide instructions that are included in every project’s system prompt.\" I opened this in the decompressed snapshot: it sits inside the embedded notes of a different, older Zed release (the 'agent skills' / global AGENTS.md release), not the 1.24.2 section, and is a plain feature description (a global AGENTS.md rules file included in the agent's system prompt). It addresses no AI reader and issues no instruction. The article does not use it. False positive; auto-REJECT overridden after reading in context. No other suspicious patterns; GitHub snapshot has none.",
+    "factual_accuracy": "Every number, setting name, command name, date and quote traces to the release notes. No fabricated specifics found. The 23% figure is correctly characterized as a Linux x86_64 release-binary size reduction in the body (summary omits x86_64 but says 'Linux binary about 23% smaller', consistent with the source).",
+    "tone_assessment": "Neutral and descriptive; attributes to 'the notes' throughout.",
+    "originality": "Prior Zed coverage: 2026-08/12 (Zed 1.14.2 sandboxing), 2026-09/18 (Delta beta, two articles), 03 Zed 1.0. None cover 1.24.2. Genuinely new.",
+    "concerns": [
+      "Both sources are first-party and mirror the same release notes; no independent corroboration (acceptable for a release-notes Briefing).",
+      "The automated scanner REJECT was a false positive and was overridden after in-context review.",
+      "Minor: the summary drops the x86_64 qualifier on the 23% figure; the body is accurate."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Accurate, well-scoped release-notes Briefing. All three quoted strings verbatim, the 23% figure is a Linux x86_64 binary-size reduction and is described as such in the body, features and date confirmed. APPROVE with no corrections."
+  }
+}
