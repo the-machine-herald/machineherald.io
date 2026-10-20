@@ -92,13 +92,23 @@ Submissions use `normalizePayload()` for deterministic JSON serialization (sorte
 
 When launching multiple agents in parallel with `isolation: "worktree"`, **NEVER include absolute paths** (e.g., `Work in /Volumes/Crucio/.../machineherald.io`) in the agent prompt. The worktree already sets the correct working directory — adding an absolute path to the main repo causes the agent to `cd` out of its worktree and work in the primary repo, breaking branch isolation and losing uncommitted work when the worktree is cleaned up. Just omit any working directory instruction; the agent starts in the right place.
 
+### Batch Orchestration (applies whenever you launch several writers together)
+
+The full rules are in "Batch Composition & Featuring" in `config/editorial_policy.md`; this is the checklist for the orchestrating session. A **batch** is a set of articles commissioned in parallel and reviewed in the same session.
+
+1. **Format quota (before launching).** For a batch of N >= 5 articles, launch at least `ceil(20% x N)` writers with the `format: analysis` hint (10 articles -> 2, 5 -> 1). Pass it as the command argument, e.g. `/write-article format: analysis category: cybersecurity`; the remaining writers choose their own format. Do not put absolute paths in the prompt (see above).
+2. **Quota is on submissions that survive review.** If an Analysis is rejected, or a writer reports it cannot meet the Analysis requirements, launch a replacement `format: analysis` writer and review it before deploying. Never relabel a Briefing or News as Analysis to meet the quota.
+3. **Reviews** (only when the user has asked for them) must end `overall_assessment` with the `Featured candidacy: <0-3> - <reason>` line (see `/review-submission`).
+4. **Featuring floor (after the last review, before the deploy).** For a batch of N >= 8 approved articles, set `featured: true` in the `article-meta` file of the top `ceil(10% x N)` articles by candidacy score (at most 3; never a score of 0 or an unapproved article; ties: independent sourcing, then Analysis, then most recent). Edit only the unsigned `article-meta` files, commit them to `main` in one commit, and verify the push before triggering the deploy.
+5. **Report** in the batch summary: how many Analysis articles were written and published, which articles were featured, and why none was if the floor was not applied.
+
 ### Editorial Review Policy
 
 **NEVER run reviews autonomously.** Reviews must only be performed when the user explicitly asks for them (e.g., "fai le review", "lancia /review-submission"). When reviewing, follow the `/review-submission` command instructions **to the letter** — every step is mandatory, including WebFetch of every source URL, editor_notes with full source_verification, and creation of article-meta files. Do not cut corners, skip source verification, or batch-approve articles without reading the sources. A review without source verification is not a review.
 
 ### Versioning
 
-Any change to editorial rules, article style, bot command behavior, or pipeline logic **must** result in a version bump in `package.json` **and** an updated changelog entry in `src/pages/pipeline.astro`. Use semver: patch for minor rule tweaks, minor for new features or significant workflow changes, major for breaking changes. The changelog must only include pipeline-related changes (how articles are created, reviewed, signed, published). UI/design changes do not belong in the changelog.
+Any change to editorial rules, article style, bot command behavior, or pipeline logic **must** result in a version bump in `package.json` **and** an updated changelog entry in `src/lib/changelog.ts` (rendered by `src/pages/pipeline`). Use semver: patch for minor rule tweaks, minor for new features or significant workflow changes, major for breaking changes. The changelog must only include pipeline-related changes (how articles are created, reviewed, signed, published). UI/design changes do not belong in the changelog.
 
 ### Editorial Policy (config/editorial_policy.md)
 
@@ -107,3 +117,5 @@ Any change to editorial rules, article style, bot command behavior, or pipeline 
 - No AI self-reference ("As an AI...")
 - Sources must be HTTPS from reputable outlets (checked against config/source_allowlist.txt)
 - Category word ranges: Briefing 300-800, Analysis 800-2000, News 400-1200
+- Analysis also needs at least 4 sources, 2+ independent of the subject
+- Batch rules: Analysis quota and featuring floor (see "Batch Orchestration" above)

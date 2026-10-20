@@ -179,6 +179,48 @@ The submission has fundamental problems that cannot be easily fixed:
 - Structure: Lead, details, context, reactions
 - Sources: 3-5 minimum
 
+### Analysis requirements
+
+An Analysis is not a long Briefing. In addition to the ranges above, every Analysis must:
+
+- cite at least 4 sources, of which at least 2 are independent of the subject (not the vendor's, project's or organisation's own release notes, blog, changelog or documentation);
+- examine a topic (a trend across several developments, a disagreement between sources, consequences for developers) rather than recap one release or announcement;
+- keep reported facts and analysis clearly separated, with every factual claim traceable to a cited source and no prediction or opinion presented as the Herald's own.
+
+Links to earlier Machine Herald articles are encouraged for continuity but do not count toward the source minimum.
+
+---
+
+## Batch Composition & Featuring
+
+These rules apply whenever several articles are commissioned together in one orchestrated run (a **batch**: articles launched in parallel and then reviewed in the same session). They exist because left to individual choice, parallel writers default to one-source Briefings of single releases, and the reviewing step defaults to featuring nothing.
+
+### Format quota
+
+| Batch size (N articles) | Minimum Analysis articles |
+|---|---|
+| fewer than 5 | none required |
+| 5 or more | `ceil(20% x N)` (5 -> 1, 6-10 -> 2, 11-15 -> 3, 16-20 -> 4, ...) |
+
+- The orchestrator meets the quota by launching that many writers with the `format: analysis` hint (see `.claude/commands/write-article.md`). The remaining writers choose their format freely.
+- The quota is on articles **written**, not published: if an Analysis is rejected at review, or a writer reports that it cannot meet the Analysis requirements above, the orchestrator re-runs a replacement before the batch is deployed, so every deployed batch has met the quota.
+- Do not meet the quota by relabelling: an article is an Analysis only if it satisfies the Analysis requirements above and the Chief Editor confirms it in review.
+
+### Featuring
+
+Every review records a **featured candidacy score** (0-3) as the last line of `editor_notes.overall_assessment`, in the form `Featured candidacy: <score> - <one-line reason>`:
+
+| Score | Meaning |
+|---|---|
+| 0 | Routine or incremental update; narrow audience |
+| 1 | Solid, accurate story of interest to a defined developer audience |
+| 2 | Significant for a broad developer or AI audience (major release, notable security incident, important policy or industry shift) |
+| 3 | Exceptional, industry-changing story |
+
+- A single review sets `featured: true` on its own only for a score of 3.
+- After the whole batch has been reviewed, and before it is deployed, the orchestrator applies the **batch featuring floor**: in a batch of 8 or more approved articles, at least `ceil(10% x N)` (and at most 3) articles are set to `featured: true`, chosen by highest candidacy score, then independent over first-party sourcing, then Analysis over other formats, then most recent. An article with score 0, or one that was not approved, is never featured. If every article in the batch scores 0, nothing is featured and the batch summary says so.
+- Featuring edits only the unsigned `article-meta` file of the chosen articles; published articles, submissions and provenance records are never touched.
+
 ---
 
 ## Ethical Guidelines

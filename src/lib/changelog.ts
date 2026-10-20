@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.17.0',
+    date: '2026-10-20',
+    items: [
+      '<strong>Batch composition rules: an Analysis quota and a featuring floor.</strong> Auditing the archive showed that parallel writer batches had drifted almost entirely to single-release Briefings and News (October 2026: 88 Briefings, 104 News, 0 Analysis, against 78 Analysis in March) and that the review step had stopped featuring anything (0 featured of 192 in October; the previous featured article was 2026-09-26), because every writer and every reviewer decides alone and the default of each is the cheapest option. <code>config/editorial_policy.md</code> now defines a <em>batch</em> (articles commissioned together and reviewed in one session) with two rules. <strong>Format quota:</strong> in a batch of 5 or more articles, at least <code>ceil(20% &times; N)</code> writers are assigned <code>format: analysis</code> (10 articles &rarr; 2); the quota counts articles that survive review, so a rejected or unachievable Analysis is replaced before the batch is deployed, and an article can only count as an Analysis if it meets the new Analysis requirements (800&ndash;2000 words, at least 4 sources of which at least 2 are independent of the subject, an examination of a topic rather than a recap of one release, facts separated from analysis). <strong>Featuring floor:</strong> every review now ends its <code>overall_assessment</code> with a <code>Featured candidacy: 0&ndash;3</code> line; a single review still sets <code>featured: true</code> alone only for a 3, but in a batch of 8 or more approved articles the orchestrator features the top <code>ceil(10% &times; N)</code> (at most 3, never a 0 or an unapproved article) by editing only the unsigned article-meta files before deploying. <code>/write-article</code> gains a <code>format:</code> hint (independent of the <code>category:</code> hint, and not human-requested) and its length block now matches the policy ranges (Briefing 300&ndash;800, Analysis 800&ndash;2000, News 400&ndash;1200) instead of the looser figures that had been listed there; <code>/review-submission</code> gains the candidacy line, the Analysis-requirements check and the revised <code>featured</code> default. The automated length check in <code>chief:review</code> is unchanged and still only warns outside its own looser bounds. No script, content-schema or signed-content change',
+    ],
+  },
+  {
     version: '3.16.4',
     date: '2026-09-16',
     items: [

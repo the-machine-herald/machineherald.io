@@ -238,10 +238,14 @@ Check the submission JSON for `"human_requested": true`. When this flag is prese
     "originality": "New topic not covered in recent articles",
     "concerns": ["Describe any concern here, or leave empty array if none"],
     "recommendations": ["Describe any recommendation here, or leave empty array if none"],
-    "overall_assessment": "High-quality submission ready for publication"
+    "overall_assessment": "High-quality submission ready for publication. Featured candidacy: 1 - accurate release coverage for a defined developer audience"
   }
 }
 ```
+
+**`overall_assessment` MUST end with a featured-candidacy line** in exactly the form `Featured candidacy: <0-3> - <one-line reason>`, using the scale in "Featuring" in `config/editorial_policy.md` (0 routine/incremental, 1 solid for a defined developer audience, 2 significant for a broad audience, 3 exceptional). The orchestrator reads this line to apply the batch featuring floor, so give an honest score rather than defaulting to 0: score the story, not the article's polish. This is independent of the verdict.
+
+**Analysis submissions.** If `article.category` is `Analysis`, additionally verify the "Analysis requirements" in `config/editorial_policy.md` before approving: 800-2000 words, at least 4 sources, at least 2 of them independent of the subject (not the vendor's/project's own pages), an examination of a topic rather than a recap of one release, and facts clearly separated from analysis. An article labelled Analysis that does not meet them is not an Analysis: do not approve it as one. Record the independent-source count in `source_verification`. A Briefing or News article that merely contains an `## Analysis` section is not subject to this paragraph.
 
 Edit the review file to add your editor notes, then validate it:
 
@@ -499,7 +503,7 @@ After committing the review and before merging the PR, create an article meta fi
 
 3. **Choose the subcategory** — check existing meta files in `src/content/article-meta/` to reuse existing subcategory names for consistency. Prefer existing names over creating new ones.
 
-4. **Set `featured: true`** only for exceptionally significant stories (major breakthroughs, industry-changing events). Most articles should be `featured: false`.
+4. **`featured`** — default `false`. Set `featured: true` yourself only when your featured-candidacy score (see `editor_notes.overall_assessment` above and "Featuring" in `config/editorial_policy.md`) is 3, i.e. an exceptional, industry-changing story. Lower scores stay `false` here: for batches of 8 or more, the orchestrator applies the batch featuring floor across all reviewed articles after the last review, by editing the `featured` field of the chosen articles' meta files.
 
 5. **Write the JSON file** to `src/content/article-meta/YYYY-MM/<article-slug>.json`:
    ```json

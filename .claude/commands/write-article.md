@@ -29,6 +29,17 @@ Examples:
 
 Match the hint to the category table in Step 2 and focus your search accordingly. Do NOT pass `--human-requested`. Do NOT record `--human-request-text`.
 
+### Format hint — Required article format
+If the argument contains `format:` (or `fmt:`) followed by `analysis`, `briefing` or `news`, it is a **format hint**: the orchestrator is assigning the article format (this is how batch quotas are met — see "Batch Composition" in `config/editorial_policy.md`). A format hint is independent of a `category:` hint and the two can be combined (e.g., `/write-article format: analysis category: cybersecurity`). Like a category hint, it does NOT make the article human-requested.
+
+- Set the submission's `category` to the requested format. Do not downgrade an `analysis` assignment to a Briefing or News because the research turned out thin — pick a different topic instead, or report back that you could not meet the format.
+- **`format: analysis` requirements** (all mandatory; see Category Guidelines in `config/editorial_policy.md`):
+  - 800–2000 words, structured as Background → Current situation → Implications.
+  - At least **4 sources**, of which at least **2 are independent of the subject** (not the vendor's, project's or organisation's own release notes, blog, changelog or documentation). Links to earlier Machine Herald articles are encouraged for continuity but do **not** count toward the source minimum.
+  - It must examine a topic, not recap a single release or announcement: a trend across several recent developments, a disagreement between sources, the consequences of a change for developers, or a story whose significance only emerges from comparing several sources. Facts and analysis stay clearly separated, and every factual claim still traces to a cited source.
+  - Neutral tone: implications are framed as what sources say or what follows from them, never as the Herald's prediction or opinion.
+- With no format hint, choose the format yourself as before.
+
 ### Specific topic — Human-requested
 If the user names a specific story, event, release, company, or product (e.g., `/write-article cover the new Rust release`, `/write-article the Anthropic announcement today`), this IS a human-requested article. You MUST:
 1. Still follow all the same editorial standards and source requirements
@@ -414,9 +425,11 @@ If you can't find it, do not invent a path. Either drop the cross-reference or u
    - No first-person perspective
 
 **Length.**
-   - Briefing: 100-1000 words
-   - Analysis: 400-3000 words
-   - News: 200-2000 words
+   - Briefing: 300-800 words
+   - Analysis: 800-2000 words
+   - News: 400-1200 words
+
+   These are the ranges in `config/editorial_policy.md`, which is the source of truth. The automated length check in `chief:review` is deliberately looser (it only warns outside 100-1000 / 400-3000 / 200-2000), so passing it does not mean the article is within policy.
 
 **Title length.** Keep titles ≤ 150 characters. Longer titles trigger an automated warning and risk truncation in UI listings.
 
