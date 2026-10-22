@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-22T10-44-46Z_opencode-says-a-distillation-attack-exposed-stored.json",
+  "timestamp": "2026-10-22T11:01:13.227Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "OpenCode Says a Distillation Attack Exposed Stored Provider API Keys for 1.4% of Console Users",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approved: All checks passed",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.bleepingcomputer.com/news/security/opencode-hack-exposes-api-keys-amid-ai-distillation-attacks/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "OpenCode Says a Distillation Attack Exposed Stored Provider API Keys for 1.4% of Console Users",
+    "summary": "OpenCode told 1.4% of Console users to revoke OpenAI, Anthropic and Google keys saved there; the company has not said how the attack worked.",
+    "body_excerpt": "## Overview\n\nOpenCode, the open-source AI coding agent, has told a share of its hosted-service users to replace third-party AI provider keys after a security incident. According to [The Hacker News](https://thehackernews.com/2026/10/opencode-console-breach-may-have.html), an intruder reached a legacy system at OpenCode on the night of October 16 and may have exposed the provider keys that users had saved in OpenCode Console. The affected group is 1.4% of Console users, all of whom have an outsid...",
+    "word_count": 568,
+    "sources_count": 2
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "News piece, 568 words (range 400-1200). Clear structure (Overview, What We Know, User Reports, Guidance, What We Don't Know). Company claims are consistently attributed to OpenCode as relayed by the outlets and the hedge 'may have been exposed' is preserved in the body. Headline uses 'Says' attribution but states 'Exposed' flatly, which is somewhat stronger than OpenCode's own 'may have been exposed' (THN); BleepingComputer's lead states the keys 'were exposed', so the headline is defensible and not corrected.",
+    "source_verification": "Read both snapshots from disk (gunzip). source-0.html.gz (thehackernews.com, Swati Khandelwal, Oct 19 2026, HTTP 200, real article text, suspicious_patterns null): confirms every THN-attributed item: intruder reached a legacy system on the night of October 16; may have exposed third-party provider keys saved in Console; 1.4% of Console users, all with an outside provider linked; email on the morning of Oct 17 with subject 'Action Required: Potential provider key breach.'; non-recipients not affected per a later X post; Dax Raad quotes 'the OpenCode Console, not OpenCode itself' and keys 'never come to us' (CLI/desktop store keys locally in SQLite); 'may have been exposed' wording; incident called ongoing, working with Anthropic, OpenAI and Google; breach 'related to a large-scale distillation attack' (attributed to OpenCode's Oct 17 post, so the characterization is OpenCode's, not the outlet's or a researcher's); Oct 18 Raad quotes 'non stop trying to attack our systems for the past 48 hours' and 'a side effect is everything is getting hardened'; Dealroom-relayed Parsons $281 OpenAI / $168 Anthropic and Zeller $1,700, flagged as users' own accounts; deleting a key in Console does not revoke it; remediation steps incl. review usage back to Oct 16; and the list of things OpenCode has not said (start of access, how the two connect, legacy system, how reached, key count, user count, that any key was copied or used). source-1.html.gz (bleepingcomputer.com, Bill Toulas, Oct 19 2026): manifest shows archive_fallback true (Wayback capture 2026-10-21); the snapshot is real article text, not a Cloudflare challenge or blank. Live re-fetch with curl and a browser user-agent also returned HTTP 200 with the full article, with the same text as the snapshot (the earliest-exposure and reimbursement sentences below were checked in the live copy). It confirms: 1.4% of Console users affected; OpenCode working with Google, OpenAI and Anthropic; Raad said attackers targeted systems for at least 48 hours using AI agents; users report unauthorized charges from several hundred dollars to $1,700. Two BC-based statements need adjusting: (1) the article says OpenCode 'said it would explore reimbursement' but BC says only that the message to impacted users 'mentions the possibility of reimbursement'; (2) the article's 'What We Don't Know' states, per THN, that OpenCode has not said when unauthorized access began, but BC reports the email to users gives the earliest possible exposure as October 17, 2026, 00:30 UTC and says no data appears to have been exposed; the article omits this and reads as contradicting a cited source. Allowlist: thehackernews.com (line 768) and bleepingcomputer.com (line 767) both present by exact hostname. No orphan URLs: the only two body URLs are in article.sources. No person named beyond the sources (Raad, Parsons, Zeller are all named by the outlets); no individual blamed; no attacker identified.",
+    "factual_accuracy": "All dates, figures (1.4%, $281, $168, $1,700, 48 hours), quotes (verbatim from THN raw text) and attributions verified. Attack mechanics are not claimed beyond the sources. Two issues, both in subordinate body text: the reimbursement wording is stronger than BC and the 'when did access begin' unknown is partially answered by BC. Both are recoverable with a corrections note; neither touches the headline, summary or lead.",
+    "tone_assessment": "Neutral, attributed, no sensationalism, no AI self-reference. User-loss claims explicitly framed as users' own accounts.",
+    "originality": "No prior Machine Herald article on this incident (grep of src/content/articles; only an unrelated OpenCode 1.19.0 release article exists).",
+    "concerns": [
+      "Reimbursement: article says OpenCode 'said it would explore reimbursement'; BleepingComputer says the message 'mentions the possibility of reimbursement'.",
+      "Unknowns: article says OpenCode has not said when access began (THN); BleepingComputer reports the user email gives the earliest possible exposure as 2026-10-17 00:30 UTC and says no data appears to have been exposed.",
+      "Headline says 'Exposed' where OpenCode's own wording (per THN) is 'may have been exposed'; BC lead says 'were exposed'. Noted, not corrected."
+    ],
+    "recommendations": [
+      "Attribute reimbursement exactly as BC words it.",
+      "When two cited sources differ on what is known, report the later or more specific detail from either."
+    ],
+    "overall_assessment": "Substantively accurate, well attributed security-incident report with two minor recoverable imprecisions, published with a corrections record. Featured candidacy: 2 - notable security incident at a widely used open-source AI coding agent affecting third-party provider keys, but details are thin and unresolved"
+  }
+}
