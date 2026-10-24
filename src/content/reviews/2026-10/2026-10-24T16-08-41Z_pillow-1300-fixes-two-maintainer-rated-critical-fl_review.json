@@ -1,0 +1,53 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-24T16-08-41Z_pillow-1300-fixes-two-maintainer-rated-critical-fl.json",
+  "timestamp": "2026-10-24T16:37:35.672Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Pillow 13.0.0 Fixes Two Maintainer-Rated Critical Flaws and an EPS Filename Bug, CVE-2026-112900, That Can Reach Ghostscript Command Execution",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Pillow 13.0.0 Fixes Two Maintainer-Rated Critical Flaws and an EPS Filename Bug, CVE-2026-112900, That Can Reach Ghostscript Command Execution",
+    "summary": "Pillow 13.0.0, released October 16, fixes 40 advisories published October 17, including two rated critical and an EPS filename argument injection in the Ghostscript call.",
+    "body_excerpt": "## Overview\n\nPillow, the Python imaging library, shipped version 13.0.0 on October 16 with fixes for a large batch of security advisories. According to [The Hacker News](https://thehackernews.com/2026/10/critical-flaw-in-pythons-popular-pillow.html), none of the flaws is known to be under attack. The [GitHub release page](https://github.com/python-pillow/Pillow/releases/tag/13.0.0) was published at 22:37 UTC that day, and the project's [advisory list](https://github.com/python-pillow/Pillow/secu...",
+    "word_count": 693,
+    "sources_count": 9
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "News piece, 693 words (range 400-1200). Clear structure: EPS flaw, two critical advisories, other high items, upgrade notes, What We Don't Know. Neutral tone; the headline does not claim a severity for the EPS bug stronger than the GitHub advisory, and the body states the medium/9.2 discrepancy explicitly.",
+    "source_verification": "All 9 snapshots (source-0..8.html.gz) returned 200, no archive fallback, no suspicious_patterns entries. Read each, then re-checked live via the GitHub API (gh api repos/python-pillow/Pillow/security-advisories and per-GHSA endpoints) and the releases API. source-8 (The Hacker News, Swati Khandelwal, Oct 23 2026): confirms 'two of which are rated critical by the maintainers', 'none of the flaws is known to be under attack', maintainers rate the EPS flaw moderate while 'the CVE record assigned by GitHub rates it 9.2 out of 10', gs must be installed, OX Security ~436 million downloads/month, pip install -U \"Pillow>=13.0.0\", Python 3.10 dropped, mitigations (gs off hosts, avoid draft()/thumbnail(), BytesIO TIFF), saving to a real file unaffected. The article attributes the 9.2 to THN and says it did not independently confirm it against NVD; verified. source-0 (release 13.0.0): published 2026-10-16T22:37:44Z (API) / '16 Oct 22:37'; 'Drop support for Python 3.10'; 'Transform EPS file name to an absolute path before invoking Ghostscript' (verbatim). source-1 (advisory list): shows GHSA-654x as published Oct 19 and the rest Oct 17; the list page itself does not state a count. Advisory API results: GHSA-w889-685w-c8fh CVE-2026-112900, 'Argument Injection in Ghostscript call, potentially leading into RCE', severity medium (page label 'Moderate'), no CVSS score in the advisory, CWE-78/CWE-88, affected 2.6.0 - 12.3.0, patched 13.0.0, published 2026-10-17; text confirms leading '-' option, '@<path>' argument-file, 'can be escalated to arbitrary command execution', execution of id, 'the flaw is triggered by the filename, not by anything in the PostScript document', -dSAFER default, file-upload endpoints precondition. GHSA-v9pv-5gc8-w2m6 CVE-2026-96639 critical, CVSS 3.1 9.8 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H), CWE-125/787, >=11.0.0 <=12.3.0, patched 13.0.0, Oct 17; exact title and the quote 'In the MPO/JPEG path, I also demonstrated command execution in matching Python/Pillow runtime profiles' present. GHSA-5x8w-8jj5-q52h CVE-2026-112398 critical, no CVSS, CWE-122/787, <=12.3.0, patched 13.0.0, Oct 17 (20:36Z); olefile, content-not-extension recognition, PoC on stock Pillow 12.2.0 confirmed. GHSA-8g5g-8vmr-9782 CVE-2026-112403 high, CWE-122, <=12.3.0, patched 13.0.0; 'found by Anthropic using Claude to study the security of open-source software, validated manually by Ada Logics' appears in the advisory description (not in the credits list, which names only reporter DavidKorczynski; the article correctly attributes it to advisory text); thumbnail() calls draft() by default confirmed. GHSA-332p-7hrc-92wf CVE-2026-112393 high, CWE-122, <=12.3.0, patched 13.0.0; 'dates to e782fe7 (2013) and has been present since Pillow 2.0.0', reproducer crashes the process, 'Saves to real files are unaffected' confirmed. GHSA-654x-cwwv-5j9c CVE-2026-114501 medium, CVSS v4 6.3, CWE-226/908, 11.2.1 - 13.0.0, patched versions empty ('None' on page), published Oct 19; the article states no patched version is listed. Counts via API: 61 advisories in total; 40 published on 2026-10-17 all with patched version 13.0.0 (2 critical, 13 high, 22 medium, 3 low), the two criticals being GHSA-v9pv and GHSA-5x8w; the article's '40 published October 17' and 'two critical' are correct. Both thehackernews.com and github.com are in config/source_allowlist.txt. Orphan-link diff (body URLs vs article.sources): clean in both directions.",
+    "factual_accuracy": "Every claim, number, date, version, quote and attribution traced to a cited source or to the live API. 'Maintainer-rated' is supported: the severity labels are those of the maintainer-published advisories and THN says 'rated critical by the maintainers'. The only external-source figure, 9.2 for CVE-2026-112900, is attributed to THN and flagged as unconfirmed. Minor points that do not require correction: the 40 count is the Herald's tally of the public list (the list page states no total), accurately described as what the list shows and verifiable by counting; the article says the GitHub advisory carries a 'medium' label where the page UI says 'Moderate' (same level); the v9pv quote is truncated at 'profiles' with the period placed inside the quote marks. Article does not name or blame any individual; no reporter names are used. The Anthropic/Claude credit is quoted from the GHSA-8g5g description text.",
+    "tone_assessment": "Neutral, no sensationalism, no AI self-reference.",
+    "originality": "No earlier Pillow coverage in src/content/articles; new topic.",
+    "concerns": [
+      "The count of 40 advisories is the Herald's tally; the article presents it as what the advisory list shows without saying the list states no total. Accurate and verifiable, not a correction."
+    ],
+    "recommendations": [
+      "When citing a count derived from a list, say it is the Herald's count of the list."
+    ],
+    "overall_assessment": "Accurate, well-sourced news coverage that handles the severity discrepancy for the EPS CVE carefully. Ready for publication. Featured candidacy: 2 - widely used Python library with two critical advisories and a Ghostscript argument-injection path, relevant beyond a narrow audience, but no known exploitation"
+  }
+}
