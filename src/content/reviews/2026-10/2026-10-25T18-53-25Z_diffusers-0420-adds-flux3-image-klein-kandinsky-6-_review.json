@@ -1,0 +1,59 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-25T18-53-25Z_diffusers-0420-adds-flux3-image-klein-kandinsky-6-.json",
+  "timestamp": "2026-10-25T18:56:56.135Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Diffusers 0.42.0 Adds FLUX.3 Image Klein, Kandinsky 6 and SANA-WM Pipelines and Drops Python 3.10",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Approved after manual review: scanner REJECT was a false positive; all claims verified against first-party release notes and docs.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://huggingface.co/docs/diffusers/main/en/api/pipelines/flux3 — \"aption it wrote and let the user edit it before generating. Any other LLM can take the upsampler’s place, with the same system prompts: give it <code>system_prompts[\"t2i\"]</code> from the upsampler repository (or <code>\"i2i\"</code>, with the references\""
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Diffusers 0.42.0 Adds FLUX.3 Image Klein, Kandinsky 6 and SANA-WM Pipelines and Drops Python 3.10",
+    "summary": "Hugging Face's Diffusers 0.42.0 adds FLUX.3 Image Klein, Bria Fibo 2.0, Kandinsky 6, SANA-WM and RFD4-Proteína, and now requires Python 3.11 or newer.",
+    "body_excerpt": "## Overview\n\nVersion 0.42.0 of the Hugging Face Diffusers library was published on October 23, 2026, according to the [release page](https://github.com/huggingface/diffusers/releases/tag/v0.42.0). The release notes say it brings FLUX.3 Image Klein, Bria Fibo 2.0, Kandinsky 6, SANA-WM and RFD4-Proteína to Diffusers, alongside new adapter support, hardware integrations and modular pipelines. Python 3.11 or newer is now required.\n\n## New Model Integrations\n\nThe [release notes](https://github.com/hu...",
+    "word_count": 562,
+    "sources_count": 3
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Compact, well-structured Briefing (562 words, range 300-800). Overview, model integrations, two model detail sections, compatibility changes and an explicit 'What We Don't Know' section. Neutral tone, no AI self-reference, no direct quotes.",
+    "source_verification": "Snapshots read from disk (decompressed, text-extracted) and independently re-fetched live. source-0 (GitHub release v0.42.0, status 200): re-fetched via the GitHub API (releases/tags/v0.42.0; published_at 2026-10-23T15:38:48Z, name 'Diffusers 0.42.0: FLUX.3, Fibo 2.0, Kandinsky 6, and more'). Confirmed: the Tip sentence (FLUX.3 Image Klein, Bria Fibo 2.0, Kandinsky 6, SANA-WM, RFD4-Proteina; adapter support, hardware integrations, modular pipelines), 'Python 3.11 or newer is now required', 'Python 3.10 support is dropped' (#15030), FLUX.3 Klein from Black Forest Labs with text-to-image and editing with one or more reference images, base and step-distilled via ModularPipeline, integrated prompt upsampler, single-file transformer loading, BFL FP8r and NVFP4 checkpoints; Bria Fibo 2.0 structured JSON captions, up to five reference images, BriaFibo2Pipeline, edit-turbo four steps without classifier-free guidance; Kandinsky 6 video with synchronized audio from text or reference image via Kandinsky6TI2VAPipeline, separate Kandinsky6SRPipeline for super-resolution; SANA-WM starting image + text + camera trajectory, explicit poses or WASD/IJKL action string; RFD4-Proteina from Baker Lab and NVIDIA, joint sequence and all-atom structure generation conditioned on binding targets, motifs or ligands; huggingface_hub >=1.32.0,<3.0; FLUX/Krea 2/LTX-Video unpack latents in core denoise groups with packed-latent fallback deprecated for removal in 0.47.0; TorchAO <0.15 no longer breaks imports while quantization still needs >=0.15; TorchTPU (eager, torch.compile, tensor parallelism), Intel XPU tensor parallelism, LoKr for Z-Image and FLUX.2, MagCache for FLUX.2. Release date October 23 matches. 'Added in v0.42.0, not earlier': via the GitHub contents API, docs pages flux3.md, kandinsky6.md, sana_wm.md exist at tag v0.42.0 and are absent at v0.41.0 (also src/diffusers/pipelines/kandinsky6 and sana_wm directories) (SANA-WM added in PR #13881, Kandinsky6 PR #14949, FLUX3 PR #15046 in the changelog). The article does not name contributors, so no credit check was needed. source-1 (docs flux3, 200): raw doc text (repo docs/source/en/api/pipelines/flux3.md at v0.42.0) and the live page (same byte length as snapshot) confirm: 5.6B model from Black Forest Labs, Qwen3-VL text conditioning, prompt upsampler runs first on every request and is a separate 9B BFL model expanding the prompt into a full scene caption before the text encoder, 50 steps / guidance 3.5 / shift 6.93 / 1024 x 1024 default, step-distilled checkpoint 16 steps without classifier-free guidance, about 39 GB bf16 weights, about 20 GB without the upsampler step, component offloading for smaller GPUs. source-2 (docs kandinsky6, 200): confirms family of video generation models from Kandinsky Lab, single multimodal diffusion transformer denoising video and audio latents together, distilled checkpoints use few-step PiflowScheduler and must run with guidance_scale=1.0, super-resolution upscales by 2, 4 or 2.25. SANA-WM is not covered by a cited docs page but is supported by the release notes; the sana_wm.md doc independently agrees (camera-controlled image-to-video, explicit c2w poses or WASD/IJKL string). Both source types are first-party project documentation; none is independent. Hostnames github.com and huggingface.co are on config/source_allowlist.txt by exact match; no allowlist change needed. Independent sources: 0 (Briefing, not subject to Analysis requirements). Prompt-injection scanner hit (source-1, pattern system-prompt-reference), excerpt: \"Any other LLM can take the upsampler's place, with the same system prompts: give it <code>system_prompts[\\\"t2i\\\"]</code> from the upsampler repository (or <code>\\\"i2i\\\"</code>, with the references\". Read in context in the raw doc: it is developer documentation explaining how a different LLM can replace the FLUX.3 prompt upsampler by using its system prompts; it addresses library users, not an AI agent reading the page, and contains no instruction to change behavior or conceal anything. Judged a false positive; the automatic REJECT is overridden. The article does not follow or repeat any such text. No other source had suspicious_patterns.",
+    "factual_accuracy": "Every number, name, version and date in the body traced to the release notes or docs; no discrepancies. The 'What We Don't Know' claims are genuine: the sources contain no independent benchmarks or user reports, and the article does not assert license or hardware claims beyond the memory figures that the docs state. Headline claims (three pipelines added, Python 3.10 dropped) all verified. Minor note: the article says the release 'brings' items and 'alongside', matching the release wording; no overstatement.",
+    "tone_assessment": "Neutral, factual, descriptive; no editorializing.",
+    "originality": "No prior Diffusers 0.42.0 coverage in the archive. Related prior coverage: Qwen-Image 2.1 release (2026-09), only tangentially (Qwen-Image 2.1 modular pipelines are also in this release but not covered by the article).",
+    "concerns": [
+      "Single-origin sourcing: all three sources are first-party project pages; the article discloses this explicitly.",
+      "The automated pattern scanner produced a REJECT on a documentation false positive (see source_verification); overridden after reading in context."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Accurate, properly disclosed release coverage; every claim verified, orphan-link check clean (3 body URLs, all in article.sources), no quotes, word count 562. Featured candidacy: 1 - accurate release coverage for a defined developer audience (image/video generation library users)"
+  }
+}
