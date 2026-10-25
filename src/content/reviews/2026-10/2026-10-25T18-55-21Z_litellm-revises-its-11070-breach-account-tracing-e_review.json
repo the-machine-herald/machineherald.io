@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-10/2026-10-25T18-55-21Z_litellm-revises-its-11070-breach-account-tracing-e.json",
+  "timestamp": "2026-10-25T19:18:52.836Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "LiteLLM Revises Its 1.107.0 Breach Account, Tracing Entry to a Master Key Committed in May; Socket Finds Secret-Stealing Workflows Ran October 10",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Editor override: the only script warning (docs.litellm.ai not allowlisted) was resolved by vetting and allowlisting the domain with documented justification; all claims verified against raw sources.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "docs.litellm.ai: https://docs.litellm.ai/blog/security-incident-oct-21-2026-attack-chain\ndocs.litellm.ai: https://docs.litellm.ai/blog/security-incident-oct-21-2026"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "LiteLLM Revises Its 1.107.0 Breach Account, Tracing Entry to a Master Key Committed in May; Socket Finds Secret-Stealing Workflows Ran October 10",
+    "summary": "LiteLLM's root-cause analysis says an Agent Platform master key committed on May 27 and never revoked led to the 1.107.0 compromise, replacing its earlier log-leak theory; GitHub commits show exfiltration workflows on October 10 and 12.",
+    "body_excerpt": "## Overview\n\nLiteLLM has published a root-cause analysis of the October 21 compromise of its 1.107.0 release that changes the account it gave on the day. In the new post, [LiteLLM](https://docs.litellm.ai/blog/security-incident-oct-21-2026-attack-chain) traces the intrusion to a master key committed to a public repository on May 27 and never revoked, and says the attacker began stealing credentials on October 10, 11 days (by the Herald's own count) before the malicious package appeared on PyPI. ...",
+    "word_count": 958,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, well-structured News follow-up (958 words, within 400-1200). Reconstructs LiteLLM's revised account, the two exfiltration commits and the release sequence, with a What We Don't Know section. Neutral tone; no AI self-reference; no individual blamed (commit author shown by GitHub, ishaan-berri, is correctly not named since the token was stolen; the named people are LiteLLM's post authors and the issue reporter, all credited by name in the primary source).",
+    "source_verification": "Read all six snapshots from disk (source-0..5.html.gz); manifest has no suspicious_patterns for any source. source-0 (root-cause post, Oct 23, authors Oliver Jensen Director of Security and Mateo Wang AI Engineer): confirms May 27 commit of opencode.json with Agent Platform master key to LiteLLM-Labs/lite-harness, 'key revocation did not occur for the master key', non-service-account unscoped GitHub CLI OAuth token of an org owner, Oct 10 21:27:10 token returned, b69bc36 22:11:45, litellm-auto RELEASE_PLEASE_TOKEN, runs deleted, 1a6e3c1 'minimally sensitive secrets and minimally funded provider keys', Socket reached out Oct 22 17:38, 9cf97e9 10:08:29 rejected / 10:08:34 bypass, 20535d8f on Berri-AI/litellm, gate approved 11:11:18, seven wheels 11:39:51-11:40:13, run records deleted 11:53:49/11:54:01, revert and force-push of main, issue 47826 at 12:06:41, 'next week' for process changes, and all quoted passages (the 'first post suspected...' quote is truncated at 'different service' with a full stop inside the quotes, immaterial). source-1 (original incident post): confirms the earlier log-leak theory ('obtained the GitHub CLI OAuth tokens from its logs', 'currently suspect it was through a recently patched vulnerability') and a notice that its assumptions were 'inaccurate or incomplete' with a link to the canonical post. source-2/3 plus GitHub API: b69bc36 authored/committed 2026-10-10T22:11:45Z, message 'ci: bump cache config', adds .github/workflows/cache.yml, 24 lines, six secrets incl. GH_TOKEN, base64 then curl to webhook.site with '|| true'; 1a6e3c1 dated 2026-10-12T12:16:00Z, 97-line cache.yml with six jobs, first job reads ANTHROPIC_API_KEY, AWS_BEARER_TOKEN_BEDROCK, GITGUARDIAN_API_KEY, LENS_READ_TOKEN, OPENAI_API_KEY, PROVIDER_ISSUE_WEBHOOK_URL. 'Secret-stealing' / exfiltration characterization is accurate on the code and is also LiteLLM's and Socket's own characterization. source-4/API: issue 47826 created 2026-10-21T12:06:41Z by LidorMachluf. source-5 (Socket, snapshot fetched OK despite curl 403): title 'New Evidence Shows LiteLLM Secret-Stealing Workflows Ran 11 Days Before Supply Chain Attack', author Karlo Zanki, published 2026-10-23T21:00:31Z; it recovered b69bc36 and 1a6e3c1 and states the Oct 10 activity. The headline attribution to Socket and the Oct 23 date are therefore directly supported by Socket's own page, not just a summary. '11 days': Oct 10 to Oct 21 = 11 calendar days (about 10.6 days by timestamps); article labels it the Herald's own count, and Socket independently says eleven days. Live re-fetch: both docs.litellm.ai pages byte-identical in size to snapshots (59673 and 48920 bytes). Independent sources: Socket and the GitHub commit/issue data are independent of LiteLLM's narrative; LiteLLM is the primary source for the revision itself.",
+    "factual_accuracy": "All numbers, times, names, commit hashes and quotes check out against raw text. Headline, summary and lead each supported (root cause per LiteLLM; Oct 10/12 workflows per GitHub commits and Socket). Attributions are correct throughout.",
+    "tone_assessment": "Neutral and attributed; uses 'the post says' and does not endorse claims beyond the record.",
+    "originality": "Genuine follow-up that revises the account in the already-published 2026-10/22 LiteLLM article; new information (root cause, Oct 10 and 12 workflows, Socket finding), not a duplicate. Internal link /article/2026-10/22-litellm-says-... uses the correct singular form and resolves to an existing article.",
+    "allowlist": "docs.litellm.ai added to config/source_allowlist.txt with justification. It is the project's own official site (linked from the BerriAI/litellm README and from GitHub issue 47826 including both incident-post URLs); live re-fetch matched; content independently corroborated by GitHub API commit data and Socket. Attributed throughout the article as LiteLLM's account.",
+    "earlier_article_decision": "The earlier article's section 'The Suspected Token Source' reported LiteLLM's belief that tokens came from an internal deployment's logs, which LiteLLM has since called inaccurate. The earlier article accurately reported what was said at the time, so this is a clarification, not an error: filed src/content/corrections/2026-10/22-litellm-says-stolen-...json (severity clarification) linking to this follow-up. The earlier article itself was not touched.",
+    "concerns": [
+      "Minor: the 'What We Don't Know' bullet says the Herald found no attribution; true of sources reviewed. Body count and title length are acceptable.",
+      "Word count 958 of 1200 cap: compliant."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Accurate, well-sourced follow-up on a notable supply-chain incident; ready for publication. Featured candidacy: 2 - significant supply-chain incident affecting a widely used AI gateway, but a follow-up to already-covered news"
+  }
+}
