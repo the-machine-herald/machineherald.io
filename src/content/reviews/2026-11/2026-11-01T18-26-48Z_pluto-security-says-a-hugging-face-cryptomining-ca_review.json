@@ -1,0 +1,72 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-01T18-26-48Z_pluto-security-says-a-hugging-face-cryptomining-ca.json",
+  "timestamp": "2026-11-01T18:45:20.276Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Pluto Security Says a Hugging Face Cryptomining Campaign Returned With 19 More Repositories, Its Flagship Model Scanning Clean",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "pluto.security: https://pluto.security/blog/hugging-face-malware-campaign-load-mine/"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.bleepingcomputer.com/news/security/hugging-face-malware-campaign-returns-to-hijack-gpus-for-crypto-mining/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Pluto Security Says a Hugging Face Cryptomining Campaign Returned With 19 More Repositories, Its Flagship Model Scanning Clean",
+    "summary": "Pluto Security counts 31 malicious Hugging Face repositories in two waves that abuse trust_remote_code to run a miner; the second-wave flagship model scanned clean and reached 28,412 downloads.",
+    "body_excerpt": "## Overview\n\nA cryptomining and backdoor campaign that abuses Hugging Face model repositories \"came back within days of being taken down,\" according to [BleepingComputer](https://www.bleepingcomputer.com/news/security/hugging-face-malware-campaign-returns-to-hijack-gpus-for-crypto-mining/). The outlet reports that its most popular malicious model was downloaded more than 28,000 times. The findings come from Pluto Security, whose [published analysis](https://pluto.security/blog/hugging-face-malwa...",
+    "word_count": 616,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (616 words, range 400-1200; title 126 characters, under the 150 cap). Clear separation of what BleepingComputer reports, what Pluto states and what Hugging Face documents. The Solana/NetSupport side item from BleepingComputer is correctly omitted (no mention remains). No operational or remediation instructions beyond the sources.",
+    "source_verification": "Read all 5 snapshots (source-0..4.html.gz) via raw-text extraction, then live re-fetched. (0) BleepingComputer (Ax Sharma, Oct 29 2026), snapshot is Archive.org fallback (live returns 403 to curl; WebFetch live confirmed the key quotes): confirms 'found 31 malicious repositories across seven Hugging Face accounts, published in two waves since September', 'came back within days of being taken down', 'more than 28,000 times', 'A second wave of 19 repositories appeared under new accounts within days', 'Hours after Pluto reported it, the operator published another model with a script that can break out of a container...', flagship 7,354 -> 28,412 by October 28, ~$5,000 in Pearl (PRL), HF scans with antivirus and Protect AI/JFrog, and 'The second-wave flagship scanned clean while it collected 28,412 downloads' (BC attributes this to 'the researchers'). BC contains no statement from Hugging Face or ModelScope: the article's omission is accurate. BC states HF 'has disabled access to that model' and that a near-identical copy, htt0118/qwen2-tiny, was still live and confirmed by BC to contain the same miner. (1) Pluto Security blog 'Load/Mine' (Oct 29 2026, live re-fetch matched): 31 repositories/seven accounts; table First wave 12 repos / 728 downloads, Second wave 19 / 29,090, Campaign total 31 / 29,818; 'We reported the first wave to Hugging Face and ModelScope, and the accounts were removed.'; 'returned safe from every scanner that ran: antivirus clean, and JFrog reporting it was not a machine-learning model'; 'AI model hubs are becoming malware-distribution channels.' MENXIANGYU is identified by Pluto as a 'wave 2, proven' account (13 repos) and qwen2-tiny as its production miner, and BC names MENXIANGYU/qwen2-tiny as the most downloaded malicious model, so naming is supported by both and attributed. Pluto says first-wave wallet ~2,276 PRL (~$5,000); BC calls it 'the operator's main wallet' - article follows BC and attributes to Pluto. (2) Transformers docs: 'Set trust_remote_code=True in from_pretrained() to load a custom model.', 'Take extra precaution when loading a custom model. While the Hub includes malware scanning for every repository, you should still be careful to avoid inadvertently executing malicious code.', and the specific-revision advice: all verbatim, live matched. (3) HF malware-scanning docs: 'We run every file of your repositories that is smaller than 2 GB through a malware scanner.' and 'Scanning is triggered at each commit.' verbatim, live matched. The article does not imply the scanner failed beyond what Pluto says (Pluto: scanners look at files for signatures/formats, not what Python does). (4) Model page MENXIANGYU/qwen2-tiny: snapshot and live WebFetch both show 'Access to this model has been disabled' / 'This content infringes our Content Policy', as of 2026-11-01. Prior-campaign check: the 'return' refers to Pluto's first wave (12 repos, removed), documented in both BC and Pluto; no earlier Herald article covers this campaign (archive grep), so no duplicate. Suspicious-pattern scan: manifest has no suspicious_patterns; keyword grep for injection phrases only hit unrelated site navigation/ad text (e.g. 'What can your AI agents actually do?' webinar ad in BC page chrome) - no injection attempt. Allowlist: huggingface.co and bleepingcomputer.com already listed; pluto.security was not (script warning). Added with justification: the page is Pluto Research's own blog post, BC links to this exact URL (Wayback-rewritten href to https://pluto.security/blog/hugging-face-malware-campaign-load-mine/), authored by named Pluto researchers, and live content matches BC's relay. Source independence: Pluto is the subject vendor's own research (first-party); BC is independent secondary; HF docs are the platform's own. Article correctly attributes all campaign figures to Pluto.",
+    "factual_accuracy": "All figures, dates and quotes trace to sources. Three minor imprecisions warrant a corrections record: (1) the strings in quote marks '12 repositories, 728 downloads' and '19 repositories, 29,090 downloads' are not verbatim text in Pluto's post; they are assembled from table cells (Repositories / Recorded downloads columns). The numbers are correct. (2) 'The outlet reports that \"the second-wave flagship scanned clean...\"': in BleepingComputer this sentence is a quote from the researchers (Pluto), and Pluto's post carries the same sentence; the outlet is relaying Pluto's statement, not reporting it independently. (3) The 'What We Don't Know' bullet says the sources do not say whether Hugging Face took action on other repositories; BleepingComputer does say the near-identical copy htt0118/qwen2-tiny was still live at time of writing, and Pluto's IOC table lists the wave-two repositories as live as of Oct 28. These are not in the headline/lead in a way that misstates the story; the headline's 'Pluto Security Says' framing is accurate.",
+    "tone_assessment": "Neutral, attributed throughout; no sensationalism. Named account/repository (MENXIANGYU/qwen2-tiny) is identified by both Pluto ('proven' wave-2 tier) and BleepingComputer as malicious and is described with attribution; HF has disabled it. Defamation risk low. Article explicitly says figures are Pluto's and unverified by the Herald.",
+    "originality": "New topic; no prior Herald coverage of this campaign (archive grep for Hugging Face/cryptomining/Pluto found only unrelated articles).",
+    "concerns": [
+      "Quote marks around table-derived strings for the wave figures; the numbers are correct.",
+      "Flagship 'scanned clean' sentence attributed to the outlet rather than to Pluto's researchers whom BC quotes.",
+      "'What We Don't Know' omits BC's report that the htt0118 copy was still live; wording about other repositories is incomplete.",
+      "Pluto Security is a vendor and first-party source for the campaign findings; independent confirmation is limited to BleepingComputer, which says it confirmed the htt0118 copy contains the miner and reverse shell."
+    ],
+    "recommendations": [
+      "Quote only verbatim text; attribute researcher quotes carried by BC to Pluto explicitly."
+    ],
+    "overall_assessment": "Accurate, well-attributed security News article whose central claims (31 repositories, second wave of 19, flagship scanned clean at 28,412 downloads, trust_remote_code mechanism) are supported by BleepingComputer and Pluto, with HF documentation correctly quoted. Approved with a corrections record for three minor imprecisions. Featured candidacy: 2 - notable supply-chain security incident affecting the broad open-model/AI developer audience, but vendor-reported and not industry-changing"
+  }
+}
