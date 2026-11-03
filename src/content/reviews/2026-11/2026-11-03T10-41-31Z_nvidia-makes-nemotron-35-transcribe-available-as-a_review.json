@@ -1,0 +1,79 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-03T10-41-31Z_nvidia-makes-nemotron-35-transcribe-available-as-a.json",
+  "timestamp": "2026-11-03T11:04:31.225Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "NVIDIA Makes Nemotron 3.5 Transcribe Available as an Open-Weight Model for 40 Languages Under OpenMDW-1.1, With Granary v2 Training Data",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Approved after manual override of two scanner false positives (Hugging Face model card chat template and Prompt Guide text); every claim, figure, quote and internal link verified against the raw snapshots.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B — \"pan> Prompt Guide </span> </h3> <p>Choose the transcription style with the instruction in the user message; keep the system prompt empty for transcription and translation.</p> <div class=\"max-w-full overflow-auto\"> <table> <thead><tr> <th align=\"l\""
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (conceal-from-user) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B — \"t NOT after\\\\n- If there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls\\\\n&lt;/IMPORTANT>' }}\\n{%- endif %}\\n{%- if system_message is defined %}\\n {{- '&lt;|im_end|>\\\\\""
+    },
+    {
+      "category": "Editorial",
+      "severity": "info",
+      "message": "Title is 136 characters (under the 150-character threshold). Body is 780 words by whitespace count (also 780 with link URLs stripped), under the 800-word Briefing ceiling.",
+      "details": "Counted with split() on body_markdown; link targets are inline in markdown and add no whitespace-separated tokens."
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source diversity: both sources are NVIDIA first-party (Hugging Face community blog by NVIDIA authors; NVIDIA model card). No independent source. The article discloses this in 'What We Don't Know' and attributes every benchmark to NVIDIA.",
+      "details": "Accepted for a Briefing on a vendor release; the article does not present leaderboard standings as independently verified."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "NVIDIA Makes Nemotron 3.5 Transcribe Available as an Open-Weight Model for 40 Languages Under OpenMDW-1.1, With Granary v2 Training Data",
+    "summary": "NVIDIA says its open-weight Nemotron 3.5 Transcribe handles transcription, speaker labels, translation and audio Q&A in one checkpoint, with benchmark results that are NVIDIA's own and a model built for recorded audio.",
+    "body_excerpt": "## Overview\n\nNVIDIA has made Nemotron 3.5 Transcribe available on Hugging Face and ModelScope. In a [Hugging Face community post dated October 28, 2026](https://huggingface.co/blog/nvidia/nemotron-transcribe-granary) and written by NVIDIA authors including Maryam Motamedi and Piotr Żelasko, the company calls it \"an open-weight, promptable model\" that brings transcription, speaker attribution (diarization), translation and audio question answering into one checkpoint. According to the same post, ...",
+    "word_count": 780,
+    "sources_count": 2
+  },
+  "recommendations": [
+    "Approve and publish. Both sources are NVIDIA first-party; the article attributes all benchmark figures to NVIDIA and says so."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Briefing (Overview, What We Know, What We Don't Know) with accurate technical detail. 780 words, within the 300-800 Briefing range. Reports the blog/model-card discrepancies (English WER 5.33% vs 4.71, 30B vs 34B parameters) side by side without inventing a reconciliation. Minor omission: the article reports the blog's 'forthcoming NVFP4 quantized version' but does not mention that the model card lists NVFP4 weights as available; the card's own throughput figure (2,238 s of audio per second, NIM) is also not mentioned. Neither changes any stated fact.",
+    "source_verification": "Read both gzipped snapshots from sources/2026-11/nvidia-makes-nemotron-35-transcribe-available-as-an-open-weight-model-for-40-languages-under-openmdw-11-with-granary-v2-training-data/ (source-0.html.gz = HF blog 'NVIDIA Nemotron 3.5 Transcribe and Granary v2', published October 28, 2026, authors incl. Maryam Motamedi and Piotr Zelasko under the nvidia org; source-1.html.gz = model card nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B). Verified against extracted raw text. BLOG (source-0): quote 'an open-weight, promptable model' present; 40 languages transcribed, 31 translated to/from English, speakers attributed in 13, recordings up to an hour, up to eight speakers, audio QA trained in English: all present verbatim. English Open ASR first among open-weight at 5.33% average WER with API models excluded: present. AA 2.8% AA-WER tie for first among open-weight: present. DER 18.26% vs 18.38% (Nemotron 3 Diarization), 21 languages: present. VoiceArena cpWER 32.4%: present. 'about 4B of its 30B parameters are active per token' with hybrid Mamba-Transformer MoE: present. 100 hours in under three minutes on one RTX PRO 6000 Blackwell Server Edition 'using the forthcoming NVFP4 quantized version': present. 'Transcribe is built for recorded audio, not live streaming': present verbatim. Granary v2: 463,062 hours, 48 languages, 16 source corpora, up from 25 languages in Granary v1, NeMo Curator, three transcript forms, 'describe the dataset release, not Transcribe's full training mixture or its sampling weights', source audio downloaded separately under each corpus's license: all present. Medical case study: Eka Care benchmark, prompt cut WER 30.8% to 23.8% on full set, held-out 22.44% to 12.17% = 45.8% relative, about 14 GPU-hours on one NVIDIA GB300, LibriSpeech test-clean 1.54% to 1.69%: all present. Deployment: vLLM, SGLang-Omni, Baseten, DeepInfra, Simplismart: present. MODEL CARD (source-1): license 'OpenMDW-1.1' (OpenMDW License Agreement version 1.1); 'This model is ready for commercial or non-commercial use.' verbatim; Total Parameters '34B (4.3B active), including the audio encoder'; context 65,536 tokens; Deployment '1x H100 80 GB'; 'This is an offline model.' verbatim; 'These serving optimizations are not yet part of the open-source release' and 'expected to be roughly two times slower' present; error-modes sentence 'Errors include substitutions, deletions, repetitions, hallucinated speech, incorrect language choice, and speaker attribution errors.' verbatim and 'Targeted testing is recommended for long recordings, overlapping speakers, noise, names, code-switching' present; results table 4.71 mean WER on 9 public Open ASR Leaderboard sets, next best open-weight Qwen3-ASR-1.7B 4.94, 'Results captured on October 12, 2026': present; language backbone 'NVIDIA Nemotron-3.5 Lightning 30B-A3B' named: present. The language support matrix lists 40 ASR languages and 13 multispeaker languages, matching the article; its translation column ticks 32 languages versus the blog's 31 (the article reports the blog's figure, correctly attributed to the post). Discrepancies the article reports are real: English WER 5.33% (blog, Open ASR English leaderboard average) vs 4.71 (card, nine-set mean); 30B (blog, LM size) vs 34B (card total incl. encoder; HF page also shows 34B); NVFP4 'forthcoming' (blog) vs 'FP8 and NVFP4 variants are available' (card). Two sources, both NVIDIA first-party, no independent corroboration; the article discloses this and attributes all benchmarks to NVIDIA. SCANNER OVERRIDE (source-1 manifest suspicious_patterns): (1) system-prompt-reference, excerpt 'Prompt Guide </span> </h3> <p>Choose the transcription style with the instruction in the user message; keep the system prompt empty for transcription and translation.</p>' is the model card's usage documentation about the model's system-prompt field; (2) conceal-from-user, excerpt 'if there is no function call available, answer the question like normal with your current knowledge and do not tell the user about function calls &lt;/IMPORTANT>' is a line inside the model's Jinja chat_template JSON embedded in the page metadata (a tool-call formatting reminder for the model being documented), not text addressed to a reviewing agent. I opened both in the decompressed snapshot in context; neither addresses an AI reader, requests any action, or was acted on. Both are false positives; source retained. No other injection-like text found.",
+    "factual_accuracy": "All figures, dates, quotes and versions verified individually against the raw snapshots (see source_verification). No fabricated or misattributed specifics. Benchmarks are consistently attributed to NVIDIA/'the post'/'the model card'. Internal links resolve to existing articles with exactly the quoted headlines: /article/2026-08/24-linux-foundation-asks-osi-to-approve-openmdw-11-ai-model-license-as-reviewers-split-over-its-copyright-termination-clause ('Linux Foundation Asks OSI to Approve OpenMDW-1.1 AI Model License as Reviewers Split Over Its Copyright Termination Clause') and /article/2026-08/12-nvidia-releases-nemotron-35-lightning-a-30-billion-parameter-open-model-built-for-high-volume-ai-agent-execution ('Nvidia Releases Nemotron 3.5 Lightning, a 30-Billion-Parameter Open Model Built for High-Volume AI Agent Execution'). Both use the correct singular /article/ form.",
+    "tone_assessment": "Neutral; vendor claims are attributed ('NVIDIA says', 'the post says'). No promotional language, no AI self-reference.",
+    "originality": "No prior Herald coverage of Nemotron 3.5 Transcribe or Granary v2 in src/content/articles. Related prior coverage (OpenMDW-1.1 licence, Nemotron 3.5 Lightning) is linked, not duplicated.",
+    "concerns": [
+      "Both sources are NVIDIA first-party; all leaderboard standings are reported through NVIDIA's own write-up and none independently verified (disclosed in the article).",
+      "Blog and model card disagree on English WER, parameter count and NVFP4 availability; article reports both without reconciling, which is honest but leaves the NVFP4 availability on the card unmentioned."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Accurate, properly attributed Briefing with disclosed first-party-only sourcing; word count 780 (under 800), title 136 characters. Featured candidacy: 1 - solid open-weight speech model release for developers, but a vendor-reported, incremental model launch rather than a broad-audience story"
+  }
+}
