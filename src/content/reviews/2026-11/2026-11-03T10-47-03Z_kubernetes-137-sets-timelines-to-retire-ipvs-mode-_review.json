@@ -1,0 +1,56 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-03T10-47-03Z_kubernetes-137-sets-timelines-to-retire-ipvs-mode-.json",
+  "timestamp": "2026-11-03T11:16:12.852Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Kubernetes 1.37 Sets Timelines to Retire IPVS Mode and kube-dns Packages as EKS and GKE Offer Rollback and EKS Prices Extended Support",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved: All checks passed",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Kubernetes 1.37 Sets Timelines to Retire IPVS Mode and kube-dns Packages as EKS and GKE Offer Rollback and EKS Prices Extended Support",
+    "summary": "Sources on Kubernetes 1.37, EKS and GKE show retirement timelines for kube-proxy's IPVS mode and kube-dns packages, control-plane rollback on EKS and GKE, and EKS extended support at $0.60 per cluster-hour versus $0.10.",
+    "body_excerpt": "## Overview\n\nThree separate threads in Kubernetes operations were reported in 2026: the Kubernetes 1.37 release set out timelines for retiring older components, managed services added ways to reverse a control-plane upgrade, and Amazon EKS publishes a per-cluster price for staying on a version past its standard support window. Read together, the sources describe the trade-offs an operator faces when deciding how quickly to upgrade. This analysis keeps the reported facts apart from what follows f...",
+    "word_count": 1617,
+    "sources_count": 9
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Genuine Analysis: examines how upstream retirement timelines, managed-service rollback limits and EKS extended-support pricing interact for an operator deciding when to upgrade, rather than recapping the 1.37 release. Overview, Background, Current Situation (reported facts), Implications (framed as what the sources do and do not establish). 1617 words (Analysis range 800-2000). Title is 139 characters (under 150). No Herald prediction or opinion; the Implications section is inference from cited limits and ends with an explicit list of what the sources do not establish.",
+    "source_verification": "All 9 snapshots (source-0..8, status 200, no archive fallback, no suspicious_patterns) decompressed and read. 0 DevClass (Joab Jackson, 27 Aug 2026): confirms 67 changes/16/23/27/1; 'must update their clusters before Kubernetes 1.40, or they will stop working'; IPVS no longer supported beginning 1.43; cgroup v1 nodes not initialized since v1.35 with 'temporary work-around that will be supported for a limited time'; ~82 percent from CNCF January survey. 1 Network World (Sean Michael Kerner, 27 Aug 2026): IPVS deprecated in 1.35, 'roadmap to disable it in 1.40 and remove it in 1.43'; Sascha Grunert, principal engineer on the OpenShift Node team at Red Hat, quote 'The main story is the iptables-to-nftables transition,' verbatim; Dipesh Rawat is the 1.37 release lead. 2 InfoQ (Renato Losio, 26 Jul 2026): 7 days, one minor version at a time, cluster insights, AKS node-pool-only, GKE 1.33 control-plane rollback, Baig and Quinn quotes verbatim ('doubled infra cost during upgrades'; 'An undo button for Kubernetes upgrades, arriving only after years of ops teams building bake periods and month-long ceremonies to avoid the one-way door.'). 3 Kubernetes 1.37 release blog: 67 enhancements (16/23/27/1); kube-dns: 'It is expected that no new packages will be built for kube-dns after v1.40'; IPVS: 'By v1.40 ... expected to be disabled by default (still selectable via the feature gate)', 'By v1.43, support for ipvs mode would be removed entirely'; failCgroupV1 default true since v1.35, 'short-term fix', removal 'in a future release'; kube-proxy mode kubectl command present. 4 Patch-releases page: roughly fourteen months (12 standard + 2 maintenance); 1.34 maintenance mode Aug 27, 2026, EOL Oct 27, 2026; 1.37 EOL Oct 28, 2027 (page also gives 1.37 maintenance mode Aug 28, 2027). 5 AWS blog (Micah Walter, 01 Jul 2026): 'one way door', 'bake periods, stagger groups, automated sign offs, and months long upgrade cycles', 'clusters stuck on older versions', seven days, one minor version, no additional cost, control-plane rollback all clusters / node rollback Auto Mode, 'not an emulation of it' all verbatim. 6 EKS version docs: 14 months standard + 12 extended = 26; 'Extended support is enabled by default'; rollback within 7 days, upgrade policy must be changed to EXTENDED, 'Clusters that were automatically upgraded at the end of extended support cannot be rolled back'; AWS 'can't provide specific time frames' for the end-of-extended-support auto-update; self-managed and managed node groups stay on previous version. 7 EKS pricing page, checked today: $0.10 standard, $0.60 extended inclusive of $0.10 (+$0.50); 26-month example 14 months at $0.10 and 12 at $0.60, average $0.33 per hour (arithmetic checks: 8.6/26 = 0.331). 8 Google Cloud blog (Nov 5, 2025): 'Upgrading a Kubernetes cluster has always been a one-way street', KEP-4330 Compatibility Versions, 'emulated version', two-step process all confirmed. All cited claims, quotes, numbers, dates and versions confirmed. The $4,380 figure (0.50 x 8,760 h) is labelled in the article as 'The Herald's own arithmetic' and is correct. The article correctly states that no source gives calendar dates for 1.40 or 1.43 (none do; the patch page lists only existing releases). Both internal links resolve to existing articles (2026-10/07 cgroup v1 Briefing; 2026-08/12 1.37 preview). INDEPENDENT-SOURCE COUNT: 3 outlets independent of the subject (DevClass, Network World, InfoQ), each a distinct outlet with some original reporting (DevClass: Rawat statement to The Register and CNCF comment; Network World: Rawat and Grunert interviews; InfoQ: practitioner commentary and AKS/GKE comparison). Caveat: InfoQ's EKS facts largely restate the AWS announcement, so it is weaker independent confirmation of those facts, but its AKS/GKE comparison and third-party reactions are its own; the Implications section attributes the comparison to InfoQ and says no independent production comparison exists. The 6 primary sources (Kubernetes blog, patch-releases, AWS blog, AWS docs, AWS pricing, Google blog) are vendor/project pages. Requirement of at least 4 sources with at least 2 independent is met (9 sources, 3 independent).",
+    "factual_accuracy": "No fabricated or misattributed specifics found. Claims on IPVS/kube-dns/cgroup v1 timelines are attributed to the project and cross-reported by DevClass and Network World; rollback limits and pricing match primary pages. The article does not assert causation between the Kubernetes removal timelines and the EKS/GKE rollback or pricing announcements: the title's 'as' is a juxtaposition, the Overview calls them 'three separate threads', and the AWS/Google rollback posts predate the 1.37 release and are not linked to it by any source. The 'Kubernetes 1.34 ... has passed' EOL statement (Oct 27, 2026 vs article date Nov 3) is correct.",
+    "tone_assessment": "Neutral and attributed throughout. Vendor language ('one way door', 'undo button') is attributed to the vendors and to Quinn, not adopted as the Herald's voice. No AI self-reference.",
+    "originality": "No overlap with published Herald articles: the earlier cgroup v1 Briefing and 1.37 preview are linked and cited as prior coverage; no prior article covers EKS rollback/extended-support pricing or the kube-dns/IPVS timelines together.",
+    "concerns": [
+      "Overview says the three threads 'were reported in 2026', but Google's rollback post is dated November 5, 2025 (the body dates it correctly) and the extended-support pricing page is undated; loose framing, not a factual error in a specific claim, so no correction filed.",
+      "The Implications section is introduced as 'what the cited sources say follows' but its first point (upgrade timing as a pricing decision on EKS) is the Herald's inference from the documented numbers; it is arithmetic-grounded and hedged, but is not stated by any source.",
+      "Google's post says the feature was 'coming soon' to GKE 1.33; availability in GKE rests on InfoQ's report that GKE 'introduced' it, which the article attributes to InfoQ.",
+      "InfoQ's EKS coverage largely restates AWS's announcement."
+    ],
+    "recommendations": [
+      "For future Analyses, label Herald inference explicitly as such in the Implications lead-in and date each vendor development in the Overview."
+    ],
+    "overall_assessment": "Sound, well-sourced Analysis that meets length, source-count and independence requirements, with accurate quotes and numbers and honest statements of what the sources do not establish. Approve as-is. Featured candidacy: 1 - useful synthesis for Kubernetes platform operators, a defined developer audience, with no industry-changing news."
+  }
+}
