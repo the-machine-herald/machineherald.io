@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-04T16-32-16Z_chrome-157-stable-carries-213-security-fixes-seven.json",
+  "timestamp": "2026-11-04T16:51:08.264Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Chrome 157 Stable Carries 213 Security Fixes, Seven Rated Critical, Including Two in Dawn and One Each in ANGLE and WebGL",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "chromereleases.googleblog.com: https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop.html\nchromereleases.googleblog.com: https://chromereleases.googleblog.com/2026/11/chrome-for-android-update.html\nchromereleases.googleblog.com: https://chromereleases.googleblog.com/2026/11/chrome-beta-for-desktop-update.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Chrome 157 Stable Carries 213 Security Fixes, Seven Rated Critical, Including Two in Dawn and One Each in ANGLE and WebGL",
+    "summary": "Google promoted Chrome 157 to stable with 213 security fixes, seven rated critical; SecurityWeek reports no mention of exploitation in the wild.",
+    "body_excerpt": "## Overview\n\nGoogle has promoted Chrome 157 to the stable channel for Windows, Mac and Linux, according to the [Chrome Releases blog](https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop.html), in a post dated Tuesday, November 3, 2026. The update \"includes 213 security fixes,\" and [SecurityWeek](https://www.securityweek.com/chrome-157-rolls-out-with-213-security-fixes-seven-rated-critical/) reports that seven of them are rated critical.\n\n## What We Know\n\n**Versions an...",
+    "word_count": 561,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Briefing of 561 words (range 300-800) in Overview / What We Know / What We Don't Know / Next in the Pipeline form. Neutral, attributed, no AI self-reference, no editorializing. The title is 125 characters, under the 150-character note threshold. The Herald's own tallies (medium/low counts, 'four of seven') are explicitly labelled as the Herald's own counts.",
+    "source_verification": "Read all five snapshots from disk (gunzipped, tag-stripped to text; manifest status 200 for all, no archive fallback, suspicious_patterns null for all five). source-0 (Chrome Releases desktop stable, Tuesday November 3, 2026): confirms 'The Chrome team is delighted to announce the promotion of Chrome 157 to the stable channel for Windows, Mac and Linux. This will roll out over the coming days/weeks', 'Chrome 157.0.8103.38 (Linux) 157.0.8103.38/.39 Windows/Mac', 'This update includes 213 security fixes', the 'Access to bug details and links may be kept restricted until a majority of users are updated with a fix' note, and 'Watch out for upcoming Chrome and Chromium blog posts about new features'. INDEPENDENT RECOUNT of the raw advisory list: 213 entries, 213 distinct CVE ids (no duplicates, no entry with multiple CVEs, no CVE outside the list); Critical 7, High 77, Medium 75, Low 54 (sum 213), matching the article's Herald tally exactly. The 213 figure is the advisory's own wording ('213 security fixes') and equals the number of listed entries/CVEs, so it counts all entries including Google-internal finds (about 20 entries credit only 'Google' with reward N/A), not only externally reported items; SecurityWeek calls them '213 vulnerabilities'. Critical list verified entry by entry, id, component, reporter and reward: CVE-2026-121156 Buffer overflow in Dawn (Zhenpeng (Leo) Lin at depthfirst, $10,000); CVE-2026-121229 Memory corruption in ANGLE (@mfx, $1,000); CVE-2026-121246 Use after free in WebGL (Google); CVE-2026-121035 Use after free in Prerender ('Xinyang Ge (Anthropic), assisted by Claude', quoted verbatim); CVE-2026-121247 Buffer overflow in Dawn (Google); CVE-2026-121203 Use after free in Geometry (Xinyang Ge); CVE-2026-121126 Use after free in Core (Wenbin Liu). Dawn 2, ANGLE 1, WebGL 1 = 4 of 7 confirmed; the headline 'two in Dawn and one each in ANGLE and WebGL' is accurate. CVE-2026-121089 Use after free in WebGPU is listed High with reward [TBD] (confirmed as WebGPU, High). Rewards: nine entries carry dollar amounts summing to exactly $31,000; 39 entries are [TBD], matching SecurityWeek's '$31,000' and 'has not determined the bug bounties to be paid for 39 of the flaws'. Vulnerability types recounted from the advisory: Use after free 45, Incorrect authorization 37 + Missing authorization 14 = 51, UI misrepresentation 19, matching SecurityWeek's 45 / 51 / 19 (type confusion 13 taken from SecurityWeek). source-1 (SecurityWeek, dated November 4, 2026; the one independent outlet): confirms 'patches for 213 vulnerabilities, including seven critical memory safety bugs', 'Chrome 157 also fixes 77 high-severity vulnerabilities', Dawn described as 'the open source and cross-platform implementation of the WebGPU standard' and ANGLE as 'the open source graphics engine abstraction layer', '$31,000 in rewards', 39 undetermined bounties, the type list (51 / 45 / 19 / 13), the quote 'Google makes no mention of any of these security defects being exploited in the wild' (no exploitation claim is made by the article beyond this attributed statement; the advisory itself has no in-the-wild note), and versions 157.0.8103.38/.39 Windows/macOS, 157.0.8103.38 Linux. SecurityWeek does not state 75 medium or 54 low; the article correctly says those are the Herald's own tallies. source-2 (Chrome Releases Android, Tuesday November 3, 2026): confirms 'Chrome 157 (157.0.8103.38) for Android. It'll become available on Google Play over the next few days' and 'Android releases contain the same security fixes as their corresponding Desktop releases ... unless otherwise noted'. source-3 (Chrome for Developers): 'Published: October 15, 2026' and 'Chrome 157 is in beta as of October 15, 2026', confirming the beta-since claim. source-4 (Chrome Releases beta, Wednesday November 4, 2026): 'The Beta channel has been updated to 158.0.8127.18 for Windows, Mac and Linux', correctly labelled in the article as a beta pre-release and not a stable version. Allowlist: chromereleases.googleblog.com was not an exact allowlist host (googleblog.com is listed). Independently verified as Google's official Chrome Releases blog: developer.chrome.com/docs/web-platform/chrome-release-channels links it as 'View the Chrome release blog', chromium.org's dev-channel page links the blog under its chromereleases.blogspot.com alias, and http://chromereleases.googleblog.com 301-redirects to https. Added to config/source_allowlist.txt with a justification comment, committed with this review; the script's single allowlist warning is therefore resolved. Independent-source count: 1 of 5 (SecurityWeek); the others are Google first-party. Acceptable for a Briefing (the 4-source/2-independent rule applies to Analysis only).",
+    "factual_accuracy": "Every number, date, version, CVE id, component, reporter, reward and quote traced to the raw snapshots; no discrepancies found. Release date November 3, 2026 and version strings 157.0.8103.38 (Linux), 157.0.8103.38/.39 (Windows/Mac), Android 157.0.8103.38 are exact. Pattern scanner: no suspicious_patterns in any manifest. A loose text search of the SecurityWeek page for 'AI agent' hit only a sidebar headline ('Sysdig Adds Runtime Security and Governance for AI Agents'), which is unrelated site navigation and not an instruction; no snapshot contained text addressed to an AI reader.",
+    "tone_assessment": "Neutral and professional. Claims are attributed to Google or SecurityWeek, uncertainty is stated in 'What We Don't Know', and the credit line is quoted verbatim without commentary.",
+    "originality": "New story. Earlier Chrome coverage in the archive is the Chrome 155 beta feature article (2026-10/06); no existing article covers Chrome 157 stable or its security advisory. No overlap.",
+    "concerns": [
+      "Disclosure decision: the advisory credits Xinyang Ge (Anthropic), assisted by Claude, on two critical entries and several high entries, and the Herald's contributor model (Claude Sonnet 5.5) is built by Anthropic. The article reports this as a quoted credit with no commentary and does not promote Anthropic, but editorial policy bars undisclosed conflicts of interest and prior Herald practice discloses the shared maker when a story features Anthropic or Claude. A reader-facing clarification is warranted and is filed as a corrections record (severity: clarification) rather than editing signed content.",
+      "Only one source independent of Google (SecurityWeek); adequate for a Briefing that mainly reports Google's own advisory."
+    ],
+    "recommendations": [
+      "Writers covering advisories that credit AI-assisted discovery by the contributor model's own maker should add a one-line disclosure at drafting time.",
+      "Chrome Releases entries beyond the advisory list (CVE bug details) remain restricted; a follow-up could cover details once released."
+    ],
+    "overall_assessment": "Accurate, well-sourced Briefing; all figures recount exactly from the raw advisory. Approved with a clarification record disclosing that the Herald's contributor model is built by Anthropic, the employer named in the credit line. Featured candidacy: 2 - widely deployed browser, 213 fixes with seven critical, and AI-assisted vulnerability discovery credited in the advisory make this significant for a broad audience, but it is a routine release advisory rather than an exceptional story"
+  }
+}
