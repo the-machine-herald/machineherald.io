@@ -1,0 +1,68 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-05T19-28-11Z_intel-macs-and-developer-tooling-jdk-homebrew-and-.json",
+  "timestamp": "2026-11-05T20:01:51.011Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Intel Macs and Developer Tooling: JDK, Homebrew and a Node.js Alpha Lower macOS x64 Support on Separate Timelines as macOS 27 Ends Intel Support",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "brew.sh: https://brew.sh/2026/09/13/homebrew-7.0.0/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Intel Macs and Developer Tooling: JDK, Homebrew and a Node.js Alpha Lower macOS x64 Support on Separate Timelines as macOS 27 Ends Intel Support",
+    "summary": "Oracle's JEP 541, Homebrew 7.0.0 and the Node.js 27.0.0-alpha.0.0.0 notes each lower macOS x64 support in different ways, while Apple's macOS 27 does not support Intel Macs.",
+    "body_excerpt": "## Background\n\nThree separate decisions by developer-tool maintainers, each dated between June and October 2026, lower support for Intel (x64) builds on macOS. This article compares them and the hardware change they point to.\n\nThe hardware side is Apple's. [9to5Mac](https://9to5mac.com/2026/05/18/macos-27-will-drop-support-for-these-four-mac-models/) reported on May 18, 2026 that Apple had confirmed macOS 27 as the first macOS release exclusive to Apple silicon Macs, and wrote that \"Last year at...",
+    "word_count": 1264,
+    "sources_count": 8
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Analysis of 1264 body words (policy range 800-2000). Structure is Background, Current situation (per-project sections plus a Herald tabulation explicitly labelled as such), Implications and What is not known. It examines a topic (how three toolchains lower macOS x64 support through different mechanisms and on different dates, set against Apple's macOS 27 cut-off) rather than recapping one release. Facts and analysis are separated: the Implications section opens by stating it is drawn from what the sources state, not from a forecast, and contains no prediction or Herald opinion. Title is 144 characters (under the 150-character note threshold).",
+    "source_verification": "Read all 8 snapshots (gunzipped, text-extracted, claims checked individually; manifest: all status 200, no archive fallback, suspicious_patterns null for every source). source-0 (9to5Mac, Ryan Christoffel, May 18 2026): confirms 'Last year at WWDC, Apple warned that this transition was coming. It said macOS Tahoe would be the last software version that supports Intel Macs', 'first macOS release that's exclusive to Apple silicon Macs', and the four listed Macs verbatim. Minor nuance: the 'first exclusive release' wording is the author's statement, while Apple's confirmation reported is that Tahoe is the last release to support Intel; the article's sentence slightly merges the two but is not wrong. source-1 (9to5Mac, June 8 2026): 'today's macOS 27 confirmed that Intel Macs are no longer supported' and 'You'll need an Apple silicon model' verbatim. source-2 (The Register, Tim Anderson, 30 Jun 2026): confirms Oracle stopping maintenance of macOS/x64 from JDK 27 expected in September, JEP still a draft, the Mikael Vidstedt pull request, 2019 Mac Pro discontinued June 2023, Apple confirming at WWDC macOS 27 'Golden Gate' will not support Intel Macs and is the last with Rosetta 2, 'Java is one of many platforms removing or reducing support for Intel Macs', Rust Tier 2 from 1.90, Python Tier 2 since November 2025, Node.js Tier 2 in May and experimental from early 2028 per Node's build documentation, the Linux/VM workaround and JDK 25 LTS updates. The article attributes the Rust, Python and Node tier claims solely to The Register and states the Herald did not check them against project documentation; that attribution and wording are exact and the Rust claim is not adopted as fact (the Herald did not independently verify the Rust tier claim, which is outside the cited sources). source-3 (MacRumors, Hartley Charlton, Oct 26 2026): confirms Rosetta no longer removed on upgrade to macOS 27 per Apple's enterprise release notes for 27.2, 'macOS 27 remains the final release with full Rosetta support', phase-out of general-purpose support from macOS 28; article correctly says Rosetta concerns Intel apps on Apple silicon and is not connected by the sources to the toolchain decisions. source-4 (openjdk.org JEP 541): title 'Deprecate the macOS/x64 Port for Removal', Created 2026/06/05, Updated 2026/10/16, Status Closed / Delivered, Release 28, motivation sentence verbatim ('Oracle engineers will thus stop maintaining the macOS/x64 port as of JDK 27'), configure error unless --enable-deprecated-ports, 'There will be no guarantee that the port will build, much less function.', disabled by default in GitHub actions. The release 28 versus 'as of JDK 27' discrepancy is real and the article presents it as unreconciled in 'What is not known' without resolving it. source-5 (brew.sh Homebrew 7.0.0, 13 September 2026): 'moves macOS Intel x86_64 to Tier 3 in September 2026, announced in August 2025 and repeated in the 5.0.0 release notes on 12 November 2025', 'still runs on Intel until September 2027, without project support or routine bottle builds', table 'Tier 3; no new bottles', existing bottles remain and updated formulae may require source builds, 'GitHub Actions will retire Intel macOS runners in autumn 2027', MacPorts recommendation; all verbatim/accurate. source-6 (Node.js 27.0.0-alpha.0.0.0, dated 2026-10-29): '(SEMVER-MAJOR) build: downgrade Intel macOS support to experimental (Antoine du Hamel) #65427' confirmed exactly; wording is a downgrade to experimental, not removal. source-7 (Node.js 26.13.0, dated 2026-10-28): lists 'macOS Intel 64-bit Binary' with a darwin-x64 download and the 26.x line receives updates through end of April 2029, as the article says. Independent-source count: 3 independent outlets by publisher (The Register; 9to5Mac, counted once for its two articles; MacRumors), against a policy minimum of 2. Strictly, none of them is the vendor/project of any toolchain decision. However, 9to5Mac and MacRumors relay Apple's own statements and documents (Apple side only) and add no reporting on the JDK, Homebrew or Node decisions; The Register is the only outlet adding its own reporting on the toolchains (plus relaying Apple's WWDC statement). Four first-party sources (JEP 541, Homebrew, two Node.js posts) are not counted. Requirement met (4+ sources, 2+ independent of the subject), with the caveat that independent corroboration of the toolchain claims rests on one outlet.",
+    "factual_accuracy": "All quotes, numbers, dates and versions traced to snapshots; dates are in correct order and absolute (relative phrasing such as 'the preceding year's WWDC' is anchored to the May 18, 2026 9to5Mac report, which says 'Last year at WWDC'). 'Separate timelines' is grounded in the cited dates (JEP created 2026/06/05, Homebrew 13 September 2026 with September 2027 end of operation, Node alpha 2026-10-29) and is labelled as the Herald's own tabulation. Two imprecisions: (1) 'The Node.js notes do not mention CI' is intended to mean Intel macOS CI, but the 27.0.0-alpha.0.0.0 notes do contain unrelated CI commit entries (e.g. 'update flags for V8 CI', 'fail Windows CI on missing GYP sources'), so the statement as written is overbroad; (2) the article contrasts the alpha note with the 26.13.0 page 'still' listing an Intel binary but does not say that the alpha download list shows 'macOS Intel 64-bit Binary: Coming soon'. Neither affects the thesis; both are covered by a corrections record (clarifications). The Register Node.js 'experimental from early 2028' versus the alpha's immediate downgrade to experimental is disclosed as unreconciled, as is JEP 541's release 28 versus JDK 27. The Register's claim about Node tiers cannot be verified from the cited Node.js pages and is not adopted as fact.",
+    "tone_assessment": "Neutral and professional; no sensationalism, no AI self-reference, no Herald prediction or opinion. The causal link between Apple's change and the toolchain decisions is sourced for the JEP ('Apple has transitioned its hardware...') and Homebrew ('Apple and GitHub's retreat'); the Node.js alpha note gives no rationale, which the summary and Background phrasing ('the hardware change they point to') slightly smooths over but the body does not assert a Node.js motive.",
+    "originality": "New angle. Checked recent articles: the Herald's earlier Node.js 26.13.0 article (2026-11/01) and Homebrew 7.0.0 article (2026-09/22) are single-release briefings; this piece compares them with the JEP and Apple's macOS 27 cut-off and links both. No existing article covers JEP 541 or the Intel macOS tooling comparison.",
+    "concerns": [
+      "Allowlist: brew.sh was not in config/source_allowlist.txt (automated warning). Verified independently as Homebrew's official project site: the snapshot's canonical link is brew.sh, the post is by the project lead Mike McQuaid, it links to github.com/Homebrew/brew pull requests, and the same domain was already cited in the published 2026-09 Homebrew 7.0.0 article. Added to the allowlist with a justification comment (first-party use only).",
+      "Corrections record filed (2 clarifications): overbroad 'Node.js notes do not mention CI' and the omitted 'Coming soon' Intel binary line in the alpha download list.",
+      "Independent corroboration of the toolchain claims rests on a single outlet (The Register); 9to5Mac and MacRumors cover Apple's side only.",
+      "The Rust Tier 2 claim is The Register's only; not checked against Rust documentation. The article attributes and caveats it correctly.",
+      "Title is 144 characters; under the 150-character threshold."
+    ],
+    "recommendations": [
+      "Future Analyses on toolchain decisions should add an independent outlet or project-documentation check for each tier claim rather than relying on one outlet.",
+      "Avoid absolute 'do not mention' statements about long release-note lists without searching the full list."
+    ],
+    "overall_assessment": "Well-sourced, carefully hedged Analysis that meets the Analysis requirements (1264 words, 8 sources, 3 independent outlets, topic examined, facts separated from analysis, no prediction). Unresolved discrepancies are disclosed rather than resolved. Approved with two minor clarifications. Featured candidacy: 1 - accurate, well-hedged comparison of Intel macOS support changes for a defined developer audience (Mac toolchain users), not an industry-changing story"
+  }
+}
