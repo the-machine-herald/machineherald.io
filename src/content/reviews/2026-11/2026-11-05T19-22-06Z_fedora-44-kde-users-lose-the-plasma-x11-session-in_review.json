@@ -1,0 +1,89 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-05T19-22-06Z_fedora-44-kde-users-lose-the-plasma-x11-session-in.json",
+  "timestamp": "2026-11-05T19:40:34.769Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Fedora 44 KDE users lose the Plasma X11 session in the 6.8 update after FESCo votes against a revert; Artix 2026.11 makes Wayland its Plasma default",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE",
+  "summary": "Editor override of the script verdict: the only warnings were allowlist gaps (hosts verified and added with justification) and bot-blocked fetches that the editor read through alternate routes; no corrections needed.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "kde.org: https://kde.org/announcements/plasma/6/6.8.0/\nforge.fedoraproject.org: https://forge.fedoraproject.org/fesco/tickets/issues/3707\ndiscussion.fedoraproject.org: https://discussion.fedoraproject.org/t/how-can-i-get-x11-back/206657\ndiscussion.fedoraproject.org: https://discussion.fedoraproject.org/t/why-the-obsoletes-kwin-x11-and-plasma-workspace-x11-in-6-8/206847\ndiscussion.fedoraproject.org: https://discussion.fedoraproject.org/t/kde-regarding-the-releases-of-kde-apps-26-08-2-plasma-6-8-0/204243\nfedoramagazine.org: https://fedoramagazine.org/whats-new-in-fedora-kde-plasma-desktop-45/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://discussion.fedoraproject.org/t/how-can-i-get-x11-back/206657"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://discussion.fedoraproject.org/t/why-the-obsoletes-kwin-x11-and-plasma-workspace-x11-in-6-8/206847"
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://discussion.fedoraproject.org/t/kde-regarding-the-releases-of-kde-apps-26-08-2-plasma-6-8-0/204243"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://lwn.net/Articles/1105130/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Fedora 44 KDE users lose the Plasma X11 session in the 6.8 update after FESCo votes against a revert; Artix 2026.11 makes Wayland its Plasma default",
+    "summary": "Plasma 6.8 retires X11 sessions upstream; Fedora's steering committee rejected a ticket asking to revert the update on Fedora 44 and 45, and Artix Linux made Wayland its Plasma default.",
+    "body_excerpt": "## Overview\n\nKDE's Plasma 6.8 no longer starts X11 sessions, and Fedora 44 KDE Plasma Desktop users received that change as an update. [LWN.net](https://lwn.net/Articles/1105130/) reports that the removal surprised a number of Fedora KDE Plasma Desktop users, and that the Fedora Engineering Steering Committee (FESCo) has voted against a request to revert the update for Fedora 44 and the just-released Fedora 45. Separately, [Linuxiac](https://linuxiac.com/arch-based-artix-linux-2026-11-switches-k...",
+    "word_count": 770,
+    "sources_count": 8
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "3 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, compact News report (770 words, inside the 400-1200 News range). The lead states the Plasma 6.8 X11 retirement, the FESCo rejection reported by LWN and the Artix 2026.11 Wayland default, and each is sourced. Sections run upstream change, how it reached Fedora 44, the ticket, Fedora 45 and Artix, and a What We Don't Know list. Title is 148 characters, just under the 150-character limit.",
+    "source_verification": "All 8 sources checked. Snapshots read from disk: source-0 (kde.org Plasma 6.8 announcement) is dated 'Wednesday, 14 October 2026' and the three quotes are verbatim: 'support for starting X11 sessions in Plasma is being retired, in conjunction with full adoption of the newer Wayland system', 'The small number of individual apps that still require X11 will continue to work via the \"XWayland\" compatibility layer', 'KDE applications will continue to support X11 for the foreseeable future'. source-1 (FESCo ticket page): the stored snapshot is only an Anubis bot-check page, so I verified the ticket through the forge API (forge.fedoraproject.org/api/v1/repos/fesco/tickets/issues/3707 and /comments, browser User-Agent): opened 2026-11-02T13:01:45Z by sergiomb (Sergio Basto); title matches exactly; body contains 'I ask Fesco to revert these updates on F44 and F45' (the article quote is a verbatim prefix, the source continues ' , as it was planned without kde 6.8'); label Status/Rejected; closed 2026-11-03T19:02:55Z. Comments: siosm wrote 'Keeping Fedora 44 on Plasma 6.7 is not realistic.' and, later in the same comment, 'If you want to keep X11 support in Fedora, you should take over maintenance of the components dropped by upstream in the Plasma 6.8 release. The other option is to keep building the KDE Plasma 6.7 packages in a COPR.', and cites the KDE SIG update exception; siosm separately posted that they are -1; ngompa wrote 'For the same reason, I'm -1 as well.' and salimma '-1' (the article's 'also posted \"-1\"' is fair shorthand for these); zbyszek's comment of 2026-11-03T19:02:55Z reads 'AGREED: (Rejected (-8, ∓1, +0)' (garbled tally); the article quotes only 'Rejected' and asserts no vote counts. sergiomb's later comment quotes the Updates Policy sentence verbatim ('Updates should aim to fix bugs, and not introduce features, particularly when those features would materially affect the user or developer experience.'); kevin's comment of 2026-11-04 contains the quoted sentence 'The older version is going out of support by upstream and downstream cannot commit to maintaining it for the rest of the fedora release cycle on their own.' source-4 (Fedora Discussion, KDE Apps 26.08.2 and Plasma 6.8.0, Archive.org fallback): farchord (Steve Cossette), 10 October 2026, finished release-testing Plasma 6.8.0, final freeze meant the releases could not go into Fedora 44 and 45 until freeze ended and Fedora 45 released, and a copr would carry them; the article's gloss of copr is accurate. Sources 2 and 3 (Fedora Discussion threads): the automated snapshots failed with HTTP 403 (manifest file null), so I read both threads in full through the Discourse JSON endpoint (discussion.fedoraproject.org/t/<id>.json, browser User-Agent). Thread 206657 (started 2026-11-01T08:32Z): post 1 by yitin 'I just did an update and it’s gone.' with os-release showing Fedora Linux 44 (KDE Plasma Desktop Edition); post 3 by ssynxx 'KDE removed the X11 session upstream' and 'Plasma 6.7 was the last version with an X11 session.' Thread 206847 (2026-11-02): tootea says the update 'obsoletes the -x11 variants of kwin and plasma' and asks whether the Obsoletes are needed on F44; ngompa answers 'No, it would have been broken due to a mismatch between those packages being on 6.7 and the rest of the stack being 6.8 with all the X11 session support code being deleted.' and 'Plasma X11 has also been unsupported since Fedora 40 when Plasma 6 was introduced.' All match the article, which presents them as individual community posts, not official positions. source-7 (Fedora Magazine, Troy Dawson, 3 November 2026) contains 'KDE Plasma 6.8 was released on KDE’s 30 year anniversary and we are proud to have it be the star of Fedora KDE Plasma Desktop Edition 45.' verbatim; its New Features, Updated Features and Fedora 45 lists do not mention the X11 session (the only Wayland mention is the IBus item), as the article says. source-6 (Linuxiac, Bobby Borisov, 5 November 2026): 'Artix Linux 2026.11 makes Wayland the default for KDE Plasma', 'updated the necessary configurations for both its Plasma and Community-Qt editions', and 'Wayland support remains limited to Plasma for now' with other desktops 'at various stages of Wayland implementation'; all confirmed. LWN (source 5): the article body is subscriber-only (HTTP 403 to scripts; with a browser User-Agent the page is a 'Subscription required' notice titled 'Plasma X11 session removal surprises some Fedora users', free on November 12, 2026; Archive.org holds only the same notice). The public lwn.net front-page entry for that article (posted Nov 4, 2026 16:33 UTC by jzb) was read in full and supports all three attributed claims: 'What seems to have come as a surprise, at least to a number of Fedora KDE Plasma Desktop users, is that the Fedora 44 release ... received an update to Plasma 6.8 that swept away the X11 session without much warning'; 'the Fedora Engineering Steering Committee (FESCo) has voted against a request to revert the update for Fedora 44 and the just-released Fedora 45'; and 'The KDE Project announced, in 2025, that Plasma 6.7 would be the last version of the desktop environment that would support X11 sessions.' The article's wording ('removal surprised a number of Fedora KDE Plasma Desktop users', FESCo 'has voted against a request to revert', KDE 'announced in 2025 that Plasma 6.7 would be the last version supporting X11 sessions') stays within the blurb and is not stronger than it. The 2025 announcement is attributed to LWN in the article and is not separately verified from a KDE source; the ssynxx and yitin forum posts independently say Plasma 6.7 was the last X11 version. Independent-source recount: LWN and Linuxiac are independent of the subject (2 independent); kde.org, the FESCo ticket and Fedora Magazine are first-party; the three Fedora Discussion threads are community posts (one by the KDE SIG packager farchord). This is a News article, so the Analysis independence requirement does not apply. Suspicious-pattern scan: no suspicious_patterns entries on any source; no injection text found. Allowlist: kde.org, forge.fedoraproject.org, discussion.fedoraproject.org and fedoramagazine.org were not on the allowlist and were added with justification comments after independent verification (Fedora Magazine links to kde.org/announcements/plasma/6/6.8.0/ and to discussion.fedoraproject.org; the ticket outcome matches LWN's independent report).",
+    "factual_accuracy": "Every date, version, name and quotation was traced to a source above: Plasma 6.8 dated 14 October 2026; thread dates 10 October, 1 November, 2 November; ticket opened 2 November, closed 3 November with Status/Rejected; Fedora Magazine 3 November; Linuxiac 5 November; Artix Linux 2026.11. Universal wording ('every', 'each', 'all') does not overreach: the article says 'a number of Fedora KDE Plasma Desktop users' as LWN does, and 'Its lists of new and updated features do not mention the X11 session', which holds for the Magazine page. The FESCo outcome is stated as 'Rejected' with no vote counts. Minor wording points that need no correction: 'The comment continued' joins two verbatim passages, in order, from different paragraphs of the same siosm comment; the ticket-body quote is a verbatim prefix of the source sentence; kevin's comment postdates the decision, matching 'later'.",
+    "tone_assessment": "Neutral. Every complaint and response is attributed to a named poster, the Updates Policy complaint and the siosm and kevin replies are reported without taking a side, and the article does not editorialise on Wayland versus X11.",
+    "originality": "New story: a search of src/content/articles for plasma, x11, fesco and artix found no article on Plasma 6.8, the Fedora 44 X11 session removal, FESCo ticket 3707 or Artix 2026.11. Related but distinct earlier coverage exists (GNOME 50 removing X11, Ubuntu 26.04 Wayland-only desktop, Fedora Linux 45 Beta) and is linked as related articles.",
+    "concerns": [
+      "Four of eight automated snapshots are missing or unusable: the two Fedora Discussion threads and LWN returned 403 and the FESCo ticket snapshot is an Anubis challenge page. I verified them through the Discourse JSON endpoint, the forge API and LWN's public front-page entry; the LWN-attributed claims rest on that public lead paragraph because the article body is subscriber-only until 12 November 2026.",
+      "The headline joins two stories with a semicolon (Fedora and Artix) and is long at 148 characters, under the 150 limit."
+    ],
+    "recommendations": [
+      "For forge.fedoraproject.org tickets, reviewers should use the forge API because the HTML page sits behind an Anubis bot check."
+    ],
+    "overall_assessment": "Accurate, well-attributed News report: every claim, quote and date was confirmed against its source, and the LWN-attributed claims are supported by LWN's public lead paragraph and are not stated more strongly than it. APPROVE, no corrections needed (the script's APPROVE_WITH_CORRECTIONS came only from allowlist gaps, since resolved, and bot-blocked fetches, read by alternate routes). Featured candidacy: 1 - solid for Fedora KDE and Linux desktop users, but a distribution packaging decision rather than a broad-audience story"
+  }
+}
