@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-06T10-33-49Z_apache-spark-430-adds-stateful-queries-to-real-tim.json",
+  "timestamp": "2026-11-06T10:47:07.802Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Apache Spark 4.3.0 Adds Stateful Queries to Real-Time Mode and SCD Type 2 to Auto CDC, and Starts a Quarterly Feature-Release Cadence",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Claims verified against all three sources; one clarification filed (incomplete 'Two settings' defaults count); spark.apache.org confirmed official and added to allowlist.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "spark.apache.org: https://spark.apache.org/releases/spark-release-4-3-0.html\nspark.apache.org: https://spark.apache.org/news/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Apache Spark 4.3.0 Adds Stateful Queries to Real-Time Mode and SCD Type 2 to Auto CDC, and Starts a Quarterly Feature-Release Cadence",
+    "summary": "Apache Spark 4.3.0 supports stateful queries in Real-Time Mode and SCD Type 2 in Auto CDC; Databricks reports P99 latencies of 136 to 141 ms on three workloads.",
+    "body_excerpt": "## Overview\n\nThe Apache Spark project announced Spark 4.3.0 on October 30, 2026, according to its [news page](https://spark.apache.org/news/). Per the [release notes](https://spark.apache.org/releases/spark-release-4-3-0.html), it is the fourth release of the Spark 4.x line and addressed over 1,100 Jira tickets with contributions from more than 210 individuals. The notes say the release brings stateful processing to Structured Streaming Real-Time Mode, adds history-preserving SCD Type 2 Auto CDC...",
+    "word_count": 513,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Compact, well-structured Briefing (513 words per chief:review; Briefing range 300-800). Attribution is consistent: release-note claims are attributed to the release notes, vendor figures and eligibility limits to the Databricks post, and the 'What We Don't Know' section states the limits honestly (no hardware/config for the benchmark, no independent outlet, no percentile figures in the release notes). Title is 133 characters, under the 150 limit.",
+    "source_verification": "Read all three gzipped snapshots (source-0, source-1, source-2 in sources/2026-11/apache-spark-430-.../; all HTTP 200, no archive fallback, suspicious_patterns null for all three). source-0 (Spark 4.3.0 release notes): CONFIRMED 'fourth release of the Spark 4.x line', 'over 1,100 Jira tickets', 'more than 210 individuals', 'brings stateful processing to Structured Streaming Real-Time Mode, adds history-preserving SCD Type 2 Auto CDC to Spark Declarative Pipelines, and makes Spark faster to iterate with on small data', 'It also marks the start of a quarterly feature-release cadence'; 'Real-Time Mode now supports stateful queries: streaming aggregation, dropDuplicates, and transformWithState run with end-to-end latency on the order of 100 milliseconds' (so 'stateful queries' = those three operators); SPARK-58635/57228/57281 (streaming aggregation, Scala/Java transformWithState, removal of @Experimental on Real-Time Mode); SCD Type 2 'end to end' with __START_AT/__END_AT, target table in a catalog supporting DSv2 row-level operations 'e.g. Apache Iceberg', via Python, SQL and Spark Connect; opt-in shuffle-free single-task execution with spark.sql.optimizer.singleTaskExecution.enabled; ASOF JOIN ... MATCH_CONDITION with spark.sql.join.asofJoin.enabled (off by default); spark.sql.timestampNanosTypes.enabled (off by default); spark.sql.binByRelationOperator.enabled (off by default); spark.rdd.compress and spark.ui.contentSecurityPolicy.enabled enabled by default; 'Drop Python 3.10 support'. All verified. source-1 (Spark news page): CONFIRMED 'Spark 4.3.0 released October 30, 2026 ... We are happy to announce the availability of Apache Spark 4.3.0'. NOTE: the news page itself says nothing about a quarterly cadence; the article correctly attributes the cadence statement to the release notes and the Databricks post, not the news page. The release notes say 'marks the start' of the cadence, so the title's 'Starts' matches. source-2 (Databricks engineering blog, dated November 5, 2026, authors include Jungtaek Lim, Wenchen Fan, Reynold Xin): CONFIRMED P99 end-to-end latency table dropDuplicates 136 ms, window aggregation 139 ms, transformWithState 141 ms, 'In the benchmarks reported in SPARK-58884', and the caveat 'They are measurements of the three tested workloads, not a latency guarantee for every pipeline.' (the article's quote is a verbatim substring, with the leading 'They are' omitted outside the quote marks). Also confirmed: 'moving from one release every six months to one every three months', default eligibility limits (one nonempty small file within a single partition; local in-memory relations up to 1,000 rows), 'Both the single-task optimization and Arrow cache are opt-in', and 'For Databricks availability, consult the Databricks Runtime release notes'. Hardware/configuration for the benchmark is indeed not described in the post. INDEPENDENT-SOURCE COUNT: 0 of 3. spark.apache.org (2 sources) is the subject project; databricks.com is the main commercial contributor and the vendor. Briefing has no independence minimum, and the article states it cites no independent outlet; first-party-only sourcing is documented honestly here. ALLOWLIST: spark.apache.org was not on config/source_allowlist.txt. Authenticity independently verified: GitHub API for apache/spark returns homepage https://spark.apache.org/; the apache/spark README.md links 'Official version: https://spark.apache.org/'; projects.apache.org/json/projects/spark.json lists homepage https://spark.apache.org with maintainer 'Apache Spark PMC'. Added spark.apache.org to config/source_allowlist.txt with a justification comment, committed with this review. databricks.com: the bare hostname entry already exists in the allowlist (the matcher checks the extracted hostname), and the script raised no warning for www.databricks.com/blog/..., so the host is handled. The scanner reported no suspicious_patterns, so no override was needed.",
+    "factual_accuracy": "All dates, version strings, counts, configuration names, defaults and vendor figures check out against the snapshots (see source_verification). One imprecision: the article says 'Two settings are now enabled by default: spark.rdd.compress and spark.ui.contentSecurityPolicy.enabled.' The release notes also list spark.kubernetes.executor.useDriverPodIP enabled by default (SPARK-57351), whole-stage codegen for Union and ReplaceHashWithSortAgg enabled by default, and a changed default for spark.ui.xXssProtection (to 0), so 'Two' reads as a complete count when it is not. This is a subordinate body detail, not headline/summary/lead, and one clarification covers it. No 'every/each/all' overreach found: 'each key's history' and 'streaming aggregation, dropDuplicates and transformWithState' follow the notes' wording. No relative dates. No Databricks marketing language ('sub-150 ms', 'complete streaming engine', 'you no longer need a separate streaming engine') is adopted as fact; the latencies are labelled vendor-reported with the post's own caveat. The article does not assert Databricks' contributor status beyond naming the post's authors. Note that the Databricks post describes the ASOF JOIN and nanosecond timestamps as previews with possible breaking changes; the article reports only 'off by default', which is what the release notes say.",
+    "tone_assessment": "Neutral, factual and free of promotional language. No AI self-reference.",
+    "originality": "No prior Apache Spark release coverage in the archive (only unrelated Cloudflare/Iceberg and NVIDIA DGX Spark pieces). New topic.",
+    "concerns": [
+      "Sourcing is first-party only (project site plus the main commercial contributor's blog); no independent outlet. Disclosed in the article itself; acceptable for a Briefing.",
+      "The 'Two settings are now enabled by default' count is incomplete (see factual_accuracy); filed as a clarification."
+    ],
+    "recommendations": [
+      "When listing changed defaults, say 'among the settings now enabled by default' unless the list is exhaustive.",
+      "Where possible, add an independent outlet or the SPARK-58884 JIRA ticket for benchmark conditions."
+    ],
+    "overall_assessment": "Accurate, carefully attributed first-party release briefing with honest limits; one minor completeness issue in the defaults sentence, recorded as a clarification. Featured candidacy: 1 - solid release coverage for data-engineering readers, but a routine release with first-party-only sourcing."
+  }
+}
