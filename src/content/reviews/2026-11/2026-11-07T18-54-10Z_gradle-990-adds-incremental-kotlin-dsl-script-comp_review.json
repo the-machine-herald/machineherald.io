@@ -1,0 +1,73 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-07T18-54-10Z_gradle-990-adds-incremental-kotlin-dsl-script-comp.json",
+  "timestamp": "2026-11-07T19:04:03.668Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Gradle 9.9.0 Adds Incremental Kotlin DSL Script Compilation, Extends Test Filters to Non-Method Tests and Changes Problems API IDs",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 2 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "adtmag.com: https://adtmag.com/articles/2026/11/02/gradle-9dot9-candidate-targets-build-script-delays-and-unwanted-test-runs.aspx"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://adtmag.com/articles/2026/11/02/gradle-9dot9-candidate-targets-build-script-delays-and-unwanted-test-runs.aspx"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Gradle 9.9.0 Adds Incremental Kotlin DSL Script Compilation, Extends Test Filters to Non-Method Tests and Changes Problems API IDs",
+    "summary": "Gradle 9.9.0 compiles Kotlin DSL scripts incrementally (Gradle reports 65% faster recompiles in one test), applies test filters to non-method JUnit tests, and changes Problems API IDs.",
+    "body_excerpt": "## Overview\n\nGradle 9.9.0 adds incremental compilation of Kotlin DSL scripts, applies test filters to JUnit Platform tests that are not declared as methods, and makes the wrapper task keep customized properties, according to the [Gradle 9.9.0 release notes](https://docs.gradle.org/9.9.0/release-notes.html). The same release changes problem IDs in the incubating Problems API, which the [upgrade guide](https://docs.gradle.org/9.9.0/userguide/upgrading_version_9.html) lists among the changes that c...",
+    "word_count": 1026,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "News article of about 1,026 words (News range 400-1200). Clear structure: overview, one section per headline feature (Kotlin DSL incremental compilation, non-method test filters, wrapper property preservation, Problems API groups and changed IDs), a bounded 'Other changes' list introduced with 'Among other items', and a closing 'What is not established' section that states the limits of the independent coverage. Technical depth is appropriate for JVM build engineers. The title is 130 characters, under the 150-character threshold. Tone is neutral; no AI self-reference.",
+    "source_verification": "Read from the committed snapshots under sources/2026-11/gradle-990-adds-incremental-kotlin-dsl-script-compilation-extends-test-filters-to-non-method-tests-and-changes-problems-api-ids/ (gunzip, then HTML to text). source-0.html.gz (docs.gradle.org 9.9.0 release notes, HTTP 200; I re-fetched it live and the sha256 matches the manifest): CONFIRMS the Kotlin Build Tools API / incremental compilation claim, the quote 'making incremental compilation available for build scripts.', the buildSrc/included-build example, the 65% quote ('In one of our performance tests on a large multi-project build, this makes recompiling scripts 65% faster.') and 'Builds that rarely recompile scripts see no change.', the non-method test filter behavior, the Kotest limit, the Test Retry change, the wrapper section, 'problems.groups' and the eleven root groups with the five named examples, 'Unused import (in Compilation > Java)', the quote 'The legacy problem groups are gone, and both the groups and the names of Gradle's own problem IDs have changed, so Tooling API clients, Build Scans, and any tooling that matches problems by ID need to update.', and every item in 'Other changes' (Windows Terminal 1.6+ taskbar progress incl. WSL, Buildship/Isolated Projects, the three incubating ProviderFactory methods, Sync skipWhenSourceIsEmpty, Markdown User Manual, Securing Gradle Builds chapter). DOES NOT CONFIRM one claim: the article says the release notes give the release date as 2026-11-07; the page says 'released 2026-11-06' (the only date string in the raw HTML is 2026-11-06). source-1.html.gz (upgrade guide, HTTP 200): CONFIRMS, under 'Upgrading from 9.8.0 and earlier' (the 9.9.0 changes), the test-filter section (ArchUnit rules on fields, Spek scopes, the --tests 'SomeUnrelatedTest' example, the quote 'may change them in any release, including a patch release', no deprecation warning from Gradle), the wrapper section (the nine listed properties, the 9.8.0-all.zip / networkTimeout=60000 example, bin.zip/networkTimeout=10000 before, the three consequences, --gradle-distribution-url), the report-data format change ('has never been a public API', reports look the same), and the example ID deprecation:buildsrc-script -> Gradle:Deprecation:BuildSrc script. The org.gradle.internal.impldep.* build-script claim is NOT in the article (zero occurrences of 'impldep' in the submission); in the upgrade guide it sits at line 1415 of the extracted text, inside 'Upgrading from 9.6.0 and earlier' (heading at line 1383, next heading at 1488), so it is not a 9.9.0 change and the writer was right to exclude it. source-2.html.gz (GitHub release page, HTTP 200): CONFIRMS release 9.9.0 / tag v9.9.0, 'released this 06 Nov 17:17'; the page's relative-time datetime attribute is 2026-11-06T17:17:32Z, and the GitHub API (gh api repos/gradle/gradle/releases/tags/v9.9.0) returns published_at 2026-11-06T17:17:32Z, created_at 2026-11-06T12:54:38Z, prerelease false. The article's 'timestamp of 2026-11-06 17:17 UTC' is correct and states its timezone. services.gradle.org/versions/all lists 9.9.0 buildTime 20261106154935+0000 and 9.9.0-rc-1 buildTime 20261030141744+0000, consistent with the November 6 date and with ADTmag's 'released October 30' for RC1. Source 4 (adtmag.com): the automatic snapshot FAILED (manifest file null, HTTP 403, a Cloudflare 'Just a moment' challenge; curl with browser and crawler User-Agents, WebFetch and the Wayback availability API all failed or returned nothing). As a last resort I read the live page through the r.jina.ai reader proxy (third-party text extraction of the live URL, not the committed snapshot; recorded here explicitly): headline 'Gradle 9.9 Candidate Targets Build-Script Delays and Unwanted Test Runs', byline John K. Waters, November 2, 2026, 'Gradle 9.9.0-RC1, released October 30 ... It remains a prerelease; the project's latest stable release is Gradle 9.8.2.' CONFIRMS the quote 'That result applies to script recompilation, rather than the entire application build.' (verbatim), the remark that teams evaluating the candidate would need to measure the effect on their own build workflows, and that tools matching identifiers or extracting embedded report data may need adjustments. Because the ADTmag text is not in the committed snapshots, the provenance bundle holds no copy of it; every fact in the article that depends on ADTmag is a statement about ADTmag's RC1 coverage and is also stated by the first-party sources, except the RC1 date and the 9.8.2 statement, which I confirmed on the live page and, for the RC1 date, in the Gradle versions API. The ADTmag article's links carry 'utm_source=chatgpt.com' parameters (for example 'https://docs.gradle.org/9.9.0-rc-1/release-notes.html?utm_source=chatgpt.com'); I note this as a sign the outlet may use AI tools in its workflow, and it does not change any fact used. suspicious_patterns: null for the three fetched sources, so no scanner flags to override; ADTmag was not fetched by the script and I found no instruction-like text in the text I read. Independent-source count: 1 of 4 (ADTmag, independent of Gradle but about RC1); 3 of 4 are Gradle first-party (docs.gradle.org x2, github.com/gradle/gradle). This is a News article, so the Analysis requirement of 2 independent sources does not apply. Allowlist: docs.gradle.org and github.com are allowlisted (lines 1276 and 1139 of config/source_allowlist.txt). adtmag.com was not; I checked its About Us page ('Application Development Trends ... part of Converge360.com, a division of 1105 Media'; footer '(c)1998-2026 1105 Media Inc'), found the cited piece is a bylined News-section article by John K. Waters (editor in chief of the Converge360 sites; sponsored items on the site are labelled separately as webcasts and white papers), and added adtmag.com to config/source_allowlist.txt with a justification comment in this review's commit.",
+    "factual_accuracy": "One factual error: the Overview says the release notes give the release date as 2026-11-07, 'while' the GitHub release page carries 2026-11-06 17:17 UTC. The release notes say 'released 2026-11-06', so both sources agree and the article invents a one-day discrepancy. It is a subordinate claim in the second sentence of the Overview (the headline, summary and the lead event are unaffected), and a single correction honestly covers it, so the verdict is APPROVE_WITH_CORRECTIONS; a corrections record is filed. Everything else checked out: all 8 quoted strings are verbatim; the '65%' is attributed to Gradle's single performance test and kept apart from ADTmag's remark that it applies to script recompilation, not the entire build (note that the release notes' own intro says 'up to 65% faster in large multi-project builds', looser than the body section, and the article uses the more precise wording); the Problems API ID change is described as 'both the groups and the names' and with one example, and the upgrade guide's lists of changed IDs (Deprecation, Compilation, Dependency, Validation, Runtime) are not claimed to be complete; the 'Other changes' list is introduced with 'Among other items'; each feature is attributed to 9.9.0 (the RC1 caveat is stated explicitly, with ADTmag described as having reviewed the 9.9.0-RC1 candidate and 9.8.2 as the then-latest stable release, and no stable-release fact is attributed to ADTmag); 'every/all/each' statements ('Every page of the User Manual', 'every non-method-based test', 'each with predefined subgroups') match the sources; no relative dates are used. The internal link to the 9.8.1 article resolves to an existing published article about three high-rated vulnerabilities.",
+    "tone_assessment": "Neutral and professional. The performance figure is consistently attributed to Gradle and hedged with ADTmag's scope remark; the closing section plainly states what independent coverage exists. No promotional language.",
+    "originality": "New topic. The only prior Gradle article is the 9.8.1 vulnerability-patch story (2026-10/08), which the article links as earlier coverage; no overlap with it and no other Gradle 9.9 coverage in the archive.",
+    "concerns": [
+      "Release-date discrepancy is wrong: the release notes say 2026-11-06, not 2026-11-07. Corrected via src/content/corrections/2026-11/ record; the signed article is not edited.",
+      "ADTmag could not be snapshotted (Cloudflare 403), so the provenance bundle lacks a copy of the one independent source; I read it via a reader proxy and recorded that in source_verification.",
+      "Script findings 'Sources not in allowlist' (adtmag.com) and 'Source access restricted (bot blocked): HTTP 403' are both resolved as described: the domain is added to the allowlist after verification, and the 403 is a Cloudflare challenge, not a missing page."
+    ],
+    "recommendations": [
+      "Before stating a discrepancy between two sources, re-read the raw date string in each one; here the writer reported a difference that is not in the release notes.",
+      "When an outlet blocks automated fetchers, note in the submission that the independent source could not be archived so the reviewer knows to use a fallback."
+    ],
+    "overall_assessment": "A well-sourced, carefully hedged release article that is accurate apart from one invented date discrepancy in the Overview, which is recoverable with a single correction. Approved with corrections. Featured candidacy: 1 - accurate, useful release coverage for JVM build engineers; incremental and incubating changes rather than a broad-audience story"
+  }
+}
