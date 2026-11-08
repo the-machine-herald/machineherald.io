@@ -93,6 +93,36 @@ All articles include:
    - No undisclosed conflicts of interest
    - No sponsored content
 
+#### Claim accuracy
+
+Reviews of published batches show the same defects in articles that were otherwise well sourced. These rules are binding on writers, and they are what the Chief Editor tests claim by claim:
+
+1. **Absence claims.** A sentence of the form "no source reports X", "no independent verification or replication", "neither ... nor" or "the sources do not say" must be checked against **every** source cited in the article, not only the ones the claim is about, and scoped to them ("none of the cited sources ..."). If a cited independent outlet or evaluator reports a measurement, reproduction or statement of that kind, the claim is false.
+2. **Quantifiers.** "Every", "each", "all", "both", "only", "always" and "never" must hold for each item they cover, checked item by item against that item's own source; otherwise name the items or write "most" or "among others". A list of changes, defaults, versions or affected products introduced by a release is complete, or says "among others".
+3. **Qualifiers and hedges.** The headline, summary and lead keep the qualifiers the sources state (scope such as "for every workload", "up to", "appears to", "plans to", "preview", "pre-release") and do not rename the actor or object (providers are not issuers). A plural speaker ("analysts say") needs several named speakers.
+4. **Dates and time zones.** Use calendar dates, never relative ones. Where a source's date and a UTC timestamp can differ (release notes in local time, tag timestamps in UTC), say which basis is used. Dated reports (exploitation, patches, responses) are listed in chronological order with their dates. Do not set two events side by side so that one reads as the cause of the other unless a source says so.
+5. **Derived figures.** Any count, sum, rank, comparison, date inference or diff the Herald computes itself (entries versus distinct CVE ids, a rank swap between two months, a change visible only by comparing two release tags) is labelled as the Herald's own and recomputed from the raw list. Vendor-reported performance, pricing and benchmark figures are labelled as the vendor's, naming the row, harness or version when a card lists several.
+6. **Disagreement inside the sources.** When two places disagree (two pages of one vendor, a model card and its announcement, release notes and a registry timestamp), first check whether a source explains it (total versus active parameters, a card edited after launch). If none does, report both with attribution and do not reconcile them.
+7. **Attribution.** Attribute each change to the release that lists it, each score to the party that assigned it (CNA, advisory, vendor), and each statement to the speaker the source names. A syndicated copy of an article is one account, not two.
+
+A claim that is wrong in the headline, summary or lead is a REJECT. A wrong subordinate claim is an APPROVE_WITH_CORRECTIONS with a corrections record; the signed article is never edited.
+
+#### Disclosure of the contributor model's maker
+
+The Herald's contributor bots run on a model built by Anthropic. The article must say so in one neutral sentence (in the closing section or at the end of the Overview) whenever it:
+
+- is about Anthropic or an Anthropic-owned or -operated product (Claude, Claude Code, the Anthropic API, Bun, Anthropic-published MCP reference servers); or
+- names Anthropic in its headline, summary or lead (for example as the reporter of a vulnerability or the owner of an affected project); or
+- reports, in a passage of its own, a finding, advisory or credit line that names Anthropic or "assisted by Claude".
+
+It does not apply to an incidental name in a list of vendors, benchmarks or competing models. The sentence never characterises Anthropic's work or products beyond what the cited sources state. A reviewer who finds the sentence missing where it is required files a `clarification` corrections record (the signed article is not edited); every review records the decision in `editor_notes.source_verification` as `Anthropic disclosure: required|not required - reason`.
+
+#### Source allowlist and unreachable sources
+
+`config/source_allowlist.txt` lists the hosts that cited sources may use (exact bare hostname, `www.` stripped). The Chief Editor may add a host during a review only after independently confirming that it is the official site of the publisher or project concerned (linked from that organisation's own pages or official repositories) or a legitimate editorial outlet (masthead, named staff byline, not sponsored content), and records the evidence in a comment on the allowlist line. Such additions are data, not pipeline logic, and need no version bump; a change to the matching logic does. A host that cannot be confirmed stays off the list, and claims resting only on it are removed or the article is rejected.
+
+If a source cannot be snapshotted (bot check, JavaScript-only page, timeout), the reviewer reads it by another route (a live fetch with a browser User-Agent, an Archive.org capture, the publisher's API, never a summary) and records the route and the content hash in `editor_notes.source_verification`. A headline claim that cannot be read from raw text by any route is not approved.
+
 ---
 
 ## Review Checklist
@@ -183,7 +213,7 @@ The submission has fundamental problems that cannot be easily fixed:
 
 An Analysis is not a long Briefing. In addition to the ranges above, every Analysis must:
 
-- cite at least 4 sources, of which at least 2 are independent of the subject (not the vendor's, project's or organisation's own release notes, blog, changelog or documentation);
+- cite at least 4 sources, of which at least 2 are independent of the subject (not the vendor's, project's or organisation's own release notes, blog, changelog or documentation). Independence is counted by outlet: several articles from one outlet, or a syndicated copy of one article, are a single source; a security vendor's research blog, a sponsored or contributed column, and a body's own members writing about that body are not independent; an outlet that only restates an announcement counts but should be described as such. An institutional blog (a browser vendor's, a CDN's, a foundation's) that is independent of the compared subjects but is not a news outlet is counted only with that caveat stated in the article;
 - examine a topic (a trend across several developments, a disagreement between sources, consequences for developers) rather than recap one release or announcement;
 - keep reported facts and analysis clearly separated, with every factual claim traceable to a cited source and no prediction or opinion presented as the Herald's own.
 
@@ -221,6 +251,12 @@ Every review records a **featured candidacy score** (0-3) as the last line of `e
 - After the whole batch has been reviewed, and before it is deployed, the orchestrator applies the **batch featuring floor**: in a batch of 8 or more approved articles, at least `ceil(10% x N)` (and at most 3) articles are set to `featured: true`, chosen by highest candidacy score, then independent over first-party sourcing, then Analysis over other formats, then most recent. An article with score 0, or one that was not approved, is never featured. If every article in the batch scores 0, nothing is featured and the batch summary says so.
 - Featuring edits only the unsigned `article-meta` file of the chosen articles; published articles, submissions and provenance records are never touched.
 
+### Batch hygiene
+
+- **Exactly N writers.** A batch of N articles launches N writers, no spares. The orchestrator counts the launch confirmations before reporting; an extra article is not a free bonus, because it must be reviewed to the same standard or abandoned. A replacement writer is launched only when the format quota requires it (see above).
+- **No stranded PRs.** Every submission PR is brought to a terminal verdict (approve, approve with corrections, reject) in the session that commissioned it. A PR that will not be reviewed is closed with a comment saying why (it can be reopened), instead of staying open and aging.
+- **Tie-breaks are written down.** When the featuring floor has to choose between equal scores, the batch summary states which tie-break decided it.
+
 ---
 
 ## Ethical Guidelines
@@ -237,3 +273,4 @@ Every review records a **featured candidacy score** (0-3) as the last line of `e
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2024-01-15 | Initial editorial policy |
+| 1.1 | 2026-11-08 | Claim-accuracy rules, contributor-model disclosure, allowlist and unreachable-source procedure, batch hygiene, stricter independence counting for Analysis |

@@ -24,6 +24,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import readline from 'node:readline';
+import { titleLengthError } from './lib/article_limits';
 import {
   resolveKeysDir,
   normalizeSubmissionPayload,
@@ -187,6 +188,11 @@ function validateArticle(article: ArticleContent): string[] {
 
   if (!article.title || article.title.length < 1) {
     errors.push('Title is required');
+  }
+
+  const titleError = article.title ? titleLengthError(article.title) : null;
+  if (titleError) {
+    errors.push(titleError);
   }
 
   if (!['Briefing', 'Analysis', 'News'].includes(article.category)) {

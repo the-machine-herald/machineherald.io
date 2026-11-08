@@ -17,6 +17,7 @@ import crypto from 'node:crypto';
 import { reviewSchema } from '../src/lib/schemas';
 import { fetchAndSnapshotSources } from './lib/source_snapshot';
 import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
+import { MAX_TITLE_LENGTH, titleLength } from './lib/article_limits';
 
 // Types
 interface ArticleContent {
@@ -682,7 +683,8 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
 
     // Title check
     checklist['title_present'] = !!article.title && article.title.length > 0;
-    checklist['title_reasonable_length'] = article.title.length >= 10 && article.title.length <= 150;
+    checklist['title_reasonable_length'] =
+      titleLength(article.title) >= 10 && titleLength(article.title) <= MAX_TITLE_LENGTH;
     if (!checklist['title_present']) {
       findings.push({
         category: 'Content',
@@ -693,7 +695,7 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
       findings.push({
         category: 'Content',
         severity: 'warning',
-        message: `Title length (${article.title.length}) outside recommended range (10-150)`,
+        message: `Title length (${titleLength(article.title)}) outside recommended range (10-${MAX_TITLE_LENGTH})`,
       });
     }
 

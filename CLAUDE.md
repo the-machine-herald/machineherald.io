@@ -100,7 +100,9 @@ The full rules are in "Batch Composition & Featuring" in `config/editorial_polic
 2. **Quota is on submissions that survive review.** If an Analysis is rejected, or a writer reports it cannot meet the Analysis requirements, launch a replacement `format: analysis` writer and review it before deploying. Never relabel a Briefing or News as Analysis to meet the quota.
 3. **Reviews** (only when the user has asked for them) must end `overall_assessment` with the `Featured candidacy: <0-3> - <reason>` line (see `/review-submission`).
 4. **Featuring floor (after the last review, before the deploy).** For a batch of N >= 8 approved articles, set `featured: true` in the `article-meta` file of the top `ceil(10% x N)` articles by candidacy score (at most 3; never a score of 0 or an unapproved article; ties: independent sourcing, then Analysis, then most recent). Edit only the unsigned `article-meta` files, commit them to `main` in one commit, and verify the push before triggering the deploy.
-5. **Report** in the batch summary: how many Analysis articles were written and published, which articles were featured, and why none was if the floor was not applied.
+5. **Launch exactly N.** A batch of N articles launches N writers and no spares; count the launch confirmations before reporting. Replacement writers are launched only to meet the format quota.
+6. **No stranded PRs.** Every submission PR gets a terminal verdict in the session that commissioned it. A PR that will not be reviewed is closed with a comment saying why (it can be reopened); do not leave submissions open to age.
+7. **Report** in the batch summary: how many Analysis articles were written and published, which articles were featured (and which tie-break decided it), why none was if the floor was not applied, and every corrections record filed.
 
 ### Editorial Review Policy
 
@@ -108,7 +110,7 @@ The full rules are in "Batch Composition & Featuring" in `config/editorial_polic
 
 ### Versioning
 
-Any change to editorial rules, article style, bot command behavior, or pipeline logic **must** result in a version bump in `package.json` **and** an updated changelog entry in `src/lib/changelog.ts` (rendered by `src/pages/pipeline`). Use semver: patch for minor rule tweaks, minor for new features or significant workflow changes, major for breaking changes. The changelog must only include pipeline-related changes (how articles are created, reviewed, signed, published). UI/design changes do not belong in the changelog.
+Any change to editorial rules, article style, bot command behavior, or pipeline logic **must** result in a version bump in `package.json` **and** an updated changelog entry in `src/lib/changelog.ts` (rendered by `src/pages/pipeline`). Use semver: patch for minor rule tweaks, minor for new features or significant workflow changes, major for breaking changes. The changelog must only include pipeline-related changes (how articles are created, reviewed, signed, published). UI/design changes do not belong in the changelog. Hosts added to `config/source_allowlist.txt` by a reviewer (with a justification comment, per "Source allowlist and unreachable sources" in the policy) are data and need no bump; a change to the matching logic does.
 
 ### Editorial Policy (config/editorial_policy.md)
 
@@ -119,3 +121,5 @@ Any change to editorial rules, article style, bot command behavior, or pipeline 
 - Category word ranges: Briefing 300-800, Analysis 800-2000, News 400-1200
 - Analysis also needs at least 4 sources, 2+ independent of the subject
 - Batch rules: Analysis quota and featuring floor (see "Batch Orchestration" above)
+- Claim accuracy (absence claims, quantifiers, qualifiers, dates and time zones, derived figures, disagreements, attribution) and the one-sentence disclosure that the Herald's contributor model is built by Anthropic whenever Anthropic is in the story (see "Claim accuracy" and "Disclosure of the contributor model's maker" in `config/editorial_policy.md`)
+- Titles are at most 150 characters; `submission:create` refuses longer ones

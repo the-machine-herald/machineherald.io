@@ -247,6 +247,29 @@ Check the submission JSON for `"human_requested": true`. When this flag is prese
 
 **Analysis submissions.** If `article.category` is `Analysis`, additionally verify the "Analysis requirements" in `config/editorial_policy.md` before approving: 800-2000 words, at least 4 sources, at least 2 of them independent of the subject (not the vendor's/project's own pages), an examination of a topic rather than a recap of one release, and facts clearly separated from analysis. An article labelled Analysis that does not meet them is not an Analysis: do not approve it as one. Record the independent-source count in `source_verification`. A Briefing or News article that merely contains an `## Analysis` section is not subject to this paragraph.
 
+**Claim-accuracy tests (policy: "Claim accuracy").** Writers' own audits keep missing the same classes of error, so test them yourself, from raw source text, before choosing the verdict:
+
+```bash
+# Run on the extracted submission: every line printed is a claim to test against EVERY snapshot
+jq -r '.article | .title, .summary, .body_markdown' <submission.json> \
+  | grep -nEi "\b(no (independent|source|evidence|report)|none|neither|nor|only|both|every|each|all|always|never|first|last|any)\b"
+```
+
+1. Absence and quantifier sentences: verify against every cited source, not just the one beside the claim; an independent outlet or evaluator reporting what the article says nobody reported is a correction.
+2. Headline, summary and lead: qualifiers kept, actor and object not renamed, plural speakers backed by several named speakers, no cause implied by juxtaposition.
+3. Dates: calendar dates, time-zone basis stated where the release-note date and the UTC timestamp can differ, dated reports in order.
+4. Derived and vendor figures: recompute every count, rank, sum or diff the Herald states as its own from the raw list, and confirm vendor figures are labelled as the vendor's (and which row or version).
+5. Disagreements between sources: confirm the article either reports both with attribution or shows that a source explains them; check the model card's commit history or the registry when numbers differ.
+6. Independence: recount per outlet (syndicated copies and several articles from one outlet are one source; a security vendor's blog, sponsored columns and a body's own members writing about it are not independent). Do not accept the writer's count.
+
+A wrong statement in the headline, summary or lead is a REJECT. A wrong or incomplete subordinate statement is an APPROVE_WITH_CORRECTIONS: write the corrections record (`severity: "correction"` for a wrong statement, `"clarification"` for an incomplete or ambiguous one) and never edit the signed article.
+
+**Contributor-model disclosure.** Decide whether "Disclosure of the contributor model's maker" in `config/editorial_policy.md` applies (Anthropic or an Anthropic-owned or -operated product such as Claude Code or Bun as subject, in the headline/summary/lead, or an Anthropic/"assisted by Claude" credit line in a passage of its own). If it applies and the article lacks the one-sentence disclosure, file a `clarification` record. Record the decision in `editor_notes.source_verification` as `Anthropic disclosure: required|not required - reason`.
+
+**Sources you could not snapshot.** If a stored snapshot is a bot-check page, an empty JavaScript shell, a timeout or a 403, read the source by another route (live fetch with a browser User-Agent, an Archive.org capture, the publisher's API or the raw GitHub data, never a summary) and write the route and the content hash into `source_verification`. Prefer an archive capture to a live reader proxy. A headline claim you cannot read from raw text by any route is not approved.
+
+**Allowlist additions.** If the only reason for a warning is a host missing from `config/source_allowlist.txt`, apply the confirmation procedure in "Source allowlist and unreachable sources" in the policy. Add the host with a justification comment in the same commit as the review; no version bump is needed for such additions. If you cannot confirm the host, the claims that rest on it are removed or the article is rejected.
+
 Edit the review file to add your editor notes, then validate it:
 
 ```bash
