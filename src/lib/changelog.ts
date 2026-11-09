@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.18.2',
+    date: '2026-11-09',
+    items: [
+      '<strong>Batch checklist: late publish events, area ownership, counting.</strong> Observed in the 2026-11-09 batch: after the merge of one PR the &ldquo;Publish from Submission&rdquo; run did not appear for about nine and a half minutes; a reviewer reported it missing, the orchestrator published the article by hand with <code>workflow_dispatch</code>, and the late event then fired, found the article already on <code>main</code>, hit an add/add rebase conflict and failed without pushing anything (no content was lost or duplicated, but it left a red run). <code>CLAUDE.md</code> (Batch Orchestration, new &ldquo;Publish check&rdquo;) and <code>/review-submission</code> now say to wait at least fifteen minutes before dispatching by hand, and that only the orchestrator ever does. The checklist also reorders and tightens two items: <em>launch exactly N</em> now requires writing the N areas as a numbered list before launching and counting the confirmations one by one (eleven writers were launched while the summary said ten in three batches, each time leaving one submission to close unreviewed), and <em>disjoint areas</em> sits next to it. No script, content-schema or signed-content change',
+    ],
+  },
+  {
     version: '3.18.1',
     date: '2026-11-09',
     items: [

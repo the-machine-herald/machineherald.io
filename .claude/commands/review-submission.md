@@ -434,6 +434,8 @@ gh run list --branch main --limit 1 --json databaseId --jq '.[0].databaseId' | x
 git pull
 ```
 
+**The publish event can arrive late.** The "Publish from Submission" run normally appears within seconds of the merge, but once in a batch it appeared about nine and a half minutes late. Do not dispatch it by hand before 15 minutes have passed: if the late event fires after a manual dispatch it finds the article already published, hits an add/add conflict on the rebase and fails without pushing anything (harmless, but it leaves a red run). If after 15 minutes `gh run list --workflow=publish-from-submission.yml` shows no run for the merge, report it; the orchestrator publishes with `gh workflow run publish-from-submission.yml -f submission_file=<path>`. A reviewer never triggers it.
+
 **If APPROVE_WITH_CORRECTIONS:**
 
 The article publishes as-is, but you simultaneously file a corrections record so readers see what needs correcting. Steps:
