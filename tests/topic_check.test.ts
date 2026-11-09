@@ -9,6 +9,9 @@ import {
   walkArchive,
   parseOpenPRs,
   canonicalSlug,
+  foldToken,
+  claimKeywordsFromRef,
+  parseClaimRefs,
   claimStatePath,
   writeClaimState,
   readClaimState,
@@ -83,7 +86,7 @@ describe('tokenize', () => {
   it('drops pure-numeric tokens', () => {
     const result = tokenize('Apache 2.4.67 patches CVE 23918');
     expect(result.has('apache')).toBe(true);
-    expect(result.has('patches')).toBe(true);
+    expect(result.has('patch')).toBe(true);
     expect(result.has('cve')).toBe(true);
     expect(result.has('23918')).toBe(false);
     expect(result.has('2')).toBe(false);
@@ -105,6 +108,34 @@ describe('tokenize', () => {
   it('combines title and tags input', () => {
     const result = tokenize('Anthropic deal', ['claude', 'spacex']);
     expect(result).toEqual(new Set(['anthropic', 'deal', 'claude', 'spacex']));
+  });
+});
+
+describe('foldToken', () => {
+  it('folds plurals and common verb endings to a shared stem', () => {
+    expect(foldToken('plugins')).toBe('plugin');
+    expect(foldToken('installed')).toBe('install');
+    expect(foldToken('installs')).toBe('install');
+    expect(foldToken('reverting')).toBe('revert');
+    expect(foldToken('advisories')).toBe('advisory');
+    expect(foldToken('fixes')).toBe('fix');
+    expect(foldToken('patches')).toBe('patch');
+  });
+
+  it('leaves short words and words ending in ss, us or is alone', () => {
+    expect(foldToken('says')).toBe('says');
+    expect(foldToken('access')).toBe('access');
+    expect(foldToken('status')).toBe('status');
+    expect(foldToken('analysis')).toBe('analysis');
+    expect(foldToken('codex')).toBe('codex');
+  });
+
+  it('makes two wordings of the same story share tokens', () => {
+    const a = tokenize('Postman Reverting Automatic Claude Code and Codex Plugin Installs');
+    const b = tokenize('Postman Desktop Auto-Installed Codex and Claude Code Plugins');
+    for (const t of ['postman', 'claude', 'code', 'codex', 'plugin', 'install']) {
+      expect(a.has(t) && b.has(t)).toBe(true);
+    }
   });
 });
 
@@ -187,7 +218,7 @@ describe('scoreCandidate', () => {
     expect(result.candidate_keywords).toContain('spacex');
     expect(result.candidate_keywords).toContain('colossus');
     expect(result.candidate_keywords).toContain('memphis');
-    expect(result.candidate_keywords).toContain('leases');
+    expect(result.candidate_keywords).toContain('lease');
   });
 
   it('empty candidate keywords → verdict "empty_candidate"', () => {
@@ -384,7 +415,7 @@ describe('canonicalSlug', () => {
     const a = canonicalSlug({ title: 'Anthropic Leases SpaceX Colossus 1' });
     const b = canonicalSlug({ title: 'Anthropic Leases SpaceX Colossus 1' });
     expect(a).toBe(b);
-    expect(a).toMatch(/^anthropic-colossus-leases-[0-9a-f]{8}$/);
+    expect(a).toMatch(/^anthropic-colossus-lease-spacex-[0-9a-f]{8}$/);
   });
 
   it('produces same slug for same keyword set with different word order in title', () => {
@@ -401,7 +432,7 @@ describe('canonicalSlug', () => {
 
   it('combines title and tags', () => {
     const a = canonicalSlug({ title: 'Anthropic deal', tags: ['claude', 'spacex'] });
-    expect(a).toMatch(/^anthropic-claude-deal-[0-9a-f]{8}$/);
+    expect(a).toMatch(/^anthropic-claude-deal-spacex-[0-9a-f]{8}$/);
   });
 
   it('returns empty string when candidate produces zero keywords', () => {
@@ -419,15 +450,86 @@ describe('canonicalSlug', () => {
     expect(a).not.toBe(b);
   });
 
-  it('slug suffix is sensitive to the FULL keyword set, not just the top-3', () => {
-    // Same top-3 alphabetically, different 4th keyword → different sha8
+  it('slug suffix is sensitive to the FULL keyword set', () => {
     const a = canonicalSlug({ title: 'anthropic colossus leases spacex' });
     const b = canonicalSlug({ title: 'anthropic colossus leases mythos' });
-    // Both have top-3 = anthropic-colossus-leases
-    expect(a.split('-').slice(0, 3).join('-')).toBe('anthropic-colossus-leases');
-    expect(b.split('-').slice(0, 3).join('-')).toBe('anthropic-colossus-leases');
-    // But the sha8 should differ
-    expect(a.split('-').slice(3).join('-')).not.toBe(b.split('-').slice(3).join('-'));
+    expect(a).not.toBe(b);
+    expect(a.split('-').pop()).not.toBe(b.split('-').pop());
+  });
+
+  it('carries every keyword in the branch name so other writers can read it back', () => {
+    const slug = canonicalSlug({ title: 'Postman Desktop Auto-Installed Codex and Claude Code Plugins' });
+    expect(claimKeywordsFromRef(`claim/${slug}`)).toEqual(
+      ['auto', 'claude', 'code', 'codex', 'desktop', 'install', 'plugin', 'postman'],
+    );
+  });
+
+  it('cuts a very long keyword list at a token boundary but keeps the hash over all tokens', () => {
+    const words = Array.from({ length: 60 }, (_, i) => `keyword${String(i).padStart(2, '0')}x`);
+    const slug = canonicalSlug({ title: words.join(' ') });
+    const keywords = claimKeywordsFromRef(slug);
+    expect(slug.length).toBeLessThan(200);
+    expect(keywords.length).toBeLessThan(60);
+    expect(keywords.every(k => words.includes(k))).toBe(true);
+    const slugWithOneMore = canonicalSlug({ title: [...words, 'zzzextra'].join(' ') });
+    expect(slugWithOneMore).not.toBe(slug);
+  });
+});
+
+describe('claimKeywordsFromRef / parseClaimRefs', () => {
+  it('reads keywords out of a full ref and drops the sha8 suffix', () => {
+    expect(claimKeywordsFromRef('refs/heads/claim/bun-playwright-runner-0123abcd'))
+      .toEqual(['bun', 'playwright', 'runner']);
+  });
+
+  it('turns ref lines into claim corpus items', () => {
+    const items = parseClaimRefs(
+      'refs/heads/claim/bun-playwright-runner-0123abcd\nrefs/heads/claim/kaniko-token-89abcdef\n',
+    );
+    expect(items).toEqual([
+      { type: 'claim', ref: 'claim/bun-playwright-runner-0123abcd', title: 'bun playwright runner', tags: [] },
+      { type: 'claim', ref: 'claim/kaniko-token-89abcdef', title: 'kaniko token', tags: [] },
+    ]);
+  });
+
+  it('skips the writer\'s own claim', () => {
+    const items = parseClaimRefs(
+      'refs/heads/claim/bun-playwright-runner-0123abcd\nrefs/heads/claim/kaniko-token-89abcdef\n',
+      'claim/kaniko-token-89abcdef',
+    );
+    expect(items.map(i => i.ref)).toEqual(['claim/bun-playwright-runner-0123abcd']);
+  });
+
+  it('ignores empty lines and non-claim refs', () => {
+    expect(parseClaimRefs('\n\nrefs/heads/main\n')).toEqual([]);
+  });
+
+  it('makes a second writer on the same story collide with a claim that is not yet a PR', () => {
+    const first = canonicalSlug({
+      title: 'Postman Says It Is Reverting Automatic Claude Code and Codex Plugin Installs',
+      tags: ['postman', 'claude-code', 'codex'],
+    });
+    const corpus = parseClaimRefs(`refs/heads/claim/${first}\n`);
+    const result = scoreCandidate(
+      {
+        title: 'Postman Desktop Auto-Installed Codex and Claude Code Plugins on a Developer Mac',
+        tags: ['postman', 'claude-code', 'codex'],
+      },
+      corpus,
+      0.35,
+    );
+    expect(result.verdict).toBe('collision');
+    expect(result.collision_with?.type).toBe('claim');
+  });
+
+  it('does not collide with an unrelated claim', () => {
+    const other = canonicalSlug({ title: 'Kaniko Before v1.25.20 Can Send Azure Entra ID Tokens to Lookalike Hosts' });
+    const result = scoreCandidate(
+      { title: 'Postman Desktop Auto-Installed Codex and Claude Code Plugins', tags: ['postman'] },
+      parseClaimRefs(`refs/heads/claim/${other}\n`),
+      0.35,
+    );
+    expect(result.verdict).toBe('clear');
   });
 });
 

@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.18.1',
+    date: '2026-11-09',
+    items: [
+      '<strong>The topic pre-check now sees stories that other writers have claimed but not yet opened a PR for, and folds word endings.</strong> In the 2026-11-08 batch two parallel writers (developer tools and AI coding agents) wrote the same story, Postman&rsquo;s desktop app auto-installing plugins into Claude Code and Codex; one submission had to be closed as a duplicate. <code>npm run topic:check</code> compared a candidate only with published articles and open PRs, and the atomic claim only collided when two candidates produced the identical keyword set, so a second writer researching the same story under a different wording passed both gates for the whole research phase (about fifteen minutes). Two changes: (1) <code>canonicalSlug()</code> in <code>scripts/lib/topic_check.ts</code> now builds the <code>claim/&lt;slug&gt;</code> branch name from <em>all</em> of the candidate&rsquo;s keywords (alphabetical, cut at a token boundary after 160 characters, with the sha8 still computed over the full keyword set so identical topics still collide on the same branch) instead of the first three, and <code>topic:check</code> reads the remote <code>claim/*</code> branches (<code>gh api</code>), turns each name back into its keyword list and scores the candidate against them with the same Jaccard threshold, ignoring the writer&rsquo;s own claim; (2) <code>tokenize()</code> folds plurals and common verb endings (<code>foldToken()</code>: &ldquo;plugins&rdquo;, &ldquo;installed&rdquo; and &ldquo;installs&rdquo; match &ldquo;plugin&rdquo; and &ldquo;install&rdquo;), which lifts the two Postman titles from a Jaccard of 0.25 to 0.36, above the 0.35 threshold. Measured on 479 published titles from September to November 2026, the new tokenizer flags two pairs at or above the threshold: the duplicate Zed Delta launch articles and the Bun 1.4.3/1.4.4 follow-ups, so the false-positive rate stays low. The batch checklist in <code>CLAUDE.md</code> gains &ldquo;disjoint areas&rdquo;: each writer gets an area, and when two areas can share a story the orchestrator says which writer owns it. Tests added in <code>tests/topic_check.test.ts</code>. No content-schema or signed-content change',
+    ],
+  },
+  {
     version: '3.18.0',
     date: '2026-11-08',
     items: [

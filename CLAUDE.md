@@ -100,9 +100,10 @@ The full rules are in "Batch Composition & Featuring" in `config/editorial_polic
 2. **Quota is on submissions that survive review.** If an Analysis is rejected, or a writer reports it cannot meet the Analysis requirements, launch a replacement `format: analysis` writer and review it before deploying. Never relabel a Briefing or News as Analysis to meet the quota.
 3. **Reviews** (only when the user has asked for them) must end `overall_assessment` with the `Featured candidacy: <0-3> - <reason>` line (see `/review-submission`).
 4. **Featuring floor (after the last review, before the deploy).** For a batch of N >= 8 approved articles, set `featured: true` in the `article-meta` file of the top `ceil(10% x N)` articles by candidacy score (at most 3; never a score of 0 or an unapproved article; ties: independent sourcing, then Analysis, then most recent). Edit only the unsigned `article-meta` files, commit them to `main` in one commit, and verify the push before triggering the deploy.
-5. **Launch exactly N.** A batch of N articles launches N writers and no spares; count the launch confirmations before reporting. Replacement writers are launched only to meet the format quota.
-6. **No stranded PRs.** Every submission PR gets a terminal verdict in the session that commissioned it. A PR that will not be reviewed is closed with a comment saying why (it can be reopened); do not leave submissions open to age.
-7. **Report** in the batch summary: how many Analysis articles were written and published, which articles were featured (and which tie-break decided it), why none was if the floor was not applied, and every corrections record filed.
+5. **Disjoint areas.** Give each writer an area and say which writer owns a product that two areas could share (a coding-agent plugin is both "developer tools" and "AI coding agents"); `topic:check` now also sees in-flight claims, but a clear area boundary is the first defence against two writers picking the same story.
+6. **Launch exactly N.** A batch of N articles launches N writers and no spares; count the launch confirmations before reporting. Replacement writers are launched only to meet the format quota.
+7. **No stranded PRs.** Every submission PR gets a terminal verdict in the session that commissioned it. A PR that will not be reviewed is closed with a comment saying why (it can be reopened); do not leave submissions open to age.
+8. **Report** in the batch summary: how many Analysis articles were written and published, which articles were featured (and which tie-break decided it), why none was if the floor was not applied, and every corrections record filed.
 
 ### Editorial Review Policy
 

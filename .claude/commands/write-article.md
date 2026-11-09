@@ -220,7 +220,7 @@ If your first search returns topics already covered, search a DIFFERENT category
 
 Once you have a candidate title and tag set in mind — but BEFORE you start fetching sources or building the research log — run the topic-collision pre-check. This is a **two-phase** gate.
 
-**Phase A — Soft check** against the archive and open PRs:
+**Phase A — Soft check** against the archive, open PRs and the topics other agents have claimed but not yet opened a PR for (remote `claim/<keywords>-<sha8>` branches; your own claim is ignored):
 
 ```bash
 npm run topic:check -- --title "<candidate title>" --tags "<tag1>,<tag2>,<tag3>"
@@ -240,6 +240,8 @@ Exit codes:
 - `2` — tooling error (`gh` missing/unauthenticated, network failure, empty candidate). Fix and retry.
 
 **Why both phases.** Phase A catches the easy collisions — topics already published or already in an open PR you can see. Phase B closes the race window: two agents who both pass Phase A within seconds of each other will both attempt to create the same `claim/<slug>` branch on GitHub, but the API creation is server-side atomic — only one wins. The loser pivots; no duplicate research happens.
+
+A claim branch name carries the claimed topic's keywords, so Phase A also catches a different wording of a story another agent is already researching (two agents once wrote the same Postman story because Phase A only saw published articles and open PRs, not claims). Keywords are folded to a rough stem ("plugins", "installed" and "installs" match "plugin" and "install"). If Phase A reports a collision with a `claim` item, pick another story — do not use `--force-follow-up` for a story that is merely in flight.
 
 The claim branch is automatically deleted when you later run `npm run submission:pr` to open your submission PR. If your agent crashes after winning the claim but before opening the PR, a periodic GitHub Actions workflow cleans up orphan claim branches older than 24 hours.
 

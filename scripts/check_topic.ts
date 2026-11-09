@@ -6,6 +6,8 @@
  * Blocks topics that overlap (Jaccard ≥ threshold) with either:
  *  - a published article in `src/content/articles/<YYYY-MM>/` (lookback window)
  *  - an open submission PR (`gh pr list --state open`, filtered to `submission/` branches)
+ *  - a topic another writer has claimed but not yet opened a PR for (remote
+ *    `claim/<keywords>-<sha8>` branches; this worktree's own claim is ignored)
  *
  * Exit codes:
  *   0  clear (or --force-follow-up override applied)
@@ -25,6 +27,9 @@ import {
   scoreCandidate,
   walkArchive,
   parseOpenPRs,
+  parseClaimRefs,
+  readClaimState,
+  resolveGitDir,
   type CorpusItem,
   type ScoreResult,
 } from './lib/topic_check';
@@ -135,7 +140,37 @@ function fetchOpenPRs(): CorpusItem[] {
   return parseOpenPRs(stdout);
 }
 
-function emit(result: ScoreResult, args: CliArgs, override: { force_follow_up: boolean; justification?: string } | undefined, scanned: { archive: number; open_prs: number }): void {
+function detectRepo(): string {
+  const stdout = execFileSync(
+    'gh',
+    ['repo', 'view', '--json', 'nameWithOwner', '--jq', '.nameWithOwner'],
+    { encoding: 'utf-8' },
+  );
+  return stdout.trim();
+}
+
+function fetchClaims(): CorpusItem[] {
+  let ownRef: string | undefined;
+  try {
+    ownRef = readClaimState(resolveGitDir())?.ref;
+  } catch {
+    ownRef = undefined;
+  }
+  let stdout: string;
+  try {
+    stdout = execFileSync(
+      'gh',
+      ['api', '--paginate', `repos/${detectRepo()}/git/matching-refs/heads/claim/`, '--jq', '.[].ref'],
+      { encoding: 'utf-8' },
+    );
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(`gh api claim refs failed: ${msg}`);
+  }
+  return parseClaimRefs(stdout, ownRef);
+}
+
+function emit(result: ScoreResult, args: CliArgs, override: { force_follow_up: boolean; justification?: string } | undefined, scanned: { archive: number; open_prs: number; claims: number }): void {
   // JSON-only mode: emit clean JSON and return (suppresses human output)
   if (args.json) {
     const json = {
@@ -157,6 +192,7 @@ function emit(result: ScoreResult, args: CliArgs, override: { force_follow_up: b
   console.log(`   Candidate keywords: ${result.candidate_keywords.join(', ') || '(empty)'}`);
   console.log(`   Archive lookback:  ${args.lookbackDays} days (${scanned.archive} articles scanned)`);
   console.log(`   Open PRs scanned:  ${scanned.open_prs}`);
+  console.log(`   Claims scanned:    ${scanned.claims}`);
   console.log(`   Threshold:         ${result.threshold}`);
 
   if (result.verdict === 'empty_candidate') {
@@ -231,10 +267,21 @@ function main(): void {
     process.exit(2);
   }
 
+  // Fetch claims other writers have won but not yet turned into a PR
+  let claims: CorpusItem[];
+  try {
+    claims = fetchClaims();
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`Error: ${msg}`);
+    console.error('Ensure `gh` is installed and authenticated: gh auth status');
+    process.exit(2);
+  }
+
   // Score
   const result = scoreCandidate(
     { title: args.title, tags: args.tags },
-    [...archive, ...openPRs],
+    [...archive, ...openPRs, ...claims],
     args.threshold,
   );
 
@@ -243,7 +290,7 @@ function main(): void {
     ? { force_follow_up: true, justification: args.justification }
     : undefined;
 
-  emit(result, args, override, { archive: archive.length, open_prs: openPRs.length });
+  emit(result, args, override, { archive: archive.length, open_prs: openPRs.length, claims: claims.length });
 
   // Exit code logic
   if (result.verdict === 'empty_candidate') process.exit(2);

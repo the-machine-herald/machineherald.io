@@ -48,6 +48,22 @@ export const ALL_STOPWORDS = new Set<string>([
 ]);
 
 /**
+ * Fold a token to a rough stem so that "plugins", "installed" and "installs"
+ * compare equal to "plugin" and "install". Deliberately crude: it only has to
+ * make two writers' wordings of the same story overlap, and it is applied to
+ * both sides of every comparison (and to claim-branch keywords), so a wrong
+ * stem is harmless as long as it is consistent.
+ */
+export function foldToken(tok: string): string {
+  if (tok.length > 5 && tok.endsWith('ies')) return `${tok.slice(0, -3)}y`;
+  if (tok.length > 6 && tok.endsWith('ing')) return tok.slice(0, -3);
+  if (tok.length > 4 && /(xes|ches|shes|sses|zes)$/.test(tok)) return tok.slice(0, -2);
+  if (tok.length > 5 && tok.endsWith('ed')) return tok.slice(0, -2);
+  if (tok.length > 4 && tok.endsWith('s') && !/(ss|us|is)$/.test(tok)) return tok.slice(0, -1);
+  return tok;
+}
+
+/**
  * Extract content-bearing tokens from a title (and optional tags).
  *
  * Rules:
@@ -55,7 +71,8 @@ export const ALL_STOPWORDS = new Set<string>([
  *  - replace non-alphanumeric with whitespace, split, dedupe
  *  - drop tokens whose length < 3
  *  - drop pure-numeric tokens (/^\d+$/)
- *  - drop English + tech stopwords
+ *  - fold plurals and common verb endings (foldToken)
+ *  - drop English + tech stopwords (checked before and after folding)
  */
 export function tokenize(title: string, tags: string[] = []): Set<string> {
   const combined = [title, ...tags].join(' ').toLowerCase();
@@ -65,7 +82,9 @@ export function tokenize(title: string, tags: string[] = []): Set<string> {
     if (tok.length < 3) continue;
     if (/^\d+$/.test(tok)) continue;
     if (ALL_STOPWORDS.has(tok)) continue;
-    result.add(tok);
+    const folded = foldToken(tok);
+    if (folded.length < 3 || ALL_STOPWORDS.has(folded)) continue;
+    result.add(folded);
   }
   return result;
 }
@@ -90,7 +109,7 @@ export interface Candidate {
   tags?: string[];
 }
 
-export type CorpusItemType = 'open_pr' | 'published_article';
+export type CorpusItemType = 'open_pr' | 'published_article' | 'claim';
 
 export interface CorpusItem {
   type: CorpusItemType;
@@ -176,28 +195,80 @@ export function scoreCandidate(
   };
 }
 
-const SLUG_TOP_KEYWORDS = 3;
+const SLUG_MAX_KEYWORD_CHARS = 160;
 const SLUG_HASH_LENGTH = 8;
 
 /**
  * Deterministic short slug for atomic-claim branch names.
  *
  * Two candidates that tokenize to the same keyword set produce the SAME slug.
- * Format: `<top-N-keywords>-<sha8>` where:
- *  - top-N is the first N keywords by alphabetical sort
- *  - sha8 is the first 8 hex chars of sha256(sorted-keywords-joined-by-comma)
+ * Format: `<keywords>-<sha8>` where:
+ *  - keywords are the candidate's tokens in alphabetical order joined by `-`,
+ *    cut at a token boundary once they reach SLUG_MAX_KEYWORD_CHARS (a git ref
+ *    name is limited to 255 bytes). Tokens are `[a-z0-9]+`, so they never
+ *    contain `-` and the list can be read back from the branch name;
+ *  - sha8 is the first 8 hex chars of sha256(sorted-keywords-joined-by-comma),
+ *    computed over ALL tokens, so truncation never makes two different
+ *    keyword sets collide on the same branch.
+ *
+ * Carrying the keywords in the branch name is what lets `topic:check` compare a
+ * new candidate with claims that have been won but have not yet become a PR
+ * (the window in which two parallel writers can otherwise pick the same story).
  *
  * If the candidate produces zero keywords, returns an empty string.
  */
 export function canonicalSlug(candidate: Candidate): string {
   const tokens = [...tokenize(candidate.title, candidate.tags ?? [])].sort();
   if (tokens.length === 0) return '';
-  const top = tokens.slice(0, SLUG_TOP_KEYWORDS).join('-');
+  const kept: string[] = [];
+  let length = 0;
+  for (const token of tokens) {
+    const added = token.length + (kept.length > 0 ? 1 : 0);
+    if (length + added > SLUG_MAX_KEYWORD_CHARS) break;
+    kept.push(token);
+    length += added;
+  }
+  if (kept.length === 0) kept.push(tokens[0]!.slice(0, SLUG_MAX_KEYWORD_CHARS));
   const sha = crypto.createHash('sha256')
     .update(tokens.join(','))
     .digest('hex')
     .slice(0, SLUG_HASH_LENGTH);
-  return `${top}-${sha}`;
+  return `${kept.join('-')}-${sha}`;
+}
+
+/**
+ * Read the keyword list back out of a claim branch name
+ * (`claim/<keywords>-<sha8>` or `refs/heads/claim/...`).
+ */
+export function claimKeywordsFromRef(ref: string): string[] {
+  const marker = 'claim/';
+  const at = ref.indexOf(marker);
+  const slug = at === -1 ? ref : ref.slice(at + marker.length);
+  const parts = slug.split('-').filter(Boolean);
+  if (parts.length > 0 && /^[0-9a-f]{8}$/.test(parts[parts.length - 1]!)) parts.pop();
+  return parts;
+}
+
+/**
+ * Turn the output of
+ *   gh api --paginate repos/<repo>/git/matching-refs/heads/claim/ --jq '.[].ref'
+ * (one ref per line) into corpus items, so a candidate is compared with the
+ * topics other writers have claimed but not yet opened a PR for. `ownRef`
+ * (this worktree's own won claim, `claim/<slug>`) is skipped so a writer that
+ * re-runs the check after claiming does not collide with itself.
+ */
+export function parseClaimRefs(text: string, ownRef?: string): CorpusItem[] {
+  const out: CorpusItem[] = [];
+  for (const line of text.split('\n')) {
+    const ref = line.trim();
+    if (!ref.includes('claim/')) continue;
+    const name = ref.slice(ref.indexOf('claim/'));
+    if (ownRef && name === ownRef.replace(/^refs\/heads\//, '')) continue;
+    const keywords = claimKeywordsFromRef(name);
+    if (keywords.length === 0) continue;
+    out.push({ type: 'claim', ref: name, title: keywords.join(' '), tags: [] });
+  }
+  return out;
 }
 
 /**
