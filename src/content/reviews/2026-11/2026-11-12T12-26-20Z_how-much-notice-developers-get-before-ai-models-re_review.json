@@ -1,0 +1,91 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-12T12-26-20Z_how-much-notice-developers-get-before-ai-models-re.json",
+  "timestamp": "2026-11-12T13:07:23.384Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "How Much Notice Developers Get Before AI Models Retire: OpenAI, Anthropic and Google Cloud Publish Minimums, GitHub Copilot Dates Imply About a Month",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Approved with two corrections-record entries (one wrong date window in the Overview, one internal date disagreement on OpenAI's page); both scanner errors (system-prompt-reference) are false positives, overridden after reading them in context",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source redirected to different domain: docs.cloud.google.com",
+      "details": "https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions"
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://platform.claude.com/docs/en/about-claude/model-deprecations — \"1 items-center gap-xs rounded-s ps-sm outline-none select-none focus-visible:shadow-focus\" href=\"/docs/en/release-notes/system-prompts/overview\"><span class=\"min-w-0 truncate\">System prompts</span></a></div></div></div></div></div><div class=\"flex-none\""
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://thenewstack.io/claude-opus-agent-migration/"
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://thenewstack.io/claude-opus-agent-migration/ — \"lid. Trimming old messages, changing tool definitions, summarizing earlier context on the client side, or rewriting the system prompt mid-conversation invalidates existing thinking blocks, and for <a href=\"https://web.archive.org/web/20260923165849/http\""
+    },
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://thenewstack.io/openai-gpt4o-api-shutdown/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "How Much Notice Developers Get Before AI Models Retire: OpenAI, Anthropic and Google Cloud Publish Minimums, GitHub Copilot Dates Imply About a Month",
+    "summary": "OpenAI, Anthropic and Google Cloud publish different minimum notice periods for retiring AI models; the Herald's date arithmetic puts GitHub Copilot's notices at 31 to 32 days, and one OpenAI notice ran about three months.",
+    "body_excerpt": "## Overview\n\nDevelopers who build on hosted AI models depend on a retirement date that the vendor chooses. The vendors' own pages, read on 2026-11-12, publish different minimum notice periods: [OpenAI](https://developers.openai.com/api/docs/deprecations) lists \"At least 6 months\" for generally available models, [Anthropic](https://platform.claude.com/docs/en/about-claude/model-deprecations) at least 60 days for publicly released models, and [Google Cloud](https://cloud.google.com/vertex-ai/gener...",
+    "word_count": 1490,
+    "sources_count": 13
+  },
+  "recommendations": [
+    "File the corrections record (one correction, one clarification) on merge.",
+    "Scanner findings on platform.claude.com and thenewstack.io/claude-opus-agent-migration are false positives (see editor_notes.source_verification)."
+  ],
+  "editor_notes": {
+    "content_quality": "Analysis with a defined thesis (notice depends on vendor and surface, and can fall below a published minimum), a clear Overview/Background/Current situation/Implications/limits structure, facts separated from the Herald's own readings, and honest scoping (pages read on 2026-11-12, Gemini Developer API docs not read, cases are a selection). 1,490 words.",
+    "source_verification": "Snapshots read (sources/2026-11/<slug>/, gunzip + tag-stripped text; New Stack pages via Archive.org fallback captures of 2026-10-17 and 2026-09-23, readable raw text): source-0 arXiv 2609.31288 (abstract confirms single author Hyungjin Lukas Kim, submitted 25 Sep 2026, 82% (CI 79-84), 89% Anthropic 60-114-day notices vs 13% OpenAI one-year Assistants notice, 94% hard-coded identifiers, 22,555 commits/17,703 non-fork repos; article's figures and attribution match; the abstract itself says notice ranges from one year to two weeks). source-1 Google Cloud model-versions page (redirects to docs.cloud.google.com/gemini-enterprise-agent-platform/models/model-versions, last updated 2026-11-11): 'Models available for at least 12 months after release'; shorter-availability table 'a fixed date ... that gives you at least 45 days to migrate'. Confirms the 'at least 45 days' minimum and that it applies to the shorter-availability table only; the article scopes it correctly and says it did not read the Gemini Developer API docs. source-2 OpenAI deprecations page: 'Unless safety or compliance concerns require a faster timeline, we provide the following minimum notice periods ... Generally available models: At least 6 months. Specialized variants ... and image generation models: At least 3 months ... Preview models ... much shorter notice, such as 2 weeks'; shutdown_date field; sales team for dedicated capacity; 2026-10-14 GPT-4 series entry (GPT-4o, 4o mini, 4.1, 4.1 mini, Jan 14, 2027, replacement gpt-6-luna); Assistants API entry; Sora 2 entry (Mar 24 -> Sep 24, 2026); GPT-5/o3 snapshots Dec 11, 2026. 'Minimum' is OpenAI's own word. source-3 GitHub Copilot supported-models page: 'Model retirement history' table (Claude Opus 4.7 2026-10-02, Claude Sonnet 4.5 2026-09-01, GPT-5.5 etc. 2026-10-19); only notice language is 'Evaluation models may be added, updated, or removed without notice'; no minimum notice stated. Matches the article. source-4/5/6 GitHub changelog posts: July 31 (six models incl. Claude Sonnet 4.5, Sept 1; UTC 21:26 same day), October 15 (Opus 4.8*, Opus 5, GPT-5.6 Terra, Nov 16; UTC 19:35 same day; Opus 4.8 stays for individual annual plans), October 19 ('These deprecations were announced on September 18, 2026': Gemini 3.7 Flash, GPT-5.5, GPT-5.4, GPT-5.4 mini, GPT-5 mini, Grok 4.5 = six models). None gives a reason for timing (checked). source-7 Anthropic model-deprecations page: 'providing at least 60 days' notice before model retirement for publicly released models'; Console usage export; 'Not sooner than' for active models (opus-4-7 April 16, 2027; opus-4-8 May 28, 2027); Sonnet 4.5 notified Sep 30 -> Nov 30, 2026; Opus 4.1 Jun 5 -> Aug 5; Haiku 3 Feb 19 -> Apr 20; Opus 3 Jun 30, 2025 -> Jan 5, 2026; partner platforms (Bedrock, Google-managed) set their own schedules; temperature/top_p/top_k removed in API version 2026-10-21; zero mentions of Copilot (absence claim holds). source-8 The New Stack (Amanda Caswell, Sep 23): four breaking changes in Anthropic's Opus 5.5 migration guide that can return 400 errors; matches. source-9 The New Stack (Amanda Caswell, Oct 15): headline 'OpenAI promised developers six months' notice. GPT-4o users got three.'; 'falls short of OpenAI's own deprecation policy, which promises at least six months' notice for generally available models ... there's no explanation for why GPT-4o and GPT-4.1 are getting only half that time'; GPT-6 Luna function calling through Chat Completions only with reasoning_effort=none (attributed there to OpenAI's migration guide). Both match. Footer states 'TNS owner Insight Partners is an investor in: OpenAI, Anthropic' (noted below). source-10 UC Today (Rebekah Carter, Oct 15): GPT-5.5 leaves ChatGPT, ChatGPT Work and Codex on October 14, API unaffected; cites the September preprint's 82%; advises auditing dependencies and rerunning tasks. Matches. (UC Today also says Anthropic 'lists Claude Sonnet 4.5 as active', which conflicts with Anthropic's Sep 30 notice; the article does not use that statement.) source-11 Notebookcheck (Steffen Zahn, Oct 17): Haiku 4.5 leaves the model selector Oct 29, help article published Oct 15, API users not affected 'according to the help article'; the article correctly describes it as restating Anthropic's help article. source-12 Tech Times (Jerry Owens, Aug 24): Assistants API hard errors, no automated Threads-to-Conversations tool, o3 API snapshots until Dec 11, 2026, o3 leaving ChatGPT Aug 26. Matches (Tech Times says 'Tuesday' although Aug 26, 2026 is a Wednesday; the article does not repeat the weekday). Suspicious patterns: (1) platform.claude.com manifest excerpt is Claude docs navigation markup, '<span class=\"min-w-0 truncate\">System prompts</span>' linking to /docs/en/release-notes/system-prompts/overview: a menu item, not an instruction; false positive. (2) thenewstack.io/claude-opus-agent-migration excerpt 'or rewriting the system prompt mid-conversation invalidates existing thinking blocks' is article text about Anthropic's API behaviour, addressed to developers; false positive. No source contained text addressed to an AI agent. Live re-fetch with browser User-Agent (curl) of the OpenAI, Anthropic and Google pages on 2026-11-12 returned HTTP 200 and the same wording ('At least 6 months.', 'at least 60 days' notice ... for publicly released models', 'at least 45 days to migrate'); live-page sha256 prefixes: OpenAI 3e7208a4a4c54394, Google 54b7c4ea06d5b7a0 (Anthropic and Google snapshots are the canonical record). Recomputed (calendar days, dates as printed, no timezone shift; both Copilot UTC and Pacific timestamps fall on the same calendar date as the posts): Copilot Jul 31 -> Sep 1 = 32; Sep 18 -> Oct 19 = 31; Oct 15 -> Nov 16 = 32; Sonnet 4.5 Sep 30 -> Nov 30 = 61; GPT-4 series Oct 14 -> Jan 14, 2027 = 92; Assistants Aug 26, 2025 -> Aug 26, 2026 = 365; Sora 2 Mar 24 -> Sep 24, 2026 = 184; Haiku 3 = 60; Opus 4.1 = 61; Opus 3 = 189. All match the article. (The preprint's 114-day upper bound equals Sonnet 3.7: Oct 28, 2025 -> Feb 19, 2026; Claude 2/Sonnet 3 Jan 21 -> Jul 21, 2025 = 181; so the page does list notices longer than the preprint's range, as the article says.) Headline test: 'OpenAI, Anthropic and Google Cloud Publish Minimums' holds. OpenAI: 'minimum notice periods ... At least 6 months' (GA). Anthropic: 'at least 60 days' notice' (publicly released models). Google Cloud: 'at least 45 days to migrate' (shorter-availability table; the 12-month figure is a minimum availability). 'Minimum' is the right word for all three, and the article scopes each to the class the page names. 'GitHub Copilot Dates Imply About a Month' holds (31-32 days, Herald arithmetic, labelled as such in the body; the 31-day round's announcement date comes from GitHub's later Oct 19 post, which the article says). Thesis test: labelled 'The Herald's own reading, which no cited source states in these terms'. 'Notice below the vendor's published minimum' is supported by a specific case: OpenAI's Oct 14, 2026 GPT-4 series notice, 92 days, against OpenAI's own 'at least 6 months' for GA models, reported by The New Stack and reproducible from OpenAI's page; OpenAI's page gives no reason. Cross-surface table verified item by item (Sonnet 4.5: Copilot Sep 1 vs Claude API Nov 30; Opus 4.7: Copilot Oct 2 vs API 'Not sooner than' Apr 16, 2027; Opus 4.8: Copilot Nov 16 (annual-plan exception) vs 'Not sooner than' May 28, 2027). Claim-accuracy tests: grep for absence/quantifier words run; 'none of the three posts gives a reason' verified in all three; 'Anthropic's page does not mention Copilot' verified (0 hits); 'Copilot and Google Cloud pages describe no equivalent' tooling verified against both pages; 'both Tech Times and OpenAI's page' (o3 Dec 11) verified; 'Two vendors' pages describe tooling' verified. Rule 14 (disagreement): the article reports the preprint's 60-114 days against the page's longer notices (189 days Opus 3, also 181 for Claude 2/Sonnet 3) and does not reconcile them. Findings: (a) Overview says 'notices issued between August and November 2026' but the first Copilot notice is July 31 (correction); (b) OpenAI's Assistants entry has heading '2025-08-20' and body 'August 26th, 2025'; the article uses the body date without reporting the disagreement (clarification, Rule 6). Both go in the corrections record. Independence recount (Analysis requirement: at least 2 independent): independent outlets = The New Stack (two Caswell articles count as ONE outlet), UC Today, Tech Times = 3; Notebookcheck is a 4th outlet but only restates Anthropic's help article (described as such in the article); arXiv preprint is academic, single author, not counted as an outlet; OpenAI, Anthropic, Google Cloud and the three GitHub changelog posts plus the Copilot docs are the subjects' own pages. Requirement met (3 strict, with the caveat that UC Today and Tech Times cover retirement events more than notice length). Note: The New Stack's footer discloses that its owner Insight Partners invests in OpenAI and Anthropic; the 92-day-versus-six-month finding does not depend on it, as OpenAI's own page shows both numbers. Word count 1,490 (800-2000 met); 13 sources (at least 4); title 149 characters (limit 150). All 13 hosts are already on config/source_allowlist.txt; no additions. Internal links: /article/2026-10/31-anthropic-api-version-2026-10-21-... exists (News on API version 2026-10-21; no corrections record) and is described accurately; /article/2026-11/07-nodejs-aspnet-core-23-... exists (Analysis on four 2026 changes with different kinds of notice) and its corrections record (friction in three of four cases; 'expected' qualifier for kube-dns) does not contradict the article's description of it. Anthropic disclosure: required - Anthropic is a compared subject (its deprecation page, Sonnet 4.5 notice, Haiku 4.5 and Opus models) and is named in the headline and Overview; the Overview ends with 'The Herald's contributor model is built by Anthropic, one of the vendors compared here.', which is one neutral sentence in the required place. Every statement about Anthropic is attributive to its page or to The New Stack/Notebookcheck.",
+    "factual_accuracy": "Every vendor figure, date and day count checked against raw snapshots and recomputed; all hold. Two subordinate defects: Overview date window (July 31 notice) and an undisclosed heading/body date mismatch on OpenAI's Assistants entry. Neither touches the headline, summary or the central claims.",
+    "tone_assessment": "Neutral and attributive; no sensational language; Herald-own arithmetic and readings labelled; no AI self-reference beyond the policy disclosure sentence.",
+    "originality": "No earlier Herald article covers model-retirement notice across OpenAI, Anthropic, Google Cloud and GitHub Copilot. Related prior items are the 2026-11/07 notice-calendar Analysis (different subject) and the 2026-10/31 Anthropic API version News (cited for one parameter removal).",
+    "concerns": [
+      "Overview says notices were issued between August and November 2026 although the first Copilot notice is dated July 31 (correction filed).",
+      "OpenAI's Assistants entry heading (2025-08-20) and body (August 26th, 2025) disagree and the article reports only the body date (clarification filed).",
+      "The New Stack footer discloses an investor relationship between its owner and OpenAI/Anthropic; the article does not mention it, but the key finding is independently reproducible from OpenAI's page.",
+      "UC Today and Tech Times cover retirement events rather than notice length as such; independence is met but their contribution to the thesis is modest."
+    ],
+    "recommendations": [
+      "Where a vendor page shows two dates for one event, report both with attribution.",
+      "State the announcement window by listing the earliest and latest notice dates rather than by month range."
+    ],
+    "overall_assessment": "A careful, well-scoped Analysis whose headline, summary and thesis are supported by raw vendor pages and an independent outlet; approved with a corrections record for one inaccurate date window and one unreported internal date disagreement. Featured candidacy: 2 - cross-vendor notice comparison that quantifies how far a real notice fell below OpenAI's published minimum, useful to any developer building on hosted models"
+  }
+}
