@@ -1,0 +1,91 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-13T09-46-22Z_ubuntu-plans-effectively-weekly-kernel-releases-or.json",
+  "timestamp": "2026-11-13T10:31:16.071Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Ubuntu Plans Effectively Weekly Kernel Releases, Oracle Moves Toward Monthly Java Updates, and Four Debian Kernel Advisories Differ Widely in Size",
+  "reviewer_model": "Claude Sonnet 5.5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 4 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://devops.com/java-27-tackles-post-quantum-security-and-a-faster-patch-cadence/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source rate-limited: HTTP 429",
+      "details": "https://lists.debian.org/debian-security-announce/2026/msg00441.html"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source rate-limited: HTTP 429",
+      "details": "https://lists.debian.org/debian-security-announce/2026/msg00482.html"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source rate-limited: HTTP 429",
+      "details": "https://lists.debian.org/debian-security-announce/2026/msg00521.html"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source rate-limited: HTTP 429",
+      "details": "https://lists.debian.org/debian-security-announce/2026/msg00536.html"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Ubuntu Plans Effectively Weekly Kernel Releases, Oracle Moves Toward Monthly Java Updates, and Four Debian Kernel Advisories Differ Widely in Size",
+    "summary": "Canonical and Oracle link shorter security-update intervals to AI-assisted bug discovery; Debian's four kernel advisories since September 29 list 3 to 1,313 CVE IDs, and one CVE reached Ubuntu 25 days after Debian's advisory (Herald counts).",
+    "body_excerpt": "## Overview\n\nCanonical and Oracle have each described plans to ship security fixes more often, and the sources tie both changes to AI-assisted bug discovery. The sources cited here describe no such change at Debian, whose four Linux kernel advisories since September 29 carry anywhere from 3 to 1,313 CVE identifiers (a count the Herald made from the advisories' headers). This analysis compares the three arrangements using project documents and reports from six outlets (Linuxiac, Help Net Security...",
+    "word_count": 1847,
+    "sources_count": 21
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "4 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Careful, well-structured Analysis (1,847 words) that separates reported facts, the Herald's own counts and the Herald's reading, and states its limits (one CVE is not a rate; the counts are not commensurable; single-outlet cases disclosed). The thesis that cadence differs across the three arrangements and that interval length does not by itself say how fast a given fix arrives is modest but supported and labelled the Herald's own.",
+    "source_verification": "Read the stored snapshots source-0 (Oracle blog; snapshot is a direct HTTP 200 fetch with no archive banner, so the writer's account of a 403 and a Nov 8 Archive.org capture could not be reproduced and is the writer's own experience; the page text read is the Sept 10 update of the July 20 post), source-1 (DevOps.com, Archive.org capture of Sept 29, archive_fallback true), source-2 (Linuxiac), source-7 to source-12 (OpenJDK index and the Jan 20, Apr 21, Jul 21, Aug 18 and Oct 20 advisories), source-13 (Ubuntu CVE-2026-98432 page), source-14 and source-15 (USN-9024-1, USN-9025-1), source-16 (Help Net Security), source-17 and source-18 (OMG! Ubuntu, Sept and Nov articles), source-19 (The Register), source-20 (Tom's Hardware). manifest suspicious_patterns is null for every source; no injection finding. The four lists.debian.org messages were not snapshotted (HTTP 429 from chief:review; a direct fetch now returns a proof-of-work 'I Challenge Thee' bot gate, which was not solved). Read by another route: Archive.org captures with Accept-Encoding gzip, raw text. msg00441 (capture 20261101090124, DSA-6528-1, Date Tue 29 Sep 2026 09:49:30 +0000, 1,313 distinct CVE ids, 6.12.111-1, sha256 of decompressed text 32eeeb062828d925...), msg00482 (capture 20261102215659, DSA-6568-1, Fri 16 Oct 2026 13:39:29 +0000, 273 distinct ids incl. CVE-2026-98432, 6.12.113-1, sha256 83e0108d5725434c...), msg00521 (capture 20261103134910, DSA-6602-1, Mon 02 Nov 2026 16:13:42 +0000, 611, 6.12.115-2, sha256 b33256c990bcebbe...), msg00536 (capture 20261110052644, DSA-6616-1, Sun 08 Nov 2026 20:26:59 +0000, 3, 6.12.116-1, sha256 d912f5fa4a47e52e...). Cross-check on security-tracker.debian.org: source-package page for linux lists DSA-6616-1, 6602-1, 6568-1, 6528-1 as the four most recent, the next older being DSA-6477-1, so four is correct for Sept 29 onward; tracker DSA pages show 1,311, 272, 611 and 3 CVE references (two and one fewer than the list headers for DSA-6528-1 and DSA-6568-1), a tracker-versus-list-header difference the article does not mention; the article's counts match the advisory headers and The Register's 1,313, are labelled the Herald's own, and 3 to 1,313 holds on either basis. Gaps 17, 17 and 6 days recomputed and correct. Fixed version 6.12.113-1 for trixie confirmed on the tracker. Headline claim 1 (Ubuntu): Linuxiac says Canonical is replacing four-week SRU and two-week security cycles with a unified two-week process and, because the cycles overlap, 'Ubuntu will effectively receive a new kernel release every week' (the word 'effectively' is Linuxiac's, published 2026-09-23T17:33Z); Help Net Security (2026-09-24) says 'Ubuntu kernels will ship every week'; OMG! Ubuntu says 'in effect, will see Ubuntu kernel fixes rolling out on a weekly basis'. 'Plans' is supported (no source gives an effective date, as the article says). Applies to kernels generally; no source limits it to certain kernels. Quotes 'Expedited releases aren't possible while thoroughly testing every release candidate.', 'plan for weekly kernel releases', 'continuously until a cutoff date' and 'The fastest kernel Canonical offers is the one it has not finished testing' are verbatim on Help Net Security, the last one in the outlet's own voice (as the article says). 24 to 48 hours workaround aim is in Linuxiac (and OMG). Canonical's own post (canonical.com) is not cited and not allowlisted; the article says so. Headline claim 2 (Oracle): the blog says Oracle 'intends to provide Java security updates more frequently than the current quarterly CPU cadence', 'We intend to shift the Java security update processes over the coming year towards a monthly cadence', released a monthly security update on Aug 18, 2026, is targeting Nov 17, 2026 'in addition to the regularly scheduled October and January CPU releases', plans multiple monthly updates in CY27 and 'organizations should be preparing for this cadence'. So 'Moves Toward Monthly' is Oracle's own wording of an announced intention with one update already shipped, not a proposal to consider; the article states the direction versus rhythm distinction itself (no September advisory; index confirms 7 advisories in 2026: Jan 20, Apr 21, Jul 21, Aug 18, Oct 20, Oct 21, Oct 24). DevOps.com TL;DR says verbatim 'Oracle is moving toward monthly critical security updates, reflecting a faster threat environment shaped in part by AI-driven vulnerability discovery'; dated Sept 15 (Java 27 release); it largely restates Oracle and its analyst quotes (Ashley, Dayaratna) concern backports and enterprise Java, as the article says. OpenJDK CVE rows recomputed from raw HTML: Jan 20 = 10, Apr 21 = 10, Jul 21 = 18, Aug 18 = 4, Oct 20 = 54 (48 in the OpenJDK matrix, 6 in the OpenJFX matrix, no overlap); all match the article. The Azul '53' figure does not appear in the article, so no exclusion needs explaining. The Oct 21 and Oct 24 advisories (one CVE each, CVE-2026-91403 and CVE-2026-114820, both pointing to openjdk.org/emudhra) were checked by the reviewer and are true, but those two pages are not in article.sources: filed as a clarification. Headline claim 3 (Debian) and The Register: 'We strongly suspect that this number of CVEs is due to LLM bots doing the bug hunting', 'should not be read as a tally of bugs introduced in 6.12.111' and 'says little about severity or exploitability' are verbatim; DSA-6528-1 published Sept 29 for 6.12.111-1 on Debian 13 and the CNA/policy statements are in the article text. Register published 2026-10-05. Test case CVE-2026-98432: Ubuntu CVE page: publication date 15 October 2026, last updated 11 November 2026, priority Critical, CVSS 3 9.8, fixed in 26.04 (7.0.0-43.43), 24.04 (6.8.0-149.149), 22.04 (5.15.0-203.213); related USNs all dated 10-12 November, earliest 10 November (USN-9018-1 to USN-9029-1). CVE record (cveawg.mitre.org) confirms datePublished 2026-10-15 and has no credits or reporter field and no mention of Anthropic, so the Anthropic-researcher and Claude-exploit statements rest only on OMG! Ubuntu, which the article says explicitly. OMG! Ubuntu (published 2026-11-04, modified Nov 10) says 'as of 3 November' patched kernels were in testing for 22.04, 24.04 and 26.04 LTS, 'Canonical hasn't given a date', that the new cadence 'appears to be the cause of the delay' (outlet's reading, not Canonical's; the article keeps it so), and that the researcher said an unreleased Claude model created a working exploit via MPTCP. Day counts recomputed: Oct 16 to Nov 10 = 25, Oct 15 to Nov 10 = 26, Oct 15 to Oct 16 = 1, and (not in the article) Oct 16 to Nov 3 = 18. USN-9024-1 and USN-9025-1 both cover 24.04 and 22.04 only; distinct CVE ids on the pages: 3,276 and 3,498 (matches the article) but the packages are specific flavours (USN-9024-1 aws/gcp/ibm/lowlatency-hwe/nvidia/realtime 6.8; USN-9025-1 oracle/raspi/raspi-realtime), which the article does not say; the article does say the cited sources do not state what period the Ubuntu lists cover. Tom's Hardware (2026-11-10): the quote 'most other areas haven't reached that point yet, but it's at least a sign that we may be starting to see the tide starting to turn' is verbatim from Torvalds' message about 7.4-rc2; but the BPF claim (more AI fixes than reports) is Tom's account of a note from BPF maintainer Alexei Starovoitov relayed by Torvalds, while the article attributes it to Torvalds' message: clarification. Claim-accuracy tests: absence statements ('no such change at Debian', 'none of the cited sources says', 'The index lists no advisory dated September') checked against every snapshot and hold; 'Both Linuxiac and Help Net Security connect ... CNA role' verified in both; 'Both Oracle's blog and DevOps.com' is a statement about the writer's fetchers. Dates and UTC basis stated. Quantifiers 'each'/'every' not used beyond verified items. No Herald prediction presented as fact; the 'shorter cycle shortens the wait' sentence sits under 'The Herald's reading' and is hedged. The 25- and 26-day gaps are labelled the Herald's own with their calendar-date basis; the weekly-cycle-versus-advisory-size comparison is explicitly caveated as not commensurable (counts of CVE ids on differently scoped pages, 'the cited sources do not say what period the Ubuntu lists cover', Register's caution) and the Debian/Ubuntu/Oracle cadence comparison is labelled the Herald's reading with 'One CVE is not a rate'. Internal links: src/content/articles/2026-08/07-chrome-edge-and-firefox-converge-on-two-week-release-cycles-in-august-and-september.md exists and matches the description (four weeks to two, feature releases); src/content/articles/2026-10/27-disclosure-rules-shift-around-ai-found-bugs-... exists and cites The Register's Debian report in its Debian passage; its corrections record covers the summary's 'in October' timing and Catanzaro's GNOME CVE counts, not the Debian passage. Analysis independence (policy 'Analysis requirements'): 1,847 words (script count; within 800-2000); 21 URLs, 6 third-party outlets counted by outlet: Linuxiac, Help Net Security, OMG! Ubuntu (two articles = one outlet), The Register, DevOps.com, Tom's Hardware; plus primary pages (Oracle blog, OpenJDK advisories, Debian lists, Ubuntu CVE and USN pages) that do not count as independent. Independent-of-subject outlets: 6, of which Linuxiac, OMG! Ubuntu (Sept article) and DevOps.com mostly restate announcements and the article says so; the outlets that add their own reporting or assessment are Help Net Security, The Register and OMG! Ubuntu (Nov article), with Tom's Hardware independent but only tangential. Per case: Ubuntu 3 outlets (Linuxiac and OMG restate Canonical, HNS adds its assessment), Java 1 outlet (DevOps.com, restating Oracle) plus Oracle and OpenJDK primary pages, Debian 1 outlet (The Register) plus Debian primary pages; the single-outlet cases are disclosed as such in the body. Requirement of at least 2 independent outlets for the article is met (at least 3 with own reporting); not met within the Java case alone, which the article states. It examines a cross-vendor cadence question with a test case and a stated Herald reading rather than recapping a release. Originality: no published article covers the Ubuntu weekly kernel cycle, Oracle's monthly CSPU plan, or CVE-2026-98432; the Oct 27 article cites the Register Debian report only as a data point. No other open PR on this topic. Allowlist: every cited host (blogs.oracle.com, devops.com, linuxiac.com, lists.debian.org, openjdk.org, ubuntu.com, helpnetsecurity.com, omgubuntu.co.uk, theregister.com, tomshardware.com) is already in config/source_allowlist.txt; no additions. Anthropic disclosure: required - the body reports, in a passage of its own, that OMG! Ubuntu names an Anthropic researcher as reporter of CVE-2026-98432 and relays a statement about an unreleased Claude model; the one-sentence disclosure is present at the end ('The Herald's contributor model is built by Anthropic, which this article names only because OMG! Ubuntu describes the reporter of CVE-2026-98432 as an Anthropic researcher.'), neutral and attributed to OMG! Ubuntu; no correction needed for it.",
+    "factual_accuracy": "Headline, summary and lead hold against the sources: Linuxiac's 'effectively' weekly (plan, no effective date), Oracle's stated intent to shift toward a monthly cadence with an Aug 18 update shipped, and four Debian linux advisories with 3 to 1,313 CVE ids (Herald counts recomputed and correct from the list headers). Three subordinate imprecisions need clarifications: (1) the summary's 'reached Ubuntu 25 days after Debian's advisory' measures Ubuntu's stable-update notices dated Nov 10, while OMG! Ubuntu reports patched kernels in testing as of Nov 3 (18 days after Debian's advisory); USN-9024-1 and USN-9025-1 are specific kernel flavours for 24.04 and 22.04; (2) the BPF statement attributed to Torvalds' message is Starovoitov's note relayed by Torvalds per Tom's Hardware; (3) the Oct 21 and Oct 24 OpenJDK advisory facts rest on pages not listed in the sources.",
+    "tone_assessment": "Neutral and attributive throughout; outlet opinions are labelled as the outlets', no sensationalism, no AI self-reference.",
+    "originality": "New topic; not covered by any published article or open PR.",
+    "concerns": [
+      "Summary wording 'reached Ubuntu' is ambiguous between the -proposed pocket (reported by OMG! Ubuntu as of Nov 3) and the stable notices of Nov 10; the body is clear.",
+      "The Tom's Hardware BPF claim is attributed to Torvalds rather than to the BPF maintainer whose note he relayed.",
+      "Two OpenJDK advisory pages (Oct 21 and Oct 24) are described but not cited.",
+      "Debian list messages could not be snapshotted by the pipeline (429, then a proof-of-work gate); read from Archive.org captures instead, hashes recorded above."
+    ],
+    "recommendations": [
+      "File a corrections record with three clarifications; no edit to the signed article.",
+      "For future Debian-list sources, cite security-tracker.debian.org pages alongside the list messages so pipeline snapshots succeed, and state when tracker and list-header counts differ."
+    ],
+    "overall_assessment": "APPROVE_WITH_CORRECTIONS: the central comparison is sound, the Java and Ubuntu headline claims are in the sources, independence is described honestly and met across the article, and every count was recomputed and found correct; three subordinate clarifications are filed. Featured candidacy: 2 - cadence changes at Ubuntu and Oracle with a checked critical-CVE test case matter to a broad audience of Linux and Java operators"
+  }
+}
