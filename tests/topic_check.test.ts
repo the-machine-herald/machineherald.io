@@ -189,6 +189,55 @@ describe('scoreCandidate', () => {
     expect(result.collision_with?.ref).toBe('PR #1192');
   });
 
+  it('flags a short claim phrase fully contained in a long published title (overlap test)', () => {
+    const corpus = [
+      {
+        type: 'open_pr' as const,
+        ref: 'PR #2864',
+        title: 'Rust 1.100.0 Stabilizes the Never Type and Core Parts of the Allocator API, and Adds Opt-In Dependency Cooldowns to Cargo',
+        tags: [],
+      },
+    ];
+    const result = scoreCandidate({ title: 'Rust 1.100 stabilizes the never type' }, corpus, 0.35);
+    expect(result.max_jaccard).toBeLessThan(0.35);
+    expect(result.verdict).toBe('collision');
+    expect(result.collision_reason).toBe('overlap');
+    expect(result.collision_with?.shared).toBe(4);
+    expect(result.collision_with?.containment).toBe(1);
+  });
+
+  it('reports a Jaccard hit as reason jaccard', () => {
+    const corpus = [
+      {
+        type: 'open_pr' as const,
+        ref: 'PR #1192',
+        title: 'Anthropic Leases the Full Capacity of SpaceX Colossus 1 Memphis',
+        tags: [],
+      },
+    ];
+    expect(scoreCandidate(candidate, corpus, 0.35).collision_reason).toBe('jaccard');
+  });
+
+  it('does not flag two keywords in common, however contained', () => {
+    const corpus = [
+      { type: 'published_article' as const, ref: '2026-11/x', title: 'Rust 1.100 Stabilizes the Never Type', tags: [] },
+    ];
+    const result = scoreCandidate({ title: 'Rust Cargo' }, corpus, 0.35);
+    expect(result.verdict).toBe('clear');
+  });
+
+  it('does not flag a long candidate that only partly overlaps a short item', () => {
+    const corpus = [
+      { type: 'published_article' as const, ref: '2026-11/y', title: 'Rust compiler release', tags: [] },
+    ];
+    const result = scoreCandidate(
+      { title: 'Rust compiler gains incremental borrow checking, parallel frontend and faster linking' },
+      corpus,
+      0.35,
+    );
+    expect(result.verdict).toBe('clear');
+  });
+
   it('passes when no corpus item exceeds threshold', () => {
     const corpus = [
       { type: 'open_pr' as const, ref: 'PR #1186', title: 'Palo Alto Networks PAN-OS', tags: [] },

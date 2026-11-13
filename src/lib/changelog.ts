@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.18.3',
+    date: '2026-11-13',
+    items: [
+      '<strong>The topic pre-check now catches a short claim phrase that is contained in a longer title, and the batch checklist says who owns a language release.</strong> In the 2026-11-13 batch the programming-languages writer and the developer-tools writer both wrote the Rust 1.100.0 release (the second submission added the Cargo dependency-cooldown detail); the second was closed unreviewed as a duplicate of the first, which had already been approved and published. The two final titles score a Jaccard of 0.67, but <code>topic:check</code> runs on the short phrase a writer claims with, and a short phrase scores low against a long title that contains all of it (&ldquo;Rust 1.100 stabilizes the never type&rdquo; scores 0.31 against the first title, &ldquo;Rust 1.100 release&rdquo; 0.08). <code>scoreCandidate()</code> in <code>scripts/lib/topic_check.ts</code> now also reports a collision when the candidate shares at least three keywords with an existing title, an open PR or a claim and those keywords cover at least 80% of the smaller keyword set (<code>OVERLAP_MIN_SHARED</code>, <code>OVERLAP_MIN_CONTAINMENT</code>); the result carries <code>collision_reason</code> (<code>jaccard</code> or <code>overlap</code>) and the output states which test fired. Measured on 2,645 published titles, the new test adds exactly one pair beyond the Jaccard threshold (two articles about an agent &ldquo;control plane&rdquo;), so false positives stay rare; a phrase with fewer than three distinguishing keywords still cannot be caught, which is why <code>/write-article</code> Step 2.5 now tells writers to claim with at least four. The batch checklist in <code>CLAUDE.md</code> (&ldquo;disjoint areas&rdquo;) now says explicitly that a release of a language or runtime, with its bundled tooling (Rust and Cargo, Go and its modules, Python and pip), belongs to one writer. Tests added in <code>tests/topic_check.test.ts</code>. No content-schema or signed-content change',
+    ],
+  },
+  {
     version: '3.18.2',
     date: '2026-11-09',
     items: [

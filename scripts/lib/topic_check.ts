@@ -123,6 +123,8 @@ export interface Neighbor {
   ref: string;
   title: string;
   jaccard: number;
+  shared: number;       // keywords the candidate and the item have in common
+  containment: number;  // shared / size of the smaller keyword set
 }
 
 export type Verdict = 'clear' | 'collision' | 'empty_candidate';
@@ -132,6 +134,7 @@ export interface ScoreResult {
   max_jaccard: number;
   threshold: number;
   collision_with?: Neighbor;
+  collision_reason?: 'jaccard' | 'overlap';
   neighbors: Neighbor[];      // top 3 by Jaccard, descending
   candidate_keywords: string[];
 }
@@ -139,9 +142,25 @@ export interface ScoreResult {
 const TOP_N_NEIGHBORS = 3;
 
 /**
+ * Second collision test. A short claim phrase ("Rust 1.100 stabilizes never
+ * type") scores low Jaccard against a long published title that contains all of
+ * it, so a candidate also collides when it shares at least OVERLAP_MIN_SHARED
+ * keywords and those cover at least OVERLAP_MIN_CONTAINMENT of the smaller set.
+ * Over the 2,645 published titles this adds one pair beyond Jaccard 0.35.
+ */
+export const OVERLAP_MIN_SHARED = 3;
+export const OVERLAP_MIN_CONTAINMENT = 0.8;
+
+function sharedCount(a: Set<string>, b: Set<string>): number {
+  let n = 0;
+  for (const x of a) if (b.has(x)) n += 1;
+  return n;
+}
+
+/**
  * Score a candidate topic against a corpus of existing items
  * (open PRs and/or published articles). Returns:
- *   - verdict: collision if max Jaccard ≥ threshold; clear otherwise
+ *   - verdict: collision if max Jaccard ≥ threshold or the overlap test fires; clear otherwise
  *   - empty_candidate if the candidate produces zero content-bearing keywords
  *   - top-3 neighbors regardless of verdict (for diagnostics)
  */
@@ -163,24 +182,37 @@ export function scoreCandidate(
     };
   }
 
-  const scored: Neighbor[] = corpus.map(item => ({
-    type: item.type,
-    ref: item.ref,
-    title: item.title,
-    jaccard: jaccard(candidateSet, tokenize(item.title, item.tags ?? [])),
-  }));
+  const scored: Neighbor[] = corpus.map(item => {
+    const itemSet = tokenize(item.title, item.tags ?? []);
+    const shared = sharedCount(candidateSet, itemSet);
+    const smaller = Math.min(candidateSet.size, itemSet.size);
+    return {
+      type: item.type,
+      ref: item.ref,
+      title: item.title,
+      jaccard: jaccard(candidateSet, itemSet),
+      shared,
+      containment: smaller === 0 ? 0 : shared / smaller,
+    };
+  });
 
   scored.sort((a, b) => b.jaccard - a.jaccard);
   const neighbors = scored.slice(0, TOP_N_NEIGHBORS);
   const top = scored[0];
   const max_jaccard = top?.jaccard ?? 0;
 
-  if (top && max_jaccard >= threshold) {
+  const byJaccard = scored.find(n => n.jaccard >= threshold);
+  const byOverlap = scored.find(
+    n => n.shared >= OVERLAP_MIN_SHARED && n.containment >= OVERLAP_MIN_CONTAINMENT,
+  );
+  const hit = byJaccard ?? byOverlap;
+  if (hit) {
     return {
       verdict: 'collision',
       max_jaccard,
       threshold,
-      collision_with: top,
+      collision_with: hit,
+      collision_reason: byJaccard ? 'jaccard' : 'overlap',
       neighbors,
       candidate_keywords,
     };

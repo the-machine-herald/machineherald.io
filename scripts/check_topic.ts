@@ -170,6 +170,14 @@ function fetchClaims(): CorpusItem[] {
   return parseClaimRefs(stdout, ownRef);
 }
 
+function collisionBasis(result: ScoreResult): string {
+  const c = result.collision_with!;
+  if (result.collision_reason === 'overlap') {
+    return `${c.shared} shared keywords covering ${(c.containment * 100).toFixed(0)}% of the shorter title; Jaccard ${c.jaccard.toFixed(2)}`;
+  }
+  return `Jaccard ${c.jaccard.toFixed(2)} ≥ ${result.threshold} threshold`;
+}
+
 function emit(result: ScoreResult, args: CliArgs, override: { force_follow_up: boolean; justification?: string } | undefined, scanned: { archive: number; open_prs: number; claims: number }): void {
   // JSON-only mode: emit clean JSON and return (suppresses human output)
   if (args.json) {
@@ -178,6 +186,7 @@ function emit(result: ScoreResult, args: CliArgs, override: { force_follow_up: b
       max_jaccard: result.max_jaccard,
       threshold: result.threshold,
       collision_with: result.collision_with ?? null,
+      collision_reason: result.collision_reason ?? null,
       neighbors: result.neighbors,
       candidate_keywords: result.candidate_keywords,
       scanned,
@@ -201,13 +210,13 @@ function emit(result: ScoreResult, args: CliArgs, override: { force_follow_up: b
     console.log(`   Rephrase the title with concrete proper nouns / domain terms and retry.`);
   } else if (result.verdict === 'collision') {
     if (override) {
-      console.log(`\n⚠️  COLLISION (Jaccard ${result.max_jaccard.toFixed(2)} ≥ ${result.threshold} threshold)`);
+      console.log(`\n⚠️  COLLISION (${collisionBasis(result)})`);
       console.log(`   OVERRIDE APPLIED: --force-follow-up`);
       console.log(`   Justification: ${override.justification}`);
       console.log(`   You MUST paste this justification into the research log under "## Topic check override".`);
     } else {
       const c = result.collision_with!;
-      console.log(`\n❌ COLLISION (Jaccard ${result.max_jaccard.toFixed(2)} ≥ ${result.threshold} threshold)`);
+      console.log(`\n❌ COLLISION (${collisionBasis(result)})`);
       console.log(`   Type:  ${c.type}`);
       console.log(`   Ref:   ${c.ref}`);
       console.log(`   Title: ${c.title}`);
