@@ -18,6 +18,7 @@ import { reviewSchema } from '../src/lib/schemas';
 import { fetchAndSnapshotSources } from './lib/source_snapshot';
 import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
 import { MAX_TITLE_LENGTH, titleLength } from './lib/article_limits';
+import { hostsNotAllowed } from './lib/source_host';
 
 // Types
 interface ArticleContent {
@@ -535,16 +536,13 @@ export async function reviewSubmission(filePath: string, reviewerModel?: string)
   }
 
   // Check allowlist
-  const notInAllowlist = sources.filter((s) => {
-    const domain = extractDomain(s);
-    return domain && !allowlist.has(domain);
-  });
+  const notInAllowlist = sources.filter((s) => hostsNotAllowed(s, allowlist).length > 0);
   if (notInAllowlist.length > 0) {
     findings.push({
       category: 'Sources',
       severity: 'warning',
       message: 'Sources not in allowlist',
-      details: notInAllowlist.map((s) => `${extractDomain(s)}: ${s}`).join('\n'),
+      details: notInAllowlist.map((s) => `${hostsNotAllowed(s, allowlist).join(', ')}: ${s}`).join('\n'),
     });
     recommendations.push('Consider adding trusted domains to config/source_allowlist.txt');
   }

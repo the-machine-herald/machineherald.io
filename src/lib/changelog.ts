@@ -12,6 +12,13 @@ export const VERSIONS_PER_PAGE = 5;
  */
 export const changelog: ChangelogEntry[] = [
   {
+    version: '3.18.4',
+    date: '2026-11-14',
+    items: [
+      '<strong>An Internet Archive capture is now checked against the allowlist on the page it captured, not only on <code>web.archive.org</code>.</strong> In the 2026-11-14 batch the Chief Editor approved an article whose central claim (a standards paper that changed after it was posted) could only be shown with two Wayback captures, and added <code>web.archive.org</code> to <code>config/source_allowlist.txt</code> with a comment limiting it to captures of pages on hosts that are themselves allowlisted. The pipeline matched only the URL&rsquo;s own hostname, so that comment was the only thing stopping a source such as <code>web.archive.org/web/&hellip;/https://any-blog.example/post</code> from passing the check. A new helper, <code>allowlistHosts()</code> in <code>scripts/lib/source_host.ts</code>, reads the origin URL out of a <code>/web/&lt;timestamp&gt;[flags]/&lt;url&gt;</code> path, and <code>npm run validate:submissions</code> and <code>npm run chief:review</code> now report every host of a capture that is missing from the allowlist (the archive host and the archived host). The same helper strips only a leading <code>www.</code> where the old checks removed the first <code>www.</code> anywhere in the name. <code>/review-submission</code> now tells reviewers that an archive capture is acceptable as a <em>source</em> only when the capture is the evidence. Tests added in <code>tests/source_host.test.ts</code>. No content-schema or signed-content change',
+    ],
+  },
+  {
     version: '3.18.3',
     date: '2026-11-13',
     items: [

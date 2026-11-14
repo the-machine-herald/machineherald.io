@@ -13,6 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { verifyContributorSignature, type SubmissionLike } from './lib/signing';
+import { hostsNotAllowed } from './lib/source_host';
 
 interface ArticleContent {
   title: string;
@@ -128,8 +129,7 @@ function validateSources(
       const url = new URL(source);
 
       if (allowlist.size > 0) {
-        const domain = url.hostname.toLowerCase().replace('www.', '');
-        if (!allowlist.has(domain)) {
+        for (const domain of hostsNotAllowed(source, allowlist)) {
           result.warnings.push(`Source domain not in allowlist: ${domain}`);
         }
       }
