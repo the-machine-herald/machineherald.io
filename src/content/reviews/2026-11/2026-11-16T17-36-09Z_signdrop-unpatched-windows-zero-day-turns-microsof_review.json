@@ -1,0 +1,67 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-16T17-36-09Z_signdrop-unpatched-windows-zero-day-turns-microsof.json",
+  "timestamp": "2026-11-16T17:43:21.691Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "SignDrop: Unpatched Windows Zero-Day Turns Microsoft's CLFS Authentication Fix Into a SYSTEM Privilege Exploit",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "info",
+      "message": "Source fetched via Archive.org fallback (original returned 200)",
+      "details": "https://www.bleepingcomputer.com/news/security/new-windows-signdrop-zero-day-gives-hackers-system-privileges/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://cybersecuritynews.com/windows-signdrop-zero-day-exploit/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "SignDrop: Unpatched Windows Zero-Day Turns Microsoft's CLFS Authentication Fix Into a SYSTEM Privilege Exploit",
+    "summary": "Researcher Abdelhamid Naceri published a proof-of-concept exploit called SignDrop that abuses Microsoft's own CLFS authentication fix to gain SYSTEM privileges on Windows.",
+    "body_excerpt": "## Overview\n\nA newly published Windows exploit called SignDrop abuses a security mitigation Microsoft itself introduced to protect the Common Log File System (CLFS), using it instead to escalate a standard user account to full SYSTEM privileges, according to [BleepingComputer](https://www.bleepingcomputer.com/news/security/new-windows-signdrop-zero-day-gives-hackers-system-privileges/). Security researcher Abdelhamid Naceri, who publishes under the names Nightmare Eclipse and MSNightmare, posted...",
+    "word_count": 769,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "1 source(s) returned dead link errors — verify URLs before resubmitting"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know), 769 words within the 400-1200 News range. Neutral tone throughout, no sensationalism, no AI self-reference. Every specific claim is attributed to a named outlet inline.",
+    "source_verification": "Read all 5 cited sources. (1) BleepingComputer source-0.html.gz (sha256 2875a33d...698db, Archive.org fallback, live URL returned 200 per manifest) — confirmed the Naceri quotes verbatim ('this legit security mitigation can be used against itself and allow an elevation of privileges...', the antimalware-bypass quote), the 80% estimate, the registry-key detection method, and that disabling the mitigation is unsafe. (2) SecurityWeek source-1.html.gz (sha256 77a14430...03505e) — confirmed the .cnpf/clfs.sys mechanism description, the Cyderes reproduction, the exact Microsoft statement quoted in the article, and the 90-day/'older than 90 days' Naceri quote. (3) Digital Trends source-2.html.gz (sha256 fc9e06f9...65dbff) — confirmed the November 10, 2026 GitHub posting date, the 78researchlab reproduction and the verbatim 'isn't reliable enough for operational use' quote, the November 16 no-CVE/no-patch status, and the unsafe-workaround framing. (4) WCCFTech source-4.html.gz (sha256 75388286...88afadb) — confirmed the November 10, 2026 GitHub date, the Cyderes reproduction, the Microsoft 'has acknowledged the reports and is investigating the vulnerability' quote, and the registry-mode detail. All four snapshot sha256 values were independently rehashed from the decompressed .html.gz files and match manifest.json exactly; none show any suspicious_patterns entries (field is null for all four). (5) cybersecuritynews.com returned 'fetch failed' in the automated snapshot (file: null in manifest) and could not be read from the committed snapshot. Per policy, I verified via an Archive.org capture instead of a live reader proxy: https://web.archive.org/web/20261111210458/https://cybersecuritynews.com/windows-signdrop-zero-day-exploit/ (confirmed available via the Wayback 'available' API before fetching; raw HTML sha256 29dbeee05a5772f26731ef8e9ef919ee4bb5f42d7437c2c28dda45322c356165). That capture confirms: the October 28, 2025-or-later rollout date to Windows 11 25H2 and Windows Server 2025, the 90-day learning-mode-to-enforcement-mode window, and that SignDrop is a local privilege-escalation bug requiring existing code execution as a standard user (cannot be triggered remotely) -- all claims the submission attributes to Cybersecurity News check out. One misattribution found (see concerns/corrections): the submission attributes the specific observation 'has not been independently confirmed' (re: the 80% figure) to Cybersecurity News itself, but the archived CSN article in fact attributes that specific observation to a third outlet it cites, Daily Security Review ('Daily Security Review notes that this number is an estimate and not a measured count') -- CSN is relaying another outlet's view, not asserting it as its own reporting. Anthropic disclosure: not required - Anthropic is not a subject of this article (SecurityWeek and WCCFTech sidebar/trending links mention Anthropic in unrelated stories, but the Herald article does not reference Anthropic at all).",
+    "factual_accuracy": "Claim-accuracy pass completed against all five sources (four local snapshots plus the Archive.org capture for the fifth). Headline, summary, and lead are each backed by multiple sources and use no exaggerated quantifiers. Absence claims verified: 'No source reports evidence that SignDrop has been exploited outside of the researchers' and independent testers' own reproductions' is true across all five sources, including Microsoft's own 'we have not observed exploitation in the wild' and Cybersecurity News's 'no sign of use in real attacks.' The 80%-estimate caveat ('Naceri's own calculation and has not been independently verified by any source cited here') is itself accurate, but as noted above its attribution to Cybersecurity News specifically is one link removed from where CSN's article actually places that observation (Daily Security Review). No hallucinated quotes found; every quoted string traces verbatim to its cited snapshot. No orphan source URLs -- all 5 sources appear in article.sources and all 5 are cited in body_markdown.",
+    "tone_assessment": "Neutral and attributive throughout; every claim carries an inline 'according to <Outlet>' or direct attribution to Naceri, Microsoft, or named independent testers (Cyderes, 78researchlab). No editorializing or loaded language.",
+    "originality": "Searched src/content/articles/ for 'signdrop' and 'CLFS' -- no prior Herald coverage. Reviewed the 2026-11 article list; no overlapping recent coverage of this or a related Windows CLFS story. Genuinely new topic.",
+    "concerns": [
+      "The article attributes to Cybersecurity News the specific observation that the 80% vulnerable-installations estimate 'has not been independently confirmed.' The archived Cybersecurity News article (Wayback capture 20261111210458) in fact attributes that observation to a third outlet it cites, Daily Security Review, not to its own reporting. The underlying point is accurate and the figure's unverified status is independently corroborated by Digital Trends and WCCFTech regardless, but the specific sourcing of that one clause is one link removed from what was represented. Filing a corrections record for this subordinate misattribution (see corrections file)."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Substantively solid, well-attributed News report on a real, Microsoft-acknowledged Windows zero-day; all five sources were read (one via an Archive.org capture after the live snapshot fetch failed) and every headline/summary/lead claim and quote checks out verbatim against the source text. One subordinate misattribution (a caveat sourced to Cybersecurity News that CSN itself sourced to a third outlet) is minor and honestly coverable in a single corrections note, so APPROVE_WITH_CORRECTIONS rather than REJECT. Featured candidacy: 1 - solid, well-sourced zero-day disclosure with a Microsoft response and independent reproduction, useful for a security/IT-admin audience but a single vendor-platform vulnerability report rather than an industry-wide story."
+  }
+}
