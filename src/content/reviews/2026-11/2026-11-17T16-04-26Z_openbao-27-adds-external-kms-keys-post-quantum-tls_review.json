@@ -1,0 +1,61 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-17T16-04-26Z_openbao-27-adds-external-kms-keys-post-quantum-tls.json",
+  "timestamp": "2026-11-17T16:41:02.441Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "OpenBao 2.7 Adds External KMS Keys, Post-Quantum TLS and PostgreSQL Read Scaling to the Open-Source HashiCorp Vault Fork",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "openbao.org: https://openbao.org/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "OpenBao 2.7 Adds External KMS Keys, Post-Quantum TLS and PostgreSQL Read Scaling to the Open-Source HashiCorp Vault Fork",
+    "summary": "OpenBao's v2.7 release adds external HSM/KMS keys, post-quantum TLS algorithms and PostgreSQL read scaling to the open-source fork of HashiCorp Vault.",
+    "body_excerpt": "## Overview\n\nOpenBao, the open-source fork of HashiCorp Vault, has released version 2.7, adding read scaling for PostgreSQL-backed deployments, support for external hardware security module (HSM) and key management service (KMS) keys, and post-quantum cryptographic algorithms, according to [InfoQ](https://www.infoq.com/news/2026/11/vault-fork-openbao-27/). The release also introduces control groups for human review of sensitive operations and new headers intended to keep requests consistent acro...",
+    "word_count": 919,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clear, well-structured News piece on OpenBao v2.7 (PostgreSQL read scaling, external HSM/KMS keys, post-quantum TLS, control groups, breaking changes, commercial ecosystem). Appropriate technical depth for a DevOps/secrets-management audience, neutral tone throughout, no AI self-reference, no promotional language beyond quoting ControlPlane's own positioning (clearly attributed as such).",
+    "source_verification": "All 4 sources fetched successfully (HTTP 200, no archive_fallback, no suspicious_patterns) and read in full from the decompressed snapshots; sha256 of each decompressed file matches the manifest. (1) source-0.html.gz (infoq.com) — confirms the lead claims (PostgreSQL read scaling, external HSM/KMS keys, post-quantum crypto, control groups, new consistency headers), the fork history (2023 MPL->BSL change, OpenSSF/Linux Foundation governance, OpenTofu/Valkey comparison), both Alex Scheel quotes verbatim ('PostgreSQL horizontal scalability, External HSM and KMS-Backed Keys support, and Post-Quantum Cryptography' and 'many substantial features and several major security patches'), the breaking-changes list, and the ControlPlane Enterprise paragraph verbatim. (2) source-1.html.gz (github.com, v2.7.0 release notes) — confirms the Sep 23 2026 17:39 UTC tag date, the external-keys API surface (/sys/external-keys, kms-pkcs11 plugin, Transit built-in), the ML-DSA/ML-KEM details (mldsa-44/65/87, SecP256r1MLKEM768, SecP384r1MLKEM1024, X25519MLKEM768, MLKEM1024), the control_group ACL stanza, the ha_enabled/cluster_addr PostgreSQL read-scaling requirements and physical-replication-only limitation, the renamed seal plugins (pkcs11, alicloudkms, awskms, azurekeyvault, gcpckms, ocikms), and exactly 9 GHSA advisories in the SECURITY section (matches the article's derived count). (3) source-2.html.gz (github.com releases index) — confirms v2.7.0 tagged 2026-09-23T17:39:54Z and v2.7.2 tagged 2026-10-26, matching the article's dates. (4) source-3.html.gz (openbao.org) — confirms the self-description quote verbatim ('an open source, community-driven secrets manager and fork of Vault managed by the Linux Foundation's OpenSSF'). openbao.org was flagged by the automated check as missing from config/source_allowlist.txt; independently confirmed as the project's own official site (consistent self-description across meta description and homepage body text) and added to the allowlist in this review's commit with a justification comment — this resolves the only automated finding. Anthropic disclosure: not required - the story does not involve Anthropic or an Anthropic-owned product.",
+    "factual_accuracy": "One subordinate inaccuracy found on manual claim-by-claim verification against source-1: the article's closing sentence of the Breaking changes section states 'The GitHub release notes list the file backend's removal under deprecations as a step toward full removal in a future v2.8.0.' In the actual release notes, the file storage backend's removal from the main server is listed under CHANGES ('command/server: Remove file storage backend support'), not DEPRECATIONS; the DEPRECATIONS entry is a narrower, separate item stating that file-backend support specifically within the `bao operator migrate` tool is deprecated and will be removed in v2.8.0. The article conflates the two into a single claim that misattributes the already-completed general removal to the deprecations list and overstates its scope. This is a subordinate body claim, not part of the headline, summary, or lead, and is recoverable with a single corrections note. All other specifics checked verbatim (PostgreSQL read-scaling config requirements, physical-replication-only limitation, ML-DSA/ML-KEM algorithm names, external-keys API paths, control_group stanza, renamed seal plugins, 9 security advisories, v2.7.0/v2.7.2 tag dates, both direct quotes, the project's self-description) all traced cleanly to the cited sources with no hallucinations and no misattribution.",
+    "tone_assessment": "Neutral and professional throughout; attributions ('InfoQ reports', 'according to InfoQ', 'per the release notes') are used consistently and correctly to separate the Herald's framing from the cited reporting. ControlPlane's commercial positioning is clearly flagged as the vendor's own characterization.",
+    "originality": "Searched src/content/articles/ for prior OpenBao coverage; none found. This is a new topic, not a duplicate or rewrite of existing Herald coverage.",
+    "concerns": [
+      "Subordinate claim conflates the GitHub release notes' CHANGES and DEPRECATIONS sections regarding the file storage backend's removal (see factual_accuracy); addressed with a corrections record rather than a REJECT since it is a single, narrow, recoverable misstatement well outside the headline/summary/lead."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Well-sourced, accurate News coverage of a real open-source release with verbatim quotes and verified technical specifics; one subordinate claim misattributes which release-note section documents the file backend's removal and overstates its scope, recoverable with a corrections note. The openbao.org allowlist warning was resolved by independently confirming the domain as the project's official site and adding it to config/source_allowlist.txt in this commit. Featured candidacy: 1 - solid, accurate release coverage of a developer-infrastructure project for a defined DevOps/secrets-management audience, not broad-audience or exceptional."
+  }
+}
