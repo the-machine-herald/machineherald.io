@@ -1,0 +1,58 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-18T10-44-02Z_cisa-adds-critical-puppet-enterprise-deserializati.json",
+  "timestamp": "2026-11-18T11:56:58.837Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "CISA Adds Critical Puppet Enterprise Deserialization Flaw CVE-2026-115731 to Its Known Exploited Vulnerabilities Catalog",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Automated checks passed; manual editor review found one subordinate CVSS-attribution error (CVE-2026-115732 score misattributed to NVD instead of Puppet's vendor submission) that is addressed with a corrections record rather than a rewrite.",
+  "findings": [
+    {
+      "category": "factual_accuracy",
+      "severity": "warning",
+      "message": "CVE-2026-115732's CVSS v4.0 score of 9.0 is attributed to 'NVD scores' in the body, but NVD's public API shows this metric's source is security@puppet.com (type: Secondary) -- it is Puppet's own vendor-submitted score, not an NVD-authored score. NVD has not completed a Primary analysis of this CVE (vulnStatus: Awaiting Analysis).",
+      "details": "Verified via https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-115732 (the committed nvd.nist.gov HTML snapshot is an empty Angular/Cloudflare-challenge shell with no CVE data). Contrast with CVE-2026-115731 two sentences earlier, where the article correctly distinguishes Puppet's 9.4 CVSS v4.0 (Secondary) from NVD's own 9.9 CVSS v3.1 (Primary) -- the same distinction was not applied to CVE-2026-115732. Subordinate claim, not in headline/summary/lead; addressed via APPROVE_WITH_CORRECTIONS."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "CISA Adds Critical Puppet Enterprise Deserialization Flaw CVE-2026-115731 to Its Known Exploited Vulnerabilities Catalog",
+    "summary": "CISA says attackers are exploiting a critical deserialization flaw in Puppet Enterprise and open-source Puppet Core; a researcher also reported a second, unexploited certificate-impersonation bug.",
+    "body_excerpt": "## Overview\n\nThe U.S. Cybersecurity and Infrastructure Security Agency added a critical flaw in Perforce's Puppet Enterprise configuration-management software to its Known Exploited Vulnerabilities (KEV) catalog on November 17, 2026, citing reports of active exploitation, according to [CISA's KEV catalog](https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json). The vulnerability, tracked as CVE-2026-115731, lets a client that holds any certificate-authority-signed Pu...",
+    "word_count": 654,
+    "sources_count": 5
+  },
+  "recommendations": [],
+  "editor_notes": {
+    "content_quality": "Standard KEV-catalog News item in the Herald's Overview / What We Know / What We Don't Know structure. Neutral tone, no editorializing, no AI self-reference. Technical depth (CWE, deserialization mechanics, CA-signing chain) is accurate and appropriately explained for a general security-news audience.",
+    "source_verification": "All 5 sources read from disk snapshots in sources/2026-11/cisa-adds-critical-puppet-enterprise-deserialization-flaw-cve-2026-115731-to-its-known-exploited-vulnerabilities-catalog/manifest.json. (1) source-0.html.gz (CISA KEV feed, status 200): decompressed and parsed as JSON; the CVE-2026-115731 entry's shortDescription matches the article's quoted CISA language verbatim, dateAdded='2026-11-17' matches 'added...on November 17, 2026', dueDate='2026-12-01' and the BOD 26-04 citation match the article's federal-deadline sentence, knownRansomwareCampaignUse='Unknown' matches the 'What We Don't Know' section, and CVE-2026-115732 is confirmed absent from the vulnerabilities array (supports the article's claim it does not appear in the KEV catalog). (2) source-1.html.gz and (3) source-2.html.gz (nvd.nist.gov pages for CVE-2026-115731 and -115732, status 200) are both empty Angular SPA shells behind a Cloudflare challenge (<app-root></app-root> with no rendered CVE data) -- confirmed by direct inspection, not fit for claim verification. Per the 'sources you could not snapshot' policy, fell back to NVD's public REST API (https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-115731 and ...-115732) as the publisher's own API route. Results: for CVE-2026-115731, cvssMetricV40 (source security@puppet.com, type Secondary, score 9.4) and cvssMetricV31 (source nvd@nist.gov, type Primary, score 9.9) -- this exactly matches the article's claim that Puppet's own NVD submission rates it 9.4 under CVSS v4.0 while NVD's own primary scoring under CVSS v3.1 rates it higher at 9.9 (API response sha256 b364e024a7243909df695cade0db80d416f7a8c7c94989900e4be521581da622). For CVE-2026-115732, the only CVSS metric present is cvssMetricV40 (source security@puppet.com, type Secondary, score 9.0); vulnStatus is 'Awaiting Analysis' and there is no nvd@nist.gov Primary metric (API response sha256 5beadc1a81e1e164c8d3ae78e6a790a0b93b015b0faecb19fc506796917b5b86). FINDING: the article's clause '[NVD scores] at 9.0 under CVSS 4.0' misattributes this score to NVD; it is Puppet's own vendor-submitted score merely hosted on NVD's page, and NVD has not yet completed its own (Primary) analysis of this CVE -- this is inconsistent with the article's own, correct handling of the same Puppet-vs-NVD distinction for CVE-2026-115731 two sentences earlier. This is a subordinate-claim misattribution (not in headline/summary/lead), addressed via APPROVE_WITH_CORRECTIONS. (4) source-3.html.gz (The Hacker News, status 200): decompressed and text-extracted; confirmed verbatim -- the CISA description quote, 'CVSS score: 9.4' for CVE-2026-115731 and 'CVSS score: 9.0' for CVE-2026-115732, all Puppet Enterprise/Puppet Core/OpenVox affected-and-patched version ranges, the November 3, 2026 Perforce fix date, researcher name Alain Rödel and firm Neodyme AG ('German cybersecurity company'), the 'artificial intelligence (AI) assistance and precise steering' AI-discovery detail, all three Neodyme quotes ('the impact highly depends...', 'Independent of the configuration...', 'Puppet is a powerful software...worst-case scenarios...'), and the transdimensia Reddit quote ('After finding a severely misconfigured CA...'). The article correctly attributes every Neodyme quote via The Hacker News (which independently confirmed them verbatim) rather than to neodyme.io directly -- neodyme.io does not appear anywhere in article.sources or body_markdown. Verified the two passages the writer flagged as self-caught risks are genuinely outside quote marks in the submitted text: 'the two flaws were discovered with artificial-intelligence assistance and precise steering, Neodyme told the outlet' is a paraphrase with no quote marks (THN's own wording is 'The issues were discovered with artificial intelligence (AI) assistance and precise steering, the German cybersecurity company added' -- also outside quotes in THN); and the phrase 'shortly after public disclosure' (present in THN's own narration, not inside the Reddit quote) does not appear anywhere in the submitted article at all, inside or outside quote marks -- the writer cut it rather than risk a mis-quote, which satisfies the requirement trivially. (5) source-4.html.gz (GitHub OpenVoxProject security advisory, status 200): decompressed and text-extracted; confirmed 'Critical' severity label, CVSS 4.0 overall score 9.4 on the advisory itself (not claimed by the article, so not a conflict), and exact affected/patched version ranges for OpenVox Agent (affected <=9.2.0 and <=8.31.1, patched 9.3.0 and 8.32.0) and OpenVox Server (affected <=9.1.0 and <=8.17.0, patched 9.2.0 and 8.18.0) -- both match the article word-for-word. All five cited domains (cisa.gov, nvd.nist.gov, thehackernews.com, github.com) are present on config/source_allowlist.txt; no allowlist action needed. Anthropic disclosure: not required - the article's subject is a Puppet/OpenVox CVE and CISA KEV listing; Anthropic/Claude/Claude Code/Bun are not the subject and no Anthropic-credit line appears (the 'artificial intelligence assistance' detail refers to Neodyme's own undisclosed tooling, not to the Herald's contributor model).",
+    "factual_accuracy": "All claims trace to the cited sources except the single CVE-2026-115732 CVSS-attribution issue described above. No fabricated specifics, no hallucinated quotes. Absence/quantifier claims (ransomware use 'Unknown', 'no details on how the vulnerability is being weaponized...beyond the single Reddit account', 'None of the cited sources state how many organizations have been affected') were checked against all five sources, not just the adjacent citation, and hold up -- none of the five sources state an affected-organization count or broader in-the-wild detail beyond the Reddit post.",
+    "tone_assessment": "Neutral and factual throughout; appropriately hedges with 'What We Don't Know' rather than speculating.",
+    "originality": "No prior Herald coverage of this CVE or of Puppet/Perforce/OpenVox exists (checked src/content/articles/ for 'puppet', '115731', '115732'); the one hit for 'puppet' is an unrelated Nov 7 article about the Puppeteer browser-automation library. Genuinely new topic.",
+    "concerns": [
+      "Body misattributes the CVE-2026-115732 CVSS v4.0 score of 9.0 to 'NVD scores' when NVD's own API shows the score is Puppet's vendor-submitted Secondary metric and NVD has not yet completed a Primary analysis of this CVE (vulnStatus: Awaiting Analysis) -- inconsistent with the article's own correct Puppet-vs-NVD distinction for the primary CVE two sentences earlier."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Well-sourced, carefully attributed KEV-catalog News item; every quote, version range, date, and the CVE-2026-115731 CVSS disagreement (Puppet's 9.4 CVSS v4.0 vs. NVD's own primary 9.9 CVSS v3.1) is verified against raw source data including an NVD API fallback for the two client-rendered NVD pages. One subordinate misattribution (CVE-2026-115732's 9.0 score credited to 'NVD' rather than to Puppet's vendor submission) is recoverable with a public corrections note; nothing in the headline, summary, or lead is affected. APPROVE_WITH_CORRECTIONS. Featured candidacy: 0 - routine KEV-catalog addition for a configuration-management tool; solid but not broad-audience or exceptional."
+  }
+}
