@@ -1,0 +1,63 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-18T10-43-15Z_solid-20-ships-stable-with-async-in-its-reactive-g.json",
+  "timestamp": "2026-11-18T11:40:45.393Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Solid 2.0 Ships Stable With Async in Its Reactive Graph, Agent-Readable Diagnostics and Seven Removed APIs",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approved: All automated checks passed; manual review found one subordinate claim (seven-package tag-timing paragraph) not traceable to the three cited sources, though independently verified as accurate.",
+  "findings": [
+    {
+      "category": "sourcing",
+      "severity": "warning",
+      "message": "The paragraph naming @solidjs/universal, @solidjs/html, @solidjs/h, @solidjs/element, @solidjs/compiler and @solidjs/babel-plugin as tagged at 2.0.0 'within roughly two minutes of each other, close to 05:19 UTC on November 17' is not supported by any of the three cited sources (solid-js release notes, CHANGELOG.md, @solidjs/diagnostics release notes). Only the solid-js and @solidjs/diagnostics tag times are confirmed by cited sources; the other five package names/timestamps rest on an uncited view of GitHub's releases list.",
+      "details": "Verified independently via `gh api repos/solidjs/solid/releases`: @solidjs/universal@2.0.0 2026-11-17T05:19:15Z, @solidjs/html@2.0.0 2026-11-17T05:19:03Z, @solidjs/h@2.0.0 2026-11-17T05:19:24Z, @solidjs/element@2.0.0 2026-11-17T05:19:09Z, @solidjs/diagnostics@2.0.0 2026-11-17T05:19:28Z, @solidjs/compiler@2.0.0 2026-11-17T05:19:30Z, @solidjs/babel-plugin@2.0.0 2026-11-17T05:19:06Z (all within 27 seconds), and solid-js@2.0.0 2026-11-17T19:17:44Z (13h58m later, 'about 14 hours' as stated). The claim is factually accurate but lacks a citable source in article.sources; filed as a clarification correction."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Solid 2.0 Ships Stable With Async in Its Reactive Graph, Agent-Readable Diagnostics and Seven Removed APIs",
+    "summary": "Solid's JavaScript framework reached a 2.0.0 stable release on GitHub, five years after 1.0, adding async support to its reactive graph and a new diagnostics package.",
+    "body_excerpt": "## Overview\n\nThe Solid project tagged a stable `solid-js@2.0.0` release on GitHub at 19:17 UTC on November 17, 2026, five years after Solid 1.0, according to the [release notes](https://github.com/solidjs/solid/releases/tag/solid-js%402.0.0). The notes describe the release, titled \"v2.0.0 - The Long Hold,\" as adding asynchronous support directly into Solid's reactive graph and reworking the framework's API surface. The release follows a 2.0.0-rc.15 release candidate [previously covered](/article...",
+    "word_count": 741,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the uncited-but-accurate seven-package tag-timing claim.",
+    "Consider adding GitHub's releases list page (or a direct link to each sibling package's own release tag) to article.sources in future articles that make cross-package timing claims."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (741 words, within the 400-1200 News range; title 108 characters, under the 150 cap). Clean five-section structure: stable-release overview, the async/reactive-graph change, the agent-oriented diagnostics package, the API-surface reduction, the RC-to-stable timeline, and an explicit 'what the notes don't say' closer. No AI self-reference, no sensationalism.",
+    "source_verification": "Read all 3 snapshots from disk (source-0/1/2.html.gz under sources/2026-11/solid-20-ships-stable-with-async-in-its-reactive-graph-agent-readable-diagnostics-and-seven-removed-apis/), verified each file's sha256 against manifest.json before reading (all three matched). (0) solid-js@2.0.0 release notes (github.com, status 200, fetched live, not archive fallback): confirmed verbatim/near-verbatim every quoted and paraphrased claim — 'v2.0.0 - The Long Hold' (page <title>), tag datetime 2026-11-17T19:17:44Z (matches article's '19:17 UTC on November 17'), 'Solid 1.0 bet on signals at a time when fine-grained reactivity was a rare position' + 'in Angular, Svelte, Vue Vapor and a TC39 proposal' (verbatim), async-in-the-graph description (Promise/async iterator, race conditions, optimistic rollback, live() over persistent connections — all present), 'Built to be written by agents' framing (verbatim), 'primitives, not a single blessed stack' (verbatim), the exact seven removed APIs (createResource, batch, startTransition, on, produce, createComputed, createMutable — all seven present, matching the headline's 'Seven Removed APIs'), 'Safe by construction rather than by exhaustion' (verbatim), Road to 2.0 announced February 2025, 23 RCs over 14 weeks, 971 merged PRs, 753 closed issues, and the stability bar quote 'a full week with no regression in ordinary app code, and no crash or hang anywhere' (verbatim) — all confirmed present in the raw HTML. (1) CHANGELOG.md blob page: the static snapshot is a GitHub React blob-view shell whose file content is lazy-loaded client-side and is NOT embedded in the fetched HTML (confirmed by walking the page's two embedded JSON payloads — react-app.embeddedData and four react-partial.embeddedData blocks — neither contains the file body, only metadata: blob.viewable=true, blob.truncated=false, blobSize='708 KB', and a TOC listing '2.0.0' with Major/Minor/Patch Changes subheadings). Per policy guidance for a snapshot that is an empty JS shell, I fetched the underlying raw file directly (https://raw.githubusercontent.com/solidjs/solid/main/packages/solid/CHANGELOG.md, sha256 06fd626590f9e71374cf71d22ccefde892602586d6e0d44517a158b08a96ccd4) as the alternate verification route. That raw text confirms, verbatim, every claim sourced to the changelog: Major Changes 'c3e5e78: Async everywhere' and '2645436: Update to R3 based signals' (matches article's 'Async everywhere' / 'R3 based signals' quotes); Minor Changes entry f0c3692 confirms 'DEV.diagnostics.setConsoleFooter(fn)' and the exact path 'node_modules/solid-js/skills/reactivity-diagnostics/SKILL.md' verbatim. (2) @solidjs/diagnostics@2.0.0 release notes (github.com, status 200): confirmed 'agent-consumable diagnostics harness', captureArtifact(), expectNoDiagnostics/expectDiagnostic/expectRerunBudget/expectNoWaste, @solidjs/diagnostics/vitest, browser bridge + Playwright adapter, artifactToJSONL() — all verbatim/near-verbatim matches. Tag datetime 2026-11-17T05:19:28Z confirms the diagnostics-package half of the seven-package timing claim. suspicious_patterns in manifest.json is null for all three sources; no prompt-injection content found in any snapshot. Anthropic disclosure: not required - the article's subject is Solid.js (an unrelated open-source project); Anthropic/Claude are not named as subject, in the headline/summary/lead, or in a credit line.",
+    "factual_accuracy": "One subordinate, non-headline/lead claim is not traceable to any of the three cited sources, though it is independently verifiable and accurate: the paragraph stating that seven supporting packages (@solidjs/universal, @solidjs/html, @solidjs/h, @solidjs/element, @solidjs/diagnostics, @solidjs/compiler, @solidjs/babel-plugin) were 'all tagged at version 2.0.0 within roughly two minutes of each other, close to 05:19 UTC on November 17' relies on GitHub's full releases list, which is not among article.sources and does not appear in any of the three cited pages (only @solidjs/diagnostics' own 05:19:28Z tag time is confirmed by a cited source; the other five packages' names and tag times are not). I independently verified the claim via `gh api repos/solidjs/solid/releases`: @solidjs/html@2.0.0 05:19:03Z, @solidjs/babel-plugin@2.0.0 05:19:06Z, @solidjs/element@2.0.0 05:19:09Z, @solidjs/universal@2.0.0 05:19:15Z, @solidjs/h@2.0.0 05:19:24Z, @solidjs/diagnostics@2.0.0 05:19:28Z, @solidjs/compiler@2.0.0 05:19:30Z — a 27-second spread, consistent with 'within roughly two minutes' — and solid-js@2.0.0 at 19:17:44Z, 13h58m later, consistent with 'about 14 hours later'. The claim is true but, strictly, uncited; filing as a clarification correction rather than rejecting, since the fact is accurate and the issue is sourcing hygiene rather than a factual error. Every other specific in the article (dates, timestamps, quotes, the seven removed-API names, the RC/PR/issue counts) traces directly to the three cited sources. The absence claims in 'What the release notes don't say' (no adoption figures, no downstream-framework timeline, no bug-fix/feature PR breakdown) were checked against all three sources and hold. Confirmed with the prior article that the October 14 rc.15 coverage (src/content/articles/2026-10/14-solid-200-rc15-...) explicitly states in its own 'What the notes do not say' section: 'The release notes reviewed here do not give a date for a stable 2.0 release' — this submission's framing of that prior coverage ('whose release notes at the time gave no date for a stable 2.0') is accurate, and the internal link to it resolves to the correct singular /article/ path. Also confirmed, per the writer's self-reported correction, that no 'SolidStart is retired' claim (or any mention of SolidStart at all) appears anywhere in the final body_markdown.",
+    "tone_assessment": "Neutral and attributive throughout; every characterization is sourced to 'the release notes say/describe' or 'the changelog adds,' with no editorializing. No AI self-reference.",
+    "originality": "New topic; no existing article in src/content/articles/2026-11/ covers Solid 2.0's stable release (grep confirms no match), and this is a substantive follow-up to the Herald's October 14 rc.15 coverage rather than a re-narration of it — the new article covers the stable tag, the new async-in-reactive-graph design, the new @solidjs/diagnostics package, and the RC-to-stable numbers, none of which were in the October piece.",
+    "concerns": [
+      "The seven-package tag-timing paragraph (05:19 UTC cluster + the ~14-hour gap to the flagship tag) is accurate but not traceable to any of the three cited sources."
+    ],
+    "recommendations": [
+      "Future articles making cross-package timing claims should add a direct link to the relevant release tag(s) or the project's releases list to article.sources."
+    ],
+    "overall_assessment": "Accurate, well-sourced News article on Solid's 2.0.0 stable release; every headline, summary and lead claim is verified verbatim or near-verbatim against the three cited sources (including a CHANGELOG.md claim verified via the raw GitHub file after the static snapshot proved to be an empty JS shell for blob content). One subordinate paragraph states true but uncited package-tagging timing data, correctable with a public clarification note. Approved with corrections. Featured candidacy: 1 - solid, accurate release coverage of a defined framework for a developer audience; the async-reactive-graph and agent-oriented diagnostics angle is notable but not industry-changing."
+  }
+}
