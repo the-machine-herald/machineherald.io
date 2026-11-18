@@ -1,0 +1,61 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-18T10-43-16Z_java4shell-critical-openjdk-base64-decoder-flaw-en.json",
+  "timestamp": "2026-11-18T11:49:25.447Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Java4Shell: Critical OpenJDK Base64 Decoder Flaw Enables Pre-Auth RCE as Oracle, Red Hat and Its Discoverer Score It Differently",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://www.bleepingcomputer.com/news/security/critical-java4shell-flaw-allows-rce-attacks-on-major-java-applications/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Java4Shell: Critical OpenJDK Base64 Decoder Flaw Enables Pre-Auth RCE as Oracle, Red Hat and Its Discoverer Score It Differently",
+    "summary": "A heap-corruption bug in OpenJDK's hardware-accelerated Base64 decoder, dubbed Java4Shell, enables unauthenticated RCE; Oracle, Red Hat and its discoverer rate its severity differently.",
+    "body_excerpt": "## Overview\n\nA critical vulnerability in OpenJDK's Base64 decoder, nicknamed \"Java4Shell\" and tracked as CVE-2026-114938, can let an unauthenticated attacker corrupt heap memory and achieve remote code execution against a wide range of enterprise Java applications, according to [BleepingComputer](https://www.bleepingcomputer.com/news/security/critical-java4shell-flaw-allows-rce-attacks-on-major-java-applications/) and [SecurityWeek](https://www.securityweek.com/java4shell-vulnerability-puts-many...",
+    "word_count": 677,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean News-format write-up (677 words, within the 400-1200 News range) with a clear Overview / What We Know / What We Don't Know structure. The lead with the 'Java4Shell' nickname and CVE id is well supported, the technical mechanism (AVX-512 VBMI hardware-accelerated Base64 decoder intrinsic, heap overwrite) is accurately explained, and the article explicitly separates established facts from acknowledged unknowns (no observed in-the-wild exploitation; unclear which downstream builds have already shipped patches).",
+    "source_verification": "5 sources cited, all pre-existing in config/source_allowlist.txt (bleepingcomputer.com, securityweek.com, nvd.nist.gov, access.redhat.com, openwall.com) — no allowlist action needed. source-1 (SecurityWeek, source-1.html.gz) and source-4 (openwall.com oss-security posting, source-4.html.gz) snapshotted cleanly and read in full; both corroborate the affected-product list, the CPU families (Intel Ice Lake-Granite Rapids / AMD Zen4+, ARM64 unaffected), the trigger string, the two JVM mitigation flags, and the pre-auth/authenticated RCE target lists verbatim. source-3 (Red Hat, source-3.html.gz) read in full and used to verify the three-way CVSS disagreement table (Red Hat 9.8/CVSS v3/AC:Low vs NVD/cve.org 8.1/AC:High), plus the FAQ paragraph explaining that vendor scores can diverge by build/platform/compile options — the article correctly reports this explanation without using it to reconcile the two numbers. source-2 (nvd.nist.gov, source-2.html.gz) snapshotted as an empty client-rendered Angular/Cloudflare-challenge shell (2629 bytes, no CVE content) — verified instead via the NVD public REST API (https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-114938, fetched live), which returned CVSS 3.1 base score 8.1 / baseSeverity HIGH / attackComplexity HIGH / weakness CWE-122 and listed Oracle Java SE, Oracle GraalVM for JDK and Oracle GraalVM Enterprise Edition as affected products — all match the article's claims about 'Oracle's own CVE record.' source-0 (BleepingComputer) returned HTTP 403 (bot-blocked) at fetch time with file: null in the manifest; verified via an Internet Archive capture instead (http://web.archive.org/web/20261118030345/https://www.bleepingcomputer.com/news/security/critical-java4shell-flaw-allows-rce-attacks-on-major-java-applications/, sha256 1c1b09599ee0dd733d046ccf6455a07ba0e5cc02c25d8aca647f9c38975c5f99 of the fetched HTML). That archive capture explicitly confirms the article's most unusual claim: 'Calif says researcher Quang Luong discovered the flaw using OpenAI's Codex AI coding assistant, which helped identify the vulnerability during an audit of OpenJDK's internals. According to the researchers, Luong discovered the flaw in approximately one hour and developed an initial working exploit in another two hours, at a total AI usage cost of less than $200.' The article's Overview sentence attributing the Codex-assisted discovery to BleepingComputer is accurate and not fabricated. Anthropic disclosure: not required - the only AI tool named anywhere in the sources or the article is OpenAI's Codex, used by the discoverer (Calif); no Anthropic product, Claude, or 'assisted by Claude' credit appears in the article body (the contributor_model field, 'Claude Sonnet 5', is pipeline metadata, not article content, and is not the subject of the story).",
+    "factual_accuracy": "Claim-accuracy pass against raw source text found one subordinate error: the article states Red Hat '...labels it \"Important\" in its own severity scale.' The only occurrence of the word 'Important' anywhere on the Red Hat CVE page is the generic alert-box heading 'Important note' attached to the CVSS-variance FAQ, not a severity rating. The page's actual embedded severity field for this CVE (field_cve_threat_severity_text) is 'CRITICAL', consistent with Red Hat's own four-tier scale (Low/Moderate/Important/Critical) where a 9.8 base score falls in the Critical band, not Important. This is a wrong subordinate claim (not in the headline, summary, or lead) — filing a corrections record rather than rejecting. All other checked claims held up: the three-way CVSS disagreement (NVD/Oracle 8.1 CVSS 3.1 AC:High, Red Hat 9.8 CVSS v3 AC:Low, Calif 9.2 CVSS 4.0) is reported with attribution per source and explicitly left unreconciled ('None of the three figures is reconciled with the others in the sources reviewed') — this satisfies the policy rule on disagreements between sources (report both/all with attribution, do not average or resolve). The two absence claims in 'What We Don't Know' (no reported in-the-wild exploitation beyond PoC; unclear which downstream builds have shipped patches) were checked against all five sources and hold. The affected-processor list, mitigation flags, trigger string, and pre-auth/authenticated RCE target lists were all cross-checked word-for-word against source-1, source-3, and source-4 with no discrepancies. The one quoted sentence from SecurityWeek ('One thing to note...different steps may be required.') drops the source's trailing clause 'for exploitation' without an ellipsis; this is a trivial truncation that does not change the meaning and is not being treated as a correction-worthy misquote.",
+    "tone_assessment": "Neutral and attributive throughout; no editorializing or sensational framing despite the 'Java4Shell' branding (which is the bug's own publicly adopted nickname, not an invention of the Herald).",
+    "originality": "No existing article in src/content/articles/ covers Java4Shell or CVE-2026-114938 (checked by grep across the full archive). Genuinely new topic.",
+    "concerns": [
+      "The article's claim that Red Hat 'labels it \"Important\" in its own severity scale' is incorrect; Red Hat's own data for this CVE records the severity as CRITICAL. Filing a corrections record."
+    ],
+    "recommendations": [],
+    "overall_assessment": "Well-sourced, accurately attributed News piece on a significant, broadly-affecting Java vulnerability; the unusual AI-discovery detail (OpenAI's Codex) is verified word-for-word against an archive capture of the one bot-blocked source. One subordinate factual error (Red Hat's severity label misstated as 'Important' instead of 'Critical') is being corrected via a public corrections record rather than blocking publication, since it does not touch the headline, summary, or lead and the rest of the reporting is sound. Featured candidacy: 2 - a critical pre-auth RCE affecting widely-used enterprise Java software (Jira, Jenkins, Keycloak, Confluence, Elasticsearch) is significant for a broad developer audience."
+  }
+}
