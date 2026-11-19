@@ -1,0 +1,78 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-19T09-40-52Z_malicious-rubygems-package-strutil-core-plants-a-g.json",
+  "timestamp": "2026-11-19T10:00:49.149Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Malicious RubyGems Package strutil-core Plants a GitHub-Token-Triggered Wiper and Backdoors AI Coding Tool Settings",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 3 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "rubygems.org: https://rubygems.org/gems/strutil-core"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://cybersecuritynews.com/malicious-ruby-gem/"
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source unreachable: fetch failed",
+      "details": "https://cyberpress.org/ruby-worm-steals-credentials/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Malicious RubyGems Package strutil-core Plants a GitHub-Token-Triggered Wiper and Backdoors AI Coding Tool Settings",
+    "summary": "A RubyGems package called strutil-core ran a 5.48 MB credential-stealing worm tied to the Shai-Hulud lineage and a wiper that deletes home folders if a stolen GitHub token is revoked.",
+    "body_excerpt": "## Overview\n\nA RubyGems package called `strutil-core` ran a 5.48 MB credential-stealing worm when it was installed, according to [Socket](https://socket.dev/blog/shai-hulud-descendant-malicious-ruby-gem), whose Threat Research Team analyzed version 1.0.1 after its own AI Scanner flagged the package. The RubyGems account `jamnajiea` published a clean `1.0.0` on November 1, 2026, and pushed the malicious `1.0.1` less than two hours later, Socket reported. The package is no longer available: its [R...",
+    "word_count": 643,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt",
+    "2 source(s) returned dead link errors — verify URLs before resubmitting"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean inverted-pyramid structure (Overview / What happened / Attribution and scope / What we don't know) typical of the Herald's News format. Neutral, factual tone throughout, no sensationalism despite the dramatic subject matter (a wiper that deletes home directories). Technical detail (byte counts, SHA-256 hashes, region counts, TTL arithmetic) is precise and well-integrated rather than dumped.",
+    "source_verification": "4 sources, 2 snapshots retrievable, 2 unreachable. (1) sources/2026-11/malicious-rubygems-package-strutil-core-plants-a-github-token-triggered-wiper-and-backdoors-ai-coding-tool-settings/source-0.html.gz — socket.dev's full 'Shai-Hulud Descendant Surfaces in Malicious Ruby Gem' post (Kush Pandya, Nov 6, 2026). This is the primary technical source and supports essentially every claim in the article: the 5.48 MB / 5,475,376-byte Bun bundle, jamnajiea's 1.0.0 (02:19:56 UTC)/1.0.1 (04:05:04 UTC) publish times less than two hours apart, the 70-second AI Scanner detection, the ~5-hour removal window, the extconf.rb-triggers-Bun-1.2.18-download mechanism, the AWS STS/Secrets Manager/SSM-across-17-regions and ECR-across-11-regions detail, the sync.py (8,204 bytes, SHA-256 c7ef186a...) GitHub-commit-marker backdoor, the workspace-tools fake MCP server and .claude/.cursor/.aider.conf.yml/CLAUDE.md/AGENTS.md targeting, the net-health-checker wiper (45-second interval, 172,800-second/48-hour TTL despite a '24h TTL reached' log message, home-directory deletion on HTTP 401/403), the testmetest/Miasma/Shai-Hulud lineage and the JFrog 42-repository link, the pystr-codec PyPI sibling timeline, and the absence of confirmed victims/propagation/attacker identity. Every one of these specifics was checked verbatim against the decompressed snapshot and confirmed. (2) sources/.../source-3.html.gz — rubygems.org's own listing page for strutil-core; confirms verbatim the quoted yank notice 'This gem is not currently hosted on RubyGems.org. Yanked versions of this gem may already exist.' rubygems.org (the bare registry host, distinct from the already-allowlisted blog.rubygems.org) was added to config/source_allowlist.txt in this review as the official first-party registry. (3) and (4) cybersecuritynews.com/malicious-ruby-gem/ and cyberpress.org/ruby-worm-steals-credentials/ both failed to snapshot ('fetch failed'). I attempted two alternate routes: a direct curl with a browser User-Agent (cybersecuritynews.com returned HTTP/2 errors and, on retry, resolved to an unrelated article — 'Windows SignDrop 0-Day...' — with zero matches for 'strutil' or 'ruby gem', indicating a bot-block/redirect rather than the real page; cyberpress.org returned an empty reply / connection reset on every attempt) and an Archive.org availability check (both URLs returned {\"archived_snapshots\": {}} — no capture exists). Both routes are exhausted; these two sources remain unverified by direct reading. However, every claim the submission attributes to Cyber Security News or CyberPress (Aider/.aider.conf.yml targeting, the Bun 1.2.18 detail, the StepSecurity Harden-Runner tampering attempt, the 'wiper not on every infected system' qualifier, the 'shared code does not confirm the same attackers' caution, the no-public-dependents/no-confirmed-victims finding, the republishing-routines-unconfirmed-propagation finding) is independently and verbatim corroborated by the Socket primary source I did read in full, so no headline, summary, or lead claim rests solely on an unverified source. The specific attribution of individual sentences to 'Cyber Security News' vs. 'CyberPress' vs. 'Socket' could not be cross-checked sentence-by-sentence against the two unreachable outlets, but the underlying facts are confirmed. Anthropic disclosure: not required - Claude and Bun appear only as incidental items in a list of targeted AI-coding-tool configs / the delivery runtime (per policy's 'incidental name in a list of vendors... products' exception); neither appears in the headline, summary, or lead, and this is not a credit-line or advisory-report scenario. This mirrors how the Herald's October 8 Tensorlake npm/Shai-Hulud article (which also targeted Claude/Cursor/Kiro/Windsurf/Zed configs) was published without the disclosure sentence.",
+    "factual_accuracy": "One misattribution found, confined to the body (not headline/summary/lead): the article states 'Socket's sandbox testing recorded reads from 51 separate credential stores.' The Socket snapshot attributes this sandbox run to a third party, Bitbison, not to Socket itself: 'Bitbison's sandbox run confirms that the gem runs the payload at install time and reads credential files... Bitbison's sandbox recorded reads from 51 credential stores... The rest of this post comes from static analysis of the code, not from activity seen on victim systems.' The count (51) and the list of credential stores are correct; only the attribution of who ran the sandbox is wrong. Filed as an APPROVE_WITH_CORRECTIONS-eligible correction. All other specifics checked (byte counts, hashes, timestamps, region counts, TTL math, lineage) trace cleanly to the Socket snapshot with correct attribution. No hallucinated quotes: the two direct quotes in the article ('This gem is not currently hosted...' and the implicit paraphrase of the '24h TTL reached' log line) both appear verbatim in the snapshots.",
+    "tone_assessment": "Neutral and professional; appropriately hedges with 'according to,' 'Socket reported,' and a dedicated 'What we don't know' section that explicitly flags no confirmed victims, no confirmed propagation, and no identified attacker. No editorializing despite the dramatic wiper/backdoor subject matter.",
+    "originality": "Genuinely new topic, not a duplicate of recent coverage. Verified against (a) the four stories named for comparison: LiteLLM (2026-10-22, 2026-10-25 — stolen GitHub CLI tokens / master key, PyPI+Docker, no RubyGems/Bun/wiper angle), GemStuffer (2026-09-16 — a RubyGems documentation-build-pipeline RCE/CDN flaw, not a malicious package worm), Optimizely (2026-11-17 — a web-skimmer/crypto-clipper injected into customer sites, unrelated mechanism and target), and the Microsoft Agent Framework PyPI compromise (2026-11-18 — Python .pth startup-hook credential theft via webhook.site, no wiper, no AI-tool backdooring); none overlaps in package, registry, mechanism, or attribution. (b) A broader archive search surfaced one structurally similar but textually and factually distinct prior story: the October 8, 2026 Tensorlake npm/Shai-Hulud article, which shares the same high-level pattern (AI-tool-config poisoning plus a GitHub-token-revocation-triggered home-directory wiper) but is a different package (tensorlake vs. strutil-core), different registry (npm vs. RubyGems), different dates (Oct 7-8 vs. Nov 1), different numbers (60-second check / 24-hour TTL vs. 45-second check / 48-hour TTL), and different attribution (ChainDrop vs. testmetest/Miasma). Socket's own post explicitly treats strutil-core as a new, RubyGems-specific build of a different worm lineage (testmetest) from a different family (Miasma) than the one behind Tensorlake (ChainDrop), so this is a related but separate incident worth its own coverage, not a rewrite. No existing Herald article mentions testmetest, strutil-core, or jamnajiea.",
+    "concerns": [
+      "Body misattributes a sandbox-testing finding to Socket when the Socket post itself credits the sandbox run to a third party, Bitbison.",
+      "Two of four cited sources (cybersecuritynews.com, cyberpress.org) could not be independently verified by any route (snapshot, live fetch, Archive.org) — every claim attributed to them is nonetheless corroborated by the verified Socket primary source."
+    ],
+    "recommendations": [
+      "File a correction clarifying that the 51-credential-store sandbox finding is Bitbison's, as reported by Socket, not Socket's own sandbox run.",
+      "In future submissions on this beat, prefer naming the specific firm that ran a cited test (Bitbison, Socket, StepSecurity, etc.) rather than defaulting to the aggregating outlet's name."
+    ],
+    "overall_assessment": "A well-researched, accurately sourced News piece on a new (not previously covered) RubyGems supply-chain worm. Every major technical claim I tested — the 5.48 MB/5,475,376-byte Bun bundle, the 51 credential stores, the fake MCP server and AI-coding-tool backdoor, the 45-second/48-hour conditional wiper, and the testmetest/Shai-Hulud lineage — traces cleanly to the primary Socket source, which I read in full from the decompressed snapshot. One subordinate misattribution (Bitbison's sandbox run credited to Socket) does not affect the headline, summary, or lead and is cleanly correctable. Two secondary sources (cybersecuritynews.com, cyberpress.org) could not be fetched by any route, but no claim depends on them exclusively. Verdict: APPROVE_WITH_CORRECTIONS. Featured candidacy: 1 - solid, accurately sourced technical security coverage for a defined developer/security audience; a notable but incremental variant of an already-documented worm family (testmetest/Miasma/Shai-Hulud) rather than a new attack pattern, in a month already carrying several comparable supply-chain stories."
+  }
+}
