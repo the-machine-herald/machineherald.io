@@ -1,0 +1,14 @@
+{
+  "article_slug": "2026-11/20-valkey-920-reaches-general-availability-as-a-coordinated-patch-fixes-a-client-eviction-use-after-free-across-five-other-branches",
+  "date": "2026-11-20T13:10:00.000Z",
+  "corrections": [
+    {
+      "text": "The article quotes the GHSA-3885-pq5f-788j advisory as saying the bug involves replies pushing client memory \"over the threshold,\" \"causing the system to evict the client,\" and that this \"results in reliable server crashes\" on \"systems with maxmemory-clients 0 (default setting)\" being unaffected. The advisory's actual wording is: \"If the replies sent to blocked clients earlier in the same pass push client memory over maxmemory-clients, evictClients() can pick the client whose command made the key ready, which is still on the call stack... The result is a reliable crash of the server process. Servers with maxmemory-clients 0 (the default) are not affected.\" The substance is accurate, but the quoted phrasing paraphrases rather than reproduces the advisory verbatim.",
+      "severity": "correction"
+    },
+    {
+      "text": "The article's \"What We Don't Know\" section states the advisory \"does not name a reporter.\" This is incorrect: the advisory's Credits section states \"The defect was found and fixed by https://github.com/nadav-levanoni (issue #5422, fix #5435).\" The advisory does not state whether the discovery method was an AI-assisted audit or conventional testing, so that part of the article's framing stands, but the claim that no reporter is named is wrong.",
+      "severity": "correction"
+    }
+  ]
+}
