@@ -1,0 +1,59 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-20T12-38-29Z_pypi-rejects-non-pax-tar-archives-and-stray-zip-co.json",
+  "timestamp": "2026-11-20T13:34:33.087Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "PyPI Rejects Non-PAX Tar Archives and Stray ZIP Comments to Close Parser-Differential Upload Loopholes",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Automated check flagged 3 off-allowlist hosts; all three independently confirmed as the publishers' own official sites and added to config/source_allowlist.txt in this review's commit. No factual, quote-fidelity, or sourcing defects found after full manual verification — APPROVE.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "blog.pypi.org: https://blog.pypi.org/posts/2026-11-18-stricter-checks-for-uploaded-sdists/\nastral-sh.github.io: https://astral-sh.github.io/are-we-pax-yet/\npackaging.python.org: https://packaging.python.org/en/latest/specifications/source-distribution-format/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "PyPI Rejects Non-PAX Tar Archives and Stray ZIP Comments to Close Parser-Differential Upload Loopholes",
+    "summary": "PyPI now rejects V7-style tar sdists and ZIP wheels with archive-level comments, closing gaps where different tools parsed the same package archive differently.",
+    "body_excerpt": "## Overview\n\nThe Python Package Index now rejects two categories of malformed package archives that could previously slip through its upload checks, according to a [PyPI blog post](https://blog.pypi.org/posts/2026-11-18-stricter-checks-for-uploaded-sdists/) published November 18, 2026. PyPI will reject source distributions (\"sdists\") that use \"V7\"-style tar archives, and built distributions (\"wheels\") that carry archive-level ZIP comments which [could be misinterpreted as ZIP control structures]...",
+    "word_count": 671,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-organized News piece (671 words, within the 400-1200 range). Five clearly delineated sections (Overview, What changed, Why it matters, Scope, Scope and what's next) walk through the two upload-time changes (V7-tar rejection, ZIP archive-comment rejection), the shared 'parser differential' rationale, the formal spec requirement, and forward-looking plans. No AI self-reference, no promotional language, no sensationalism.",
+    "source_verification": "All 6 sources fetched successfully (HTTP 200), no suspicious_patterns in any manifest entry, and all 6 gzip snapshot sha256 hashes were independently recomputed and match manifest.json exactly (verified via `gunzip -c | sha256sum`). Read each snapshot in full: source-0.html.gz (blog.pypi.org post 'Stricter checks for uploaded distributions on PyPI', Nov 18 2026, byline William Woodruff) — confirms the V7-tar rejection, the archive-level ZIP-comment rejection, the 'parser differentials' rationale paragraph, the Seth-Larson-ZIP-differential-reduction credit, and the 'overwhelming majority...already conforming' line, all quoted verbatim in the article. source-1.html.gz (github.com/pypi/warehouse#21012, opened by woodruffw Nov 18 2026) — confirms the 'top 360 looks pretty good...~10% of the top 15k' quote verbatim and the proposal to reject all non-pax sdists including GNU-style. source-2.html.gz (github.com/pypi/warehouse#20934, opened by woodruffw Nov 6 2026) — confirms the 'rejecting it would prevent someone from stuffing ZIP control structures' quote verbatim, Seth Larson's Contributor-role comment backing the change and noting '2 tools that previously left a generic comment here' (matches article's paraphrase), and woodruffw's own plan to start with metrics before flipping to rejection. source-3.html.gz (github.com/pypi/warehouse PR#20829, woodruffw, merged by ewdurbin Oct 27 2026) — confirms both direct quotes verbatim ('PyPI will now reject V7-style tar archives on upload' and 'will become user-facing warnings and then upload errors (like V7) in the future') and the authorship/merge attribution exactly as stated in the article; ewdurbin is independently confirmed as PyPI staff via the blog's own Authors roster ('Ee Durbin'). source-4.html.gz (astral-sh.github.io 'Are we pax yet?') — confirms '353 of 360 sdists use pax (98%)', the 360-most-downloaded-projects scope, the 'Last updated 20 November 2026' timestamp, and individually verified that all 7 named non-pax packages (grpcio, hf-xet, safetensors, fastuuid, xlrd, text-unidecode, rfc3339-validator) appear in the page's un-emoji-marked (non-pax) list. source-5.html.gz (packaging.python.org sdist spec) — confirms both verbatim quotes ('the tarball MUST use the modern POSIX.1-2001 pax tar format' and 'source distributions MUST NOT use non-pax features') and the 'GNU-style or legacy (\"V7\")-style tar members' example list verbatim. Every direct quote in the body (11 quoted passages total) was checked against its cited snapshot and matches verbatim; no hallucinated or misattributed quotes found. One cosmetic note: the body puts the label 'parser differential' in quotation marks (singular) while the blog post only ever uses the plural 'parser differentials' — a trivial pluralization difference, not a misquote of substance, so no correction filed for it. Bidirectional source check: all 6 body_markdown URLs appear in article.sources and vice versa (verified programmatically) — no orphan-URL provenance break. Allowlist: blog.pypi.org, astral-sh.github.io, and packaging.python.org were flagged by the automated script as off-allowlist. Applied the confirmation procedure in 'Source allowlist and unreachable sources': blog.pypi.org independently confirmed as PyPI's own official blog (nav branding 'PyPI.org / PyPI blog', authors roster matches Warehouse maintainers verifiable on the cited GitHub issue/PR pages); astral-sh.github.io confirmed as Astral's own official GitHub Pages site (astral-sh is Astral's GitHub org; page footer reads 'Built by Astral', same pattern as already-listed rust-lang.github.io/square.github.io); packaging.python.org confirmed as the Python Packaging Authority's official specifications site, sibling subdomain of already-listed python.org/docs.python.org. All three added to config/source_allowlist.txt with justification comments in this review's commit (BATCH ADDITIONS — 2026-11-20, PR #2950); no claims needed to be removed. Anthropic disclosure: not required - Anthropic and Anthropic-owned products are not the subject, named in headline/summary/lead, or credited anywhere in this article.",
+    "factual_accuracy": "Ran the claim-accuracy quantifier/absence scan against title, summary and body_markdown. Flagged sentences (containing 'never', 'only', 'all', 'first' etc.) were each checked against every relevant snapshot, not just the adjacent citation: 'never produced by Python's own tarfile module' (verbatim, blog), 'GNU-style archives are not rejected yet' (confirmed true — PR #20829 says GNU-style only gets an internal metric, not rejection), 'currently only logged as a metric' (confirmed, same PR), 'the top 360...~10% of the top 15k' (verbatim, issue #21012), '353 of the 360...98 percent' (directly stated on the Astral page, not a Herald-derived figure). All dates checked: blog post Nov 18 2026, PR merged Oct 27 2026, issue #20934 opened Nov 6 2026, Astral snapshot dated Nov 20 2026 — all match source timestamps exactly. No disagreements between sources requiring attribution-of-conflict handling. One editorial judgment call: the headline says 'PyPI Rejects Non-PAX Tar Archives' as a category, when the currently-enforced rejection is specifically V7-style tar (a non-pax format), while a second non-pax format (GNU-style) is only logged as a metric, not yet rejected (issue #21012 proposes extending to all non-pax formats but is open/unresolved). Considered this against the headline-accuracy rule, but judged it not a 'wrong statement' requiring REJECT or a correction: V7 is a genuine, sourced instance of a non-pax tar format being rejected (confirmed via packaging.python.org's own listing of 'GNU-style or legacy (\"V7\")-style tar members' as the two named non-pax examples), the body's first two paragraphs immediately and explicitly scope the rejection to 'V7-style' specifically and state 'GNU-style archives are not rejected yet,' and the summary line correctly says 'V7-style tar sdists' rather than repeating the broader headline phrasing. A reader is not misled by the body, only by a headline that uses a category label rather than the precise subtype — ordinary headline compression, not fabrication.",
+    "tone_assessment": "Neutral and factual throughout; attributions are consistently sourced ('according to', 'the PyPI blog describes', named GitHub handles with roles). No loaded language or editorializing.",
+    "originality": "Not a duplicate. Checked against all 2026-11 published articles, including the two other recent PyPI-related pieces: 2026-11-16 'PyPI's New Security Tab Rates Every Release's Provenance...' (covers the Security-tab UI, attestations/Trusted Publishing provenance debate — an entirely different feature) and 2026-11-18 'Malicious Microsoft Agent Framework Releases on PyPI...' (covers a specific supply-chain compromise incident). This submission covers a third, distinct PyPI change — upload-time archive-format validation (tar/ZIP structural parsing) to close parser-differential loopholes — with no topical, source, or claim overlap with either. grep across all published article bodies for 'V7-style', 'parser differential', 'pax tar', 'non-pax', and 'archive-level ZIP comment' returned zero matches. New topic, approved.",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Thoroughly sourced, accurately quoted News piece on a genuine PyPI upload-validation change; every one of 11 direct quotes verified verbatim against its cited snapshot, all dates and figures check out, and no provenance or quote-fidelity defects were found despite a deliberately skeptical quote-by-quote audit. The three off-allowlist hosts are all confirmed first-party/official sources and have been added to config/source_allowlist.txt in this commit, resolving the only automated finding. APPROVE, no corrections record needed. Featured candidacy: 1 - solid, accurately reported infrastructure-security hardening for the defined Python-packaging developer and supply-chain-security audience; not broad-audience or industry-changing enough for a 2."
+  }
+}
