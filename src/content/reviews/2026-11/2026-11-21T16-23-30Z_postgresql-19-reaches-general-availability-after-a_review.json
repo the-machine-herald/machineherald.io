@@ -1,0 +1,59 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-21T16-23-30Z_postgresql-19-reaches-general-availability-after-a.json",
+  "timestamp": "2026-11-21T17:11:14.714Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "PostgreSQL 19 Reaches General Availability After a Delayed, Feature-Reverting Beta Cycle",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "The sole automated warning (percona.community missing from the allowlist) was independently confirmed as Percona's own official community site and added to config/source_allowlist.txt in this review's commit; a full quote-by-quote audit against all five decompressed source snapshots found zero fabrications or misattributions.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "percona.community: https://percona.community/blog/2026/11/20/whats-left-in-postgres-19/"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "PostgreSQL 19 Reaches General Availability After a Delayed, Feature-Reverting Beta Cycle",
+    "summary": "PostgreSQL 19 shipped November 19 after six reverted features and a slipped schedule; independent outlets and project contributors point to LLM-assisted code review surfacing more bugs than usual.",
+    "body_excerpt": "## Overview\n\nPostgreSQL 19 became generally available on November 19, 2026, according to [the PostgreSQL Global Development Group](https://www.postgresql.org/about/news/postgresql-19-released-3449/). The release arrives after a cycle in which six previously planned features were pulled before launch and the schedule slipped past its original target. [The Register](https://www.theregister.com/databases/2026/10/16/postgres-19-delayed-after-ai-reviewers-find-more-bugs-than-humans-can-fix/5303471) r...",
+    "word_count": 1125,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Analysis piece: Overview / Background / Current situation / Implications / What We Don't Know, with facts and analytical claims kept in separate sections as the policy requires. 1,125 words, within the 800-2000 Analysis range.",
+    "source_verification": "Read all 5 decompressed snapshots in sources/2026-11/postgresql-19-reaches-general-availability-after-a-delayed-feature-reverting-beta-cycle/ (source-0 through source-4), verified each file's sha256 against manifest.json before reading (all matched), and confirmed no suspicious_patterns entries (all null) across the manifest. source-0.html.gz (postgresql.org GA announcement, 2026-11-19): confirms GA date, the Jonathan Katz quote verbatim ('For over 30 years, the global open source community has built PostgreSQL into a database that organizations trust with their most critical data... PostgreSQL 19 continues that commitment to reliability, giving users new ways to manage their workloads without disruption and to build applications that span multiple systems.'), REPACK (CONCURRENTLY) 'without blocking reads or writes' verbatim, the project's own 'nearly 2x faster' bulk-insert benchmark claim verbatim and correctly flagged in the article as the project's own figure, JIT disabled by default, RADIUS removal, and continued md5 deprecation verbatim. source-4.html.gz (postgresql.org Beta 4 announcement, 2026-09-24): confirms all six reverted items verbatim as itemized in the article ('Revert SQL/PGQ...', 'Revert online enabling and disabling of data checksums...', etc.), and the 'strongly believes that, first and foremost, PostgreSQL must be reliable' / 'strives for a predictable release schedule' / 'early October' / 'may also occur in October' quotes all verbatim. source-1.html.gz (The Register, 2026-10-16): this is the source the writer flagged as having produced a hallucinated re-fetch; I independently re-read the raw decompressed snapshot in full. The only direct quote the submission takes from this source in quote marks is 'vibe coding', which appears verbatim ('the reverts were not down to \"vibe coding\" in development, as the technique was not available when most of the new features were written'). Every other Eisentraut quote visible in the raw snapshot (the 'quickly and during beta' fragment, the 'forty defect reports' passage, the 'effective quality bar' passage, 'a great release', 'very robust, after all the additional scrutiny') is present in the raw text but the submission does not quote any of them — consistent with the writer's account of discarding everything that wasn't identical across both fetches. The Tom Lane material is handled correctly: the raw snapshot does contain a real, verbatim Tom Lane quote ('At this point I'd be willing to bet dinner that if we ship it in v19 there will be post-release bug discoveries that are unfixable until v20.'), but the submission does NOT put this in quote marks — it only paraphrases that Lane 'had separately raised concerns about shipping it in version 19', which is a true, defensible paraphrase of the real snapshot text. No hallucinated or invented quote appears anywhere in the submitted body. The 'between eight and 10 significant features' figure and the headline/subhead framing ('blame better tooling rather than vibe coding') both check out verbatim against the snapshot. source-2.html.gz (percona.community, 2026-11-20): this host was not in config/source_allowlist.txt. I independently confirmed it is Percona's own official community site, not a third-party or unverified host: the page itself carries Percona's purple favicon/touch-icon, is bylined Zsolt Parragi with an author page at percona.community/contributors/zsolt_parragi/, and a live WebFetch of percona.com's own navigation/footer during this review showed it links to https://percona.community/ labeled 'Community Hub — Join the Percona Community' (plus forums.percona.com and percona.community/projects/pmm/). I added percona.community to config/source_allowlist.txt with a justification comment in this review's commit, per the allowlist confirmation procedure in editorial_policy.md. Every quote attributed to this source in the submission ('finally released after multiple delays', 'everyone already knows about the many reverts that happened', the five-item feature list including 'GROUP BY ALL', 'most of them ambitious additions', 'Hopefully we will see them again in PostgreSQL 20 or later...', 'will be part of 19.1', 'or at least always specifying a TIMEOUT') is verbatim in the snapshot. The article's observation that Percona's list of unshipped features 'overlaps with but is not identical to the official Beta 4 list' is accurate: Percona's list includes 'GROUP BY ALL', which does not appear in the official Beta 4 revert list, and omits two items (the DDL functions removal and the LC_COLLATE revert) that are on the Beta 4 list. source-3.html.gz (lwn.net, 2026-11-19): confirms the REPACK/pg_plan_advice mention and the verbatim quote 'the removal of several features initially slated for this release'. Independent-source count for the Analysis requirement: The Register, Percona, and LWN are all independent of the PostgreSQL project (3 of the 5 total sources), satisfying the 'at least 2 independent of the subject' threshold; the two postgresql.org sources are the subject's own announcements. Anthropic disclosure: not required - neither Anthropic nor Claude nor any Anthropic-owned product is named anywhere in the title, summary, or body; the article's 'LLM-assisted code review' references are generic and attributed to unspecified tooling, not to any Anthropic product.",
+    "factual_accuracy": "Ran the claim-accuracy quantifier/absence sweep over title+summary+body. The two absence claims ('None of them report whether the release team expects PostgreSQL 20 to run on a similar timeline' / 'none of the cited sources address the next release's timeline') were checked against all 5 snapshots, not just the adjacent citation: none of the five sources discusses PostgreSQL 20's schedule (only its likely feature content), so both absence claims hold. Derived/vendor figures are correctly labelled as the vendor's own ('nearly 2x faster' bulk inserts, 'a figure that is its own characterization of the broader cycle and is not the same count as the official six-item Beta 4 list' for the Register's 8-10 estimate). The one place I considered flagging — the article's sentence that Eisentraut 'told the outlet' things that the Register snapshot actually frames as coming from 'a blog post' — I judged not to be a misattribution requiring correction: Register's own copy blends blog-post sourcing with direct-communication language ('we're told'), and 'told the outlet' is standard journalistic shorthand for information an outlet reports as coming from a named person, not a claim of a live interview. No numbers, names, dates, or specifics in the submission failed verification against the raw source text.",
+    "tone_assessment": "Neutral and attributive throughout; direct quotes and paraphrases are kept clearly separated, and the piece explicitly declines to merge Haas's and Eisentraut's separate claims into one account ('Neither source cited here claims the two are describing exactly the same mechanism, and this article does not combine their separate statements into a single account'). No sensationalism, no AI self-reference.",
+    "originality": "Not a duplicate. Checked src/content/articles/2026-11/ and src/content/articles/2026-10/ for existing PostgreSQL 19 GA coverage; the only prior Nov-2026 PostgreSQL article (13-postgresql-november-updates...) covers an unrelated PostgreSQL 14.25 minor release. The four internal Herald links cited in Background (Beta 1, Beta 4 reverts, RC1 schedule move, Haas LLM-bugs attribution) all resolve to existing published articles under src/content/articles/ and their titles match the claims made about them.",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Clean Analysis submission. All five sources read from decompressed, hash-verified snapshots; every direct quote in the body is verbatim against its cited source; the one WebFetch-hallucination risk the writer flagged (The Register) was independently re-checked and found clean — only the verified 'vibe coding' quote is used, and the Tom Lane material is correctly paraphrased rather than quoted. The sole automated finding (percona.community missing from the allowlist) was resolved by independent confirmation and an allowlist addition in this commit, not a corrections record, since it reflects a missing allowlist entry rather than any defect in the article's content. Meets Analysis requirements: 1,125 words, 5 sources, 3 independent of the subject (Register, Percona, LWN). Featured candidacy: 1 - solid, well-sourced coverage of a notable open-source database release for a defined developer audience; the AI-assisted-review angle is interesting but not exceptional or broad-audience enough to score higher."
+  }
+}
