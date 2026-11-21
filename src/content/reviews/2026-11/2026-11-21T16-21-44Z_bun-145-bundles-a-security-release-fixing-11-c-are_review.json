@@ -1,0 +1,64 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-21T16-21-44Z_bun-145-bundles-a-security-release-fixing-11-c-are.json",
+  "timestamp": "2026-11-21T16:46:01.966Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Bun 1.4.5 Bundles a Security Release Fixing 11 c-ares DNS Advisories and a 209.5x lsquic Amplification Bug",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Automated REJECT overridden: the flagged dead link is a malformed URL (security-advisories vs. the real security/advisories path), and the advisory content is fully verified accurate at the corrected URL. Two subordinate, honestly-correctable issues filed as corrections: the dead source link, and a missing required Anthropic-ownership disclosure (Bun is now an Anthropic product).",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Dead link: HTTP 404",
+      "details": "https://github.com/litespeedtech/lsquic/security-advisories/GHSA-fg6p-g89q-65wr"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Bun 1.4.5 Bundles a Security Release Fixing 11 c-ares DNS Advisories and a 209.5x lsquic Amplification Bug",
+    "summary": "Bun's v1.4.5 security release pulls in c-ares, fixing eleven DNS advisories, and lsquic, fixing a bug that let one datagram trigger a 209.5x reply.",
+    "body_excerpt": "## Overview\n\nBun v1.4.5, released November 19, 2026, is what the [Bun blog](https://bun.com/blog/bun-v1.4.5) calls \"a security release,\" bumping five bundled dependencies: lsquic, c-ares, SQLite, llhttp and BoringSSL. The [post](https://bun.com/blog/bun-v1.4.5), written by Dylan Conway, says the fixes touch HTTP/3, HTTP/1.1, TLS, DNS and Zstandard, and lists the affected surface as \"`Bun.serve`, `Bun.connect`, `Bun.dns`, `Bun.zstdDecompress`, `node:tls`, `node:https`, `node:http`, `node:quic`, `...",
+    "word_count": 726,
+    "sources_count": 5
+  },
+  "recommendations": [
+    "Close the PR without merging. The work is discarded under the v3.9.0 workflow.",
+    "1 source(s) returned dead link errors — verify URLs before resubmitting"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean, well-structured News piece (726 words, within the 400-1200 range). Overview/What We Know/What We Don't Know structure is used correctly: the final section is a genuine disclosure of what the primary sources do not state (exploitation status, the undocumented first lsquic GHSA ID), not a recap. Technical explanation of the lsquic path-slot bug is accurate and clearly written for a developer audience.",
+    "source_verification": "All 5 cited sources read from disk snapshots (gunzip'd .html.gz) except one, verified by an alternate route documented below. (1) source-0.html.gz (bun.com/blog/bun-v1.4.5, 200, sha256 2d28d73a...) confirms the Nov 19 2026 release, the 5 bundled-dependency version bumps (lsquic 4.9.4->4.11.2, c-ares 1.34.8->1.34.9, SQLite 3.53.4->3.54.1, llhttp 9.4.2->9.4.4, BoringSSL Aug->Nov 2026), the SQLite/ALTER TABLE and node:crypto/cert-validation bugfix text, and the 'Bun's bundled roots are not affected' quote -- all verbatim. (2) source-1.html.gz (github.com/oven-sh/bun/releases/tag/bun-v1.4.5, 200) confirms the Nov 19 publish date and tag. (3) source-2.html.gz (github.com/c-ares/c-ares/releases/tag/v1.34.9, 200) confirms 'This is a security release', the Oct 19 2026 date, and an exact count of 11 listed GHSA advisories (verified by manual enumeration of the release-note bullet list), plus verbatim matches for the 'A DNS reply that arrived from a different server...' and ares_dup()/ares_save_options() buffer-overflow quotes; no CVE identifiers appear anywhere in the release notes, confirming the article's 'None...carries a published CVE number' claim. (4) source-3.html.gz (github.com/litespeedtech/lsquic/releases/tag/v4.11.2, 200) confirms the Nov 16 2026 publish date (3 days before Bun's release, as the article states) and the verbatim 'Preserve validated paths when the path table is full, preventing undecryptable packets from redirecting queued traffic' fix line with both GHSA IDs. (5) github.com/litespeedtech/lsquic/security-advisories/GHSA-fg6p-g89q-65wr returned a genuine 404 at fetch time -- the cited URL path is malformed (the submission uses the old-style 'security-advisories' single segment; GitHub's actual path is 'security/advisories', a '/' not embedded in the word). I independently confirmed this by direct curl with a browser User-Agent to https://github.com/litespeedtech/lsquic/security/advisories/GHSA-fg6p-g89q-65wr (200, saved to /tmp/ghsa.html, 167202 bytes) and by checking that no Archive.org capture exists for the broken URL. The corrected-URL page verbatim confirms: 'One 49-byte datagram that carries the server's connection ID and cannot be decrypted then made the server send 10265 bytes (209.5x) to its source address, which was never validated' (exact match to the article's blockquote), 'No known CVE', and the term 'path slots' used by the article. The one mismatch: the page's own severity label reads 'Severity Moderate / 5.8 CVSS' -- GitHub's four-tier UI label is 'Moderate', not the article's 'medium severity'. The CVSS 4.0-6.9 band is conventionally called 'Medium' under the generic CVSS qualitative scale, so this is defensible as a synonym and not a factual error, but it doesn't match the source's own displayed word, so I note it rather than silently passing it. Figure/count re-verification requested by the orchestrator: the 209.5x amplification figure and the 'eleven' c-ares advisory count were both independently recomputed from the raw GitHub release-note/advisory text (not taken from the submission's own arithmetic) and both check out exactly. Quote-by-quote audit: every one of the 12 double-quoted spans in body_markdown was traced to its cited source and matched verbatim (case and wording) -- the two case-mismatch quotes and the one bracket-modified quote the writer reports self-correcting are not present in the final submitted text; no residual quote-fidelity issues found. Cross-reference check: the internal link to /article/2026-10/22-nodejs-security-releases-... resolves to an existing published article, and that article's own body confirms Node.js bundled the same c-ares 1.34.9 in its Oct 21 2026 releases, so the 'Bun is not the first runtime' claim is accurate and this is not a duplicate story (different subject, only a one-sentence cross-reference). Anthropic disclosure: required - source-0.html.gz (bun.com's own page footer) reads 'The fast all-in-one JavaScript runtime & toolkit. Now part of Anthropic.' / 'Bun x Anthropic' / 'Baked with (heart) in San Francisco . (c) 2026 Anthropic, PBC' -- Bun is confirmed to be an Anthropic-owned product per editorial_policy.md's own example list ('Claude Code or Bun'), and this article's headline/lead is about Bun. No sentence disclosing that the Herald's contributor model is built by Anthropic appears anywhere in the submission. This is a required disclosure that is missing, filed below as a clarification record per policy section 'Disclosure of the contributor model's maker'.",
+    "factual_accuracy": "No fabricated or hallucinated specifics found. Every number (11 advisories, 209.5x, 49/10265 bytes, version numbers, dates) traces to raw source text, independently recomputed rather than trusted from the submission. Two recoverable issues found, both subordinate (not headline/summary/lead): (1) the body's markdown link for GHSA-fg6p-g89q-65wr points to a malformed, dead URL even though the underlying fact/quote is fully verified at the correct URL; (2) the required Anthropic-ownership disclosure sentence (Bun is now an Anthropic product) is missing from the article.",
+    "tone_assessment": "Neutral and professional throughout. No sensationalism, no editorializing, appropriate hedging in the 'What We Don't Know' section.",
+    "originality": "New topic -- no existing Herald coverage of Bun 1.4.5. Genuinely distinct from the Oct 22 Node.js security-release article (different runtime, different release, only a one-sentence factual cross-reference that itself checks out against that article's own text).",
+    "concerns": [
+      "The article's body contains a markdown link to https://github.com/litespeedtech/lsquic/security-advisories/GHSA-fg6p-g89q-65wr which 404s for readers; the correct path is https://github.com/litespeedtech/lsquic/security/advisories/GHSA-fg6p-g89q-65wr. The cited content itself is verified accurate at the correct URL.",
+      "Bun is now an Anthropic-owned product (per bun.com's own footer) and the article's headline/lead is about Bun, which requires the one-sentence Anthropic-maker disclosure under editorial_policy.md; it is absent from the submission."
+    ],
+    "recommendations": [
+      "File a corrections record covering both the dead source link and the missing Anthropic disclosure; do not edit the signed article body."
+    ],
+    "overall_assessment": "Substantively accurate, well-sourced, neutrally written News piece with two minor, honestly-correctable issues: a malformed external source link (content verified correct at the fixed URL) and a missing required one-sentence Anthropic-ownership disclosure now that Bun is an Anthropic product. Neither affects the headline, summary, or lead, and both can be fully and honestly covered by a single corrections record, so APPROVE_WITH_CORRECTIONS rather than REJECT, overriding the automated script's dead-link-triggered REJECT after independently verifying the source content at the corrected URL. Featured candidacy: 1 - solid, accurate security-patch coverage for a defined developer audience; useful but incremental dependency-bump news, not broad-audience or exceptional."
+  }
+}
