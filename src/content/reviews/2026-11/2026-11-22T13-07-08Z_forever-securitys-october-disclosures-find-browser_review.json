@@ -1,0 +1,65 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-22T13-07-08Z_forever-securitys-october-disclosures-find-browser.json",
+  "timestamp": "2026-11-22T14:20:08.757Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Forever Security's October Disclosures Find Browser Flaws in Five AI Coding Agents and a Separate Instruction-File Trust Gap in Two",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "forever.security: https://forever.security/blog/hijacking-ai-agents-via-downloads-folder\nforever.security: https://forever.security/blog/embrace-hacking-5-ai-assistants-embedded-browsers-technical"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Forever Security's October Disclosures Find Browser Flaws in Five AI Coding Agents and a Separate Instruction-File Trust Gap in Two",
+    "summary": "Forever Security's October research found a planted AGENTS.md/CLAUDE.md file can hijack Codex and Claude Code, and a separate flaw class broke embedded-browser rules in five coding tools with uneven patch status.",
+    "body_excerpt": "## Background\n\nAI coding agents increasingly combine two design choices that are each reasonable on their own. The first is an instructions file — an `AGENTS.md` or `CLAUDE.md` — that sits in a project folder and is read and obeyed without asking the user each time. As security firm Forever Security put it in an October 22, 2026 write-up, such a file \"sits in a project folder you control. The first time you work there, you see it and vet it. After that you trust it,\" according to [Forever Securi...",
+    "word_count": 1714,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Analysis: Background establishes the two design choices (obeyed instruction files + enriched embedded browsers) that make both disclosure classes possible, Current Situation separates the two October disclosures into dated subsections, and Implications genuinely analyzes the pattern (divergent vendor remedies, divergent timelines, an open question about Claude Desktop's final patch status, and the unresolved question of why vendors reached different conclusions) rather than just recapping either Forever Security post. Facts and analysis are visibly separated: the Implications and final paragraphs are explicitly framed as the Herald's own counts/observations ('by the Herald's own count', 'None of the sources cited here...') rather than blended into sourced fact.",
+    "source_verification": "All 6 sources snapshotted successfully (manifest: all status_code 200, no suspicious_patterns, all sha256 verified by rehashing the decompressed .html.gz files against the manifest). Read in full: source-0 (forever.security, 'Markdown Is the New Executable' / Downloads-folder post, by-lined Gal Weizman and Omer Samet via /blog/authors/ links), source-1 (forever.security, EMBRACE technical post), source-2 (Help Net Security, Oct 26, Sinisa Markovic), source-3 (Help Net Security, Oct 29, Mirko Zorz), source-4 (Checkmarx 'Zero' blog, MALFEX post), source-5 (github.blog changelog, 2026-11-17 browser-use post). Independent-source count for the Analysis requirement: Help Net Security (one outlet, two bylines/dates, counted as one independent source) and Checkmarx (independent of Forever Security and of the five coding-agent vendors) = 2 independent sources, meeting the >=2-independent floor; Forever Security's own two posts and GitHub's own changelog are correctly treated in the article as vendor/first-party material, not independent corroboration. forever.security was not on config/source_allowlist.txt; confirmed as the firm's own official site this review (page titles '... - Forever Security', named-author bylines with avatars linking to /blog/authors/gal-weizman and /blog/authors/omer-samet, 'Published by Forever' footer) and added with a justification comment in this commit per the allowlist procedure -- this resolves the script's only automated warning. No suspicious_patterns entries in the manifest; both forever.security posts are themselves about prompt-injection-style attacks on coding agents but contain no text addressed to an AI agent reading the page itself (read in full; no injection attempt found).",
+    "factual_accuracy": "Quote-by-quote audit of all 22 double-quoted strings in body_markdown against the raw decompressed source text: 21 of 22 are verbatim matches (including the full passages 'sits in a project folder you control...', 'a malicious AGENTS.md file in the ~/Downloads folder...', 'Codex ran the malware in more than 90% of attempts', 'about 50% of the time', 'no payload of its own'/'installs function-flag as a dependency' from Checkmarx, 'an EMbedded BRowser trusted like a real one', 'fixed it independently in a later Copilot build (1.1.29)', 'needed no worker at all', the 'Workspace Trust' phrase, the full 'the Codex and VS Code issues are still open...' sentence, and the GitHub changelog's 'control the browser, debug web apps in real time, automate browser tests, and handle complex web tasks'). One quote does NOT match verbatim: the article attributes 'that is what Forever was built to watch' to Forever Security, but the source's actual closing line is 'and it is what Forever was built to watch' (source-0, final section) -- a one-word substitution ('that' for 'it') inside quote marks. Filed as a corrections record (severity: correction) rather than rejected, since it is a single word in a non-lead passage and does not change the claim's meaning. Vendor-patch-status claims verified against source-1's 'Resolution' sections: Cursor patched Oct 1 (disclosed Sept 10, 'silently patched', 'Cursor never reached back') -- confirmed; GitHub Copilot patched independently by Oct 13 (found Sept 26 on 1.1.27, fixed in 1.1.29 'before we had sent a report') -- confirmed; Codex and VS Code unpatched as of Oct 29 ('the Codex and VS Code issues are still open... OpenAI has not shipped a fix for Codex') -- confirmed; Claude Desktop is correctly left ambiguous by the article -- source-1's closing 'still open' sentence names only Codex and VS Code, omitting Claude Desktop, even though Anthropic initially declined (July 23) before accepting a second researcher's report as valid (July 24); the article's observation that 'the write-up does not state, in the passage summarizing what remains open, whether the Claude Desktop issue was patched by that date' is itself an accurate, independently-verified claim-accuracy finding, not an error. Timeline computations recomputed from source-1's own dates: Cursor Sept 10 -> Oct 1 = 21 days = 3 weeks (article's 'three weeks' is correct, and matches Help Net Security's own Oct 29 piece which independently states 'three weeks'); Copilot Sept 26 -> Oct 13 = 17 days (article's 'seventeen days' is correct); GitHub Copilot-fix-to-browser-feature gap Oct 13 -> Nov 17 = 35 days = exactly 5 weeks (article's 'Five weeks... by the Herald's own count' and '35 days' are both correct and mutually consistent -- this is NOT the Cursor three-week figure). Absence/quantifier claims checked against all 6 sources, not just the adjacent one: 'None of the sources cited here assign a CVE or GHSA identifier to any of the five findings' -- confirmed; the only CVE strings in any source (source-2, source-3) are in unrelated 'Featured news' sidebar links about a VMware vCenter zero-day, not the five findings. 'Neither write-up states whether any other coding agents beyond the five and two tested share the same flaw classes' -- confirmed by full-text search of both forever.security posts (no mention of Windsurf, Cline, Aider, Replit, or similar; a raw grep hit on 'cline' was a false positive from the word 'declined'). Researcher names 'Gal Weizman and Omer Samet' confirmed via byline markup (/blog/authors/gal-weizman, /blog/authors/omer-samet) on source-0 and via Help Net Security's Oct 26 piece, which names them directly. Internal links verified to resolve to existing files: /article/2026-11/08-where-coding-agents-leave-secrets..., /article/2026-11/18-github-copilots-ignite-week-release..., /article/2026-10/09-checkmarx-and-cloudsek-detail-malfex... all exist under src/content/articles/.",
+    "tone_assessment": "Neutral throughout; no sensationalism. The one passage most at risk of editorializing -- Forever Security's own framing of its findings -- is explicitly bracketed with the Herald's commercial-interest caveat (see concerns/commercial-interest note below) rather than presented uncritically.",
+    "originality": "New angle: synthesizes two separate October Forever Security disclosures (not previously covered by the Herald) and connects them to the Herald's own prior Nov 8 and Nov 18 coverage of coding-agent credential handling and Copilot's browser-control launch. Not a duplicate of any recently published article.",
+    "concerns": [
+      "One quoted string does not match the source verbatim: 'that is what Forever was built to watch' vs. the source's 'it is what Forever was built to watch' -- filed as a corrections record (severity: correction).",
+      "Commercial-interest disclosure for Forever Security: confirmed present. The Implications section explicitly states Forever Security 'has a commercial interest in highlighting exactly this category of risk' and notes this 'does not bear on the accuracy of its technical findings, which Help Net Security's independent coverage... corroborate, but it is worth noting when weighing how the findings are framed.' This is not a generic disclaimer -- it names the specific independent corroboration (Help Net Security, the real customer incident) that supports treating the findings as accurate despite the commercial interest. Forever Security is not presented as a neutral party anywhere else in the article.",
+      "Anthropic disclosure: present and correctly scoped. Final paragraph: 'The Herald's contributor model is built by Anthropic, which makes Claude Code and Claude Desktop, two of the products examined in Forever Security's research cited above; statements about Anthropic's products in this article are attributed to the cited sources.' Anthropic disclosure: required - Claude Code and Claude Desktop (Anthropic products) are central subjects of the article's two disclosure threads, satisfying the policy trigger."
+    ],
+    "recommendations": [
+      "No further action needed beyond the filed corrections record; the single misquote is isolated and does not affect the headline, summary, or any other passage."
+    ],
+    "overall_assessment": "A well-sourced, carefully hedged Analysis that meets the category's word count (1,714), source count (6, with 2 independent of the subject -- Help Net Security and Checkmarx), and facts/analysis separation requirements; independently verified vendor-patch-status claims and the three-week/seventeen-day/35-day-five-week timeline computations all check out against raw source text; the article correctly flags its own open questions (Claude Desktop's final patch status, why vendors diverged) rather than overclaiming. One of 22 quoted strings has a one-word verbatim error ('that' for 'it'), recoverable with a single corrections record. Commercial-interest and Anthropic disclosures are both present and properly scoped. Featured candidacy: 2 - a reproducible, independently-corroborated attack chain (OAuth token theft, account takeover, and code execution) across five of the most widely used AI coding tools, with a second disclosure class patched unevenly by vendor, has stakes and reach well beyond a single release recap."
+  }
+}
