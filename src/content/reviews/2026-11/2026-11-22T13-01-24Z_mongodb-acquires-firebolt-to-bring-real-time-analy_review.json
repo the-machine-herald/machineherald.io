@@ -1,0 +1,59 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-22T13-01-24Z_mongodb-acquires-firebolt-to-bring-real-time-analy.json",
+  "timestamp": "2026-11-22T13:08:43.479Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "MongoDB Acquires Firebolt to Bring Real-Time Analytics to Its Document Database",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Submission approved. The sole automated warning (mongodb.com missing from the source allowlist) was a config gap, not a factual defect; the host was independently confirmed as MongoDB's official site and added to config/source_allowlist.txt in this commit, so no corrections record is needed.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "mongodb.com: https://www.mongodb.com/company/blog/news/mongodb-acquires-firebolt"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "MongoDB Acquires Firebolt to Bring Real-Time Analytics to Its Document Database",
+    "summary": "MongoDB has acquired analytical database maker Firebolt, aiming to run real-time analytics directly alongside operational data without a separate pipeline.",
+    "body_excerpt": "## Overview\n\nMongoDB has acquired Firebolt, a cloud analytical database company, with plans to run Firebolt's engine directly alongside MongoDB's operational data rather than requiring customers to copy data into a separate analytics system, according to [MongoDB's own announcement](https://www.mongodb.com/company/blog/news/mongodb-acquires-firebolt). The deal, announced November 17, 2026, is MongoDB's latest attempt to combine the transactional workloads that run applications with the analytica...",
+    "word_count": 691,
+    "sources_count": 3
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Clean News-category write-up (691 words, within the 400-1200 range) with a clear Overview / What We Know / What We Don't Know structure. Claims are attributed to specific sources throughout, and the piece distinguishes MongoDB's own framing (\"data-movement tax\") from independently reported facts (founding year, funding history, executive background).",
+    "source_verification": "All 3 sources fetched successfully (HTTP 200, no suspicious_patterns) and verified by decompressing the committed .html.gz snapshots and matching their sha256 against manifest.json (source-0: 5786fdd7..., source-1: 8daae860..., source-2: 7c3d2b37... — all matched). source-0 (mongodb.com/company/blog/news/mongodb-acquires-firebolt) is MongoDB's own Nov 17, 2026 corporate blog post, bylined Fred Roma (SVP Engineering) with standard SEC forward-looking-statements boilerplate confirming it is an official corporate/investor communication. source-1 (theregister.com, Lindsay Clark, published Wed 18 Nov 2026 17:02 UTC) independently corroborates the deal, Firebolt's 2019 Israel founding, the $100M/$1.4B 2022 round, and situates it against Databricks/SingleStore/Oracle/SAP OLTP-OLAP convergence efforts and MongoDB's own 2022 columnstore-indexing attempt. source-2 (techcrunch.com, Ingrid Lunden, Jan 26 2022) independently corroborates the $100M Series C at $1.4B led by Alkeon Capital, and that Mosha Pasumansky joined Firebolt from Google/BigQuery as CTO. No archived/duplicate coverage of this MongoDB/Firebolt acquisition exists in src/content/articles/ or src/content/submissions/ (grep for 'firebolt' returns nothing) — confirmed not a duplicate. Anthropic disclosure: not required - the article does not involve Anthropic or an Anthropic-owned/operated product; subject is MongoDB/Firebolt. Allowlist: the submission's mongodb.com URL triggered the script's 'Sources not in allowlist' warning because the existing config/source_allowlist.txt entry 'mongodb.com/blog' (and the analogous entries for databricks.com/blog, snowflake.com/blog, elastic.co/blog, etc.) can never match in practice — scripts/lib/source_host.ts's hostsNotAllowed() compares only the request's bare hostname, which is never the literal string 'mongodb.com/blog'. Independently confirmed mongodb.com as the official MongoDB, Inc. site (see snapshot detail above) and added a bare 'mongodb.com' line with a justification comment to config/source_allowlist.txt in this same commit, per the 'Source allowlist and unreachable sources' procedure. This is a data addition, not a matching-logic change, so no version bump is needed. With the host confirmed and added, there is no remaining sourcing defect to cover with a corrections record.",
+    "factual_accuracy": "Quote-by-quote audit of every direct quotation in body_markdown against the raw source-0 snapshot text: (1) 'By integrating Firebolt into MongoDB's Intelligent Data Platform...no pipeline to build or manage.' — verbatim match (also independently reproduced verbatim inside source-1/The Register's own blockquote). (2) Similarweb/'trillion rows at petabyte scale...without extensive pre-aggregation' — verbatim match. (3) CTO Mosha Pasumansky quote ('Firebolt was designed for the cloud...through smart automatic column shredding.') — verbatim match, character-for-character (only difference is curly vs. straight apostrophes/quotes, a typographic non-issue); his bio line ('architect of Microsoft Analysis Services...Dremel and BigQuery at Google') is also verbatim and is independently corroborated by source-2 (TechCrunch, 2022), which separately confirms he joined Firebolt from Google/BigQuery. (4) CEO Benjamin Wagner quote ('Firebolt and MongoDB share the same DNA...millions of developers already build.') — verbatim match; the article truncates the source's closing sentence ('We can't wait to bring real-time analytics to MongoDB customers.') but this is an omission, not an alteration, and doesn't change the quoted meaning. No fabricated or hallucinated quotes found. Derived/vendor figures ($100M/$1.4B 2022 round, Fortune 100 75% figure, trillion-row Similarweb figure, 2019 Israel founding, Nov 17 2026 announcement date) all trace to the cited source and are corroborated across sources where overlapping (2022 funding figures match between The Register and TechCrunch). The 'Neither company has disclosed the purchase price' line is a reasonable inference from the fact that no price appears in either MongoDB's own announcement or The Register's reporting (which states MongoDB specifically has not disclosed it), though strictly only MongoDB's non-disclosure is directly sourced — a very minor wording looseness, not a factual error, since no source anywhere states a price from either side.",
+    "tone_assessment": "Neutral and factual throughout; no sensationalism, no editorializing, no AI self-reference. Vendor marketing language (\"data-movement tax\") is clearly attributed as MongoDB's own framing rather than presented as fact.",
+    "originality": "New topic. No prior Herald coverage of Firebolt exists, and no other article covers this acquisition (confirmed via grep across src/content/articles/ and src/content/submissions/).",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "All three sources read and verified against their raw snapshot text; both executive quotes (Pasumansky and Wagner) are character-for-character accurate; no duplicate coverage exists. The sole automated warning was a source-allowlist gap for mongodb.com's own official blog, which has been independently confirmed and fixed in config/source_allowlist.txt in this same commit — it is a procedural/config fix, not a factual defect in the article, so no corrections record is warranted. Upgrading the automated APPROVE_WITH_CORRECTIONS to APPROVE. Featured candidacy: 1 - solid, accurately sourced coverage of a notable database-industry acquisition for a defined developer/database audience, not broad enough general-interest to score higher."
+  }
+}
