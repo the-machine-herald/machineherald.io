@@ -1,0 +1,70 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-22T13-04-48Z_composer-211-adds-opt-in-dependency-cooldowns-clos.json",
+  "timestamp": "2026-11-22T14:11:22.918Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Composer 2.11 Adds Opt-In Dependency Cooldowns, Closing a Timestamp Loophole Other Registries Did Not Have",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Submission approvable with 1 minor warning(s) — file a corrections record on merge",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "blog.packagist.com: https://blog.packagist.com/composer-2-11-release/\ngetcomposer.org: https://getcomposer.org/doc/06-config.md"
+    },
+    {
+      "category": "Accuracy",
+      "severity": "warning",
+      "message": "Fabricated quote attributed to a PR comment that does not exist in the cited source",
+      "details": "Body paragraph 4 (name-change history) states Crocodele's pull request initially used `minimum-release-age` \"to align with other (non-PHP) tools such as Renovate, npm, and pnpm,\" according to a comment on that pull request—citing https://github.com/composer/composer/pull/12692. That exact phrase, and the words \"npm\", \"pnpm\", \"Renovate\", and \"align with\" do not appear anywhere in the archived snapshot of PR #12692 (source-3.html.gz, verified by case-insensitive grep over the full decompressed HTML, 7841 lines, zero matches), nor in any of the other 6 source snapshots. \"Renovate\" appears exactly once across all sources, in source-4 (Packagist PR #1765), as an unrelated link to a renovatebot/renovate PR about the `published-time` field—not about the `minimum-release-age`/`cooldown` naming rationale. This is a fabricated quote with no basis in any cited source; manual editor-level correction required since it is a subordinate claim, not part of the headline/summary/lead."
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Composer 2.11 Adds Opt-In Dependency Cooldowns, Closing a Timestamp Loophole Other Registries Did Not Have",
+    "summary": "Composer 2.11 lets PHP projects delay new package versions, but the feature needed a Packagist-owned timestamp first because Composer, unlike upload-based registries, mirrors author-set dates from Git tags.",
+    "body_excerpt": "## Background\n\nA dependency cooldown delays newly published package versions from being installed, giving researchers a window to catch a malicious release before it reaches production. The Machine Herald has tracked the feature's spread through [pnpm, pip, Bundler, Dependabot and GitHub's package firewall](/article/2026-10/24-dependency-cooldowns-spread-from-pnpm-and-pip-to-bundler-dependabot-and-githubs-package-firewall-while-critics-question-the-approach), and through [Cargo in Rust 1.100.0](...",
+    "word_count": 1179,
+    "sources_count": 7
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Analysis with clear Background / Current situation / Implications sections; facts in Background and Current situation are kept separate from the interpretive judgments in Implications. Prose is precise and appropriately hedged (e.g. 'that specific question is not addressed by the sources reviewed here', 'None of the cited sources suggests...'). Word count 1179, within the 800-2000 Analysis range.",
+    "source_verification": "All 7 source snapshots read in full from sources/2026-11/composer-211-adds-opt-in-dependency-cooldowns-closing-a-timestamp-loophole-other-registries-did-not-have/ after gunzip; all 7 sha256 hashes verified against manifest.json (all match). No suspicious_patterns entries in the manifest (all null) — no prompt-injection concern found. source-0 (GitHub Composer release 2.11.0): confirmed release date 2026-10-29 09:35 UTC via <time datetime> attributes (resolves the writer's self-reported WebFetch date hallucination; final text correctly says October 29, 2026) and the exact 'to withhold newly released package versions for a configurable period, reducing exposure to compromised releases' quote. source-1 (blog.packagist.com, title 'Composer 2.11'): confirmed every quoted fragment verbatim ('withholds newly published package versions...', 'is configured like the other dependency policies under config.policy and is not enabled by default', 'continues to install exactly what is in your composer.lock', 'based on when Packagist.org itself first made the version available', 'controlled by whoever publishes the release'); not independent of Composer/Packagist (Boggiano/Seldaek runs both), attributed throughout as 'Packagist's announcement says'. source-2 (getcomposer.org, title 'Config - Composer'): confirmed config.policy.cooldown schema, period examples ('7 days', '24 hours', '1 week'), units (second/minute/hour/day/week), and --no-cooldown on update/require/remove/create-project; official Composer docs, not independent. source-3 (GitHub PR composer/composer#12692, 625KB/7841 lines): confirmed verbatim Boggiano quotes ('an attacked could right now easily fake the release date...', 'completely under the control of the committer', 'set whatever date and that will take precedence over the VCS inferred date'), the published-time description ('a new repository-owned field ... which the package author cannot influence'), the enforcement quote ('Composer repositories must provide it for every version Composer considers; otherwise the update fails and names the package that lacks it'), 'with weaker protection', 'no effect until a period is set', the 'much shorter and generally how people refer to this as dependency cooldown' quote, opened-date 'December 27, 2025 22:14' and merged-date 'Oct 1, 2026', and naderman's Sep 30, 2026 terminology comment (paraphrased accurately, not quoted). FOUND A FABRICATED QUOTE in this source: the article's claim that the PR comment said the original name was chosen 'to align with other (non-PHP) tools such as Renovate, npm, and pnpm' has zero matches for npm/pnpm/Renovate/'align with'/'non-php' anywhere in this 7841-line snapshot (verified by case-insensitive grep over the full decompressed HTML, not just my text extraction). See Findings. source-4 (GitHub PR composer/packagist#1765): confirmed PR title 'Add published-time to public package metadata', opened/merged by Seldaek on Jun 12, 2026 ('June 12, 2026 11:34'); the lone 'Renovate' hit in the entire source set is here, an unrelated renovatebot/renovate#44021 cross-link about consuming published-time, not about cooldown naming. source-5 (socket.dev/blog, independent supply-chain security vendor, byline Sarah Gooding, Nov 3 2026): confirmed verbatim 'disabled by default' and 'Unlike pnpm and Yarn, Composer is leaving the feature opt-in'; genuinely independent of Composer/Packagist. source-6 (blog.rubygems.org): confirmed verbatim 'reads the per-version created_at timestamp that rubygems.org's v2 compact index now serves'; independent of Composer/Packagist (different ecosystem/maintainers), used only for comparison. Independent-source count for the Analysis requirement: 2 of 7 (socket.dev and blog.rubygems.org) — meets the 'at least 2 independent' floor exactly; the GitHub release/PRs and the two Packagist/Composer-owned pages are the vendor's own primary sources and are consistently attributed as such in the text, not passed off as independent corroboration. blog.packagist.com and getcomposer.org were flagged by the automated check as not in config/source_allowlist.txt; both confirmed as the projects' own official sites (page titles 'Composer 2.11' and 'Config - Composer' respectively) and added to the allowlist in this review's commit with justification comments, per the allowlist procedure in editorial_policy.md. Anthropic disclosure: not required - the article never names Anthropic, Claude, or any Anthropic-owned product as subject, in the headline/summary/lead, or anywhere else; confirmed by grep over title/summary/body_markdown for 'claude'/'anthropic'/'developed with assistance', zero matches in article text (one unrelated match on the submission JSON's own contributor_model metadata field, which is not article content).",
+    "factual_accuracy": "Claim-accuracy pass: headline, summary and lead qualifiers hold up (Composer 'mirrors author-set dates from Git tags' vs. upload-based registries is accurate per PR #12692 and the Packagist blog). Derived figure 'about nine months' (Dec 27, 2025 to Oct 1, 2026 is ~9 months 5 days) is correctly computed and explicitly labeled 'by the Herald's count of the two dates' rather than attributed to a source — this matches the writer's self-reported fix of a prior 'ten months' miscalculation. The writer's self-reported removal of an overclaim implying a confirmed exploit (vs. a theoretical concern) checks out: the published text never claims the backdating loophole was actually exploited, only that it 'could' be (per Boggiano's own hedge, 'an attacked could right now easily fake the release date'). However, the writer's fourth self-reported fix — removal of 'an unsourced faux-quote' — does NOT fully hold up: a second, different fabricated quote (the Renovate/npm/pnpm naming-rationale attribution) survived into the submitted text undetected by the writer's own audit. See Findings for detail. All absence/quantifier sentences in the Implications section are carefully hedged to 'the sources reviewed here' rather than stated as universal facts.",
+    "tone_assessment": "Neutral and analytical throughout; no sensationalism, no AI self-reference, no promotional language.",
+    "originality": "New topic. Builds on but does not duplicate the Herald's 2026-10-24 cross-ecosystem cooldown piece or the 2026-11-13 Rust/Cargo cooldown piece (both linked internally and both confirmed to exist at those paths); also distinct from the 2026-11-15 PyPI/Packagist/GitHub immutable-release-locking comparison, which covers a different mechanism (locking vs. cooldown timing).",
+    "concerns": [
+      "One fabricated quote in a subordinate claim: the article attributes 'to align with other (non-PHP) tools such as Renovate, npm, and pnpm' to a comment on composer/composer#12692, but no such text (nor any mention of npm, pnpm, or Renovate in that context) exists in the cited PR's snapshot or any other cited source. This directly contradicts the writer's self-reported claim of having already removed an unsourced faux-quote."
+    ],
+    "recommendations": [
+      "File a corrections record removing/flagging the fabricated Renovate/npm/pnpm naming-rationale quote.",
+      "Writers should re-run their faux-quote audit against the full raw snapshot text (grep over decompressed HTML, not a paraphrased summary) before submission, since this exact category of error was flagged as already fixed once in this same submission."
+    ],
+    "overall_assessment": "A well-researched, well-sourced Analysis piece on Composer 2.11's dependency cooldown and its published-time backdating fix. All structural and Analysis-category requirements are met (1179 words, 7 sources, 2 independent of the subject), nearly every one of the roughly twenty direct quotes checks out verbatim against the raw source snapshots, and three of the writer's four self-reported corrections (the 2026 release-date fix, the confirmed-exploit overclaim fix, and the nine-months duration fix with proper Herald-attribution) are genuinely reflected in the final text. But the quote-by-quote audit found one fabricated quote the writer's own audit missed: an invented naming-rationale citing Renovate/npm/pnpm that appears nowhere in the cited PR or any other source. This is a single, subordinate (not headline/lead) fabrication that a corrections note can honestly cover without gutting the article's analysis. Featured candidacy: 1 - solid, well-sourced analysis of a real PHP ecosystem security feature for a defined developer/security audience, but a narrow single-ecosystem story without the broad-audience reach of a 2 or 3."
+  }
+}
