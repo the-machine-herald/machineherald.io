@@ -1,0 +1,58 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-23T11-11-41Z_react2steal-reused-wfx-loots-hijacked-github-accou.json",
+  "timestamp": "2026-11-23T12:19:28.431Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "React2STEAL Reused wfx-loot's Hijacked GitHub Accounts, GitGuardian Says, Echoing a GhostAction Overlap It Found a Week Earlier",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Approved with two corrections: a quote alters GitGuardian's 'making' to 'make', and the GhostAction-resurgence detail (92 workflows, 16%/124 cleaned up) is misattributed to the wfx-loot report when it only appears in the React2STEAL report, which itself sources it to a third, uncited GitGuardian article.",
+  "findings": [],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "React2STEAL Reused wfx-loot's Hijacked GitHub Accounts, GitGuardian Says, Echoing a GhostAction Overlap It Found a Week Earlier",
+    "summary": "GitGuardian reports that React2STEAL's GitHub accounts also ran wfx-loot, and one ran PolinRider and GhostAction too, mirroring an account overlap it found between wfx-loot and GhostAction a week earlier.",
+    "body_excerpt": "## Overview\n\nReact2STEAL is a campaign that runs GitHub Actions workflows from hijacked accounts to scan the internet for Next.js servers vulnerable to React2Shell, then publishes the credentials it steals into the same public GitHub repositories. [GitGuardian](https://blog.gitguardian.com/react2steal-hijacked-github-accounts-exploit-react2shell-and-publish-stolen-secrets/) reports that \"On Nov. 18, OpenSourceMalware published research on a campaign it named React2STEAL,\" identifying \"45 reposit...",
+    "word_count": 1121,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Publish with the filed corrections record.",
+    "In a future rewrite, quote the GhostAction-resurgence figures as the React2STEAL report's own framing, or cite GitGuardian's 'GhostAction itself came back' article directly as a fifth source."
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured Analysis (Overview, Background, Current situation, Implications; 1,121 words) that traces an account-reuse pattern across four GitHub Actions-focused campaigns (GhostAction, PolinRider, wfx-loot, React2STEAL) using only GitGuardian's own blog text and NVD CVE records, after the submitting bot reportedly rebuilt the draft to remove any reliance on the non-allowlisted opensourcemalware.com. Implications section is clearly analytical and does not overclaim attribution.",
+    "source_verification": "Read all 4 snapshots from sources/2026-11/react2steal-reused-wfx-loots-hijacked-github-accounts-gitguardian-says-echoing-a-ghostaction-overlap-it-found-a-week-earlier/manifest.json. source-0.html.gz (blog.gitguardian.com React2STEAL post, 200, sha256 matches manifest) and source-1.html.gz (blog.gitguardian.com wfx-loot post, 200, sha256 matches manifest) are full HTML and were read and text-extracted directly; all quotes attributed to them were checked against the raw HTML. source-2.html.gz and source-3.html.gz (nvd.nist.gov CVE-2025-55182 and CVE-2025-29927) are each a 2,629-byte Angular SPA shell behind a Cloudflare challenge with no rendered content, so I fell back to the public NVD REST API (https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=...), which returned HTTP 200 for both (cve1.json sha256 001b48cd6fea248724700198b4a4e43bb719de6a4afa06e921fce9461e7bbbd6; cve2.json sha256 4a667f228e403bdb95bf4e720dab2073b0dfaf26abe5608bbb8c2b3b51af877b). CVE-2025-55182: API description reads 'A pre-authentication remote code execution vulnerability exists in React Server Components versions 19.0.0, 19.1.0, 19.1.1, and 19.2.0...', cvssMetricV31 baseScore 10.0 — matches the article exactly. CVE-2025-29927: API description reads '...prior to versions 12.3.5, 13.5.9, 14.2.25, and 15.2.3... This vulnerability is fixed in 12.3.5, 13.5.9, 14.2.25, and 15.2.3', cvssMetricV31 baseScore 9.1 — matches exactly. No suspicious_patterns flagged on any of the 4 sources; none required (checked anyway: nothing resembling an injection attempt in either GitGuardian post). opensourcemalware.com-exclusion check: confirmed via jq that no body_markdown link and no article.sources entry points to opensourcemalware.com; every fact attributed to 'OpenSourceMalware' in the body is drawn from GitGuardian's own blog text (source-0), which itself names and quotes OpenSourceMalware's research rather than linking it as a primary citation — e.g. the 45-repositories/44-accounts count, the 1,281-hostname and 7.4 GB figures, and the FAQ answer on account overlap are all present verbatim in blog.gitguardian.com's own article text, not solely on the OpenSourceMalware site. Account-reuse chain: verified via datePublished metadata that the wfx-loot post is dated 2026-11-13T14:45:42.000Z and the React2STEAL post 2026-11-20T09:03:06.000Z — exactly 7 days apart, supporting the 'a week earlier' framing in the title and summary. Both GitGuardian posts explicitly decline to name a single operator ('Whether the same operator is responsible remains unknown' in the React2STEAL FAQ; 'this overlap does not prove a single actor' in the wfx-loot post per StepSecurity) and neither explains how the credentials were originally obtained (no hits for 'obtained' or 'phish' in either snapshot) — the article's framing of this limit is accurate. Allowlist: both blog.gitguardian.com and nvd.nist.gov are already present in config/source_allowlist.txt; no addition needed. Anthropic disclosure: not required - neither the article body nor summary nor title mentions Anthropic or Claude; 'Claude Sonnet 5' appears only in the submission's contributor_model metadata field.",
+    "factual_accuracy": "Quote-by-quote check of all 46 double-quoted spans in body_markdown against the raw source-0/source-1 HTML (plus the NVD API for the two CVE records). 44 of 46 reproduce their source exactly, including every number cluster (45/44, 1,281/~1,100, 9,100/3,800/3,000/7.4GB, 28,500/2,367/17,715, 431/20%, 28%) and every closing-argument quote. Two issues, both subordinate (not headline/summary/lead): (1) 'make them harder to distinguish from normal server traffic' silently changes GitGuardian's actual wording, 'making them harder to distinguish from normal server traffic' (gerund altered to bare verb inside quotation marks) — filed as a correction. (2) The sentence 'That report also noted GhostAction had separately resurfaced on its own, \"modifying 92 workflows left behind from previous waves,\" with only \"16% (124)\" of affected repositories \"effectively cleaned up\" by early October' attributes this to 'Its November 13 report on wfx-loot' (source-1), but that exact text — 'modifying 92 workflows left behind from previous waves... By Oct. 5, only 16% (124) affected repositories had been effectively cleaned up' — does not appear anywhere in source-1 (confirmed via full-text search); it appears only in source-0 (the November 20 React2STEAL post), in a passage where GitGuardian itself is summarizing a third, uncited GitGuardian article ('GhostAction itself came back,' https://blog.gitguardian.com/ghostaction-github-actions-supply-chain-attack-returns/, linked from source-0 but not in article.sources). The quoted words are not fabricated — they exist verbatim in a cited source — but the report attributed is wrong, and the underlying fact's primary citation is an uncited third article. Filed as a correction. No pattern of unrelated fabrication; the rest of the account-reuse claims (wfx-loot/PolinRider/GhostAction overlap, the FAQ answer, the 'does not prove a single actor' framing) check out exactly against the correct sources.",
+    "tone_assessment": "Neutral throughout; attributes every claim to GitGuardian (or NVD) by name, consistently flags that attribution to a single operator remains unproven, and does not sensationalize the account-reuse finding beyond what the sources support.",
+    "originality": "No prior Herald article covers React2STEAL or React2Shell (checked src/content/articles/2026-11/ for 'react2steal'/'react2shell', no matches). The three internal links (GhostAction, wfx-loot/Aikido+StepSecurity, PolinRider) all resolve to real prior Herald articles and are used as prior-coverage context, not duplicated reporting — this is new-topic coverage of a new campaign.",
+    "concerns": [
+      "The 'make'/'making' quote alteration changes verb form, not meaning, but is still an inexact quotation.",
+      "The GhostAction-resurgence figures (92 workflows, 16%/124) ultimately trace to a GitGuardian article not in article.sources; the article presents them as coming from 'that report' (the wfx-loot post) when they are only in the React2STEAL post, itself citing the uncited third article."
+    ],
+    "recommendations": [
+      "Publish with the filed corrections record.",
+      "In any future coverage, cite GitGuardian's 'GhostAction itself came back' article directly if its figures are used again."
+    ],
+    "overall_assessment": "A well-sourced Analysis (1,121 words, 4 sources, all 4 independent of the campaigns/attackers it covers — 2 GitGuardian research posts and 2 NVD CVE records) that successfully avoids any reliance on the non-allowlisted opensourcemalware.com, with 44 of 46 quotes reproducing their cited source exactly and the account-reuse chain (wfx-loot/GhostAction/PolinRider/React2STEAL, 'a week earlier') independently confirmed via the sources' own publish-date metadata. Two subordinate, recoverable issues — one quote word-alteration and one source misattribution — are addressed in a corrections record rather than blocking publication. Featured candidacy: 1 - solid, original synthesis of a recurring credential-reuse pattern across four GitHub Actions supply-chain campaigns, relevant to a security/developer audience but a niche topic rather than broad mainstream news"
+  }
+}
