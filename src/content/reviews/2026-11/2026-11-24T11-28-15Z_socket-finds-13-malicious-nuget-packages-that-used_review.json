@@ -1,0 +1,62 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-24T11-28-15Z_socket-finds-13-malicious-nuget-packages-that-used.json",
+  "timestamp": "2026-11-24T11:59:29.333Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Socket Finds 13 Malicious NuGet Packages That Used Fake Developer Job Assessments to Deliver DLL Side-Loading and Credential-Stealing Malware",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE",
+  "summary": "Chief Editor override: the script's sole warning (nuget.org / registry.npmjs.org missing from the allowlist) was resolved by confirming and adding both official registries to config/source_allowlist.txt in this review's commit; no content, quote, or attribution issue was found, so no corrections record is filed.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Sources not in allowlist",
+      "details": "nuget.org: https://www.nuget.org/packages/WinUI.Button/1.0.0\nnuget.org: https://www.nuget.org/packages/StyledComponent\nregistry.npmjs.org: https://registry.npmjs.org/axios-test-one"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": true,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Socket Finds 13 Malicious NuGet Packages That Used Fake Developer Job Assessments to Deliver DLL Side-Loading and Credential-Stealing Malware",
+    "summary": "Socket says a NuGet campaign posed as WinUI 3 take-home coding tests, combining MSBuild hooks, DLL side-loading, and GitHub-hosted payloads across packages live from July to November 2026.",
+    "body_excerpt": "## Overview\n\nSocket's Threat Research Team said it identified 13 malicious NuGet packages from an operation that uses fake job \"Home Assessment\" projects to target Windows .NET developers, according to [Socket](https://socket.dev/blog/malicious-nuget-packages-fake-job-assessments). The packages posed as WinUI 3 interface controls and build tooling, and were wired to run malware the moment a victim compiled the project they believed was a take-home coding test.\n\n## What We Know\n\nAccording to Sock...",
+    "word_count": 809,
+    "sources_count": 4
+  },
+  "recommendations": [
+    "Before merging, the human reviewer should write a corrections file at src/content/corrections/<YYYY-MM>/<article-slug>.json documenting the warning(s).",
+    "Consider adding trusted domains to config/source_allowlist.txt"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know), 809 words, within the 400-1200 News range. Technical detail (MSBuild targets auto-import, osk.exe/OskSupport.dll DLL side-loading pair, GitHub-contents-API C2, Volume Shadow Copy Chrome-profile theft) is accurately condensed from a very long (24-minute-read) primary report without overclaiming precision the source doesn't have.",
+    "source_verification": "Read all 4 snapshots from disk (gunzip'd each source-N.html.gz, recomputed sha256 and confirmed it matches manifest.json for all four: source-0 d3c14743b62f0..., source-1 5cf583c60856..., source-2 84e93c318c08..., source-3 a6c750cbf873...). source-0 (socket.dev, already allowlisted): full 24-min Socket Threat Research report, extracted to plain text and checked line-by-line against every quoted phrase in the submission body — all verbatim, see quote-audit below. source-1 (nuget.org/packages/WinUI.Button/1.0.0): confirmed genuine NuGet Gallery page showing 'This package's content is hidden as it violates our Terms of Use. This package has been deleted from the gallery. It is no longer available for install/restore.' — matches the article's claim that the package was removed as of Nov 24. source-2 (nuget.org/packages/StyledComponent): identical deletion banner text confirmed, matches article's second-package claim. source-3 (registry.npmjs.org/axios-test-one): raw npm registry JSON; the 'unpublished.versions' array contains exactly 17 entries (1.18.1-1.18.9, 1.19.0-1.19.7) with unpublished.time = 2026-07-16T22:07:54.181Z, matching the article's 'every one of its 17 published versions as unpublished effective July 16, 2026' exactly. Anthropic disclosure: not required - the article's subject is a Socket-reported NuGet/npm supply-chain malware campaign; Anthropic/Claude is not the headline/summary/lead subject and no Anthropic-credit passage appears.",
+    "quote_audit": "Quote-by-quote check of every \"...\" in body_markdown against the Socket snapshot text (not the writer's self-reported audit): (1) '[Home Assessment] WinUI 3 - Mini File Vault & Tracker' - verbatim, source: 'Its README presents \"[Home Assessment] WinUI 3 - Mini File Vault & Tracker\"'. (2) 'a three to four hour exercise built on a starter Visual Studio solution' - this exact phrase appears in the source sentence but is NOT itself inside Socket's own quotation marks there (only the README title is quoted in the source; this clause is Socket's unquoted description of the README). The Herald's phrasing implies it is a second quoted item; the words are 100% verbatim from Socket's report, so this is a quote-formatting looseness rather than a fabrication or misattribution - noting it, not treating it as correction-worthy since no content is altered or invented. (3) 'The operation began on npm in July 2026' - verbatim. (4) 'The NuGet side of the operation ran from July 23 to November 4, 2026, across four accounts.' - verbatim. (5) 'remains listed and installable, with about 160 downloads according to the NuGet search API' - verbatim (source has 'At the time of writing, it' before this clause; correctly dropped outside the quote). (6) 'include[s] mirrors and scanners and are not victim counts' - source says 'Download counts include mirrors and scanners and are not victim counts.' The bracketed [s] is a standard, correctly-marked grammatical conjugation change (include -> includes) to fit the sentence; verbatim otherwise. (7) \"Its take-home tests resemble the lures of fake job interview operations that public reporting links to North Korea, including 'Contagious Interview'.\" - verbatim, exact match to the Attribution section. (8) 'We found no indicator or code shared with any published Contagious Interview or other North Korean campaign' - verbatim opening clause of a longer source sentence; correctly truncated with closing quote before the article's own paraphrase of the rest (BeaverTail/InvisibleFerret/OtterCookie, which the source does list a few words later). (9) 'Treat a take-home project as untrusted code. Before building it, look for RestoreAdditionalProjectSources, extra feeds in NuGet.config, committed .nupkg files, and package references you do not recognize.' - verbatim (code term formatting with backticks added, not a content change). No hallucinated or misattributed quotes found.",
+    "factual_accuracy": "All specifics checked against source-0: 13 total packages / 12 removed + WinUI.Button still listed per Socket's Nov 23 report (matches); WinUI.Button published Sept 2, 2026 by Carol-White-Super (matches); six named npm packages and 'all six were gone from npm by July 23' (matches); 93-character fine-grained GitHub token for WinUI.Button.dll specifically (matches IOC section); PyInstaller stealer's Volume Shadow Copy / Win32_ShadowCopy / Chrome User Data / .part-file / classic-GitHub-token chain (matches 'A Chrome Profile Stealer That Uploads to GitHub' section); MachineGuid-keyed per-victim GitHub folder (matches the loader's log1.dat/log2.dat C2 description). No fabricated specifics found.",
+    "time_sensitive_discrepancy_check": "Confirmed explicit, correctly-dated disagreement rather than silent reconciliation: the article states Socket's Nov 23 report found WinUI.Button 'remains listed and installable' (quoted, attributed to Socket, dated to its report), then separately states 'As of November 24, the NuGet Gallery's own listing for that package now shows it has been removed... indicating NuGet took it down in the day after Socket's report.' Both dated claims are present, correctly attributed to their respective source/date, and the Herald's own Nov 24 check (source-1 snapshot, fetched 2026-11-24T11:59:29Z) independently confirms the removal. This is exactly the kind of disagreement the claim-accuracy policy requires surfacing with attribution rather than silently picking one.",
+    "tone_assessment": "Neutral and precise throughout. Attribution to North Korea / Contagious Interview is handled carefully: the article reports Socket's own explicit disclaimer ('We found no indicator or code shared...') rather than asserting or implying attribution itself. No sensationalism.",
+    "originality": "Checked against src/content/articles/2026-11/17-three-nuget-malware-campaigns-surfaced-in-july-as-microsofts-august-fix-targeted-a-different-attack-vector.md, the only other recent NuGet-malware piece. That Analysis covered three unrelated July 2026 campaigns (Newtonsoftt.Json.Net typosquat / Digitain game-fixing, Braintree.Net payment skimmer, 11 game-cheat packages) plus Microsoft's API-key-lifetime change - different packages, different researchers (JFrog, Socket x2), different mechanism (typosquatting/credential theft) and different report dates. This submission covers a distinct campaign (fake WinUI 3 job-assessment lures, MSBuild build-time hooks, osk.exe DLL side-loading) first reported by Socket on Nov 23, 2026. No overlap or duplication.",
+    "allowlist_decision": "nuget.org and registry.npmjs.org were the only sources flagged (socket.dev is already allowlisted). Both are official, primary registries - nuget.org is the official NuGet Gallery (.NET Foundation/Microsoft) and the pages cited are genuine NuGet Gallery package-listing pages (confirmed by their 'NuGet Gallery' branding and standard navigation in the snapshot); registry.npmjs.org is the official npm registry's public API (npm, Inc./GitHub) and the cited URL returned the standard npm registry document shape (_id/name/time/versions/unpublished/_rev). Both confirmed per the 'Source allowlist and unreachable sources' procedure and added to config/source_allowlist.txt with justification comments in this review's commit. No version bump needed (data-only addition).",
+    "concerns": [],
+    "recommendations": [],
+    "overall_assessment": "Clean News submission: every quote verbatim, every specific traced to the Socket report, the one time-sensitive disagreement (WinUI.Button listed per Socket's Nov 23 report vs. removed per the Herald's own Nov 24 check) surfaced with correct attribution and dates rather than silently reconciled, and the Herald's own independent-verification claim (2 of 13 NuGet packages, 1 of 6 npm packages) is accurate and appropriately hedged. The sole automated warning was a missing-allowlist-entry issue, now resolved by confirming and adding both official registries - not a content defect, so APPROVE rather than APPROVE_WITH_CORRECTIONS, and no corrections record is filed. Featured candidacy: 1 - solid, well-sourced supply-chain security reporting for a defined .NET/npm developer audience, but a single-researcher-sourced News item on a campaign already largely remediated, not an industry-wide event."
+  }
+}
