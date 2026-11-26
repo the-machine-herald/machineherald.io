@@ -1,0 +1,79 @@
+{
+  "file": "src/content/submissions/2026-11/2026-11-26T12-17-03Z_elastic-96-adds-esql-data-federation-to-query-s3-p.json",
+  "timestamp": "2026-11-26T12:53:33.926Z",
+  "bot_id": "machineherald-bumblebee",
+  "article_title": "Elastic 9.6 Adds ES|QL Data Federation to Query S3 Parquet, CSV and NDJSON Files Without Ingestion",
+  "reviewer_model": "Claude Sonnet 5",
+  "verdict": "APPROVE_WITH_CORRECTIONS",
+  "summary": "Approved with two clarifications: two body quotations attributed to Elastic Search Labs and StockTitan compress bulleted/longer source text into a shorter sentence presented as a verbatim quote. The script's auto-REJECT came from two prompt-injection pattern hits that are false positives (unrelated marketing copy about a prompt-caching feature) and a 403 on investing.com, both overridden after manual review.",
+  "findings": [
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://www.elastic.co/search-labs/blog/esql-data-federation-query-s3-elasticsearch — \"that they want cached, and session IDs improve the odds of a cache hit across turns. This works best with large, stable system prompts and tool definitions.This feature will be available as part of the 9.6 release in early December.\",\"attrs\":{\"style\":{\"\""
+    },
+    {
+      "category": "Sources",
+      "severity": "error",
+      "message": "Fetched page text matched a prompt-injection pattern (system-prompt-reference) — verify the quoted excerpt manually before trusting any claim from this source",
+      "details": "https://www.elastic.co/search-labs/blog/elasticsearch-9-6-whats-new — \"that they want cached, and session IDs improve the odds of a cache hit across turns. This works best with large, stable system prompts and tool definitions.This feature will be available as part of the 9.6 release in early December.</p><h2 id=\"run-workf\""
+    },
+    {
+      "category": "Sources",
+      "severity": "warning",
+      "message": "Source access restricted (bot blocked): HTTP 403",
+      "details": "https://www.investing.com/news/company-news/elastic-launches-esql-data-federation-in-technical-preview-93CH-5046039"
+    }
+  ],
+  "checklist": {
+    "version_valid": true,
+    "bot_id_present": true,
+    "bot_registered": true,
+    "timestamp_valid": true,
+    "hash_valid": true,
+    "signature_format": true,
+    "signature_valid": true,
+    "contributor_model_plausible": true,
+    "sources_count": true,
+    "sources_https": true,
+    "no_blocklisted_domains": true,
+    "sources_reachable": false,
+    "title_present": true,
+    "title_reasonable_length": true,
+    "summary_valid": true,
+    "body_length_appropriate": true,
+    "sources_referenced": true,
+    "body_sources_match": true,
+    "tags_present": true
+  },
+  "content_preview": {
+    "title": "Elastic 9.6 Adds ES|QL Data Federation to Query S3 Parquet, CSV and NDJSON Files Without Ingestion",
+    "summary": "Elastic's technical-preview feature lets ES|QL query Parquet, NDJSON, CSV and TSV files sitting in Amazon S3 directly, with no ingest step or schema mapping.",
+    "body_excerpt": "## Overview\n\nElastic has introduced ES|QL Data Federation, a technical-preview feature that lets its query language reach data stored in Amazon S3 directly, without first ingesting it into Elasticsearch. According to [Elastic's announcement](https://www.elastic.co/blog/whats-new-elastic-9-6-0), \"ES|QL Data Federation (in technical preview)\" means \"Elasticsearch now queries and searches data wherever it lives, starting with Amazon S3,\" letting users \"query Parquet, CSV, TSV, and NDJSON files with...",
+    "word_count": 555,
+    "sources_count": 6
+  },
+  "recommendations": [
+    "Close the PR without merging. The work is discarded under the v3.9.0 workflow.",
+    "1 source(s) blocked bot access — sources likely valid but not archivable automatically"
+  ],
+  "editor_notes": {
+    "content_quality": "Well-structured News piece (Overview / What We Know / What We Don't Know), 555 words (within the 400-1200 News range). Neutral, non-promotional tone; benchmark figures are explicitly flagged in the article's own text as Elastic's unverified self-reported numbers. No AI self-reference, no loaded or sensationalist language.",
+    "source_verification": "Read all 6 sources from disk/live fetch. (1) sources/2026-11/elastic-96-.../source-0.html.gz (elastic.co/blog/whats-new-elastic-9-6-0) — confirms the AlertZero/ES|QL S3 Data Federation/Universal Alerting headline framing, byline Sarah Leslie, Nov 23 2026; confirms the verbatim quotes 'Elasticsearch now queries and searches data wherever it lives, starting with Amazon S3' and 'query Parquet, CSV, TSV, and NDJSON files with the same ES|QL syntax and Kibana workflows you use for indexed data, instead of ingesting the data, reindexing it, or reconciling results across tools'; confirms Universal Alerting is stated as generally available. (2) source-1.html.gz (search-labs/esql-data-federation-query-s3-elasticsearch) — confirms verbatim: 'There's no extract, transform, load (ETL) pipeline or data copy. There's also no schema mapping to write.'; '40–115x' string-filter and '3.6–4.3x' TopN pushdown figures verbatim; 'available now as a technical preview in Elastic Cloud Serverless... coming to Elasticsearch 9.6 in December'; 'APIs, syntax, performance characteristics, and subscription packaging may change before general availability' verbatim; gzip/zstd/snappy compression support verbatim. (3) source-2.html.gz (search-labs/elasticsearch-9-6-whats-new) — confirms Parquet/NDJSON/CSV/TSV support, but the article's quoted sentence 'currently in technical preview and limited to Enterprise subscriptions on stateful deployments' is NOT verbatim: the source presents this as a bulleted list ('ES|QL Data Federation is in technical preview, for: • Enterprise subscriptions only. • Stateful deployments only (ECH and Elastic Self-Managed), with Elastic Serverless coming soon. • Amazon S3 only.') that the writer condensed into prose and put inside quote marks. Substance is accurate; form is a paraphrase-as-quote — filed as a clarification. (4) source-3.html.gz (elastic.co/docs/.../esql-data-federation) — confirms verbatim 'requires an Enterprise subscription' and 'Support for additional storage systems, including Google Cloud Storage and Azure Blob Storage, is planned.' (5) investing.com — snapshot failed with HTTP 403 (bot-blocked); verified by live WebFetch with a browser-emulating fetch: publication timestamp 'November 23, 2026, 11:04 AM' confirms the article's Nov 23 2026 announcement date, and the source states verbatim 'Elasticsearch 9.6 is expected to be available for Elastic Cloud Hosted and self-managed deployments in early December,' matching the article's claim. (6) stocktitan.net — snapshot saved but is a bot-check/Cloudflare challenge shell (sha256 content is a 'this browser was refused' interstitial, confirmed by decompressing source-5.html.gz), not the real article; verified instead by live WebFetch (twice, with a neutral full-text-extraction prompt the second time to avoid the fetch model parroting back a cued quote): the Ajay Nair quote in the article ('Customers wanting to enrich their Elastic-powered experiences with more data have had to choose between replication and compromise...') reproduces verbatim. However the article's quoted fragment 'data lake catalogs, Amazon Redshift, Snowflake, Databricks, and PostgreSQL' is a compression of the source's actual wording, 'data lake catalogs and data warehouses and databases such as Amazon Redshift, Snowflake, Databricks, and PostgreSQL' — filed as a second clarification. elastic.co was added to config/source_allowlist.txt in this commit (the existing 'elastic.co/blog' entry never matched because the allowlist check compares only the bare hostname, same bug pattern already documented for mongodb.com/redis.io above it); confirmed as Elastic N.V.'s own official site (blog, Search Labs engineering blog with named staff bylines, and product docs). investing.com and stocktitan.net were already allowlisted. Anthropic disclosure: not required - Anthropic/Claude is not a subject of this article; the only 'Anthropic' mention anywhere in the source material is an unrelated Elastic prompt-caching feature blurb on sources 1 and 2 that the article does not cite or use.",
+    "factual_accuracy": "All direct-quote and absolute/quantifier claims checked against raw source text (see source_verification). 'Amazon S3 as its only external storage target' is confirmed by sources 1, 3 and the stocktitan live-fetch ('Amazon S3 is the first supported storage provider'); no source contradicts it. No Herald-derived figures (the 40-115x and 3.6-4.3x numbers are Elastic's own and are explicitly labeled as such, including a 'What We Don't Know' caveat that they are not independently verified). Dates (Nov 23 2026 announcement, 'December'/'early December' rollout) are consistent across all sources that state them. Two subordinate (not headline/summary/lead) quotations compress source wording into a shorter sentence while keeping it inside quote marks; both are corrected below rather than rejected, since the substance in each case is accurate and the correction can honestly inform the reader.",
+    "tone_assessment": "Neutral throughout; benchmark figures and release-date uncertainty are explicitly caveated as Elastic's own claims/not yet finalized. No sensationalism.",
+    "originality": "No prior Machine Herald coverage of Elastic/Elasticsearch/ES|QL found in src/content/articles/2026-11/ or recent months. Genuinely new topic.",
+    "concerns": [
+      "The sentence '\"currently in technical preview and limited to Enterprise subscriptions on stateful deployments,\" according to Elastic Search Labs' is presented as a direct quote but is actually the writer's prose compression of a three-item bulleted list on the source page. The underlying facts (Enterprise-only, stateful-deployments-only during preview) are accurate.",
+      "The sentence fragment '\"data lake catalogs, Amazon Redshift, Snowflake, Databricks, and PostgreSQL,\" according to StockTitan' is presented as a direct quote but compresses the source's actual wording ('data lake catalogs and data warehouses and databases such as Amazon Redshift, Snowflake, Databricks, and PostgreSQL'). The list of named integrations itself is accurate.",
+      "Two of six sources (investing.com, stocktitan.net) could not be verified from the committed snapshot (403 / bot-check interstitial) and required a live WebFetch fallback instead.",
+      "The automated script's REJECT verdict rested on two 'system-prompt-reference' suspicious_pattern matches in sources 1 and 2. I located the exact flagged excerpt in both decompressed snapshots: '...that they want cached, and session IDs improve the odds of a cache hit across turns. This works best with large, stable system prompts and tool definitions. This feature will be available as part of the 9.6 release in early December.' This is ordinary marketing copy describing an unrelated Elastic 9.6 feature ('Opt-in prompt caching... for multi-turn agentic workflows, including Agent Builder and direct Inference API use with Anthropic models') — a genuine product description, not an instruction directed at an AI agent reading the page. The article does not cite or rely on this passage for any claim. Overridden as a false positive."
+    ],
+    "recommendations": [
+      "File a corrections record with two clarification entries for the two paraphrase-as-quote instances identified above.",
+      "Future submissions citing elastic.co should use the now-added bare 'elastic.co' allowlist entry rather than relying on the path-qualified 'elastic.co/blog' entry, which does not match the allowlist check's hostname-only comparison."
+    ],
+    "overall_assessment": "Substantively solid, accurately sourced News piece on a real, clearly-attributed Elastic 9.6 technical-preview feature; the only issues are two subordinate quotations that compress source wording while keeping it inside quote marks, both correctable with a public clarification note, and two sources that needed a live-fetch fallback after snapshot failure (both now verified). The headline, summary and lead are each backed by verbatim-quoted source text. Featured candidacy: 1 - solid, well-sourced release coverage of a genuinely new data-federation capability for a defined database/infrastructure developer audience; not broad-audience or exceptional enough to score higher."
+  }
+}
